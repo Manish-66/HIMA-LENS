@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="HIMA-LENS — Himachal Landslide Inventory and Exploration System."
+    >
+
+    <meta
+        name="theme-color"
+        content="#10231e"
+    >
+
+    <title>
+        {% block title %}
+        HIMA-LENS | Himachal Landslide Inventory
+        {% endblock %}
+    </title>
+
+
+    <!-- =====================================================
+         FONTS
+    ====================================================== -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         LEAFLET
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        crossorigin=""
+    >
+
+
+    <!-- =====================================================
+         GLOBAL CSS
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+
+    {% block head %}{% endblock %}
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     PAGE LOADER
+========================================================= -->
+
+<div
+    class="page-loader"
+    id="page-loader"
+    aria-hidden="true"
+>
+
+    <div class="loader-content">
+
+        <div class="loader-symbol">
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </div>
+
+        <div class="loader-text">
+            HIMA-LENS
+        </div>
+
+        <div class="loader-subtext">
+            SPATIAL INTELLIGENCE · HIMACHAL PRADESH
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     SITE HEADER
+========================================================= -->
+<header class="site-header" id="site-header">
+    <div class="header-inner">
+
+        <!-- BRAND (LEFT) -->
+        <a href="{{ url_for('home') }}" class="brand" aria-label="HIMA-LENS Home">
+            <div class="brand-logo">HL</div>
+            <div class="brand-text">
+                <span class="brand-name">HIMA<span>·</span>LENS</span>
+                <span class="brand-subtitle">LANDSLIDE INVENTORY &bull; HIMACHAL PRADESH</span>
+            </div>
+        </a>
+
+        <!-- NAVIGATION + USER PROFILE (RIGHT) -->
+        <div class="header-right-group">
+            <nav class="main-nav" aria-label="Primary navigation">
+                <a href="{{ url_for('home') }}" class="{% if request.endpoint == 'home' %}active{% endif %}">Home</a>
+                <a href="{{ url_for('explore') }}" class="{% if request.endpoint == 'explore' %}active{% endif %}">Explore</a>
+                <a href="{{ url_for('feed') }}" class="{% if request.endpoint == 'feed' %}active{% endif %}">Events</a>
+                <a href="{{ url_for('about') }}" class="{% if request.endpoint == 'about' %}active{% endif %}">About</a>
+            </nav>
+
+            <!-- USER PROFILE AVATAR / PILL -->
+            <div class="user-profile-widget" id="user-profile">
+                <div class="user-avatar">
+                    <span>U</span>
+                </div>
+                <div class="user-meta">
+                    <span class="user-role">RESEARCHER</span>
+                    <span class="user-name">SCENE &bull; IIT Mandi</span>
+                </div>
+            </div>
+
+            <!-- MOBILE MENU TOGGLE BUTTON -->
+            <button
+                class="menu-toggle"
+                id="menu-toggle"
+                type="button"
+                aria-label="Open navigation menu"
+                aria-expanded="false"
+                aria-controls="mobile-navigation"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- MOBILE NAVIGATION (DRAWER) -->
+    <div class="mobile-navigation" id="mobile-navigation">
+        <div class="mobile-nav-inner">
+            <a href="{{ url_for('home') }}" class="{% if request.endpoint == 'home' %}active{% endif %}">Home</a>
+            <a href="{{ url_for('explore') }}" class="{% if request.endpoint == 'explore' %}active{% endif %}">Explore</a>
+            <a href="{{ url_for('feed') }}" class="{% if request.endpoint == 'feed' %}active{% endif %}">Events</a>
+            <a href="{{ url_for('about') }}" class="{% if request.endpoint == 'about' %}active{% endif %}">About</a>
+        </div>
+    </div>
+</header>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main
+    class="site-main"
+    id="main-content"
+>
+
+    {% block content %}
+
+    {% endblock %}
+
+</main>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+{% if request.endpoint != 'explore' %}
+<footer class="site-footer">
+
+    <div class="footer-inner">
+
+
+        <!-- =================================================
+             FOOTER INTRO
+        ================================================== -->
+
+        <div class="footer-intro">
+
+
+            <div class="footer-brand">
+
+                <a
+                    href="{{ url_for('home') }}"
+                    class="footer-logo"
+                >
+
+                    HIMA<span>·</span>LENS
+
+                </a>
+
+
+                <p>
+
+                    A spatial intelligence platform for
+                    exploring the distribution, characteristics
+                    and history of landslides across
+                    Himachal Pradesh.
+
+                </p>
+
+            </div>
+
+
+            <div class="footer-tagline">
+
+                <span>
+                    MAPPING
+                </span>
+
+                <span>
+                    UNDERSTANDING
+                </span>
+
+                <span>
+                    PREPARING
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             FOOTER GRID
+        ================================================== -->
+
+        <div class="footer-grid">
+
+
+            <div class="footer-column">
+
+                <div class="footer-heading">
+                    NAVIGATION
+                </div>
+
+                <a href="{{ url_for('home') }}">
+                    Home
+                </a>
+
+                <a href="{{ url_for('explore') }}">
+                    Explore inventory
+                </a>
+
+                <a href="{{ url_for('feed') }}">
+                    Event feed
+                </a>
+
+                <a href="{{ url_for('about') }}">
+                    About
+                </a>
+
+            </div>
+
+
+
+            <div class="footer-column">
+
+                <div class="footer-heading">
+                    RESEARCH
+                </div>
+
+                <span>
+                    Landslide inventory
+                </span>
+
+                <span>
+                    Spatial distribution
+                </span>
+
+                <span>
+                    Temporal analysis
+                </span>
+
+                <span>
+                    Geospatial visualization
+                </span>
+
+            </div>
+
+
+
+            <div class="footer-column">
+
+                <div class="footer-heading">
+                    DATA
+                </div>
+
+                <span>
+                    9,903 mapped locations
+                </span>
+
+                <span>
+                    1,059 detailed records
+                </span>
+
+                <span>
+                    Point-based inventory
+                </span>
+
+                <span>
+                    EPSG:4326
+                </span>
+
+            </div>
+
+
+
+            <div class="footer-column">
+
+                <div class="footer-heading">
+                    LOCATION
+                </div>
+
+                <span>
+                    Himachal Pradesh
+                </span>
+
+                <span>
+                    Western Himalaya
+                </span>
+
+                <span>
+                    India
+                </span>
+
+                <a href="{{ url_for('explore') }}">
+                    Open live map ↗
+                </a>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             FOOTER BOTTOM
+        ================================================== -->
+
+        <div class="footer-bottom">
+
+            <div>
+
+                © 2026 HIMA-LENS
+
+                <span class="footer-separator">
+                    /
+                </span>
+
+                Research & Spatial Intelligence
+
+            </div>
+
+
+            <div>
+
+                30°–33° N
+
+                <span class="footer-separator">
+                    ·
+                </span>
+
+                75°–79° E
+
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>
+{% endif %}
+
+
+
+<!-- =========================================================
+     LEAFLET JS
+========================================================= -->
+
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    crossorigin=""
+></script>
+
+
+
+<!-- =========================================================
+     GLOBAL JAVASCRIPT
+========================================================= -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+    /* =====================================================
+       PAGE LOADER
+    ====================================================== */
+
+    const loader =
+        document.getElementById("page-loader");
+
+
+    if (loader) {
+
+        window.setTimeout(function () {
+
+            loader.classList.add("loaded");
+
+        }, 450);
+
+    }
+
+
+
+    /* =====================================================
+       HEADER SCROLL
+    ====================================================== */
+
+    const header =
+        document.getElementById("site-header");
+
+
+    function updateHeader() {
+
+        if (!header) return;
+
+
+        if (window.scrollY > 30) {
+
+            header.classList.add("scrolled");
+
+        } else {
+
+            header.classList.remove("scrolled");
+
+        }
+
+    }
+
+
+    updateHeader();
+
+
+    window.addEventListener(
+        "scroll",
+        updateHeader,
+        {
+            passive: true
+        }
+    );
+
+
+
+    /* =====================================================
+       MOBILE MENU
+    ====================================================== */
+
+    const menuToggle =
+        document.getElementById("menu-toggle");
+
+
+    const mobileNavigation =
+        document.getElementById(
+            "mobile-navigation"
+        );
+
+
+    function closeMobileMenu() {
+
+        if (!menuToggle || !mobileNavigation) {
+            return;
+        }
+
+
+        menuToggle.classList.remove("open");
+
+        mobileNavigation.classList.remove("open");
+
+        menuToggle.setAttribute(
+            "aria-expanded",
+            "false"
+        );
+
+        document.body.classList.remove(
+            "menu-open"
+        );
+
+    }
+
+
+    if (
+        menuToggle &&
+        mobileNavigation
+    ) {
+
+        menuToggle.addEventListener(
+            "click",
+            function () {
+
+                const isOpen =
+                    menuToggle.classList.toggle(
+                        "open"
+                    );
+
+
+                mobileNavigation.classList.toggle(
+                    "open",
+                    isOpen
+                );
+
+
+                menuToggle.setAttribute(
+                    "aria-expanded",
+                    String(isOpen)
+                );
+
+
+                document.body.classList.toggle(
+                    "menu-open",
+                    isOpen
+                );
+
+            }
+        );
+
+
+        mobileNavigation
+            .querySelectorAll("a")
+            .forEach(function (link) {
+
+                link.addEventListener(
+                    "click",
+                    closeMobileMenu
+                );
+
+            });
+
+    }
+
+
+
+    /* =====================================================
+       ESCAPE KEY
+    ====================================================== */
+
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (event.key === "Escape") {
+
+                closeMobileMenu();
+
+            }
+
+        }
+    );
+
+
+});
+
+</script>
+
+<!-- =========================================================
+     PAGE-SPECIFIC SCRIPTS
+========================================================= -->
+
+{% block scripts %}
+
+{% endblock %}
+
+
+</body>
+
+</html>

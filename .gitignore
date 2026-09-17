@@ -1,0 +1,22 @@
+# Environment & local secrets
+.env
+
+# Python virtual environment & bytecode
+.venv/
+env/
+venv/
+pyvenv.cfg
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Editor & OS artifacts
+.vscode/
+*.swp
+*~
+.DS_Store
+Thumbs.db
+tempCodeRunnerFile.*
+
+# Archived files
+archived_root_files/

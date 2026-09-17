@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+
+{% block title %}
+HIMA-LENS | Interactive Geospatial Landslide Explorer
+{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="https://cesium.com/downloads/cesiumjs/releases/1.122/Build/Cesium/Widgets/widgets.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
+<script src="https://cesium.com/downloads/cesiumjs/releases/1.122/Build/Cesium/Cesium.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="gis-console-layout">
+
+    <!-- =====================================================
+         01. FLOATING TOP INTELLIGENCE HUD (FILTERS & COUNTERS)
+    ====================================================== -->
+    <header class="gis-floating-hud">
+        <div class="hud-brand-telemetry">
+            <div class="hud-status-badge">
+                <span class="pulse-beacon"></span>
+                <span>LIVE GIS TELEMETRY</span>
+            </div>
+            <div class="hud-metric-box">
+                <span class="hud-metric-num" id="visible-count">0</span>
+                <span class="hud-metric-lbl">Mapped Records</span>
+            </div>
+            <div class="hud-separator"></div>
+            <div class="hud-metric-box">
+                <span class="hud-metric-num" id="district-count">0</span>
+                <span class="hud-metric-lbl">Districts</span>
+            </div>
+        </div>
+
+        <div class="gis-hud-filters">
+            <div class="hud-filter-item">
+                <label for="district">DISTRICT</label>
+                <div class="hud-select-wrap">
+                    <select id="district">
+                        <option value="all">All Districts</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="hud-filter-item">
+                <label for="year">PERIOD / SEASON</label>
+                <div class="hud-select-wrap">
+                    <select id="year">
+                        <option value="all">All Periods</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="hud-filter-item">
+                <label for="activity">ACTIVITY</label>
+                <div class="hud-select-wrap">
+                    <select id="activity">
+                        <option value="all">All Activities</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="hud-filter-item">
+                <label for="movement">MOVEMENT TYPE</label>
+                <div class="hud-select-wrap">
+                    <select id="movement">
+                        <option value="all">All Movement Types</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="button" class="hud-reset-btn" id="reset-filters" title="Reset All Spatial Filters">
+                <span>↻</span>
+                <span>Reset</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- =====================================================
+         02. FULL-VIEWPORT MAP CANVAS
+    ====================================================== -->
+    <div class="gis-map-viewport">
+        <div id="map" class="inventory-map-canvas"></div>
+        <div id="cesium-map" class="inventory-cesium-canvas" aria-label="3D terrain map"></div>
+        <div class="cesium-zoom-control" aria-label="3D map zoom controls">
+            <button id="cesium-zoom-in" type="button" aria-label="Zoom in on 3D terrain">+</button>
+            <button id="cesium-zoom-out" type="button" aria-label="Zoom out from 3D terrain">−</button>
+        </div>
+        <div class="map-mode-control" aria-label="Map layers">
+            <button id="layers-toggle" class="layers-toggle" type="button" aria-expanded="false" aria-controls="layers-menu">
+                <span class="layers-icon" aria-hidden="true">▱</span><span>Layers</span><span class="layers-chevron" aria-hidden="true">⌄</span>
+            </button>
+            <div id="layers-menu" class="layers-menu" hidden>
+                <button type="button" data-layer-choice="standard">Standard</button>
+                <button type="button" data-layer-choice="satellite">Satellite</button>
+                <button type="button" data-layer-choice="terrain">Terrain</button>
+                <button type="button" data-layer-choice="3d">3D Terrain</button>
+            </div>
+        </div>
+        <div id="active-district-banner" class="active-district-banner" hidden></div>
+        <div id="three-d-status" class="three-d-status" hidden>PREPARING SATELLITE TERRAIN…</div>
+
+        <!-- Dynamic Loading Overlay -->
+        <div id="map-loading" class="gis-loading-overlay">
+            <div class="gis-loader-ring"></div>
+            <span id="map-status">INITIALIZING GEOSPATIAL DATASTREAM...</span>
+        </div>
+
+        <!-- Floating Bottom Telemetry & Coordinates -->
+        <div class="gis-bottom-telemetry">
+            <div class="gis-legend-card">
+                <span class="legend-tag">FAILURE PROFILE & ACTIVITY</span>
+                <div class="legend-gradient-bar">
+                    <span class="legend-key active-key">● Active</span>
+                    <span class="legend-key fall-key">◆ Fall</span>
+                    <span class="legend-key slide-key">▲ Slide</span>
+                    <span class="legend-key flow-key">≈ Flow</span>
+                    <span class="legend-key debris-key">⬟ Debris</span>
+                </div>
+            </div>
+
+            <div class="gis-cursor-coords" id="cursor-coords">
+                31.7500° N, 77.1000° E &bull; EPSG:4326 &bull; HP-GRID
+            </div>
+        </div>
+    </div>
+
+    <!-- =====================================================
+         03. INTERACTIVE SLIDE-OVER FEATURE DRAWER
+    ====================================================== -->
+    <aside class="gis-feature-drawer" id="feature-drawer">
+        <div class="drawer-header">
+            <div>
+                <span class="drawer-kicker">FEATURE TELEMETRY</span>
+                <h3 id="drawer-title">Mapped Landslide Record</h3>
+            </div>
+            <button type="button" class="drawer-close-btn" id="drawer-close" aria-label="Close details">&times;</button>
+        </div>
+
+        <div class="drawer-scroll-body">
+            <div class="drawer-grid">
+                <div class="drawer-data-card">
+                    <span class="data-label">DISTRICT</span>
+                    <strong id="drawer-district">—</strong>
+                </div>
+                <div class="drawer-data-card">
+                    <span class="data-label">PERIOD / YEAR</span>
+                    <strong id="drawer-year">—</strong>
+                </div>
+                <div class="drawer-data-card">
+                    <span class="data-label">ACTIVITY STATUS</span>
+                    <strong id="drawer-activity">—</strong>
+                </div>
+                <div class="drawer-data-card">
+                    <span class="data-label">MOVEMENT TYPE</span>
+                    <strong id="drawer-movement">—</strong>
+                </div>
+                <div class="drawer-data-card">
+                    <span class="data-label">MATERIAL TYPE</span>
+                    <strong id="drawer-material">—</strong>
+                </div>
+                <div class="drawer-data-card">
+                    <span class="data-label">FAILURE STYLE</span>
+                    <strong id="drawer-style">—</strong>
+                </div>
+                <div class="drawer-data-card">
+                    <span class="data-label">ROAD DISTANCE</span>
+                    <strong id="drawer-road-distance">—</strong>
+                </div>
+                <div class="drawer-data-card">
+                    <span class="data-label">PRIMARY TRIGGER</span>
+                    <strong id="drawer-trigger">—</strong>
+                </div>
+            </div>
+
+            <div class="drawer-data-section">
+                <span class="section-badge">GEOGRAPHIC COORDINATES</span>
+                <div class="coords-box" id="drawer-coords">—</div>
+            </div>
+
+            <div class="drawer-data-section">
+                <span class="section-badge">ENVIRONMENTAL CONTEXT</span>
+                <div class="drawer-grid">
+                    <div class="drawer-data-card">
+                        <span class="data-label">GEOLOGY</span>
+                        <strong id="drawer-geology">—</strong>
+                    </div>
+                    <div class="drawer-data-card">
+                        <span class="data-label">HYDROLOGY</span>
+                        <strong id="drawer-hydrology">—</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="drawer-data-section">
+                <span class="section-badge">LAND USE & SITE CONTEXT</span>
+                <p class="drawer-notes" id="drawer-landuse">—</p>
+            </div>
+        </div>
+    </aside>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>window.HIMA_CONFIG = { cesiumIonToken: {{ cesium_ion_token|tojson }} };</script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<script src="{{ url_for('static', filename='js/explore.js') }}"></script>
+{% endblock %}

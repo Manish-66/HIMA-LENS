@@ -1,0 +1,301 @@
+{% extends "base.html" %}
+
+{% block title %}
+HIMA-LENS | Landslide & Flash Flood Chronology Feed
+{% endblock %}
+
+{% block content %}
+<div class="feed-page-wrapper">
+
+    <!-- =====================================================
+         01. FEED HERO / STREAM HEADER
+    ====================================================== -->
+    <header class="feed-hero">
+        <div class="feed-hero-inner">
+            <div class="section-label">
+                <span class="live-ping"></span>
+                DISASTER OBSERVATORY &bull; WESTERN HIMALAYA
+            </div>
+            <h1 class="feed-title">
+                Documented Landslides & <span>Flash Flood Chronology.</span>
+            </h1>
+            <p class="feed-description">
+                Verified historical disaster benchmarks, cloudburst-triggered debris flows, highway breaches, and extreme monsoon precipitation impacts across Himachal Pradesh.
+            </p>
+        </div>
+    </header>
+
+    <!-- =====================================================
+         02. INTERACTIVE EVENT FEED GRID
+    ====================================================== -->
+    <section class="feed-section">
+        <div class="feed-container">
+
+            <!-- FILTER PILLS -->
+            <div class="feed-filter-bar">
+                <button type="button" class="feed-filter-btn active" data-filter="all">All Disasters</button>
+                <button type="button" class="feed-filter-btn" data-filter="cloudburst">Cloudburst & Floods</button>
+                <button type="button" class="feed-filter-btn" data-filter="highway">Highway Breaches</button>
+                <button type="button" class="feed-filter-btn" data-filter="urban">Urban Failures</button>
+                <button type="button" class="feed-filter-btn" data-filter="historical">Statewide Archive</button>
+            </div>
+
+            <div class="feed-grid">
+
+                <!-- EVENT 01: 2024 SAMEJ / RAMPUR CLOUDBURST SURGE -->
+                <article class="event-card event-card-featured" data-category="cloudburst" data-lat="31.4285" data-lng="77.6254" data-zoom="13">
+                    <div class="event-card-header">
+                        <span class="event-year-tag">AUGUST 2024</span>
+                        <span class="event-severity-badge severity-critical">EXTREME MULTI-VALLEY CLOUDBURST</span>
+                    </div>
+
+                    <div class="event-content">
+                        <h2>Samej Khad & Rampur Hydro Catchment Inundation</h2>
+                        <p>
+                            Simultaneous midnight cloudbursts along the Shimla–Kullu–Mandi border unleashed massive flash floods and boulder debris torrents down Samej Khad and Nirmand. Severe infrastructural destruction washed out downstream settlements, schools, and access bridges near the Rampur hydro project.
+                        </p>
+
+                        <div class="event-telemetry-grid">
+                            <div class="telemetry-pill">
+                                <span class="lbl">EPICENTER REGION</span>
+                                <strong>Samej (Rampur, Shimla) & Nirmand (Kullu)</strong>
+                            </div>
+                            <div class="telemetry-pill">
+                                <span class="lbl">TRIGGER MECHANISM</span>
+                                <strong>High-Altitude Cloudburst (>150mm/hr localized)</strong>
+                            </div>
+                            <div class="telemetry-pill">
+                                <span class="lbl">HYDROLOGICAL IMPACT</span>
+                                <strong>Sutlej River Silt Surge & Dam Gate Alerts</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="event-card-footer">
+                        <span class="record-count-tag">EPSG:4326 &bull; 31.4285° N, 77.6254° E</span>
+                        <a href="{{ url_for('explore') }}" class="event-explore-btn">
+                            <span>Locate on GIS Map</span>
+                            <span>&nearr;</span>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- EVENT 02: 2023 STATEWIDE MONSOON DISASTER -->
+                <article class="event-card" data-category="cloudburst" data-lat="31.7087" data-lng="76.9320" data-zoom="11">
+                    <div class="event-card-header">
+                        <span class="event-year-tag">JULY &ndash; AUGUST 2023</span>
+                        <span class="event-severity-badge severity-critical">HISTORIC MONSOON DELUGE</span>
+                    </div>
+
+                    <div class="event-content">
+                        <h3>Beas & Sutlej Basin Extreme Inundation & Debris Flows</h3>
+                        <p>
+                            Unprecedented back-to-back rainfall spells triggered over 5,000+ landslide incidents, bank scouring, and rotational slope failures across Kullu, Mandi, and Solan. NH-21 along the Pandoh-Aut gorge suffered extensive structural collapse.
+                        </p>
+
+                        <div class="event-telemetry-grid">
+                            <div class="telemetry-pill">
+                                <span class="lbl">PRIMARY BASIN</span>
+                                <strong>Beas River & Parvati Catchment</strong>
+                            </div>
+                            <div class="telemetry-pill">
+                                <span class="lbl">48H PRECIPITATION</span>
+                                <strong>>300 mm Orographic Torrent</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="event-card-footer">
+                        <span class="record-count-tag">1,059+ Documented Points</span>
+                        <a href="{{ url_for('explore') }}" class="event-explore-btn">
+                            <span>Locate</span>
+                            <span>&nearr;</span>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- EVENT 03: 2023 SHIMLA SUMMER HILL URBAN DISASTER -->
+                <article class="event-card" data-category="urban" data-lat="31.1048" data-lng="77.1388" data-zoom="14">
+                    <div class="event-card-header">
+                        <span class="event-year-tag">AUGUST 2023</span>
+                        <span class="event-severity-badge severity-high">URBAN SLOPE FAILURE</span>
+                    </div>
+
+                    <div class="event-content">
+                        <h3>Summer Hill & Shiv Bawadi Temple Debris Avalanche</h3>
+                        <p>
+                            Saturated slope overburden collapsed along steep forested terrain above Summer Hill railway track, generating a catastrophic channelized debris avalanche down the Shiv Bawadi ravine during morning peak hours.
+                        </p>
+
+                        <div class="event-telemetry-grid">
+                            <div class="telemetry-pill">
+                                <span class="lbl">DISTRICT</span>
+                                <strong>Shimla Urban (Summer Hill)</strong>
+                            </div>
+                            <div class="telemetry-pill">
+                                <span class="lbl">FAILURE MODE</span>
+                                <strong>Saturated Colluvium Translational Slide</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="event-card-footer">
+                        <span class="record-count-tag">EPSG:4326 &bull; 31.1048° N, 77.1388° E</span>
+                        <a href="{{ url_for('explore') }}" class="event-explore-btn">
+                            <span>Locate</span>
+                            <span>&nearr;</span>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- EVENT 04: 2021 KINNAUR NIGULSARI ROCKFALL -->
+                <article class="event-card" data-category="highway" data-lat="31.5422" data-lng="77.9214" data-zoom="13">
+                    <div class="event-card-header">
+                        <span class="event-year-tag">AUGUST 2021</span>
+                        <span class="event-severity-badge severity-high">HIGH-VELOCITY ROCKFALL</span>
+                    </div>
+
+                    <div class="event-content">
+                        <h3>Nigulsari Rockfall & NH-5 Strategic Corridor Breach</h3>
+                        <p>
+                            Sudden structural wedge toppling failure along steep quartzitic-gneiss cliffs above National Highway 5, severing transport corridors into Kinnaur and the Spiti Valley.
+                        </p>
+
+                        <div class="event-telemetry-grid">
+                            <div class="telemetry-pill">
+                                <span class="lbl">CORRIDOR</span>
+                                <strong>NH-5 (Hindustan-Tibet Road)</strong>
+                            </div>
+                            <div class="telemetry-pill">
+                                <span class="lbl">LITHOLOGY</span>
+                                <strong>Jointed Gneiss & Mica Schist</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="event-card-footer">
+                        <span class="record-count-tag">EPSG:4326 &bull; 31.5422° N, 77.9214° E</span>
+                        <a href="{{ url_for('explore') }}" class="event-explore-btn">
+                            <span>Locate</span>
+                            <span>&nearr;</span>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- EVENT 05: 2021 BHAGSU NAG FLASH FLOOD -->
+                <article class="event-card" data-category="cloudburst" data-lat="32.2472" data-lng="76.3352" data-zoom="14">
+                    <div class="event-card-header">
+                        <span class="event-year-tag">JULY 2021</span>
+                        <span class="event-severity-badge severity-medium">FLASH FLOOD & DEBRIS FLOW</span>
+                    </div>
+
+                    <div class="event-content">
+                        <h3>Bhagsu Nag Channelized Flash Flood (Dharamshala)</h3>
+                        <p>
+                            Intense cloudburst in the upper Dhauladhar ridgeline triggered the rapid mobilization of scree and morainic deposits down the Bhagsu nullah, damaging parking lots and urban infrastructure.
+                        </p>
+
+                        <div class="event-telemetry-grid">
+                            <div class="telemetry-pill">
+                                <span class="lbl">CATCHMENT</span>
+                                <strong>Upper Dhauladhar Range, Kangra</strong>
+                            </div>
+                            <div class="telemetry-pill">
+                                <span class="lbl">FAILURE MODE</span>
+                                <strong>Hydrodynamic Glacio-Fluvial Transport</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="event-card-footer">
+                        <span class="record-count-tag">EPSG:4326 &bull; 32.2472° N, 76.3352° E</span>
+                        <a href="{{ url_for('explore') }}" class="event-explore-btn">
+                            <span>Locate</span>
+                            <span>&nearr;</span>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- EVENT 06: GSI HISTORICAL BASELINE INVENTORY -->
+                <article class="event-card" data-category="historical" data-lat="31.7500" data-lng="77.1000" data-zoom="8">
+                    <div class="event-card-header">
+                        <span class="event-year-tag">2010 &ndash; 2020 ARCHIVE</span>
+                        <span class="event-severity-badge severity-info">GSI STATEWIDE COMPILATION</span>
+                    </div>
+
+                    <div class="event-content">
+                        <h3>Regional Baseline Slope Inventory & Susceptibility Grid</h3>
+                        <p>
+                            Decadal baseline survey cataloging 9,903 spatial landslide occurrences across all 12 districts to calibrate regional susceptibility zonation and geomorphological risk factors.
+                        </p>
+
+                        <div class="event-telemetry-grid">
+                            <div class="telemetry-pill">
+                                <span class="lbl">COVERAGE</span>
+                                <strong>All 12 Administrative Districts</strong>
+                            </div>
+                            <div class="telemetry-pill">
+                                <span class="lbl">TOTAL ENTRIES</span>
+                                <strong>9,903 Geocoded Entities</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="event-card-footer">
+                        <span class="record-count-tag">Full Spatial Inventory</span>
+                        <a href="{{ url_for('explore') }}" class="event-explore-btn">
+                            <span>Open Spatial Grid</span>
+                            <span>&nearr;</span>
+                        </a>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    // 1. Dynamic Category Filtering
+    const filterBtns = document.querySelectorAll(".feed-filter-btn");
+    const eventCards = document.querySelectorAll(".event-card");
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            filterBtns.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            const filter = btn.getAttribute("data-filter");
+            eventCards.forEach(card => {
+                if (filter === "all" || card.getAttribute("data-category") === filter) {
+                    card.style.display = "flex";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        });
+    });
+
+    // 2. Real-Time Coordinate Dispatcher to /explore Map
+    const exploreBtns = document.querySelectorAll(".event-explore-btn");
+    exploreBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const card = btn.closest(".event-card");
+            if (!card) return;
+
+            const lat = parseFloat(card.getAttribute("data-lat"));
+            const lng = parseFloat(card.getAttribute("data-lng"));
+            const zoom = parseInt(card.getAttribute("data-zoom"), 10) || 12;
+
+            if (!isNaN(lat) && !isNaN(lng)) {
+                sessionStorage.setItem("hima_jump_coords", JSON.stringify({ lat, lng, zoom }));
+            }
+        });
+    });
+});
+</script>
+{% endblock %}
