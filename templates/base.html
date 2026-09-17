@@ -62,12 +62,21 @@
 
     <link
         rel="stylesheet"
-        href="{{ url_for('static', filename='css/style.css') }}?v=3.1"
+        href="{{ url_for('static', filename='css/style.css') }}?v=3.2"
     >
 
 
-    {% block head %}{% endblock %}
-
+    <script>
+        (function() {
+            try {
+                var pref = localStorage.getItem('hima_theme_pref') || 'system';
+                var dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                var theme = pref === 'system' ? (dark ? 'dark' : 'light') : pref;
+                document.documentElement.setAttribute('data-theme', theme);
+                document.documentElement.setAttribute('data-theme-pref', pref);
+            } catch (e) {}
+        })();
+    </script>
 </head>
 
 
@@ -132,6 +141,22 @@
                 <a href="{{ url_for('about') }}" class="{% if request.endpoint == 'about' %}active{% endif %}">About</a>
             </nav>
 
+            <!-- THEME SWITCHER (LIGHT / AUTO / DARK) -->
+            <div class="theme-switch-segment" id="theme-switch-segment" role="radiogroup" aria-label="Color theme">
+                <button type="button" class="theme-switch-btn" data-theme-val="light" title="Light Theme" aria-label="Light mode">
+                    <span class="theme-switch-icon">☀️</span>
+                    <span class="theme-switch-label">Light</span>
+                </button>
+                <button type="button" class="theme-switch-btn" data-theme-val="system" title="System Theme (Auto)" aria-label="System mode">
+                    <span class="theme-switch-icon">💻</span>
+                    <span class="theme-switch-label">Auto</span>
+                </button>
+                <button type="button" class="theme-switch-btn" data-theme-val="dark" title="Dark Theme" aria-label="Dark mode">
+                    <span class="theme-switch-icon">🌙</span>
+                    <span class="theme-switch-label">Dark</span>
+                </button>
+            </div>
+
             <!-- USER PROFILE AVATAR / PILL -->
             <div class="user-profile-widget" id="user-profile">
                 <div class="user-avatar">
@@ -167,6 +192,21 @@
             <a href="{{ url_for('feed') }}" class="{% if request.endpoint == 'feed' %}active{% endif %}">Events</a>
             <a href="{{ url_for('report') }}" class="{% if request.endpoint == 'report' %}active{% endif %}">Report</a>
             <a href="{{ url_for('about') }}" class="{% if request.endpoint == 'about' %}active{% endif %}">About</a>
+
+            <div class="mobile-theme-row">
+                <span class="mobile-theme-label">APPEARANCE THEME</span>
+                <div class="theme-switch-segment mobile-theme-switch" role="radiogroup" aria-label="Color theme">
+                    <button type="button" class="theme-switch-btn" data-theme-val="light" aria-label="Light mode">
+                        <span>☀️</span> Light
+                    </button>
+                    <button type="button" class="theme-switch-btn" data-theme-val="system" aria-label="System mode">
+                        <span>💻</span> Auto
+                    </button>
+                    <button type="button" class="theme-switch-btn" data-theme-val="dark" aria-label="Dark mode">
+                        <span>🌙</span> Dark
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </header>
@@ -587,6 +627,62 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     );
 
+
+    /* =====================================================
+       THEME SWITCHER LOGIC (LIGHT / SYSTEM / DARK)
+    ====================================================== */
+    function syncThemeUI(pref) {
+        document.querySelectorAll("[data-theme-val]").forEach(function(btn) {
+            if (btn.getAttribute("data-theme-val") === pref) {
+                btn.classList.add("active");
+                btn.setAttribute("aria-checked", "true");
+            } else {
+                btn.classList.remove("active");
+                btn.setAttribute("aria-checked", "false");
+            }
+        });
+    }
+
+    function setAppTheme(pref) {
+        try {
+            localStorage.setItem("hima_theme_pref", pref);
+        } catch (e) {}
+
+        var isDarkOS = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+        var resolvedTheme = pref === "system" ? (isDarkOS ? "dark" : "light") : pref;
+
+        document.documentElement.setAttribute("data-theme", resolvedTheme);
+        document.documentElement.setAttribute("data-theme-pref", pref);
+        syncThemeUI(pref);
+
+        window.dispatchEvent(new CustomEvent("hima-theme-changed", {
+            detail: { theme: resolvedTheme, preference: pref }
+        }));
+    }
+
+    var initialPref = "system";
+    try {
+        initialPref = localStorage.getItem("hima_theme_pref") || "system";
+    } catch(e) {}
+    setAppTheme(initialPref);
+
+    document.querySelectorAll("[data-theme-val]").forEach(function(btn) {
+        btn.addEventListener("click", function(e) {
+            e.preventDefault();
+            var val = this.getAttribute("data-theme-val");
+            if (val) setAppTheme(val);
+        });
+    });
+
+    if (window.matchMedia) {
+        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function(e) {
+            var currentPref = "system";
+            try { currentPref = localStorage.getItem("hima_theme_pref") || "system"; } catch(err) {}
+            if (currentPref === "system") {
+                setAppTheme("system");
+            }
+        });
+    }
 
 });
 
