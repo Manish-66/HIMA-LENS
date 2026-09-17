@@ -173,9 +173,27 @@ HIMA-LENS | Interactive Geospatial Landslide Explorer
         <div id="three-d-status" class="three-d-status" hidden>PREPARING SATELLITE TERRAIN…</div>
 
         <!-- Dynamic Loading Overlay -->
-        <div id="map-loading" class="gis-loading-overlay">
-            <div class="gis-loader-ring"></div>
-            <span id="map-status">INITIALIZING GEOSPATIAL DATASTREAM...</span>
+        <div id="map-loading" class="gis-loading-overlay" aria-live="polite">
+            <div class="gis-loader-card">
+                <div class="gis-loader-indicator">
+                    <div class="gis-loader-spinner-ring"></div>
+                    <div class="gis-loader-orb">
+                        <svg class="gis-loader-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                            <polyline points="2 17 12 22 22 17"></polyline>
+                            <polyline points="2 12 12 17 22 12"></polyline>
+                        </svg>
+                    </div>
+                </div>
+                <div class="gis-loader-content">
+                    <span class="gis-loader-badge" id="map-loader-badge">SYSTEM DATASTREAM</span>
+                    <h3 class="gis-loader-title" id="map-status">INITIALIZING GEOSPATIAL ENGINE</h3>
+                    <p class="gis-loader-subtitle" id="map-status-sub">Loading landslide inventory &amp; district boundaries…</p>
+                </div>
+                <div class="gis-loader-progress-bar">
+                    <div class="gis-loader-progress-inner"></div>
+                </div>
+            </div>
         </div>
 
         <!-- Floating Bottom Telemetry & Coordinates -->
@@ -373,5 +391,5 @@ HIMA-LENS | Interactive Geospatial Landslide Explorer
 {% block scripts %}
 <script>window.HIMA_CONFIG = { cesiumIonToken: {{ cesium_ion_token|tojson }} };</script>
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
-<script src="{{ url_for('static', filename='js/explore.js') }}?v=3.7"></script>
+<script src="{{ url_for('static', filename='js/explore.js') }}?v=3.8"></script>
 {% endblock %}

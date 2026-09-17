@@ -8,15 +8,49 @@ const MAP_CONFIG = { center:[31.75,77.1], zoom:8, minZoom:6, maxZoom:18 };
 const layers = {};
 document.addEventListener("DOMContentLoaded", init);
 
+let loadingTimeoutId = null;
+
+function showLoading(title, subtitle = "", badge = "LAYER SYNCHRONIZATION") {
+  if (loadingTimeoutId) {
+    clearTimeout(loadingTimeoutId);
+    loadingTimeoutId = null;
+  }
+  const overlay = document.getElementById("map-loading");
+  if (!overlay) return;
+  const statusEl = document.getElementById("map-status");
+  const subEl = document.getElementById("map-status-sub");
+  const badgeEl = document.getElementById("map-loader-badge");
+  if (statusEl && title) statusEl.textContent = title;
+  if (subEl && subtitle !== undefined) subEl.textContent = subtitle;
+  if (badgeEl && badge) badgeEl.textContent = badge;
+  overlay.classList.remove("loaded");
+}
+
+function hideLoading(delay = 200) {
+  const overlay = document.getElementById("map-loading");
+  if (!overlay) return;
+  if (loadingTimeoutId) clearTimeout(loadingTimeoutId);
+  if (delay > 0) {
+    loadingTimeoutId = setTimeout(() => {
+      overlay.classList.add("loaded");
+      loadingTimeoutId = null;
+    }, delay);
+  } else {
+    overlay.classList.add("loaded");
+    loadingTimeoutId = null;
+  }
+}
+
 async function init() {
   initMap(); initControls();
   initExportModule();
+  showLoading("INITIALIZING GEOSPATIAL ENGINE", "Loading landslide inventory & district boundaries…", "SYSTEM INITIALIZATION");
   try {
     const [inventory, boundaries] = await Promise.all([fetchJSON("/api/landslides"), fetchJSON("/api/district-boundaries")]);
     allFeatures = inventory.features.filter(validFeature); filteredFeatures = [...allFeatures]; boundaryData = boundaries;
     populateFilters(); renderDistrictBoundaries(); renderFeatures(true, false);
     loadCommunityReports();
-    document.getElementById("map-loading").classList.add("loaded");
+    hideLoading(200);
 
     // Check if user jumped here from an Event Feed link
     const jumpData = sessionStorage.getItem("hima_jump_coords");
@@ -33,7 +67,10 @@ async function init() {
         console.warn("Failed to parse jump coordinates", e);
       }
     }
-  } catch (error) { console.error(error); document.getElementById("map-status").textContent = "DATASTREAM OFFLINE — RETRY"; }
+  } catch (error) {
+    console.error(error);
+    showLoading("DATASTREAM OFFLINE", "Could not connect to geospatial API — please refresh", "ERROR");
+  }
 }
 
 async function fetchJSON(url) { const response = await fetch(url, {headers:{Accept:"application/json"}}); if (!response.ok) throw Error(`HTTP ${response.status}`); return response.json(); }
@@ -223,7 +260,12 @@ function isolateDistrict(district) {
 }
 
 async function updateCesiumDistrictBoundary(feature) { if(!viewer)return; const version=++cesiumBoundaryVersion; if(cesiumDistrictDataSource){viewer.dataSources.remove(cesiumDistrictDataSource,true);cesiumDistrictDataSource=null;} if(!feature){viewer.scene.requestRender();return;} try{const source=await Cesium.GeoJsonDataSource.load(feature,{stroke:Cesium.Color.fromCssColorString("#74f0b7"),strokeWidth:3,fill:Cesium.Color.fromCssColorString("#1bb77b").withAlpha(.14),clampToGround:true});if(version!==cesiumBoundaryVersion)return;cesiumDistrictDataSource=await viewer.dataSources.add(source);viewer.scene.requestRender();}catch(error){console.warn("District outline could not be added to 3D terrain.",error);} }
-function switchBase(name) { Object.values(layers).forEach(layer=>map.removeLayer(layer)); layers[name].addTo(map); }
+function switchBase(name) {
+  showLoading("SWITCHING BASEMAP", `Rendering ${name.toUpperCase()} layer tiles…`, "BASEMAP SELECTOR");
+  Object.values(layers).forEach(layer=>map.removeLayer(layer));
+  if (layers[name]) layers[name].addTo(map);
+  hideLoading(300);
+}
 
 // --- ARCGIS OVERLAY MANAGEMENT ---
 async function toggleRoads(visible) {
@@ -232,16 +274,14 @@ async function toggleRoads(visible) {
     if (roadLayer && map.hasLayer(roadLayer)) map.removeLayer(roadLayer);
     return;
   }
+  showLoading("STREAMING ROAD NETWORK", "Fetching Mandi PWD road infrastructure…", "INFRASTRUCTURE LAYER");
   if (!cachedRoadsGeoJSON) {
-    document.getElementById("map-status").textContent = "FETCHING MANDI ROAD NETWORK…";
-    document.getElementById("map-loading").classList.remove("loaded");
     try {
       cachedRoadsGeoJSON = await fetchJSON("/api/roads");
     } catch (e) {
       console.error("Failed to load roads", e);
+      hideLoading(0);
       return;
-    } finally {
-      document.getElementById("map-loading").classList.add("loaded");
     }
   }
   if (!roadLayer) {
@@ -275,6 +315,7 @@ async function toggleRoads(visible) {
   roadLayer.addTo(map);
   roadLayer.bringToBack();
   if (districtLayer && districtLayer.bringToBack) districtLayer.bringToBack();
+  hideLoading(250);
 }
 
 async function togglePolygons(visible) {
@@ -288,8 +329,7 @@ async function togglePolygons(visible) {
     ? "/api/landslide-polygons?district=mandi"
     : (district && district !== "all" ? `/api/landslide-polygons?district=${encodeURIComponent(district)}` : "/api/landslide-polygons");
 
-  document.getElementById("map-status").textContent = "FETCHING HAZARD ZONE POLYGONS…";
-  document.getElementById("map-loading").classList.remove("loaded");
+  showLoading("LOADING HAZARD ZONES", "Streaming polygon geometries & hazard envelopes…", "HAZARD BOUNDARIES");
   try {
     const polyData = await fetchJSON(targetUrl);
     if (polygonLayer && map.hasLayer(polygonLayer)) map.removeLayer(polygonLayer);
@@ -328,7 +368,7 @@ async function togglePolygons(visible) {
   } catch (err) {
     console.error("Failed to load polygons", err);
   } finally {
-    document.getElementById("map-loading").classList.add("loaded");
+    hideLoading(250);
   }
 }
 
@@ -351,18 +391,30 @@ async function toggleEnvironmental(choice, opacity) {
     return;
   }
 
+  const layerTitles = {
+    lulc: "LAND COVER (LULC 2023)",
+    geomorphology: "GEOMORPHOLOGY",
+    lithology: "LITHOLOGY (BEDROCK)"
+  };
+  const titleText = layerTitles[choice] || "ENVIRONMENTAL RASTER";
+  showLoading(`SYNCING ${titleText}`, "Overlaying 10m high-resolution raster…", "THEMATIC RASTER");
+
   if (!environmentalMeta) {
     try {
       const res = await fetchJSON("/api/environmental-layers");
       environmentalMeta = res.layers || {};
     } catch (e) {
       console.error("Failed to load environmental metadata", e);
+      hideLoading(0);
       return;
     }
   }
 
   const meta = environmentalMeta[choice];
-  if (!meta) return;
+  if (!meta) {
+    hideLoading(0);
+    return;
+  }
 
   opacityWrap.style.display = "block";
   environmentalLayer = L.imageOverlay(meta.url, meta.bounds, {
@@ -380,6 +432,7 @@ async function toggleEnvironmental(choice, opacity) {
     </div>`
   ).join("");
   envLegendCard.style.display = "block";
+  hideLoading(300);
 }
 
 // --- CESIUM 3D INTEGRATION & OVERLAY MIRRORING ---
@@ -522,14 +575,17 @@ async function syncCesiumAllOverlays() {
 
 async function initCesium() {
   const mapCenter=map.getCenter(); last2DView={center:[mapCenter.lat,mapCenter.lng],zoom:map.getZoom()};
+  showLoading("PREPARING 3D TERRAIN", "Initializing Cesium 3D elevation viewport…", "3D TERRAIN ENGINE");
   if(viewer) {
     document.getElementById("cesium-map").classList.add("active");
     document.getElementById("map").classList.add("hidden");
     viewer.resize();
     focusCesiumOnMap(true);
     await syncCesiumAllOverlays();
+    hideLoading(300);
     return;
   }
+  await new Promise(resolve => setTimeout(resolve, 60));
   const target=document.getElementById("cesium-map"); target.classList.add("active"); document.getElementById("map").classList.add("hidden");
   const token=window.HIMA_CONFIG?.cesiumIonToken;
   if(token) Cesium.Ion.defaultAccessToken=token;
@@ -556,9 +612,9 @@ async function initCesium() {
   const selectedDistrict=document.getElementById("district").value;
   if(selectedDistrict!=="all") updateCesiumDistrictBoundary(boundaryData?.features?.find(feature=>districtName(feature).toLowerCase()===selectedDistrict.toLowerCase()));
   focusCesiumOnMap(false);
-  set3dStatus("INITIALIZING 3D TERRAIN & SATELLITE ENGINE…", true);
 
   if(token) {
+    showLoading("STREAMING 3D SATELLITE & ELEVATION", "Downloading digital elevation model & aerial photography…", "3D TERRAIN ENGINE");
     try {
       const [satelliteRes, terrainRes] = await Promise.allSettled([
         Cesium.createWorldImageryAsync({style:Cesium.IonWorldImageryStyle.AERIAL}),
@@ -584,8 +640,10 @@ async function initCesium() {
     viewer.scene.globe.depthTestAgainstTerrain = false;
   }
 
+  showLoading("PROJECTING 3D LANDSLIDE FEATURES", "Sampling surface terrain elevations for records…", "3D TERRAIN ENGINE");
   await renderCesiumPoints(false);
   await syncCesiumAllOverlays();
+  hideLoading(350);
 
   // Multi-entity 3D picking handler for points, roads, and polygons
   viewer.screenSpaceEventHandler.setInputAction(movement => {
@@ -668,10 +726,12 @@ function zoomCesium(direction) { if(!viewer||!document.getElementById("cesium-ma
 function leaveCesium() {
   const cesiumElement=document.getElementById("cesium-map");
   if(!viewer||!cesiumElement.classList.contains("active")) return;
+  showLoading("RETURNING TO 2D VIEW", "Switching back to standard cartographic overview…", "VIEWPORT TOGGLE");
   let center=last2DView?.center||MAP_CONFIG.center, zoom=last2DView?.zoom??MAP_CONFIG.zoom;
   const canvas=viewer.canvas, ground=viewer.camera.pickEllipsoid(new Cesium.Cartesian2(canvas.clientWidth/2,canvas.clientHeight/2),viewer.scene.globe.ellipsoid);
   if(ground) { const location=Cesium.Cartographic.fromCartesian(ground), lat=Cesium.Math.toDegrees(location.latitude), lng=Cesium.Math.toDegrees(location.longitude); if(Number.isFinite(lat)&&Number.isFinite(lng)&&lat>=28&&lat<=35&&lng>=72&&lng<=82) center=[lat,lng]; }
   map.setView(center,zoom,{animate:false}); cesiumElement.classList.remove("active");document.getElementById("map").classList.remove("hidden");set3dStatus("",false);map.invalidateSize();
+  hideLoading(250);
 }
 
 function initControls() {
