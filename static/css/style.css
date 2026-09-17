@@ -357,12 +357,11 @@ main {
     z-index: 1000;
     width: 100%;
     height: 74px;
-    background: #071a14;
-    background: rgba(7, 24, 19, 0.96);
-    border-bottom: 1px solid rgba(114, 239, 185, 0.22);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(24px) saturate(160%);
-    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    background: rgba(246, 248, 245, 0.90);
+    border-bottom: 1px solid rgba(207, 220, 214, 0.72);
+    box-shadow: 0 4px 20px rgba(15, 32, 25, 0.03);
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
     display: flex;
     align-items: center;
 }
@@ -9826,12 +9825,11 @@ body:has(.gis-console-layout) {
     z-index: 1000;
     width: 100%;
     height: 74px;
-    background: #071a14 !important;
-    background: rgba(7, 24, 19, 0.96) !important;
-    border-bottom: 1px solid rgba(114, 239, 185, 0.24) !important;
-    backdrop-filter: blur(24px) saturate(160%) !important;
-    -webkit-backdrop-filter: blur(24px) saturate(160%) !important;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6) !important;
+    background: rgba(247, 250, 248, 0.94) !important;
+    border-bottom: 1px solid rgba(207, 220, 214, 0.85) !important;
+    backdrop-filter: blur(24px) saturate(150%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(150%) !important;
+    box-shadow: 0 4px 20px rgba(15, 32, 25, 0.03) !important;
     display: flex;
     align-items: center;
     transition: background 0.3s ease, border-color 0.3s ease;

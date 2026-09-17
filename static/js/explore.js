@@ -623,6 +623,18 @@ function initControls() {
     roadsToggle.addEventListener("change", (e) => toggleRoads(e.target.checked));
   }
 
+  const commToggle = document.getElementById("toggle-community");
+  if (commToggle) {
+    commToggle.addEventListener("change", (e) => {
+      if (!communityReportsLayer) return;
+      if (e.target.checked) {
+        map.addLayer(communityReportsLayer);
+      } else {
+        map.removeLayer(communityReportsLayer);
+      }
+    });
+  }
+
   // Environmental Radio selection
   document.querySelectorAll('input[name="env-layer-choice"]').forEach(radio => {
     radio.addEventListener("change", (e) => {
@@ -705,16 +717,6 @@ async function loadCommunityReports() {
   } catch (err) {
     console.warn("Failed to load community reports", err);
   }
-}
-  const commToggle = document.getElementById("toggle-community");
-  commToggle?.addEventListener("change", (e) => {
-    if (!communityReportsLayer) return;
-    if (e.target.checked) {
-      map.addLayer(communityReportsLayer);
-    } else {
-      map.removeLayer(communityReportsLayer);
-    }
-  });
 }
 
 // --- DATASET EXPORT MODULE ---
