@@ -229,10 +229,68 @@ HIMA-LENS | Field Telemetry & Landslide Incident Reporting
         </div>
     </section>
 
+    <!-- =====================================================
+         04. REPORT DETAIL INSPECTION MODAL
+    ====================================================== -->
+    <div class="report-detail-modal-backdrop" id="report-detail-modal" hidden>
+        <div class="report-detail-card" role="dialog" aria-modal="true" aria-labelledby="report-detail-title">
+            <div class="report-detail-header">
+                <div>
+                    <span class="report-detail-kicker" id="detail-id">HL-CR-RECORD</span>
+                    <h3 id="report-detail-title">Incident Field Observation</h3>
+                </div>
+                <button type="button" class="report-detail-close" id="btn-close-detail" aria-label="Close dialog">&times;</button>
+            </div>
+            <div class="report-detail-body">
+                <div class="report-detail-media" id="detail-media-wrap">
+                    <img id="detail-photo" src="" alt="Landslide Observation Photo">
+                </div>
+                <div class="report-detail-meta-grid">
+                    <div class="detail-meta-pill">
+                        <span class="meta-label">DISTRICT</span>
+                        <span class="meta-val" id="detail-district">—</span>
+                    </div>
+                    <div class="detail-meta-pill">
+                        <span class="meta-label">SEVERITY</span>
+                        <span class="meta-val" id="detail-severity">—</span>
+                    </div>
+                    <div class="detail-meta-pill">
+                        <span class="meta-label">FAILURE TYPE</span>
+                        <span class="meta-val" id="detail-movement">—</span>
+                    </div>
+                    <div class="detail-meta-pill">
+                        <span class="meta-label">RECORDED</span>
+                        <span class="meta-val" id="detail-date">—</span>
+                    </div>
+                </div>
+                <div class="detail-coords-box">
+                    <span class="coords-label">🛰️ GEOGRAPHIC COORDINATES</span>
+                    <span class="coords-val" id="detail-coords">—</span>
+                </div>
+                <div class="detail-description-box">
+                    <span class="detail-sec-title">OBSERVATIONS &amp; INFRASTRUCTURE IMPACT</span>
+                    <p id="detail-description">—</p>
+                </div>
+                <div class="detail-reporter-box" id="detail-reporter-wrap">
+                    <span class="detail-sec-title">FIELD OBSERVER / AFFILIATION</span>
+                    <p id="detail-reporter">—</p>
+                </div>
+            </div>
+            <div class="report-detail-footer">
+                <button type="button" class="btn-detail-show-map" id="btn-detail-pin-map">
+                    <span>📍 Locate on Map Above</span>
+                </button>
+                <a href="{{ url_for('explore') }}" class="btn-detail-open-explore" id="btn-detail-explore">
+                    <span>Explore on Full Map &nearr;</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
 </div>
 {% endblock %}
 
 {% block scripts %}
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-<script src="{{ url_for('static', filename='js/report.js') }}?v=3.0"></script>
+<script src="{{ url_for('static', filename='js/report.js') }}?v=3.1"></script>
 {% endblock %}

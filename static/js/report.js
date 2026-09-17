@@ -363,12 +363,91 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
                 `;
 
+                // Interactive Click Handler: Open Detailed Incident Modal
+                card.addEventListener("click", () => {
+                    openReportDetail(p, coords);
+                });
+
                 recentFeedContainer.appendChild(card);
             });
         } catch (e) {
             console.error("Failed to load recent reports:", e);
         }
     }
+
+    function openReportDetail(p, coords) {
+        const modal = document.getElementById("report-detail-modal");
+        if (!modal) return;
+
+        const detailId = document.getElementById("detail-id");
+        if (detailId) detailId.textContent = p.id || "HL-CR-OBSERVATION";
+
+        const detailTitle = document.getElementById("report-detail-title");
+        if (detailTitle) detailTitle.textContent = `${p.movement_type || "Landslide"} — ${p.district || "Himachal Pradesh"}`;
+
+        const detailDistrict = document.getElementById("detail-district");
+        if (detailDistrict) detailDistrict.textContent = p.district || "Himachal Pradesh";
+
+        const detailSeverity = document.getElementById("detail-severity");
+        if (detailSeverity) {
+            detailSeverity.textContent = (p.severity || "Moderate").toUpperCase();
+            detailSeverity.className = `meta-val severity-${(p.severity || "moderate").toLowerCase()}`;
+        }
+
+        const detailMovement = document.getElementById("detail-movement");
+        if (detailMovement) detailMovement.textContent = p.movement_type || "Slide";
+
+        const detailDate = document.getElementById("detail-date");
+        if (detailDate) detailDate.textContent = p.incident_date || "Recent Observation";
+
+        const detailCoords = document.getElementById("detail-coords");
+        if (detailCoords) detailCoords.textContent = `${coords[1].toFixed(5)}° N, ${coords[0].toFixed(5)}° E`;
+
+        const detailDescription = document.getElementById("detail-description");
+        if (detailDescription) detailDescription.textContent = p.description || "No additional field notes provided.";
+
+        const detailReporter = document.getElementById("detail-reporter");
+        if (detailReporter) {
+            const name = p.reporter_name ? p.reporter_name : "Anonymous Observer";
+            const contact = p.contact_info ? ` (${p.contact_info})` : "";
+            detailReporter.textContent = `${name}${contact}`;
+        }
+
+        const photoImg = document.getElementById("detail-photo");
+        const mediaWrap = document.getElementById("detail-media-wrap");
+        if (p.photo_url && photoImg && mediaWrap) {
+            photoImg.src = p.photo_url;
+            mediaWrap.style.display = "block";
+        } else if (mediaWrap) {
+            mediaWrap.style.display = "none";
+        }
+
+        const pinMapBtn = document.getElementById("btn-detail-pin-map");
+        if (pinMapBtn) {
+            pinMapBtn.onclick = () => {
+                modal.setAttribute("hidden", "");
+                if (marker && map) {
+                    marker.setLatLng([coords[1], coords[0]]);
+                    map.setView([coords[1], coords[0]], 12);
+                    updateCoordinates(coords[1], coords[0]);
+                    document.getElementById("report-map")?.scrollIntoView({ behavior: "smooth", block: "center" });
+                }
+            };
+        }
+
+        modal.removeAttribute("hidden");
+    }
+
+    const closeDetailBtn = document.getElementById("btn-close-detail");
+    closeDetailBtn?.addEventListener("click", () => {
+        document.getElementById("report-detail-modal")?.setAttribute("hidden", "");
+    });
+
+    document.getElementById("report-detail-modal")?.addEventListener("click", (e) => {
+        if (e.target === document.getElementById("report-detail-modal")) {
+            document.getElementById("report-detail-modal")?.setAttribute("hidden", "");
+        }
+    });
 
     function escapeHtml(str) {
         return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");

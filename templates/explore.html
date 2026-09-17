@@ -93,15 +93,29 @@ HIMA-LENS | Interactive Geospatial Landslide Explorer
         </div>
         <div class="map-mode-control" aria-label="Map layers">
             <button id="layers-toggle" class="layers-toggle" type="button" aria-expanded="false" aria-controls="layers-menu">
-                <span class="layers-icon" aria-hidden="true">▱</span><span>Layers</span><span class="layers-chevron" aria-hidden="true">⌄</span>
+                <svg class="layers-icon" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="1" y="10.5" width="14" height="2.5" rx="1.25" fill="currentColor" opacity="0.35"/>
+                    <rect x="1" y="6.75" width="14" height="2.5" rx="1.25" fill="currentColor" opacity="0.6"/>
+                    <rect x="1" y="3" width="14" height="2.5" rx="1.25" fill="currentColor"/>
+                </svg>
+                <span>Layers</span>
+                <span class="layers-chevron" aria-hidden="true">⌄</span>
             </button>
             <div id="layers-menu" class="layers-menu" hidden>
                 <div class="layers-menu-header">BASE MAP</div>
                 <div class="layers-btn-group">
-                    <button type="button" class="layer-choice-btn active" data-layer-choice="standard">Standard</button>
-                    <button type="button" class="layer-choice-btn" data-layer-choice="satellite">Satellite</button>
-                    <button type="button" class="layer-choice-btn" data-layer-choice="terrain">Terrain</button>
-                    <button type="button" class="layer-choice-btn" data-layer-choice="3d">3D Terrain</button>
+                    <button type="button" class="layer-choice-btn active" data-layer-choice="standard">
+                        <span class="layer-btn-icon">🗺️</span><span>Standard</span>
+                    </button>
+                    <button type="button" class="layer-choice-btn" data-layer-choice="satellite">
+                        <span class="layer-btn-icon">🛰️</span><span>Satellite</span>
+                    </button>
+                    <button type="button" class="layer-choice-btn" data-layer-choice="terrain">
+                        <span class="layer-btn-icon">⛰️</span><span>Terrain</span>
+                    </button>
+                    <button type="button" class="layer-choice-btn" data-layer-choice="3d">
+                        <span class="layer-btn-icon">🌐</span><span>3D Terrain</span>
+                    </button>
                 </div>
 
                 <div class="layers-section-divider"></div>
@@ -358,5 +372,5 @@ HIMA-LENS | Interactive Geospatial Landslide Explorer
 {% block scripts %}
 <script>window.HIMA_CONFIG = { cesiumIonToken: {{ cesium_ion_token|tojson }} };</script>
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
-<script src="{{ url_for('static', filename='js/explore.js') }}?v=3.0"></script>
+<script src="{{ url_for('static', filename='js/explore.js') }}?v=3.1"></script>
 {% endblock %}
