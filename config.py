@@ -31,6 +31,8 @@ MANDI_ROADS_PATH = BASE_DIR / "static" / "data" / "mandi_roads.geojson"
 LANDSLIDE_POLYGONS_MANDI_PATH = BASE_DIR / "static" / "data" / "landslide_polygons_mandi.geojson"
 LANDSLIDE_POLYGONS_HP_PATH = BASE_DIR / "static" / "data" / "landslide_polygons_hp.geojson"
 ENVIRONMENTAL_OVERLAYS_META_PATH = BASE_DIR / "static" / "overlays" / "metadata.json"
+COMMUNITY_REPORTS_PATH = BASE_DIR / "data" / "community_reports.json"
+COMMUNITY_REPORTS_UPLOAD_DIR = BASE_DIR / "static" / "uploads" / "reports"
 APP_NAME = "HIMA-LENS"
 APP_DESCRIPTION = "Himachal Pradesh Landslide Inventory & Exploration System"
 # Optional: set CESIUM_ION_TOKEN in the environment for photoreal terrain.

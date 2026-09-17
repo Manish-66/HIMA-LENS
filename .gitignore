@@ -20,3 +20,7 @@ tempCodeRunnerFile.*
 
 # Archived files
 archived_root_files/
+
+# User uploads
+static/uploads/reports/*
+!static/uploads/reports/.gitkeep

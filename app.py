@@ -1,7 +1,12 @@
 """HIMA-LENS Flask application and read-only geospatial API."""
 from __future__ import annotations
 
+import csv
+import io
 import json
+import time
+import uuid
+from datetime import datetime
 from functools import lru_cache
 from typing import Any
 from flask import Flask, jsonify, render_template, request, Response
@@ -15,9 +20,12 @@ from config import (
     LANDSLIDE_POLYGONS_MANDI_PATH,
     LANDSLIDE_POLYGONS_HP_PATH,
     ENVIRONMENTAL_OVERLAYS_META_PATH,
+    COMMUNITY_REPORTS_PATH,
+    COMMUNITY_REPORTS_UPLOAD_DIR,
 )
 
 app = Flask(__name__)
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 app.json.sort_keys = False
 
 ALIASES = {
@@ -218,6 +226,184 @@ def landslide_polygons():
 @app.get("/api/environmental-layers")
 def environmental_layers():
     return jsonify(success=True, layers=cached_environmental_meta())
+
+def load_community_reports() -> list[dict[str, Any]]:
+    if not COMMUNITY_REPORTS_PATH.exists():
+        return []
+    try:
+        with COMMUNITY_REPORTS_PATH.open(encoding="utf-8") as f:
+            data = json.load(f)
+            return data if isinstance(data, list) else []
+    except Exception:
+        return []
+
+def save_community_reports(reports: list[dict[str, Any]]) -> None:
+    COMMUNITY_REPORTS_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with COMMUNITY_REPORTS_PATH.open("w", encoding="utf-8") as f:
+        json.dump(reports, f, indent=2)
+
+ALLOWED_IMAGE_EXTENSIONS = {"png", "jpg", "jpeg", "webp", "gif"}
+
+def allowed_image_file(filename: str) -> bool:
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_IMAGE_EXTENSIONS
+
+@app.get("/api/reports")
+def get_reports():
+    reports = load_community_reports()
+    features = []
+    for rep in reports:
+        try:
+            lat = float(rep["latitude"])
+            lng = float(rep["longitude"])
+        except (KeyError, ValueError, TypeError):
+            continue
+        features.append({
+            "type": "Feature",
+            "properties": {
+                "id": rep.get("id"),
+                "district": rep.get("district", "Unknown"),
+                "incident_date": rep.get("incident_date", ""),
+                "movement_type": rep.get("movement_type", "Unknown"),
+                "severity": rep.get("severity", "Moderate"),
+                "description": rep.get("description", ""),
+                "reporter_name": rep.get("reporter_name", "Anonymous"),
+                "photo_url": rep.get("photo_url", ""),
+                "created_at": rep.get("created_at", ""),
+                "is_community_report": True
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [lng, lat]
+            }
+        })
+    return jsonify({"type": "FeatureCollection", "features": features})
+
+@app.post("/api/reports")
+def submit_report():
+    try:
+        lat = float(request.form.get("latitude", 0))
+        lng = float(request.form.get("longitude", 0))
+    except (TypeError, ValueError):
+        return jsonify(success=False, error="INVALID_COORDINATES", message="Valid decimal latitude and longitude are required."), 400
+
+    if not (30.0 <= lat <= 34.0 and 75.0 <= lng <= 80.0):
+        return jsonify(
+            success=False, 
+            error="OUT_OF_BOUNDS", 
+            message="Coordinates must be located within Himachal Pradesh bounds (30.0°N–34.0°N, 75.0°E–80.0°E)."
+        ), 400
+
+    district = request.form.get("district", "Mandi").strip()
+    incident_date = request.form.get("incident_date", datetime.utcnow().strftime("%Y-%m-%d %H:%M")).strip()
+    movement_type = request.form.get("movement_type", "Slide").strip()
+    severity = request.form.get("severity", "Moderate").strip()
+    description = request.form.get("description", "").strip()
+    reporter_name = request.form.get("reporter_name", "Anonymous").strip()
+
+    photo_url = ""
+    file = request.files.get("photo")
+    if file and file.filename and allowed_image_file(file.filename):
+        COMMUNITY_REPORTS_UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+        ext = file.filename.rsplit(".", 1)[1].lower()
+        unique_filename = f"report_{uuid.uuid4().hex[:12]}_{int(time.time())}.{ext}"
+        save_path = COMMUNITY_REPORTS_UPLOAD_DIR / unique_filename
+        file.save(str(save_path))
+        photo_url = f"/static/uploads/reports/{unique_filename}"
+
+    report_id = f"HL-CR-{uuid.uuid4().hex[:8].upper()}"
+    new_report = {
+        "id": report_id,
+        "latitude": round(lat, 5),
+        "longitude": round(lng, 5),
+        "district": district,
+        "incident_date": incident_date,
+        "movement_type": movement_type,
+        "severity": severity,
+        "description": description,
+        "reporter_name": reporter_name,
+        "photo_url": photo_url,
+        "created_at": datetime.utcnow().isoformat() + "Z"
+    }
+
+    reports = load_community_reports()
+    reports.insert(0, new_report)
+    save_community_reports(reports)
+
+    return jsonify(success=True, report=new_report), 201
+
+@app.get("/api/export")
+def export_dataset():
+    district_param = request.args.get("district", "all").strip().lower()
+    year_param = request.args.get("year", "all").strip().lower()
+    export_format = request.args.get("format", "csv").strip().lower()
+
+    features = inventory()["features"]
+    filtered = []
+    for f in features:
+        f_district = prop(f, "district", "").lower()
+        f_year = prop(f, "year", "").lower()
+
+        if district_param and district_param != "all" and f_district != district_param:
+            continue
+        if year_param and year_param != "all" and f_year != year_param:
+            continue
+        filtered.append(f)
+
+    clean_dist = district_param if district_param and district_param != "all" else "all_districts"
+    clean_yr = year_param if year_param and year_param != "all" else "all_years"
+
+    if export_format == "csv":
+        output = io.StringIO()
+        writer = csv.writer(output)
+        writer.writerow([
+            "id", "latitude", "longitude", "district", "activity", 
+            "movement_type", "material_type", "year", "distance_to_road_m"
+        ])
+        for idx, f in enumerate(filtered, start=1):
+            coords = f.get("geometry", {}).get("coordinates", [0, 0])
+            writer.writerow([
+                f.get("id") or idx,
+                coords[1] if len(coords) > 1 else "",
+                coords[0] if len(coords) > 0 else "",
+                prop(f, "district", "Himachal Pradesh"),
+                prop(f, "activity", "Not recorded"),
+                prop(f, "movement", "Not recorded"),
+                prop(f, "material", "Not recorded"),
+                prop(f, "year", "Not recorded"),
+                prop(f, "distance_to_road_m", "") or (f.get("properties") or {}).get("distance_to_road_m", "")
+            ])
+        csv_data = output.getvalue()
+        filename = f"HIMA-LENS_landslides_{clean_dist}_{clean_yr}.csv"
+        response = Response(csv_data, mimetype="text/csv")
+        response.headers["Content-Disposition"] = f'attachment; filename="{filename}"'
+        return response
+
+    elif export_format == "geojson":
+        geojson_data = json.dumps({"type": "FeatureCollection", "features": filtered}, indent=2)
+        filename = f"HIMA-LENS_landslides_{clean_dist}_{clean_yr}.geojson"
+        response = Response(geojson_data, mimetype="application/geo+json")
+        response.headers["Content-Disposition"] = f'attachment; filename="{filename}"'
+        return response
+
+    else:
+        records = []
+        for idx, f in enumerate(filtered, start=1):
+            coords = f.get("geometry", {}).get("coordinates", [0, 0])
+            records.append({
+                "id": f.get("id") or idx,
+                "latitude": coords[1] if len(coords) > 1 else None,
+                "longitude": coords[0] if len(coords) > 0 else None,
+                "district": prop(f, "district", "Himachal Pradesh"),
+                "activity": prop(f, "activity", "Not recorded"),
+                "movement_type": prop(f, "movement", "Not recorded"),
+                "material_type": prop(f, "material", "Not recorded"),
+                "year": prop(f, "year", "Not recorded")
+            })
+        json_data = json.dumps(records, indent=2)
+        filename = f"HIMA-LENS_landslides_{clean_dist}_{clean_yr}.json"
+        response = Response(json_data, mimetype="application/json")
+        response.headers["Content-Disposition"] = f'attachment; filename="{filename}"'
+        return response
 
 @app.get("/api/health")
 def health():

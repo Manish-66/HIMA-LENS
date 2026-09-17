@@ -10,10 +10,13 @@ document.addEventListener("DOMContentLoaded", init);
 
 async function init() {
   initMap(); initControls();
+  initReportingModule(); initExportModule();
   try {
     const [inventory, boundaries] = await Promise.all([fetchJSON("/api/landslides"), fetchJSON("/api/district-boundaries")]);
     allFeatures = inventory.features.filter(validFeature); filteredFeatures = [...allFeatures]; boundaryData = boundaries;
-    populateFilters(); renderDistrictBoundaries(); renderFeatures(true, false); document.getElementById("map-loading").classList.add("loaded");
+    populateFilters(); renderDistrictBoundaries(); renderFeatures(true, false);
+    loadCommunityReports();
+    document.getElementById("map-loading").classList.add("loaded");
 
     // Check if user jumped here from an Event Feed link
     const jumpData = sessionStorage.getItem("hima_jump_coords");
@@ -642,6 +645,368 @@ function initControls() {
       }
     });
   }
+}
+ 
+// --- COMMUNITY REPORTS MODULE ---
+let communityReportsLayer = null;
+let reportPinMarker = null;
+
+async function loadCommunityReports() {
+  try {
+    const data = await fetchJSON("/api/reports");
+    if (!communityReportsLayer) {
+      communityReportsLayer = L.markerClusterGroup({
+        maxClusterRadius: 35,
+        spiderfyOnMaxZoom: true,
+        showCoverageOnHover: false
+      });
+      const commToggle = document.getElementById("toggle-community");
+      if (!commToggle || commToggle.checked) {
+        communityReportsLayer.addTo(map);
+      }
+    } else {
+      communityReportsLayer.clearLayers();
+    }
+
+    (data.features || []).forEach(feature => {
+      const [lng, lat] = feature.geometry.coordinates;
+      const props = feature.properties || {};
+
+      const icon = L.divIcon({
+        className: "community-marker-icon",
+        html: `<div class="community-beacon-pin" title="Citizen Report: ${props.movement_type} (${props.severity})"><span class="beacon-pulse"></span>📷</div>`,
+        iconSize: [28, 28],
+        iconAnchor: [14, 14]
+      });
+
+      const marker = L.marker([lat, lng], { icon: icon });
+      const photoHtml = props.photo_url ? 
+        `<div class="popup-photo-wrap"><img src="${props.photo_url}" alt="Reported Landslide" class="popup-report-photo"></div>` : "";
+
+      const popupContent = `
+        <div class="community-popup">
+          <div class="popup-header-tag">
+            <span class="popup-severity severity-${(props.severity || 'moderate').toLowerCase()}">${(props.severity || 'MODERATE').toUpperCase()}</span>
+            <span class="popup-id">${props.id || 'REPORT'}</span>
+          </div>
+          <h4 class="popup-title">${props.movement_type || 'Landslide'} &bull; ${props.district}</h4>
+          ${photoHtml}
+          <p class="popup-desc">${props.description || 'Citizen-reported slope instability incident.'}</p>
+          <div class="popup-meta-row">
+            <span>📅 ${props.incident_date || 'Recent'}</span>
+            <span>👤 ${props.reporter_name || 'Anonymous'}</span>
+          </div>
+          <div class="popup-coords-row">📍 ${lat.toFixed(4)}° N, ${lng.toFixed(4)}° E</div>
+        </div>
+      `;
+      marker.bindPopup(popupContent, { maxWidth: 280, className: "community-leaflet-popup" });
+      communityReportsLayer.addLayer(marker);
+    });
+  } catch (err) {
+    console.warn("Failed to load community reports", err);
+  }
+}
+
+function initReportingModule() {
+  const reportDrawer = document.getElementById("report-drawer");
+  const openReportBtn = document.getElementById("open-report-drawer");
+  const closeReportBtn = document.getElementById("report-drawer-close");
+  const fetchGpsBtn = document.getElementById("fetch-gps-btn");
+  const photoDropzone = document.getElementById("photo-dropzone");
+  const photoInput = document.getElementById("report-photo");
+  const photoPrompt = document.getElementById("photo-prompt");
+  const photoPreviewWrap = document.getElementById("photo-preview-wrap");
+  const photoPreviewImg = document.getElementById("photo-preview-img");
+  const removePhotoBtn = document.getElementById("remove-photo-btn");
+  const reportForm = document.getElementById("landslide-report-form");
+  const formMsg = document.getElementById("report-form-msg");
+  const submitBtn = document.getElementById("report-submit-btn");
+
+  const latInput = document.getElementById("report-lat");
+  const lngInput = document.getElementById("report-lng");
+  const dateInput = document.getElementById("report-date");
+
+  if (dateInput && !dateInput.value) {
+    const now = new Date();
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+    dateInput.value = now.toISOString().slice(0, 16);
+  }
+
+  function openDrawer() {
+    reportDrawer?.classList.add("open");
+    document.getElementById("feature-drawer")?.classList.remove("open");
+  }
+
+  function closeDrawer() {
+    reportDrawer?.classList.remove("open");
+    if (reportPinMarker && map) {
+      map.removeLayer(reportPinMarker);
+      reportPinMarker = null;
+    }
+  }
+
+  openReportBtn?.addEventListener("click", openDrawer);
+  closeReportBtn?.addEventListener("click", closeDrawer);
+
+  if (new URLSearchParams(window.location.search).get("action") === "report") {
+    setTimeout(openDrawer, 400);
+  }
+
+  fetchGpsBtn?.addEventListener("click", () => {
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by your browser.");
+      return;
+    }
+    fetchGpsBtn.classList.add("loading");
+    const labelSpan = fetchGpsBtn.querySelector("span:last-child");
+    if (labelSpan) labelSpan.textContent = "Acquiring Fix…";
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        fetchGpsBtn.classList.remove("loading");
+        if (labelSpan) labelSpan.textContent = "📍 Location Locked";
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+        if (latInput) latInput.value = lat.toFixed(5);
+        if (lngInput) lngInput.value = lng.toFixed(5);
+        setPinOnMap(lat, lng, true);
+      },
+      (err) => {
+        fetchGpsBtn.classList.remove("loading");
+        if (labelSpan) labelSpan.textContent = "📍 Fetch My GPS";
+        alert(`GPS error (${err.code}): ${err.message}. You can click anywhere on the map to set coordinates.`);
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+    );
+  });
+
+  function setPinOnMap(lat, lng, pan = false) {
+    if (!reportPinMarker) {
+      const pinIcon = L.divIcon({
+        className: "report-pin-marker",
+        html: `<div class="target-pin"><span class="pin-ring"></span>📍</div>`,
+        iconSize: [32, 32],
+        iconAnchor: [16, 30]
+      });
+      reportPinMarker = L.marker([lat, lng], { icon: pinIcon, draggable: true }).addTo(map);
+      reportPinMarker.on("dragend", (e) => {
+        const c = e.target.getLatLng();
+        if (latInput) latInput.value = c.lat.toFixed(5);
+        if (lngInput) lngInput.value = c.lng.toFixed(5);
+      });
+    } else {
+      reportPinMarker.setLatLng([lat, lng]);
+    }
+    if (pan && map) {
+      map.flyTo([lat, lng], Math.max(map.getZoom(), 13), { duration: 1.2 });
+    }
+  }
+
+  map?.on("click", (e) => {
+    if (reportDrawer?.classList.contains("open")) {
+      if (latInput) latInput.value = e.latlng.lat.toFixed(5);
+      if (lngInput) lngInput.value = e.latlng.lng.toFixed(5);
+      setPinOnMap(e.latlng.lat, e.latlng.lng, false);
+    }
+  });
+
+  photoPrompt?.addEventListener("click", () => photoInput?.click());
+  photoInput?.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 16 * 1024 * 1024) {
+        alert("Photo exceeds 16MB limit. Please select a smaller photo.");
+        photoInput.value = "";
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (re) => {
+        if (photoPreviewImg) photoPreviewImg.src = re.target.result;
+        if (photoPrompt) photoPrompt.style.display = "none";
+        if (photoPreviewWrap) photoPreviewWrap.style.display = "block";
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  removePhotoBtn?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (photoInput) photoInput.value = "";
+    if (photoPreviewImg) photoPreviewImg.src = "";
+    if (photoPreviewWrap) photoPreviewWrap.style.display = "none";
+    if (photoPrompt) photoPrompt.style.display = "flex";
+  });
+
+  reportForm?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const lat = parseFloat(latInput?.value || "0");
+    const lng = parseFloat(lngInput?.value || "0");
+
+    if (isNaN(lat) || isNaN(lng) || lat < 30 || lat > 34 || lng < 75 || lng > 80) {
+      showMsg("Please set valid coordinates within Himachal Pradesh (30°N–34°N, 75°E–80°E).", "error");
+      return;
+    }
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `<span>⏳ Submitting Telemetry…</span>`;
+    }
+
+    try {
+      const formData = new FormData(reportForm);
+      const res = await fetch("/api/reports", {
+        method: "POST",
+        body: formData
+      });
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        throw new Error(data.message || "Failed to submit report.");
+      }
+
+      showMsg(`✅ Incident report ${data.report.id} recorded successfully!`, "success");
+      await loadCommunityReports();
+      map.flyTo([lat, lng], 14, { duration: 1.2 });
+
+      setTimeout(() => {
+        reportForm.reset();
+        if (photoPreviewWrap) photoPreviewWrap.style.display = "none";
+        if (photoPrompt) photoPrompt.style.display = "flex";
+        closeDrawer();
+        if (formMsg) formMsg.style.display = "none";
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = `<span>🚀 Submit Landslide Report</span>`;
+        }
+      }, 1800);
+    } catch (err) {
+      showMsg(`Submission failed: ${err.message}`, "error");
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `<span>🚀 Submit Landslide Report</span>`;
+      }
+    }
+  });
+
+  function showMsg(text, type) {
+    if (!formMsg) return;
+    formMsg.textContent = text;
+    formMsg.className = `report-status-msg ${type}`;
+    formMsg.style.display = "block";
+  }
+
+  const commToggle = document.getElementById("toggle-community");
+  commToggle?.addEventListener("change", (e) => {
+    if (!communityReportsLayer) return;
+    if (e.target.checked) {
+      map.addLayer(communityReportsLayer);
+    } else {
+      map.removeLayer(communityReportsLayer);
+    }
+  });
+}
+
+// --- DATASET EXPORT MODULE ---
+function initExportModule() {
+  const modal = document.getElementById("export-modal");
+  const openBtn = document.getElementById("open-export-modal");
+  const closeBtn = document.getElementById("export-modal-close");
+  const cancelBtn = document.getElementById("export-cancel-btn");
+  const triggerBtn = document.getElementById("export-trigger-btn");
+  const districtSelect = document.getElementById("export-district-select");
+  const yearSelect = document.getElementById("export-year-select");
+  const previewCount = document.getElementById("export-preview-count");
+
+  function openModal() {
+    if (districtSelect && districtSelect.options.length <= 1) {
+      const districts = [...new Set(allFeatures.map(f => p(f, "district")).filter(d => d && d !== "Not recorded in source"))].sort();
+      districts.forEach(dist => {
+        const opt = document.createElement("option");
+        opt.value = dist.toLowerCase();
+        opt.textContent = dist;
+        districtSelect.appendChild(opt);
+      });
+    }
+
+    if (yearSelect && yearSelect.options.length <= 1) {
+      const years = [...new Set(allFeatures.map(f => p(f, "year")).filter(y => y && y !== "Not recorded in source"))].sort();
+      years.forEach(yr => {
+        const opt = document.createElement("option");
+        opt.value = yr.toLowerCase();
+        opt.textContent = yr;
+        yearSelect.appendChild(opt);
+      });
+    }
+
+    const currentDist = document.getElementById("district")?.value || "all";
+    const currentYr = document.getElementById("year")?.value || "all";
+    if (districtSelect) districtSelect.value = currentDist.toLowerCase();
+    if (yearSelect) yearSelect.value = currentYr.toLowerCase();
+
+    updateCount();
+    modal?.removeAttribute("hidden");
+  }
+
+  function closeModal() {
+    modal?.setAttribute("hidden", "");
+  }
+
+  function updateCount() {
+    const selDist = districtSelect?.value || "all";
+    const selYr = yearSelect?.value || "all";
+
+    const count = allFeatures.filter(f => {
+      const fDist = p(f, "district", "").toLowerCase();
+      const fYr = p(f, "year", "").toLowerCase();
+      if (selDist !== "all" && fDist !== selDist) return false;
+      if (selYr !== "all" && fYr !== selYr) return false;
+      return true;
+    }).length;
+
+    if (previewCount) {
+      previewCount.textContent = `Ready to download: ${count.toLocaleString()} landslide records`;
+    }
+  }
+
+  openBtn?.addEventListener("click", openModal);
+  closeBtn?.addEventListener("click", closeModal);
+  cancelBtn?.addEventListener("click", closeModal);
+
+  modal?.addEventListener("click", (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  districtSelect?.addEventListener("change", updateCount);
+  yearSelect?.addEventListener("change", updateCount);
+
+  document.querySelectorAll('input[name="export-format"]').forEach(radio => {
+    radio.addEventListener("change", (e) => {
+      document.querySelectorAll(".format-choice").forEach(fc => fc.classList.remove("active"));
+      e.target.closest(".format-choice")?.classList.add("active");
+    });
+  });
+
+  triggerBtn?.addEventListener("click", () => {
+    const dist = districtSelect?.value || "all";
+    const yr = yearSelect?.value || "all";
+    const fmt = document.querySelector('input[name="export-format"]:checked')?.value || "csv";
+
+    if (triggerBtn) {
+      triggerBtn.disabled = true;
+      triggerBtn.innerHTML = `<span>⏳ Preparing Export…</span>`;
+    }
+
+    const downloadUrl = `/api/export?district=${encodeURIComponent(dist)}&year=${encodeURIComponent(yr)}&format=${encodeURIComponent(fmt)}`;
+    window.location.href = downloadUrl;
+
+    setTimeout(() => {
+      if (triggerBtn) {
+        triggerBtn.disabled = false;
+        triggerBtn.innerHTML = `<span>📥 Download Dataset</span>`;
+      }
+      closeModal();
+    }, 1500);
+  });
 }
 
 window.addEventListener("resize",()=>map?.invalidateSize());
