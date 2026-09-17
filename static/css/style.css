@@ -357,11 +357,12 @@ main {
     z-index: 1000;
     width: 100%;
     height: 74px;
-    background: rgba(246, 248, 245, 0.90);
-    border-bottom: 1px solid rgba(207, 220, 214, 0.72);
-    box-shadow: 0 4px 20px rgba(15, 32, 25, 0.03);
-    backdrop-filter: blur(20px) saturate(140%);
-    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    background: #071a14;
+    background: rgba(7, 24, 19, 0.96);
+    border-bottom: 1px solid rgba(114, 239, 185, 0.22);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
     display: flex;
     align-items: center;
 }
@@ -9401,12 +9402,14 @@ body:has(.gis-console-layout) {
    HOME PAGE: REFINED INSTITUTIONAL THEME
    ========================================================= */
 
-/* Header Crisp Backdrop */
+/* Header Dark Backdrop */
 .site-header {
-    background: rgba(246, 248, 245, 0.94) !important;
+    background: #071a14 !important;
+    background: rgba(7, 24, 19, 0.96) !important;
     backdrop-filter: blur(24px) saturate(160%) !important;
     -webkit-backdrop-filter: blur(24px) saturate(160%) !important;
-    border-bottom: 1px solid rgba(207, 220, 214, 0.85) !important;
+    border-bottom: 1px solid rgba(114, 239, 185, 0.22) !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6) !important;
 }
 
 /* Hero Section Refinement */
@@ -9824,11 +9827,12 @@ body:has(.gis-console-layout) {
     z-index: 1000;
     width: 100%;
     height: 74px;
-    background: rgba(7, 24, 19, 0.92);
-    border-bottom: 1px solid rgba(114, 239, 185, 0.16);
-    backdrop-filter: blur(24px) saturate(160%);
-    -webkit-backdrop-filter: blur(24px) saturate(160%);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
+    background: #071a14 !important;
+    background: rgba(7, 24, 19, 0.96) !important;
+    border-bottom: 1px solid rgba(114, 239, 185, 0.24) !important;
+    backdrop-filter: blur(24px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(160%) !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6) !important;
     display: flex;
     align-items: center;
     transition: background 0.3s ease, border-color 0.3s ease;
@@ -9845,67 +9849,67 @@ body:has(.gis-console-layout) {
 
 /* Brand Identity */
 .brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-decoration: none;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    text-decoration: none !important;
     user-select: none;
 }
 
 .brand-logo {
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.24), rgba(5, 150, 105, 0.08));
-    border: 1px solid rgba(114, 239, 185, 0.36);
-    display: grid;
-    place-items: center;
-    color: #72efb9;
-    font-family: 'Manrope', sans-serif;
-    font-weight: 850;
-    font-size: 14px;
-    letter-spacing: 0.04em;
-    box-shadow: 0 0 16px rgba(114, 239, 185, 0.18);
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 10px !important;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.35), rgba(5, 150, 105, 0.15)) !important;
+    border: 1.5px solid #72efb9 !important;
+    display: grid !important;
+    place-items: center !important;
+    color: #72efb9 !important;
+    font-family: 'Manrope', sans-serif !important;
+    font-weight: 900 !important;
+    font-size: 15px !important;
+    letter-spacing: 0.05em !important;
+    box-shadow: 0 0 16px rgba(114, 239, 185, 0.35) !important;
     transition: all 0.25s ease;
 }
 
 .brand:hover .brand-logo {
-    border-color: #72efb9;
-    box-shadow: 0 0 24px rgba(114, 239, 185, 0.4);
-    transform: scale(1.04);
+    border-color: #a7f3d0 !important;
+    box-shadow: 0 0 24px rgba(114, 239, 185, 0.55) !important;
+    transform: scale(1.05);
 }
 
 .brand-text {
-    display: flex;
-    flex-direction: column;
+    display: flex !important;
+    flex-direction: column !important;
 }
 
 .brand-name {
-    font-family: 'Manrope', sans-serif;
-    font-size: 17px;
-    font-weight: 850;
-    color: #ecfdf5;
-    letter-spacing: 0.03em;
-    line-height: 1.1;
+    font-family: 'Manrope', sans-serif !important;
+    font-size: 18px !important;
+    font-weight: 850 !important;
+    color: #ffffff !important;
+    letter-spacing: 0.04em !important;
+    line-height: 1.1 !important;
 }
 
 .brand-name span {
-    color: #72efb9;
-    font-weight: 900;
-    margin: 0 1px;
-    text-shadow: 0 0 8px rgba(114, 239, 185, 0.6);
+    color: #72efb9 !important;
+    font-weight: 900 !important;
+    margin: 0 1px !important;
+    text-shadow: 0 0 10px rgba(114, 239, 185, 0.7) !important;
 }
 
 .brand-subtitle {
-    font-family: 'Manrope', sans-serif;
-    font-size: 8px;
-    font-weight: 750;
-    letter-spacing: 0.14em;
-    color: #6ee7b7;
-    text-transform: uppercase;
-    line-height: 1;
-    margin-top: 3px;
-    opacity: 0.85;
+    font-family: 'Manrope', sans-serif !important;
+    font-size: 8.5px !important;
+    font-weight: 750 !important;
+    letter-spacing: 0.14em !important;
+    color: #72efb9 !important;
+    text-transform: uppercase !important;
+    line-height: 1 !important;
+    margin-top: 3px !important;
+    opacity: 0.9 !important;
 }
 
 /* Right Navigation & Profile Group */
@@ -9916,93 +9920,93 @@ body:has(.gis-console-layout) {
 }
 
 .main-nav {
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
 }
 
 .main-nav a {
-    display: inline-flex;
-    align-items: center;
-    padding: 7px 18px;
-    border-radius: 999px;
-    color: #9bbcb0;
-    font-size: 13px;
-    font-weight: 650;
-    text-decoration: none;
-    border: 1px solid transparent;
-    transition: all 0.2s ease;
-    letter-spacing: 0.02em;
+    display: inline-flex !important;
+    align-items: center !important;
+    padding: 8px 18px !important;
+    border-radius: 999px !important;
+    color: #d1fae5 !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    border: 1px solid transparent !important;
+    transition: all 0.2s ease !important;
+    letter-spacing: 0.02em !important;
 }
 
 .main-nav a:hover {
-    color: #dff8ec;
-    background: rgba(114, 239, 185, 0.1);
-    border-color: rgba(114, 239, 185, 0.22);
+    color: #ffffff !important;
+    background: rgba(114, 239, 185, 0.16) !important;
+    border-color: rgba(114, 239, 185, 0.35) !important;
 }
 
 .main-nav a.active {
-    color: #071f19;
-    background: #72efb9;
-    border-color: #72efb9;
-    font-weight: 850;
-    box-shadow: 0 0 16px rgba(114, 239, 185, 0.35);
+    color: #051b14 !important;
+    background: #72efb9 !important;
+    border-color: #72efb9 !important;
+    font-weight: 900 !important;
+    box-shadow: 0 0 16px rgba(114, 239, 185, 0.5) !important;
 }
 
 /* User Profile Widget */
 .user-profile-widget {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 5px 14px 5px 6px;
-    border-radius: 999px;
-    background: rgba(11, 31, 24, 0.85);
-    border: 1px solid rgba(114, 239, 185, 0.24);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    cursor: pointer;
-    transition: all 0.2s ease;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 5px 14px 5px 6px !important;
+    border-radius: 999px !important;
+    background: rgba(11, 31, 24, 0.95) !important;
+    border: 1px solid rgba(114, 239, 185, 0.3) !important;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4) !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
 }
 
 .user-profile-widget:hover {
-    border-color: #72efb9;
-    background: rgba(16, 44, 34, 0.95);
-    transform: translateY(-1px);
-    box-shadow: 0 0 18px rgba(114, 239, 185, 0.25);
+    border-color: #72efb9 !important;
+    background: rgba(16, 48, 37, 0.98) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 0 20px rgba(114, 239, 185, 0.3) !important;
 }
 
 .user-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #10b981, #064e3b);
-    border: 1px solid rgba(114, 239, 185, 0.4);
-    color: #ffffff;
-    display: grid;
-    place-items: center;
-    font-size: 12px;
-    font-weight: 850;
-    box-shadow: 0 0 8px rgba(16, 185, 129, 0.3);
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, #10b981, #064e3b) !important;
+    border: 1px solid rgba(114, 239, 185, 0.45) !important;
+    color: #ffffff !important;
+    display: grid !important;
+    place-items: center !important;
+    font-size: 12px !important;
+    font-weight: 850 !important;
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.35) !important;
 }
 
 .user-meta {
-    display: flex;
-    flex-direction: column;
+    display: flex !important;
+    flex-direction: column !important;
 }
 
 .user-role {
-    font-size: 7.5px;
-    font-weight: 850;
-    letter-spacing: 0.14em;
-    color: #72efb9;
-    line-height: 1;
+    font-size: 7.5px !important;
+    font-weight: 850 !important;
+    letter-spacing: 0.14em !important;
+    color: #72efb9 !important;
+    line-height: 1 !important;
 }
 
 .user-name {
-    font-size: 10.5px;
-    font-weight: 700;
-    color: #e2f4eb;
-    line-height: 1.2;
-    margin-top: 2px;
+    font-size: 10.5px !important;
+    font-weight: 750 !important;
+    color: #f0fdf4 !important;
+    line-height: 1.2 !important;
+    margin-top: 2px !important;
 }
 
 /* Mobile Menu Button & Drawer */
