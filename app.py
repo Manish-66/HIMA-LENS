@@ -46,14 +46,6 @@ def prop(feature: dict[str, Any], name: str, default: str = "") -> str:
     return default
 
 @lru_cache(maxsize=1)
-def inventory() -> dict[str, Any]:
-    with DATASET_PATH.open(encoding="utf-8") as source:
-        data = json.load(source)
-    if data.get("type") != "FeatureCollection" or not isinstance(data.get("features"), list):
-        raise ValueError("Dataset is not a GeoJSON FeatureCollection")
-    return data
-
-@lru_cache(maxsize=1)
 def administrative_boundaries() -> dict[str, Any]:
     with DISTRICT_BOUNDARIES_PATH.open(encoding="utf-8") as source:
         data = json.load(source)
@@ -74,6 +66,52 @@ def administrative_boundaries() -> dict[str, Any]:
                 "geometry": feature.get("geometry")
             })
     return {"type": "FeatureCollection", "features": features}
+
+@lru_cache(maxsize=1)
+def inventory() -> dict[str, Any]:
+    with DATASET_PATH.open(encoding="utf-8") as source:
+        data = json.load(source)
+    if data.get("type") != "FeatureCollection" or not isinstance(data.get("features"), list):
+        raise ValueError("Dataset is not a GeoJSON FeatureCollection")
+
+    # Ground-truth spatial alignment: ensure points are attributed to the district they actually lie in
+    try:
+        from shapely.geometry import shape, Point
+        from shapely.prepared import prep
+        bounds_data = administrative_boundaries()
+        dist_lookup = {}
+        for b in bounds_data["features"]:
+            name = prop(b, "district")
+            if name and b.get("geometry"):
+                geom = shape(b["geometry"])
+                dist_lookup[name.title()] = (prep(geom), geom.bounds)
+
+        for f in data["features"]:
+            orig_d = prop(f, "district")
+            coords = f.get("geometry", {}).get("coordinates", [])
+            if len(coords) < 2:
+                continue
+            lng, lat = float(coords[0]), float(coords[1])
+            pt = Point(lng, lat)
+
+            # Fast check: inside stated district?
+            inside_stated = False
+            if orig_d.title() in dist_lookup:
+                pgeom, bnds = dist_lookup[orig_d.title()]
+                if bnds[0] <= lng <= bnds[2] and bnds[1] <= lat <= bnds[3]:
+                    if pgeom.contains(pt):
+                        inside_stated = True
+
+            if not inside_stated:
+                for dname, (pgeom, bnds) in dist_lookup.items():
+                    if bnds[0] <= lng <= bnds[2] and bnds[1] <= lat <= bnds[3]:
+                        if pgeom.contains(pt):
+                            f.setdefault("properties", {})["district"] = dname
+                            break
+    except Exception as e:
+        print("Spatial district alignment notice:", e)
+
+    return data
 
 @lru_cache(maxsize=1)
 def serialized_boundaries() -> str:

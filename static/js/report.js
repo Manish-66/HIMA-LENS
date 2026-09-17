@@ -46,9 +46,9 @@ document.addEventListener("DOMContentLoaded", function () {
             scrollWheelZoom: false
         }).setView([DEFAULT_LAT, DEFAULT_LNG], 8);
 
-        L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
-            maxZoom: 18,
-            attribution: '&copy; <a href="https://carto.com/">CARTO</a>'
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
         // Custom Marker Icon matching Swiss editorial theme
@@ -414,9 +414,11 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         const photoImg = document.getElementById("detail-photo");
+        const photoLink = document.getElementById("detail-photo-link");
         const mediaWrap = document.getElementById("detail-media-wrap");
         if (p.photo_url && photoImg && mediaWrap) {
             photoImg.src = p.photo_url;
+            if (photoLink) photoLink.href = p.photo_url;
             mediaWrap.style.display = "block";
         } else if (mediaWrap) {
             mediaWrap.style.display = "none";

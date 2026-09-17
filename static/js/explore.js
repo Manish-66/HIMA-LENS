@@ -44,7 +44,21 @@ function initMap() {
   layers.standard = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {maxZoom:19, attribution:"© OpenStreetMap contributors"});
   layers.satellite = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {maxZoom:18, attribution:"Tiles © Esri"});
   layers.terrain = L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {maxZoom:17, attribution:"© OpenTopoMap © OpenStreetMap contributors"});
-  layers.standard.addTo(map); markerLayer = L.markerClusterGroup({chunkedLoading:true,chunkInterval:25,chunkDelay:10,removeOutsideVisibleBounds:true,spiderfyOnMaxZoom:false,maxClusterRadius:48,showCoverageOnHover:false}).addTo(map);
+  layers.standard.addTo(map);
+  markerLayer = L.markerClusterGroup({
+    chunkedLoading: true,
+    chunkInterval: 150,
+    chunkDelay: 10,
+    removeOutsideVisibleBounds: true,
+    spiderfyOnMaxZoom: true,
+    spiderfyDistanceMultiplier: 1.4,
+    showCoverageOnHover: false,
+    zoomToBoundsOnClick: true,
+    animate: true,
+    animateAddingMarkers: false,
+    maxClusterRadius: 50,
+    disableClusteringAtZoom: 16
+  }).addTo(map);
   map.on("mousemove", event => document.getElementById("cursor-coords").innerHTML = `${event.latlng.lat.toFixed(4)}° N, ${event.latlng.lng.toFixed(4)}° E &bull; EPSG:4326 &bull; HP-GRID`);
 }
 
@@ -137,12 +151,60 @@ function populateFilters() { const districts=[...new Set((boundaryData?.features
 function unique(field) { return [...new Set(allFeatures.map(f=>p(f,field,"")).filter(Boolean))].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true})); }
 function populate(id, values) { const el=document.getElementById(id); values.forEach(value=>el.add(new Option(value,value))); }
 
+function pointInPolygon(point, vs) {
+  const x = point[0], y = point[1];
+  let inside = false;
+  for (let i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+    const xi = vs[i][0], yi = vs[i][1];
+    const xj = vs[j][0], yj = vs[j][1];
+    const intersect = ((yi > y) !== (yj > y)) && (x < (xj - x) * (y - yi) / (yj - yi) + xi);
+    if (intersect) inside = !inside;
+  }
+  return inside;
+}
+
+function isPointInDistrict(lat, lng, distFeature, distBounds) {
+  if (!distFeature) return true;
+  if (distBounds && !distBounds.contains([lat, lng])) return false;
+  const geom = distFeature.geometry;
+  if (!geom) return true;
+  const pt = [lng, lat];
+  if (geom.type === "Polygon") {
+    return pointInPolygon(pt, geom.coordinates[0]);
+  } else if (geom.type === "MultiPolygon") {
+    return geom.coordinates.some(poly => pointInPolygon(pt, poly[0]));
+  }
+  return true;
+}
+
 function applyFilters() {
-  const query=id=>document.getElementById(id).value;
-  const district=query("district"), year=query("year"), activity=query("activity"), movement=query("movement");
-  filteredFeatures=allFeatures.filter(f=>(district==="all"||p(f,"district").toLowerCase()===district.toLowerCase())&&(year==="all"||p(f,"year")===year)&&(activity==="all"||p(f,"activity").toLowerCase()===activity.toLowerCase())&&(movement==="all"||p(f,"movement").toLowerCase()===movement.toLowerCase()));
+  const query = id => document.getElementById(id).value;
+  const district = query("district"), year = query("year"), activity = query("activity"), movement = query("movement");
+
+  let distFeature = null, distBounds = null;
+  if (district !== "all" && boundaryData?.features) {
+    distFeature = boundaryData.features.find(f => districtName(f).toLowerCase() === district.toLowerCase());
+    if (distFeature) distBounds = L.geoJSON(distFeature).getBounds();
+  }
+
+  filteredFeatures = allFeatures.filter(f => {
+    const [lng, lat] = f.geometry.coordinates.map(Number);
+    if (!Number.isFinite(lat) || !Number.isFinite(lng)) return false;
+
+    if (district !== "all") {
+      const stated = p(f, "district").toLowerCase();
+      if (stated !== district.toLowerCase()) return false;
+      if (distFeature && !isPointInDistrict(lat, lng, distFeature, distBounds)) return false;
+    }
+    if (year !== "all" && p(f, "year") !== year) return false;
+    if (activity !== "all" && p(f, "activity").toLowerCase() !== activity.toLowerCase()) return false;
+    if (movement !== "all" && p(f, "movement").toLowerCase() !== movement.toLowerCase()) return false;
+    return true;
+  });
+
   isolateDistrict(district);
-  renderFeatures(district==="all",true);
+  renderFeatures(district === "all", true);
+  renderCommunityReports(district);
   const polyToggle = document.getElementById("toggle-polygons");
   if (polyToggle && polyToggle.checked) togglePolygons(true);
 }
@@ -463,6 +525,7 @@ async function initCesium() {
   if(viewer) {
     document.getElementById("cesium-map").classList.add("active");
     document.getElementById("map").classList.add("hidden");
+    viewer.resize();
     focusCesiumOnMap(true);
     await syncCesiumAllOverlays();
     return;
@@ -470,22 +533,57 @@ async function initCesium() {
   const target=document.getElementById("cesium-map"); target.classList.add("active"); document.getElementById("map").classList.add("hidden");
   const token=window.HIMA_CONFIG?.cesiumIonToken;
   if(token) Cesium.Ion.defaultAccessToken=token;
-  const osm=new Cesium.UrlTemplateImageryProvider({url:"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",subdomains:["a","b","c"],credit:"© OpenStreetMap contributors"});
-  viewer=new Cesium.Viewer("cesium-map",{baseLayer:new Cesium.ImageryLayer(osm),baseLayerPicker:false,geocoder:false,animation:false,timeline:false,homeButton:false,sceneModePicker:false,navigationHelpButton:false,requestRenderMode:true,maximumRenderTimeChange:Infinity});
-  const selectedDistrict=document.getElementById("district").value; if(selectedDistrict!=="all")updateCesiumDistrictBoundary(boundaryData?.features?.find(feature=>districtName(feature).toLowerCase()===selectedDistrict.toLowerCase()));
+
+  // High-resolution satellite imagery fallback (ESRI World Imagery, needs no API key)
+  const esriSatellite=new Cesium.UrlTemplateImageryProvider({
+    url:"https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    credit:"Tiles © Esri"
+  });
+
+  viewer=new Cesium.Viewer("cesium-map",{
+    baseLayer:new Cesium.ImageryLayer(esriSatellite),
+    baseLayerPicker:false,
+    geocoder:false,
+    animation:false,
+    timeline:false,
+    homeButton:false,
+    sceneModePicker:false,
+    navigationHelpButton:false,
+    requestRenderMode:false
+  });
+  viewer.resize();
+
+  const selectedDistrict=document.getElementById("district").value;
+  if(selectedDistrict!=="all") updateCesiumDistrictBoundary(boundaryData?.features?.find(feature=>districtName(feature).toLowerCase()===selectedDistrict.toLowerCase()));
   focusCesiumOnMap(false);
-  set3dStatus("LOADING SATELLITE IMAGERY & TERRAIN…", true);
+  set3dStatus("INITIALIZING 3D TERRAIN & SATELLITE ENGINE…", true);
+
   if(token) {
     try {
-      const [satellite, terrain] = await Promise.all([
+      const [satelliteRes, terrainRes] = await Promise.allSettled([
         Cesium.createWorldImageryAsync({style:Cesium.IonWorldImageryStyle.AERIAL}),
         Cesium.createWorldTerrainAsync({requestVertexNormals:true})
       ]);
-      viewer.imageryLayers.removeAll(); viewer.imageryLayers.addImageryProvider(satellite);
-      terrainProvider=terrain; viewer.terrainProvider=terrain;
-    } catch(error) { console.warn("Cesium Ion imagery/terrain could not load; retaining OSM fallback.",error); }
-  } else console.warn("No CESIUM_ION_TOKEN provided; retaining OSM fallback.");
-  viewer.scene.globe.depthTestAgainstTerrain=true;
+      if(satelliteRes.status === "fulfilled" && satelliteRes.value) {
+        viewer.imageryLayers.removeAll();
+        const sat = satelliteRes.value;
+        if(sat instanceof Cesium.ImageryLayer) viewer.imageryLayers.add(sat);
+        else viewer.imageryLayers.addImageryProvider(sat);
+      }
+      if(terrainRes.status === "fulfilled" && terrainRes.value) {
+        terrainProvider = terrainRes.value;
+        if("terrain" in viewer) viewer.terrain = terrainRes.value;
+        else viewer.terrainProvider = terrainRes.value;
+        viewer.scene.globe.depthTestAgainstTerrain = true;
+      }
+    } catch(error) {
+      console.warn("Cesium Ion imagery/terrain could not load; retaining ESRI satellite fallback.",error);
+    }
+  } else {
+    console.log("Using ESRI satellite basemap for 3D view.");
+    viewer.scene.globe.depthTestAgainstTerrain = false;
+  }
+
   await renderCesiumPoints(false);
   await syncCesiumAllOverlays();
 
@@ -555,7 +653,17 @@ async function renderCesiumPoints(focus=false) {
 }
 
 function set3dStatus(message, visible) { const status=document.getElementById("three-d-status"); if(!status) return; status.textContent=message; status.hidden=!visible; }
-function focusCesiumOnMap(animate) { if(!viewer||!map) return; const center=map.getCenter(), zoom=map.getZoom(); const height=Math.max(3500,500000/Math.pow(2,Math.max(0,zoom-6))); const view={destination:Cesium.Cartesian3.fromDegrees(center.lng,center.lat,height),orientation:{heading:0,pitch:-Cesium.Math.PI_OVER_TWO,roll:0}}; if(animate)viewer.camera.flyTo({...view,duration:.45});else viewer.camera.setView(view); }
+function focusCesiumOnMap(animate) {
+  if(!viewer||!map) return;
+  const center=map.getCenter(), zoom=map.getZoom();
+  const height=Math.max(3500,500000/Math.pow(2,Math.max(0,zoom-6)));
+  const view={
+    destination:Cesium.Cartesian3.fromDegrees(center.lng,center.lat,height),
+    orientation:{heading:0, pitch:Cesium.Math.toRadians(-55), roll:0}
+  };
+  if(animate) viewer.camera.flyTo({...view, duration:1.0});
+  else viewer.camera.setView(view);
+}
 function zoomCesium(direction) { if(!viewer||!document.getElementById("cesium-map").classList.contains("active"))return; const amount=Math.max(350,viewer.camera.positionCartographic.height*.42); if(direction>0)viewer.camera.zoomIn(amount);else viewer.camera.zoomOut(amount);viewer.scene.requestRender(); }
 function leaveCesium() {
   const cesiumElement=document.getElementById("cesium-map");
@@ -627,10 +735,12 @@ function initControls() {
   if (commToggle) {
     commToggle.addEventListener("change", (e) => {
       if (!communityReportsLayer) return;
+      const currentDist = document.getElementById("district")?.value || "all";
+      renderCommunityReports(currentDist);
       if (e.target.checked) {
-        map.addLayer(communityReportsLayer);
+        if (!map.hasLayer(communityReportsLayer)) map.addLayer(communityReportsLayer);
       } else {
-        map.removeLayer(communityReportsLayer);
+        if (map.hasLayer(communityReportsLayer)) map.removeLayer(communityReportsLayer);
       }
     });
   }
@@ -661,11 +771,67 @@ function initControls() {
  
 // --- COMMUNITY REPORTS MODULE ---
 let communityReportsLayer = null;
+let cachedCommunityReportsData = null;
 let reportPinMarker = null;
+
+function renderCommunityReports(district = "all") {
+  if (!communityReportsLayer || !cachedCommunityReportsData) return;
+  communityReportsLayer.clearLayers();
+  const commToggle = document.getElementById("toggle-community");
+  if (commToggle && !commToggle.checked) return;
+
+  let distFeature = null, distBounds = null;
+  if (district && district !== "all" && boundaryData?.features) {
+    distFeature = boundaryData.features.find(f => districtName(f).toLowerCase() === district.toLowerCase());
+    if (distFeature) distBounds = L.geoJSON(distFeature).getBounds();
+  }
+
+  (cachedCommunityReportsData.features || []).forEach(feature => {
+    const [lng, lat] = feature.geometry.coordinates;
+    const props = feature.properties || {};
+
+    if (district && district !== "all") {
+      const repDist = (props.district || "").toLowerCase();
+      if (repDist !== district.toLowerCase() && distFeature && !isPointInDistrict(lat, lng, distFeature, distBounds)) return;
+      if (distFeature && !isPointInDistrict(lat, lng, distFeature, distBounds)) return;
+    }
+
+    const icon = L.divIcon({
+      className: "community-marker-icon",
+      html: `<div class="community-beacon-pin" title="Citizen Report: ${props.movement_type} (${props.severity})"><span class="beacon-pulse"></span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg></div>`,
+      iconSize: [28, 28],
+      iconAnchor: [14, 14]
+    });
+
+    const marker = L.marker([lat, lng], { icon: icon });
+    const photoHtml = props.photo_url ? 
+      `<div class="popup-photo-wrap"><img src="${props.photo_url}" alt="Reported Landslide" class="popup-report-photo"></div>` : "";
+
+    const popupContent = `
+      <div class="community-popup">
+        <div class="popup-header-tag">
+          <span class="popup-severity severity-${(props.severity || 'moderate').toLowerCase()}">${(props.severity || 'MODERATE').toUpperCase()}</span>
+          <span class="popup-id">${props.id || 'REPORT'}</span>
+        </div>
+        <h4 class="popup-title">${props.movement_type || 'Landslide'} &bull; ${props.district}</h4>
+        ${photoHtml}
+        <p class="popup-desc">${props.description || 'Citizen-reported slope instability incident.'}</p>
+        <div class="popup-meta-row">
+          <span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:3px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>${props.incident_date || 'Recent'}</span>
+          <span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:3px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>${props.reporter_name || 'Anonymous'}</span>
+        </div>
+        <div class="popup-coords-row"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>${lat.toFixed(4)}° N, ${lng.toFixed(4)}° E</div>
+      </div>
+    `;
+    marker.bindPopup(popupContent, { maxWidth: 280, className: "community-leaflet-popup" });
+    communityReportsLayer.addLayer(marker);
+  });
+}
 
 async function loadCommunityReports() {
   try {
     const data = await fetchJSON("/api/reports");
+    cachedCommunityReportsData = data;
     if (!communityReportsLayer) {
       communityReportsLayer = L.markerClusterGroup({
         maxClusterRadius: 35,
@@ -676,44 +842,9 @@ async function loadCommunityReports() {
       if (!commToggle || commToggle.checked) {
         communityReportsLayer.addTo(map);
       }
-    } else {
-      communityReportsLayer.clearLayers();
     }
-
-    (data.features || []).forEach(feature => {
-      const [lng, lat] = feature.geometry.coordinates;
-      const props = feature.properties || {};
-
-      const icon = L.divIcon({
-        className: "community-marker-icon",
-        html: `<div class="community-beacon-pin" title="Citizen Report: ${props.movement_type} (${props.severity})"><span class="beacon-pulse"></span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg></div>`,
-        iconSize: [28, 28],
-        iconAnchor: [14, 14]
-      });
-
-      const marker = L.marker([lat, lng], { icon: icon });
-      const photoHtml = props.photo_url ? 
-        `<div class="popup-photo-wrap"><img src="${props.photo_url}" alt="Reported Landslide" class="popup-report-photo"></div>` : "";
-
-      const popupContent = `
-        <div class="community-popup">
-          <div class="popup-header-tag">
-            <span class="popup-severity severity-${(props.severity || 'moderate').toLowerCase()}">${(props.severity || 'MODERATE').toUpperCase()}</span>
-            <span class="popup-id">${props.id || 'REPORT'}</span>
-          </div>
-          <h4 class="popup-title">${props.movement_type || 'Landslide'} &bull; ${props.district}</h4>
-          ${photoHtml}
-          <p class="popup-desc">${props.description || 'Citizen-reported slope instability incident.'}</p>
-          <div class="popup-meta-row">
-            <span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:3px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>${props.incident_date || 'Recent'}</span>
-            <span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:3px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>${props.reporter_name || 'Anonymous'}</span>
-          </div>
-          <div class="popup-coords-row"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>${lat.toFixed(4)}° N, ${lng.toFixed(4)}° E</div>
-        </div>
-      `;
-      marker.bindPopup(popupContent, { maxWidth: 280, className: "community-leaflet-popup" });
-      communityReportsLayer.addLayer(marker);
-    });
+    const currentDist = document.getElementById("district")?.value || "all";
+    renderCommunityReports(currentDist);
   } catch (err) {
     console.warn("Failed to load community reports", err);
   }
