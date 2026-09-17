@@ -1,6 +1,7 @@
 "use strict";
 let map, markerLayer, allFeatures = [], filteredFeatures = [], selectedMarker, boundaryData, districtLayer, maskLayer, viewer, terrainProvider, billboardCollection, terrainRenderVersion = 0, last2DView, cesiumDistrictDataSource, cesiumBoundaryVersion = 0;
 let roadLayer = null, polygonLayer = null, environmentalLayer = null, environmentalMeta = null;
+let cesiumRoadsDataSource = null, cesiumPolygonsDataSource = null, cesiumEnvLayer = null;
 let cachedRoadsGeoJSON = null;
 let currentEnvChoice = "none", currentEnvOpacity = 0.8;
 const MAP_CONFIG = { center:[31.75,77.1], zoom:8, minZoom:6, maxZoom:18 };
@@ -161,6 +162,7 @@ function switchBase(name) { Object.values(layers).forEach(layer=>map.removeLayer
 
 // --- ARCGIS OVERLAY MANAGEMENT ---
 async function toggleRoads(visible) {
+  updateCesiumRoads(visible);
   if (!visible) {
     if (roadLayer && map.hasLayer(roadLayer)) map.removeLayer(roadLayer);
     return;
@@ -211,6 +213,7 @@ async function toggleRoads(visible) {
 }
 
 async function togglePolygons(visible) {
+  updateCesiumPolygons(visible);
   if (!visible) {
     if (polygonLayer && map.hasLayer(polygonLayer)) map.removeLayer(polygonLayer);
     return;
@@ -266,6 +269,7 @@ async function togglePolygons(visible) {
 
 async function toggleEnvironmental(choice, opacity) {
   currentEnvChoice = choice;
+  updateCesiumEnvironmental(choice, opacity);
   const opacityWrap = document.getElementById("env-opacity-wrap");
   const envLegendCard = document.getElementById("env-legend-card");
   const envLegendTitle = document.getElementById("env-legend-title");
@@ -310,10 +314,147 @@ async function toggleEnvironmental(choice, opacity) {
   envLegendCard.style.display = "block";
 }
 
-// --- CESIUM 3D INTEGRATION ---
+// --- CESIUM 3D INTEGRATION & OVERLAY MIRRORING ---
+async function updateCesiumRoads(visible) {
+  if (!viewer) return;
+  if (cesiumRoadsDataSource) {
+    viewer.dataSources.remove(cesiumRoadsDataSource, true);
+    cesiumRoadsDataSource = null;
+  }
+  if (!visible) {
+    viewer.scene.requestRender();
+    return;
+  }
+  if (!cachedRoadsGeoJSON) {
+    try {
+      cachedRoadsGeoJSON = await fetchJSON("/api/roads");
+    } catch (e) {
+      console.warn("Failed to fetch roads for 3D", e);
+      return;
+    }
+  }
+  try {
+    cesiumRoadsDataSource = await Cesium.GeoJsonDataSource.load(cachedRoadsGeoJSON, {
+      stroke: Cesium.Color.fromCssColorString("#fb923c"),
+      strokeWidth: 3,
+      clampToGround: true
+    });
+    const entities = cesiumRoadsDataSource.entities.values;
+    for (let i = 0; i < entities.length; i++) {
+      const entity = entities[i];
+      entity._himaType = "road";
+      if (entity.polyline) {
+        entity.polyline.clampToGround = true;
+        entity.polyline.width = 3;
+        entity.polyline.material = Cesium.Color.fromCssColorString("#fb923c");
+      }
+    }
+    await viewer.dataSources.add(cesiumRoadsDataSource);
+    viewer.scene.requestRender();
+  } catch (err) {
+    console.warn("Could not add roads to 3D terrain", err);
+  }
+}
+
+async function updateCesiumPolygons(visible) {
+  if (!viewer) return;
+  if (cesiumPolygonsDataSource) {
+    viewer.dataSources.remove(cesiumPolygonsDataSource, true);
+    cesiumPolygonsDataSource = null;
+  }
+  if (!visible) {
+    viewer.scene.requestRender();
+    return;
+  }
+  const district = document.getElementById("district")?.value || "all";
+  const targetUrl = district && district.toLowerCase() === "mandi"
+    ? "/api/landslide-polygons?district=mandi"
+    : (district && district !== "all" ? `/api/landslide-polygons?district=${encodeURIComponent(district)}` : "/api/landslide-polygons");
+
+  try {
+    const polyData = await fetchJSON(targetUrl);
+    cesiumPolygonsDataSource = await Cesium.GeoJsonDataSource.load(polyData, {
+      clampToGround: true
+    });
+    const entities = cesiumPolygonsDataSource.entities.values;
+    for (let i = 0; i < entities.length; i++) {
+      const entity = entities[i];
+      entity._himaType = "polygon";
+      if (entity.polygon) {
+        entity.polygon.classificationType = Cesium.ClassificationType.TERRAIN;
+        entity.polygon.material = Cesium.Color.fromCssColorString("#f59e0b").withAlpha(0.42);
+        entity.polygon.outline = true;
+        entity.polygon.outlineColor = Cesium.Color.fromCssColorString("#d97706");
+      }
+    }
+    await viewer.dataSources.add(cesiumPolygonsDataSource);
+    viewer.scene.requestRender();
+  } catch (err) {
+    console.warn("Could not add polygons to 3D terrain", err);
+  }
+}
+
+async function updateCesiumEnvironmental(choice, opacity) {
+  if (!viewer) return;
+  if (cesiumEnvLayer) {
+    viewer.imageryLayers.remove(cesiumEnvLayer, true);
+    cesiumEnvLayer = null;
+  }
+  if (choice === "none") {
+    viewer.scene.requestRender();
+    return;
+  }
+  if (!environmentalMeta) {
+    try {
+      const res = await fetchJSON("/api/environmental-layers");
+      environmentalMeta = res.layers || {};
+    } catch (e) {
+      console.warn("Failed to load environmental metadata for 3D", e);
+      return;
+    }
+  }
+  const meta = environmentalMeta[choice];
+  if (!meta) return;
+  try {
+    const rect = Cesium.Rectangle.fromDegrees(
+      meta.bounds[0][1], meta.bounds[0][0], meta.bounds[1][1], meta.bounds[1][0]
+    );
+    const provider = new Cesium.SingleTileImageryProvider({
+      url: meta.url,
+      rectangle: rect
+    });
+    cesiumEnvLayer = viewer.imageryLayers.addImageryProvider(provider);
+    cesiumEnvLayer.alpha = opacity;
+    viewer.scene.requestRender();
+  } catch (err) {
+    console.warn("Could not add environmental overlay to 3D terrain", err);
+  }
+}
+
+async function syncCesiumAllOverlays() {
+  if (!viewer) return;
+  const showPoints = document.getElementById("toggle-points") ? document.getElementById("toggle-points").checked : true;
+  const showPolygons = document.getElementById("toggle-polygons") ? document.getElementById("toggle-polygons").checked : false;
+  const showRoads = document.getElementById("toggle-roads") ? document.getElementById("toggle-roads").checked : false;
+  const envChoice = document.querySelector('input[name="env-layer-choice"]:checked')?.value || "none";
+
+  if (billboardCollection) billboardCollection.show = showPoints;
+  await Promise.all([
+    updateCesiumRoads(showRoads),
+    updateCesiumPolygons(showPolygons),
+    updateCesiumEnvironmental(envChoice, currentEnvOpacity)
+  ]);
+}
+
 async function initCesium() {
   const mapCenter=map.getCenter(); last2DView={center:[mapCenter.lat,mapCenter.lng],zoom:map.getZoom()};
-  if(viewer) { document.getElementById("cesium-map").classList.add("active"); document.getElementById("map").classList.add("hidden"); focusCesiumOnMap(true); return; }
+  if(viewer) {
+    document.getElementById("cesium-map").classList.add("active");
+    document.getElementById("map").classList.add("hidden");
+    focusCesiumOnMap(true);
+    await syncCesiumAllOverlays();
+    return;
+  }
   const target=document.getElementById("cesium-map"); target.classList.add("active"); document.getElementById("map").classList.add("hidden");
   const token=window.HIMA_CONFIG?.cesiumIonToken;
   if(token) Cesium.Ion.defaultAccessToken=token;
@@ -332,14 +473,66 @@ async function initCesium() {
       terrainProvider=terrain; viewer.terrainProvider=terrain;
     } catch(error) { console.warn("Cesium Ion imagery/terrain could not load; retaining OSM fallback.",error); }
   } else console.warn("No CESIUM_ION_TOKEN provided; retaining OSM fallback.");
-  viewer.scene.globe.depthTestAgainstTerrain=true; await renderCesiumPoints(false);
-  viewer.screenSpaceEventHandler.setInputAction(movement=>{ const picked=viewer.scene.pick(movement.position); const feature=picked?.id; if(feature?.type==="Feature") { const [lng,lat]=feature.geometry.coordinates; drawer(feature,Number(lat),Number(lng)); } },Cesium.ScreenSpaceEventType.LEFT_CLICK);
+  viewer.scene.globe.depthTestAgainstTerrain=true;
+  await renderCesiumPoints(false);
+  await syncCesiumAllOverlays();
+
+  // Multi-entity 3D picking handler for points, roads, and polygons
+  viewer.screenSpaceEventHandler.setInputAction(movement => {
+    const picked = viewer.scene.pick(movement.position);
+    if (!picked) return;
+    const entity = picked.id;
+    if (!entity) return;
+
+    // 1. Point landslide billboard
+    if (entity.type === "Feature" || entity._himaType === "point") {
+      const [lng, lat] = entity.geometry.coordinates;
+      drawer(entity, Number(lat), Number(lng));
+      return;
+    }
+
+    // 2. Road entity from GeoJsonDataSource
+    if (entity._himaType === "road" || (entity.properties && entity.properties.hasProperty && entity.properties.hasProperty("category"))) {
+      const props = {};
+      if (entity.properties) {
+        const propNames = entity.properties.propertyNames || [];
+        propNames.forEach(name => {
+          const val = entity.properties[name];
+          props[name] = val && typeof val.getValue === "function" ? val.getValue() : val;
+        });
+      }
+      const carto = viewer.scene.globe.ellipsoid.cartesianToCartographic(viewer.camera.pickEllipsoid(movement.position) || Cesium.Cartesian3.ZERO);
+      const lat = carto ? Cesium.Math.toDegrees(carto.latitude) : 31.75;
+      const lng = carto ? Cesium.Math.toDegrees(carto.longitude) : 77.10;
+      roadDrawer({ properties: props }, lat, lng);
+      return;
+    }
+
+    // 3. Polygon entity from GeoJsonDataSource
+    if (entity._himaType === "polygon" || (entity.properties && entity.properties.hasProperty && (entity.properties.hasProperty("area_sq_m") || entity.properties.hasProperty("lulc")))) {
+      const props = {};
+      if (entity.properties) {
+        const propNames = entity.properties.propertyNames || [];
+        propNames.forEach(name => {
+          const val = entity.properties[name];
+          props[name] = val && typeof val.getValue === "function" ? val.getValue() : val;
+        });
+      }
+      const carto = viewer.scene.globe.ellipsoid.cartesianToCartographic(viewer.camera.pickEllipsoid(movement.position) || Cesium.Cartesian3.ZERO);
+      const lat = carto ? Cesium.Math.toDegrees(carto.latitude) : 31.75;
+      const lng = carto ? Cesium.Math.toDegrees(carto.longitude) : 77.10;
+      polygonDrawer({ properties: props }, lat, lng);
+      return;
+    }
+  }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 }
 
 async function renderCesiumPoints(focus=false) {
   if(!viewer) return; const version=++terrainRenderVersion;
   if(billboardCollection) viewer.scene.primitives.remove(billboardCollection);
   billboardCollection=viewer.scene.primitives.add(new Cesium.BillboardCollection());
+  const showPoints = document.getElementById("toggle-points") ? document.getElementById("toggle-points").checked : true;
+  billboardCollection.show = showPoints;
   const records=filteredFeatures.map(feature=>({feature, coordinates:feature.geometry.coordinates.map(Number)})).filter(record=>Number.isFinite(record.coordinates[0])&&Number.isFinite(record.coordinates[1]));
   const terrainPositions=records.map(record=>Cesium.Cartographic.fromDegrees(record.coordinates[0],record.coordinates[1]));
   set3dStatus(`PROJECTING ${records.length.toLocaleString("en-IN")} POINTS 7 m ABOVE TERRAIN…`, true);
@@ -392,6 +585,10 @@ function initControls() {
   if (pointsToggle) {
     pointsToggle.addEventListener("change", (e) => {
       renderFeatures(false, false);
+      if (billboardCollection) {
+        billboardCollection.show = e.target.checked;
+        viewer?.scene.requestRender();
+      }
       const legend = document.getElementById("points-legend-card");
       if (legend) legend.style.display = e.target.checked ? "block" : "none";
     });
@@ -423,6 +620,10 @@ function initControls() {
       currentEnvOpacity = val / 100;
       if (opVal) opVal.textContent = `${val}%`;
       if (environmentalLayer) environmentalLayer.setOpacity(currentEnvOpacity);
+      if (cesiumEnvLayer) {
+        cesiumEnvLayer.alpha = currentEnvOpacity;
+        viewer?.scene.requestRender();
+      }
     });
   }
 }
