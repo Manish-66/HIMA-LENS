@@ -8201,61 +8201,172 @@ button:disabled {
 /* Bottom Telemetry Overlay */
 .gis-bottom-telemetry {
     position: absolute;
-    bottom: 24px;
-    left: 24px;
-    z-index: 500;
+    bottom: 20px;
+    left: 20px;
+    z-index: 600;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
     pointer-events: none;
+    max-width: 440px;
 }
 
 .gis-legend-card {
     pointer-events: auto;
-    background: rgba(11, 24, 20, 0.88);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(16px);
-    border-radius: var(--radius-sm);
+    background: rgba(7, 24, 19, 0.94);
+    border: 1px solid rgba(114, 239, 185, 0.25);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    border-radius: 12px;
     padding: 10px 14px;
-    width: 220px;
+    min-width: 290px;
+    max-width: 380px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55), 0 0 16px rgba(16, 185, 129, 0.08);
+    transition: all 0.25s ease;
 }
 
-.legend-tag {
-    font-size: 7.5px;
-    font-weight: 850;
-    letter-spacing: 0.14em;
-    color: #8da49b;
-    display: block;
-    margin-bottom: 6px;
+.gis-legend-card:hover {
+    border-color: rgba(114, 239, 185, 0.38);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.65), 0 0 20px rgba(16, 185, 129, 0.14);
 }
 
-.legend-gradient-bar {
+.legend-card-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 8px;
-    color: #c7dcd4;
+    gap: 8px;
+    margin-bottom: 8px;
 }
 
-.color-track {
-    height: 4px;
-    width: 90px;
-    border-radius: 2px;
-    background: linear-gradient(90deg, #10b981, #f59e0b, #ef4444);
+.legend-tag {
+    font-size: 8px;
+    font-weight: 850;
+    letter-spacing: 0.14em;
+    color: #72efb9;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.legend-tag::before {
+    content: "";
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #72efb9;
+    box-shadow: 0 0 6px #72efb9;
+}
+
+.legend-badge {
+    font-size: 7.5px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: #8da49b;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 2px 7px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+/* Points failure profile chips */
+.legend-chips-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.legend-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3.5px 8px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 10px;
+    font-weight: 700;
+    color: #dff8ec;
+    transition: all 0.15s ease;
+}
+
+.legend-chip:hover {
+    background: rgba(114, 239, 185, 0.1);
+    border-color: rgba(114, 239, 185, 0.28);
+}
+
+.chip-symbol {
+    font-size: 9.5px;
+    line-height: 1;
+}
+
+.legend-chip.active-key .chip-symbol { color: #38bdf8; text-shadow: 0 0 6px rgba(56, 189, 248, 0.5); }
+.legend-chip.fall-key .chip-symbol { color: #f59e0b; text-shadow: 0 0 6px rgba(245, 158, 11, 0.5); }
+.legend-chip.slide-key .chip-symbol { color: #10b981; text-shadow: 0 0 6px rgba(16, 185, 129, 0.5); }
+.legend-chip.flow-key .chip-symbol { color: #a855f7; text-shadow: 0 0 6px rgba(168, 85, 247, 0.5); }
+.legend-chip.debris-key .chip-symbol { color: #ef4444; text-shadow: 0 0 6px rgba(239, 68, 68, 0.5); }
+
+/* Environmental Context 2-column Grid */
+.env-legend-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 5px 8px;
+}
+
+.env-legend-chip {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    min-width: 0;
+    transition: all 0.15s ease;
+}
+
+.env-legend-chip:hover {
+    background: rgba(114, 239, 185, 0.08);
+    border-color: rgba(114, 239, 185, 0.22);
+}
+
+.env-chip-swatch {
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+
+.env-chip-label {
+    font-size: 9.5px;
+    font-weight: 650;
+    color: #e2f4eb;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: 0.01em;
 }
 
 .gis-cursor-coords {
     pointer-events: auto;
-    display: inline-block;
-    padding: 6px 12px;
-    background: rgba(11, 24, 20, 0.88);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(12px);
-    border-radius: var(--radius-xs);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: rgba(7, 24, 19, 0.94);
+    border: 1px solid rgba(114, 239, 185, 0.22);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 8px;
     font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    font-size: 9px;
+    font-size: 9.5px;
     color: #72efb9;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    width: fit-content;
 }
 
 /* Interactive Slide-Over Feature Drawer */
@@ -9565,16 +9676,7 @@ body:has(.gis-console-layout) {
     box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
 }
 
-.gis-bottom-telemetry {
-    position: absolute;
-    bottom: 24px;
-    left: 24px;
-    z-index: 1000 !important;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    pointer-events: none;
-}
+/* Duplicate bottom-telemetry removed - handled above */
 
 .legend-key {
     font-size: 8.5px;
@@ -9722,12 +9824,14 @@ body:has(.gis-console-layout) {
     z-index: 1000;
     width: 100%;
     height: 74px;
-    background: rgba(247, 250, 248, 0.94);
-    border-bottom: 1px solid rgba(207, 220, 214, 0.85);
-    backdrop-filter: blur(24px) saturate(150%);
-    -webkit-backdrop-filter: blur(24px) saturate(150%);
+    background: rgba(7, 24, 19, 0.92);
+    border-bottom: 1px solid rgba(114, 239, 185, 0.16);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
     display: flex;
     align-items: center;
+    transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .header-inner {
@@ -9737,6 +9841,71 @@ body:has(.gis-console-layout) {
     align-items: center;
     justify-content: space-between;
     gap: 20px;
+}
+
+/* Brand Identity */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    user-select: none;
+}
+
+.brand-logo {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.24), rgba(5, 150, 105, 0.08));
+    border: 1px solid rgba(114, 239, 185, 0.36);
+    display: grid;
+    place-items: center;
+    color: #72efb9;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 850;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    box-shadow: 0 0 16px rgba(114, 239, 185, 0.18);
+    transition: all 0.25s ease;
+}
+
+.brand:hover .brand-logo {
+    border-color: #72efb9;
+    box-shadow: 0 0 24px rgba(114, 239, 185, 0.4);
+    transform: scale(1.04);
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.brand-name {
+    font-family: 'Manrope', sans-serif;
+    font-size: 17px;
+    font-weight: 850;
+    color: #ecfdf5;
+    letter-spacing: 0.03em;
+    line-height: 1.1;
+}
+
+.brand-name span {
+    color: #72efb9;
+    font-weight: 900;
+    margin: 0 1px;
+    text-shadow: 0 0 8px rgba(114, 239, 185, 0.6);
+}
+
+.brand-subtitle {
+    font-family: 'Manrope', sans-serif;
+    font-size: 8px;
+    font-weight: 750;
+    letter-spacing: 0.14em;
+    color: #6ee7b7;
+    text-transform: uppercase;
+    line-height: 1;
+    margin-top: 3px;
+    opacity: 0.85;
 }
 
 /* Right Navigation & Profile Group */
@@ -9755,27 +9924,29 @@ body:has(.gis-console-layout) {
 .main-nav a {
     display: inline-flex;
     align-items: center;
-    padding: 7px 16px;
+    padding: 7px 18px;
     border-radius: 999px;
-    color: #4b5e56;
+    color: #9bbcb0;
     font-size: 13px;
     font-weight: 650;
     text-decoration: none;
     border: 1px solid transparent;
     transition: all 0.2s ease;
+    letter-spacing: 0.02em;
 }
 
 .main-nav a:hover {
-    color: #0c261e;
-    background: rgba(255, 255, 255, 0.85);
-    border-color: #dce7e1;
+    color: #dff8ec;
+    background: rgba(114, 239, 185, 0.1);
+    border-color: rgba(114, 239, 185, 0.22);
 }
 
 .main-nav a.active {
-    color: #17624d;
-    background: #eef7f3;
-    border-color: #d4e8df;
-    font-weight: 750;
+    color: #071f19;
+    background: #72efb9;
+    border-color: #72efb9;
+    font-weight: 850;
+    box-shadow: 0 0 16px rgba(114, 239, 185, 0.35);
 }
 
 /* User Profile Widget */
@@ -9783,31 +9954,34 @@ body:has(.gis-console-layout) {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 5px 12px 5px 6px;
+    padding: 5px 14px 5px 6px;
     border-radius: 999px;
-    background: #ffffff;
-    border: 1px solid #dce7e1;
-    box-shadow: 0 2px 8px rgba(12, 38, 30, 0.04);
+    background: rgba(11, 31, 24, 0.85);
+    border: 1px solid rgba(114, 239, 185, 0.24);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .user-profile-widget:hover {
-    border-color: #17624d;
+    border-color: #72efb9;
+    background: rgba(16, 44, 34, 0.95);
     transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(23, 98, 77, 0.08);
+    box-shadow: 0 0 18px rgba(114, 239, 185, 0.25);
 }
 
 .user-avatar {
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #17624d, #0b2d25);
+    background: linear-gradient(135deg, #10b981, #064e3b);
+    border: 1px solid rgba(114, 239, 185, 0.4);
     color: #ffffff;
     display: grid;
     place-items: center;
     font-size: 12px;
-    font-weight: 800;
+    font-weight: 850;
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.3);
 }
 
 .user-meta {
@@ -9818,17 +9992,79 @@ body:has(.gis-console-layout) {
 .user-role {
     font-size: 7.5px;
     font-weight: 850;
-    letter-spacing: 0.12em;
-    color: #17624d;
+    letter-spacing: 0.14em;
+    color: #72efb9;
     line-height: 1;
 }
 
 .user-name {
-    font-size: 10px;
+    font-size: 10.5px;
     font-weight: 700;
-    color: #0c261e;
+    color: #e2f4eb;
     line-height: 1.2;
     margin-top: 2px;
+}
+
+/* Mobile Menu Button & Drawer */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 28px;
+    height: 18px;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    padding: 0;
+}
+
+.menu-toggle span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: #72efb9;
+    border-radius: 2px;
+    transition: all 0.25s ease;
+}
+
+.mobile-navigation {
+    display: none;
+    position: absolute;
+    top: 74px;
+    left: 0;
+    width: 100%;
+    background: rgba(7, 24, 19, 0.98);
+    border-bottom: 1px solid rgba(114, 239, 185, 0.2);
+    backdrop-filter: blur(24px);
+    padding: 16px 24px;
+}
+
+.mobile-nav-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.mobile-nav-inner a {
+    padding: 10px 16px;
+    border-radius: 8px;
+    color: #9bbcb0;
+    font-size: 14px;
+    font-weight: 650;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.mobile-nav-inner a.active,
+.mobile-nav-inner a:hover {
+    color: #071f19;
+    background: #72efb9;
+}
+
+@media (max-width: 860px) {
+    .main-nav { display: none; }
+    .menu-toggle { display: flex; }
+    .mobile-navigation.open { display: block; }
 }
 
 /* =========================================================
@@ -10161,29 +10397,243 @@ body:has(.gis-console-layout) {
 .cesium-zoom-control button { width:34px; height:34px; border:0; color:#dff8ec; background:transparent; font:700 21px/1 Manrope,sans-serif; cursor:pointer; }
 .cesium-zoom-control button + button { border-top:1px solid rgba(255,255,255,.14); }
 .cesium-zoom-control button:hover { color:#071f19; background:#72efb9; }
-.map-mode-control { position:absolute; z-index:700; right:14px; bottom:78px; min-width:136px; border:1px solid rgba(255,255,255,.16); border-radius:8px; background:rgba(11,24,20,.94); box-shadow:0 8px 28px rgba(0,0,0,.38); overflow:visible; }
-.layers-toggle { display:flex; align-items:center; gap:8px; width:100%; padding:10px 11px; border:0; border-radius:8px; color:#dff8ec; background:transparent; font:800 10px Manrope,sans-serif; letter-spacing:.04em; cursor:pointer; }
-.layers-toggle:hover { background:rgba(116,240,183,.14); }
-.layers-icon { color:#72efb9; font-size:16px; line-height:10px; transform:rotate(180deg); }
-.layers-chevron { margin-left:auto; color:#8da49b; font-size:14px; }
-.layers-menu { position:absolute; right:0; bottom:calc(100% + 7px); width:230px; max-height:82vh; overflow-y:auto; padding:8px 10px; border:1px solid rgba(116,240,183,.25); border-radius:10px; background:rgba(7,24,19,.97); backdrop-filter:blur(14px); box-shadow:0 12px 36px rgba(0,0,0,.55); }
-.layers-menu[hidden] { display:none; }
-.layers-menu-header { font:800 9px/1 Manrope,sans-serif; letter-spacing:.12em; color:#72efb9; padding:6px 4px 4px; text-transform:uppercase; }
-.layers-btn-group { display:grid; grid-template-columns:1fr 1fr; gap:4px; margin-bottom:6px; }
-.layer-choice-btn { width:100%; padding:7px 8px; border:1px solid rgba(255,255,255,.12); border-radius:6px; color:#c7dcd4; background:rgba(255,255,255,.03); text-align:center; font:700 9.5px Manrope,sans-serif; cursor:pointer; transition:all .15s ease; }
-.layer-choice-btn:hover { color:#071f19; background:#72efb9; border-color:#72efb9; }
-.layer-choice-btn.active { color:#071f19; background:#72efb9; border-color:#72efb9; font-weight:800; box-shadow:0 0 10px rgba(114,239,185,.35); }
-.layers-section-divider { height:1px; background:rgba(255,255,255,.1); margin:6px 0; }
-.layer-toggle-row { display:flex; align-items:center; gap:8px; padding:5px; border-radius:6px; font:600 10.5px Manrope,sans-serif; color:#dff8ec; cursor:pointer; transition:background .15s ease; }
-.layer-toggle-row:hover { background:rgba(116,240,183,.1); }
-.layer-toggle-row input[type="checkbox"], .layer-toggle-row input[type="radio"] { accent-color:#10b981; width:14px; height:14px; cursor:pointer; }
-.layer-toggle-badge { display:inline-flex; align-items:center; justify-content:center; width:14px; font-size:11px; }
-.points-badge { color:#38bdf8; }
-.polygon-badge { color:#f59e0b; }
-.road-badge { color:#fb923c; font-weight:900; }
-.layers-opacity-control { padding:6px 4px 4px; }
-.opacity-label-row { display:flex; justify-content:space-between; font:700 9.5px Manrope,sans-serif; color:#8da49b; margin-bottom:4px; }
-.layers-opacity-control input[type="range"] { width:100%; height:4px; accent-color:#72efb9; cursor:pointer; }
+.map-mode-control {
+    position: absolute;
+    z-index: 700;
+    right: 18px;
+    bottom: 78px;
+    min-width: 140px;
+    border: 1px solid rgba(114, 239, 185, 0.3);
+    border-radius: 10px;
+    background: rgba(7, 24, 19, 0.94);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 14px rgba(16, 185, 129, 0.12);
+    overflow: visible;
+    transition: all 0.25s ease;
+}
+
+.map-mode-control:hover {
+    border-color: #72efb9;
+    box-shadow: 0 8px 36px rgba(0, 0, 0, 0.65), 0 0 20px rgba(114, 239, 185, 0.3);
+}
+
+.layers-toggle {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    width: 100%;
+    padding: 10px 14px;
+    border: 0;
+    border-radius: 10px;
+    color: #e2f4eb;
+    background: transparent;
+    font: 800 11px/1 'Manrope', sans-serif;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.layers-toggle:hover {
+    background: rgba(114, 239, 185, 0.12);
+}
+
+.layers-icon {
+    color: #72efb9;
+    font-size: 15px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-shadow: 0 0 8px rgba(114, 239, 185, 0.6);
+}
+
+.layers-chevron {
+    margin-left: auto;
+    color: #72efb9;
+    font-size: 12px;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.layers-toggle[aria-expanded="true"] .layers-chevron {
+    transform: rotate(180deg);
+}
+
+.layers-menu {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 9px);
+    width: 260px;
+    max-height: 80vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 12px 14px;
+    border: 1px solid rgba(114, 239, 185, 0.28);
+    border-radius: 12px;
+    background: rgba(6, 21, 16, 0.96);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.7), 0 0 24px rgba(16, 185, 129, 0.14);
+}
+
+.layers-menu::-webkit-scrollbar {
+    width: 5px;
+}
+
+.layers-menu::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.layers-menu::-webkit-scrollbar-thumb {
+    background: rgba(114, 239, 185, 0.25);
+    border-radius: 4px;
+}
+
+.layers-menu::-webkit-scrollbar-thumb:hover {
+    background: #72efb9;
+}
+
+.layers-menu[hidden] {
+    display: none;
+}
+
+.layers-menu-header {
+    font: 850 8.5px/1 'Manrope', sans-serif;
+    letter-spacing: 0.14em;
+    color: #72efb9;
+    padding: 8px 4px 6px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.layers-menu-header::before {
+    content: '';
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #72efb9;
+    box-shadow: 0 0 6px #72efb9;
+}
+
+.layers-btn-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.layer-choice-btn {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    color: #c7dcd4;
+    background: rgba(255, 255, 255, 0.04);
+    text-align: center;
+    font: 750 10.5px 'Manrope', sans-serif;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.layer-choice-btn:hover {
+    color: #071f19;
+    background: #72efb9;
+    border-color: #72efb9;
+    box-shadow: 0 0 12px rgba(114, 239, 185, 0.35);
+}
+
+.layer-choice-btn.active {
+    color: #071f19;
+    background: #72efb9;
+    border-color: #72efb9;
+    font-weight: 850;
+    box-shadow: 0 0 16px rgba(114, 239, 185, 0.45);
+}
+
+.layers-section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(114, 239, 185, 0.22), transparent);
+    margin: 8px 0;
+}
+
+.layer-toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 8px;
+    border-radius: 8px;
+    font: 650 11px/1.3 'Manrope', sans-serif;
+    color: #dff8ec;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+}
+
+.layer-toggle-row:hover {
+    background: rgba(114, 239, 185, 0.1);
+    color: #ffffff;
+}
+
+.layer-toggle-row input[type="checkbox"],
+.layer-toggle-row input[type="radio"] {
+    accent-color: #10b981;
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    margin: 0;
+}
+
+.layer-toggle-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    font-size: 11px;
+}
+
+.points-badge { color: #38bdf8; text-shadow: 0 0 6px rgba(56, 189, 248, 0.5); }
+.polygon-badge { color: #f59e0b; text-shadow: 0 0 6px rgba(245, 158, 11, 0.5); }
+.road-badge { color: #fb923c; font-weight: 900; text-shadow: 0 0 6px rgba(251, 146, 60, 0.5); }
+
+.layers-opacity-control {
+    padding: 8px 10px;
+    background: rgba(11, 31, 24, 0.7);
+    border: 1px solid rgba(114, 239, 185, 0.16);
+    border-radius: 8px;
+    margin-top: 6px;
+}
+
+.opacity-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font: 750 9.5px 'Manrope', sans-serif;
+    letter-spacing: 0.08em;
+    color: #8da49b;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+#env-opacity-val {
+    color: #72efb9;
+    font-weight: 850;
+    font-family: ui-monospace, SFMono-Regular, monospace;
+}
+
+.layers-opacity-control input[type="range"] {
+    width: 100%;
+    height: 5px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.12);
+    outline: none;
+    accent-color: #72efb9;
+    cursor: pointer;
+}
 .road-map-tooltip, .polygon-map-tooltip { padding:5px 9px; border:1px solid rgba(116,240,183,.4); border-radius:6px; color:#dff8ec; background:rgba(7,31,25,.95); box-shadow:0 4px 16px rgba(0,0,0,.4); font:700 10px Manrope,sans-serif; letter-spacing:.04em; }
 .active-district-banner { position:absolute; z-index:650; top:105px; left:24px; padding:10px 14px; border:1px solid rgba(116,240,183,.55); border-radius:8px; background:rgba(7,31,25,.92); color:#a7f3d0; font:800 10px Manrope,sans-serif; letter-spacing:.12em; box-shadow:0 8px 28px rgba(0,0,0,.32); }
 .district-map-tooltip { padding:7px 10px; border:1px solid rgba(116,240,183,.55); border-radius:6px; color:#dff8ec; background:rgba(7,31,25,.94); box-shadow:0 5px 18px rgba(0,0,0,.32); font:800 10px Manrope,sans-serif; letter-spacing:.08em; }

@@ -158,19 +158,25 @@ HIMA-LENS | Interactive Geospatial Landslide Explorer
         <!-- Floating Bottom Telemetry & Coordinates -->
         <div class="gis-bottom-telemetry">
             <div class="gis-legend-card" id="points-legend-card">
-                <span class="legend-tag">FAILURE PROFILE & ACTIVITY</span>
-                <div class="legend-gradient-bar">
-                    <span class="legend-key active-key">● Active</span>
-                    <span class="legend-key fall-key">◆ Fall</span>
-                    <span class="legend-key slide-key">▲ Slide</span>
-                    <span class="legend-key flow-key">≈ Flow</span>
-                    <span class="legend-key debris-key">⬟ Debris</span>
+                <div class="legend-card-header">
+                    <span class="legend-tag">FAILURE PROFILE &amp; ACTIVITY</span>
+                    <span class="legend-badge">5 TYPES</span>
+                </div>
+                <div class="legend-chips-row">
+                    <span class="legend-chip active-key"><span class="chip-symbol">●</span> Active</span>
+                    <span class="legend-chip fall-key"><span class="chip-symbol">◆</span> Fall</span>
+                    <span class="legend-chip slide-key"><span class="chip-symbol">▲</span> Slide</span>
+                    <span class="legend-chip flow-key"><span class="chip-symbol">≈</span> Flow</span>
+                    <span class="legend-chip debris-key"><span class="chip-symbol">⬟</span> Debris</span>
                 </div>
             </div>
 
             <div class="gis-legend-card" id="env-legend-card" style="display:none;">
-                <span class="legend-tag" id="env-legend-title">ENVIRONMENTAL CONTEXT</span>
-                <div class="legend-gradient-bar" id="env-legend-items"></div>
+                <div class="legend-card-header">
+                    <span class="legend-tag" id="env-legend-title">ENVIRONMENTAL CONTEXT</span>
+                    <span class="legend-badge" id="env-legend-badge">10M RASTER</span>
+                </div>
+                <div class="env-legend-grid" id="env-legend-items"></div>
             </div>
 
             <div class="gis-cursor-coords" id="cursor-coords">

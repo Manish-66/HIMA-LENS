@@ -309,7 +309,10 @@ async function toggleEnvironmental(choice, opacity) {
 
   envLegendTitle.textContent = meta.title.toUpperCase();
   envLegendItems.innerHTML = meta.legend.map(item =>
-    `<span class="legend-key" style="color:${item.color};"><span style="display:inline-block;width:9px;height:9px;border-radius:2px;background:${item.color};margin-right:4px;vertical-align:middle;"></span>${item.label}</span>`
+    `<div class="env-legend-chip" title="${item.label}">
+      <span class="env-chip-swatch" style="background:${item.color};box-shadow:0 0 8px ${item.color}90;"></span>
+      <span class="env-chip-label">${item.label}</span>
+    </div>`
   ).join("");
   envLegendCard.style.display = "block";
 }
@@ -572,8 +575,15 @@ function initControls() {
 
   // Layers Menu Toggle
   const toggle=document.getElementById("layers-toggle"), menu=document.getElementById("layers-menu");
-  toggle.addEventListener("click",()=>{
+  toggle.addEventListener("click",(e)=>{
+    e.stopPropagation();
     const open=menu.hidden; menu.hidden=!open; toggle.setAttribute("aria-expanded",String(open));
+  });
+  document.addEventListener("click",(e)=>{
+    if (!toggle.contains(e.target) && !menu.contains(e.target) && !menu.hidden) {
+      menu.hidden = true;
+      toggle.setAttribute("aria-expanded", "false");
+    }
   });
 
   // Base map choice
