@@ -92,10 +92,58 @@ HIMA-LENS | Interactive Geospatial Landslide Explorer
                 <span class="layers-icon" aria-hidden="true">▱</span><span>Layers</span><span class="layers-chevron" aria-hidden="true">⌄</span>
             </button>
             <div id="layers-menu" class="layers-menu" hidden>
-                <button type="button" data-layer-choice="standard">Standard</button>
-                <button type="button" data-layer-choice="satellite">Satellite</button>
-                <button type="button" data-layer-choice="terrain">Terrain</button>
-                <button type="button" data-layer-choice="3d">3D Terrain</button>
+                <div class="layers-menu-header">BASE MAP</div>
+                <div class="layers-btn-group">
+                    <button type="button" class="layer-choice-btn active" data-layer-choice="standard">Standard</button>
+                    <button type="button" class="layer-choice-btn" data-layer-choice="satellite">Satellite</button>
+                    <button type="button" class="layer-choice-btn" data-layer-choice="terrain">Terrain</button>
+                    <button type="button" class="layer-choice-btn" data-layer-choice="3d">3D Terrain</button>
+                </div>
+
+                <div class="layers-section-divider"></div>
+                <div class="layers-menu-header">GEOSPATIAL OVERLAYS</div>
+                <label class="layer-toggle-row">
+                    <input type="checkbox" id="toggle-points" checked>
+                    <span class="layer-toggle-badge points-badge">●</span>
+                    <span>Landslide Inventory</span>
+                </label>
+                <label class="layer-toggle-row">
+                    <input type="checkbox" id="toggle-polygons">
+                    <span class="layer-toggle-badge polygon-badge">▰</span>
+                    <span>Hazard Zones (Polygons)</span>
+                </label>
+                <label class="layer-toggle-row">
+                    <input type="checkbox" id="toggle-roads">
+                    <span class="layer-toggle-badge road-badge">━</span>
+                    <span>Mandi Road Network</span>
+                </label>
+
+                <div class="layers-section-divider"></div>
+                <div class="layers-menu-header">ENVIRONMENTAL CONTEXT (MANDI)</div>
+                <label class="layer-toggle-row">
+                    <input type="radio" name="env-layer-choice" value="none" checked>
+                    <span>None</span>
+                </label>
+                <label class="layer-toggle-row">
+                    <input type="radio" name="env-layer-choice" value="lulc">
+                    <span>Land Cover (LULC 2023)</span>
+                </label>
+                <label class="layer-toggle-row">
+                    <input type="radio" name="env-layer-choice" value="geomorphology">
+                    <span>Geomorphology</span>
+                </label>
+                <label class="layer-toggle-row">
+                    <input type="radio" name="env-layer-choice" value="lithology">
+                    <span>Lithology (Bedrock)</span>
+                </label>
+
+                <div class="layers-opacity-control" id="env-opacity-wrap" style="display:none;">
+                    <div class="opacity-label-row">
+                        <span>Layer Opacity</span>
+                        <span id="env-opacity-val">80%</span>
+                    </div>
+                    <input type="range" id="env-opacity-slider" min="15" max="100" value="80">
+                </div>
             </div>
         </div>
         <div id="active-district-banner" class="active-district-banner" hidden></div>
@@ -109,7 +157,7 @@ HIMA-LENS | Interactive Geospatial Landslide Explorer
 
         <!-- Floating Bottom Telemetry & Coordinates -->
         <div class="gis-bottom-telemetry">
-            <div class="gis-legend-card">
+            <div class="gis-legend-card" id="points-legend-card">
                 <span class="legend-tag">FAILURE PROFILE & ACTIVITY</span>
                 <div class="legend-gradient-bar">
                     <span class="legend-key active-key">● Active</span>
@@ -118,6 +166,11 @@ HIMA-LENS | Interactive Geospatial Landslide Explorer
                     <span class="legend-key flow-key">≈ Flow</span>
                     <span class="legend-key debris-key">⬟ Debris</span>
                 </div>
+            </div>
+
+            <div class="gis-legend-card" id="env-legend-card" style="display:none;">
+                <span class="legend-tag" id="env-legend-title">ENVIRONMENTAL CONTEXT</span>
+                <div class="legend-gradient-bar" id="env-legend-items"></div>
             </div>
 
             <div class="gis-cursor-coords" id="cursor-coords">

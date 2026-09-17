@@ -10166,10 +10166,25 @@ body:has(.gis-console-layout) {
 .layers-toggle:hover { background:rgba(116,240,183,.14); }
 .layers-icon { color:#72efb9; font-size:16px; line-height:10px; transform:rotate(180deg); }
 .layers-chevron { margin-left:auto; color:#8da49b; font-size:14px; }
-.layers-menu { position:absolute; right:0; bottom:calc(100% + 7px); width:160px; padding:5px; border:1px solid rgba(255,255,255,.15); border-radius:8px; background:rgba(11,24,20,.96); box-shadow:0 8px 28px rgba(0,0,0,.42); }
+.layers-menu { position:absolute; right:0; bottom:calc(100% + 7px); width:230px; max-height:82vh; overflow-y:auto; padding:8px 10px; border:1px solid rgba(116,240,183,.25); border-radius:10px; background:rgba(7,24,19,.97); backdrop-filter:blur(14px); box-shadow:0 12px 36px rgba(0,0,0,.55); }
 .layers-menu[hidden] { display:none; }
-.layers-menu button { display:block; width:100%; padding:9px 10px; border:0; border-radius:5px; color:#c7dcd4; background:transparent; text-align:left; font:700 10px Manrope,sans-serif; cursor:pointer; }
-.layers-menu button:hover { color:#071f19; background:#72efb9; }
+.layers-menu-header { font:800 9px/1 Manrope,sans-serif; letter-spacing:.12em; color:#72efb9; padding:6px 4px 4px; text-transform:uppercase; }
+.layers-btn-group { display:grid; grid-template-columns:1fr 1fr; gap:4px; margin-bottom:6px; }
+.layer-choice-btn { width:100%; padding:7px 8px; border:1px solid rgba(255,255,255,.12); border-radius:6px; color:#c7dcd4; background:rgba(255,255,255,.03); text-align:center; font:700 9.5px Manrope,sans-serif; cursor:pointer; transition:all .15s ease; }
+.layer-choice-btn:hover { color:#071f19; background:#72efb9; border-color:#72efb9; }
+.layer-choice-btn.active { color:#071f19; background:#72efb9; border-color:#72efb9; font-weight:800; box-shadow:0 0 10px rgba(114,239,185,.35); }
+.layers-section-divider { height:1px; background:rgba(255,255,255,.1); margin:6px 0; }
+.layer-toggle-row { display:flex; align-items:center; gap:8px; padding:5px; border-radius:6px; font:600 10.5px Manrope,sans-serif; color:#dff8ec; cursor:pointer; transition:background .15s ease; }
+.layer-toggle-row:hover { background:rgba(116,240,183,.1); }
+.layer-toggle-row input[type="checkbox"], .layer-toggle-row input[type="radio"] { accent-color:#10b981; width:14px; height:14px; cursor:pointer; }
+.layer-toggle-badge { display:inline-flex; align-items:center; justify-content:center; width:14px; font-size:11px; }
+.points-badge { color:#38bdf8; }
+.polygon-badge { color:#f59e0b; }
+.road-badge { color:#fb923c; font-weight:900; }
+.layers-opacity-control { padding:6px 4px 4px; }
+.opacity-label-row { display:flex; justify-content:space-between; font:700 9.5px Manrope,sans-serif; color:#8da49b; margin-bottom:4px; }
+.layers-opacity-control input[type="range"] { width:100%; height:4px; accent-color:#72efb9; cursor:pointer; }
+.road-map-tooltip, .polygon-map-tooltip { padding:5px 9px; border:1px solid rgba(116,240,183,.4); border-radius:6px; color:#dff8ec; background:rgba(7,31,25,.95); box-shadow:0 4px 16px rgba(0,0,0,.4); font:700 10px Manrope,sans-serif; letter-spacing:.04em; }
 .active-district-banner { position:absolute; z-index:650; top:105px; left:24px; padding:10px 14px; border:1px solid rgba(116,240,183,.55); border-radius:8px; background:rgba(7,31,25,.92); color:#a7f3d0; font:800 10px Manrope,sans-serif; letter-spacing:.12em; box-shadow:0 8px 28px rgba(0,0,0,.32); }
 .district-map-tooltip { padding:7px 10px; border:1px solid rgba(116,240,183,.55); border-radius:6px; color:#dff8ec; background:rgba(7,31,25,.94); box-shadow:0 5px 18px rgba(0,0,0,.32); font:800 10px Manrope,sans-serif; letter-spacing:.08em; }
 .district-map-tooltip::before { border-top-color:rgba(7,31,25,.94); }

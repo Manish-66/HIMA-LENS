@@ -1,0 +1,126 @@
+{
+  "lulc": {
+    "title": "Land Use / Land Cover (2023)",
+    "url": "/static/overlays/lulc.png",
+    "bounds": [
+      [
+        31.237846,
+        76.610662
+      ],
+      [
+        32.062971,
+        77.406917
+      ]
+    ],
+    "legend": [
+      {
+        "label": "Forest / Trees",
+        "color": "#35824a"
+      },
+      {
+        "label": "Rangeland",
+        "color": "#e2cf87"
+      },
+      {
+        "label": "Crops",
+        "color": "#e49635"
+      },
+      {
+        "label": "Built Area",
+        "color": "#c4281b"
+      },
+      {
+        "label": "Water",
+        "color": "#419bdf"
+      },
+      {
+        "label": "Bare Ground",
+        "color": "#a59b8f"
+      },
+      {
+        "label": "Snow / Ice",
+        "color": "#a8ebff"
+      }
+    ]
+  },
+  "geomorphology": {
+    "title": "Geomorphology",
+    "url": "/static/overlays/geomorphology.png",
+    "bounds": [
+      [
+        31.237864,
+        76.610725
+      ],
+      [
+        32.062925,
+        77.406793
+      ]
+    ],
+    "legend": [
+      {
+        "label": "Highly Dissected Hills",
+        "color": "#b45032"
+      },
+      {
+        "label": "Moderately Dissected Hills",
+        "color": "#d28c50"
+      },
+      {
+        "label": "Low Dissected Hills",
+        "color": "#e6be64"
+      },
+      {
+        "label": "Alluvial / Flood Plain",
+        "color": "#dcc88c"
+      },
+      {
+        "label": "Mass Wasting Products",
+        "color": "#dc3c3c"
+      },
+      {
+        "label": "Rivers & Waterbodies",
+        "color": "#2878d2"
+      }
+    ]
+  },
+  "lithology": {
+    "title": "Lithology (Bedrock Geology)",
+    "url": "/static/overlays/lithology.png",
+    "bounds": [
+      [
+        31.237864,
+        76.610725
+      ],
+      [
+        32.062925,
+        77.406793
+      ]
+    ],
+    "legend": [
+      {
+        "label": "Shale, Slate, Quartzite, Dolomite",
+        "color": "#c8b48c"
+      },
+      {
+        "label": "Quartzite & Shale Formations",
+        "color": "#c8aa82"
+      },
+      {
+        "label": "Sandstone, Clay & Siltstone",
+        "color": "#d2826e"
+      },
+      {
+        "label": "Phyllite & Schist Formations",
+        "color": "#96be96"
+      },
+      {
+        "label": "Dolomite & Limestone Groups",
+        "color": "#8ca0be"
+      },
+      {
+        "label": "Granite, Gneiss & Aplite",
+        "color": "#c88296"
+      }
+    ]
+  }
+}
