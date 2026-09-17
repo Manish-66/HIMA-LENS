@@ -125,10 +125,10 @@
         <!-- NAVIGATION + USER PROFILE (RIGHT) -->
         <div class="header-right-group">
             <nav class="main-nav" aria-label="Primary navigation">
-                <a href="{{ url_for('home') }}" class="{% if request.endpoint == 'home' and not request.args.get('action') %}active{% endif %}">Home</a>
-                <a href="{{ url_for('explore') }}" class="{% if request.endpoint == 'explore' and not request.args.get('action') %}active{% endif %}">Explore</a>
-                <a href="{{ url_for('explore') }}?action=report" class="{% if request.args.get('action') == 'report' %}active{% endif %}">Report</a>
+                <a href="{{ url_for('home') }}" class="{% if request.endpoint == 'home' %}active{% endif %}">Home</a>
+                <a href="{{ url_for('explore') }}" class="{% if request.endpoint == 'explore' %}active{% endif %}">Explore</a>
                 <a href="{{ url_for('feed') }}" class="{% if request.endpoint == 'feed' %}active{% endif %}">Events</a>
+                <a href="{{ url_for('report') }}" class="{% if request.endpoint == 'report' %}active{% endif %}">Report</a>
                 <a href="{{ url_for('about') }}" class="{% if request.endpoint == 'about' %}active{% endif %}">About</a>
             </nav>
 
@@ -162,10 +162,10 @@
     <!-- MOBILE NAVIGATION (DRAWER) -->
     <div class="mobile-navigation" id="mobile-navigation">
         <div class="mobile-nav-inner">
-            <a href="{{ url_for('home') }}" class="{% if request.endpoint == 'home' and not request.args.get('action') %}active{% endif %}">Home</a>
-            <a href="{{ url_for('explore') }}" class="{% if request.endpoint == 'explore' and not request.args.get('action') %}active{% endif %}">Explore</a>
-            <a href="{{ url_for('explore') }}?action=report" class="{% if request.args.get('action') == 'report' %}active{% endif %}">Report</a>
+            <a href="{{ url_for('home') }}" class="{% if request.endpoint == 'home' %}active{% endif %}">Home</a>
+            <a href="{{ url_for('explore') }}" class="{% if request.endpoint == 'explore' %}active{% endif %}">Explore</a>
             <a href="{{ url_for('feed') }}" class="{% if request.endpoint == 'feed' %}active{% endif %}">Events</a>
+            <a href="{{ url_for('report') }}" class="{% if request.endpoint == 'report' %}active{% endif %}">Report</a>
             <a href="{{ url_for('about') }}" class="{% if request.endpoint == 'about' %}active{% endif %}">About</a>
         </div>
     </div>

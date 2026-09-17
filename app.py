@@ -141,6 +141,10 @@ def explore():
 def feed():
     return render_template("feed.html")
 
+@app.get("/report")
+def report():
+    return render_template("report.html")
+
 @app.get("/about")
 def about():
     return render_template("about.html")

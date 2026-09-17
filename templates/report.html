@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+
+{% block title %}
+HIMA-LENS | Field Telemetry & Landslide Incident Reporting
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+{% endblock %}
+
+{% block content %}
+<div class="report-page-wrapper">
+
+    <!-- =====================================================
+         01. REPORT HERO HEADER
+    ====================================================== -->
+    <header class="report-hero">
+        <div class="report-hero-inner">
+            <div class="section-label">
+                <span class="live-ping"></span>
+                FIELD TELEMETRY &bull; WESTERN HIMALAYA
+            </div>
+            <h1 class="report-title">
+                Report a <span class="hero-title-accent">Landslide Event.</span>
+            </h1>
+            <p class="report-description">
+                Contribute direct field observations, georeferenced photographs, and slope failure telemetry to Himachal Pradesh's spatial landslide inventory system.
+            </p>
+        </div>
+    </header>
+
+    <!-- =====================================================
+         02. REPORTING FORM SECTION
+    ====================================================== -->
+    <section class="report-form-section">
+        <div class="report-container">
+            <form id="citizen-report-form" class="report-form-grid" enctype="multipart/form-data">
+
+                <!-- COLUMN 1: GEOSPATIAL TELEMETRY -->
+                <div class="report-card">
+                    <div class="report-card-header">
+                        <span class="card-kicker">01 / SPATIAL TELEMETRY</span>
+                        <h2 class="card-heading">Pinpoint Location</h2>
+                        <p class="card-subheading">Drop a pin on the interactive map or lock your device's live GPS sensor.</p>
+                    </div>
+
+                    <!-- Mini Interactive Leaflet Map -->
+                    <div class="report-map-wrap">
+                        <div id="report-map" class="report-mini-map" aria-label="Location picker map"></div>
+                        <div class="map-hint-overlay">
+                            <span>Tap map to drop pin</span>
+                        </div>
+                    </div>
+
+                    <!-- GPS Lock Action -->
+                    <div class="gps-control-bar">
+                        <button type="button" id="report-gps-btn" class="btn-gps-acquire">
+                            <span class="gps-icon">🛰️</span>
+                            <span>Acquire High-Precision GPS</span>
+                        </button>
+                        <span id="report-gps-feedback" class="gps-feedback">Sensor idle</span>
+                    </div>
+
+                    <!-- Coordinates Grid -->
+                    <div class="report-coords-row">
+                        <div class="coord-field">
+                            <label for="rep-lat">LATITUDE (&deg;N)</label>
+                            <input type="number" id="rep-lat" name="latitude" step="0.000001" min="30.0" max="34.0" placeholder="e.g. 31.708234" required>
+                        </div>
+                        <div class="coord-field">
+                            <label for="rep-lng">LONGITUDE (&deg;E)</label>
+                            <input type="number" id="rep-lng" name="longitude" step="0.000001" min="75.0" max="80.0" placeholder="e.g. 76.931892" required>
+                        </div>
+                    </div>
+
+                    <!-- District & Landmark -->
+                    <div class="report-input-row">
+                        <div class="input-field-group">
+                            <label for="rep-district">DISTRICT</label>
+                            <div class="select-container">
+                                <select id="rep-district" name="district" required>
+                                    <option value="">Select District...</option>
+                                    <option value="Mandi">Mandi</option>
+                                    <option value="Shimla">Shimla</option>
+                                    <option value="Kullu">Kullu</option>
+                                    <option value="Kangra">Kangra</option>
+                                    <option value="Chamba">Chamba</option>
+                                    <option value="Solan">Solan</option>
+                                    <option value="Sirmaur">Sirmaur</option>
+                                    <option value="Kinnaur">Kinnaur</option>
+                                    <option value="Lahaul And Spiti">Lahaul And Spiti</option>
+                                    <option value="Bilaspur">Bilaspur</option>
+                                    <option value="Hamirpur">Hamirpur</option>
+                                    <option value="Una">Una</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="input-field-group">
+                            <label for="rep-landmark">HIGHWAY / LANDMARK (OPTIONAL)</label>
+                            <input type="text" id="rep-landmark" name="landmark" placeholder="e.g. NH-21 km 184 near Pandoh">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COLUMN 2: FIELD EVIDENCE & CHARACTERISTICS -->
+                <div class="report-card">
+                    <div class="report-card-header">
+                        <span class="card-kicker">02 / FIELD EVIDENCE &amp; IMPACT</span>
+                        <h2 class="card-heading">Incident Details</h2>
+                        <p class="card-subheading">Provide photographic evidence, classify movement dynamics, and record observations.</p>
+                    </div>
+
+                    <!-- Photo Upload Dropzone -->
+                    <div class="field-photo-container">
+                        <label class="field-label">ON-SITE PHOTOGRAPHIC EVIDENCE</label>
+                        <div class="field-photo-dropzone" id="dropzone-area">
+                            <input type="file" id="rep-photo-file" name="photo" accept="image/*" capture="environment" style="display:none;">
+                            <div class="dropzone-content" id="dropzone-empty">
+                                <div class="dropzone-icon-ring">
+                                    <span class="dropzone-camera-icon">📷</span>
+                                </div>
+                                <div class="dropzone-text">
+                                    <span class="dropzone-primary-text">Capture live photo or select file</span>
+                                    <span class="dropzone-sub-text">JPG, PNG, or WebP up to 16MB &bull; Live camera enabled</span>
+                                </div>
+                            </div>
+                            <div class="dropzone-preview" id="dropzone-preview" style="display:none;">
+                                <img id="preview-img-element" src="" alt="Field observation preview">
+                                <div class="preview-meta-bar">
+                                    <span id="preview-filename" class="preview-filename">photo.jpg</span>
+                                    <button type="button" id="btn-remove-photo" class="btn-remove-preview">&times; Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Movement Type & Severity Grid -->
+                    <div class="report-input-row">
+                        <div class="input-field-group">
+                            <label for="rep-movement">FAILURE TYPE</label>
+                            <div class="select-container">
+                                <select id="rep-movement" name="movement_type">
+                                    <option value="Slide">Slide / Mudslide</option>
+                                    <option value="Rock Fall">Rock Fall / Boulder Drop</option>
+                                    <option value="Debris Flow">Debris Flow / Torrent</option>
+                                    <option value="Topple">Topple / Overhang Failure</option>
+                                    <option value="Creep / Subsidence">Creep / Road Subsidence</option>
+                                    <option value="Complex">Complex / Multi-Tier Failure</option>
+                                    <option value="Unknown">Unknown / Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="input-field-group">
+                            <label for="rep-severity">SEVERITY &amp; THREAT</label>
+                            <div class="select-container">
+                                <select id="rep-severity" name="severity">
+                                    <option value="Moderate">Moderate (Partial lane disruption)</option>
+                                    <option value="High">High (Complete road severance)</option>
+                                    <option value="Critical">Critical (Risk to life / settlements)</option>
+                                    <option value="Low">Low (Minor bank slumping)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Date & Time of Occurrence -->
+                    <div class="input-field-group">
+                        <label for="rep-date">OCCURRENCE TIMESTAMP</label>
+                        <input type="datetime-local" id="rep-date" name="incident_date" class="datetime-input">
+                    </div>
+
+                    <!-- Field Observations Textarea -->
+                    <div class="input-field-group">
+                        <label for="rep-description">OBSERVATIONS &amp; INFRASTRUCTURE IMPACT</label>
+                        <textarea id="rep-description" name="description" rows="3" placeholder="Describe slope failure crown, water leakage, stream obstruction, stranded traffic, or structural damage..."></textarea>
+                    </div>
+
+                    <!-- Reporter Identification -->
+                    <div class="report-input-row">
+                        <div class="input-field-group">
+                            <label for="rep-name">REPORTER NAME (OPTIONAL)</label>
+                            <input type="text" id="rep-name" name="reporter_name" placeholder="e.g. Er. Sunil Verma">
+                        </div>
+                        <div class="input-field-group">
+                            <label for="rep-contact">AFFILIATION / CONTACT (OPTIONAL)</label>
+                            <input type="text" id="rep-contact" name="contact_info" placeholder="e.g. HPPWD / Resident / Researcher">
+                        </div>
+                    </div>
+
+                    <!-- Form Status Banner -->
+                    <div id="report-status-banner" class="report-status-banner" style="display:none;"></div>
+
+                    <!-- Submit Action -->
+                    <div class="report-submit-row">
+                        <button type="submit" id="btn-submit-report" class="btn-primary-submit">
+                            <span>Submit Field Report</span>
+                            <span class="submit-arrow">&rarr;</span>
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </section>
+
+    <!-- =====================================================
+         03. RECENT COMMUNITY FIELD REPORTS FEED
+    ====================================================== -->
+    <section class="recent-reports-section">
+        <div class="report-container">
+            <div class="recent-header-row">
+                <div>
+                    <div class="section-label">STATEWIDE FIELD OBSERVATIONS</div>
+                    <h2 class="section-title">Recent Verified <span>Submissions.</span></h2>
+                </div>
+                <a href="{{ url_for('explore') }}" class="text-link">
+                    <span>View on Live Spatial Explorer</span>
+                    <span>&nearr;</span>
+                </a>
+            </div>
+
+            <div id="recent-reports-grid" class="recent-reports-grid">
+                <div class="recent-loading">
+                    <span>Retrieving field telemetry records...</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script src="{{ url_for('static', filename='js/report.js') }}"></script>
+{% endblock %}

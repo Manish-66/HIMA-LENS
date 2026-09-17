@@ -74,15 +74,9 @@ HIMA-LENS | Interactive Geospatial Landslide Explorer
                 <span>↻</span>
                 <span>Reset</span>
             </button>
-
-            <button type="button" class="hud-action-btn hud-export-btn" id="open-export-modal" title="Download &amp; Export Landslide Data">
+            <button type="button" class="hud-reset-btn hud-export-trigger" id="open-export-modal" title="Download &amp; Export Landslide Data">
                 <span>📥</span>
-                <span>Download Data</span>
-            </button>
-
-            <button type="button" class="hud-action-btn hud-report-btn" id="open-report-drawer" title="Report New Landslide Incident">
-                <span>📷</span>
-                <span>Report Slide</span>
+                <span>Export</span>
             </button>
         </div>
     </header>
@@ -274,128 +268,6 @@ HIMA-LENS | Interactive Geospatial Landslide Explorer
         </div>
     </aside>
 
-    <!-- =====================================================
-         04. CITIZEN SCIENCE: REPORT LANDSLIDE DRAWER
-    ====================================================== -->
-    <aside class="gis-feature-drawer report-drawer" id="report-drawer">
-        <div class="drawer-header">
-            <div>
-                <span class="drawer-kicker">CITIZEN SCIENCE &amp; FIELD TELEMETRY</span>
-                <h3>Report Landslide Incident</h3>
-            </div>
-            <button type="button" class="drawer-close-btn" id="report-drawer-close" aria-label="Close report panel">&times;</button>
-        </div>
-
-        <form id="landslide-report-form" class="drawer-scroll-body" enctype="multipart/form-data">
-            <!-- Live Photo Capture Card -->
-            <div class="report-photo-section">
-                <label class="report-field-label">INCIDENT PHOTO EVIDENCE</label>
-                <div class="photo-dropzone" id="photo-dropzone">
-                    <input type="file" id="report-photo" name="photo" accept="image/*" capture="environment" style="display:none;">
-                    <div class="photo-prompt" id="photo-prompt">
-                        <span class="camera-icon">📷</span>
-                        <span class="prompt-main">Snap Live Photo or Upload Image</span>
-                        <span class="prompt-sub">JPG, PNG, WebP up to 12MB</span>
-                    </div>
-                    <div class="photo-preview-wrap" id="photo-preview-wrap" style="display:none;">
-                        <img id="photo-preview-img" src="" alt="Landslide preview">
-                        <button type="button" class="remove-photo-btn" id="remove-photo-btn" title="Remove photo">&times;</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- GPS Location Card -->
-            <div class="report-location-section">
-                <div class="location-header-row">
-                    <label class="report-field-label">GPS COORDINATES</label>
-                    <button type="button" class="fetch-gps-btn" id="fetch-gps-btn">
-                        <span class="gps-pulse"></span>
-                        <span>📍 Fetch My GPS</span>
-                    </button>
-                </div>
-                <div class="coords-inputs-grid">
-                    <div class="coord-input-wrap">
-                        <span class="coord-tag">LAT</span>
-                        <input type="number" id="report-lat" name="latitude" step="0.00001" placeholder="e.g. 31.7052" required>
-                    </div>
-                    <div class="coord-input-wrap">
-                        <span class="coord-tag">LNG</span>
-                        <input type="number" id="report-lng" name="longitude" step="0.00001" placeholder="e.g. 76.9324" required>
-                    </div>
-                </div>
-                <span class="location-hint">💡 Tip: You can also click anywhere on the map to place a pin.</span>
-            </div>
-
-            <!-- Incident Attributes -->
-            <div class="report-grid-two">
-                <div class="report-form-group">
-                    <label for="report-district" class="report-field-label">DISTRICT</label>
-                    <div class="hud-select-wrap">
-                        <select id="report-district" name="district" required>
-                            <option value="Mandi">Mandi</option>
-                            <option value="Shimla">Shimla</option>
-                            <option value="Kullu">Kullu</option>
-                            <option value="Kangra">Kangra</option>
-                            <option value="Chamba">Chamba</option>
-                            <option value="Solan">Solan</option>
-                            <option value="Sirmaur">Sirmaur</option>
-                            <option value="Kinnaur">Kinnaur</option>
-                            <option value="Lahaul And Spiti">Lahaul And Spiti</option>
-                            <option value="Bilaspur">Bilaspur</option>
-                            <option value="Hamirpur">Hamirpur</option>
-                            <option value="Una">Una</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="report-form-group">
-                    <label for="report-severity" class="report-field-label">SEVERITY LEVEL</label>
-                    <div class="hud-select-wrap">
-                        <select id="report-severity" name="severity">
-                            <option value="Moderate">Moderate (Minor Slide)</option>
-                            <option value="High">High (Debris on Road)</option>
-                            <option value="Critical">Critical (Highway Blocked)</option>
-                            <option value="Low">Low (Slope Instability)</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="report-grid-two">
-                <div class="report-form-group">
-                    <label for="report-movement" class="report-field-label">FAILURE TYPE</label>
-                    <div class="hud-select-wrap">
-                        <select id="report-movement" name="movement_type">
-                            <option value="Slide">Slide / Mudslide</option>
-                            <option value="Rock Fall">Rock Fall / Boulder Drop</option>
-                            <option value="Debris Flow">Debris Flow / Torrent</option>
-                            <option value="Creep / Subsidence">Creep / Subsidence</option>
-                            <option value="Unknown">Unknown / Other</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="report-form-group">
-                    <label for="report-date" class="report-field-label">DATE &amp; TIME</label>
-                    <input type="datetime-local" id="report-date" name="incident_date" class="report-input-datetime">
-                </div>
-            </div>
-
-            <div class="report-form-group">
-                <label for="report-desc" class="report-field-label">OBSERVATIONS &amp; ROAD IMPACT</label>
-                <textarea id="report-desc" name="description" rows="3" placeholder="Describe slope breach, road blockage, infrastructure damage or stream obstruction..."></textarea>
-            </div>
-
-            <div class="report-form-group">
-                <label for="report-reporter" class="report-field-label">REPORTER NAME / AFFILIATION (OPTIONAL)</label>
-                <input type="text" id="report-reporter" name="reporter_name" placeholder="e.g. Local Resident, PWD Engineer, HIMA Surveyor">
-            </div>
-
-            <div id="report-form-msg" class="report-status-msg" style="display:none;"></div>
-
-            <button type="submit" class="report-submit-btn" id="report-submit-btn">
-                <span>🚀 Submit Landslide Report</span>
-            </button>
-        </form>
-    </aside>
 
     <!-- =====================================================
          05. DATASET EXPORT & DOWNLOAD MODAL

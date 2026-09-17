@@ -9402,14 +9402,13 @@ body:has(.gis-console-layout) {
    HOME PAGE: REFINED INSTITUTIONAL THEME
    ========================================================= */
 
-/* Header Dark Backdrop */
+/* Header Crisp Backdrop */
 .site-header {
-    background: #071a14 !important;
-    background: rgba(7, 24, 19, 0.96) !important;
-    backdrop-filter: blur(24px) saturate(160%) !important;
-    -webkit-backdrop-filter: blur(24px) saturate(160%) !important;
-    border-bottom: 1px solid rgba(114, 239, 185, 0.22) !important;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6) !important;
+    background: rgba(247, 250, 248, 0.94) !important;
+    backdrop-filter: blur(24px) saturate(150%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(150%) !important;
+    border-bottom: 1px solid rgba(207, 220, 214, 0.85) !important;
+    box-shadow: 0 4px 20px rgba(15, 32, 25, 0.03) !important;
 }
 
 /* Hero Section Refinement */
@@ -9860,23 +9859,22 @@ body:has(.gis-console-layout) {
     width: 38px !important;
     height: 38px !important;
     border-radius: 10px !important;
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.35), rgba(5, 150, 105, 0.15)) !important;
-    border: 1.5px solid #72efb9 !important;
+    background: linear-gradient(145deg, #17624d, #092f25) !important;
+    border: 1px solid rgba(23, 98, 77, 0.2) !important;
     display: grid !important;
     place-items: center !important;
-    color: #72efb9 !important;
+    color: #ffffff !important;
     font-family: 'Manrope', sans-serif !important;
-    font-weight: 900 !important;
-    font-size: 15px !important;
-    letter-spacing: 0.05em !important;
-    box-shadow: 0 0 16px rgba(114, 239, 185, 0.35) !important;
-    transition: all 0.25s ease;
+    font-weight: 800 !important;
+    font-size: 13px !important;
+    letter-spacing: -0.02em !important;
+    box-shadow: 0 4px 14px rgba(9, 47, 37, 0.16) !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .brand:hover .brand-logo {
-    border-color: #a7f3d0 !important;
-    box-shadow: 0 0 24px rgba(114, 239, 185, 0.55) !important;
-    transform: scale(1.05);
+    transform: translateY(-1px) rotate(-1deg);
+    box-shadow: 0 6px 18px rgba(9, 47, 37, 0.24) !important;
 }
 
 .brand-text {
@@ -9886,26 +9884,25 @@ body:has(.gis-console-layout) {
 
 .brand-name {
     font-family: 'Manrope', sans-serif !important;
-    font-size: 18px !important;
-    font-weight: 850 !important;
-    color: #ffffff !important;
-    letter-spacing: 0.04em !important;
-    line-height: 1.1 !important;
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    color: #0c261e !important;
+    letter-spacing: 0.05em !important;
+    line-height: 1.15 !important;
 }
 
 .brand-name span {
-    color: #72efb9 !important;
-    font-weight: 900 !important;
+    color: #17624d !important;
+    font-weight: 800 !important;
     margin: 0 1px !important;
-    text-shadow: 0 0 10px rgba(114, 239, 185, 0.7) !important;
 }
 
 .brand-subtitle {
     font-family: 'Manrope', sans-serif !important;
-    font-size: 8.5px !important;
-    font-weight: 750 !important;
-    letter-spacing: 0.14em !important;
-    color: #72efb9 !important;
+    font-size: 7.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.12em !important;
+    color: #5d7068 !important;
     text-transform: uppercase !important;
     line-height: 1 !important;
     margin-top: 3px !important;
@@ -9928,29 +9925,30 @@ body:has(.gis-console-layout) {
 .main-nav a {
     display: inline-flex !important;
     align-items: center !important;
-    padding: 8px 18px !important;
+    padding: 7px 16px !important;
     border-radius: 999px !important;
-    color: #d1fae5 !important;
-    font-size: 13.5px !important;
-    font-weight: 700 !important;
+    color: #4b5e56 !important;
+    font-size: 13px !important;
+    font-weight: 650 !important;
     text-decoration: none !important;
     border: 1px solid transparent !important;
     transition: all 0.2s ease !important;
-    letter-spacing: 0.02em !important;
+    letter-spacing: 0.01em !important;
+    background: transparent !important;
 }
 
 .main-nav a:hover {
-    color: #ffffff !important;
-    background: rgba(114, 239, 185, 0.16) !important;
-    border-color: rgba(114, 239, 185, 0.35) !important;
+    color: #0c261e !important;
+    background: rgba(255, 255, 255, 0.85) !important;
+    border-color: #dce7e1 !important;
 }
 
 .main-nav a.active {
-    color: #051b14 !important;
-    background: #72efb9 !important;
-    border-color: #72efb9 !important;
-    font-weight: 900 !important;
-    box-shadow: 0 0 16px rgba(114, 239, 185, 0.5) !important;
+    color: #17624d !important;
+    background: #eef7f3 !important;
+    border-color: #d4e8df !important;
+    font-weight: 750 !important;
+    box-shadow: 0 2px 6px rgba(23, 98, 77, 0.06) !important;
 }
 
 /* User Profile Widget */
@@ -9958,34 +9956,33 @@ body:has(.gis-console-layout) {
     display: flex !important;
     align-items: center !important;
     gap: 10px !important;
-    padding: 5px 14px 5px 6px !important;
+    padding: 5px 12px 5px 6px !important;
     border-radius: 999px !important;
-    background: rgba(11, 31, 24, 0.95) !important;
-    border: 1px solid rgba(114, 239, 185, 0.3) !important;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4) !important;
+    background: #ffffff !important;
+    border: 1px solid #dce7e1 !important;
+    box-shadow: 0 2px 8px rgba(12, 38, 30, 0.04) !important;
     cursor: pointer !important;
     transition: all 0.2s ease !important;
 }
 
 .user-profile-widget:hover {
-    border-color: #72efb9 !important;
-    background: rgba(16, 48, 37, 0.98) !important;
+    border-color: #17624d !important;
     transform: translateY(-1px) !important;
-    box-shadow: 0 0 20px rgba(114, 239, 185, 0.3) !important;
+    box-shadow: 0 6px 16px rgba(23, 98, 77, 0.08) !important;
 }
 
 .user-avatar {
-    width: 32px !important;
-    height: 32px !important;
+    width: 30px !important;
+    height: 30px !important;
     border-radius: 50% !important;
-    background: linear-gradient(135deg, #10b981, #064e3b) !important;
-    border: 1px solid rgba(114, 239, 185, 0.45) !important;
+    background: linear-gradient(135deg, #17624d, #0b2d25) !important;
+    border: 1px solid rgba(23, 98, 77, 0.2) !important;
     color: #ffffff !important;
     display: grid !important;
     place-items: center !important;
     font-size: 12px !important;
-    font-weight: 850 !important;
-    box-shadow: 0 0 8px rgba(16, 185, 129, 0.35) !important;
+    font-weight: 800 !important;
+    box-shadow: none !important;
 }
 
 .user-meta {
@@ -9996,15 +9993,15 @@ body:has(.gis-console-layout) {
 .user-role {
     font-size: 7.5px !important;
     font-weight: 850 !important;
-    letter-spacing: 0.14em !important;
-    color: #72efb9 !important;
+    letter-spacing: 0.12em !important;
+    color: #17624d !important;
     line-height: 1 !important;
 }
 
 .user-name {
-    font-size: 10.5px !important;
-    font-weight: 750 !important;
-    color: #f0fdf4 !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    color: #0c261e !important;
     line-height: 1.2 !important;
     margin-top: 2px !important;
 }
@@ -10026,7 +10023,7 @@ body:has(.gis-console-layout) {
     display: block;
     width: 100%;
     height: 2px;
-    background: #72efb9;
+    background: #17624d;
     border-radius: 2px;
     transition: all 0.25s ease;
 }
@@ -10037,8 +10034,8 @@ body:has(.gis-console-layout) {
     top: 74px;
     left: 0;
     width: 100%;
-    background: rgba(7, 24, 19, 0.98);
-    border-bottom: 1px solid rgba(114, 239, 185, 0.2);
+    background: rgba(247, 250, 248, 0.98);
+    border-bottom: 1px solid rgba(207, 220, 214, 0.85);
     backdrop-filter: blur(24px);
     padding: 16px 24px;
 }
@@ -10052,7 +10049,7 @@ body:has(.gis-console-layout) {
 .mobile-nav-inner a {
     padding: 10px 16px;
     border-radius: 8px;
-    color: #9bbcb0;
+    color: #4b5e56;
     font-size: 14px;
     font-weight: 650;
     text-decoration: none;
@@ -10061,13 +10058,14 @@ body:has(.gis-console-layout) {
 
 .mobile-nav-inner a.active,
 .mobile-nav-inner a:hover {
-    color: #071f19;
-    background: #72efb9;
+    color: #17624d;
+    background: #eef7f3;
 }
 
 @media (max-width: 860px) {
-    .main-nav { display: none; }
-    .menu-toggle { display: flex; }
+    .main-nav { display: none !important; }
+    .user-profile-widget { display: none !important; }
+    .menu-toggle { display: flex !important; }
     .mobile-navigation.open { display: block; }
 }
 
@@ -10647,308 +10645,35 @@ body:has(.gis-console-layout) {
 .landslide-leaflet-icon img { display:block; width:22px; height:22px; filter:drop-shadow(0 1px 2px rgba(0,0,0,.7)); }
 .landslide-leaflet-icon.selected-landslide-icon img { transform:scale(1.45); filter:drop-shadow(0 0 6px #a7f3d0); }
 
-
 /* =========================================================
-   HUD ACTION BUTTONS (EXPORT & REPORT SLIDE)
+   HUD EXPORT ACTION BUTTON (SUBTLE & REFINED)
    ========================================================= */
-.hud-action-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 7px 12px;
-    margin-top: 13px;
-    border-radius: var(--radius-xs);
-    font-size: 10px;
-    font-weight: 750;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-}
-
-.hud-export-btn {
-    background: rgba(56, 189, 248, 0.12);
-    border: 1px solid rgba(56, 189, 248, 0.35);
-    color: #38bdf8;
-}
-
-.hud-export-btn:hover {
-    background: #38bdf8;
-    color: #071f19;
-    box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
-}
-
-.hud-report-btn {
-    background: rgba(239, 68, 68, 0.15);
-    border: 1px solid rgba(239, 68, 68, 0.4);
-    color: #f87171;
-}
-
-.hud-report-btn:hover {
-    background: #ef4444;
-    color: #ffffff;
-    box-shadow: 0 0 14px rgba(239, 68, 68, 0.45);
-}
-
-/* =========================================================
-   REPORT DRAWER STYLES
-   ========================================================= */
-.report-drawer {
-    width: 390px;
-    z-index: 1002 !important;
-}
-
-.report-field-label {
-    font-size: 8px;
-    font-weight: 850;
-    letter-spacing: 0.14em;
-    color: #72efb9;
-    display: block;
-    margin-bottom: 6px;
-    text-transform: uppercase;
-}
-
-.photo-dropzone {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1.5px dashed rgba(114, 239, 185, 0.3);
-    border-radius: 10px;
-    padding: 16px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    margin-bottom: 14px;
-}
-
-.photo-dropzone:hover {
-    background: rgba(114, 239, 185, 0.06);
-    border-color: #72efb9;
-}
-
-.photo-prompt {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-}
-
-.camera-icon {
-    font-size: 26px;
-    filter: drop-shadow(0 0 8px rgba(114, 239, 185, 0.5));
-}
-
-.prompt-main {
-    font-size: 11px;
-    font-weight: 750;
-    color: #ecfdf5;
-}
-
-.prompt-sub {
-    font-size: 8.5px;
-    color: #8da49b;
-}
-
-.photo-preview-wrap {
-    position: relative;
-    border-radius: 8px;
-    overflow: hidden;
-    max-height: 180px;
-}
-
-.photo-preview-wrap img {
-    width: 100%;
-    height: 160px;
-    object-fit: cover;
-    display: block;
-    border-radius: 6px;
-}
-
-.remove-photo-btn {
-    position: absolute;
-    top: 6px;
-    right: 6px;
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    background: rgba(7, 24, 19, 0.85);
-    border: 1px solid rgba(239, 68, 68, 0.5);
-    color: #f87171;
-    font-size: 16px;
-    line-height: 1;
-    cursor: pointer;
-    display: grid;
-    place-items: center;
-}
-
-.remove-photo-btn:hover {
-    background: #ef4444;
-    color: #ffffff;
-}
-
-.location-header-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 6px;
-}
-
-.fetch-gps-btn {
+.hud-export-trigger {
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    background: rgba(16, 185, 129, 0.15);
-    border: 1px solid rgba(114, 239, 185, 0.4);
-    border-radius: 6px;
-    padding: 4px 9px;
-    color: #72efb9;
-    font-size: 9.5px;
-    font-weight: 750;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.fetch-gps-btn:hover {
-    background: #72efb9;
-    color: #071f19;
-    box-shadow: 0 0 10px rgba(114, 239, 185, 0.4);
-}
-
-.coords-inputs-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 4px;
-}
-
-.coord-input-wrap {
-    display: flex;
-    align-items: center;
-    background: rgba(0, 0, 0, 0.35);
-    border: 1px solid rgba(114, 239, 185, 0.2);
-    border-radius: 6px;
-    overflow: hidden;
-}
-
-.coord-tag {
-    background: rgba(114, 239, 185, 0.1);
-    color: #72efb9;
-    font: 800 8.5px/1 monospace;
-    padding: 8px 7px;
-    border-right: 1px solid rgba(114, 239, 185, 0.2);
-}
-
-.coord-input-wrap input {
-    width: 100%;
-    background: transparent;
-    border: 0;
-    color: #ecfdf5;
-    padding: 6px 8px;
-    font: 700 11px monospace;
-    outline: none;
-}
-
-.location-hint {
-    font-size: 8.5px;
-    color: #8da49b;
-    display: block;
-    margin-bottom: 12px;
-}
-
-.report-grid-two {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 10px;
-}
-
-.report-form-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 10px;
-}
-
-.report-form-group select,
-.report-form-group input,
-.report-form-group textarea {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(114, 239, 185, 0.2);
-    border-radius: 6px;
-    color: #ffffff;
-    font-size: 11px;
-    font-weight: 600;
-    padding: 7px 10px;
-    outline: none;
-    transition: border-color 0.2s ease;
-}
-
-.report-form-group select:focus,
-.report-form-group input:focus,
-.report-form-group textarea:focus {
-    border-color: #72efb9;
+    padding: 5px 12px;
+    margin-top: 13px;
+    border-radius: var(--radius-xs);
     background: rgba(255, 255, 255, 0.08);
-}
-
-.report-form-group select option {
-    background: #0b1814;
-    color: #ffffff;
-}
-
-.report-submit-btn {
-    width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    background: linear-gradient(135deg, #10b981, #059669);
-    border: 1px solid #72efb9;
-    color: #071f19;
-    font-weight: 850;
-    font-size: 12px;
-    letter-spacing: 0.06em;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #dff8ec;
+    font: 750 10.5px/1 'Manrope', sans-serif;
     cursor: pointer;
     transition: all 0.2s ease;
-    box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
-    margin-top: 6px;
+    letter-spacing: 0.03em;
 }
 
-.report-submit-btn:hover {
-    background: #72efb9;
-    box-shadow: 0 0 20px rgba(114, 239, 185, 0.5);
-    transform: translateY(-1px);
+.hud-export-trigger:hover {
+    background: rgba(23, 98, 77, 0.65);
+    border-color: #72d9b2;
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
-.report-status-msg {
-    padding: 10px 12px;
-    border-radius: 6px;
-    font-size: 10.5px;
-    font-weight: 700;
-    margin-bottom: 10px;
-}
-
-.report-status-msg.success {
-    background: rgba(16, 185, 129, 0.15);
-    border: 1px solid #10b981;
-    color: #a7f3d0;
-}
-
-.report-status-msg.error {
-    background: rgba(239, 68, 68, 0.15);
-    border: 1px solid #ef4444;
-    color: #fca5a5;
-}
-
-/* Map Report Target Pin */
-.report-pin-marker {
-    background: transparent;
-    border: 0;
-}
-
-.target-pin {
-    position: relative;
-    font-size: 26px;
-    line-height: 1;
-    text-shadow: 0 0 8px rgba(0,0,0,0.8);
-    cursor: grab;
-}
-
-/* Community Map Markers & Popups */
+/* =========================================================
+   COMMUNITY REPORT MAP OVERLAYS (EXPLORE PAGE)
+   ========================================================= */
 .community-marker-icon {
     background: transparent;
     border: 0;
@@ -10958,9 +10683,9 @@ body:has(.gis-console-layout) {
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    background: rgba(239, 68, 68, 0.9);
+    background: #d94f3d;
     border: 2px solid #ffffff;
-    box-shadow: 0 0 12px rgba(239, 68, 68, 0.7);
+    box-shadow: 0 2px 10px rgba(217, 79, 61, 0.45);
     display: grid;
     place-items: center;
     font-size: 12px;
@@ -10970,27 +10695,27 @@ body:has(.gis-console-layout) {
 }
 
 .community-beacon-pin:hover {
-    transform: scale(1.25);
-    background: #ef4444;
+    transform: scale(1.18);
+    background: #c53e2d;
 }
 
 .community-leaflet-popup .leaflet-popup-content-wrapper {
-    background: rgba(7, 24, 19, 0.96) !important;
-    border: 1px solid rgba(239, 68, 68, 0.5) !important;
-    border-radius: 10px !important;
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.7) !important;
-    color: #ecfdf5 !important;
-    backdrop-filter: blur(16px);
+    background: #ffffff !important;
+    border: 1px solid #dce7e1 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 12px 32px rgba(12, 38, 30, 0.12) !important;
+    color: #0c261e !important;
+    padding: 6px;
 }
 
 .community-leaflet-popup .leaflet-popup-tip {
-    background: rgba(7, 24, 19, 0.96) !important;
+    background: #ffffff !important;
 }
 
 .community-popup {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
 }
 
 .popup-header-tag {
@@ -11002,25 +10727,25 @@ body:has(.gis-console-layout) {
 .popup-severity {
     font-size: 8px;
     font-weight: 850;
-    padding: 2px 6px;
+    padding: 3px 7px;
     border-radius: 4px;
     letter-spacing: 0.08em;
 }
 
-.severity-critical { background: rgba(239, 68, 68, 0.25); color: #f87171; border: 1px solid #ef4444; }
-.severity-high { background: rgba(245, 158, 11, 0.25); color: #fbbf24; border: 1px solid #f59e0b; }
-.severity-moderate { background: rgba(56, 189, 248, 0.25); color: #38bdf8; border: 1px solid #38bdf8; }
-.severity-low { background: rgba(16, 185, 129, 0.25); color: #34d399; border: 1px solid #10b981; }
+.severity-critical { background: #fdf2f0; color: #d94f3d; border: 1px solid #f8c8c2; }
+.severity-high { background: #fef7ed; color: #c26116; border: 1px solid #fed7aa; }
+.severity-moderate { background: #eef7f3; color: #17624d; border: 1px solid #cce4d8; }
+.severity-low { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
 
 .popup-id {
-    font: 800 8px/1 monospace;
-    color: #8da49b;
+    font: 700 8.5px monospace;
+    color: #7f8c87;
 }
 
 .popup-title {
-    font-size: 13px;
+    font-size: 13.5px;
     font-weight: 800;
-    color: #ffffff;
+    color: #0c261e;
     margin: 0;
 }
 
@@ -11028,8 +10753,8 @@ body:has(.gis-console-layout) {
     width: 100%;
     max-height: 140px;
     overflow: hidden;
-    border-radius: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    border: 1px solid #dce7e1;
 }
 
 .popup-report-photo {
@@ -11040,33 +10765,35 @@ body:has(.gis-console-layout) {
 }
 
 .popup-desc {
-    font-size: 10.5px;
-    color: #c7dcd4;
-    line-height: 1.4;
+    font-size: 11px;
+    color: #4b5e56;
+    line-height: 1.45;
     margin: 2px 0;
 }
 
 .popup-meta-row, .popup-coords-row {
-    font-size: 9px;
-    color: #8da49b;
+    font-size: 9.5px;
+    color: #7f8c87;
     display: flex;
     gap: 8px;
 }
 
 .popup-coords-row {
     font-family: ui-monospace, SFMono-Regular, monospace;
-    color: #72efb9;
+    color: #17624d;
+    font-weight: 700;
 }
 
 /* =========================================================
-   EXPORT MODAL STYLES
+   REFINED DATASET EXPORT MODAL (AWARD-WINNING EDITORIAL THEME)
    ========================================================= */
 .export-modal-backdrop {
     position: fixed;
     inset: 0;
     z-index: 2000;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(8px);
+    background: rgba(12, 38, 30, 0.45);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -11079,84 +10806,102 @@ body:has(.gis-console-layout) {
 
 .export-modal-card {
     width: min(520px, 100%);
-    background: rgba(7, 24, 19, 0.97);
-    border: 1px solid rgba(114, 239, 185, 0.35);
-    border-radius: 14px;
-    backdrop-filter: blur(24px) saturate(160%);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 24px rgba(16, 185, 129, 0.15);
+    background: #ffffff;
+    border: 1px solid #dce7e1;
+    border-radius: 16px;
+    box-shadow: 0 24px 60px rgba(12, 38, 30, 0.16);
     overflow: hidden;
-    animation: modalPop 0.25s cubic-bezier(0.2, 0.75, 0.2, 1);
+    animation: modalPop 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 @keyframes modalPop {
-    from { opacity: 0; transform: scale(0.95) translateY(10px); }
+    from { opacity: 0; transform: scale(0.96) translateY(8px); }
     to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 .export-modal-header {
-    padding: 20px 24px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 22px 26px;
+    border-bottom: 1px solid #edf3f0;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
 }
 
 .export-kicker {
-    font-size: 8px;
+    font-size: 8.5px;
     font-weight: 850;
-    letter-spacing: 0.16em;
-    color: #38bdf8;
+    letter-spacing: 0.14em;
+    color: #17624d;
     text-transform: uppercase;
 }
 
 .export-modal-header h3 {
-    font-size: 18px;
-    color: #ffffff;
+    font-size: 19px;
+    color: #0c261e;
     font-weight: 800;
     margin-top: 4px;
+    letter-spacing: -0.02em;
 }
 
 .export-close-btn {
     background: transparent;
     border: 0;
-    color: #8da49b;
-    font-size: 26px;
+    color: #7f8c87;
+    font-size: 24px;
     line-height: 1;
     cursor: pointer;
+    transition: color 0.15s ease;
 }
 
 .export-close-btn:hover {
-    color: #ffffff;
+    color: #0c261e;
 }
 
 .export-modal-body {
-    padding: 22px 24px;
+    padding: 22px 26px;
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
 .export-modal-intro {
-    font-size: 11.5px;
-    color: #a8c4ba;
-    line-height: 1.5;
+    font-size: 12px;
+    color: #5d7068;
+    line-height: 1.55;
     margin: 0;
 }
 
 .export-filters-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    gap: 14px;
 }
 
 .export-filter-item label, .export-format-title {
-    font-size: 8px;
+    font-size: 8.5px;
     font-weight: 850;
     letter-spacing: 0.12em;
-    color: #72efb9;
+    color: #17624d;
     text-transform: uppercase;
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 6px;
+}
+
+.export-filters-grid select {
+    width: 100%;
+    padding: 9px 12px;
+    border-radius: 8px;
+    background: #fbfdfc;
+    border: 1px solid #dce7e1;
+    color: #0c261e;
+    font-size: 12px;
+    font-weight: 600;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.export-filters-grid select:focus {
+    border-color: #17624d;
 }
 
 .export-format-options {
@@ -11169,9 +10914,9 @@ body:has(.gis-console-layout) {
     display: flex;
     align-items: center;
     padding: 10px 12px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid #dce7e1;
+    border-radius: 10px;
+    background: #f8fbf9;
     cursor: pointer;
     transition: all 0.2s ease;
 }
@@ -11181,14 +10926,14 @@ body:has(.gis-console-layout) {
 }
 
 .format-choice:hover {
-    border-color: rgba(114, 239, 185, 0.4);
-    background: rgba(114, 239, 185, 0.06);
+    border-color: #17624d;
+    background: #ffffff;
 }
 
 .format-choice.active {
-    border-color: #72efb9;
-    background: rgba(16, 185, 129, 0.18);
-    box-shadow: 0 0 14px rgba(114, 239, 185, 0.25);
+    border-color: #17624d;
+    background: #eef7f3;
+    box-shadow: 0 2px 8px rgba(23, 98, 77, 0.08);
 }
 
 .format-choice-content {
@@ -11199,13 +10944,13 @@ body:has(.gis-console-layout) {
 .format-ext {
     font-size: 13px;
     font-weight: 850;
-    color: #ffffff;
+    color: #0c261e;
     font-family: ui-monospace, SFMono-Regular, monospace;
 }
 
 .format-desc {
     font-size: 8px;
-    color: #8da49b;
+    color: #7f8c87;
     margin-top: 2px;
 }
 
@@ -11213,75 +10958,651 @@ body:has(.gis-console-layout) {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 14px;
-    background: rgba(0, 0, 0, 0.35);
-    border: 1px solid rgba(114, 239, 185, 0.2);
-    border-radius: 8px;
+    padding: 11px 15px;
+    background: #f7faf8;
+    border: 1px solid #dce7e1;
+    border-radius: 10px;
 }
 
 .summary-count-indicator {
     display: flex;
     align-items: center;
-    gap: 7px;
-    font-size: 11px;
-    font-weight: 750;
-    color: #ecfdf5;
+    gap: 8px;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #0c261e;
 }
 
 .summary-dot {
-    width: 6px;
-    height: 6px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
-    background: #10b981;
-    box-shadow: 0 0 8px #10b981;
+    background: #17624d;
 }
 
 .summary-crs {
-    font: 800 8.5px monospace;
-    color: #72efb9;
+    font: 700 9px monospace;
+    color: #5d7068;
 }
 
 .export-modal-footer {
-    padding: 16px 24px;
-    background: rgba(0, 0, 0, 0.25);
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 16px 26px;
+    background: #fbfdfc;
+    border-top: 1px solid #edf3f0;
     display: flex;
     justify-content: flex-end;
     gap: 12px;
 }
 
 .btn-cancel {
-    padding: 9px 16px;
-    border-radius: 8px;
+    padding: 9px 18px;
+    border-radius: 999px;
     background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    color: #c7dcd4;
+    border: 1px solid #dce7e1;
+    color: #5d7068;
     font-weight: 700;
-    font-size: 11px;
+    font-size: 11.5px;
     cursor: pointer;
     transition: all 0.15s ease;
 }
 
 .btn-cancel:hover {
-    color: #ffffff;
-    border-color: #ffffff;
+    color: #0c261e;
+    border-color: #0c261e;
 }
 
 .btn-download {
-    padding: 9px 20px;
-    border-radius: 8px;
-    background: #72efb9;
-    border: 1px solid #72efb9;
-    color: #071f19;
-    font-weight: 850;
+    padding: 9px 22px;
+    border-radius: 999px;
+    background: #17624d;
+    border: 1px solid #17624d;
+    color: #ffffff;
+    font-weight: 800;
     font-size: 11.5px;
     cursor: pointer;
     transition: all 0.2s ease;
-    box-shadow: 0 0 16px rgba(114, 239, 185, 0.35);
+    box-shadow: 0 2px 10px rgba(23, 98, 77, 0.2);
 }
 
 .btn-download:hover {
-    background: #a7f3d0;
+    background: #104c3b;
     transform: translateY(-1px);
-    box-shadow: 0 0 22px rgba(114, 239, 185, 0.55);
+    box-shadow: 0 4px 14px rgba(23, 98, 77, 0.3);
+}
+
+/* =========================================================
+   DEDICATED REPORT PAGE (/report) — SWISS EDITORIAL THEME
+   ========================================================= */
+.report-page-wrapper {
+    background: #f7faf8;
+    min-height: calc(100vh - 74px);
+    padding-bottom: 90px;
+}
+
+.report-hero {
+    padding: 56px 24px 44px;
+    background: linear-gradient(180deg, #f7faf8 0%, #edf3f0 100%);
+    border-bottom: 1px solid #dce7e1;
+    text-align: center;
+}
+
+.report-hero-inner {
+    max-width: 780px;
+    margin: 0 auto;
+}
+
+.report-title {
+    font-size: clamp(34px, 5vw, 56px);
+    line-height: 1.05;
+    letter-spacing: -0.05em;
+    font-weight: 850;
+    color: #0c261e;
+    margin: 14px 0 16px;
+}
+
+.report-description {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #4b5e56;
+    max-width: 620px;
+    margin: 0 auto;
+}
+
+.report-form-section {
+    padding: 40px 0;
+}
+
+.report-container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.report-form-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 26px;
+    align-items: start;
+}
+
+@media (max-width: 960px) {
+    .report-form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.report-card {
+    background: #ffffff;
+    border: 1px solid #dce7e1;
+    border-radius: var(--radius);
+    padding: 28px;
+    box-shadow: 0 4px 20px rgba(12, 38, 30, 0.04);
+}
+
+.report-card-header {
+    margin-bottom: 20px;
+}
+
+.card-kicker {
+    font-size: 9px;
+    font-weight: 850;
+    letter-spacing: 0.14em;
+    color: #17624d;
+    text-transform: uppercase;
+    display: block;
+}
+
+.card-heading {
+    font-size: 22px;
+    font-weight: 850;
+    color: #0c261e;
+    margin: 4px 0 3px;
+    letter-spacing: -0.02em;
+}
+
+.card-subheading {
+    font-size: 12px;
+    color: #5d7068;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.report-map-wrap {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #dce7e1;
+    margin-bottom: 16px;
+}
+
+.report-mini-map {
+    height: 250px;
+    width: 100%;
+    z-index: 1;
+}
+
+.map-hint-overlay {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    z-index: 500;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid #dce7e1;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 700;
+    color: #17624d;
+    box-shadow: 0 2px 8px rgba(12, 38, 30, 0.06);
+    pointer-events: none;
+}
+
+.report-pin-symbol {
+    font-size: 30px;
+    line-height: 1;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.35));
+    cursor: grab;
+}
+
+.gps-control-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 14px;
+    background: #f8fbf9;
+    border: 1px solid #dce7e1;
+    border-radius: 10px;
+    margin-bottom: 18px;
+}
+
+.btn-gps-acquire {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 15px;
+    border-radius: 999px;
+    background: #eef7f3;
+    border: 1px solid #cce4d8;
+    color: #17624d;
+    font: 750 11px/1 'Manrope', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-gps-acquire:hover {
+    background: #17624d;
+    color: #ffffff;
+    border-color: #17624d;
+}
+
+.gps-feedback {
+    font-size: 10.5px;
+    color: #7f8c87;
+    font-weight: 600;
+}
+
+.gps-feedback.active { color: #2563eb; }
+.gps-feedback.success { color: #166534; font-weight: 750; }
+.gps-feedback.warning { color: #c2410c; }
+
+.report-coords-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.coord-field label, .input-field-group label, .field-label {
+    font-size: 8.5px;
+    font-weight: 850;
+    letter-spacing: 0.12em;
+    color: #17624d;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.coord-field input,
+.input-field-group input,
+.input-field-group textarea,
+.select-container select {
+    width: 100%;
+    padding: 9px 12px;
+    background: #fbfdfc;
+    border: 1px solid #dce7e1;
+    border-radius: 8px;
+    font-size: 12.5px;
+    color: #0c261e;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.coord-field input {
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-weight: 700;
+    color: #17624d;
+}
+
+.coord-field input:focus,
+.input-field-group input:focus,
+.input-field-group textarea:focus,
+.select-container select:focus {
+    border-color: #17624d;
+    box-shadow: 0 0 0 3px rgba(23, 98, 77, 0.08);
+}
+
+.report-input-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+@media (max-width: 600px) {
+    .report-input-row, .report-coords-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+.input-field-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+}
+
+.input-field-group:last-child {
+    margin-bottom: 0;
+}
+
+.input-field-group textarea {
+    resize: vertical;
+    min-height: 80px;
+    line-height: 1.5;
+}
+
+/* Photo Dropzone */
+.field-photo-container {
+    margin-bottom: 18px;
+}
+
+.field-photo-dropzone {
+    border: 2px dashed #cce4d8;
+    border-radius: 12px;
+    background: #f8fbf9;
+    padding: 24px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.field-photo-dropzone:hover,
+.field-photo-dropzone.dragover {
+    border-color: #17624d;
+    background: #eef7f3;
+}
+
+.dropzone-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.dropzone-icon-ring {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 1px solid #dce7e1;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 2px 8px rgba(12, 38, 30, 0.05);
+}
+
+.dropzone-camera-icon {
+    font-size: 20px;
+}
+
+.dropzone-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.dropzone-primary-text {
+    font-size: 12px;
+    font-weight: 750;
+    color: #0c261e;
+}
+
+.dropzone-sub-text {
+    font-size: 9.5px;
+    color: #7f8c87;
+}
+
+.dropzone-preview {
+    position: relative;
+}
+
+.dropzone-preview img {
+    max-height: 180px;
+    max-width: 100%;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid #dce7e1;
+}
+
+.preview-meta-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 8px;
+    padding: 0 4px;
+}
+
+.preview-filename {
+    font-size: 11px;
+    color: #5d7068;
+    font-weight: 600;
+}
+
+.btn-remove-preview {
+    background: #fee2e2;
+    border: 1px solid #fca5a5;
+    color: #b91c1c;
+    border-radius: 999px;
+    padding: 3px 10px;
+    font-size: 10px;
+    font-weight: 750;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.btn-remove-preview:hover {
+    background: #ef4444;
+    color: #ffffff;
+}
+
+/* Submit Action & Status Banner */
+.report-submit-row {
+    margin-top: 24px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-primary-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 28px;
+    border-radius: 999px;
+    background: #17624d;
+    color: #ffffff;
+    font-size: 13.5px;
+    font-weight: 800;
+    border: 0;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(23, 98, 77, 0.2);
+    transition: all 0.2s ease;
+}
+
+.btn-primary-submit:hover {
+    background: #104c3b;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 22px rgba(23, 98, 77, 0.28);
+}
+
+.submit-arrow {
+    font-size: 16px;
+    transition: transform 0.2s ease;
+}
+
+.btn-primary-submit:hover .submit-arrow {
+    transform: translateX(3px);
+}
+
+.report-status-banner {
+    padding: 14px 18px;
+    border-radius: 10px;
+    margin-top: 18px;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.report-status-banner.success {
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    color: #166534;
+}
+
+.report-status-banner.error {
+    background: #fef2f2;
+    border: 1px solid #fca5a5;
+    color: #991b1b;
+}
+
+.status-action-link {
+    display: inline-block;
+    margin-left: 8px;
+    color: #15803d;
+    font-weight: 800;
+    text-decoration: underline;
+}
+
+/* Recent Verified Reports Feed */
+.recent-reports-section {
+    padding: 60px 0 20px;
+    border-top: 1px solid #dce7e1;
+}
+
+.recent-header-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 28px;
+}
+
+.recent-reports-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+@media (max-width: 900px) {
+    .recent-reports-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .recent-reports-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.recent-report-card {
+    background: #ffffff;
+    border: 1px solid #dce7e1;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(12, 38, 30, 0.04);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.recent-report-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(12, 38, 30, 0.08);
+}
+
+.recent-card-media {
+    height: 140px;
+    background: #edf3f0;
+    overflow: hidden;
+}
+
+.recent-card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.recent-card-media.placeholder {
+    display: grid;
+    place-items: center;
+    font-size: 28px;
+    color: #a3c2b8;
+}
+
+.recent-card-body {
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.recent-card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.recent-district-badge {
+    font-size: 8.5px;
+    font-weight: 850;
+    color: #17624d;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.recent-severity-badge {
+    font-size: 8px;
+    font-weight: 850;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.recent-card-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: #0c261e;
+    margin: 0 0 6px;
+}
+
+.recent-card-desc {
+    font-size: 11.5px;
+    color: #4b5e56;
+    line-height: 1.5;
+    margin: 0 0 14px;
+    flex-grow: 1;
+}
+
+.recent-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+    border-top: 1px solid #edf3f0;
+    font-size: 9.5px;
+    color: #7f8c87;
+}
+
+.recent-coords {
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-weight: 700;
+    color: #17624d;
+}
+
+.empty-feed-card {
+    grid-column: 1 / -1;
+    padding: 48px 24px;
+    text-align: center;
+    background: #ffffff;
+    border: 1px dashed #dce7e1;
+    border-radius: var(--radius);
+}
+
+.empty-icon {
+    font-size: 36px;
+    margin-bottom: 12px;
+    display: inline-block;
+}
+
+.empty-feed-card h3 {
+    font-size: 18px;
+    color: #0c261e;
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+
+.empty-feed-card p {
+    font-size: 13px;
+    color: #5d7068;
+    max-width: 440px;
+    margin: 0 auto;
 }
