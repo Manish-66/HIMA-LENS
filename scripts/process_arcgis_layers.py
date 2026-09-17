@@ -91,6 +91,9 @@ def process_polygons():
         geom = row.geometry
         if geom is None or geom.is_empty:
             return None
+        geo_dict = mapping(geom)
+        if geo_dict.get("type") == "MultiPolygon" and len(geo_dict.get("coordinates", [])) == 1:
+            geo_dict = {"type": "Polygon", "coordinates": geo_dict["coordinates"][0]}
         return {
             "type": "Feature",
             "properties": {
@@ -103,7 +106,7 @@ def process_polygons():
                 "area_sq_m": round(float(row.get("Shape_Area") or 0) * (111000**2), 1),
                 "toposheet": str(row.get("TOPOSHEET") or "").strip(),
             },
-            "geometry": mapping(geom)
+            "geometry": geo_dict
         }
 
     mandi_features = [format_poly_feature(row, i) for i, (_, row) in enumerate(mandi_gdf.iterrows())]
@@ -391,7 +394,10 @@ def process_rasters():
 
             img = Image.fromarray(rgba, "RGBA")
             img.save(ds["out_png"], format="PNG", optimize=True)
-            print(f"  Saved {ds['out_png']} ({ds['out_png'].stat().st_size / 1024:.1f} KB), Bounds: {bounds}")
+            alt_png = STATIC_OVERLAYS_DIR / f"{ds['name']}.png"
+            if alt_png != ds["out_png"]:
+                img.save(alt_png, format="PNG", optimize=True)
+            print(f"  Saved {ds['out_png']} and {alt_png} ({ds['out_png'].stat().st_size / 1024:.1f} KB), Bounds: {bounds}")
 
             overlay_meta[ds["name"]] = {
                 "title": ds["title"],

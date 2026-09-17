@@ -345,8 +345,6 @@ async function updateCesiumRoads(visible) {
       entity._himaType = "road";
       if (entity.polyline) {
         entity.polyline.clampToGround = true;
-        entity.polyline.width = 3;
-        entity.polyline.material = Cesium.Color.fromCssColorString("#fb923c");
       }
     }
     await viewer.dataSources.add(cesiumRoadsDataSource);
@@ -371,9 +369,13 @@ async function updateCesiumPolygons(visible) {
     ? "/api/landslide-polygons?district=mandi"
     : (district && district !== "all" ? `/api/landslide-polygons?district=${encodeURIComponent(district)}` : "/api/landslide-polygons");
 
+  set3dStatus("PROJECTING 3D HAZARD POLYGONS ONTO TERRAIN…", true);
   try {
     const polyData = await fetchJSON(targetUrl);
     cesiumPolygonsDataSource = await Cesium.GeoJsonDataSource.load(polyData, {
+      fill: Cesium.Color.fromCssColorString("#f59e0b").withAlpha(0.48),
+      stroke: Cesium.Color.fromCssColorString("#d97706"),
+      strokeWidth: 2,
       clampToGround: true
     });
     const entities = cesiumPolygonsDataSource.entities.values;
@@ -381,16 +383,15 @@ async function updateCesiumPolygons(visible) {
       const entity = entities[i];
       entity._himaType = "polygon";
       if (entity.polygon) {
-        entity.polygon.classificationType = Cesium.ClassificationType.TERRAIN;
-        entity.polygon.material = Cesium.Color.fromCssColorString("#f59e0b").withAlpha(0.42);
-        entity.polygon.outline = true;
-        entity.polygon.outlineColor = Cesium.Color.fromCssColorString("#d97706");
+        entity.polygon.classificationType = Cesium.ClassificationType.BOTH;
       }
     }
     await viewer.dataSources.add(cesiumPolygonsDataSource);
     viewer.scene.requestRender();
   } catch (err) {
     console.warn("Could not add polygons to 3D terrain", err);
+  } finally {
+    set3dStatus("", false);
   }
 }
 
@@ -419,10 +420,15 @@ async function updateCesiumEnvironmental(choice, opacity) {
     const rect = Cesium.Rectangle.fromDegrees(
       meta.bounds[0][1], meta.bounds[0][0], meta.bounds[1][1], meta.bounds[1][0]
     );
-    const provider = new Cesium.SingleTileImageryProvider({
-      url: meta.url,
-      rectangle: rect
-    });
+    let provider;
+    if (typeof Cesium.SingleTileImageryProvider.fromUrl === "function") {
+      provider = await Cesium.SingleTileImageryProvider.fromUrl(meta.url, { rectangle: rect });
+    } else {
+      provider = new Cesium.SingleTileImageryProvider({
+        url: meta.url,
+        rectangle: rect
+      });
+    }
     cesiumEnvLayer = viewer.imageryLayers.addImageryProvider(provider);
     cesiumEnvLayer.alpha = opacity;
     viewer.scene.requestRender();
