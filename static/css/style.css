@@ -9978,11 +9978,15 @@ body:has(.gis-console-layout) {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #2196f3;
+  background-color: #38bdf8;
   -webkit-transition: 0.4s;
   transition: 0.4s;
   z-index: 0;
   overflow: hidden;
+}
+
+.slider * {
+  pointer-events: none;
 }
 
 .sun-moon {
@@ -9992,47 +9996,51 @@ body:has(.gis-console-layout) {
   width: 26px;
   left: 4px;
   bottom: 4px;
-  background-color: yellow;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
+  background-color: #f59e0b;
+  border-radius: 50%;
+  -webkit-transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s ease;
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s ease;
+  transform: translateX(0) rotate(0deg);
 }
 
 .switch input:checked + .slider,
 #input:checked + .slider,
 #theme-toggle-input:checked + .slider,
-#mobile-theme-toggle-input:checked + .slider {
-  background-color: black;
+#mobile-theme-toggle-input:checked + .slider,
+.theme-toggle-checkbox:checked + .slider {
+  background-color: #071310;
 }
 
 .switch input:focus + .slider,
 #input:focus + .slider,
 #theme-toggle-input:focus + .slider,
-#mobile-theme-toggle-input:focus + .slider {
-  box-shadow: 0 0 1px #2196f3;
+#mobile-theme-toggle-input:focus + .slider,
+.theme-toggle-checkbox:focus + .slider {
+  box-shadow: 0 0 1px #10b981;
 }
 
 .switch input:checked + .slider .sun-moon,
 #input:checked + .slider .sun-moon,
 #theme-toggle-input:checked + .slider .sun-moon,
-#mobile-theme-toggle-input:checked + .slider .sun-moon {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-  background-color: white;
-  -webkit-animation: rotate-center 0.6s ease-in-out both;
-  animation: rotate-center 0.6s ease-in-out both;
+#mobile-theme-toggle-input:checked + .slider .sun-moon,
+.theme-toggle-checkbox:checked + .slider .sun-moon {
+  -webkit-transform: translateX(26px) rotate(360deg);
+  -ms-transform: translateX(26px) rotate(360deg);
+  transform: translateX(26px) rotate(360deg);
+  background-color: #f1f5f9;
 }
 
 .moon-dot {
   opacity: 0;
   transition: 0.4s;
-  fill: gray;
+  fill: #94a3b8;
 }
 
 .switch input:checked + .slider .sun-moon .moon-dot,
 #input:checked + .slider .sun-moon .moon-dot,
 #theme-toggle-input:checked + .slider .sun-moon .moon-dot,
-#mobile-theme-toggle-input:checked + .slider .sun-moon .moon-dot {
+#mobile-theme-toggle-input:checked + .slider .sun-moon .moon-dot,
+.theme-toggle-checkbox:checked + .slider .sun-moon .moon-dot {
   opacity: 1;
 }
 
@@ -10194,11 +10202,37 @@ body:has(.gis-console-layout) {
 .switch input:checked + .slider .stars,
 #input:checked + .slider .stars,
 #theme-toggle-input:checked + .slider .stars,
-#mobile-theme-toggle-input:checked + .slider .stars {
+#mobile-theme-toggle-input:checked + .slider .stars,
+.theme-toggle-checkbox:checked + .slider .stars {
   -webkit-transform: translateY(0);
   -ms-transform: translateY(0);
   transform: translateY(0);
   opacity: 1;
+}
+
+.switch input:checked + .slider .light-ray,
+#input:checked + .slider .light-ray,
+#theme-toggle-input:checked + .slider .light-ray,
+#mobile-theme-toggle-input:checked + .slider .light-ray,
+.theme-toggle-checkbox:checked + .slider .light-ray {
+  opacity: 0 !important;
+  transform: scale(0.6);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.switch input:checked + .slider .cloud-dark,
+.switch input:checked + .slider .cloud-light,
+#input:checked + .slider .cloud-dark,
+#input:checked + .slider .cloud-light,
+#theme-toggle-input:checked + .slider .cloud-dark,
+#theme-toggle-input:checked + .slider .cloud-light,
+#mobile-theme-toggle-input:checked + .slider .cloud-dark,
+#mobile-theme-toggle-input:checked + .slider .cloud-light,
+.theme-toggle-checkbox:checked + .slider .cloud-dark,
+.theme-toggle-checkbox:checked + .slider .cloud-light {
+  opacity: 0 !important;
+  transform: translateY(24px) !important;
+  transition: opacity 0.35s ease, transform 0.35s ease !important;
 }
 
 #star-1, .star-1 {
@@ -12890,7 +12924,12 @@ body:has(.gis-console-layout) {
    DARK THEME SYSTEM (COMPREHENSIVE EDITORIAL DARK MODE)
    ========================================================= */
 
+html[data-theme="light"] {
+    color-scheme: light;
+}
+
 html[data-theme="dark"] {
+    color-scheme: dark;
     --ink: #dff2eb;
     --ink-strong: #f0faf5;
     --ink-soft: #a8c4ba;
@@ -13037,10 +13076,18 @@ html[data-theme="dark"] .hud-filter-item label {
 }
 
 html[data-theme="dark"] .hud-select-wrap select {
-    background: #0c241c !important;
-    color: #ffffff !important;
-    border-color: rgba(255, 255, 255, 0.14) !important;
+    background-color: #0c241c !important;
+    color: #f0faf5 !important;
+    border-color: rgba(255, 255, 255, 0.16) !important;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%2334d399' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+}
+
+html[data-theme="dark"] select,
+html[data-theme="dark"] select option,
+html[data-theme="dark"] .hud-select-wrap select option,
+html[data-theme="dark"] .export-filters-grid select option {
+    background-color: #0c241c !important;
+    color: #f0faf5 !important;
 }
 
 html[data-theme="dark"] .hud-reset-btn {

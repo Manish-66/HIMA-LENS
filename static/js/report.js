@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Custom Marker Icon matching Swiss editorial theme
         const pinIcon = L.divIcon({
             className: "report-pin-marker",
-            html: '<div class="report-pin-symbol"><span>📍</span></div>',
+            html: '<div class="report-pin-symbol"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></div>',
             iconSize: [34, 34],
             iconAnchor: [17, 34],
             popupAnchor: [0, -34]
@@ -323,7 +323,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (features.length === 0) {
                 recentFeedContainer.innerHTML = `
                     <div class="empty-feed-card">
-                        <span class="empty-icon">🏔️</span>
+                        <span class="empty-icon"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="empty-svg-icon"><path d="m8 3 4 8 5-5 5 15H2L8 3z"></path></svg></span>
                         <h3>No Community Reports Filed Yet</h3>
                         <p>Be the first field observer to document a slope failure in Himachal Pradesh using the form above.</p>
                     </div>
@@ -343,7 +343,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 const photoHtml = p.photo_url
                     ? `<div class="recent-card-media"><img src="${p.photo_url}" alt="Observation thumbnail" loading="lazy"></div>`
-                    : `<div class="recent-card-media placeholder"><span class="media-icon">📍</span></div>`;
+                    : `<div class="recent-card-media placeholder"><span class="media-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></span></div>`;
 
                 const severityClass = `severity-${(p.severity || "moderate").toLowerCase()}`;
 

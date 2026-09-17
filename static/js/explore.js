@@ -686,7 +686,7 @@ async function loadCommunityReports() {
 
       const icon = L.divIcon({
         className: "community-marker-icon",
-        html: `<div class="community-beacon-pin" title="Citizen Report: ${props.movement_type} (${props.severity})"><span class="beacon-pulse"></span>📷</div>`,
+        html: `<div class="community-beacon-pin" title="Citizen Report: ${props.movement_type} (${props.severity})"><span class="beacon-pulse"></span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg></div>`,
         iconSize: [28, 28],
         iconAnchor: [14, 14]
       });
@@ -705,10 +705,10 @@ async function loadCommunityReports() {
           ${photoHtml}
           <p class="popup-desc">${props.description || 'Citizen-reported slope instability incident.'}</p>
           <div class="popup-meta-row">
-            <span>📅 ${props.incident_date || 'Recent'}</span>
-            <span>👤 ${props.reporter_name || 'Anonymous'}</span>
+            <span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:3px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>${props.incident_date || 'Recent'}</span>
+            <span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:3px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>${props.reporter_name || 'Anonymous'}</span>
           </div>
-          <div class="popup-coords-row">📍 ${lat.toFixed(4)}° N, ${lng.toFixed(4)}° E</div>
+          <div class="popup-coords-row"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>${lat.toFixed(4)}° N, ${lng.toFixed(4)}° E</div>
         </div>
       `;
       marker.bindPopup(popupContent, { maxWidth: 280, className: "community-leaflet-popup" });
@@ -815,7 +815,7 @@ function initExportModule() {
     setTimeout(() => {
       if (triggerBtn) {
         triggerBtn.disabled = false;
-        triggerBtn.innerHTML = `<span>📥 Download Dataset</span>`;
+        triggerBtn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg><span>Download Dataset</span>`;
       }
       closeModal();
     }, 1500);

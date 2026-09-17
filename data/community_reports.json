@@ -1,1 +1,28 @@
-[]
+[
+  {
+    "id": "HL-CR-6C5DBB52",
+    "latitude": 31.77271,
+    "longitude": 76.98416,
+    "district": "Mandi",
+    "incident_date": "2026-09-17T17:14",
+    "movement_type": "Creep / Subsidence",
+    "severity": "Low",
+    "description": "",
+    "reporter_name": "",
+    "photo_url": "/static/uploads/reports/report_69700c8a2420_1789645560.jpg",
+    "created_at": "2026-09-17T11:46:00.020093Z"
+  },
+  {
+    "id": "HL-CR-B0B0D035",
+    "latitude": 31.77271,
+    "longitude": 76.98416,
+    "district": "Mandi",
+    "incident_date": "2026-09-17T17:13",
+    "movement_type": "Slide",
+    "severity": "Moderate",
+    "description": "",
+    "reporter_name": "",
+    "photo_url": "/static/uploads/reports/report_74ba78941fbe_1789645480.png",
+    "created_at": "2026-09-17T11:44:40.777028Z"
+  }
+]

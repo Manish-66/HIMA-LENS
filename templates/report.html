@@ -55,7 +55,7 @@ HIMA-LENS | Field Telemetry & Landslide Incident Reporting
                     <!-- GPS Lock Action -->
                     <div class="gps-control-bar">
                         <button type="button" id="report-gps-btn" class="btn-gps-acquire">
-                            <span class="gps-icon">🛰️</span>
+                            <span class="gps-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="22" y1="12" x2="18" y2="12"></line><line x1="6" y1="12" x2="2" y2="12"></line><line x1="12" y1="6" x2="12" y2="2"></line><line x1="12" y1="22" x2="12" y2="18"></line></svg></span>
                             <span>Acquire High-Precision GPS</span>
                         </button>
                         <span id="report-gps-feedback" class="gps-feedback">Sensor idle</span>
@@ -118,7 +118,7 @@ HIMA-LENS | Field Telemetry & Landslide Incident Reporting
                             <input type="file" id="rep-photo-file" name="photo" accept="image/*" capture="environment" style="display:none;">
                             <div class="dropzone-content" id="dropzone-empty">
                                 <div class="dropzone-icon-ring">
-                                    <span class="dropzone-camera-icon">📷</span>
+                                    <span class="dropzone-camera-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg></span>
                                 </div>
                                 <div class="dropzone-text">
                                     <span class="dropzone-primary-text">Capture live photo or select file</span>
@@ -264,7 +264,7 @@ HIMA-LENS | Field Telemetry & Landslide Incident Reporting
                     </div>
                 </div>
                 <div class="detail-coords-box">
-                    <span class="coords-label">🛰️ GEOGRAPHIC COORDINATES</span>
+                    <span class="coords-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:4px;"><circle cx="12" cy="12" r="10"></circle><line x1="22" y1="12" x2="18" y2="12"></line><line x1="6" y1="12" x2="2" y2="12"></line><line x1="12" y1="6" x2="12" y2="2"></line><line x1="12" y1="22" x2="12" y2="18"></line></svg>GEOGRAPHIC COORDINATES</span>
                     <span class="coords-val" id="detail-coords">—</span>
                 </div>
                 <div class="detail-description-box">
@@ -278,7 +278,7 @@ HIMA-LENS | Field Telemetry & Landslide Incident Reporting
             </div>
             <div class="report-detail-footer">
                 <button type="button" class="btn-detail-show-map" id="btn-detail-pin-map">
-                    <span>📍 Locate on Map Above</span>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg><span>Locate on Map Above</span>
                 </button>
                 <a href="{{ url_for('explore') }}" class="btn-detail-open-explore" id="btn-detail-explore">
                     <span>Explore on Full Map &nearr;</span>
@@ -292,5 +292,5 @@ HIMA-LENS | Field Telemetry & Landslide Incident Reporting
 
 {% block scripts %}
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-<script src="{{ url_for('static', filename='js/report.js') }}?v=3.2"></script>
+<script src="{{ url_for('static', filename='js/report.js') }}?v=3.4"></script>
 {% endblock %}
