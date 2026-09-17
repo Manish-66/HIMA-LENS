@@ -380,10 +380,9 @@ def process_rasters():
                 resampling=Resampling.nearest
             )
 
-            transformer = Transformer.from_crs(src.crs, dst_crs, always_xy=True)
-            minx, miny = transformer.transform(src.bounds.left, src.bounds.bottom)
-            maxx, maxy = transformer.transform(src.bounds.right, src.bounds.top)
-            bounds = [[round(miny, 6), round(minx, 6)], [round(maxy, 6), round(maxx, 6)]]
+            west, north = transform * (0, 0)
+            east, south = transform * (width, height)
+            bounds = [[round(south, 6), round(west, 6)], [round(north, 6), round(east, 6)]]
 
             rgba = np.zeros((height, width, 4), dtype=np.uint8)
             cmap = ds["colormap"]
