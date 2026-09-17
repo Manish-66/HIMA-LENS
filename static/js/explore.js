@@ -695,19 +695,96 @@ async function initCesium() {
   }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 }
 
-async function renderCesiumPoints(focus=false) {
-  if(!viewer) return; const version=++terrainRenderVersion;
-  if(billboardCollection) viewer.scene.primitives.remove(billboardCollection);
-  billboardCollection=viewer.scene.primitives.add(new Cesium.BillboardCollection());
+// --- OPTIMIZED 3D TERRAIN RENDERING ENGINE ---
+const terrainHeightCache = new Map();
+const cartesianPositionCache = new Map();
+let sharedNearFarScalar = null;
+
+async function renderCesiumPoints(focus = false) {
+  if (!viewer) return;
+  const version = ++terrainRenderVersion;
+
+  if (!sharedNearFarScalar) {
+    sharedNearFarScalar = new Cesium.NearFarScalar(1000, 1.1, 150000, 0.52);
+  }
+
+  // Reuse existing BillboardCollection to preserve GPU vertex buffers & texture atlas
+  if (!billboardCollection) {
+    billboardCollection = viewer.scene.primitives.add(new Cesium.BillboardCollection({ scene: viewer.scene }));
+  } else {
+    billboardCollection.removeAll();
+  }
+
   const showPoints = document.getElementById("toggle-points") ? document.getElementById("toggle-points").checked : true;
   billboardCollection.show = showPoints;
-  const records=filteredFeatures.map(feature=>({feature, coordinates:feature.geometry.coordinates.map(Number)})).filter(record=>Number.isFinite(record.coordinates[0])&&Number.isFinite(record.coordinates[1]));
-  const terrainPositions=records.map(record=>Cesium.Cartographic.fromDegrees(record.coordinates[0],record.coordinates[1]));
-  set3dStatus(`PROJECTING ${records.length.toLocaleString("en-IN")} POINTS 7 m ABOVE TERRAIN…`, true);
-  if(terrainProvider) { try { await Cesium.sampleTerrainMostDetailed(terrainProvider,terrainPositions); } catch(error) { console.warn("Terrain height sampling failed; rendering ellipsoid-height fallback.",error); } }
-  if(version!==terrainRenderVersion) return;
-  records.forEach((record,index)=>{ const surfaceHeight=Number.isFinite(terrainPositions[index].height)?terrainPositions[index].height:0; const visual=markerVisual(record.feature); billboardCollection.add({position:Cesium.Cartesian3.fromRadians(terrainPositions[index].longitude,terrainPositions[index].latitude,surfaceHeight+7),image:landslideIcon(visual.kind,visual.color),verticalOrigin:Cesium.VerticalOrigin.CENTER,scale:0.95,scaleByDistance:new Cesium.NearFarScalar(1000,1.1,150000,.52),id:record.feature}); });
-  if(focus) focusCesiumOnMap(true); viewer.scene.requestRender(); set3dStatus("", false);
+
+  const records = [];
+  const uncachedIndices = [];
+  const uncachedPositions = [];
+
+  for (let i = 0; i < filteredFeatures.length; i++) {
+    const feature = filteredFeatures[i];
+    const coords = feature.geometry.coordinates;
+    const lng = Number(coords[0]);
+    const lat = Number(coords[1]);
+    if (!Number.isFinite(lat) || !Number.isFinite(lng)) continue;
+
+    // Fast coordinate key (5 decimals = ~1m precision)
+    const key = (feature.id || `${lat.toFixed(5)}_${lng.toFixed(5)}`);
+    const record = { feature, lng, lat, key, height: 0 };
+    records.push(record);
+
+    if (terrainHeightCache.has(key)) {
+      record.height = terrainHeightCache.get(key);
+    } else {
+      uncachedIndices.push(records.length - 1);
+      uncachedPositions.push(Cesium.Cartographic.fromDegrees(lng, lat));
+    }
+  }
+
+  // Only sample terrain heights for points NOT yet in the cache
+  if (terrainProvider && uncachedPositions.length > 0) {
+    set3dStatus(`STREAMING 3D TERRAIN ELEVATION (${uncachedPositions.length.toLocaleString("en-IN")} uncached)…`, true);
+    try {
+      await Cesium.sampleTerrainMostDetailed(terrainProvider, uncachedPositions);
+      for (let j = 0; j < uncachedPositions.length; j++) {
+        const h = Number.isFinite(uncachedPositions[j].height) ? uncachedPositions[j].height : 0;
+        const recIdx = uncachedIndices[j];
+        records[recIdx].height = h;
+        terrainHeightCache.set(records[recIdx].key, h);
+      }
+    } catch (error) {
+      console.warn("Terrain height sampling failed; using cached/ellipsoid height fallback.", error);
+    }
+  }
+
+  if (version !== terrainRenderVersion) return;
+
+  // Batch-add billboards using cached Cartesian3 positions
+  for (let i = 0; i < records.length; i++) {
+    const rec = records[i];
+    let pos = cartesianPositionCache.get(rec.key);
+    if (!pos) {
+      pos = Cesium.Cartesian3.fromDegrees(rec.lng, rec.lat, rec.height + 7);
+      if (rec.height !== 0 || !terrainProvider) {
+        cartesianPositionCache.set(rec.key, pos);
+      }
+    }
+
+    const visual = markerVisual(rec.feature);
+    billboardCollection.add({
+      position: pos,
+      image: landslideIcon(visual.kind, visual.color),
+      verticalOrigin: Cesium.VerticalOrigin.CENTER,
+      scale: 0.95,
+      scaleByDistance: sharedNearFarScalar,
+      id: rec.feature
+    });
+  }
+
+  if (focus) focusCesiumOnMap(true);
+  viewer.scene.requestRender();
+  set3dStatus("", false);
 }
 
 function set3dStatus(message, visible) { const status=document.getElementById("three-d-status"); if(!status) return; status.textContent=message; status.hidden=!visible; }

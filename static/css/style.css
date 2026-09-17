@@ -12216,7 +12216,7 @@ body:has(.gis-console-layout) {
     position: absolute !important;
     z-index: 700 !important;
     right: 20px !important;
-    bottom: 74px !important;
+    bottom: 24px !important;
     min-width: 130px !important;
     border: 1px solid #dce7e1 !important;
     border-radius: 10px !important;
@@ -12379,14 +12379,97 @@ body:has(.gis-console-layout) {
     box-shadow: 0 6px 20px rgba(12, 38, 30, 0.08) !important;
 }
 
+/* Unified Map Zoom Controls (2D Leaflet & 3D Cesium) positioned above Layers button without overlap */
+.leaflet-bottom.leaflet-right {
+    position: absolute !important;
+    right: 20px !important;
+    bottom: 80px !important;
+    z-index: 700 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    margin: 0 !important;
+    pointer-events: none !important;
+}
+
+.leaflet-bottom.leaflet-right .leaflet-control {
+    pointer-events: auto !important;
+    margin: 0 !important;
+}
+
+.leaflet-control-zoom {
+    overflow: hidden !important;
+    border: 1px solid #dce7e1 !important;
+    border-radius: 10px !important;
+    box-shadow: 0 6px 18px rgba(12, 38, 30, 0.08) !important;
+    width: 34px !important;
+}
+
+.leaflet-control-zoom a {
+    width: 34px !important;
+    height: 33px !important;
+    line-height: 33px !important;
+    color: #0c261e !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-bottom: 1px solid #edf3f0 !important;
+    font: 700 18px/33px 'Manrope', Arial, sans-serif !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-decoration: none !important;
+    transition: background 0.15s ease, color 0.15s ease !important;
+}
+
+.leaflet-control-zoom a:last-child {
+    border-bottom: 0 !important;
+}
+
+.leaflet-control-zoom a:hover {
+    color: #17624d !important;
+    background: #eef7f3 !important;
+}
+
+.leaflet-control-attribution {
+    position: absolute !important;
+    bottom: -56px !important;
+    right: 140px !important;
+    background: rgba(255, 255, 255, 0.72) !important;
+    backdrop-filter: blur(4px) !important;
+    border: 1px solid rgba(220, 231, 225, 0.7) !important;
+    border-radius: 6px !important;
+    padding: 2px 8px !important;
+    font-size: 9px !important;
+    line-height: 1.2 !important;
+    color: #5d7068 !important;
+    pointer-events: auto !important;
+    margin: 0 !important;
+}
+
 .cesium-zoom-control {
+    position: absolute !important;
+    z-index: 710 !important;
+    right: 20px !important;
+    bottom: 80px !important;
+    width: 34px !important;
     background: rgba(255, 255, 255, 0.95) !important;
     border: 1px solid #dce7e1 !important;
+    border-radius: 10px !important;
     box-shadow: 0 6px 18px rgba(12, 38, 30, 0.08) !important;
+    overflow: hidden !important;
 }
 
 .cesium-zoom-control button {
+    width: 34px !important;
+    height: 33px !important;
     color: #0c261e !important;
+    border: 0 !important;
+    background: transparent !important;
+    font: 700 20px/1 'Manrope', sans-serif !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: background 0.15s ease, color 0.15s ease !important;
 }
 
 .cesium-zoom-control button + button {
