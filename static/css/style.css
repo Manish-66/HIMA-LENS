@@ -8051,7 +8051,8 @@ button:disabled {
 
 .gis-console-layout {
     position: relative;
-    width: 100vw;
+    width: 100%;
+    max-width: 100%;
     height: calc(100vh - 74px);
     overflow: hidden;
     background: #0b1814;
@@ -9474,7 +9475,8 @@ body:has(.gis-console-layout) {
     left: 0;
     right: 0;
     bottom: 0;
-    width: 100vw;
+    width: 100%;
+    max-width: 100%;
     height: calc(100vh - 74px);
     overflow: hidden;
     background: #0b1814;
@@ -9795,7 +9797,8 @@ body:has(.gis-console-layout) {
     left: 0;
     right: 0;
     bottom: 0;
-    width: 100vw;
+    width: 100%;
+    max-width: 100%;
     height: calc(100vh - 74px);
     overflow: hidden;
     background: #0b1814;
@@ -11835,7 +11838,8 @@ body:has(.gis-console-layout) {
     left: 0;
     right: 0;
     bottom: 0;
-    width: 100vw;
+    width: 100%;
+    max-width: 100%;
     height: calc(100vh - 74px);
     overflow: hidden;
     background: #f0f4f2 !important;
@@ -13844,39 +13848,299 @@ html[data-theme="dark"] .footer-column a:hover {
     }
 }
 
-/* ── Header fixes on mobile & small screens (<=800px) ── */
-@media (max-width: 800px) {
+/* ── Unified Modern Header & Brand System (Linear / Vercel style) ── */
+.site-header {
+    position: sticky !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1000 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 60px !important;
+    min-height: 60px !important;
+    padding: 0 16px !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center !important;
+    background: rgba(247, 250, 248, 0.94) !important;
+    border-bottom: 1px solid rgba(207, 220, 214, 0.85) !important;
+    backdrop-filter: blur(24px) saturate(150%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(150%) !important;
+    box-shadow: 0 2px 10px rgba(15, 32, 25, 0.03) !important;
+}
+
+@media (min-width: 801px) {
     .site-header {
-        padding: 0 16px !important;
-        height: 60px !important;
-        box-sizing: border-box !important;
-    }
-    .header-inner {
-        width: 100% !important;
-        padding: 0 !important;
-        box-sizing: border-box !important;
-    }
-    .brand-subtitle {
-        display: none !important;
-    }
-    .header-right-group {
-        gap: 8px !important;
-        flex-shrink: 0 !important;
-    }
-    .menu-toggle {
-        margin: 0 !important;
-        flex-shrink: 0 !important;
+        height: 72px !important;
+        min-height: 72px !important;
+        padding: 0 24px !important;
     }
 }
 
-@media (max-width: 400px) {
+.header-inner {
+    width: 100% !important;
+    max-width: var(--max-width) !important;
+    height: 100% !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+}
+
+/* Brand Link: Monogram + Wordmark */
+.brand {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    text-decoration: none !important;
+    user-select: none !important;
+    flex-shrink: 0 !important;
+    line-height: 1 !important;
+}
+
+.brand-logo {
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    border-radius: 9px !important;
+    background: linear-gradient(135deg, #17624d 0%, #093328 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.22) !important;
+    box-shadow: 0 2px 8px rgba(9, 47, 37, 0.16) !important;
+    display: grid !important;
+    place-items: center !important;
+    color: #ffffff !important;
+    font-family: 'Manrope', -apple-system, sans-serif !important;
+    font-weight: 800 !important;
+    font-size: 13px !important;
+    letter-spacing: -0.02em !important;
+    flex-shrink: 0 !important;
+    margin: 0 !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.brand:hover .brand-logo {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(9, 47, 37, 0.25) !important;
+}
+
+.brand-text {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.brand-name {
+    font-family: 'Manrope', -apple-system, sans-serif !important;
+    font-size: 16px !important;
+    font-weight: 800 !important;
+    color: #0c261e !important;
+    letter-spacing: -0.02em !important;
+    line-height: 1.1 !important;
+    margin: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 2px !important;
+}
+
+.brand-name span {
+    color: #10b981 !important;
+    font-weight: 900 !important;
+    margin: 0 1px !important;
+}
+
+.brand-subtitle {
+    font-family: 'Manrope', -apple-system, sans-serif !important;
+    font-size: 7.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.12em !important;
+    color: #5d7068 !important;
+    text-transform: uppercase !important;
+    line-height: 1 !important;
+    margin-top: 3px !important;
+}
+
+@media (max-width: 800px) {
+    .brand-subtitle {
+        display: none !important;
+    }
     .brand-name {
-        font-size: 13px !important;
+        font-size: 15.5px !important;
     }
-    .brand-logo {
-        width: 32px;
-        height: 32px;
+}
+
+.header-right-group {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    flex-shrink: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Modern tactile mobile menu toggle button */
+.menu-toggle {
+    display: none;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4.5px !important;
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 9px !important;
+    background: rgba(23, 98, 77, 0.05) !important;
+    border: 1px solid rgba(23, 98, 77, 0.18) !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    flex-shrink: 0 !important;
+    box-sizing: border-box !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+@media (max-width: 800px) {
+    .menu-toggle {
+        display: flex !important;
     }
+    .main-nav,
+    .user-profile-widget {
+        display: none !important;
+    }
+}
+
+.menu-toggle:hover,
+.menu-toggle:active {
+    background: rgba(23, 98, 77, 0.12) !important;
+    border-color: rgba(23, 98, 77, 0.35) !important;
+    transform: scale(0.96) !important;
+}
+
+.menu-toggle span {
+    display: block !important;
+    width: 17px !important;
+    height: 2px !important;
+    background: #17624d !important;
+    border-radius: 2px !important;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease !important;
+    transform-origin: center !important;
+}
+
+/* Clean Animated 'X' Transformation when Drawer is Open */
+.menu-toggle.open {
+    background: rgba(23, 98, 77, 0.1) !important;
+    border-color: rgba(23, 98, 77, 0.32) !important;
+}
+
+.menu-toggle.open span:nth-child(1) {
+    transform: translateY(6.5px) rotate(45deg) !important;
+}
+
+.menu-toggle.open span:nth-child(2) {
+    opacity: 0 !important;
+    transform: scaleX(0) !important;
+}
+
+.menu-toggle.open span:nth-child(3) {
+    transform: translateY(-6.5px) rotate(-45deg) !important;
+}
+
+/* Mobile Navigation Dropdown Drawer */
+.mobile-navigation {
+    display: none;
+    position: absolute !important;
+    top: 60px !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    background: rgba(247, 250, 248, 0.98) !important;
+    border-bottom: 1px solid rgba(207, 220, 214, 0.9) !important;
+    backdrop-filter: blur(24px) !important;
+    -webkit-backdrop-filter: blur(24px) !important;
+    box-shadow: 0 16px 36px rgba(12, 38, 30, 0.12) !important;
+    padding: 14px 16px 20px !important;
+    z-index: 999 !important;
+}
+
+.mobile-navigation.open {
+    display: block !important;
+    animation: mobileNavFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+}
+
+@keyframes mobileNavFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.mobile-nav-inner {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+}
+
+.mobile-nav-inner a {
+    display: flex !important;
+    align-items: center !important;
+    padding: 12px 16px !important;
+    border-radius: 10px !important;
+    color: #14201c !important;
+    font-size: 15px !important;
+    font-weight: 650 !important;
+    text-decoration: none !important;
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    transition: all 0.18s ease !important;
+}
+
+.mobile-nav-inner a:hover,
+.mobile-nav-inner a:active,
+.mobile-nav-inner a.active {
+    color: #17624d !important;
+    background: #eef7f3 !important;
+    border-color: #d4e8df !important;
+    font-weight: 750 !important;
+}
+
+/* Dark mode header overrides */
+html[data-theme="dark"] .site-header {
+    background: rgba(8, 20, 16, 0.94) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+html[data-theme="dark"] .brand-name {
+    color: #e5ede9 !important;
+}
+html[data-theme="dark"] .menu-toggle {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border-color: rgba(255, 255, 255, 0.14) !important;
+}
+html[data-theme="dark"] .menu-toggle span {
+    background: #34d399 !important;
+}
+html[data-theme="dark"] .mobile-navigation {
+    background: rgba(8, 20, 16, 0.98) !important;
+    border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+}
+html[data-theme="dark"] .mobile-nav-inner a {
+    color: #d1ded8 !important;
+}
+html[data-theme="dark"] .mobile-nav-inner a:active,
+html[data-theme="dark"] .mobile-nav-inner a.active {
+    background: rgba(52, 211, 153, 0.12) !important;
+    color: #34d399 !important;
+    border-color: rgba(52, 211, 153, 0.25) !important;
 }
 
 /* ── Explore / GIS console on desktop (>900px) ── */
@@ -14384,17 +14648,44 @@ html[data-theme="dark"] .footer-column a:hover {
     }
 }
 
-/* ── Global safe container & touch-friendly UX ── */
+/* ── Global Anti-Overflow & Viewport Guard ── */
 html {
-    box-sizing: border-box;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    -webkit-text-size-adjust: 100% !important;
+    box-sizing: border-box !important;
 }
+
 *, *::before, *::after {
     box-sizing: inherit;
 }
-body:not(:has(.gis-console-layout)) {
-    overflow-x: hidden;
-    -webkit-text-size-adjust: 100%;
+
+body {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    position: relative !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
 }
+
+/* Ensure no page content ever causes horizontal blowout */
+.home-page,
+.explore-page,
+.feed-page-wrapper,
+.about-page-wrapper,
+.incline-about-wrapper,
+.report-page-wrapper,
+.site-main {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+}
+
 .home-page img,
 .feed-page img,
 .about-page-wrapper img,
