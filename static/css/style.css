@@ -12456,6 +12456,12 @@ body:has(.gis-console-layout) {
     border-radius: 10px !important;
     box-shadow: 0 6px 18px rgba(12, 38, 30, 0.08) !important;
     overflow: hidden !important;
+    display: none !important;
+}
+
+.inventory-cesium-canvas.active + .cesium-zoom-control {
+    display: flex !important;
+    flex-direction: column !important;
 }
 
 .cesium-zoom-control button {
@@ -13838,16 +13844,34 @@ html[data-theme="dark"] .footer-column a:hover {
     }
 }
 
-/* ── Header fixes on very small phones ── */
-@media (max-width: 400px) {
+/* ── Header fixes on mobile & small screens (<=800px) ── */
+@media (max-width: 800px) {
     .site-header {
-        padding: 12px 14px;
+        padding: 0 16px !important;
+        height: 60px !important;
+        box-sizing: border-box !important;
     }
-    .brand-name {
-        font-size: 13px !important;
+    .header-inner {
+        width: 100% !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
     }
     .brand-subtitle {
-        display: none;
+        display: none !important;
+    }
+    .header-right-group {
+        gap: 8px !important;
+        flex-shrink: 0 !important;
+    }
+    .menu-toggle {
+        margin: 0 !important;
+        flex-shrink: 0 !important;
+    }
+}
+
+@media (max-width: 400px) {
+    .brand-name {
+        font-size: 13px !important;
     }
     .brand-logo {
         width: 32px;
@@ -14006,13 +14030,27 @@ html[data-theme="dark"] .footer-column a:hover {
     .hud-export-btn-mobile {
         display: grid !important;
         place-items: center !important;
-        width: 30px !important;
-        height: 30px !important;
+        width: 32px !important;
+        height: 32px !important;
         border-radius: 999px !important;
-        background: rgba(255, 255, 255, 0.12) !important;
-        border: 1px solid rgba(255, 255, 255, 0.18) !important;
-        color: #ffffff !important;
+        background: #eef5f2 !important;
+        border: 1px solid #dce7e1 !important;
+        color: #17624d !important;
         cursor: pointer !important;
+        transition: all 0.2s ease !important;
+    }
+
+    .hud-export-btn-mobile:hover,
+    .hud-export-btn-mobile:active {
+        background: #17624d !important;
+        color: #ffffff !important;
+        border-color: #17624d !important;
+    }
+
+    html[data-theme="dark"] .hud-export-btn-mobile {
+        background: #0c241c !important;
+        border-color: rgba(255, 255, 255, 0.16) !important;
+        color: #34d399 !important;
     }
 
     /* Filters: collapsed by default on mobile, smoothly expands when user taps "Filters" */
@@ -14121,8 +14159,8 @@ html[data-theme="dark"] .footer-column a:hover {
         z-index: 900 !important;
     }
 
-    .leaflet-control-zoom,
-    .cesium-zoom-control {
+    /* Exactly ONE pair of zoom controls per mode */
+    .leaflet-control-zoom {
         position: absolute !important;
         bottom: 74px !important;
         bottom: max(74px, calc(env(safe-area-inset-bottom, 24px) + 50px)) !important;
@@ -14130,6 +14168,20 @@ html[data-theme="dark"] .footer-column a:hover {
         z-index: 850 !important;
         display: flex !important;
         flex-direction: column !important;
+    }
+
+    .cesium-zoom-control {
+        position: absolute !important;
+        bottom: 74px !important;
+        bottom: max(74px, calc(env(safe-area-inset-bottom, 24px) + 50px)) !important;
+        right: 14px !important;
+        z-index: 850 !important;
+        display: none !important;
+        flex-direction: column !important;
+    }
+
+    .inventory-cesium-canvas.active + .cesium-zoom-control {
+        display: flex !important;
     }
 
     .gis-bottom-telemetry {

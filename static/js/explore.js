@@ -76,11 +76,45 @@ async function init() {
 async function fetchJSON(url) { const response = await fetch(url, {headers:{Accept:"application/json"}}); if (!response.ok) throw Error(`HTTP ${response.status}`); return response.json(); }
 
 function initMap() {
-  map = L.map("map", {center:MAP_CONFIG.center, zoom:MAP_CONFIG.zoom, minZoom:MAP_CONFIG.minZoom, maxZoom:MAP_CONFIG.maxZoom, zoomControl:false, preferCanvas:true});
+  const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+
+  map = L.map("map", {
+    center: MAP_CONFIG.center,
+    zoom: MAP_CONFIG.zoom,
+    minZoom: MAP_CONFIG.minZoom,
+    maxZoom: MAP_CONFIG.maxZoom,
+    zoomControl: false,
+    preferCanvas: true,
+    zoomSnap: 0.5,
+    zoomDelta: 0.5,
+    wheelPxPerZoomLevel: 100,
+    zoomAnimation: true,
+    touchZoom: true,
+    bounceAtZoomLimits: false
+  });
   L.control.zoom({position:"bottomright"}).addTo(map);
-  layers.standard = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {maxZoom:19, attribution:"© OpenStreetMap contributors"});
-  layers.satellite = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {maxZoom:18, attribution:"Tiles © Esri"});
-  layers.terrain = L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {maxZoom:17, attribution:"© OpenTopoMap © OpenStreetMap contributors"});
+
+  const tileOpts = {
+    updateWhenZooming: false,
+    updateWhenIdle: true,
+    keepBuffer: 4
+  };
+
+  layers.standard = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution: "© OpenStreetMap contributors",
+    ...tileOpts
+  });
+  layers.satellite = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
+    maxZoom: 18,
+    attribution: "Tiles © Esri",
+    ...tileOpts
+  });
+  layers.terrain = L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
+    maxZoom: 17,
+    attribution: "© OpenTopoMap © OpenStreetMap contributors",
+    ...tileOpts
+  });
   layers.standard.addTo(map);
   markerLayer = L.markerClusterGroup({
     chunkedLoading: true,
@@ -91,7 +125,7 @@ function initMap() {
     spiderfyDistanceMultiplier: 1.4,
     showCoverageOnHover: false,
     zoomToBoundsOnClick: true,
-    animate: true,
+    animate: !isTouchDevice,
     animateAddingMarkers: false,
     maxClusterRadius: 50,
     disableClusteringAtZoom: 16
