@@ -13852,9 +13852,7 @@ html[data-theme="dark"] .footer-column a:hover {
 }
 
 @media (max-width: 640px) {
-    .gis-console-layout {
-        height: calc(100svh - 60px);
-    }
+    /* gis-console-layout height is handled by position:fixed + top:60px + bottom:0 — do NOT override here */
     .gis-legend-card {
         max-width: calc(100vw - 32px);
         font-size: 10px;
@@ -13989,18 +13987,25 @@ html[data-theme="dark"] .footer-column a:hover {
     }
 }
 
-/* ── Global: overflow safety and box-sizing ── */
+/* ── Global: box-sizing safety ── */
 html {
     box-sizing: border-box;
 }
 *, *::before, *::after {
     box-sizing: inherit;
 }
-body {
+/* NOTE: Do NOT set body { overflow-x: hidden } globally —
+   it breaks Cesium's 3D canvas rendering on the explore page.
+   The explore page uses body:has(.gis-console-layout) { overflow: hidden } instead. */
+body:not(:has(.gis-console-layout)) {
     overflow-x: hidden;
     -webkit-text-size-adjust: 100%;
 }
-img, svg, video, iframe {
+/* Safe max-width for content images only — exclude maps and canvas elements */
+.home-page img,
+.feed-page img,
+.about-page-wrapper img,
+.report-page img {
     max-width: 100%;
     height: auto;
 }
