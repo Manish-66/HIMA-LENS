@@ -13601,43 +13601,64 @@ html[data-theme="dark"] .footer-column a:hover {
     }
 }
 
-/* ── Home hero section mobile ── */
-@media (max-width: 640px) {
+/* ── Home hero section mobile: clean, compact & balanced ── */
+@media (max-width: 800px) {
     .home-hero {
-        min-height: 680px;
+        min-height: auto !important;
+        height: auto !important;
+        padding: 32px 0 24px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        background: #f7faf8 !important;
     }
     .home-hero-content {
-        padding-top: 100px;
-        padding-bottom: 160px;
-        width: calc(100% - 32px);
-        margin-left: 16px;
+        padding: 0 !important;
+        width: calc(100% - 32px) !important;
+        margin: 0 auto !important;
+        max-width: 100% !important;
+    }
+    .hero-badge {
+        margin-bottom: 12px !important;
     }
     .hero-title {
-        font-size: clamp(36px, 9vw, 54px);
-        line-height: 1.1;
+        font-size: clamp(32px, 8.5vw, 44px) !important;
+        line-height: 1.1 !important;
+        letter-spacing: -0.04em !important;
+        margin-bottom: 12px !important;
     }
     .hero-description {
-        font-size: 13px;
-        max-width: 100%;
+        font-size: 13.5px !important;
+        line-height: 1.6 !important;
+        margin-bottom: 20px !important;
+        max-width: 100% !important;
     }
     .hero-actions {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 10px !important;
+        margin-bottom: 20px !important;
     }
     .hero-primary-button,
     .hero-scroll-button {
-        width: 100%;
-        text-align: center;
-        justify-content: center;
+        width: 100% !important;
+        text-align: center !important;
+        justify-content: center !important;
+        padding: 12px 18px !important;
     }
     .hero-data-indicator {
-        width: calc(100% - 32px);
-        left: 16px;
-        bottom: 24px;
+        position: static !important;
+        width: 100% !important;
+        margin: 12px 0 0 0 !important;
+        left: auto !important;
+        bottom: auto !important;
+        box-shadow: 0 4px 16px rgba(12, 38, 30, 0.05) !important;
     }
     .hero-side-label {
-        display: none;
+        display: none !important;
+    }
+    .home-section {
+        padding: 44px 0 !important;
     }
 }
 
@@ -13834,79 +13855,215 @@ html[data-theme="dark"] .footer-column a:hover {
     }
 }
 
-/* ── Explore / GIS console on mobile & tablet ── */
+/* ── Explore / GIS console on desktop (>900px) ── */
+.hud-mobile-actions {
+    display: none !important;
+}
+.hud-export-btn-mobile {
+    display: none !important;
+}
+
+/* Tablet & Mobile "Desktop-Site" Mode (901px to 1250px) */
+@media (min-width: 901px) and (max-width: 1250px) {
+    .gis-floating-hud {
+        width: calc(100% - 24px) !important;
+        padding: 6px 12px !important;
+        gap: 8px !important;
+    }
+    .hud-brand-telemetry {
+        gap: 6px !important;
+    }
+    .hud-status-badge {
+        font-size: 8px !important;
+        padding: 2px 6px !important;
+    }
+    .gis-hud-filters {
+        gap: 6px !important;
+    }
+    .hud-select-wrap select {
+        padding: 4px 20px 4px 6px !important;
+        font-size: 11px !important;
+        height: 30px !important;
+    }
+    .hud-filter-item label {
+        font-size: 7px !important;
+    }
+    .hud-reset-btn {
+        padding: 4px 8px !important;
+        font-size: 10px !important;
+        height: 30px !important;
+    }
+}
+
+/* ── Explore / GIS console on mobile & tablet (<=900px) ── */
 @media (max-width: 900px) {
+    .site-header {
+        height: 60px !important;
+        min-height: 60px !important;
+    }
+
+    /* Map viewport: precise visible area without overflowing below mobile browser bars */
+    .gis-console-layout {
+        position: fixed !important;
+        top: 60px !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        height: calc(100dvh - 60px) !important;
+        overflow: hidden !important;
+    }
+
+    .gis-map-viewport {
+        width: 100% !important;
+        height: 100% !important;
+        position: relative !important;
+    }
+
+    /* Floating Top HUD: slim collapsible bar giving 90%+ map view */
     .gis-floating-hud {
         top: 10px !important;
         left: 50% !important;
         transform: translateX(-50%) !important;
         width: calc(100% - 20px) !important;
-        padding: 10px 14px !important;
+        max-width: 540px !important;
+        padding: 8px 12px !important;
+        border-radius: 14px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0 !important;
+        z-index: 1000 !important;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+        backdrop-filter: blur(24px) saturate(140%) !important;
+    }
+
+    .hud-top-bar {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        width: 100% !important;
         gap: 8px !important;
     }
+
     .hud-brand-telemetry {
-        width: 100%;
-        justify-content: space-between;
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
     }
-    .gis-hud-filters {
+
+    .hud-status-badge {
+        font-size: 8.5px !important;
+        padding: 3px 8px !important;
+        font-weight: 850 !important;
+    }
+
+    .hud-metric-box {
+        gap: 4px !important;
+    }
+
+    .hud-metric-num {
+        font-size: 13px !important;
+        font-weight: 850 !important;
+    }
+
+    .hud-metric-lbl {
+        font-size: 8px !important;
+    }
+
+    .hud-mobile-actions {
+        display: flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+    }
+
+    .hud-filter-toggle-btn {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 5px !important;
+        padding: 6px 12px !important;
+        border-radius: 999px !important;
+        background: #17624d !important;
+        color: #ffffff !important;
+        border: none !important;
+        font-size: 11px !important;
+        font-weight: 750 !important;
+        cursor: pointer !important;
+        box-shadow: 0 2px 8px rgba(23, 98, 77, 0.3) !important;
+        transition: all 0.2s ease !important;
+    }
+
+    .hud-filter-toggle-btn.active {
+        background: #0c261e !important;
+    }
+
+    .hud-chevron {
+        font-size: 9px !important;
+        line-height: 1 !important;
+        transition: transform 0.2s ease !important;
+    }
+
+    .hud-export-btn-mobile {
         display: grid !important;
+        place-items: center !important;
+        width: 30px !important;
+        height: 30px !important;
+        border-radius: 999px !important;
+        background: rgba(255, 255, 255, 0.12) !important;
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+        color: #ffffff !important;
+        cursor: pointer !important;
+    }
+
+    /* Filters: collapsed by default on mobile, smoothly expands when user taps "Filters" */
+    .gis-hud-filters {
+        display: none !important;
+        padding-top: 10px !important;
+        margin-top: 8px !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
         grid-template-columns: 1fr 1fr !important;
         gap: 8px !important;
         width: 100% !important;
     }
+
+    .gis-hud-filters.open {
+        display: grid !important;
+        animation: hudSlideDown 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+
     .hud-filter-item {
         width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 2px !important;
     }
-    .hud-select-wrap select {
-        width: 100% !important;
-        min-width: 0 !important;
-    }
-    .hud-reset-btn {
-        width: 100% !important;
-        justify-content: center !important;
-    }
-}
 
-@media (max-width: 640px) {
-    .gis-floating-hud {
-        top: 8px !important;
-        padding: 8px 10px !important;
-        gap: 6px !important;
-        border-radius: 12px !important;
-        max-height: calc(100vh - 100px);
-        overflow-y: auto;
-    }
-    .hud-brand-telemetry {
-        gap: 8px !important;
-    }
-    .hud-status-badge {
-        font-size: 9px !important;
-        padding: 3px 8px !important;
-    }
-    .hud-metric-box {
-        gap: 4px !important;
-    }
-    .hud-metric-num {
-        font-size: 13px !important;
-    }
-    .hud-metric-lbl {
-        font-size: 8px !important;
-    }
-    .gis-hud-filters {
-        gap: 6px !important;
-    }
     .hud-filter-item label {
         font-size: 7.5px !important;
     }
+
+    .hud-select-wrap {
+        width: 100% !important;
+    }
+
     .hud-select-wrap select {
+        width: 100% !important;
+        min-width: 0 !important;
         height: 32px !important;
-        font-size: 11px !important;
+        font-size: 11.5px !important;
         padding: 4px 22px 4px 8px !important;
     }
+
+    .hud-export-desktop {
+        display: none !important;
+    }
+
     .hud-reset-btn {
+        grid-column: 1 / -1 !important;
+        width: 100% !important;
         height: 32px !important;
-        font-size: 10.5px !important;
-        padding: 5px 8px !important;
+        justify-content: center !important;
+        font-size: 11px !important;
     }
 
     /* Bottom sheet feature drawer on mobile phones */
@@ -13921,63 +14078,88 @@ html[data-theme="dark"] .footer-column a:hover {
         max-height: 78vh !important;
         border-radius: 20px 20px 0 0 !important;
         border-bottom: 0 !important;
-        box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.3) !important;
+        box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.35) !important;
         transform: translateY(100%) !important;
         transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
         z-index: 1050 !important;
     }
+
     .gis-feature-drawer.open {
         transform: translateY(0) !important;
     }
+
     .drawer-body {
         max-height: calc(78vh - 72px) !important;
         overflow-y: auto !important;
         -webkit-overflow-scrolling: touch;
     }
 
-    /* Controls positioning */
+    /* Controls positioning: clearly elevated & safe above bottom mobile browser bar */
     .map-mode-control {
-        bottom: 16px !important;
-        right: 12px !important;
+        position: absolute !important;
+        bottom: 24px !important;
+        bottom: max(24px, env(safe-area-inset-bottom, 24px)) !important;
+        right: 14px !important;
+        z-index: 850 !important;
         min-width: 110px !important;
+        display: block !important;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3) !important;
     }
+
     .layers-toggle {
-        padding: 8px 12px !important;
-        font-size: 11px !important;
+        padding: 9px 13px !important;
+        font-size: 11.5px !important;
     }
+
     .layers-menu {
-        width: min(280px, calc(100vw - 24px)) !important;
-        max-height: 65vh !important;
+        position: absolute !important;
         right: 0 !important;
         bottom: calc(100% + 8px) !important;
+        width: min(280px, calc(100vw - 28px)) !important;
+        max-height: 60vh !important;
+        overflow-y: auto !important;
+        z-index: 900 !important;
     }
-    .leaflet-control-zoom {
-        bottom: 66px !important;
-        right: 12px !important;
-    }
+
+    .leaflet-control-zoom,
     .cesium-zoom-control {
-        bottom: 66px !important;
-        right: 12px !important;
+        position: absolute !important;
+        bottom: 74px !important;
+        bottom: max(74px, calc(env(safe-area-inset-bottom, 24px) + 50px)) !important;
+        right: 14px !important;
+        z-index: 850 !important;
+        display: flex !important;
+        flex-direction: column !important;
     }
+
     .gis-bottom-telemetry {
-        bottom: 16px !important;
-        left: 12px !important;
-        max-width: calc(100vw - 145px) !important;
+        position: absolute !important;
+        bottom: 24px !important;
+        bottom: max(24px, env(safe-area-inset-bottom, 24px)) !important;
+        left: 14px !important;
+        max-width: calc(100vw - 150px) !important;
+        z-index: 800 !important;
     }
+
     .gis-legend-card {
         padding: 6px 10px !important;
+        font-size: 9.5px !important;
     }
+
     .legend-tag {
         font-size: 7.5px !important;
     }
+
     .legend-badge {
         font-size: 7.5px !important;
         padding: 1px 5px !important;
     }
+
     .legend-chips-row {
         gap: 3px !important;
         flex-wrap: wrap !important;
     }
+
     .legend-chip {
         font-size: 9px !important;
         padding: 2px 5px !important;
@@ -13986,9 +14168,21 @@ html[data-theme="dark"] .footer-column a:hover {
 
 @media (max-width: 420px) {
     .gis-bottom-telemetry {
-        bottom: 62px !important;
+        bottom: 72px !important;
+        bottom: max(72px, calc(env(safe-area-inset-bottom, 24px) + 48px)) !important;
         left: 10px !important;
         max-width: calc(100vw - 64px) !important;
+    }
+}
+
+@keyframes hudSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 

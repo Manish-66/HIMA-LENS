@@ -828,6 +828,20 @@ function initControls() {
   document.getElementById("cesium-zoom-in").addEventListener("click",()=>zoomCesium(1));
   document.getElementById("cesium-zoom-out").addEventListener("click",()=>zoomCesium(-1));
 
+  // Mobile HUD Filter Dropdown Toggle
+  const filterToggle = document.getElementById("hud-filter-toggle");
+  const filtersWrap = document.getElementById("gis-hud-filters");
+  if (filterToggle && filtersWrap) {
+    filterToggle.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const open = filtersWrap.classList.toggle("open");
+      filterToggle.classList.toggle("active", open);
+      filterToggle.setAttribute("aria-expanded", String(open));
+      const chevron = filterToggle.querySelector(".hud-chevron");
+      if (chevron) chevron.textContent = open ? "▴" : "▾";
+    });
+  }
+
   // Layers Menu Toggle
   const toggle=document.getElementById("layers-toggle"), menu=document.getElementById("layers-menu");
   toggle.addEventListener("click",(e)=>{
@@ -997,7 +1011,7 @@ async function loadCommunityReports() {
 // --- DATASET EXPORT MODULE ---
 function initExportModule() {
   const modal = document.getElementById("export-modal");
-  const openBtn = document.getElementById("open-export-modal");
+  const openButtons = document.querySelectorAll(".hud-export-trigger");
   const closeBtn = document.getElementById("export-modal-close");
   const cancelBtn = document.getElementById("export-cancel-btn");
   const triggerBtn = document.getElementById("export-trigger-btn");
@@ -1056,7 +1070,7 @@ function initExportModule() {
     }
   }
 
-  openBtn?.addEventListener("click", openModal);
+  openButtons.forEach(btn => btn?.addEventListener("click", openModal));
   closeBtn?.addEventListener("click", closeModal);
   cancelBtn?.addEventListener("click", closeModal);
 
