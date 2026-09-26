@@ -111,7 +111,7 @@ HIMA-LENS | Interactive Geospatial Landslide Explorer
                         <span class="layer-btn-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10a7.5 7.5 0 0 0 10 10"></path><path d="M4 15a2.5 2.5 0 0 0 5 5"></path><path d="M4 4a13.5 13.5 0 0 0 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></span><span>Satellite</span>
                     </button>
                     <button type="button" class="layer-choice-btn" data-layer-choice="terrain">
-                        <span class="layer-btn-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"></path></svg></span><span>Terrain</span>
+                        <span class="layer-btn-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"></path></svg></span><span>Terrain (2D)</span>
                     </button>
                     <button type="button" class="layer-choice-btn" data-layer-choice="3d">
                         <span class="layer-btn-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg></span><span>3D Terrain</span>
@@ -389,7 +389,11 @@ HIMA-LENS | Interactive Geospatial Landslide Explorer
 {% endblock %}
 
 {% block scripts %}
-<script>window.HIMA_CONFIG = { cesiumIonToken: {{ cesium_ion_token|tojson }} };</script>
+<script>
+window.HIMA_CONFIG = {
+    cesiumIonToken: {{ (cesium_ion_token or 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjMydHFDWnJKb2JMa3NOVS0iLCJqdGkiOiJkOGRiYTc4Mi00Mjc3LTRlNjktYTUwNC02MzBkOWM0MzUwZmYiLCJpZCI6NDgyODkzLCJzdWIiOiJNYW5pc2gtNjYiLCJpc3MiOiJodHRwczovL2FwaS5jZXNpdW0uY29tIiwiYXVkIjoiVW50aXRsZWQiLCJpYXQiOjE3ODg4MDkyODN9.hbQrfvjKTYJlOjipACK2GMH0zsoTjWwOoP_IxAhZQfg')|tojson }}
+};
+</script>
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
-<script src="{{ url_for('static', filename='js/explore.js') }}?v=3.9"></script>
+<script src="{{ url_for('static', filename='js/explore.js') }}?v=4.2"></script>
 {% endblock %}

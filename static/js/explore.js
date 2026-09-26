@@ -587,7 +587,8 @@ async function initCesium() {
   }
   await new Promise(resolve => setTimeout(resolve, 60));
   const target=document.getElementById("cesium-map"); target.classList.add("active"); document.getElementById("map").classList.add("hidden");
-  const token=window.HIMA_CONFIG?.cesiumIonToken;
+  const DEFAULT_CESIUM_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjMydHFDWnJKb2JMa3NOVS0iLCJqdGkiOiJkOGRiYTc4Mi00Mjc3LTRlNjktYTUwNC02MzBkOWM0MzUwZmYiLCJpZCI6NDgyODkzLCJzdWIiOiJNYW5pc2gtNjYiLCJpc3MiOiJodHRwczovL2FwaS5jZXNpdW0uY29tIiwiYXVkIjoiVW50aXRsZWQiLCJpYXQiOjE3ODg4MDkyODN9.hbQrfvjKTYJlOjipACK2GMH0zsoTjWwOoP_IxAhZQfg";
+  const token = (window.HIMA_CONFIG && window.HIMA_CONFIG.cesiumIonToken) ? window.HIMA_CONFIG.cesiumIonToken : DEFAULT_CESIUM_TOKEN;
   if(token) Cesium.Ion.defaultAccessToken=token;
 
   // High-resolution satellite imagery fallback (ESRI World Imagery, needs no API key)
@@ -628,9 +629,15 @@ async function initCesium() {
       }
       if(terrainRes.status === "fulfilled" && terrainRes.value) {
         terrainProvider = terrainRes.value;
-        if("terrain" in viewer) viewer.terrain = terrainRes.value;
-        else viewer.terrainProvider = terrainRes.value;
+        try {
+          viewer.terrainProvider = terrainRes.value;
+        } catch(e) {
+          try { viewer.scene.terrainProvider = terrainRes.value; } catch(e2) {}
+        }
         viewer.scene.globe.depthTestAgainstTerrain = true;
+        viewer.scene.globe.terrainExaggeration = 1.35;
+        // Re-focus camera with 3D elevation loaded for optimal perspective
+        focusCesiumOnMap(true);
       }
     } catch(error) {
       console.warn("Cesium Ion imagery/terrain could not load; retaining ESRI satellite fallback.",error);

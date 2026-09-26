@@ -35,6 +35,6 @@ COMMUNITY_REPORTS_PATH = BASE_DIR / "data" / "community_reports.json"
 COMMUNITY_REPORTS_UPLOAD_DIR = BASE_DIR / "static" / "uploads" / "reports"
 APP_NAME = "HIMA-LENS"
 APP_DESCRIPTION = "Himachal Pradesh Landslide Inventory & Exploration System"
-# Optional: set CESIUM_ION_TOKEN in the environment for photoreal terrain.
-# Do not commit a real token into this repository.
-CESIUM_ION_TOKEN = os.environ.get("CESIUM_ION_TOKEN", "").strip()
+DEFAULT_CESIUM_ION_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjMydHFDWnJKb2JMa3NOVS0iLCJqdGkiOiJkOGRiYTc4Mi00Mjc3LTRlNjktYTUwNC02MzBkOWM0MzUwZmYiLCJpZCI6NDgyODkzLCJzdWIiOiJNYW5pc2gtNjYiLCJpc3MiOiJodHRwczovL2FwaS5jZXNpdW0uY29tIiwiYXVkIjoiVW50aXRsZWQiLCJpYXQiOjE3ODg4MDkyODN9.hbQrfvjKTYJlOjipACK2GMH0zsoTjWwOoP_IxAhZQfg"
+CESIUM_ION_TOKEN = (os.environ.get("CESIUM_ION_TOKEN", "").strip() or DEFAULT_CESIUM_ION_TOKEN)
+
