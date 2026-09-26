@@ -13571,3 +13571,436 @@ html[data-theme="dark"] .footer-column span {
 html[data-theme="dark"] .footer-column a:hover {
     color: #ffffff !important;
 }
+
+/* =========================================================
+   COMPREHENSIVE MOBILE RESPONSIVE OVERRIDES
+   Added for Vercel deployment mobile fixes
+   Breakpoints: 800px, 640px, 480px, 400px
+   ========================================================= */
+
+/* ── Hide desktop-only header elements on mobile ── */
+@media (max-width: 800px) {
+    .user-profile-widget {
+        display: none !important;
+    }
+    .header-right-group {
+        gap: 8px;
+    }
+    /* Ensure mobile nav stays closed by default */
+    .mobile-navigation {
+        display: none;
+    }
+    .mobile-navigation.open {
+        display: block;
+    }
+    .menu-toggle {
+        display: flex !important;
+    }
+    .main-nav {
+        display: none !important;
+    }
+}
+
+/* ── Home hero section mobile ── */
+@media (max-width: 640px) {
+    .home-hero {
+        min-height: 680px;
+    }
+    .home-hero-content {
+        padding-top: 100px;
+        padding-bottom: 160px;
+        width: calc(100% - 32px);
+        margin-left: 16px;
+    }
+    .hero-title {
+        font-size: clamp(36px, 9vw, 54px);
+        line-height: 1.1;
+    }
+    .hero-description {
+        font-size: 13px;
+        max-width: 100%;
+    }
+    .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+    .hero-primary-button,
+    .hero-scroll-button {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+    }
+    .hero-data-indicator {
+        width: calc(100% - 32px);
+        left: 16px;
+        bottom: 24px;
+    }
+    .hero-side-label {
+        display: none;
+    }
+}
+
+/* ── Home sections general ── */
+@media (max-width: 640px) {
+    .home-section {
+        padding: 64px 0;
+    }
+    .home-page .section-container {
+        width: calc(100% - 32px);
+    }
+    .section-title {
+        font-size: clamp(26px, 7vw, 36px) !important;
+    }
+    .section-label {
+        font-size: 9px;
+    }
+    .section-number {
+        font-size: 56px !important;
+    }
+}
+
+/* ── Feature cards ── */
+@media (max-width: 640px) {
+    .feature-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+    .feature-card:last-child {
+        grid-column: auto;
+    }
+    .feature-card {
+        min-height: 240px;
+        padding: 22px;
+    }
+}
+
+/* ── Statistics / stat cards ── */
+@media (max-width: 640px) {
+    .statistics-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+    .stat-card,
+    .stat-card-primary {
+        min-height: 160px !important;
+        padding: 20px 18px !important;
+    }
+    .stat-value {
+        font-size: clamp(40px, 10vw, 60px) !important;
+    }
+    .inventory-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+    }
+    .inventory-status {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+    .inventory-status-right {
+        font-size: 10px;
+    }
+}
+
+/* ── Story / Section 02 grid ── */
+@media (max-width: 800px) {
+    .story-grid {
+        grid-template-columns: 1fr;
+        gap: 36px;
+    }
+    .story-visual {
+        order: -1;
+    }
+    .story-map-placeholder {
+        aspect-ratio: 4 / 3;
+        border-radius: 16px;
+        max-height: 340px;
+        overflow: hidden;
+    }
+    .story-content {
+        max-width: 100%;
+    }
+    .story-title {
+        font-size: clamp(28px, 7vw, 42px);
+    }
+}
+
+@media (max-width: 640px) {
+    .story-section {
+        padding: 60px 0;
+    }
+    .story-list {
+        gap: 14px;
+    }
+    .story-list-item {
+        gap: 12px;
+        padding: 14px;
+    }
+    .spatial-graph-card {
+        padding: 16px 14px 14px;
+        border-radius: 14px;
+    }
+    .spatial-graph-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .spatial-graph-title {
+        font-size: 13px !important;
+    }
+    .spatial-graph-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+}
+
+/* ── Dimension items grid ── */
+@media (max-width: 640px) {
+    .dimension-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    .dimension-item {
+        min-height: 110px;
+        padding: 14px;
+    }
+}
+
+@media (max-width: 400px) {
+    .dimension-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ── Final CTA section ── */
+@media (max-width: 640px) {
+    .final-cta {
+        min-height: 400px;
+        padding: 36px 20px;
+        border-radius: 20px;
+    }
+    .final-cta h2 {
+        font-size: clamp(36px, 9vw, 52px);
+    }
+}
+
+/* ── Footer responsive ── */
+@media (max-width: 800px) {
+    .footer-intro {
+        flex-direction: column;
+        gap: 24px;
+    }
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 28px;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .footer-bottom {
+        flex-direction: column;
+        gap: 6px;
+        text-align: center;
+    }
+    .site-footer {
+        padding: 52px 0 28px;
+    }
+    .footer-brand p {
+        max-width: 100%;
+    }
+}
+
+/* ── Header fixes on very small phones ── */
+@media (max-width: 400px) {
+    .site-header {
+        padding: 12px 14px;
+    }
+    .brand-name {
+        font-size: 13px !important;
+    }
+    .brand-subtitle {
+        display: none;
+    }
+    .brand-logo {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+/* ── Explore / GIS console on mobile ── */
+@media (max-width: 800px) {
+    .gis-floating-hud {
+        padding: 8px 14px;
+        gap: 10px;
+        width: calc(100% - 24px);
+        top: 12px;
+    }
+    .hud-telemetry-group {
+        display: none;
+    }
+    .hud-filters-row {
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+}
+
+@media (max-width: 640px) {
+    .gis-console-layout {
+        height: calc(100svh - 60px);
+    }
+    .gis-legend-card {
+        max-width: calc(100vw - 32px);
+        font-size: 10px;
+    }
+    .map-mode-control {
+        bottom: 16px !important;
+        right: 12px !important;
+    }
+    .leaflet-control-zoom {
+        bottom: 72px !important;
+        right: 12px !important;
+    }
+    .cesium-zoom-control {
+        bottom: 72px !important;
+        right: 12px !important;
+    }
+    .gis-sidebar-panel {
+        width: calc(100vw - 16px);
+        max-width: 340px;
+    }
+}
+
+/* ── Report page ── */
+@media (max-width: 800px) {
+    .report-layout {
+        flex-direction: column;
+    }
+    .report-sidebar,
+    .report-form-panel {
+        width: 100%;
+        max-width: 100%;
+    }
+    .recent-reports-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .report-hero-section {
+        padding: 40px 16px;
+    }
+    .report-form-wrapper {
+        padding: 20px 16px;
+    }
+    /* Prevent iOS zoom on form focus */
+    .input-field-group input,
+    .input-field-group select,
+    .input-field-group textarea {
+        font-size: 16px !important;
+    }
+    .location-map-mini {
+        height: 220px;
+    }
+    .recent-report-card {
+        padding: 14px;
+    }
+    .report-detail-card {
+        padding: 14px;
+    }
+    .detail-meta-pills {
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+}
+
+/* ── Feed / events page ── */
+@media (max-width: 800px) {
+    .feed-grid {
+        grid-template-columns: 1fr;
+    }
+    .event-card:first-child {
+        grid-row: auto;
+        min-height: 400px;
+    }
+    .feed-filter-bar {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+}
+
+@media (max-width: 640px) {
+    .feed-page-wrapper {
+        padding: 0 16px;
+    }
+    .event-card {
+        min-height: 260px;
+        padding: 18px;
+    }
+    .feed-header {
+        gap: 14px;
+    }
+    .feed-filter-bar {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 4px;
+        -webkit-overflow-scrolling: touch;
+    }
+    .filter-chip {
+        flex-shrink: 0;
+    }
+}
+
+/* ── About page ── */
+@media (max-width: 800px) {
+    .about-hero-inner {
+        flex-direction: column;
+        gap: 28px;
+    }
+    .about-objective-grid {
+        grid-template-columns: 1fr;
+    }
+    .tech-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .about-hero {
+        padding: 56px 16px 36px;
+    }
+    .about-hero h1 {
+        font-size: clamp(30px, 8vw, 44px);
+    }
+    .tech-grid {
+        grid-template-columns: 1fr;
+    }
+    .team-grid {
+        grid-template-columns: 1fr;
+    }
+    .about-content-section {
+        padding: 44px 16px;
+    }
+}
+
+/* ── Global: overflow safety and box-sizing ── */
+html {
+    box-sizing: border-box;
+}
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+body {
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+}
+img, svg, video, iframe {
+    max-width: 100%;
+    height: auto;
+}
