@@ -124,16 +124,43 @@ def _format_coordinates_dms(lat: float, lng: float) -> str:
         return f"Lat: {lat:.5f}° N | Long: {lng:.5f}° E"
 
 
+def _clean_hazard_prefix(text: str) -> str:
+    s = str(text or "").strip()
+    prefixes = [
+        "overhead electrical & utility hazard",
+        "overhead electrical & telecom hazard",
+        "overhead electrical hazard",
+        "utility & secondary hazards",
+        "utility hazard",
+        "immediate machinery deployment",
+        "immediate response & equipment deployment",
+        "machinery deployment",
+        "emergency traffic restoration target",
+        "public safety & access restoration",
+        "traffic restoration",
+        "access or evacuation",
+        "permanent restoration",
+        "permanent geotechnical stabilization",
+        "permanent stabilization",
+    ]
+    for p in prefixes:
+        if s.lower().startswith(p):
+            s = s[len(p):].lstrip(" :-\t")
+    return s
+
+
 def compute_deterministic_engineering_dossier(
     report: dict[str, Any],
     visual_clues: dict[str, Any] | None = None,
     custom_plain: dict[str, Any] | None = None,
     custom_remarks: str | None = None,
+    custom_safety: dict[str, Any] | None = None,
+    site_context: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Computes a stable, mathematically rigorous geotechnical dossier adhering strictly
-
-    to IRC:SP:48, IS:14458 (Parts 1-4), and MoRTH hill road specifications.
-    Guarantees reproducible, consistent dimensions and quantities across all runs.
+    to IRC:SP:48, IS:14458 (Parts 1-4), and MoRTH hill disaster specifications.
+    Dynamically differentiates between residential/settlement landslides, road corridor failures,
+    and agricultural terrain based on optical evidence.
     """
     district = report.get("district") or "Mandi"
     movement = report.get("movement_type") or "Slide"
@@ -151,6 +178,31 @@ def compute_deterministic_engineering_dossier(
     in_situ_soil_desc = visual_clues.get("in_situ_soil_desc") or "Coarse Colluvial Overburden (Sandy Silt Matrix)"
     observed_obstruction = visual_clues.get("carriageway_obstruction") or ""
     observed_failure = visual_clues.get("failure_movement_observed") or movement
+
+    # Determine environment context (Residential / Road / Agricultural)
+    site_ctx = site_context or {}
+    env_type = site_ctx.get("environment_type") or (visual_clues.get("environment_type") if visual_clues else None)
+    if not env_type:
+        user_text = (user_desc + " " + report.get("location", "")).lower()
+        if any(w in user_text for w in ("house", "home", "building", "dwelling", "village", "residential", "settlement")):
+            env_type = "Residential Dwelling / Settlement"
+        else:
+            env_type = "Highway / Transport Corridor"
+
+    is_residential = any(w in env_type.lower() for w in ("residential", "house", "dwelling", "settlement", "building"))
+
+    impacted_assets = site_ctx.get("impacted_assets") or (
+        visual_clues.get("impacted_assets") or (
+            "Traditional stone/slate-roof village dwelling and adjacent hillside plot"
+            if is_residential else f"{district} Sub-Divisional Hill Road Corridor"
+        )
+    )
+    structural_damage = site_ctx.get("structural_damage") or (
+        visual_clues.get("structural_damage") or (
+            "Side/rear wall breached; living space inundated with saturated debris"
+            if is_residential else "Carriageway blocked by debris accumulation"
+        )
+    )
 
     # Determine structural severity bracket deterministically
     if "fully" in observed_obstruction.lower() or severity_input == "Critical":
@@ -219,7 +271,9 @@ def compute_deterministic_engineering_dossier(
 
     # Dynamic image-grounded attributes
     debris_accumulation = visual_clues.get("debris_accumulation_desc") or (
-        "Heavy Accumulation of Detached Boulders" if sev in ("High", "Critical") else "Moderate Debris Fan"
+        "Heavy Accumulation of Saturated Mud & Debris" if is_residential else (
+            "Heavy Accumulation of Detached Boulders" if sev in ("High", "Critical") else "Moderate Debris Fan"
+        )
     )
     cut_angle = visual_clues.get("cut_slope_angle_est") or cut_angle_default
     slope_profile = visual_clues.get("slope_geometry_profile") or "Convex Escarpment (Steep Overhang)"
@@ -232,55 +286,112 @@ def compute_deterministic_engineering_dossier(
     joint_spacing = visual_clues.get("jointing_spacing") or "0.20 m – 0.45 m (Closely Jointed to Fractured)"
     weathering = visual_clues.get("weathering_grade") or "Grade IV (Highly Weathered to IS:13365 Part 1)"
     rock_str = visual_clues.get("rock_strength") or "Medium to Moderately Strong (R3 Class to IS:13365)"
-    dip_joints_val = visual_clues.get("dip_joints_visible") or "45° to 52° daylighting adversely into road cut"
+    dip_joints_val = visual_clues.get("dip_joints_visible") or "45° to 52° daylighting adversely into slope toe"
     minerals_val = visual_clues.get("minerals_or_matrix") or "Quartz, Feldspar, Mica, Clayey Silt Matrix"
-    fracture_pat = visual_clues.get("fracture_pattern") or "Blocky & Wedge Failure with planar sliding"
+    fracture_pat = visual_clues.get("fracture_pattern") or "Rotational slump in saturated colluvium"
 
     # Road name / Location telemetry without dummy strings
     site_road_name = report.get("location") or report.get("road_name")
     if not site_road_name:
-        site_road_name = f"{district} Sub-Divisional Hill Road Sector"
+        site_road_name = f"{district} Sector — {env_type}"
+
+    # Build dynamic Safety Directives cleanly without redundant prefixes
+    custom_safety = custom_safety or {}
+    if custom_safety.get("utility_hazard"):
+        safe_elec = _clean_hazard_prefix(custom_safety["utility_hazard"])
+    elif is_residential:
+        safe_elec = "Domestic electricity and water connections at severe risk. Immediately isolate household power mains and water lines to prevent electrocution and waterlogging inside debris-filled rooms."
+    else:
+        safe_elec = "Transmission and telecommunication lines along hillside slope at risk. Obtain line isolation and power clearance from authorities prior to heavy equipment operation."
+
+    if custom_safety.get("machinery_and_rescue") or custom_safety.get("machinery_deployment"):
+        safe_mach = _clean_hazard_prefix(custom_safety.get("machinery_and_rescue") or custom_safety.get("machinery_deployment"))
+    elif is_residential:
+        safe_mach = "Deploy manual labor teams with shovels and light utility loaders for sensitive debris extraction. Restrict heavy tracked excavators near distressed foundation walls to prevent ground vibration collapse."
+    else:
+        safe_mach = machinery
+
+    if custom_safety.get("access_or_evacuation") or custom_safety.get("traffic_restoration"):
+        safe_traf = _clean_hazard_prefix(custom_safety.get("access_or_evacuation") or custom_safety.get("traffic_restoration"))
+    elif is_residential:
+        safe_traf = "Immediate evacuation of all occupants from damaged dwelling. Cordon off a 30-meter exclusion zone; strictly prohibit public entry due to active threat of secondary slope slumping."
+    else:
+        safe_traf = restoration
+
+    if custom_safety.get("permanent_stabilization") or custom_safety.get("permanent_restoration"):
+        safe_perm = _clean_hazard_prefix(custom_safety.get("permanent_stabilization") or custom_safety.get("permanent_restoration"))
+    elif is_residential:
+        safe_perm = f"Construct a {l_wall:.0f}m long Plum Concrete Retaining Wall (H={h_wall:.1f}m, Base B={base_w:.2f}m) behind the dwelling with lined interceptor catch drains to permanently divert slope water and soil away from the home."
+    else:
+        safe_perm = f"Construction of {l_wall:.0f}m long Plum Concrete Breast Wall (H={h_wall:.1f}m, Base B={base_w:.2f}m) and Hillside Saucer Drain (0.6m wide) founded on solid strata."
+
+    safety_dict = {
+        "utility_hazard": safe_elec,
+        "electrical_hazard": safe_elec,
+        "machinery_deployment": safe_mach,
+        "traffic_restoration": safe_traf,
+        "permanent_restoration": safe_perm,
+    }
 
     # Senior Engineering Remarks
     default_remarks = (
-        f"Detailed geotechnical field assessment of the {district} landslide sector reveals an active {observed_failure.lower()} "
-        f"in {observed_rock} ({rock_colour}). "
-        f"Kinematic stability is severely compromised by {dip_joints_val} and steep cut geometry ({cut_angle}). "
-        f"Immediate clearance of {exc_vol:.0f} m³ carriageway debris followed by construction of a {l_wall:.0f}m long Plum Concrete Breast Wall (H={h_wall:.1f}m, Base B={base_w:.2f}m) "
-        f"and crest interceptor drainage is mandatory to secure road formation and prevent retrograde slope slumping."
+        f"Detailed geotechnical field assessment of the {district} sector reveals an active {observed_failure.lower()} "
+        f"impacting {impacted_assets.lower()}. "
+        f"Failure was triggered by saturation of the upper colluvial mantle ({observed_rock}) under steep geometry ({cut_angle}). "
+        f"Immediate safety stabilization followed by construction of a {l_wall:.0f}m long Plum Concrete Wall (H={h_wall:.1f}m, Base B={base_w:.2f}m) "
+        f"and crest interceptor drainage is mandatory to secure the location and prevent retrograde slope slumping."
     )
     senior_remarks = custom_remarks.strip() if custom_remarks else default_remarks
 
     # Plain Language Explanation
-    default_plain = {
-        "summary_title": f"{sev} Landslide & Road Blockage in {district} Sector",
-        "what_happened": (
-            f"A steep section of the hillside gave way, dumping loose {observed_rock.lower()}, rock fragments, and heavy boulders across the road. "
-            f"Fallen debris has obstructed the carriageway, creating a major hazard for commuters."
-        ),
-        "why_it_happened": (
-            f"Heavy rainfall soaked deep into the mountain slope. Water filled natural cracks in the rock, making the soil heavy and slippery "
-            f"until the steep hillside could no longer support its own weight and slipped down."
-        ),
-        "road_and_travel_impact": (
-            f"The road is severely obstructed ({blockage}). Vehicles cannot safely pass this point. "
-            f"Roadside drainage channels are filled with mud and rocks, causing water to pool on the road."
-        ),
-        "ongoing_hazards": (
-            "The hillside directly above remains unstable. Any additional rain, wind, or ground vibration can dislodge more loose rocks. "
-            "Sagging overhead cables or rolling stones pose an immediate danger."
-        ),
-        "what_needs_to_be_done": (
-            f"Deploy heavy excavators to clear {exc_vol:.0f} m³ of boulders and reopen a travel lane. "
-            f"Construct a solid {h_wall:.1f}-meter-high concrete-and-stone retaining wall at the bottom of the hill to support the slope permanently, "
-            f"and clean the roadside drains so rainwater flows away without causing more damage."
-        ),
-        "citizen_safety_advice": (
-            "Do NOT attempt to walk or drive under the fallen slope. Maintain a safe distance of at least 50 meters and follow all police "
-            "or local emergency notices until clearance teams give the all-clear."
-        ),
-    }
-    plain_explanation = custom_plain if custom_plain and custom_plain.get("what_happened") else default_plain
+    if custom_plain and (custom_plain.get("property_and_access_impact") or custom_plain.get("road_and_travel_impact") or custom_plain.get("what_happened")):
+        plain_explanation = custom_plain
+    elif is_residential:
+        plain_explanation = {
+            "summary_title": f"{sev} Landslide & Dwelling Impact in {district} Sector",
+            "what_happened": f"A steep section of the hillside gave way, sending wet mud, soil, and debris crashing directly into the back and side of a residential house.",
+            "why_it_happened": "Prolonged rainfall saturated the unreinforced slope above the home, causing the top layer of earth to lose friction and slide down under its own weight.",
+            "property_and_access_impact": "The house has suffered severe structural damage with mud breaching interior rooms. The building is unsafe and residents must stay outside.",
+            "road_and_travel_impact": "The house has suffered severe structural damage with mud breaching interior rooms. The building is unsafe and residents must stay outside.",
+            "ongoing_hazards": "The hillside above is still wet and vulnerable. Any more rainfall could cause another mudslide and total collapse of the damaged structure.",
+            "what_needs_to_be_done": "Turn off power and water to the house, carefully clear out the mud, and construct a concrete retaining wall with drainage behind the house to stop future slides.",
+            "citizen_safety_advice": "Do NOT enter the damaged house. Keep all onlookers and family members at least 30 meters away from the wet hill face.",
+        }
+    else:
+        plain_explanation = {
+            "summary_title": f"{sev} Landslide & Corridor Disruption in {district} Sector",
+            "what_happened": f"A steep section of the hillside gave way, dumping loose {observed_rock.lower()} and boulders across the corridor.",
+            "why_it_happened": "Heavy rainfall soaked deep into the mountain slope, lubricating natural slip planes until the slope gave way.",
+            "property_and_access_impact": f"Passage is obstructed ({blockage}). Vehicles and pedestrians cannot safely transit this point.",
+            "road_and_travel_impact": f"Passage is obstructed ({blockage}). Vehicles and pedestrians cannot safely transit this point.",
+            "ongoing_hazards": "The hillside directly above remains unstable. Any additional rain, wind, or ground vibration can dislodge more loose rocks.",
+            "what_needs_to_be_done": f"Deploy heavy excavators to clear {exc_vol:.0f} m³ of boulders and build a {h_wall:.1f}m retaining wall at the slope toe.",
+            "citizen_safety_advice": "Do NOT attempt to cross under the fallen slope. Maintain a safe distance of at least 50 meters.",
+        }
+
+    # Contextual Road / Asset parameters
+    if is_residential:
+        road_align_val = "Hillside Settlement Flank / Village Cluster"
+        fencing_val = "Traditional Stone Compound / Retaining Boundary"
+        w_before_val = "Residential Structure Footprint (~8m x 12m)"
+        w_after_val = structural_damage
+        pave_val = "Pedestrian Pathway / Village Access"
+        shoulder_val = "Slope Toe Clearance ~ 1.0 m"
+        lanes_val = "Village Pedestrian Pathway"
+        traffic_val = "Pedestrian & Resident Access"
+        culvert_val = "No formal storm drain (Overland sheet runoff into dwelling)"
+        status_val = "Uninhabitable / Evacuated"
+    else:
+        road_align_val = road_align
+        fencing_val = visual_clues.get("fencing_type") or "None / Open Hill Edge (Valley Side)"
+        w_before_val = w_before
+        w_after_val = blockage
+        pave_val = pave_type
+        shoulder_val = visual_clues.get("shoulder_width") or "0.75 m (Hill-side Drain Side)"
+        lanes_val = "Single Lane (Intermediate 5.5m Formation)"
+        traffic_val = "Two-way Traffic Flow"
+        culvert_val = visual_clues.get("culvert_or_drain_visible") or "Yes (Inlet choked with boulder debris upstream)"
+        status_val = cway_status
 
     return {
         "is_landslide_or_terrain": True,
@@ -294,7 +405,7 @@ def compute_deterministic_engineering_dossier(
             "district": district,
             "site_road_name": site_road_name,
             "location_chainage": f"RD {int(lat * 10) % 20}+{(int(lng * 1000) % 900):03d} (Km {int(lat * 10) % 20}/{(int(lng * 1000) % 900):03d})",
-            "road_type": "ODR / Secondary Hill Road (HIMA-LENS Inventory)",
+            "road_type": "Settlement Access / Secondary Hill Corridor" if is_residential else "ODR / Secondary Hill Road",
             "inspection_date": str(inc_date)[:10],
             "coordinates_dms": _format_coordinates_dms(lat, lng),
             "coordinates_dec": f"{lat:.5f}° N, {lng:.5f}° E",
@@ -303,11 +414,16 @@ def compute_deterministic_engineering_dossier(
             "reporter_name": reporter,
             "user_notes": user_desc,
         },
+        "site_context": {
+            "environment_type": env_type,
+            "impacted_assets": impacted_assets,
+            "structural_damage": structural_damage,
+        },
         "slope_characteristics": {
             "presence_above": bool(visual_clues.get("slope_presence_above", True)),
             "presence_below": bool(visual_clues.get("slope_presence_below", False)),
             "presence_both": bool(visual_clues.get("slope_presence_both", False)),
-            "in_situ_rock": bool(visual_clues.get("in_situ_rock_visible", True)),
+            "in_situ_rock": bool(visual_clues.get("in_situ_rock_visible", not is_residential)),
             "in_situ_soil": in_situ_soil_desc,
             "debris_accumulation": debris_accumulation,
             "slope_type_cut": bool(visual_clues.get("slope_type_cut", True)),
@@ -319,17 +435,17 @@ def compute_deterministic_engineering_dossier(
             "slope_geometry_profile": slope_profile,
         },
         "road_impact": {
-            "road_alignment": road_align,
-            "fencing_type": visual_clues.get("fencing_type") or "None / Open Hill Edge (Valley Side)",
-            "width_before": w_before,
-            "width_after": blockage,
-            "pavement_type": pave_type,
-            "shoulder_width": visual_clues.get("shoulder_width") or "0.75 m (Hill-side Drain Side)",
-            "number_of_lanes": "Single Lane (Intermediate 5.5m Formation)",
-            "traffic_flow": "Two-way Traffic Flow",
+            "road_alignment": road_align_val,
+            "fencing_type": fencing_val,
+            "width_before": w_before_val,
+            "width_after": w_after_val,
+            "pavement_type": pave_val,
+            "shoulder_width": shoulder_val,
+            "number_of_lanes": lanes_val,
+            "traffic_flow": traffic_val,
             "bridge_present": "No",
-            "culvert_present": visual_clues.get("culvert_or_drain_visible") or "Yes (Inlet choked with boulder debris upstream)",
-            "carriageway_status": cway_status,
+            "culvert_present": culvert_val,
+            "carriageway_status": status_val,
         },
         "protection_works": [
             {"structure": "Retaining / Breast Wall", "above": True, "below": False, "prev_cut": False, "prev_nat": False, "rem_cut": True, "rem_nat": False},
@@ -337,7 +453,7 @@ def compute_deterministic_engineering_dossier(
             {"structure": "Drainage Chute / Saucer Drain", "above": True, "below": True, "prev_cut": True, "prev_nat": False, "rem_cut": True, "rem_nat": False},
             {"structure": "Bioengineering (Turfing & Fascines)", "above": True, "below": False, "prev_cut": True, "prev_nat": True, "rem_cut": False, "rem_nat": False},
             {"structure": "Earthworks / Rock Clearance", "above": True, "below": False, "prev_cut": False, "prev_nat": False, "rem_cut": True, "rem_nat": False},
-            {"structure": "Rockfall Netting / Wire Mesh", "above": True, "below": False, "prev_cut": True, "prev_nat": False, "rem_cut": bool(visual_clues.get("defects_unstable_rock", True)), "rem_nat": False},
+            {"structure": "Rockfall Netting / Wire Mesh", "above": True, "below": False, "prev_cut": True, "prev_nat": False, "rem_cut": bool(visual_clues.get("defects_unstable_rock", not is_residential)), "rem_nat": False},
         ],
         "geology": {
             "prominent_soil_rock": observed_rock,
@@ -357,13 +473,13 @@ def compute_deterministic_engineering_dossier(
             "defects_on_slope": {
                 "gully": bool(visual_clues.get("defects_gully", False)),
                 "crack": bool(visual_clues.get("defects_crack", True)),
-                "unstable_rock": bool(visual_clues.get("defects_unstable_rock", True)),
+                "unstable_rock": bool(visual_clues.get("defects_unstable_rock", not is_residential)),
                 "seepage": bool(visual_clues.get("defects_seepage", True)),
                 "erosion": bool(visual_clues.get("defects_erosion", True)),
                 "landslide": bool(visual_clues.get("defects_landslide", True)),
             },
             "road_surface": {
-                "crack": bool(visual_clues.get("road_crack", True)),
+                "crack": bool(visual_clues.get("road_crack", not is_residential)),
                 "heaving": bool(visual_clues.get("road_heaving", False)),
                 "settlement": bool(visual_clues.get("road_settlement", True)),
                 "recent_repair": bool(visual_clues.get("road_recent_repair", False)),
@@ -381,14 +497,17 @@ def compute_deterministic_engineering_dossier(
                 "crack": bool(visual_clues.get("drain_crack", True)),
             },
             "distress_remarks": visual_clues.get("distress_remarks") or (
-                f"Detached boulder mass ({exc_vol:.0f} m³) settled directly across the carriageway. "
-                f"Hillside drainage compromised under heavy surcharge thrust."
+                f"Saturated slide mass ({exc_vol:.0f} m³) breached adjacent structure. Hillside runoff lacks defined drainage."
+                if is_residential else (
+                    f"Detached boulder mass ({exc_vol:.0f} m³) settled directly across the carriageway. "
+                    f"Hillside drainage compromised under heavy surcharge thrust."
+                )
             ),
         },
         "pavement_dimensions": {
-            "potholes": "Width: 1.20 m | Depth: 0.15 m",
-            "subsidence": "Width: 3.50 m | Depth: 0.30 m",
-            "rutting": "Observed along edge of slip zone due to subgrade moisture saturation",
+            "potholes": "N/A — Residential Plot Footing" if is_residential else "Width: 1.20 m | Depth: 0.15 m",
+            "subsidence": "Floor/Toe Settlement: 0.40 m" if is_residential else "Width: 3.50 m | Depth: 0.30 m",
+            "rutting": "Slope toe saturation with fine mud slurry" if is_residential else "Observed along edge of slip zone due to subgrade moisture saturation",
         },
         "retaining_wall_specs": {
             "shape_front": "Sloping / Battered (1:4)",
@@ -405,17 +524,17 @@ def compute_deterministic_engineering_dossier(
             "distress_collapse": bool(visual_clues.get("wall_distress_collapse", True)),
             "distress_joint": bool(visual_clues.get("wall_distress_joint", True)),
             "signs_of_distress": "Cracking, Bulging, and Sectional Collapse",
-            "distress_behind": "Settlement and heavy surcharge pressure from detached rock mass",
-            "distress_in_front": "Toe cracking, drain blockage, and continuous water seepage",
+            "distress_behind": "Settlement and heavy surcharge pressure from detached soil mass",
+            "distress_in_front": "Toe cracking, boundary blockage, and continuous water seepage",
             "weep_holes": "100 mm dia PVC pipes @ 1.20 m c/c staggered with non-woven geotextile gravel filter",
         },
         "drainage_and_bioengineering": {
-            "roadside_drain": f"Destroyed / Silt-choked ({l_wall:.0f} m section)",
-            "lined_channel": f"Proposed Lined Chute ({min(20, l_wall + 4):.0f} m run to natural culvert)",
+            "roadside_drain": f"Boundary Drain Damaged ({l_wall:.0f} m section)" if is_residential else f"Destroyed / Silt-choked ({l_wall:.0f} m section)",
+            "lined_channel": f"Proposed Lined Chute ({min(20, l_wall + 4):.0f} m run to natural ravine)",
             "lined_cutoff": "Choked with debris; immediate desilting required",
-            "french_drain": "Required along hillside shoulder to alleviate subgrade pore pressure",
+            "french_drain": "Required along slope toe to alleviate foundation pore pressure",
             "check_dam": "2 Nos. Gabion check dams proposed in uphill feeder gully",
-            "catch_drain": "Required at slope crest to divert catchment runoff",
+            "catch_drain": "Required at slope crest to divert catchment runoff away from structures",
             "bioengineering_desc": "Vetiver grass turfing, brush layering, live fascines & hydro-seeding on trimmed slope above proposed breast wall (IRC:SP:48).",
         },
         "gabion_and_earthworks": {
@@ -429,27 +548,22 @@ def compute_deterministic_engineering_dossier(
                 "packing": "Tight hand-packed sound river/quarry stone boulders (density >= 18 kN/m3)",
             },
             "excavation": {
-                "material": f"Debris Colluvium + Giant Detached {observed_rock.split('/')[0].strip()} Boulders (Hydraulic Breaker Required)",
+                "material": f"Saturated Colluvium & Soil Debris ({'Manual Shovel + Mini Loader' if is_residential else 'Hydraulic Breaker Required'})",
                 "dimensions": f"{h_cut:.2f} m (H) x {l_wall:.2f} m (L) x {w_cut:.2f} m (W)",
                 "volume_m3": exc_vol,
             },
             "fill": {
-                "material": "Granular Subgrade Backfill (GSB) with non-woven geotextile filter separator",
+                "material": "Granular Backfill with non-woven geotextile filter separator",
                 "dimensions": f"0.35 m (H) x {l_wall:.2f} m (L) x 4.50 m (W)",
                 "volume_m3": fill_vol,
             },
         },
-        "safety_directives": {
-            "electrical_hazard": "Overhead Electrical & Telecom Hazard: Transmission lines sagging dangerously over failure scarp. Immediate power isolation and line relocation required from authorities prior to deployment of hydraulic machinery.",
-            "machinery_deployment": machinery,
-            "traffic_restoration": restoration,
-            "permanent_restoration": f"Permanent Restoration: Construction of {l_wall:.0f}m long Plum Concrete Breast Wall (H={h_wall:.1f}m) and Hillside Saucer Drain (0.6m wide) founded on solid strata.",
-        },
+        "safety_directives": safety_dict,
         "visual_analysis": {
             "material_composition": f"{observed_rock} ({rock_colour})",
             "slope_condition": f"Cut angle {cut_angle}, {slope_profile}",
-            "infrastructure_impact": f"{cway_status}, {blockage}",
-            "drainage_and_seepage": f"Seepage: {'Active' if visual_clues.get('defects_seepage', True) else 'Dry'}, Drainage: {'Clogged' if visual_clues.get('drain_clogged', True) else 'Functional'}",
+            "infrastructure_impact": f"{impacted_assets}: {structural_damage}",
+            "drainage_and_seepage": f"Seepage: {'Active' if visual_clues.get('defects_seepage', True) else 'Dry'}, Drainage: {'Clogged / Lacking' if visual_clues.get('drain_clogged', True) else 'Functional'}",
         },
         "synthesis_remarks": senior_remarks,
         "senior_engineer_remarks": senior_remarks,
@@ -504,10 +618,10 @@ def generate_ai_assessment(report: dict[str, Any], force_refresh: bool = False) 
     severity = report.get("severity") or "Moderate"
     user_desc = report.get("description") or "None recorded"
 
-    prompt = f"""You are the Chief Geotechnical & Highway Structural Engineer for HIMA-LENS (Himachal Landslide Inventory & Spatial Intelligence System).
+    prompt = f"""You are the Chief Geotechnical & Disaster Response Specialist for HIMA-LENS (Himachal Landslide Inventory & Spatial Intelligence System).
 
 TASK:
-Examine the attached field photograph and incident metadata to audit optical authenticity and evaluate visible failure kinematics and ground conditions.
+Examine the attached field photograph and incident metadata to audit optical authenticity and evaluate visible failure kinematics, affected assets (residential dwellings vs roads), and critical emergency safety directives.
 
 CRITICAL FIRST STEP — OPTICAL VALIDATION:
 1. Carefully check what is depicted in the photograph.
@@ -529,60 +643,70 @@ CRITICAL FIRST STEP — OPTICAL VALIDATION:
      }}
 
 SECOND STEP — DETAILED GEOTECHNICAL EXTRACTION (ONLY IF is_landslide_or_terrain is true):
-Provide accurate, highly specific visual observations grounded strictly in the photograph. DO NOT use generic placeholders:
-1. "observed_features":
+Analyze the physical evidence in the photograph thoroughly. Every field must describe what is genuinely visible in the photograph:
+1. "site_context":
+   - "environment_type": Choose one: "Residential Dwelling / Settlement" (if houses, buildings, village structures are visible) OR "Highway / Transport Corridor" (if roadway/pavement is visible) OR "Agricultural / Orchard" OR "Rural Footpath / Forest"
+   - "impacted_assets": Exact description of what is damaged (e.g. "Traditional slate-roof village house with masonry and corrugated metal walls", or "ODR hill road carriageway and roadside drain")
+   - "structural_damage": Exact damage to building or infrastructure (e.g. "Wall breached and mud entered living room; roof integrity compromised", or "Carriageway blocked by debris accumulation")
+2. "safety_directives":
+   Provide scene-specific safety directives grounded strictly in what is visible (DO NOT add redundant title prefixes):
+   - "utility_hazard": Specific utility hazard visible or immediate risk (e.g. for houses: risk of domestic electrical short-circuiting and broken water lines in mud; for roads: overhead electric/telecom cables or none visible).
+   - "machinery_and_rescue": Specific equipment or rescue action needed (e.g. for houses: manual debris clearance with shovels/mini loaders to avoid damaging foundation; for roads: hydraulic excavators/tippers).
+   - "access_or_evacuation": Immediate life safety, evacuation, or access notice (e.g. for houses: immediate evacuation of dwelling and 30m exclusion perimeter; for roads: single-lane clearance target).
+   - "permanent_stabilization": Permanent engineering stabilization required (e.g. retaining wall with lined hillside catch-water drain behind house, or breast wall and saucer drain along road cut).
+3. "observed_features":
    - "prominent_rock_type": Visible lithology (e.g. "Jointed Sandstone & Siltstone", "Weathered Metamorphic Phyllite", "Gneissic Bedrock", "Colluvial Soil & Boulders", "Slaty Shale")
    - "rock_colour": Dominant visible color (e.g. "Greyish Brown", "Buff Yellow", "Dark Charcoal Grey", "Reddish Brown / Ochre", "Mottled Brown")
    - "in_situ_soil_desc": Visible soil/matrix (e.g. "Sandy Colluvium Overburden", "Plastic Clayey Silt", "Gravelly Scree", "None / Bare Rock Face")
-   - "debris_accumulation_desc": Visible debris mass (e.g. "Heavy Boulder Mass (1m-3m chunks)", "Fine Mud Slurry & Silt", "Angular Rock Scree Fan", "Uprooted Trees & Mixed Colluvium")
-   - "slope_presence_above": true/false (is slope above road visible?)
-   - "slope_presence_below": true/false (is slope below road / valley visible?)
+   - "debris_accumulation_desc": Visible debris mass (e.g. "Heavy Mud Slurry & Colluvium Inundating Building", "Heavy Boulder Mass (1m-3m chunks)", "Angular Rock Scree Fan")
+   - "slope_presence_above": true/false
+   - "slope_presence_below": true/false
    - "slope_presence_both": true/false
-   - "in_situ_rock_visible": true/false (is bedrock stratum exposed?)
-   - "slope_type_cut": true/false (is an engineered/blasted road cut slope visible?)
-   - "slope_type_fill": true/false (is an embankment/fill slope visible?)
-   - "slope_type_natural_desc": string (e.g. "Steep Mountain Escarpment", "Forested Hill Slope", "Valley Flank")
-   - "slope_geometry_profile": string (e.g. "Convex Escarpment Overhang", "Planar Dip Slope", "Step-scarped Face", "Concave Ravine Chute")
-   - "cut_slope_angle_est": string (e.g. "72° to 78° (Over-steepened Road Cut)", "55° to 65° (Moderately Steep)", "40° to 50°")
+   - "in_situ_rock_visible": true/false
+   - "slope_type_cut": true/false
+   - "slope_type_fill": true/false
+   - "slope_type_natural_desc": string
+   - "slope_geometry_profile": string
+   - "cut_slope_angle_est": string
    - "carriageway_obstruction": "Fully Blocked" or "Partially Blocked" or "Single-Lane Restricted" or "Clear"
    - "pavement_type": "Flexible Bituminous Pavement (BT)" or "Rigid Concrete (CC)" or "Unpaved Gravel / Earth"
-   - "road_alignment": "Curved (Hill Road Bend)" or "Straight Reach" or "Hairpin Loop"
-   - "jointing_spacing": string (e.g. "0.15 m – 0.35 m (Closely Jointed / Shattered)", "0.50 m – 1.0 m (Medium Joint Spacing)", "Massive Bedrock")
-   - "weathering_grade": string (e.g. "Grade II (Slightly Weathered)", "Grade III (Moderately Weathered)", "Grade IV (Highly Weathered)", "Grade V (Completely Weathered)")
-   - "rock_strength": string (e.g. "R2 Weak Rock", "R3 Medium Strong Rock", "R4 Strong Rock")
-   - "fracture_pattern": string (e.g. "Blocky & Wedge detachment", "Planar sliding along foliation", "Toppling / raveling along joint planes", "Rotational slump in colluvium")
-   - "minerals_or_matrix": string (e.g. "Quartz, Muscovite, Feldspar, Clay matrix", "Calcite veins, Silt matrix")
-   - "dip_joints_visible": string (e.g. "Adversely daylighting into road cut at 45°-55°", "Sub-horizontal bedding with vertical release joints")
-   - "defects_gully": true/false (visible erosion gully?)
-   - "defects_crack": true/false (visible tension cracks?)
-   - "defects_unstable_rock": true/false (overhanging/loose boulders?)
-   - "defects_seepage": true/false (water seepage or wet stains visible?)
-   - "defects_erosion": true/false (surface sheet/rill erosion?)
-   - "defects_landslide": true/false (active slide/fall displacement?)
-   - "road_crack": true/false (road pavement cracked?)
+   - "road_alignment": string
+   - "jointing_spacing": string
+   - "weathering_grade": string
+   - "rock_strength": string
+   - "fracture_pattern": string
+   - "minerals_or_matrix": string
+   - "dip_joints_visible": string
+   - "defects_gully": true/false
+   - "defects_crack": true/false
+   - "defects_unstable_rock": true/false
+   - "defects_seepage": true/false
+   - "defects_erosion": true/false
+   - "defects_landslide": true/false
+   - "road_crack": true/false
    - "road_heaving": true/false
-   - "road_settlement": true/false (road foundation dropped/subsided?)
+   - "road_settlement": true/false
    - "road_recent_repair": true/false
-   - "drain_overflow": true/false (drain overflowing?)
-   - "drain_clogged": true/false (drain choked with silt/rocks?)
-   - "drain_deformation": true/false (drain structure broken/deformed?)
+   - "drain_overflow": true/false
+   - "drain_clogged": true/false
+   - "drain_deformation": true/false
    - "drain_crack": true/false
    - "wall_distress_crack": true/false
    - "wall_distress_bulging": true/false
    - "wall_distress_collapse": true/false
    - "wall_distress_joint": true/false
-   - "failure_movement_observed": string (e.g. "Rockfall", "Debris Slide", "Rotational Soil Slide", "Mud Flow")
-2. "plain_language_explanation":
-   Explain the landslide in clear, everyday terms for ordinary citizens and local administration. Every detail must match the photograph:
-   - "summary_title": Plain title (e.g. "Severe Rockslide & Road Blockage in Mandi Sector")
-   - "what_happened": What detached and fell down (soil, loose mud, large sandstone boulders) and where it landed.
-   - "why_it_happened": Plain explanation of the cause (water soaking the slope, natural cracks in rock, steep man-made road cut).
-   - "road_and_travel_impact": Plain description of road blockage and how commuters are affected.
-   - "ongoing_hazards": Immediate risks visible in the image (overhanging rocks, falling stones if it rains, sagging wires).
-   - "what_needs_to_be_done": Simple explanation of the fix (heavy machines breaking boulders, building a concrete-and-stone wall at the base of the hill, cleaning drainage).
-   - "citizen_safety_advice": Clear safety rule for travelers and locals (keep safe distance, do not walk under slope).
-3. "senior_engineer_remarks":
-   Professional 3-4 sentence senior geotechnical engineering diagnosis of the failure mechanism, kinematic daylighting, drainage cause, and stability recommendations.
+   - "failure_movement_observed": string
+4. "plain_language_explanation":
+   Explain the landslide in clear, everyday terms matching the photograph:
+   - "summary_title": Plain title (e.g. "Residential Landslide Impact in Mandi Sector")
+   - "what_happened": What detached and fell down and where it landed (mentioning whether it hit a house, road, etc.)
+   - "why_it_happened": Clear cause (rainfall saturation, weak slope, lack of retaining wall)
+   - "property_and_access_impact": Impact on building, residents, commuters, or land
+   - "ongoing_hazards": Immediate risks visible in the image
+   - "what_needs_to_be_done": Concrete, non-technical explanation of the solution
+   - "citizen_safety_advice": Crucial safety recommendation for public
+5. "senior_engineer_remarks":
+   Professional 3-4 sentence senior geotechnical engineering diagnosis of the failure mechanism, kinematic stability, drainage cause, and remedial recommendations.
 
 INCIDENT TELEMETRY:
 - Report ID: {report_id}
@@ -598,6 +722,17 @@ RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
   "validation_status": "VALID_TERRAIN_IMAGE" or "INVALID_NON_TERRAIN_IMAGE",
   "detected_content": "String describing exact image content",
   "rejection_reason": "String or null",
+  "site_context": {{
+    "environment_type": "Residential Dwelling / Settlement or Highway / Transport Corridor",
+    "impacted_assets": "String",
+    "structural_damage": "String"
+  }},
+  "safety_directives": {{
+    "utility_hazard": "String without label prefix",
+    "machinery_and_rescue": "String without label prefix",
+    "access_or_evacuation": "String without label prefix",
+    "permanent_stabilization": "String without label prefix"
+  }},
   "observed_features": {{
     "prominent_rock_type": "String",
     "rock_colour": "String",
@@ -645,7 +780,7 @@ RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
     "summary_title": "String",
     "what_happened": "String",
     "why_it_happened": "String",
-    "road_and_travel_impact": "String",
+    "property_and_access_impact": "String",
     "ongoing_hazards": "String",
     "what_needs_to_be_done": "String",
     "citizen_safety_advice": "String"
@@ -739,6 +874,8 @@ RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
                         visual_clues=parsed.get("observed_features"),
                         custom_plain=parsed.get("plain_language_explanation"),
                         custom_remarks=parsed.get("senior_engineer_remarks"),
+                        custom_safety=parsed.get("safety_directives"),
+                        site_context=parsed.get("site_context"),
                     )
                     dossier["source"] = f"HIMA-LENS Senior Engineering Vision ({model_name})"
                     save_assessment_to_cache(report_id, dossier)

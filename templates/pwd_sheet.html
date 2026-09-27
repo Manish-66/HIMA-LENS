@@ -517,7 +517,7 @@
   <div class="report-page">
     <div class="master-header">
       <div class="master-title">HIMA-LENS &bull; Spatial Intelligence &amp; Landslide Observatory</div>
-      <div class="master-subtitle">Road Damage &amp; Landslide Technical Assessment Report</div>
+      <div class="master-subtitle">Landslide Disaster &amp; Slope Stability Technical Assessment Report</div>
       <div class="master-standards">Technical Evaluation Form &bull; IRC:SP:48 Hill Road Guidelines &bull; IS:14458 Landslide Stabilization Standards</div>
     </div>
 
@@ -582,37 +582,37 @@
       </tbody>
     </table>
 
-    <!-- 2. Road Characteristics & Disaster Impact -->
-    <div class="sec-bar">2. Road Characteristics &amp; Disaster Impact</div>
+    <!-- 2. Site Context & Disaster Impact -->
+    <div class="sec-bar">2. Site Context &amp; Infrastructure Impact ({{ assessment.site_context.environment_type if assessment.site_context else 'Site Assessment' }})</div>
     <table class="grid-table">
       <tr>
-        <td class="col-lbl">Road Alignment:</td>
-        <td class="col-val editable" id="f-align">{{ assessment.road_impact.road_alignment }}</td>
-        <td class="col-lbl">Type of Fencing:</td>
-        <td class="col-val editable" id="f-fence">{{ assessment.road_impact.fencing_type }}</td>
+        <td class="col-lbl">Environment / Setting:</td>
+        <td class="col-val editable" id="f-env-type"><strong>{{ assessment.site_context.environment_type if assessment.site_context else assessment.road_impact.road_alignment }}</strong></td>
+        <td class="col-lbl">Impacted Asset:</td>
+        <td class="col-val editable" id="f-asset">{{ assessment.site_context.impacted_assets if assessment.site_context else assessment.road_impact.fencing_type }}</td>
       </tr>
       <tr>
-        <td class="col-lbl">Width before disaster:</td>
+        <td class="col-lbl">Pre-disaster Dimension / State:</td>
         <td class="col-val editable" id="f-w-before">{{ assessment.road_impact.width_before }}</td>
-        <td class="col-lbl">Width after disaster:</td>
-        <td class="col-val editable" id="f-w-after"><strong>{{ assessment.road_impact.width_after }}</strong></td>
+        <td class="col-lbl">Post-disaster State / Damage:</td>
+        <td class="col-val editable" id="f-w-after"><strong>{{ assessment.site_context.structural_damage if assessment.site_context else assessment.road_impact.width_after }}</strong></td>
       </tr>
       <tr>
-        <td class="col-lbl">Type of pavement:</td>
+        <td class="col-lbl">Access / Surface Type:</td>
         <td class="col-val editable" id="f-pavement">{{ assessment.road_impact.pavement_type }}</td>
-        <td class="col-lbl">Shoulder width:</td>
+        <td class="col-lbl">Toe / Clearance Buffer:</td>
         <td class="col-val editable" id="f-shoulder">{{ assessment.road_impact.shoulder_width }}</td>
       </tr>
       <tr>
-        <td class="col-lbl">Number of lanes:</td>
+        <td class="col-lbl">Connectivity / Lanes:</td>
         <td class="col-val editable" id="f-lanes">{{ assessment.road_impact.number_of_lanes }}</td>
-        <td class="col-lbl">Way (Traffic flow):</td>
+        <td class="col-lbl">Traffic / Movement Flow:</td>
         <td class="col-val editable" id="f-traffic">{{ assessment.road_impact.traffic_flow }}</td>
       </tr>
       <tr>
-        <td class="col-lbl">Bridge (yes/no):</td>
-        <td class="col-val editable" id="f-bridge">{{ assessment.road_impact.bridge_present }}</td>
-        <td class="col-lbl">Culvert (yes/no):</td>
+        <td class="col-lbl">Usability Status:</td>
+        <td class="col-val editable" id="f-cway-status"><strong>{{ assessment.road_impact.carriageway_status }}</strong></td>
+        <td class="col-lbl">Drainage / Runoff:</td>
         <td class="col-val editable" id="f-culvert">{{ assessment.road_impact.culvert_present }}</td>
       </tr>
     </table>
@@ -1007,9 +1007,9 @@
             </span>
           </div>
           <div class="plain-item">
-            <span class="plain-item-label">Road &amp; Travel Impact:</span>
+            <span class="plain-item-label">Impact on Property &amp; Access:</span>
             <span class="plain-item-text editable" id="f-plain-road">
-              {{ assessment.plain_language_explanation.road_and_travel_impact if assessment.plain_language_explanation else assessment.road_impact.carriageway_status }}
+              {{ assessment.plain_language_explanation.property_and_access_impact or assessment.plain_language_explanation.road_and_travel_impact or assessment.road_impact.carriageway_status }}
             </span>
           </div>
           <div class="plain-item">
@@ -1038,10 +1038,10 @@
     <div class="safety-box">
       <div class="head">Critical Safety &amp; Immediate Action Notice:</div>
       <ol>
-        <li class="editable" id="f-safe-elec"><strong>Overhead Electrical &amp; Utility Hazard:</strong> {{ assessment.safety_directives.electrical_hazard }}</li>
-        <li class="editable" id="f-safe-mach"><strong>Immediate Machinery Deployment:</strong> {{ assessment.safety_directives.machinery_deployment }}</li>
-        <li class="editable" id="f-safe-traf"><strong>Emergency Traffic Restoration Target:</strong> {{ assessment.safety_directives.traffic_restoration }}</li>
-        <li class="editable" id="f-safe-perm"><strong>Permanent Restoration:</strong> {{ assessment.safety_directives.permanent_restoration }}</li>
+        <li class="editable" id="f-safe-elec"><strong>Utility &amp; Secondary Hazards:</strong> {{ assessment.safety_directives.utility_hazard or assessment.safety_directives.electrical_hazard }}</li>
+        <li class="editable" id="f-safe-mach"><strong>Immediate Response &amp; Equipment Deployment:</strong> {{ assessment.safety_directives.machinery_deployment }}</li>
+        <li class="editable" id="f-safe-traf"><strong>Public Safety &amp; Access Restoration:</strong> {{ assessment.safety_directives.traffic_restoration }}</li>
+        <li class="editable" id="f-safe-perm"><strong>Permanent Geotechnical Stabilization:</strong> {{ assessment.safety_directives.permanent_restoration }}</li>
       </ol>
     </div>
 
