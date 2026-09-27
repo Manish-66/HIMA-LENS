@@ -501,14 +501,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         filtered.forEach(art => {
             const card = document.createElement("article");
-            card.className = "event-card news-card";
+            card.className = "news-card";
 
             const badgeClass = getCategoryBadgeClass(art.category);
             const isHpState = art.district === "Himachal Pradesh";
             const hasCoords = !isHpState && DISTRICT_COORDS[art.district];
 
             card.innerHTML = `
-                <div class="event-card-header news-card-header">
+                <div class="news-card-header">
                     <div class="news-source-meta">
                         <span class="news-source-badge">${escapeHtml(art.source || 'Himachal Wire')}</span>
                         <span class="news-time-badge">${escapeHtml(art.time_ago || art.pub_date || '')}</span>
@@ -519,12 +519,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                 </div>
 
-                <div class="event-content news-content">
+                <div class="news-content">
                     <h3 class="news-card-title">${escapeHtml(art.title)}</h3>
                     <p class="news-card-snippet">${escapeHtml(art.snippet)}</p>
                 </div>
 
-                <div class="event-card-footer news-card-footer">
+                <div class="news-card-footer">
                     <div class="news-footer-meta">
                         <span>Verified Media Wire &bull; ${escapeHtml(art.pub_date || 'Live')}</span>
                     </div>
