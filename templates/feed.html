@@ -17,19 +17,37 @@ HIMA-LENS | Landslide & Flash Flood Chronology Feed
                 DISASTER OBSERVATORY &bull; WESTERN HIMALAYA
             </div>
             <h1 class="feed-title">
-                Documented Landslides & <span>Flash Flood Chronology.</span>
+                Landslide Records &amp; <span>Live Hazard Stream.</span>
             </h1>
             <p class="feed-description">
-                Verified historical disaster benchmarks, cloudburst-triggered debris flows, highway breaches, and extreme monsoon precipitation impacts across Himachal Pradesh.
+                Comprehensive slope-failure observatory combining verified historical disaster benchmarks with real-time news monitoring, highway alerts, and cloudburst intelligence across Himachal Pradesh.
             </p>
+
+            <!-- VIEW SELECTOR TABS -->
+            <div class="feed-tab-nav" role="tablist">
+                <button type="button" class="feed-nav-tab {% if initial_tab != 'news' %}active{% endif %}" id="tab-btn-benchmarks" data-target="panel-benchmarks" role="tab" aria-selected="{% if initial_tab != 'news' %}true{% else %}false{% endif %}">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span>Disaster Chronology &amp; Benchmarks</span>
+                    <span class="tab-badge">6 Historical Cases</span>
+                </button>
+                <button type="button" class="feed-nav-tab {% if initial_tab == 'news' %}active{% endif %}" id="tab-btn-news" data-target="panel-news" role="tab" aria-selected="{% if initial_tab == 'news' %}true{% else %}false{% endif %}">
+                    <span class="live-pulse-dot"></span>
+                    <span>Live Himachal Landslide News</span>
+                    <span class="tab-badge live-wire-badge" id="live-news-counter-pill">Live Stream</span>
+                </button>
+            </div>
         </div>
     </header>
 
     <!-- =====================================================
-         02. INTERACTIVE EVENT FEED GRID
+         PANEL 01: HISTORICAL BENCHMARK CHRONOLOGY
     ====================================================== -->
-    <section class="feed-section">
-        <div class="feed-container">
+    <div id="panel-benchmarks" class="feed-tab-panel {% if initial_tab == 'news' %}is-hidden{% endif %}">
+        <section class="feed-section">
+            <div class="feed-container">
 
             <!-- FILTER PILLS -->
             <div class="feed-filter-bar">
@@ -253,6 +271,106 @@ HIMA-LENS | Landslide & Flash Flood Chronology Feed
             </div>
         </div>
     </section>
+    </div>
+
+    <!-- =====================================================
+         PANEL 02: LIVE HIMACHAL PRADESH LANDSLIDE NEWS STREAM
+    ====================================================== -->
+    <div id="panel-news" class="feed-tab-panel {% if initial_tab != 'news' %}is-hidden{% endif %}">
+        <section class="feed-section">
+            <div class="feed-container">
+                <!-- Stream Sub-Hero / Controls Header -->
+                <div class="news-stream-header">
+                    <div class="news-stream-meta">
+                        <span class="news-indicator">
+                            <span class="live-pulse-dot"></span> LIVE MEDIA &amp; HAZARD INTELLIGENCE STREAM
+                        </span>
+                        <h2 class="news-stream-heading">Real-Time Landslide, Highway &amp; Cloudburst Wire</h2>
+                        <p class="news-stream-sub">
+                            Automated live media intelligence monitoring slope failures, cloudburst inundations, road blockages (NH-5, NH-21, NH-154), and district administration advisories across Himachal Pradesh.
+                        </p>
+                    </div>
+                    <div class="news-stream-actions">
+                        <button type="button" class="refresh-wire-btn" id="refresh-news-btn" title="Fetch newest articles now">
+                            <svg class="refresh-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                                <polyline points="23 4 23 10 17 10"></polyline>
+                                <polyline points="1 20 1 14 7 14"></polyline>
+                                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                            </svg>
+                            <span>Refresh Wire</span>
+                        </button>
+                        <div class="last-sync-tag" id="last-sync-label">Connecting wire...</div>
+                    </div>
+                </div>
+
+                <!-- Search & District Filter Controls -->
+                <div class="news-filter-toolbar">
+                    <div class="news-search-box">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <input type="text" id="news-search-input" placeholder="Search keywords (e.g., NH-5, Mandi, cloudburst, boulder)..." aria-label="Search landslide articles">
+                        <button type="button" id="clear-search-btn" class="clear-search-btn" title="Clear query" style="display: none;">&times;</button>
+                    </div>
+
+                    <div class="news-select-wrap">
+                        <label for="news-district-select" class="filter-label">DISTRICT</label>
+                        <select id="news-district-select" class="news-filter-select">
+                            <option value="all">All 12 Districts (Himachal Statewide)</option>
+                            <option value="Mandi">Mandi</option>
+                            <option value="Shimla">Shimla</option>
+                            <option value="Kullu">Kullu</option>
+                            <option value="Kinnaur">Kinnaur</option>
+                            <option value="Kangra">Kangra</option>
+                            <option value="Solan">Solan</option>
+                            <option value="Chamba">Chamba</option>
+                            <option value="Sirmaur">Sirmaur</option>
+                            <option value="Bilaspur">Bilaspur</option>
+                            <option value="Hamirpur">Hamirpur</option>
+                            <option value="Una">Una</option>
+                            <option value="Lahaul & Spiti">Lahaul &amp; Spiti</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Category Filter Pills -->
+                <div class="news-category-pills" id="news-category-pills">
+                    <button type="button" class="news-pill-btn active" data-category="all">All Dispatches</button>
+                    <button type="button" class="news-pill-btn" data-category="Highway & Transport">Highway &amp; Transport</button>
+                    <button type="button" class="news-pill-btn" data-category="Flash Flood & Cloudburst">Flash Flood &amp; Cloudburst</button>
+                    <button type="button" class="news-pill-btn" data-category="Weather & Hazard Alert">Weather &amp; Hazard Alerts</button>
+                    <button type="button" class="news-pill-btn" data-category="Slope Incident & Field Report">Slope Incidents &amp; Reports</button>
+                </div>
+
+                <!-- Status & Counter Bar -->
+                <div class="news-status-bar">
+                    <span id="news-counter-text">Connecting to real-time Himachal landslide feed...</span>
+                </div>
+
+                <!-- Loading Skeleton -->
+                <div id="news-loading-skeleton" class="news-loading-skeleton">
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                </div>
+
+                <!-- Empty State -->
+                <div id="news-empty-state" class="news-empty-state" style="display: none;">
+                    <div class="empty-icon">🏔️</div>
+                    <h3>No matching reports found</h3>
+                    <p>No landslide or flood articles matched your active search query and filters.</p>
+                    <button type="button" class="reset-filter-btn" id="reset-news-filters">Reset All Filters</button>
+                </div>
+
+                <!-- Live News Grid -->
+                <div class="feed-grid" id="news-grid-container" style="display: none;">
+                    <!-- Dynamically populated via JavaScript -->
+                </div>
+            </div>
+        </section>
+    </div>
 
 </div>
 {% endblock %}
@@ -260,9 +378,11 @@ HIMA-LENS | Landslide & Flash Flood Chronology Feed
 {% block scripts %}
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Dynamic Category Filtering
+    // -----------------------------------------------------------------
+    // 1. CHRONOLOGY FEED CATEGORY FILTERING (BENCHMARKS)
+    // -----------------------------------------------------------------
     const filterBtns = document.querySelectorAll(".feed-filter-btn");
-    const eventCards = document.querySelectorAll(".event-card");
+    const eventCards = document.querySelectorAll("#panel-benchmarks .event-card");
 
     filterBtns.forEach(btn => {
         btn.addEventListener("click", () => {
@@ -280,8 +400,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // 2. Real-Time Coordinate Dispatcher to /explore Map
-    const exploreBtns = document.querySelectorAll(".event-explore-btn");
+    // -----------------------------------------------------------------
+    // 2. COORDINATE DISPATCHER TO /explore MAP
+    // -----------------------------------------------------------------
+    const exploreBtns = document.querySelectorAll("#panel-benchmarks .event-explore-btn");
     exploreBtns.forEach(btn => {
         btn.addEventListener("click", () => {
             const card = btn.closest(".event-card");
@@ -296,6 +418,324 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
+
+    // -----------------------------------------------------------------
+    // 3. TAB CONTROLLER: BENCHMARKS vs LIVE NEWS
+    // -----------------------------------------------------------------
+    const tabBtns = document.querySelectorAll(".feed-nav-tab");
+    const tabPanels = document.querySelectorAll(".feed-tab-panel");
+
+    function switchTab(targetId, updateUrl = true) {
+        tabBtns.forEach(btn => {
+            const isMatch = btn.getAttribute("data-target") === targetId;
+            btn.classList.toggle("active", isMatch);
+            btn.setAttribute("aria-selected", isMatch ? "true" : "false");
+        });
+
+        tabPanels.forEach(panel => {
+            if (panel.id === targetId) {
+                panel.classList.remove("is-hidden");
+            } else {
+                panel.classList.add("is-hidden");
+            }
+        });
+
+        if (targetId === "panel-news" && !newsLoaded) {
+            fetchNewsArticles();
+        }
+
+        if (updateUrl) {
+            const tabParam = targetId === "panel-news" ? "news" : "benchmarks";
+            const newUrl = tabParam === "news" ? "/feed?tab=news" : "/feed";
+            history.replaceState(null, "", newUrl);
+        }
+    }
+
+    tabBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const target = btn.getAttribute("data-target");
+            switchTab(target, true);
+        });
+    });
+
+    // Detect initial tab from URL or template
+    const urlParams = new URLSearchParams(window.location.search);
+    const hash = window.location.hash;
+    const initialParam = urlParams.get("tab") || (hash === "#news" ? "news" : "");
+    if (initialParam === "news" || "{{ initial_tab }}" === "news") {
+        switchTab("panel-news", false);
+    }
+
+    // -----------------------------------------------------------------
+    // 4. LIVE HIMACHAL LANDSLIDE NEWS FEED ENGINE
+    // -----------------------------------------------------------------
+    const DISTRICT_COORDS = {
+        "Shimla": { lat: 31.1048, lng: 77.1734, zoom: 11 },
+        "Mandi": { lat: 31.7087, lng: 76.9320, zoom: 11 },
+        "Kullu": { lat: 31.9579, lng: 77.1095, zoom: 11 },
+        "Kinnaur": { lat: 31.6510, lng: 78.4752, zoom: 10 },
+        "Kangra": { lat: 32.0998, lng: 76.2691, zoom: 11 },
+        "Solan": { lat: 30.9045, lng: 77.0967, zoom: 11 },
+        "Chamba": { lat: 32.5534, lng: 76.1258, zoom: 10 },
+        "Sirmaur": { lat: 30.6000, lng: 77.3000, zoom: 11 },
+        "Bilaspur": { lat: 31.3260, lng: 76.7596, zoom: 11 },
+        "Hamirpur": { lat: 31.6862, lng: 76.5213, zoom: 11 },
+        "Una": { lat: 31.4685, lng: 76.2708, zoom: 11 },
+        "Lahaul & Spiti": { lat: 32.5710, lng: 77.0320, zoom: 10 }
+    };
+
+    let allNewsArticles = [];
+    let activeCategory = "all";
+    let activeDistrict = "all";
+    let searchQuery = "";
+    let newsLoaded = false;
+
+    const newsGrid = document.getElementById("news-grid-container");
+    const newsSkeleton = document.getElementById("news-loading-skeleton");
+    const newsEmptyState = document.getElementById("news-empty-state");
+    const counterText = document.getElementById("news-counter-text");
+    const liveCounterPill = document.getElementById("live-news-counter-pill");
+    const lastSyncLabel = document.getElementById("last-sync-label");
+    const refreshBtn = document.getElementById("refresh-news-btn");
+    const searchInput = document.getElementById("news-search-input");
+    const clearSearchBtn = document.getElementById("clear-search-btn");
+    const districtSelect = document.getElementById("news-district-select");
+    const categoryPills = document.querySelectorAll("#news-category-pills .news-pill-btn");
+    const resetFiltersBtn = document.getElementById("reset-news-filters");
+
+    function escapeHtml(str) {
+        if (!str) return "";
+        return str
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    function getCategoryBadgeClass(cat) {
+        if (!cat) return "severity-info";
+        const c = cat.toLowerCase();
+        if (c.includes("flash") || c.includes("flood") || c.includes("cloudburst")) return "severity-critical";
+        if (c.includes("highway") || c.includes("transport") || c.includes("road")) return "severity-high";
+        if (c.includes("alert") || c.includes("weather") || c.includes("warning")) return "severity-critical";
+        return "severity-info";
+    }
+
+    async function fetchNewsArticles(forceRefresh = false) {
+        if (refreshBtn) refreshBtn.classList.add("loading");
+        newsSkeleton.style.display = "grid";
+        newsGrid.style.display = "none";
+        newsEmptyState.style.display = "none";
+        if (lastSyncLabel) lastSyncLabel.textContent = forceRefresh ? "Refreshing wire..." : "Connecting wire...";
+
+        const endpoint = forceRefresh ? "/api/news?refresh=1" : "/api/news";
+
+        try {
+            const resp = await fetch(endpoint);
+            if (!resp.ok) throw new Error("Network response was not ok");
+            const data = await resp.json();
+
+            if (data.success && Array.isArray(data.articles)) {
+                allNewsArticles = data.articles;
+                newsLoaded = true;
+
+                if (liveCounterPill) {
+                    liveCounterPill.textContent = `${data.articles.length} Live Items`;
+                }
+
+                if (lastSyncLabel) {
+                    lastSyncLabel.textContent = data.last_updated ? `Updated: ${data.last_updated.slice(11, 16)} UTC` : "Updated just now";
+                }
+
+                renderNewsCards();
+            } else {
+                throw new Error("Invalid payload format");
+            }
+        } catch (err) {
+            console.error("Failed to load Himachal landslide news:", err);
+            if (counterText) counterText.textContent = "Unable to load live wire at this time. Please try refreshing.";
+            newsSkeleton.style.display = "none";
+        } finally {
+            if (refreshBtn) refreshBtn.classList.remove("loading");
+        }
+    }
+
+    function renderNewsCards() {
+        newsSkeleton.style.display = "none";
+
+        // Filter articles based on search query, category, and district
+        const query = searchQuery.trim().toLowerCase();
+        const filtered = allNewsArticles.filter(art => {
+            // Category match
+            if (activeCategory !== "all" && art.category !== activeCategory) {
+                return false;
+            }
+            // District match
+            if (activeDistrict !== "all" && art.district.toLowerCase() !== activeDistrict.toLowerCase()) {
+                return false;
+            }
+            // Search query match
+            if (query) {
+                const titleMatch = art.title && art.title.toLowerCase().includes(query);
+                const sourceMatch = art.source && art.source.toLowerCase().includes(query);
+                const districtMatch = art.district && art.district.toLowerCase().includes(query);
+                const snippetMatch = art.snippet && art.snippet.toLowerCase().includes(query);
+                if (!titleMatch && !sourceMatch && !districtMatch && !snippetMatch) {
+                    return false;
+                }
+            }
+            return true;
+        });
+
+        // Update counter text
+        if (counterText) {
+            if (filtered.length === allNewsArticles.length) {
+                counterText.innerHTML = `Showing all <strong>${allNewsArticles.length}</strong> active landslide &amp; hazard bulletins across Himachal Pradesh.`;
+            } else {
+                counterText.innerHTML = `Showing <strong>${filtered.length}</strong> of <strong>${allNewsArticles.length}</strong> reports matching your active filters.`;
+            }
+        }
+
+        if (filtered.length === 0) {
+            newsGrid.style.display = "none";
+            newsEmptyState.style.display = "block";
+            return;
+        }
+
+        newsEmptyState.style.display = "none";
+        newsGrid.style.display = "grid";
+        newsGrid.innerHTML = "";
+
+        const fragment = document.createDocumentFragment();
+
+        filtered.forEach(art => {
+            const card = document.createElement("article");
+            card.className = "event-card news-card";
+
+            const badgeClass = getCategoryBadgeClass(art.category);
+            const isHpState = art.district === "Himachal Pradesh";
+            const hasCoords = !isHpState && DISTRICT_COORDS[art.district];
+
+            card.innerHTML = `
+                <div class="event-card-header news-card-header">
+                    <div class="news-source-meta">
+                        <span class="news-source-badge">${escapeHtml(art.source)}</span>
+                        <span class="news-time-badge">${escapeHtml(art.time_ago || art.pub_date)}</span>
+                    </div>
+                    <div class="news-tags-group">
+                        <span class="event-severity-badge ${badgeClass}">${escapeHtml(art.category)}</span>
+                        <span class="news-district-tag">${escapeHtml(art.district)}</span>
+                    </div>
+                </div>
+
+                <div class="event-content news-content">
+                    <h3 class="news-card-title">${escapeHtml(art.title)}</h3>
+                    <p class="news-card-snippet">${escapeHtml(art.snippet)}</p>
+                </div>
+
+                <div class="event-card-footer news-card-footer">
+                    <div class="news-footer-meta">
+                        <span>Verified Media Wire &bull; ${escapeHtml(art.pub_date)}</span>
+                    </div>
+                    <div class="news-action-buttons">
+                        ${hasCoords ? `
+                            <a href="/explore" class="news-locate-btn" data-district="${escapeHtml(art.district)}" title="Locate ${escapeHtml(art.district)} on interactive map">
+                                <span>Locate on Map</span>
+                                <span>&nearr;</span>
+                            </a>
+                        ` : ''}
+                        <a href="${escapeHtml(art.link)}" target="_blank" rel="noopener noreferrer" class="event-explore-btn news-read-btn" title="Read full report on original publisher site">
+                            <span>Read Full Report</span>
+                            <span>&nearr;</span>
+                        </a>
+                    </div>
+                </div>
+            `;
+
+            // District locate click listener
+            if (hasCoords) {
+                const locateBtn = card.querySelector(".news-locate-btn");
+                if (locateBtn) {
+                    locateBtn.addEventListener("click", () => {
+                        sessionStorage.setItem("hima_jump_coords", JSON.stringify(DISTRICT_COORDS[art.district]));
+                    });
+                }
+            }
+
+            fragment.appendChild(card);
+        });
+
+        newsGrid.appendChild(fragment);
+    }
+
+    // Filter Listeners
+    if (districtSelect) {
+        districtSelect.addEventListener("change", (e) => {
+            activeDistrict = e.target.value;
+            renderNewsCards();
+        });
+    }
+
+    categoryPills.forEach(pill => {
+        pill.addEventListener("click", () => {
+            categoryPills.forEach(p => p.classList.remove("active"));
+            pill.classList.add("active");
+            activeCategory = pill.getAttribute("data-category");
+            renderNewsCards();
+        });
+    });
+
+    if (searchInput) {
+        searchInput.addEventListener("input", (e) => {
+            searchQuery = e.target.value;
+            if (clearSearchBtn) {
+                clearSearchBtn.style.display = searchQuery ? "block" : "none";
+            }
+            renderNewsCards();
+        });
+    }
+
+    if (clearSearchBtn) {
+        clearSearchBtn.addEventListener("click", () => {
+            searchInput.value = "";
+            searchQuery = "";
+            clearSearchBtn.style.display = "none";
+            renderNewsCards();
+            searchInput.focus();
+        });
+    }
+
+    if (resetFiltersBtn) {
+        resetFiltersBtn.addEventListener("click", () => {
+            searchQuery = "";
+            activeCategory = "all";
+            activeDistrict = "all";
+            if (searchInput) searchInput.value = "";
+            if (clearSearchBtn) clearSearchBtn.style.display = "none";
+            if (districtSelect) districtSelect.value = "all";
+            categoryPills.forEach(p => p.classList.toggle("active", p.getAttribute("data-category") === "all"));
+            renderNewsCards();
+        });
+    }
+
+    if (refreshBtn) {
+        refreshBtn.addEventListener("click", () => {
+            fetchNewsArticles(true);
+        });
+    }
+
+    // Auto-fetch news immediately if on news tab or in background
+    if (document.getElementById("tab-btn-news").classList.contains("active")) {
+        fetchNewsArticles();
+    } else {
+        // Pre-fetch in background after 1.5 seconds so tab switch is instantaneous
+        setTimeout(() => {
+            if (!newsLoaded) {
+                fetchNewsArticles();
+            }
+        }, 1500);
+    }
 });
 </script>
 {% endblock %}

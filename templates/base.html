@@ -131,7 +131,7 @@
             <nav class="main-nav" aria-label="Primary navigation">
                 <a href="{{ url_for('home') }}" class="{% if request.endpoint == 'home' %}active{% endif %}">Home</a>
                 <a href="{{ url_for('explore') }}" class="{% if request.endpoint == 'explore' %}active{% endif %}">Explore</a>
-                <a href="{{ url_for('feed') }}" class="{% if request.endpoint == 'feed' %}active{% endif %}">Events</a>
+                <a href="{{ url_for('feed') }}" class="{% if request.endpoint in ['feed', 'news'] %}active{% endif %}">Events &amp; News</a>
                 <a href="{{ url_for('report') }}" class="{% if request.endpoint == 'report' %}active{% endif %}">Report</a>
                 <a href="{{ url_for('about') }}" class="{% if request.endpoint == 'about' %}active{% endif %}">About</a>
             </nav>
@@ -238,7 +238,8 @@
                 </div>
                 <a href="{{ url_for('home') }}">Home Overview</a>
                 <a href="{{ url_for('explore') }}">Interactive Web-GIS (2D/3D)</a>
-                <a href="{{ url_for('feed') }}">Incident Feed &amp; Records</a>
+                <a href="{{ url_for('feed') }}">Incident Chronology &amp; Benchmarks</a>
+                <a href="{{ url_for('feed', tab='news') }}">Live Landslide &amp; Road News</a>
                 <a href="{{ url_for('report') }}">Submit Field Report</a>
                 <a href="{{ url_for('about') }}">Research Team &amp; System</a>
             </div>
