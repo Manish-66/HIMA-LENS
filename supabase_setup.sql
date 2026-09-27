@@ -77,3 +77,10 @@ ON storage.objects
 FOR UPDATE
 TO public, anon, authenticated
 USING (bucket_id = 'report-images');
+
+-- 9. (Optional) Seed existing initial community reports
+INSERT INTO public.community_reports (id, latitude, longitude, district, incident_date, movement_type, severity, description, reporter_name, photo_url, created_at)
+VALUES 
+    ('HL-CR-6C5DBB52', 31.77271, 76.98416, 'Mandi', '2026-09-17T17:14', 'Creep / Subsidence', 'Low', 'Observed minor road edge subsidence.', 'Community Reporter', '', '2026-09-17 11:46:00+00'),
+    ('HL-CR-B0B0D035', 31.77271, 76.98416, 'Mandi', '2026-09-17T17:13', 'Slide', 'Moderate', 'Debris sliding onto slope shoulder.', 'Community Reporter', '', '2026-09-17 11:44:40+00')
+ON CONFLICT (id) DO NOTHING;
