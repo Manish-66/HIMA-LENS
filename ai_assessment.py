@@ -25,12 +25,10 @@ from config import (
 logger = logging.getLogger(__name__)
 
 GEMINI_MODELS = [
-    "gemini-3.8-flash",
-    "gemini-3.7-flash",
     "gemini-3.5-flash-lite",
     "gemini-3.1-flash-lite",
-    "gemini-flash-latest",
-    "gemini-flash-lite-latest",
+    "gemini-3.8-flash",
+    "gemini-3.7-flash",
 ]
 
 
@@ -284,6 +282,34 @@ def fallback_visual_assessment(report: dict[str, Any]) -> dict[str, Any]:
             f"Immediate clearance of carriageway boulders followed by structural plum concrete breast wall construction and "
             f"crest interceptor drainage is mandatory to secure road formation and prevent catastrophic retrograde slope slumping."
         ),
+        "plain_language_explanation": {
+            "summary_title": f"{severity} Landslide & Road Blockage in {district} Sector",
+            "what_happened": (
+                f"A steep section of the hillside gave way, sending loose soil, rock fragments, and heavy boulders crashing down onto the road. "
+                f"The fallen debris has spilled across the roadway, creating a major hazard for anyone trying to pass."
+            ),
+            "why_it_happened": (
+                f"Heavy rain soaked deep into the mountain slope. Water filled the natural cracks in the rock, making the soil heavy and slippery "
+                f"until the steep hillside could no longer support its own weight and slipped down."
+            ),
+            "road_and_travel_impact": (
+                f"The road is severely blocked ({blockage}). Vehicles cannot safely pass this point. "
+                f"Roadside drainage channels are filled with mud and rocks, causing runoff water to spill directly onto the road surface."
+            ),
+            "ongoing_hazards": (
+                f"The hillside directly above remains unstable. Any additional rain, wind, or ground vibration can dislodge more loose rocks. "
+                f"Sagging overhead cables or rolling stones pose an immediate danger."
+            ),
+            "what_needs_to_be_done": (
+                f"Clear the fallen boulders using heavy excavators and rock breakers to safely reopen a travel lane. "
+                f"Construct a strong {h_wall:.1f}-meter-high concrete-and-stone wall at the bottom of the hill to hold the slope permanently, "
+                f"and dig clear concrete drains so rainwater flows away without causing more damage."
+            ),
+            "citizen_safety_advice": (
+                "Do NOT attempt to walk or drive under the fallen slope. Maintain a safe distance of at least 50 meters and follow all police "
+                "or local emergency notices until clearance teams give the all-clear."
+            ),
+        },
     }
 
 
@@ -330,9 +356,18 @@ CRITICAL FIRST STEP — OPTICAL VALIDATION:
    - Set "detected_content": Exact concise description of what is actually in the photo (e.g. "Domestic pet (Golden Retriever dog)", "Smartphone screenshot of HIMA-LENS web application")
    - Set "rejection_reason": "The uploaded photograph displays [detected_content] rather than geological terrain or hill slope failure. Geotechnical parameter evaluation is suspended."
    - Set "senior_engineer_remarks": "Optical validation audit rejected this submission: the image contains [detected_content] instead of physical terrain. Authentic slope photography must be re-submitted."
+   - Set "plain_language_explanation": {{
+       "summary_title": "Image Audit Notice: Non-Terrain Photo Uploaded",
+       "what_happened": "The photo attached to this report shows a [detected_content] and not an outdoor hill slope, rockfall, or road landslide.",
+       "why_it_happened": "Our automated visual audit verified that no natural hillside, road crack, or fallen rock mass is present in this upload.",
+       "road_and_travel_impact": "Road conditions cannot be evaluated from this photograph. Ground field inspection is required.",
+       "ongoing_hazards": "No terrain hazards could be verified from this image.",
+       "what_needs_to_be_done": "Please upload a clear photograph of the actual hill slope, road blockage, or fallen rock debris.",
+       "citizen_safety_advice": "Please stay safe and only photograph slopes from a secure vantage point away from active landslide zones."
+     }}
    - For all dimensional/structural tables, provide "N/A — Non-terrain media".
 
-SECOND STEP — SENIOR GEOTECHNICAL ANALYSIS (ONLY IF is_landslide_or_terrain is true):
+SECOND STEP — SENIOR GEOTECHNICAL ANALYSIS & PLAIN-LANGUAGE BRIEFING (ONLY IF is_landslide_or_terrain is true):
 Analyze the photo with professional geotechnical rigor:
 - Identify visible lithology (sandstone, siltstone, phyllite, quartzite), joint spacing, and weathering grade.
 - Estimate slope geometry, cut slope angle, and carriageway blockage width.
@@ -340,6 +375,15 @@ Analyze the photo with professional geotechnical rigor:
 - Formulate earthworks excavation and backfill quantities in cubic meters (m³).
 - Direct immediate machinery deployment (heavy excavator with rock breaker, tippers) and public safety notices (sagging power lines, traffic restoration target).
 - Compose an authoritative, professional 3-4 sentence senior engineering diagnosis synthesizing failure kinematics and remedial design.
+- Compose a clear, compassionate "plain_language_explanation" that explains the landslide in everyday, non-technical terms for ordinary citizens, commuters, and local administration.
+  EVERY DETAIL in this explanation MUST EXACTLY MATCH the photograph and your technical assessment:
+  * "summary_title": Clear plain title (e.g. "Severe Rockslide & Road Blockage in Mandi Sector")
+  * "what_happened": Plain description of what detached and tumbled down (soil, loose mud, large sandstone boulders) and where it landed.
+  * "why_it_happened": Plain explanation of the cause (heavy rain soaking the mountain slope, water pressure in cracks, steep road cutting).
+  * "road_and_travel_impact": Plain description of road blockage and how commuters are affected.
+  * "ongoing_hazards": Immediate risks visible in the image (overhanging rocks, falling stones if it rains, sagging wires).
+  * "what_needs_to_be_done": Simple explanation of the fix (heavy machines breaking boulders, building a concrete-and-stone wall at the base of the hill, cleaning drainage).
+  * "citizen_safety_advice": Clear safety rule for travelers and locals (keep safe distance, do not walk under slope).
 
 INCIDENT TELEMETRY:
 - Report ID: {report_id}
@@ -490,7 +534,16 @@ RETURN ONLY A VALID JSON OBJECT WITH THIS EXACT SCHEMA (no markdown code blocks,
     "traffic_restoration": "Break main boulders and restore single-lane traffic within 12-24 hours.",
     "permanent_restoration": "Construction of 18m long Plum Concrete Breast Wall (H=3.5m) and Hillside Saucer Drain (0.6m wide)."
   }},
-  "senior_engineer_remarks": "Professional 3-4 sentence senior geotechnical engineering diagnosis of the failure mechanism, drainage cause, and stability recommendations."
+  "senior_engineer_remarks": "Professional 3-4 sentence senior geotechnical engineering diagnosis of the failure mechanism, drainage cause, and stability recommendations.",
+  "plain_language_explanation": {{
+    "summary_title": "Major Rockslide Blocking Road in Mandi Sector",
+    "what_happened": "A steep section of the hillside collapsed, dumping massive rocks and wet soil directly across both lanes of the road.",
+    "why_it_happened": "Water seeped into the natural cracks in the rock, making the steep slope unstable until large slabs slipped down.",
+    "road_and_travel_impact": "The road is completely blocked. No cars or buses can pass until heavy machinery clears the debris.",
+    "ongoing_hazards": "Several loose boulders are still perched dangerously on the hill above and could fall if it rains again.",
+    "what_needs_to_be_done": "Excavators with rock breakers must crush the large boulders to clear a single lane, and a strong concrete wall must be built at the bottom of the hill to support the slope.",
+    "citizen_safety_advice": "Do not attempt to walk across the fallen debris. Wait for emergency clearance teams and follow police diversions."
+  }}
 }}"""
 
     payload = {

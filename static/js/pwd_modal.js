@@ -99,11 +99,41 @@ function ensurePwdModalInDOM() {
               </div>
             </div>
 
-            <!-- Section 3: Technical Synthesis Remarks -->
+            <!-- Section 3: Plain-Language Incident Explanation (Citizen & Field Summary) -->
+            <div class="pwd-form-section">
+              <div class="pwd-section-head">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                3. Plain-Language Explanation (Non-Technical Public &amp; Field Guide)
+              </div>
+              <div class="pwd-field">
+                <label>Briefing Title</label>
+                <input type="text" id="pwd-inp-plain-title">
+              </div>
+              <div class="pwd-field" style="margin-top: 10px;">
+                <label>What Happened (Simple Terms)</label>
+                <textarea rows="2" id="pwd-inp-plain-what"></textarea>
+              </div>
+              <div class="pwd-grid-2" style="margin-top: 10px;">
+                <div class="pwd-field">
+                  <label>Why It Happened</label>
+                  <input type="text" id="pwd-inp-plain-why">
+                </div>
+                <div class="pwd-field">
+                  <label>Roadway Blockage &amp; Impact</label>
+                  <input type="text" id="pwd-inp-plain-road">
+                </div>
+              </div>
+              <div class="pwd-field" style="margin-top: 10px;">
+                <label>What Needs To Be Done (Remedy)</label>
+                <input type="text" id="pwd-inp-plain-remedy">
+              </div>
+            </div>
+
+            <!-- Section 4: Technical Synthesis Remarks -->
             <div class="pwd-form-section">
               <div class="pwd-section-head">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
-                3. Technical Synthesis Remarks
+                4. Technical Synthesis Remarks
               </div>
               <div class="pwd-field">
                 <textarea rows="3" id="pwd-inp-synthesis"></textarea>
@@ -196,6 +226,13 @@ function populatePwdForm(assessment) {
   document.getElementById('pwd-inp-infra').value = vis.infrastructure_impact || '';
   document.getElementById('pwd-inp-drain').value = vis.drainage_and_seepage || '';
 
+  const ple = assessment.plain_language_explanation || {};
+  if (document.getElementById('pwd-inp-plain-title')) document.getElementById('pwd-inp-plain-title').value = ple.summary_title || '';
+  if (document.getElementById('pwd-inp-plain-what')) document.getElementById('pwd-inp-plain-what').value = ple.what_happened || '';
+  if (document.getElementById('pwd-inp-plain-why')) document.getElementById('pwd-inp-plain-why').value = ple.why_it_happened || '';
+  if (document.getElementById('pwd-inp-plain-road')) document.getElementById('pwd-inp-plain-road').value = ple.road_and_travel_impact || '';
+  if (document.getElementById('pwd-inp-plain-remedy')) document.getElementById('pwd-inp-plain-remedy').value = ple.what_needs_to_be_done || '';
+
   document.getElementById('pwd-inp-synthesis').value = assessment.synthesis_remarks || '';
 }
 
@@ -215,6 +252,13 @@ window.submitAndOpenOfficialSheet = function() {
   currentAssessmentData.visual_analysis.slope_condition = document.getElementById('pwd-inp-slope').value;
   currentAssessmentData.visual_analysis.infrastructure_impact = document.getElementById('pwd-inp-infra').value;
   currentAssessmentData.visual_analysis.drainage_and_seepage = document.getElementById('pwd-inp-drain').value;
+
+  if (!currentAssessmentData.plain_language_explanation) currentAssessmentData.plain_language_explanation = {};
+  if (document.getElementById('pwd-inp-plain-title')) currentAssessmentData.plain_language_explanation.summary_title = document.getElementById('pwd-inp-plain-title').value;
+  if (document.getElementById('pwd-inp-plain-what')) currentAssessmentData.plain_language_explanation.what_happened = document.getElementById('pwd-inp-plain-what').value;
+  if (document.getElementById('pwd-inp-plain-why')) currentAssessmentData.plain_language_explanation.why_it_happened = document.getElementById('pwd-inp-plain-why').value;
+  if (document.getElementById('pwd-inp-plain-road')) currentAssessmentData.plain_language_explanation.road_and_travel_impact = document.getElementById('pwd-inp-plain-road').value;
+  if (document.getElementById('pwd-inp-plain-remedy')) currentAssessmentData.plain_language_explanation.what_needs_to_be_done = document.getElementById('pwd-inp-plain-remedy').value;
 
   currentAssessmentData.synthesis_remarks = document.getElementById('pwd-inp-synthesis').value;
 

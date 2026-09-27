@@ -269,20 +269,33 @@
       margin-bottom: 4px;
     }
 
-    /* Photographic Plate */
+    /* Evidence & Plain-Language Public Briefing Grid */
+    .evidence-briefing-grid {
+      display: grid;
+      grid-template-columns: 46% 54%;
+      gap: 10px;
+      margin: 8px 0;
+      align-items: stretch;
+    }
+    .photo-plate-column {
+      display: flex;
+      flex-direction: column;
+    }
     .photo-plate-container {
       border: 1.5px solid var(--border-dark);
-      margin: 8px 0;
       background: #071f19;
       text-align: center;
       position: relative;
       overflow: hidden;
-      max-height: 380px;
+      height: 250px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .photo-plate-container img {
       max-width: 100%;
-      max-height: 380px;
-      object-fit: contain;
+      max-height: 100%;
+      object-fit: cover;
       display: block;
       margin: 0 auto;
     }
@@ -291,14 +304,104 @@
       bottom: 0;
       left: 0;
       right: 0;
-      background: rgba(7, 31, 25, 0.9);
+      background: rgba(7, 31, 25, 0.92);
       color: #ffffff;
-      padding: 5px 12px;
-      font-size: 9px;
+      padding: 4px 8px;
+      font-size: 8.5px;
       font-family: 'JetBrains Mono', monospace;
       display: flex;
       justify-content: space-between;
       border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .photo-sub-bar {
+      margin-top: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 8.5px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--ink-soft);
+    }
+    .badge-status-valid {
+      padding: 1px 6px;
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #86efac;
+      border-radius: 3px;
+      font-weight: 700;
+    }
+    .badge-status-invalid {
+      padding: 1px 6px;
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fca5a5;
+      border-radius: 3px;
+      font-weight: 700;
+    }
+
+    /* Plain-Language Citizen Briefing Card */
+    .plain-briefing-card {
+      border: 1.5px solid var(--primary-forest);
+      background: #ffffff;
+      border-radius: 3px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .plain-briefing-head {
+      background: #f0fdf4;
+      border-bottom: 1px solid #bbf7d0;
+      padding: 5px 8px;
+    }
+    .plain-briefing-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8px;
+      font-weight: 700;
+      color: var(--primary-forest);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .plain-briefing-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: 10.5px;
+      font-weight: 800;
+      color: var(--primary-dark);
+      margin-top: 1px;
+      line-height: 1.25;
+    }
+    .plain-briefing-body {
+      padding: 6px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      flex-grow: 1;
+      justify-content: space-between;
+      font-size: 9px;
+      line-height: 1.35;
+    }
+    .plain-item {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+    .plain-item-label {
+      font-weight: 700;
+      font-size: 8px;
+      color: var(--primary-forest);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+    .plain-item-text {
+      color: var(--ink);
+    }
+    .plain-item-advisory {
+      background: #fffbeb;
+      border-left: 3px solid #f59e0b;
+      padding: 4px 6px;
+      color: #92400e;
+      font-size: 8.5px;
+      line-height: 1.3;
+      border-radius: 0 2px 2px 0;
     }
 
     /* Engineering Remarks Box */
@@ -828,8 +931,8 @@
       <div class="master-standards">Optical Verification &bull; Immediate Emergency Directives &bull; Statutory Engineering Sign-Off</div>
     </div>
 
-    <!-- 10. Site Photograph -->
-    <div class="sec-bar">10. Site Photograph &amp; Ground Evidence ({{ assessment.telemetry.location_chainage }})</div>
+    <!-- 10. Site Photograph & Plain-Language Public Briefing -->
+    <div class="sec-bar">10. Ground Evidence &amp; Plain-Language Incident Briefing ({{ assessment.telemetry.location_chainage }})</div>
 
     <!-- If Non-Terrain Media (e.g. dog or screenshot) is detected, render prominent audit banner -->
     {% if assessment.is_landslide_or_terrain is defined and not assessment.is_landslide_or_terrain %}
@@ -845,20 +948,82 @@
     </div>
     {% endif %}
 
-    {% if report.photo_url %}
-    <div class="photo-plate-container">
-      <img src="{{ report.photo_url }}" alt="Site Evidence Plate">
-      <div class="photo-caption-bar">
-        <span>PLATE REF: {{ assessment.telemetry.report_id }}</span>
-        <span>CONTENT: {{ 'REJECTED: ' ~ assessment.detected_content if (assessment.is_landslide_or_terrain is defined and not assessment.is_landslide_or_terrain) else 'VALID GROUND EVIDENCE' }}</span>
-        <span>COORDINATES: {{ assessment.telemetry.coordinates_dec }}</span>
+    <div class="evidence-briefing-grid">
+      <!-- Left Column: Ground Photo Plate -->
+      <div class="photo-plate-column">
+        {% if report.photo_url %}
+        <div class="photo-plate-container">
+          <img src="{{ report.photo_url }}" alt="Site Evidence Plate">
+          <div class="photo-caption-bar">
+            <span>PLATE: {{ assessment.telemetry.report_id }}</span>
+            <span>{{ assessment.telemetry.coordinates_dec }}</span>
+          </div>
+        </div>
+        <div class="photo-sub-bar">
+          <span>
+            {% if assessment.is_landslide_or_terrain is defined and not assessment.is_landslide_or_terrain %}
+              <span class="badge-status-invalid">Flagged: {{ assessment.detected_content }}</span>
+            {% else %}
+              <span class="badge-status-valid">Verified Slope Imagery</span>
+            {% endif %}
+          </span>
+          <span>Date: {{ assessment.telemetry.inspection_date }}</span>
+        </div>
+        {% else %}
+        <div style="border: 1px dashed var(--border-light); background: #f8fafc; height: 250px; display: flex; align-items: center; justify-content: center; text-align: center; color: #64748b; font-size: 9.5px; padding: 15px;">
+          No ground photograph uploaded with this field observation.
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Right Column: Plain Language Explanation for Non-Technical Citizens & Public -->
+      <div class="plain-briefing-card">
+        <div class="plain-briefing-head">
+          <div class="plain-briefing-tag">Public &amp; Field Briefing &bull; Plain Language (Non-Technical)</div>
+          <div class="plain-briefing-title editable" id="f-plain-title">
+            {{ assessment.plain_language_explanation.summary_title if assessment.plain_language_explanation else 'Slope Failure Incident Summary' }}
+          </div>
+        </div>
+        <div class="plain-briefing-body">
+          <div class="plain-item">
+            <span class="plain-item-label">What Happened:</span>
+            <span class="plain-item-text editable" id="f-plain-what">
+              {{ assessment.plain_language_explanation.what_happened if assessment.plain_language_explanation else 'A section of the hill slope gave way, dumping debris directly onto the roadway.' }}
+            </span>
+          </div>
+          <div class="plain-item">
+            <span class="plain-item-label">Why It Happened:</span>
+            <span class="plain-item-text editable" id="f-plain-why">
+              {{ assessment.plain_language_explanation.why_it_happened if assessment.plain_language_explanation else 'Rainwater seeped into steep, fractured hillside layers, causing the slope to slide under gravity.' }}
+            </span>
+          </div>
+          <div class="plain-item">
+            <span class="plain-item-label">Road &amp; Travel Impact:</span>
+            <span class="plain-item-text editable" id="f-plain-road">
+              {{ assessment.plain_language_explanation.road_and_travel_impact if assessment.plain_language_explanation else assessment.road_impact.carriageway_status }}
+            </span>
+          </div>
+          <div class="plain-item">
+            <span class="plain-item-label">Immediate Hazards:</span>
+            <span class="plain-item-text editable" id="f-plain-hazard">
+              {{ assessment.plain_language_explanation.ongoing_hazards if assessment.plain_language_explanation else 'Risk of secondary rock falls and mud slippage during wet conditions.' }}
+            </span>
+          </div>
+          <div class="plain-item">
+            <span class="plain-item-label">What Needs To Be Done:</span>
+            <span class="plain-item-text editable" id="f-plain-remedy">
+              {{ assessment.plain_language_explanation.what_needs_to_be_done if assessment.plain_language_explanation else assessment.safety_directives.permanent_restoration }}
+            </span>
+          </div>
+          <div class="plain-item-advisory">
+            <strong>Citizen Safety Rule:</strong> 
+            <span class="editable" id="f-plain-advice">
+              {{ assessment.plain_language_explanation.citizen_safety_advice if assessment.plain_language_explanation else 'Do not cross under active slip zones. Maintain a safe perimeter of at least 50m.' }}
+            </span>
+          </div>
+        </div>
       </div>
     </div>
-    {% else %}
-    <div style="border: 1px dashed var(--border-light); background: #f8fafc; padding: 25px; text-align: center; color: #64748b; margin: 8px 0;">
-      No ground photograph uploaded with this field observation.
-    </div>
-    {% endif %}
 
     <!-- 11. Critical Safety & Immediate Action Notice -->
     <div class="safety-box">
@@ -936,6 +1101,16 @@
       }
       if (data.senior_engineer_remarks) {
         document.getElementById('f-senior-rem').innerText = data.senior_engineer_remarks;
+      }
+      if (data.plain_language_explanation) {
+        const ple = data.plain_language_explanation;
+        if (ple.summary_title && document.getElementById('f-plain-title')) document.getElementById('f-plain-title').innerText = ple.summary_title;
+        if (ple.what_happened && document.getElementById('f-plain-what')) document.getElementById('f-plain-what').innerText = ple.what_happened;
+        if (ple.why_it_happened && document.getElementById('f-plain-why')) document.getElementById('f-plain-why').innerText = ple.why_it_happened;
+        if (ple.road_and_travel_impact && document.getElementById('f-plain-road')) document.getElementById('f-plain-road').innerText = ple.road_and_travel_impact;
+        if (ple.ongoing_hazards && document.getElementById('f-plain-hazard')) document.getElementById('f-plain-hazard').innerText = ple.ongoing_hazards;
+        if (ple.what_needs_to_be_done && document.getElementById('f-plain-remedy')) document.getElementById('f-plain-remedy').innerText = ple.what_needs_to_be_done;
+        if (ple.citizen_safety_advice && document.getElementById('f-plain-advice')) document.getElementById('f-plain-advice').innerText = ple.citizen_safety_advice;
       }
     }
 
