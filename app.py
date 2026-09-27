@@ -10,6 +10,7 @@ from datetime import datetime
 from functools import lru_cache
 from typing import Any
 from flask import Flask, jsonify, render_template, request, Response
+import supabase_db
 from config import (
     APP_DESCRIPTION,
     APP_NAME,
@@ -270,19 +271,10 @@ def environmental_layers():
     return jsonify(success=True, layers=cached_environmental_meta())
 
 def load_community_reports() -> list[dict[str, Any]]:
-    if not COMMUNITY_REPORTS_PATH.exists():
-        return []
-    try:
-        with COMMUNITY_REPORTS_PATH.open(encoding="utf-8") as f:
-            data = json.load(f)
-            return data if isinstance(data, list) else []
-    except Exception:
-        return []
+    return supabase_db.load_local_reports()
 
 def save_community_reports(reports: list[dict[str, Any]]) -> None:
-    COMMUNITY_REPORTS_PATH.parent.mkdir(parents=True, exist_ok=True)
-    with COMMUNITY_REPORTS_PATH.open("w", encoding="utf-8") as f:
-        json.dump(reports, f, indent=2)
+    supabase_db.save_local_reports(reports)
 
 ALLOWED_IMAGE_EXTENSIONS = {"png", "jpg", "jpeg", "webp", "gif"}
 
@@ -291,7 +283,7 @@ def allowed_image_file(filename: str) -> bool:
 
 @app.get("/api/reports")
 def get_reports():
-    reports = load_community_reports()
+    reports = supabase_db.fetch_community_reports()
     features = []
     for rep in reports:
         try:
@@ -345,12 +337,7 @@ def submit_report():
     photo_url = ""
     file = request.files.get("photo")
     if file and file.filename and allowed_image_file(file.filename):
-        COMMUNITY_REPORTS_UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
-        ext = file.filename.rsplit(".", 1)[1].lower()
-        unique_filename = f"report_{uuid.uuid4().hex[:12]}_{int(time.time())}.{ext}"
-        save_path = COMMUNITY_REPORTS_UPLOAD_DIR / unique_filename
-        file.save(str(save_path))
-        photo_url = f"/static/uploads/reports/{unique_filename}"
+        photo_url = supabase_db.upload_report_image(file, file.filename)
 
     report_id = f"HL-CR-{uuid.uuid4().hex[:8].upper()}"
     new_report = {
@@ -367,9 +354,7 @@ def submit_report():
         "created_at": datetime.utcnow().isoformat() + "Z"
     }
 
-    reports = load_community_reports()
-    reports.insert(0, new_report)
-    save_community_reports(reports)
+    supabase_db.save_community_report(new_report)
 
     return jsonify(success=True, report=new_report), 201
 

@@ -38,3 +38,8 @@ APP_DESCRIPTION = "Himachal Pradesh Landslide Inventory & Exploration System"
 DEFAULT_CESIUM_ION_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjMydHFDWnJKb2JMa3NOVS0iLCJqdGkiOiJkOGRiYTc4Mi00Mjc3LTRlNjktYTUwNC02MzBkOWM0MzUwZmYiLCJpZCI6NDgyODkzLCJzdWIiOiJNYW5pc2gtNjYiLCJpc3MiOiJodHRwczovL2FwaS5jZXNpdW0uY29tIiwiYXVkIjoiVW50aXRsZWQiLCJpYXQiOjE3ODg4MDkyODN9.hbQrfvjKTYJlOjipACK2GMH0zsoTjWwOoP_IxAhZQfg"
 CESIUM_ION_TOKEN = (os.environ.get("CESIUM_ION_TOKEN", "").strip() or DEFAULT_CESIUM_ION_TOKEN)
 
+# Supabase Database & Cloud Storage
+SUPABASE_URL = os.environ.get("SUPABASE_URL", "").strip().rstrip("/")
+SUPABASE_KEY = os.environ.get("SUPABASE_KEY", "").strip() or os.environ.get("SUPABASE_ANON_KEY", "").strip()
+SUPABASE_BUCKET = os.environ.get("SUPABASE_BUCKET", "report-images").strip()
+
