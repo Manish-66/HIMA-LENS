@@ -492,6 +492,10 @@
       <span>HIMA-LENS &bull; Technical Landslide Field Dossier</span>
     </div>
     <div class="action-btn-cluster">
+      <button type="button" class="screen-btn btn-ghost" onclick="window.location.search='?force=true'" title="Force fresh AI multimodal evaluation and clear cache">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+        <span>Re-Analyze</span>
+      </button>
       <button type="button" class="screen-btn btn-ghost" id="btn-toggle-edit" onclick="toggleEditMode()">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
         <span>Edit Fields Inline</span>
@@ -1128,6 +1132,44 @@
       const btn = document.getElementById('btn-toggle-edit');
       btn.querySelector('span').innerText = isEditMode ? "Done Editing" : "Edit Fields Inline";
       btn.style.background = isEditMode ? "#16a34a" : "";
+
+      // When finishing editing, persist changes to server-side cache
+      if (!isEditMode) {
+        saveInlineEditsToServer();
+      }
+    }
+
+    async function saveInlineEditsToServer() {
+      const payload = {
+        telemetry: {
+          site_road_name: document.getElementById('f-road-name') ? document.getElementById('f-road-name').innerText.trim() : undefined,
+          location_chainage: document.getElementById('f-chainage') ? document.getElementById('f-chainage').innerText.trim() : undefined,
+        },
+        retaining_wall_specs: {
+          height_m: document.getElementById('f-wall-h') ? parseFloat(document.getElementById('f-wall-h').innerText) : undefined,
+          length_m: document.getElementById('f-wall-l') ? parseFloat(document.getElementById('f-wall-l').innerText) : undefined,
+        },
+        senior_engineer_remarks: document.getElementById('f-senior-rem') ? document.getElementById('f-senior-rem').innerText.trim() : undefined,
+        plain_language_explanation: {
+          summary_title: document.getElementById('f-plain-title') ? document.getElementById('f-plain-title').innerText.trim() : undefined,
+          what_happened: document.getElementById('f-plain-what') ? document.getElementById('f-plain-what').innerText.trim() : undefined,
+          why_it_happened: document.getElementById('f-plain-why') ? document.getElementById('f-plain-why').innerText.trim() : undefined,
+          road_and_travel_impact: document.getElementById('f-plain-road') ? document.getElementById('f-plain-road').innerText.trim() : undefined,
+          ongoing_hazards: document.getElementById('f-plain-hazard') ? document.getElementById('f-plain-hazard').innerText.trim() : undefined,
+          what_needs_to_be_done: document.getElementById('f-plain-remedy') ? document.getElementById('f-plain-remedy').innerText.trim() : undefined,
+          citizen_safety_advice: document.getElementById('f-plain-advice') ? document.getElementById('f-plain-advice').innerText.trim() : undefined,
+        }
+      };
+
+      try {
+        await fetch(`/api/reports/${encodeURIComponent(reportId)}/ai-assessment/save`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      } catch (err) {
+        console.warn("Could not sync edits to server:", err);
+      }
     }
   </script>
 </body>

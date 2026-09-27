@@ -468,8 +468,22 @@ def generate_report_ai_assessment(report_id: str):
     if not report:
         return jsonify(success=False, error="REPORT_NOT_FOUND", message=f"Report '{report_id}' not found."), 404
 
-    assessment = ai_assessment.generate_ai_assessment(report)
+    force = request.args.get("force", "").lower() in ("1", "true", "yes")
+    assessment = ai_assessment.generate_ai_assessment(report, force_refresh=force)
     return jsonify(success=True, report_id=report_id, assessment=assessment)
+
+@app.post("/api/reports/<report_id>/ai-assessment/save")
+def save_custom_ai_assessment(report_id: str):
+    report = find_report_by_id(report_id)
+    if not report:
+        return jsonify(success=False, error="REPORT_NOT_FOUND", message=f"Report '{report_id}' not found."), 404
+
+    payload = request.get_json(silent=True) or {}
+    if not payload:
+        return jsonify(success=False, error="EMPTY_PAYLOAD", message="No assessment payload provided."), 400
+
+    ai_assessment.save_assessment_to_cache(report_id, payload)
+    return jsonify(success=True, report_id=report_id, message="Custom assessment persisted.")
 
 @app.get("/report/pwd-sheet/<report_id>")
 def view_pwd_sheet(report_id: str):
@@ -477,8 +491,9 @@ def view_pwd_sheet(report_id: str):
     if not report:
         return f"Report with ID {report_id} was not found.", 404
 
-    # Run genuine AI multimodal assessment on the report
-    assessment = ai_assessment.generate_ai_assessment(report)
+    force = request.args.get("force", "").lower() in ("1", "true", "yes")
+    # Read from cache or run deterministic calculation
+    assessment = ai_assessment.generate_ai_assessment(report, force_refresh=force)
     return render_template("pwd_sheet.html", report=report, assessment=assessment)
 
 @app.errorhandler(FileNotFoundError)
