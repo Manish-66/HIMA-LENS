@@ -556,19 +556,19 @@
       <tbody>
         <tr>
           <td>
-            <div class="chk-item {{ 'checked' if assessment.slope_characteristics.presence_above }}"><span class="chk-box {{ 'active' if assessment.slope_characteristics.presence_above }}">✔</span> Above road: Yes</div><br>
-            <div class="chk-item {{ 'checked' if assessment.slope_characteristics.presence_below }}"><span class="chk-box {{ 'active' if assessment.slope_characteristics.presence_below }}">{{ '✔' if assessment.slope_characteristics.presence_below else ' ' }}</span> Below road: No</div><br>
-            <div class="chk-item {{ 'checked' if assessment.slope_characteristics.presence_both }}"><span class="chk-box {{ 'active' if assessment.slope_characteristics.presence_both }}">{{ '✔' if assessment.slope_characteristics.presence_both else ' ' }}</span> Both: No</div>
+            <div class="chk-item {{ 'checked' if assessment.slope_characteristics.presence_above }}"><span class="chk-box {{ 'active' if assessment.slope_characteristics.presence_above }}">{{ '✔' if assessment.slope_characteristics.presence_above else ' ' }}</span> Above road: {{ 'Yes' if assessment.slope_characteristics.presence_above else 'No' }}</div><br>
+            <div class="chk-item {{ 'checked' if assessment.slope_characteristics.presence_below }}"><span class="chk-box {{ 'active' if assessment.slope_characteristics.presence_below }}">{{ '✔' if assessment.slope_characteristics.presence_below else ' ' }}</span> Below road: {{ 'Yes' if assessment.slope_characteristics.presence_below else 'No' }}</div><br>
+            <div class="chk-item {{ 'checked' if assessment.slope_characteristics.presence_both }}"><span class="chk-box {{ 'active' if assessment.slope_characteristics.presence_both }}">{{ '✔' if assessment.slope_characteristics.presence_both else ' ' }}</span> Both: {{ 'Yes' if assessment.slope_characteristics.presence_both else 'No' }}</div>
           </td>
           <td>
-            <div class="chk-item checked"><span class="chk-box active">✔</span> In-situ rock: Yes</div><br>
-            <div class="chk-item"><span class="chk-box"> </span> In-situ soil: {{ assessment.slope_characteristics.in_situ_soil }}</div><br>
-            <div class="chk-item checked"><span class="chk-box active">✔</span> Debris: {{ assessment.slope_characteristics.debris_accumulation }}</div>
+            <div class="chk-item {{ 'checked' if assessment.slope_characteristics.in_situ_rock }}"><span class="chk-box {{ 'active' if assessment.slope_characteristics.in_situ_rock }}">{{ '✔' if assessment.slope_characteristics.in_situ_rock else ' ' }}</span> In-situ rock: {{ 'Yes' if assessment.slope_characteristics.in_situ_rock else 'No' }}</div><br>
+            <div class="chk-item {{ 'checked' if assessment.slope_characteristics.in_situ_soil and assessment.slope_characteristics.in_situ_soil != 'None' }}"><span class="chk-box {{ 'active' if assessment.slope_characteristics.in_situ_soil and assessment.slope_characteristics.in_situ_soil != 'None' }}">{{ '✔' if assessment.slope_characteristics.in_situ_soil and assessment.slope_characteristics.in_situ_soil != 'None' else ' ' }}</span> In-situ soil: {{ assessment.slope_characteristics.in_situ_soil }}</div><br>
+            <div class="chk-item {{ 'checked' if assessment.slope_characteristics.debris_accumulation and assessment.slope_characteristics.debris_accumulation != 'None' }}"><span class="chk-box {{ 'active' if assessment.slope_characteristics.debris_accumulation and assessment.slope_characteristics.debris_accumulation != 'None' }}">{{ '✔' if assessment.slope_characteristics.debris_accumulation and assessment.slope_characteristics.debris_accumulation != 'None' else ' ' }}</span> Debris: {{ assessment.slope_characteristics.debris_accumulation }}</div>
           </td>
           <td>
-            <div class="chk-item checked"><span class="chk-box active">✔</span> Cut: Yes</div><br>
-            <div class="chk-item"><span class="chk-box"> </span> Fill: No</div><br>
-            <div class="chk-item checked"><span class="chk-box active">✔</span> Natural: {{ assessment.slope_characteristics.slope_type_natural }}</div>
+            <div class="chk-item {{ 'checked' if assessment.slope_characteristics.slope_type_cut }}"><span class="chk-box {{ 'active' if assessment.slope_characteristics.slope_type_cut }}">{{ '✔' if assessment.slope_characteristics.slope_type_cut else ' ' }}</span> Cut: {{ 'Yes' if assessment.slope_characteristics.slope_type_cut else 'No' }}</div><br>
+            <div class="chk-item {{ 'checked' if assessment.slope_characteristics.slope_type_fill }}"><span class="chk-box {{ 'active' if assessment.slope_characteristics.slope_type_fill }}">{{ '✔' if assessment.slope_characteristics.slope_type_fill else ' ' }}</span> Fill: {{ 'Yes' if assessment.slope_characteristics.slope_type_fill else 'No' }}</div><br>
+            <div class="chk-item {{ 'checked' if assessment.slope_characteristics.slope_type_natural and assessment.slope_characteristics.slope_type_natural != 'None' }}"><span class="chk-box {{ 'active' if assessment.slope_characteristics.slope_type_natural and assessment.slope_characteristics.slope_type_natural != 'None' }}">{{ '✔' if assessment.slope_characteristics.slope_type_natural and assessment.slope_characteristics.slope_type_natural != 'None' }}</span> Natural: {{ assessment.slope_characteristics.slope_type_natural }}</div>
           </td>
         </tr>
         <tr>
@@ -696,12 +696,12 @@
     <div class="sec-bar">5. Defects &amp; Distress Observed Around Works</div>
     <div style="border: 1px solid var(--border-dark); border-bottom: none; padding: 4px 8px; font-size: 9px; background: #f8fafc;">
       <strong>Defect on slope:</strong>
-      <span class="chk-item"><span class="chk-box"> </span> 1. Gully</span>
-      <span class="chk-item checked"><span class="chk-box active">✔</span> 2. Crack</span>
-      <span class="chk-item checked"><span class="chk-box active">✔</span> 3. Unstable rock</span>
-      <span class="chk-item checked"><span class="chk-box active">✔</span> 4. Seepage</span>
-      <span class="chk-item checked"><span class="chk-box active">✔</span> 5. Erosion</span>
-      <span class="chk-item checked"><span class="chk-box active">✔</span> 6. Landslide [✔ Active Displacement]</span>
+      <span class="chk-item {{ 'checked' if assessment.defects_and_distress.defects_on_slope.gully }}"><span class="chk-box {{ 'active' if assessment.defects_and_distress.defects_on_slope.gully }}">{{ '✔' if assessment.defects_and_distress.defects_on_slope.gully else ' ' }}</span> 1. Gully</span>
+      <span class="chk-item {{ 'checked' if assessment.defects_and_distress.defects_on_slope.crack }}"><span class="chk-box {{ 'active' if assessment.defects_and_distress.defects_on_slope.crack }}">{{ '✔' if assessment.defects_and_distress.defects_on_slope.crack else ' ' }}</span> 2. Crack</span>
+      <span class="chk-item {{ 'checked' if assessment.defects_and_distress.defects_on_slope.unstable_rock }}"><span class="chk-box {{ 'active' if assessment.defects_and_distress.defects_on_slope.unstable_rock }}">{{ '✔' if assessment.defects_and_distress.defects_on_slope.unstable_rock else ' ' }}</span> 3. Unstable rock</span>
+      <span class="chk-item {{ 'checked' if assessment.defects_and_distress.defects_on_slope.seepage }}"><span class="chk-box {{ 'active' if assessment.defects_and_distress.defects_on_slope.seepage }}">{{ '✔' if assessment.defects_and_distress.defects_on_slope.seepage else ' ' }}</span> 4. Seepage</span>
+      <span class="chk-item {{ 'checked' if assessment.defects_and_distress.defects_on_slope.erosion }}"><span class="chk-box {{ 'active' if assessment.defects_and_distress.defects_on_slope.erosion }}">{{ '✔' if assessment.defects_and_distress.defects_on_slope.erosion else ' ' }}</span> 5. Erosion</span>
+      <span class="chk-item {{ 'checked' if assessment.defects_and_distress.defects_on_slope.landslide }}"><span class="chk-box {{ 'active' if assessment.defects_and_distress.defects_on_slope.landslide }}">{{ '✔' if assessment.defects_and_distress.defects_on_slope.landslide else ' ' }}</span> 6. Landslide</span>
     </div>
     <table class="grid-table">
       <thead>
@@ -715,22 +715,22 @@
       <tbody>
         <tr>
           <td>
-            Crack: [ ✔ ] Yes<br>
-            Heaving: [ — ]<br>
-            Settlement: [ ✔ ] Yes<br>
-            Recent repair: [ — ]
+            Crack: [ {{ '✔' if assessment.defects_and_distress.road_surface.crack else '—' }} ] {{ 'Yes' if assessment.defects_and_distress.road_surface.crack else 'No' }}<br>
+            Heaving: [ {{ '✔' if assessment.defects_and_distress.road_surface.heaving else '—' }} ] {{ 'Yes' if assessment.defects_and_distress.road_surface.heaving else 'No' }}<br>
+            Settlement: [ {{ '✔' if assessment.defects_and_distress.road_surface.settlement else '—' }} ] {{ 'Yes' if assessment.defects_and_distress.road_surface.settlement else 'No' }}<br>
+            Recent repair: [ {{ '✔' if assessment.defects_and_distress.road_surface.recent_repair else '—' }} ] {{ 'Yes' if assessment.defects_and_distress.road_surface.recent_repair else 'No' }}
           </td>
           <td>
-            Overflow: [ ✔ ] Yes<br>
-            Clogging/blocked: [ ✔ ] 100%<br>
-            Deformation: [ ✔ ] Yes<br>
-            Crack: [ ✔ ] Yes
+            Overflow: [ {{ '✔' if assessment.defects_and_distress.roadside_drain.overflow else '—' }} ] {{ 'Yes' if assessment.defects_and_distress.roadside_drain.overflow else 'No' }}<br>
+            Clogging/blocked: [ {{ '✔' if assessment.defects_and_distress.roadside_drain.clogged_100 else '—' }} ] {{ '100%' if assessment.defects_and_distress.roadside_drain.clogged_100 else 'Clear' }}<br>
+            Deformation: [ {{ '✔' if assessment.defects_and_distress.roadside_drain.deformation else '—' }} ] {{ 'Yes' if assessment.defects_and_distress.roadside_drain.deformation else 'No' }}<br>
+            Crack: [ {{ '✔' if assessment.defects_and_distress.roadside_drain.crack else '—' }} ] {{ 'Yes' if assessment.defects_and_distress.roadside_drain.crack else 'No' }}
           </td>
           <td>
-            Overflow: [ ✔ ] Yes<br>
-            Clogging/blocked: [ ✔ ] 100%<br>
-            Deformation: [ ✔ ] Yes<br>
-            Crack: [ ✔ ] Yes
+            Overflow: [ {{ '✔' if assessment.defects_and_distress.slope_drainage.overflow else '—' }} ] {{ 'Yes' if assessment.defects_and_distress.slope_drainage.overflow else 'No' }}<br>
+            Clogging/blocked: [ {{ '✔' if assessment.defects_and_distress.slope_drainage.clogged_100 else '—' }} ] {{ '100%' if assessment.defects_and_distress.slope_drainage.clogged_100 else 'Clear' }}<br>
+            Deformation: [ {{ '✔' if assessment.defects_and_distress.slope_drainage.deformation else '—' }} ] {{ 'Yes' if assessment.defects_and_distress.slope_drainage.deformation else 'No' }}<br>
+            Crack: [ {{ '✔' if assessment.defects_and_distress.slope_drainage.crack else '—' }} ] {{ 'Yes' if assessment.defects_and_distress.slope_drainage.crack else 'No' }}
           </td>
           <td class="editable" id="f-distress-rem">
             {{ assessment.defects_and_distress.distress_remarks }}
@@ -810,7 +810,12 @@
         </tr>
         <tr>
           <td class="col-lbl">Signs of distress:</td>
-          <td class="col-val editable" id="f-wall-signs" colspan="3">[ ✔ ] Crack | [ ✔ ] Bulging | [ ✔ ] Collapse | [ ✔ ] Slip-out joint</td>
+          <td class="col-val editable" id="f-wall-signs" colspan="3">
+            [ {{ '✔' if assessment.retaining_wall_specs.distress_crack else '—' }} ] Crack &nbsp;|&nbsp; 
+            [ {{ '✔' if assessment.retaining_wall_specs.distress_bulging else '—' }} ] Bulging &nbsp;|&nbsp; 
+            [ {{ '✔' if assessment.retaining_wall_specs.distress_collapse else '—' }} ] Collapse &nbsp;|&nbsp; 
+            [ {{ '✔' if assessment.retaining_wall_specs.distress_joint else '—' }} ] Slip-out joint
+          </td>
         </tr>
         <tr>
           <td class="col-lbl">Distress behind wall:</td>
@@ -1050,9 +1055,9 @@
     <table class="sign-table">
       <thead>
         <tr>
-          <th>Junior Engineer (Civil)<br>HP PWD / Field Sub-Division</th>
-          <th>Assistant Engineer<br>HP PWD Sub-Division</th>
-          <th>Executive Engineer / Project Lead<br>HIMA-LENS Geotechnical Division</th>
+          <th>Junior Field Observer / Geologist<br>HIMA-LENS Field Cell</th>
+          <th>Assistant Geotechnical Engineer<br>HIMA-LENS Technical Cell</th>
+          <th>Executive Highway Structural Lead<br>HIMA-LENS Geotechnical Division</th>
         </tr>
       </thead>
       <tbody>

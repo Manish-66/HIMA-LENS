@@ -147,6 +147,8 @@ def compute_deterministic_engineering_dossier(
 
     visual_clues = visual_clues or {}
     observed_rock = visual_clues.get("prominent_rock_type") or "Jointed Sandstone & Siltstone / Colluvium"
+    rock_colour = visual_clues.get("rock_colour") or "Greyish Brown with Iron Staining"
+    in_situ_soil_desc = visual_clues.get("in_situ_soil_desc") or "Coarse Colluvial Overburden (Sandy Silt Matrix)"
     observed_obstruction = visual_clues.get("carriageway_obstruction") or ""
     observed_failure = visual_clues.get("failure_movement_observed") or movement
 
@@ -168,7 +170,7 @@ def compute_deterministic_engineering_dossier(
         w_cut = 6.5
         exc_vol = round(h_cut * l_wall * w_cut, 1)  # 546.0 m3
         fill_vol = round(0.35 * l_wall * 4.5, 2)    # 37.80 m3
-        cut_angle = "74° to 78° (Steep / Unstable Cut Face)"
+        cut_angle_default = "74° to 78° (Steep / Unstable Cut Face)"
         blockage = "0.00 m (Fully Blocked / Severed Formation)"
         w_before = "5.50 m (Carriageway + Berm)"
         machinery = "2 Nos. Heavy Hydraulic Excavators (Poclain + Breaker) and 4 Nos. Tippers (16 MT)"
@@ -180,7 +182,7 @@ def compute_deterministic_engineering_dossier(
         w_cut = 6.0
         exc_vol = round(h_cut * l_wall * w_cut, 1)  # 324.0 m3
         fill_vol = round(0.35 * l_wall * 4.5, 2)    # 28.35 m3
-        cut_angle = "68° to 74° (Steep Overburden Slope)"
+        cut_angle_default = "68° to 74° (Steep Overburden Slope)"
         blockage = "0.00 m (Fully Blocked Carriageway)"
         w_before = "5.00 m (Carriageway + Berm)"
         machinery = "1 No. Heavy Excavator (Poclain/JCB with Rock Breaker) and 2 Nos. Tippers (16 MT)"
@@ -192,7 +194,7 @@ def compute_deterministic_engineering_dossier(
         w_cut = 3.5
         exc_vol = round(h_cut * l_wall * w_cut, 1)  # 52.5 m3
         fill_vol = round(0.35 * l_wall * 4.5, 2)    # 15.75 m3
-        cut_angle = "50° to 58° (Moderately Stable Cut)"
+        cut_angle_default = "50° to 58° (Moderately Stable Cut)"
         blockage = "3.80 m (Single-Lane Traffic Operable)"
         w_before = "5.00 m (Carriageway + Berm)"
         machinery = "1 No. Backhoe Loader (JCB 3DX) and 1 Tipper"
@@ -204,7 +206,7 @@ def compute_deterministic_engineering_dossier(
         w_cut = 5.0
         exc_vol = round(h_cut * l_wall * w_cut, 1)  # 154.0 m3
         fill_vol = round(0.35 * l_wall * 4.5, 2)    # 22.05 m3
-        cut_angle = "60° to 68° (Unstable Road Cut Face)"
+        cut_angle_default = "60° to 68° (Unstable Road Cut Face)"
         blockage = "2.50 m (Single-Lane Restricted / Shoulder Lost)"
         w_before = "5.25 m (Carriageway + Berm)"
         machinery = "1 No. Backhoe Loader (JCB 3DX with Breaker) and 2 Tippers"
@@ -215,12 +217,36 @@ def compute_deterministic_engineering_dossier(
     top_w = 0.60
     embed_d = max(1.0, round(0.25 * h_wall, 2))
 
+    # Dynamic image-grounded attributes
+    debris_accumulation = visual_clues.get("debris_accumulation_desc") or (
+        "Heavy Accumulation of Detached Boulders" if sev in ("High", "Critical") else "Moderate Debris Fan"
+    )
+    cut_angle = visual_clues.get("cut_slope_angle_est") or cut_angle_default
+    slope_profile = visual_clues.get("slope_geometry_profile") or "Convex Escarpment (Steep Overhang)"
+    slope_natural = visual_clues.get("slope_type_natural_desc") or "Steep Hill Side"
+    road_align = visual_clues.get("road_alignment") or "Curved (Hilly Mountainous Terrain)"
+    pave_type = visual_clues.get("pavement_type") or "Flexible Bituminous Pavement (BT)"
+    cway_status = visual_clues.get("carriageway_obstruction") or (
+        "Blocked" if sev in ("High", "Critical") else "Restricted Single-Lane"
+    )
+    joint_spacing = visual_clues.get("jointing_spacing") or "0.20 m – 0.45 m (Closely Jointed to Fractured)"
+    weathering = visual_clues.get("weathering_grade") or "Grade IV (Highly Weathered to IS:13365 Part 1)"
+    rock_str = visual_clues.get("rock_strength") or "Medium to Moderately Strong (R3 Class to IS:13365)"
+    dip_joints_val = visual_clues.get("dip_joints_visible") or "45° to 52° daylighting adversely into road cut"
+    minerals_val = visual_clues.get("minerals_or_matrix") or "Quartz, Feldspar, Mica, Clayey Silt Matrix"
+    fracture_pat = visual_clues.get("fracture_pattern") or "Blocky & Wedge Failure with planar sliding"
+
+    # Road name / Location telemetry without dummy strings
+    site_road_name = report.get("location") or report.get("road_name")
+    if not site_road_name:
+        site_road_name = f"{district} Sub-Divisional Hill Road Sector"
+
     # Senior Engineering Remarks
     default_remarks = (
         f"Detailed geotechnical field assessment of the {district} landslide sector reveals an active {observed_failure.lower()} "
-        f"triggered by hydrostatic pore-pressure buildup and inadequate hillside storm drainage. "
-        f"The adverse daylighting of joint sets (Strike N35°W, Dip 45° SW) combined with steep artificial cut geometry precipitated sudden crown detachment. "
-        f"Immediate clearance of {exc_vol:.0f} m³ carriageway debris followed by construction of a {l_wall:.0f}m long Plum Concrete Breast Wall (H={h_wall:.1f}m) "
+        f"in {observed_rock} ({rock_colour}). "
+        f"Kinematic stability is severely compromised by {dip_joints_val} and steep cut geometry ({cut_angle}). "
+        f"Immediate clearance of {exc_vol:.0f} m³ carriageway debris followed by construction of a {l_wall:.0f}m long Plum Concrete Breast Wall (H={h_wall:.1f}m, Base B={base_w:.2f}m) "
         f"and crest interceptor drainage is mandatory to secure road formation and prevent retrograde slope slumping."
     )
     senior_remarks = custom_remarks.strip() if custom_remarks else default_remarks
@@ -229,7 +255,7 @@ def compute_deterministic_engineering_dossier(
     default_plain = {
         "summary_title": f"{sev} Landslide & Road Blockage in {district} Sector",
         "what_happened": (
-            f"A steep section of the hillside gave way, dumping loose mud, rock fragments, and heavy boulders across the road. "
+            f"A steep section of the hillside gave way, dumping loose {observed_rock.lower()}, rock fragments, and heavy boulders across the road. "
             f"Fallen debris has obstructed the carriageway, creating a major hazard for commuters."
         ),
         "why_it_happened": (
@@ -266,7 +292,7 @@ def compute_deterministic_engineering_dossier(
         "telemetry": {
             "report_id": report_id,
             "district": district,
-            "site_road_name": f"{district} Sub-Divisional Hill Road Sector (Km 0/000 to 24/500)",
+            "site_road_name": site_road_name,
             "location_chainage": f"RD {int(lat * 10) % 20}+{(int(lng * 1000) % 900):03d} (Km {int(lat * 10) % 20}/{(int(lng * 1000) % 900):03d})",
             "road_type": "ODR / Secondary Hill Road (HIMA-LENS Inventory)",
             "inspection_date": str(inc_date)[:10],
@@ -278,32 +304,32 @@ def compute_deterministic_engineering_dossier(
             "user_notes": user_desc,
         },
         "slope_characteristics": {
-            "presence_above": True,
-            "presence_below": False,
-            "presence_both": False,
-            "in_situ_rock": True,
-            "in_situ_soil": "Moderate Colluvium",
-            "debris_accumulation": "Heavy Accumulation" if sev in ("High", "Critical") else "Moderate Accumulation",
-            "slope_type_cut": True,
-            "slope_type_fill": False,
-            "slope_type_natural": "Hill Side",
-            "slope_height_above": f"{h_wall * 2.5:.1f} m to {h_wall * 3.0:.1f} m",
+            "presence_above": bool(visual_clues.get("slope_presence_above", True)),
+            "presence_below": bool(visual_clues.get("slope_presence_below", False)),
+            "presence_both": bool(visual_clues.get("slope_presence_both", False)),
+            "in_situ_rock": bool(visual_clues.get("in_situ_rock_visible", True)),
+            "in_situ_soil": in_situ_soil_desc,
+            "debris_accumulation": debris_accumulation,
+            "slope_type_cut": bool(visual_clues.get("slope_type_cut", True)),
+            "slope_type_fill": bool(visual_clues.get("slope_type_fill", False)),
+            "slope_type_natural": slope_natural,
+            "slope_height_above": visual_clues.get("slope_height_est") or f"{h_wall * 2.5:.1f} m to {h_wall * 3.0:.1f} m",
             "cut_slope_angle": cut_angle,
-            "slope_geometry_below": "Valley drop ~ 12-15 m",
-            "slope_geometry_profile": "Convex Escarpment (Steep Overhang)",
+            "slope_geometry_below": visual_clues.get("slope_geometry_below") or "Valley drop ~ 12-15 m",
+            "slope_geometry_profile": slope_profile,
         },
         "road_impact": {
-            "road_alignment": "Curved (Hilly Mountainous Terrain)",
-            "fencing_type": "None / Open Hill Edge (Valley Side)",
+            "road_alignment": road_align,
+            "fencing_type": visual_clues.get("fencing_type") or "None / Open Hill Edge (Valley Side)",
             "width_before": w_before,
             "width_after": blockage,
-            "pavement_type": "Flexible / Bituminous (BT)",
-            "shoulder_width": "0.75 m (Hill-side Drain Side)",
+            "pavement_type": pave_type,
+            "shoulder_width": visual_clues.get("shoulder_width") or "0.75 m (Hill-side Drain Side)",
             "number_of_lanes": "Single Lane (Intermediate 5.5m Formation)",
             "traffic_flow": "Two-way Traffic Flow",
             "bridge_present": "No",
-            "culvert_present": "Yes (Inlet choked with boulder debris upstream)",
-            "carriageway_status": "Blocked" if sev in ("High", "Critical") else "Restricted Single-Lane",
+            "culvert_present": visual_clues.get("culvert_or_drain_visible") or "Yes (Inlet choked with boulder debris upstream)",
+            "carriageway_status": cway_status,
         },
         "protection_works": [
             {"structure": "Retaining / Breast Wall", "above": True, "below": False, "prev_cut": False, "prev_nat": False, "rem_cut": True, "rem_nat": False},
@@ -311,37 +337,52 @@ def compute_deterministic_engineering_dossier(
             {"structure": "Drainage Chute / Saucer Drain", "above": True, "below": True, "prev_cut": True, "prev_nat": False, "rem_cut": True, "rem_nat": False},
             {"structure": "Bioengineering (Turfing & Fascines)", "above": True, "below": False, "prev_cut": True, "prev_nat": True, "rem_cut": False, "rem_nat": False},
             {"structure": "Earthworks / Rock Clearance", "above": True, "below": False, "prev_cut": False, "prev_nat": False, "rem_cut": True, "rem_nat": False},
-            {"structure": "Rockfall Netting / Wire Mesh", "above": True, "below": False, "prev_cut": True, "prev_nat": False, "rem_cut": False, "rem_nat": False},
+            {"structure": "Rockfall Netting / Wire Mesh", "above": True, "below": False, "prev_cut": True, "prev_nat": False, "rem_cut": bool(visual_clues.get("defects_unstable_rock", True)), "rem_nat": False},
         ],
         "geology": {
             "prominent_soil_rock": observed_rock,
-            "prominent_rock_desc": "Sedimentary Sandstone with interbedded shale layers",
-            "colour": "Brownish / Greyish Red",
-            "jointing_spacing": "0.20 m – 0.45 m (Closely Jointed to Fractured)",
-            "strength": "Medium to Moderately Strong (R3 Class to IS:13365)",
-            "dip_joints": "45° to 52° daylighting adversely into road cut",
-            "minerals_present": "Quartz, Feldspar, Mica, Clayey Silt Matrix",
-            "joint_orientation": "Strike N35°W, Dip 45° SW",
-            "dip_strike_relation": "Dipping towards valley and road carriage (Kinematic Daylighting)",
-            "weathering_grade": "Grade IV (Highly Weathered to IS:13365 Part 1)",
-            "material_type": "Coarse Overburden Colluvium + Giant Detached Boulders",
-            "fracture_pattern": "Blocky & Wedge Failure with planar sliding",
+            "prominent_rock_desc": visual_clues.get("prominent_rock_desc") or f"{observed_rock} with interbedded structural jointing",
+            "colour": rock_colour,
+            "jointing_spacing": joint_spacing,
+            "strength": rock_str,
+            "dip_joints": dip_joints_val,
+            "minerals_present": minerals_val,
+            "joint_orientation": visual_clues.get("joint_orientation") or "Strike N35°W, Dip 45° SW",
+            "dip_strike_relation": visual_clues.get("dip_strike_relation") or "Dipping towards valley and road carriage (Kinematic Daylighting)",
+            "weathering_grade": weathering,
+            "material_type": visual_clues.get("material_type") or f"Coarse Overburden Colluvium + {observed_rock.split('/')[0].strip()} Boulders",
+            "fracture_pattern": fracture_pat,
         },
         "defects_and_distress": {
             "defects_on_slope": {
-                "gully": False,
-                "crack": True,
-                "unstable_rock": True,
-                "seepage": True,
-                "erosion": True,
-                "landslide": True,
+                "gully": bool(visual_clues.get("defects_gully", False)),
+                "crack": bool(visual_clues.get("defects_crack", True)),
+                "unstable_rock": bool(visual_clues.get("defects_unstable_rock", True)),
+                "seepage": bool(visual_clues.get("defects_seepage", True)),
+                "erosion": bool(visual_clues.get("defects_erosion", True)),
+                "landslide": bool(visual_clues.get("defects_landslide", True)),
             },
-            "road_surface": {"crack": True, "heaving": False, "settlement": True, "recent_repair": False},
-            "roadside_drain": {"overflow": True, "clogged_100": True, "deformation": True, "crack": True},
-            "slope_drainage": {"overflow": True, "clogged_100": True, "deformation": True, "crack": True},
-            "distress_remarks": (
+            "road_surface": {
+                "crack": bool(visual_clues.get("road_crack", True)),
+                "heaving": bool(visual_clues.get("road_heaving", False)),
+                "settlement": bool(visual_clues.get("road_settlement", True)),
+                "recent_repair": bool(visual_clues.get("road_recent_repair", False)),
+            },
+            "roadside_drain": {
+                "overflow": bool(visual_clues.get("drain_overflow", True)),
+                "clogged_100": bool(visual_clues.get("drain_clogged", True)),
+                "deformation": bool(visual_clues.get("drain_deformation", True)),
+                "crack": bool(visual_clues.get("drain_crack", True)),
+            },
+            "slope_drainage": {
+                "overflow": bool(visual_clues.get("drain_overflow", True)),
+                "clogged_100": bool(visual_clues.get("drain_clogged", True)),
+                "deformation": bool(visual_clues.get("drain_deformation", True)),
+                "crack": bool(visual_clues.get("drain_crack", True)),
+            },
+            "distress_remarks": visual_clues.get("distress_remarks") or (
                 f"Detached boulder mass ({exc_vol:.0f} m³) settled directly across the carriageway. "
-                f"Hillside drainage completely collapsed. Hillside breast wall breached under heavy surcharge thrust."
+                f"Hillside drainage compromised under heavy surcharge thrust."
             ),
         },
         "pavement_dimensions": {
@@ -359,6 +400,10 @@ def compute_deterministic_engineering_dossier(
             "embedded_depth_m": embed_d,
             "top_width_m": top_w,
             "base_width_m": base_w,
+            "distress_crack": bool(visual_clues.get("wall_distress_crack", True)),
+            "distress_bulging": bool(visual_clues.get("wall_distress_bulging", True)),
+            "distress_collapse": bool(visual_clues.get("wall_distress_collapse", True)),
+            "distress_joint": bool(visual_clues.get("wall_distress_joint", True)),
             "signs_of_distress": "Cracking, Bulging, and Sectional Collapse",
             "distress_behind": "Settlement and heavy surcharge pressure from detached rock mass",
             "distress_in_front": "Toe cracking, drain blockage, and continuous water seepage",
@@ -395,11 +440,18 @@ def compute_deterministic_engineering_dossier(
             },
         },
         "safety_directives": {
-            "electrical_hazard": "Overhead Electrical & Telecom Hazard: Transmission lines sagging dangerously over failure scarp. Immediate power isolation and line relocation required from HPSEBL prior to deployment of hydraulic machinery.",
+            "electrical_hazard": "Overhead Electrical & Telecom Hazard: Transmission lines sagging dangerously over failure scarp. Immediate power isolation and line relocation required from authorities prior to deployment of hydraulic machinery.",
             "machinery_deployment": machinery,
             "traffic_restoration": restoration,
             "permanent_restoration": f"Permanent Restoration: Construction of {l_wall:.0f}m long Plum Concrete Breast Wall (H={h_wall:.1f}m) and Hillside Saucer Drain (0.6m wide) founded on solid strata.",
         },
+        "visual_analysis": {
+            "material_composition": f"{observed_rock} ({rock_colour})",
+            "slope_condition": f"Cut angle {cut_angle}, {slope_profile}",
+            "infrastructure_impact": f"{cway_status}, {blockage}",
+            "drainage_and_seepage": f"Seepage: {'Active' if visual_clues.get('defects_seepage', True) else 'Dry'}, Drainage: {'Clogged' if visual_clues.get('drain_clogged', True) else 'Functional'}",
+        },
+        "synthesis_remarks": senior_remarks,
         "senior_engineer_remarks": senior_remarks,
         "plain_language_explanation": plain_explanation,
     }
@@ -455,7 +507,7 @@ def generate_ai_assessment(report: dict[str, Any], force_refresh: bool = False) 
     prompt = f"""You are the Chief Geotechnical & Highway Structural Engineer for HIMA-LENS (Himachal Landslide Inventory & Spatial Intelligence System).
 
 TASK:
-Examine the attached field photograph and incident metadata to audit optical authenticity and evaluate visible failure kinematics.
+Examine the attached field photograph and incident metadata to audit optical authenticity and evaluate visible failure kinematics and ground conditions.
 
 CRITICAL FIRST STEP — OPTICAL VALIDATION:
 1. Carefully check what is depicted in the photograph.
@@ -476,13 +528,50 @@ CRITICAL FIRST STEP — OPTICAL VALIDATION:
        "citizen_safety_advice": "Please stay safe and only photograph slopes from a secure vantage point away from active landslide zones."
      }}
 
-SECOND STEP — GEOTECHNICAL VISUAL OBSERVATION & PLAIN-LANGUAGE BRIEFING (ONLY IF is_landslide_or_terrain is true):
-Provide accurate visual observations grounded strictly in the image:
+SECOND STEP — DETAILED GEOTECHNICAL EXTRACTION (ONLY IF is_landslide_or_terrain is true):
+Provide accurate, highly specific visual observations grounded strictly in the photograph. DO NOT use generic placeholders:
 1. "observed_features":
-   - "prominent_rock_type": Name the visible lithology (e.g. "Jointed Sandstone & Siltstone", "Fractured Phyllite", "Colluvium Overburden")
+   - "prominent_rock_type": Visible lithology (e.g. "Jointed Sandstone & Siltstone", "Weathered Metamorphic Phyllite", "Gneissic Bedrock", "Colluvial Soil & Boulders", "Slaty Shale")
+   - "rock_colour": Dominant visible color (e.g. "Greyish Brown", "Buff Yellow", "Dark Charcoal Grey", "Reddish Brown / Ochre", "Mottled Brown")
+   - "in_situ_soil_desc": Visible soil/matrix (e.g. "Sandy Colluvium Overburden", "Plastic Clayey Silt", "Gravelly Scree", "None / Bare Rock Face")
+   - "debris_accumulation_desc": Visible debris mass (e.g. "Heavy Boulder Mass (1m-3m chunks)", "Fine Mud Slurry & Silt", "Angular Rock Scree Fan", "Uprooted Trees & Mixed Colluvium")
+   - "slope_presence_above": true/false (is slope above road visible?)
+   - "slope_presence_below": true/false (is slope below road / valley visible?)
+   - "slope_presence_both": true/false
+   - "in_situ_rock_visible": true/false (is bedrock stratum exposed?)
+   - "slope_type_cut": true/false (is an engineered/blasted road cut slope visible?)
+   - "slope_type_fill": true/false (is an embankment/fill slope visible?)
+   - "slope_type_natural_desc": string (e.g. "Steep Mountain Escarpment", "Forested Hill Slope", "Valley Flank")
+   - "slope_geometry_profile": string (e.g. "Convex Escarpment Overhang", "Planar Dip Slope", "Step-scarped Face", "Concave Ravine Chute")
+   - "cut_slope_angle_est": string (e.g. "72° to 78° (Over-steepened Road Cut)", "55° to 65° (Moderately Steep)", "40° to 50°")
    - "carriageway_obstruction": "Fully Blocked" or "Partially Blocked" or "Single-Lane Restricted" or "Clear"
-   - "water_and_seepage": Visible water presence (e.g. "Continuous toe seepage", "Surface mud runoff", "Dry strata")
-   - "failure_movement_observed": Exact failure type visible (e.g. "Rockfall", "Rotational Soil Slide", "Planar Debris Slide")
+   - "pavement_type": "Flexible Bituminous Pavement (BT)" or "Rigid Concrete (CC)" or "Unpaved Gravel / Earth"
+   - "road_alignment": "Curved (Hill Road Bend)" or "Straight Reach" or "Hairpin Loop"
+   - "jointing_spacing": string (e.g. "0.15 m – 0.35 m (Closely Jointed / Shattered)", "0.50 m – 1.0 m (Medium Joint Spacing)", "Massive Bedrock")
+   - "weathering_grade": string (e.g. "Grade II (Slightly Weathered)", "Grade III (Moderately Weathered)", "Grade IV (Highly Weathered)", "Grade V (Completely Weathered)")
+   - "rock_strength": string (e.g. "R2 Weak Rock", "R3 Medium Strong Rock", "R4 Strong Rock")
+   - "fracture_pattern": string (e.g. "Blocky & Wedge detachment", "Planar sliding along foliation", "Toppling / raveling along joint planes", "Rotational slump in colluvium")
+   - "minerals_or_matrix": string (e.g. "Quartz, Muscovite, Feldspar, Clay matrix", "Calcite veins, Silt matrix")
+   - "dip_joints_visible": string (e.g. "Adversely daylighting into road cut at 45°-55°", "Sub-horizontal bedding with vertical release joints")
+   - "defects_gully": true/false (visible erosion gully?)
+   - "defects_crack": true/false (visible tension cracks?)
+   - "defects_unstable_rock": true/false (overhanging/loose boulders?)
+   - "defects_seepage": true/false (water seepage or wet stains visible?)
+   - "defects_erosion": true/false (surface sheet/rill erosion?)
+   - "defects_landslide": true/false (active slide/fall displacement?)
+   - "road_crack": true/false (road pavement cracked?)
+   - "road_heaving": true/false
+   - "road_settlement": true/false (road foundation dropped/subsided?)
+   - "road_recent_repair": true/false
+   - "drain_overflow": true/false (drain overflowing?)
+   - "drain_clogged": true/false (drain choked with silt/rocks?)
+   - "drain_deformation": true/false (drain structure broken/deformed?)
+   - "drain_crack": true/false
+   - "wall_distress_crack": true/false
+   - "wall_distress_bulging": true/false
+   - "wall_distress_collapse": true/false
+   - "wall_distress_joint": true/false
+   - "failure_movement_observed": string (e.g. "Rockfall", "Debris Slide", "Rotational Soil Slide", "Mud Flow")
 2. "plain_language_explanation":
    Explain the landslide in clear, everyday terms for ordinary citizens and local administration. Every detail must match the photograph:
    - "summary_title": Plain title (e.g. "Severe Rockslide & Road Blockage in Mandi Sector")
@@ -511,8 +600,45 @@ RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
   "rejection_reason": "String or null",
   "observed_features": {{
     "prominent_rock_type": "String",
+    "rock_colour": "String",
+    "in_situ_soil_desc": "String",
+    "debris_accumulation_desc": "String",
+    "slope_presence_above": true,
+    "slope_presence_below": false,
+    "slope_presence_both": false,
+    "in_situ_rock_visible": true,
+    "slope_type_cut": true,
+    "slope_type_fill": false,
+    "slope_type_natural_desc": "String",
+    "slope_geometry_profile": "String",
+    "cut_slope_angle_est": "String",
     "carriageway_obstruction": "Fully Blocked or Partially Blocked",
-    "water_and_seepage": "String",
+    "pavement_type": "String",
+    "road_alignment": "String",
+    "jointing_spacing": "String",
+    "weathering_grade": "String",
+    "rock_strength": "String",
+    "fracture_pattern": "String",
+    "minerals_or_matrix": "String",
+    "dip_joints_visible": "String",
+    "defects_gully": false,
+    "defects_crack": true,
+    "defects_unstable_rock": true,
+    "defects_seepage": true,
+    "defects_erosion": true,
+    "defects_landslide": true,
+    "road_crack": true,
+    "road_heaving": false,
+    "road_settlement": true,
+    "road_recent_repair": false,
+    "drain_overflow": true,
+    "drain_clogged": true,
+    "drain_deformation": true,
+    "drain_crack": true,
+    "wall_distress_crack": true,
+    "wall_distress_bulging": true,
+    "wall_distress_collapse": true,
+    "wall_distress_joint": true,
     "failure_movement_observed": "String"
   }},
   "plain_language_explanation": {{
