@@ -198,8 +198,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function handlePhotoSelection(file) {
-        if (!file.type.startsWith("image/")) {
-            alert("Please select a valid image file (JPG, PNG, WebP).");
+        if (!file) return;
+        const isImage = (file.type && file.type.startsWith("image/")) ||
+                        /\.(jpe?g|png|webp|gif|heic|heif|avif)$/i.test(file.name || "");
+        if (!isImage) {
+            alert("Please select a valid image file (JPG, PNG, WebP, HEIC).");
             return;
         }
 
@@ -207,7 +210,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const reader = new FileReader();
         reader.onload = function (e) {
             if (previewImg) previewImg.src = e.target.result;
-            if (previewFilename) previewFilename.textContent = `${file.name} (${(file.size / 1024).toFixed(0)} KB)`;
+            if (previewFilename) previewFilename.textContent = `${file.name || 'field_photo.jpg'} (${(file.size / 1024).toFixed(0)} KB)`;
             if (dropzoneEmpty) dropzoneEmpty.style.display = "none";
             if (dropzonePreview) dropzonePreview.style.display = "block";
         };
@@ -315,7 +318,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!recentFeedContainer) return;
 
         try {
-            const res = await fetch("/api/reports");
+            const res = await fetch("/api/reports?t=" + Date.now());
             if (!res.ok) return;
             const data = await res.json();
             const features = data.features || [];
@@ -331,9 +334,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            // Render cards in reverse chronological order
+            // Guaranteed sorting: strictly newest-first based on timestamp
             recentFeedContainer.innerHTML = "";
-            const sorted = [...features].reverse().slice(0, 6);
+            const sorted = [...features].sort((a, b) => {
+                const timeA = new Date(a.properties?.created_at || a.properties?.incident_date || 0).getTime();
+                const timeB = new Date(b.properties?.created_at || b.properties?.incident_date || 0).getTime();
+                return timeB - timeA;
+            }).slice(0, 12);
 
             sorted.forEach(feature => {
                 const p = feature.properties || {};

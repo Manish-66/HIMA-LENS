@@ -277,7 +277,7 @@ def load_community_reports() -> list[dict[str, Any]]:
 def save_community_reports(reports: list[dict[str, Any]]) -> None:
     supabase_db.save_local_reports(reports)
 
-ALLOWED_IMAGE_EXTENSIONS = {"png", "jpg", "jpeg", "webp", "gif"}
+ALLOWED_IMAGE_EXTENSIONS = {"png", "jpg", "jpeg", "webp", "gif", "heic", "heif", "avif", "jfif"}
 
 def allowed_image_file(filename: str) -> bool:
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_IMAGE_EXTENSIONS
@@ -311,7 +311,9 @@ def get_reports():
                 "coordinates": [lng, lat]
             }
         })
-    return jsonify({"type": "FeatureCollection", "features": features})
+    response = jsonify({"type": "FeatureCollection", "features": features})
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    return response
 
 @app.post("/api/reports")
 def submit_report():

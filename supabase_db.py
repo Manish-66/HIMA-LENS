@@ -33,6 +33,10 @@ MIME_TYPE_MAP = {
     "jpeg": "image/jpeg",
     "webp": "image/webp",
     "gif": "image/gif",
+    "heic": "image/heic",
+    "heif": "image/heif",
+    "avif": "image/avif",
+    "jfif": "image/jpeg",
 }
 
 
