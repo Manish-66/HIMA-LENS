@@ -1,11 +1,17 @@
 # HIMA-LENS: Himachal Landslide Inventory & Spatial Intelligence System
 
+[![Live Deployment](https://img.shields.io/badge/Live%20Deployment-hima--lens.vercel.app-000000.svg?logo=vercel&logoColor=white)](https://hima-lens.vercel.app/)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg?logo=python&logoColor=white)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Framework-Flask%203.0-000000.svg?logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
 [![Web-GIS](https://img.shields.io/badge/GIS-Leaflet%20%7C%20CesiumJS-10b981.svg?logo=leaflet&logoColor=white)](https://leafletjs.com/)
 [![Database](https://img.shields.io/badge/Backend-Supabase%20PostgreSQL-3ecf8e.svg?logo=supabase&logoColor=white)](https://supabase.com/)
 [![AI Vision](https://img.shields.io/badge/AI-Google%20Gemini%20Vision-4285F4.svg?logo=google&logoColor=white)](https://ai.google.dev/)
 [![License](https://img.shields.io/badge/License-Academic%20Research-darkgreen.svg)](LICENSE)
+
+> 🌐 **Live Web Application**: [**https://hima-lens.vercel.app/**](https://hima-lens.vercel.app/)  
+> 📰 **Live Landslide News Wire**: [**https://hima-lens.vercel.app/news**](https://hima-lens.vercel.app/news)  
+> 🗺️ **Interactive 2D/3D Web-GIS**: [**https://hima-lens.vercel.app/explore**](https://hima-lens.vercel.app/explore)  
+> 📑 **AI Geotechnical Assessment & Field Reports**: [**https://hima-lens.vercel.app/report**](https://hima-lens.vercel.app/report)
 
 **HIMA-LENS** (*Himachal Landslide Exploration & Spatial Intelligence System*) is a full-stack Web-GIS platform and geotechnical decision-support engine developed at the **School of Civil & Environmental Engineering (SCENE), Indian Institute of Technology Mandi (IIT Mandi)**.
 
@@ -187,6 +193,10 @@ By default, the server launches on **`http://127.0.0.1:5000/`**.
 ---
 
 ## REST API Reference
+
+Base URLs:
+- **Live Production API**: `https://hima-lens.vercel.app`
+- **Local Development**: `http://127.0.0.1:5000`
 
 | Endpoint | Method | Description | Parameters |
 | :--- | :--- | :--- | :--- |
