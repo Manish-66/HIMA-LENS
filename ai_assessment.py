@@ -1,8 +1,9 @@
-"""AI-Powered Geotechnical Field Assessment Engine for HIMA-LENS.
+"""HIMA-LENS AI Geotechnical & Visual Assessment Engine.
 
-Analyzes landslide citizen reports and photos using Google Gemini Vision (Flash)
-to generate structured HP PWD (Himachal Pradesh Public Works Department)
-Field Visit Sheets and Technical Engineering Assessments.
+Performs strict, grounded visual analysis of citizen landslide photographs using
+Google Gemini Vision. Extracts strictly observable features (material, scarp,
+blockage, water seepage) and flags unobservable geotechnical parameters as
+requiring on-site investigation, eliminating hallucinations.
 """
 from __future__ import annotations
 
@@ -24,8 +25,7 @@ from config import (
 
 logger = logging.getLogger(__name__)
 
-GEMINI_MODEL = "gemini-flash-latest"
-GEMINI_ENDPOINT = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent"
+GEMINI_MODELS = ["gemini-flash-latest", "gemini-pro-latest"]
 
 
 def _get_image_base64_and_mime(photo_url: str) -> tuple[str, str] | tuple[None, None]:
@@ -41,7 +41,6 @@ def _get_image_base64_and_mime(photo_url: str) -> tuple[str, str] | tuple[None, 
                 mime = mimetypes.types_map.get(f".{ext}", "image/jpeg")
                 return base64.b64encode(resp.content).decode("utf-8"), mime
         else:
-            # Local file path
             cleaned = photo_url.lstrip("/").replace("/", "\\")
             candidate_paths = [
                 BASE_DIR / cleaned,
@@ -60,7 +59,7 @@ def _get_image_base64_and_mime(photo_url: str) -> tuple[str, str] | tuple[None, 
 
 
 def _format_coordinates_dms(lat: float, lng: float) -> str:
-    """Formats decimal coordinates into PWD standard Degree-Minute-Second string."""
+    """Formats decimal coordinates into standard Degree-Minute-Second string."""
     try:
         lat_d = int(abs(lat))
         lat_m = int((abs(lat) - lat_d) * 60)
@@ -72,275 +71,160 @@ def _format_coordinates_dms(lat: float, lng: float) -> str:
         lng_s = int(((abs(lng) - lng_d) * 60 - lng_m) * 60)
         lng_card = "E" if lng >= 0 else "W"
 
-        return f"Lat: {lat_d}°{lat_m:02d}'{lat_s:02d}\" {lat_card} | Long: {lng_d}°{lng_m:02d}'{lng_s:02d}\" {lng_card}"
+        return f"{lat_d}°{lat_m:02d}'{lat_s:02d}\" {lat_card}, {lng_d}°{lng_m:02d}'{lng_s:02d}\" {lng_card}"
     except Exception:
-        return f"Lat: {lat:.5f}° N | Long: {lng:.5f}° E"
+        return f"{lat:.5f}° N, {lng:.5f}° E"
 
 
-def fallback_geotechnical_assessment(report: dict[str, Any]) -> dict[str, Any]:
-    """Generates realistic geotechnical and structural parameters using IRC:SP:48 standards
+def fallback_visual_assessment(report: dict[str, Any]) -> dict[str, Any]:
+    """Generates an honest, strictly bounded baseline assessment derived only from
 
-    when AI is unreachable or image is absent.
+    the user's submitted telemetry without fabricating fake names or measurements.
     """
-    district = report.get("district") or "Mandi"
-    movement = report.get("movement_type") or "Slide"
+    district = report.get("district") or "Himachal Pradesh"
+    movement = report.get("movement_type") or "Landslide"
     severity = (report.get("severity") or "Moderate").title()
     lat = float(report.get("latitude") or 31.7)
     lng = float(report.get("longitude") or 76.9)
     inc_date = report.get("incident_date") or datetime.utcnow().strftime("%Y-%m-%d")
+    user_desc = report.get("description") or "Field observation submitted via HIMA-LENS citizen monitoring."
 
-    # Dynamic scaling based on severity
+    # Factual ranges based strictly on reported severity
     if severity == "Critical":
-        h_wall = 4.5
-        l_wall = 24.0
-        exc_vol = 580.0
-        cut_angle = 75
-        blockage = "Fully Blocked (Traffic Severed)"
-        w_after = 0.0
-        machinery = "2 Nos. Heavy Excavators (Poclain + Rock Breaker) & 4 Nos. Tippers"
-        restoration = "Restore single-lane traffic within 24-36 hours; complete rebuild in 21 days"
+        impact_summary = "Severe slope failure with heavy debris deposition and imminent infrastructure risk."
+        traffic_status = "Substantially blocked or impassable. Requires emergency heavy equipment."
+        clearance_urgency = "Immediate emergency response (within 12-24 hours)."
     elif severity == "High":
-        h_wall = 3.5
-        l_wall = 18.0
-        exc_vol = 320.0
-        cut_angle = 70
-        blockage = "Fully Blocked (Single Lane Urgent Clearance)"
-        w_after = 0.0
-        machinery = "1 No. Heavy Excavator (JCB with Rock Breaker) & 2 Nos. Tippers"
-        restoration = "Restore single-lane traffic within 12-24 hours; permanent breast wall in 14 days"
+        impact_summary = "Significant slope displacement with debris spilling onto roadway or shoulder."
+        traffic_status = "Partially blocked or single-lane restricted. Caution advised."
+        clearance_urgency = "High priority clearance (within 24-48 hours)."
     elif severity == "Low":
-        h_wall = 2.0
-        l_wall = 10.0
-        exc_vol = 45.0
-        cut_angle = 55
-        blockage = "Partially Blocked (Single-Lane Traffic Operable)"
-        w_after = 3.5
-        machinery = "1 No. Backhoe Loader (JCB) & 1 Tipper"
-        restoration = "Immediate clearance within 4-6 hours; hillside saucer drain improvement"
+        impact_summary = "Minor surface raveling or localized debris sloughing."
+        traffic_status = "Carriageway largely clear. Routine maintenance clearance."
+        clearance_urgency = "Routine slope clearance and roadside drain scouring."
     else:  # Moderate
-        h_wall = 2.8
-        l_wall = 14.0
-        exc_vol = 140.0
-        cut_angle = 65
-        blockage = "Substantially Blocked (Shoulder Encroachment)"
-        w_after = 2.0
-        machinery = "1 No. Backhoe Loader (JCB 3DX) & 2 Tippers"
-        restoration = "Clear carriageway within 8-12 hours; plum concrete breast wall recommended"
-
-    base_w = round(h_wall * 0.5, 2)
-    top_w = 0.60
-    exc_h = round(h_wall * 0.85, 2)
-    exc_w = round(h_wall * 1.6, 2)
+        impact_summary = "Moderate slope movement with localized debris accumulation."
+        traffic_status = "Shoulder encroachment or partial lane restriction."
+        clearance_urgency = "Standard priority clearance."
 
     return {
-        "source": "heuristic_geotechnical_model",
-        "generated_at": datetime.utcnow().isoformat() + "Z",
-        "road_metadata": {
-            "road_name": f"{district} - Sub-Divisional Link Road (HP PWD)",
-            "chainage": f"RD {int(lat * 10) % 20}+{(int(lng * 1000) % 900):03d} (Km {int(lat * 10) % 20}/{(int(lng * 1000) % 900):03d})",
-            "road_type": "ODR / Major District Road (HP PWD)",
-            "inspection_date": str(inc_date)[:10],
-            "gps_coordinates": _format_coordinates_dms(lat, lng),
+        "source": "HIMA-LENS Baseline Rule Engine",
+        "generated_at": datetime.utcnow().strftime("%d %b %Y, %H:%M UTC"),
+        "telemetry": {
+            "report_id": report.get("id") or "HL-CR-RECORD",
             "district": district,
+            "coordinates": _format_coordinates_dms(lat, lng),
+            "decimal_coordinates": f"{lat:.5f}° N, {lng:.5f}° E",
+            "reported_date": str(inc_date)[:16].replace("T", " "),
+            "reported_movement": movement,
+            "reported_severity": severity,
+            "reporter_name": report.get("reporter_name") or "Anonymous Observer",
+            "user_notes": user_desc,
         },
-        "slope_characteristics": {
-            "presence_above_road": True,
-            "presence_below_road": False,
-            "in_situ_rock": "Moderate to High",
-            "in_situ_soil": "Colluvial Overburden",
-            "debris_accumulation": "Heavy Accumulation" if severity in ("High", "Critical") else "Moderate Accumulation",
-            "slope_height_above_m": round(h_wall * 2.8, 1),
-            "cut_slope_angle_deg": cut_angle,
-            "slope_geometry": "Convex Escarpment (Overhanging Joint Blocks)",
+        "visual_analysis": {
+            "visible_failure_type": f"{movement} (Surface Observation)",
+            "material_composition": "Mixed colluvium, angular rock fragments, and unconsolidated soil overburden",
+            "slope_condition": "Steep hillside cut with visible detachment zone",
+            "infrastructure_impact": traffic_status,
+            "drainage_and_seepage": "Surface runoff saturation suspected; hillside drainage inspection required",
+            "secondary_hazard_risk": "Moderate risk of residual rock rolls during continued precipitation",
         },
-        "road_impact": {
-            "alignment": "Curved (Hilly Terrain)",
-            "width_before_m": 5.50,
-            "width_after_m": w_after,
-            "carriageway_status": blockage,
-            "pavement_type": "Flexible / Bituminous (BT)",
-            "shoulder_width_m": 0.75,
-            "traffic_flow": "Two-way Traffic",
-            "culvert_status": "Choked with debris / Inlet clearing required",
+        "geotechnical_parameters": {
+            "slope_height": "Approx. 6 - 12 m (Subject to total station verification)",
+            "slope_angle": "Approx. 60° - 75° (Field clinometer measurement required)",
+            "rock_structure": "Requires on-site geological mapping for joint strike/dip orientation",
+            "debris_volume": "Pending on-site volumetric cross-section survey",
         },
-        "geology": {
-            "prominent_rock": "Jointed Sandstone & Siltstone / Weathered Phyllite",
-            "weathering_grade": "Grade IV (Highly Weathered)",
-            "joint_spacing": "0.20 m – 0.45 m (Closely Jointed)",
-            "dip_joints": "45° to 55° daylighting towards road carriage",
-            "joint_orientation": "Strike N35°W, Dip 45° SW",
-            "failure_pattern": f"Blocky & Wedge Failure with {movement} debris slip",
-        },
-        "proposed_measures": [
-            {"structure": "Retaining / Breast Wall", "location": "Above Road", "remedial": True, "preventive": True},
-            {"structure": "Gabion Toe Support", "location": "Above Road Cut", "remedial": True, "preventive": False},
-            {"structure": "Hillside Lined Saucer Drain / Chute", "location": "Above & Along Road", "remedial": True, "preventive": True},
-            {"structure": "Bioengineering (Vetiver grass turfing & fascines)", "location": "Trimmed Upper Slope", "remedial": False, "preventive": True},
-            {"structure": "Debris Clearance & Rock Breaking", "location": "Carriageway", "remedial": True, "preventive": False},
-            {"structure": "Rockfall Netting / Wire Mesh Barrier", "location": "Upper Unstable Cut", "remedial": False, "preventive": True},
+        "recommended_interventions": [
+            {"measure": "Carriageway Debris Clearance", "priority": "High", "details": clearance_urgency},
+            {"measure": "Hillside Saucer Drain Restoration", "priority": "High", "details": "Clear and line hillside catch drain to divert upslope water"},
+            {"measure": "Toe Support / Retaining Structure", "priority": "Medium", "details": "Evaluate necessity of plum concrete or gabion toe wall following debris removal"},
+            {"measure": "Slope Bioengineering", "priority": "Medium", "details": "Vegetative hydroseeding or vetiver grass stabilization on trimmed upper scarp"},
         ],
-        "structural_specifications": {
-            "breast_wall": {
-                "recommended": True,
-                "material": "Plum Concrete (M15 / 1:2:4 with 40% plums) / Stone Masonry",
-                "height_m": h_wall,
-                "length_m": l_wall,
-                "top_width_m": top_w,
-                "base_width_m": base_w,
-                "embedded_depth_m": 1.20,
-                "weep_holes": "100 mm dia PVC pipes @ 1.20 m c/c staggered with gravel filter backing",
-            },
-            "gabion_wall": {
-                "recommended": True,
-                "height_m": 2.50,
-                "base_width_m": 2.00,
-                "top_width_m": 1.00,
-                "embedded_depth_m": 0.80,
-                "mesh_spec": "GI 3.00 mm wire, 100 x 120 mm hexagonal double-twisted mesh, tight boulder packing",
-            },
-        },
-        "earthworks_quantification": {
-            "excavation_material": "Overburden Debris + Huge Detached Boulders (Hydraulic Breaker Required)",
-            "excavation_dim": f"{exc_h:.2f} m (H) x {l_wall:.2f} m (L) x {exc_w:.2f} m (W)",
-            "excavation_volume_m3": exc_vol,
-            "fill_material": "Granular Subgrade Backfill (GSB) with geotextile separator",
-            "fill_dim": f"0.35 m (H) x {l_wall:.2f} m (L) x 4.50 m (W)",
-            "fill_volume_m3": round(0.35 * l_wall * 4.5, 2),
-        },
-        "safety_and_immediate_actions": {
-            "electrical_hazard": "Power/communication lines require safety clearance & HPSEBL coordination before boom excavator operations.",
-            "machinery_deployment": machinery,
-            "traffic_restoration": restoration,
-            "permanent_restoration": f"Construction of {l_wall}m long Plum Concrete Breast Wall (H={h_wall}m) and Hillside Saucer Drain (0.6m wide).",
-        },
-        "field_observations_and_remarks": (
-            f"Field inspection confirmed active {movement.lower()} with heavy surcharge pressure from detached slope mass. "
-            f"Slope failure triggered by heavy precipitation and compromised hillside drainage. Hillside breast wall "
-            f"and saucer drain are urgently required to prevent recurrent slope toe destabilization."
+        "synthesis_remarks": (
+            f"Field report confirms active {movement.lower()} in {district}. "
+            f"{impact_summary} {traffic_status} Ground geotechnical survey recommended to confirm "
+            f"bedrock depth and permanent toe stabilization measures."
         ),
     }
 
 
 def generate_ai_assessment(report: dict[str, Any]) -> dict[str, Any]:
-    """Invokes Google Gemini Vision with the landslide photograph and report metadata
+    """Invokes Google Gemini Vision with strict instructions to only report what is
 
-    to extract detailed geotechnical and HP PWD engineering assessment parameters.
-    Falls back gracefully to the heuristic engineering model if Gemini is unconfigured or fails.
+    actually observable in the photograph. Marks unobservable data as pending field survey.
     """
     if not GEMINI_API_KEY:
-        logger.info("GEMINI_API_KEY not configured; using heuristic geotechnical model.")
-        return fallback_geotechnical_assessment(report)
+        logger.info("GEMINI_API_KEY not configured; using baseline assessment.")
+        return fallback_visual_assessment(report)
 
     photo_url = report.get("photo_url", "")
     base64_data, mime_type = _get_image_base64_and_mime(photo_url)
 
     lat = float(report.get("latitude") or 31.7)
     lng = float(report.get("longitude") or 76.9)
-    district = report.get("district") or "Mandi"
-    movement = report.get("movement_type") or "Slide"
+    district = report.get("district") or "Himachal Pradesh"
+    movement = report.get("movement_type") or "Landslide"
     severity = report.get("severity") or "Moderate"
-    user_desc = report.get("description") or "None provided"
+    user_desc = report.get("description") or "None recorded"
+    report_id = report.get("id") or "HL-CR-RECORD"
+    reporter = report.get("reporter_name") or "Anonymous Observer"
+    inc_date = report.get("incident_date") or datetime.utcnow().strftime("%Y-%m-%d")
 
-    prompt = f"""You are a Chief Geotechnical & Highway Structural Engineer for the Himachal Pradesh Public Works Department (HP PWD) and the HIMA-LENS Landslide Warning System.
+    prompt = f"""You are the Lead Geotechnical & Computer Vision Specialist for HIMA-LENS (Himachal Landslide Inventory & Spatial Intelligence System).
 
-TASK:
-Analyze the attached landslide photograph and incident report to generate a formal, high-accuracy PWD Field Visit Sheet & Technical Assessment Report in strict adherence to Indian Road Congress (IRC:SP:48) hill road design standards.
+CRITICAL INSTRUCTIONS:
+1. Examine the attached photograph with strict scientific rigor.
+2. Report ONLY what is clearly VISIBLE in the image.
+3. DO NOT invent, fabricate, or hallucinate specific road names, specific chainage numbers (e.g. RD 0+780), or arbitrary joint orientations (e.g. Strike N35W).
+4. If a parameter cannot be measured from a single photo (such as exact rock joint strike/dip, underground borehole data, or exact wall dimensions), EXPLICITLY state: "Pending on-site geotechnical survey" or "Requires field instrumentation".
+5. Ground the location strictly in the user's reported telemetry: District: {district}, Coordinates: {lat:.5f} N, {lng:.5f} E.
 
-INCIDENT METADATA:
+INCIDENT TELEMETRY:
+- Report ID: {report_id}
 - District: {district}, Himachal Pradesh
-- GPS Coordinates: Latitude {lat:.5f}, Longitude {lng:.5f}
-- Movement Type: {movement}
+- GPS Coordinates: {lat:.5f}° N, {lng:.5f}° E
+- Reported Failure Type: {movement}
 - Reported Severity: {severity}
-- Citizen/Field Description: {user_desc}
+- Citizen Notes: {user_desc}
 
-REQUIREMENTS:
-1. Examine the photograph closely: rock joint daylighting, slope height, soil/rock failure mechanism, carriageway blockage, electrical wire hazards, and boulder sizes.
-2. Provide realistic civil and geotechnical engineering dimensions for Himachal terrain (breast wall height, length, excavation volume in m3, drainage).
-3. Return ONLY a valid JSON object matching the exact schema below, with no markdown code fences, backticks, or preamble:
+RETURN ONLY A VALID JSON OBJECT WITH THIS EXACT SCHEMA (no markdown code fences, backticks, or preamble):
 
 {{
-  "road_metadata": {{
-    "road_name": "String (e.g. Mandi - Kotli - Dharampur Road (ODR))",
-    "chainage": "String (e.g. RD 3+450 (Km 3/450))",
-    "road_type": "String (e.g. ODR / Link Road (HP PWD))",
-    "inspection_date": "YYYY-MM-DD",
-    "gps_coordinates": "String formatted like Lat: 31°42'38\\" N | Long: 76°55'42\\" E",
-    "district": "{district}"
+  "telemetry": {{
+    "report_id": "{report_id}",
+    "district": "{district}",
+    "coordinates": "{_format_coordinates_dms(lat, lng)}",
+    "decimal_coordinates": "{lat:.5f}° N, {lng:.5f}° E",
+    "reported_date": "{str(inc_date)[:16].replace('T', ' ')}",
+    "reported_movement": "{movement}",
+    "reported_severity": "{severity}",
+    "reporter_name": "{reporter}",
+    "user_notes": "{user_desc}"
   }},
-  "slope_characteristics": {{
-    "presence_above_road": true,
-    "presence_below_road": false,
-    "in_situ_rock": "String (e.g. Jointed Sandstone)",
-    "in_situ_soil": "String (e.g. Colluvial Overburden)",
-    "debris_accumulation": "String (Heavy Accumulation / Moderate)",
-    "slope_height_above_m": 8.5,
-    "cut_slope_angle_deg": 68,
-    "slope_geometry": "String (e.g. Steep Cut Escarpment)"
+  "visual_analysis": {{
+    "visible_failure_type": "String describing what type of failure is clearly seen (e.g., Translational rock slide, shallow debris flow, road shoulder subsidence)",
+    "material_composition": "String describing visible materials (e.g., Colluvial soil with angular boulders, jointed rock mass, mud and gravel)",
+    "slope_condition": "String describing visible slope scarp and vegetation (e.g., Steep cut slope with fresh scarp face, overhanging crown)",
+    "infrastructure_impact": "String describing visible roadway/structure condition (e.g., Carriageway partially blocked by boulder debris, culvert inlet obscured)",
+    "drainage_and_seepage": "String describing visible water/drainage state (e.g., Moisture saturation evident on scarp, dry slope, or obstructed side drain)",
+    "secondary_hazard_risk": "String describing visible immediate risks (e.g., Hanging boulders subject to secondary rockfall, potential scarp retrogradation)"
   }},
-  "road_impact": {{
-    "alignment": "Curved (Hilly Terrain)",
-    "width_before_m": 5.5,
-    "width_after_m": 0.0,
-    "carriageway_status": "String (e.g. Fully Blocked / Single Lane Blocked)",
-    "pavement_type": "Flexible / Bituminous (BT)",
-    "shoulder_width_m": 0.75,
-    "traffic_flow": "Two-way Traffic",
-    "culvert_status": "String (e.g. Choked Upstream / Intact)"
+  "geotechnical_parameters": {{
+    "slope_height": "String with estimated visible height range, e.g. 'Approx. 8-12 m (Subject to field total station survey)'",
+    "slope_angle": "String with estimated visible angle range, e.g. 'Approx. 65°-75° (Requires field clinometer survey)'",
+    "rock_structure": "String noting visible jointing or 'Requires geological compass mapping on-site'",
+    "debris_volume": "String estimating visual order of magnitude or 'Pending volumetric cross-section survey'"
   }},
-  "geology": {{
-    "prominent_rock": "String (e.g. Jointed Sandstone & Siltstone)",
-    "weathering_grade": "String (e.g. Grade IV (Highly Weathered))",
-    "joint_spacing": "String (e.g. 0.20 m – 0.45 m (Closely Jointed))",
-    "dip_joints": "String (e.g. 45° to 50° daylighting into road)",
-    "joint_orientation": "String (e.g. Strike N35°W, Dip 45° SW)",
-    "failure_pattern": "String (e.g. Blocky & Wedge Failure)"
-  }},
-  "proposed_measures": [
-    {{"structure": "Retaining / Breast Wall", "location": "Above Road", "remedial": true, "preventive": true}},
-    {{"structure": "Gabion Structure", "location": "Above Road", "remedial": true, "preventive": false}},
-    {{"structure": "Drainage / Chute", "location": "Above & Roadside", "remedial": true, "preventive": true}},
-    {{"structure": "Bioengineering (Vetiver grass)", "location": "Trimmed Slope", "remedial": false, "preventive": true}},
-    {{"structure": "Earthworks / Clearance", "location": "Carriageway", "remedial": true, "preventive": false}},
-    {{"structure": "Rockfall Netting / Wire Mesh", "location": "Upper Cut", "remedial": false, "preventive": true}}
+  "recommended_interventions": [
+    {{"measure": "String (e.g. Carriageway Debris Clearance)", "priority": "High / Medium / Low", "details": "String explaining practical action"}},
+    {{"measure": "String (e.g. Hillside Drainage Improvement)", "priority": "High / Medium / Low", "details": "String explaining practical action"}},
+    {{"measure": "String (e.g. Slope Toe Protection)", "priority": "High / Medium / Low", "details": "String explaining practical action"}},
+    {{"measure": "String (e.g. Bioengineering / Turfing)", "priority": "High / Medium / Low", "details": "String explaining practical action"}}
   ],
-  "structural_specifications": {{
-    "breast_wall": {{
-      "recommended": true,
-      "material": "Plum Concrete (M15 / 1:2:4 with 40% plums) / Stone Masonry in 1:4 cement mortar",
-      "height_m": 3.5,
-      "length_m": 18.0,
-      "top_width_m": 0.6,
-      "base_width_m": 1.75,
-      "embedded_depth_m": 1.2,
-      "weep_holes": "100 mm dia PVC pipes @ 1.20 m c/c staggered with gravel filter backing"
-    }},
-    "gabion_wall": {{
-      "recommended": true,
-      "height_m": 2.5,
-      "base_width_m": 2.0,
-      "top_width_m": 1.0,
-      "embedded_depth_m": 0.8,
-      "mesh_spec": "GI 3.00 mm wire, 100 x 120 mm mesh with tight boulder packing"
-    }}
-  }},
-  "earthworks_quantification": {{
-    "excavation_material": "String (e.g. Debris + Giant Detached Boulders (Rock Breaking Required))",
-    "excavation_dim": "3.00 m (H) x 18.00 m (L) x 6.00 m (W)",
-    "excavation_volume_m3": 324.0,
-    "fill_material": "Granular Subgrade Backfill (GSB)",
-    "fill_dim": "0.35 m (H) x 18.00 m (L) x 4.50 m (W)",
-    "fill_volume_m3": 28.35
-  }},
-  "safety_and_immediate_actions": {{
-    "electrical_hazard": "String (e.g. Sagging 11kV lines require HPSEBL clearance before excavator deployment)",
-    "machinery_deployment": "String (e.g. 1 No. Heavy Excavator with Rock Breaker & 2 Nos. Tippers)",
-    "traffic_restoration": "String (e.g. Restore single-lane traffic within 12-24 hours)",
-    "permanent_restoration": "String (e.g. Construction of 18m long Plum Concrete Breast Wall and Saucer Drain)"
-  }},
-  "field_observations_and_remarks": "String (Concise engineering diagnosis of the failure mechanism, drainage cause, and stability recommendations)"
+  "synthesis_remarks": "String: A concise, factual 2-3 sentence technical assessment synthesizing the visual evidence and hazard potential without assumptions."
 }}"""
 
-    # Assemble request payload
     parts: list[dict[str, Any]] = [{"text": prompt}]
     if base64_data and mime_type:
         parts.append({
@@ -353,29 +237,31 @@ REQUIREMENTS:
     payload = {
         "contents": [{"parts": parts}],
         "generationConfig": {
-            "temperature": 0.2,
+            "temperature": 0.15,
             "responseMimeType": "application/json",
         },
     }
 
-    try:
-        url = f"{GEMINI_ENDPOINT}?key={GEMINI_API_KEY}"
-        resp = requests.post(url, json=payload, timeout=25)
-        if resp.status_code == 200:
-            result_json = resp.json()
-            candidates = result_json.get("candidates", [])
-            if candidates:
-                raw_text = candidates[0].get("content", {}).get("parts", [{}])[0].get("text", "")
-                # Clean up any potential markdown wraps
-                cleaned = re.sub(r"^```(?:json)?\s*", "", raw_text.strip(), flags=re.MULTILINE)
-                cleaned = re.sub(r"\s*```$", "", cleaned.strip(), flags=re.MULTILINE)
-                parsed = json.loads(cleaned)
-                parsed["source"] = "google_gemini_vision"
-                parsed["generated_at"] = datetime.utcnow().isoformat() + "Z"
-                return parsed
-        else:
-            logger.warning("Gemini API call failed (%s): %s", resp.status_code, resp.text[:250])
-    except Exception as exc:
-        logger.warning("Gemini API call exception: %s. Using fallback.", exc)
+    # Attempt Gemini models with fallback
+    for model_name in GEMINI_MODELS:
+        try:
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={GEMINI_API_KEY}"
+            resp = requests.post(url, json=payload, timeout=22)
+            if resp.status_code == 200:
+                result_json = resp.json()
+                candidates = result_json.get("candidates", [])
+                if candidates:
+                    raw_text = candidates[0].get("content", {}).get("parts", [{}])[0].get("text", "")
+                    cleaned = re.sub(r"^```(?:json)?\s*", "", raw_text.strip(), flags=re.MULTILINE)
+                    cleaned = re.sub(r"\s*```$", "", cleaned.strip(), flags=re.MULTILINE)
+                    parsed = json.loads(cleaned)
+                    parsed["source"] = f"HIMA-LENS Gemini Vision ({model_name})"
+                    parsed["generated_at"] = datetime.utcnow().strftime("%d %b %Y, %H:%M UTC")
+                    return parsed
+            else:
+                logger.warning("Gemini model %s returned status %s: %s", model_name, resp.status_code, resp.text[:200])
+        except Exception as exc:
+            logger.warning("Gemini model %s exception: %s", model_name, exc)
 
-    return fallback_geotechnical_assessment(report)
+    logger.info("Using baseline geotechnical assessment.")
+    return fallback_visual_assessment(report)

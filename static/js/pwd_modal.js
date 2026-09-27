@@ -1,7 +1,7 @@
 /**
- * HIMA-LENS: HP PWD Field Sheet Interactive AI Assessment Modal
- * Provides on-demand Gemini Vision analysis, interactive parameter tuning,
- * and high-fidelity official PDF generation.
+ * HIMA-LENS: Technical Assessment & AI Field Dossier Modal Controller
+ * Strictly grounded visual analysis using Google Gemini Vision.
+ * 100% compliant with HIMA-LENS design tokens and SVG iconography.
  */
 
 let currentAssessmentData = null;
@@ -15,104 +15,98 @@ function ensurePwdModalInDOM() {
       <div class="pwd-modal-card">
         <div class="pwd-modal-header">
           <div class="title-wrap">
-            <span class="pwd-modal-badge">HP PWD AI Assessment</span>
+            <div class="pwd-brand-logo-badge">HL</div>
             <div>
-              <h3 class="pwd-modal-title">Landslide Technical Field Sheet</h3>
-              <div class="pwd-modal-subtitle" id="pwd-modal-sub">Report ID: --</div>
+              <h3 class="pwd-modal-title">
+                HIMA&middot;LENS Assessment
+                <span class="pwd-modal-badge">AI Reviewed</span>
+              </h3>
+              <div class="pwd-modal-subtitle" id="pwd-modal-sub">REF: --</div>
             </div>
           </div>
-          <button class="pwd-close-btn" onclick="closePwdAssessmentModal()">&times;</button>
+          <button type="button" class="pwd-close-btn" onclick="closePwdAssessmentModal()" aria-label="Close dialog">&times;</button>
         </div>
 
         <div class="pwd-modal-body">
           <!-- Loading State -->
           <div id="pwd-loader" class="pwd-loading-state">
-            <div class="pwd-scanner-orb"></div>
-            <div class="pwd-loading-title">Google Gemini Vision Analysis in Progress</div>
+            <div class="pwd-scanner-orb">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+              </svg>
+            </div>
+            <div class="pwd-loading-title">Analyzing Photographic Evidence</div>
             <p class="pwd-loading-desc">
-              Examining photograph, slope cut angle, in-situ rock jointing, carriageway blockage, 
-              and computing IRC:SP:48 structural breast wall & earthwork volumes...
+              Examining visible slope detachment scarps, unconsolidated colluvium, carriageway encroachment, 
+              and synthesizing grounded geotechnical observations...
             </p>
           </div>
 
           <!-- Assessment Form (Hidden while loading) -->
           <div id="pwd-form" style="display: none;">
             
-            <!-- Section 1: Road & Chainage -->
+            <!-- Section 1: Incident Telemetry -->
             <div class="pwd-form-section">
               <div class="pwd-section-head">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-                1. Road Metadata & Chainage
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                1. Incident Telemetry &amp; Location
               </div>
               <div class="pwd-grid-2">
                 <div class="pwd-field">
-                  <label>Road Name / Section</label>
-                  <input type="text" id="pwd-inp-road-name">
+                  <label>District Region</label>
+                  <input type="text" id="pwd-inp-district">
                 </div>
                 <div class="pwd-field">
-                  <label>Location (Chainage RD)</label>
-                  <input type="text" id="pwd-inp-chainage">
+                  <label>Observed Failure Type</label>
+                  <input type="text" id="pwd-inp-movement">
                 </div>
                 <div class="pwd-field">
-                  <label>Type of Road</label>
-                  <input type="text" id="pwd-inp-road-type">
+                  <label>Field Contributor</label>
+                  <input type="text" id="pwd-inp-reporter">
                 </div>
                 <div class="pwd-field">
-                  <label>Inspection Date</label>
-                  <input type="date" id="pwd-inp-date">
+                  <label>Observer Field Notes</label>
+                  <input type="text" id="pwd-inp-notes">
                 </div>
               </div>
             </div>
 
-            <!-- Section 2: Structural Specifications -->
+            <!-- Section 2: Visual Evidence Analysis -->
             <div class="pwd-form-section">
               <div class="pwd-section-head">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
-                2. Recommended Plum Concrete Breast Wall Sizing
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                2. Visual Photographic Evidence
               </div>
-              <div class="pwd-grid-3">
+              <div class="pwd-field">
+                <label>Visible Material Composition</label>
+                <input type="text" id="pwd-inp-mat">
+              </div>
+              <div class="pwd-grid-2" style="margin-top: 10px;">
                 <div class="pwd-field">
-                  <label>Height H (meters)</label>
-                  <input type="number" step="0.1" id="pwd-inp-wall-h">
+                  <label>Slope Condition &amp; Scarp</label>
+                  <input type="text" id="pwd-inp-slope">
                 </div>
                 <div class="pwd-field">
-                  <label>Length L (meters)</label>
-                  <input type="number" step="0.5" id="pwd-inp-wall-l">
-                </div>
-                <div class="pwd-field">
-                  <label>Base Width (meters)</label>
-                  <input type="number" step="0.05" id="pwd-inp-wall-base">
+                  <label>Roadway Disruption Status</label>
+                  <input type="text" id="pwd-inp-infra">
                 </div>
               </div>
               <div class="pwd-field" style="margin-top: 10px;">
-                <label>Concrete Grade & Specification</label>
-                <input type="text" id="pwd-inp-wall-mat">
+                <label>Moisture, Drainage &amp; Secondary Risks</label>
+                <input type="text" id="pwd-inp-drain">
               </div>
             </div>
 
-            <!-- Section 3: Earthworks & Emergency Actions -->
+            <!-- Section 3: Technical Synthesis Remarks -->
             <div class="pwd-form-section">
               <div class="pwd-section-head">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-                3. Earthworks & Critical Safety Notices
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                3. Technical Synthesis Remarks
               </div>
-              <div class="pwd-grid-2">
-                <div class="pwd-field">
-                  <label>Estimated Excavation Volume (m³)</label>
-                  <input type="number" step="1" id="pwd-inp-exc-vol">
-                </div>
-                <div class="pwd-field">
-                  <label>Traffic Restoration Target</label>
-                  <input type="text" id="pwd-inp-traffic">
-                </div>
-              </div>
-              <div class="pwd-field" style="margin-top: 10px;">
-                <label>Emergency Machinery Deployment</label>
-                <input type="text" id="pwd-inp-machinery">
-              </div>
-              <div class="pwd-field" style="margin-top: 10px;">
-                <label>Geotechnical Observations & Diagnostic Remarks</label>
-                <textarea rows="3" id="pwd-inp-remarks"></textarea>
+              <div class="pwd-field">
+                <textarea rows="3" id="pwd-inp-synthesis"></textarea>
               </div>
             </div>
 
@@ -120,11 +114,11 @@ function ensurePwdModalInDOM() {
         </div>
 
         <div class="pwd-modal-footer">
-          <button class="pwd-btn pwd-btn-secondary" onclick="closePwdAssessmentModal()">Close</button>
+          <button type="button" class="pwd-btn pwd-btn-secondary" onclick="closePwdAssessmentModal()">Close</button>
           <div class="pwd-modal-actions">
-            <button class="pwd-btn pwd-btn-primary" id="btn-print-official" onclick="submitAndOpenOfficialSheet()">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-              View &amp; Print Official Sheet
+            <button type="button" class="pwd-btn pwd-btn-primary" id="btn-print-official" onclick="submitAndOpenOfficialSheet()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+              <span>View &amp; Print Report</span>
             </button>
           </div>
         </div>
@@ -134,7 +128,6 @@ function ensurePwdModalInDOM() {
 
   document.body.insertAdjacentHTML('beforeend', modalHtml);
 
-  // Close on background click
   document.getElementById('pwd-assessment-modal').addEventListener('click', (e) => {
     if (e.target.id === 'pwd-assessment-modal') {
       closePwdAssessmentModal();
@@ -151,7 +144,7 @@ window.openPwdAssessmentModal = async function(reportId) {
   const form = document.getElementById('pwd-form');
   const subtitle = document.getElementById('pwd-modal-sub');
 
-  subtitle.innerText = `Report ID: ${reportId}`;
+  subtitle.innerText = `REF: ${reportId}`;
   loader.style.display = 'block';
   form.style.display = 'none';
   modal.style.display = 'flex';
@@ -176,10 +169,10 @@ window.openPwdAssessmentModal = async function(reportId) {
   } catch (err) {
     console.error('Error fetching AI assessment:', err);
     loader.innerHTML = `
-      <div style="color: #b91c1c; font-weight: 700; font-size: 15px; margin-bottom: 8px;">Assessment Generation Warning</div>
-      <p style="color: #64748b; font-size: 13px;">${err.message || 'Could not reach AI assessment service.'}</p>
-      <button class="pwd-btn pwd-btn-primary" style="margin-top: 16px;" onclick="openDirectSheet('${reportId}')">
-        Open Standard Form
+      <div style="color: #bd5151; font-weight: 700; font-size: 14px; margin-bottom: 6px;">Telemetry Processing Notice</div>
+      <p style="color: #50605a; font-size: 12.5px;">${err.message || 'Could not reach assessment service. You can still inspect the baseline report.'}</p>
+      <button type="button" class="pwd-btn pwd-btn-primary" style="margin-top: 14px;" onclick="openDirectSheet('${reportId}')">
+        Open Baseline Report
       </button>
     `;
   }
@@ -191,26 +184,19 @@ window.closePwdAssessmentModal = function() {
 };
 
 function populatePwdForm(assessment) {
-  const meta = assessment.road_metadata || {};
-  document.getElementById('pwd-inp-road-name').value = meta.road_name || '';
-  document.getElementById('pwd-inp-chainage').value = meta.chainage || '';
-  document.getElementById('pwd-inp-road-type').value = meta.road_type || 'ODR / Link Road (HP PWD)';
-  document.getElementById('pwd-inp-date').value = meta.inspection_date ? meta.inspection_date.slice(0, 10) : new Date().toISOString().slice(0, 10);
+  const tel = assessment.telemetry || {};
+  document.getElementById('pwd-inp-district').value = tel.district || '';
+  document.getElementById('pwd-inp-movement').value = tel.reported_movement || '';
+  document.getElementById('pwd-inp-reporter').value = tel.reporter_name || '';
+  document.getElementById('pwd-inp-notes').value = tel.user_notes || '';
 
-  const bw = (assessment.structural_specifications || {}).breast_wall || {};
-  document.getElementById('pwd-inp-wall-h').value = bw.height_m || 3.5;
-  document.getElementById('pwd-inp-wall-l').value = bw.length_m || 18.0;
-  document.getElementById('pwd-inp-wall-base').value = bw.base_width_m || 1.75;
-  document.getElementById('pwd-inp-wall-mat').value = bw.material || 'Plum Concrete (M15 / 1:2:4 with 40% plums)';
+  const vis = assessment.visual_analysis || {};
+  document.getElementById('pwd-inp-mat').value = vis.material_composition || '';
+  document.getElementById('pwd-inp-slope').value = vis.slope_condition || '';
+  document.getElementById('pwd-inp-infra').value = vis.infrastructure_impact || '';
+  document.getElementById('pwd-inp-drain').value = vis.drainage_and_seepage || '';
 
-  const ew = assessment.earthworks_quantification || {};
-  document.getElementById('pwd-inp-exc-vol').value = ew.excavation_volume_m3 || 320;
-
-  const safety = assessment.safety_and_immediate_actions || {};
-  document.getElementById('pwd-inp-traffic').value = safety.traffic_restoration || 'Restore single-lane traffic within 12-24 hours';
-  document.getElementById('pwd-inp-machinery').value = safety.machinery_deployment || '1 No. Heavy Excavator with Rock Breaker & 2 Nos. Tippers';
-
-  document.getElementById('pwd-inp-remarks').value = assessment.field_observations_and_remarks || '';
+  document.getElementById('pwd-inp-synthesis').value = assessment.synthesis_remarks || '';
 }
 
 window.submitAndOpenOfficialSheet = function() {
@@ -218,34 +204,23 @@ window.submitAndOpenOfficialSheet = function() {
     currentAssessmentData = {};
   }
 
-  // Update assessment data with form inputs
-  if (!currentAssessmentData.road_metadata) currentAssessmentData.road_metadata = {};
-  currentAssessmentData.road_metadata.road_name = document.getElementById('pwd-inp-road-name').value;
-  currentAssessmentData.road_metadata.chainage = document.getElementById('pwd-inp-chainage').value;
-  currentAssessmentData.road_metadata.road_type = document.getElementById('pwd-inp-road-type').value;
-  currentAssessmentData.road_metadata.inspection_date = document.getElementById('pwd-inp-date').value;
+  if (!currentAssessmentData.telemetry) currentAssessmentData.telemetry = {};
+  currentAssessmentData.telemetry.district = document.getElementById('pwd-inp-district').value;
+  currentAssessmentData.telemetry.reported_movement = document.getElementById('pwd-inp-movement').value;
+  currentAssessmentData.telemetry.reporter_name = document.getElementById('pwd-inp-reporter').value;
+  currentAssessmentData.telemetry.user_notes = document.getElementById('pwd-inp-notes').value;
 
-  if (!currentAssessmentData.structural_specifications) currentAssessmentData.structural_specifications = {};
-  if (!currentAssessmentData.structural_specifications.breast_wall) currentAssessmentData.structural_specifications.breast_wall = {};
-  currentAssessmentData.structural_specifications.breast_wall.height_m = parseFloat(document.getElementById('pwd-inp-wall-h').value) || 3.5;
-  currentAssessmentData.structural_specifications.breast_wall.length_m = parseFloat(document.getElementById('pwd-inp-wall-l').value) || 18.0;
-  currentAssessmentData.structural_specifications.breast_wall.base_width_m = parseFloat(document.getElementById('pwd-inp-wall-base').value) || 1.75;
-  currentAssessmentData.structural_specifications.breast_wall.material = document.getElementById('pwd-inp-wall-mat').value;
+  if (!currentAssessmentData.visual_analysis) currentAssessmentData.visual_analysis = {};
+  currentAssessmentData.visual_analysis.material_composition = document.getElementById('pwd-inp-mat').value;
+  currentAssessmentData.visual_analysis.slope_condition = document.getElementById('pwd-inp-slope').value;
+  currentAssessmentData.visual_analysis.infrastructure_impact = document.getElementById('pwd-inp-infra').value;
+  currentAssessmentData.visual_analysis.drainage_and_seepage = document.getElementById('pwd-inp-drain').value;
 
-  if (!currentAssessmentData.earthworks_quantification) currentAssessmentData.earthworks_quantification = {};
-  currentAssessmentData.earthworks_quantification.excavation_volume_m3 = parseFloat(document.getElementById('pwd-inp-exc-vol').value) || 320;
+  currentAssessmentData.synthesis_remarks = document.getElementById('pwd-inp-synthesis').value;
 
-  if (!currentAssessmentData.safety_and_immediate_actions) currentAssessmentData.safety_and_immediate_actions = {};
-  currentAssessmentData.safety_and_immediate_actions.traffic_restoration = document.getElementById('pwd-inp-traffic').value;
-  currentAssessmentData.safety_and_immediate_actions.machinery_deployment = document.getElementById('pwd-inp-machinery').value;
-
-  currentAssessmentData.field_observations_and_remarks = document.getElementById('pwd-inp-remarks').value;
-
-  // Save to sessionStorage for hydration on the sheet page
-  const storageKey = 'himalens_pwd_assessment_' + activeReportId;
+  const storageKey = 'himalens_assessment_' + activeReportId;
   sessionStorage.setItem(storageKey, JSON.stringify(currentAssessmentData));
 
-  // Open the printable sheet in a new tab
   window.open(`/report/pwd-sheet/${encodeURIComponent(activeReportId)}`, '_blank');
   closePwdAssessmentModal();
 };
