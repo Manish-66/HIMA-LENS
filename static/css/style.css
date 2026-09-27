@@ -4016,22 +4016,6 @@ button:disabled {
 
 @media (max-width: 800px) {
 
-    .site-header {
-
-        min-height:
-            70px;
-
-        height:
-            auto;
-
-        padding:
-            13px 20px;
-
-        gap:
-            15px;
-
-    }
-
 
     .main-nav {
 
@@ -4175,22 +4159,9 @@ button:disabled {
 
 @media (max-width: 560px) {
 
-    .site-header {
-
-        align-items:
-            flex-start;
-
-        flex-direction:
-            column;
-
-    }
-
-
     .brand {
-
-        width:
-            100%;
-
+        width: auto;
+        max-width: fit-content;
     }
 
 
@@ -13892,15 +13863,19 @@ html[data-theme="dark"] .footer-column a:hover {
     gap: 12px !important;
 }
 
-/* Brand Link: Monogram + Wordmark */
+/* Brand Link: strictly limited to logo and title, zero overflow */
 .brand {
     display: inline-flex !important;
     align-items: center !important;
     gap: 10px !important;
     text-decoration: none !important;
     user-select: none !important;
-    flex-shrink: 0 !important;
+    flex: 0 0 auto !important;
+    width: auto !important;
+    max-width: fit-content !important;
     line-height: 1 !important;
+    cursor: pointer !important;
+    pointer-events: auto !important;
 }
 
 .brand-logo {
@@ -13979,30 +13954,40 @@ html[data-theme="dark"] .footer-column a:hover {
 .header-right-group {
     display: flex !important;
     align-items: center !important;
+    justify-content: flex-end !important;
     gap: 10px !important;
-    flex-shrink: 0 !important;
+    flex: 0 0 auto !important;
     margin: 0 !important;
     padding: 0 !important;
+    position: relative !important;
+    z-index: 50 !important;
+    pointer-events: auto !important;
 }
 
-/* Modern tactile mobile menu toggle button */
+/* Modern large tactile mobile menu toggle button (44px touch target) */
 .menu-toggle {
     display: none;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 4.5px !important;
-    width: 38px !important;
-    height: 38px !important;
-    border-radius: 9px !important;
-    background: rgba(23, 98, 77, 0.05) !important;
-    border: 1px solid rgba(23, 98, 77, 0.18) !important;
+    gap: 5px !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    border-radius: 12px !important;
+    background: #eef6f2 !important;
+    border: 1.5px solid #cce2d8 !important;
+    box-shadow: 0 2px 6px rgba(12, 38, 30, 0.08) !important;
     cursor: pointer !important;
     padding: 0 !important;
     margin: 0 !important;
     flex-shrink: 0 !important;
     box-sizing: border-box !important;
+    position: relative !important;
+    z-index: 50 !important;
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    -webkit-tap-highlight-color: transparent !important;
 }
 
 @media (max-width: 800px) {
@@ -14017,29 +14002,40 @@ html[data-theme="dark"] .footer-column a:hover {
 
 .menu-toggle:hover,
 .menu-toggle:active {
-    background: rgba(23, 98, 77, 0.12) !important;
-    border-color: rgba(23, 98, 77, 0.35) !important;
+    background: #17624d !important;
+    border-color: #17624d !important;
+    box-shadow: 0 4px 12px rgba(23, 98, 77, 0.25) !important;
     transform: scale(0.96) !important;
 }
 
 .menu-toggle span {
     display: block !important;
-    width: 17px !important;
-    height: 2px !important;
+    width: 22px !important;
+    height: 2.5px !important;
     background: #17624d !important;
-    border-radius: 2px !important;
-    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease !important;
+    border-radius: 3px !important;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease, background-color 0.2s ease !important;
     transform-origin: center !important;
+}
+
+.menu-toggle:hover span,
+.menu-toggle:active span {
+    background: #ffffff !important;
 }
 
 /* Clean Animated 'X' Transformation when Drawer is Open */
 .menu-toggle.open {
-    background: rgba(23, 98, 77, 0.1) !important;
-    border-color: rgba(23, 98, 77, 0.32) !important;
+    background: #17624d !important;
+    border-color: #17624d !important;
+    box-shadow: 0 4px 12px rgba(23, 98, 77, 0.3) !important;
+}
+
+.menu-toggle.open span {
+    background: #ffffff !important;
 }
 
 .menu-toggle.open span:nth-child(1) {
-    transform: translateY(6.5px) rotate(45deg) !important;
+    transform: translateY(7.5px) rotate(45deg) !important;
 }
 
 .menu-toggle.open span:nth-child(2) {
@@ -14048,7 +14044,7 @@ html[data-theme="dark"] .footer-column a:hover {
 }
 
 .menu-toggle.open span:nth-child(3) {
-    transform: translateY(-6.5px) rotate(-45deg) !important;
+    transform: translateY(-7.5px) rotate(-45deg) !important;
 }
 
 /* Mobile Navigation Dropdown Drawer */
@@ -14190,17 +14186,60 @@ html[data-theme="dark"] .mobile-nav-inner a.active {
         min-height: 60px !important;
     }
 
-    /* Map viewport: precise visible area without overflowing below mobile browser bars */
-    .gis-console-layout {
+    /* Lock document and header firmly in place: ZERO blank space on scroll */
+    html:has(.gis-console-layout) {
+        height: 100% !important;
+        overflow: hidden !important;
+        overscroll-behavior: none !important;
+    }
+
+    body:has(.gis-console-layout) {
+        position: fixed !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        overflow: hidden !important;
+        overscroll-behavior: none !important;
+        touch-action: pan-x pan-y !important;
+    }
+
+    body:has(.gis-console-layout) .site-header {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 60px !important;
+        min-height: 60px !important;
+        z-index: 1100 !important;
+    }
+
+    body:has(.gis-console-layout) .site-main {
         position: fixed !important;
         top: 60px !important;
         left: 0 !important;
         right: 0 !important;
         bottom: 0 !important;
         width: 100% !important;
-        height: auto !important;
+        height: calc(100% - 60px) !important;
         height: calc(100dvh - 60px) !important;
         overflow: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* Map viewport: precise visible area flush with fixed header */
+    .gis-console-layout {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        overflow: hidden !important;
+        background: #eef3f0 !important;
+        z-index: 10 !important;
     }
 
     .gis-map-viewport {
@@ -14260,25 +14299,35 @@ html[data-theme="dark"] .mobile-nav-inner a.active {
     }
 
     .hud-mobile-actions {
-        display: flex !important;
+        display: inline-flex !important;
         align-items: center !important;
-        gap: 6px !important;
+        gap: 8px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        flex-shrink: 0 !important;
     }
 
     .hud-filter-toggle-btn {
         display: inline-flex !important;
         align-items: center !important;
-        gap: 5px !important;
-        padding: 6px 12px !important;
+        justify-content: center !important;
+        gap: 6px !important;
+        height: 34px !important;
+        min-height: 34px !important;
+        padding: 0 13px !important;
         border-radius: 999px !important;
         background: #17624d !important;
         color: #ffffff !important;
         border: none !important;
-        font-size: 11px !important;
+        font-size: 11.5px !important;
         font-weight: 750 !important;
         cursor: pointer !important;
-        box-shadow: 0 2px 8px rgba(23, 98, 77, 0.3) !important;
+        box-shadow: 0 2px 8px rgba(23, 98, 77, 0.28) !important;
         transition: all 0.2s ease !important;
+        box-sizing: border-box !important;
+        margin: 0 !important;
+        line-height: 34px !important;
+        vertical-align: middle !important;
     }
 
     .hud-filter-toggle-btn.active {
@@ -14292,16 +14341,33 @@ html[data-theme="dark"] .mobile-nav-inner a.active {
     }
 
     .hud-export-btn-mobile {
-        display: grid !important;
-        place-items: center !important;
-        width: 32px !important;
-        height: 32px !important;
-        border-radius: 999px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 34px !important;
+        height: 34px !important;
+        min-width: 34px !important;
+        min-height: 34px !important;
+        border-radius: 50% !important;
         background: #eef5f2 !important;
         border: 1px solid #dce7e1 !important;
         color: #17624d !important;
         cursor: pointer !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        box-sizing: border-box !important;
         transition: all 0.2s ease !important;
+        box-shadow: 0 2px 6px rgba(12, 38, 30, 0.06) !important;
+        vertical-align: middle !important;
+        flex-shrink: 0 !important;
+    }
+
+    .hud-export-btn-mobile svg {
+        display: block !important;
+        margin: auto !important;
+        width: 15px !important;
+        height: 15px !important;
+        pointer-events: none !important;
     }
 
     .hud-export-btn-mobile:hover,
@@ -14309,6 +14375,7 @@ html[data-theme="dark"] .mobile-nav-inner a.active {
         background: #17624d !important;
         color: #ffffff !important;
         border-color: #17624d !important;
+        transform: scale(0.96) !important;
     }
 
     html[data-theme="dark"] .hud-export-btn-mobile {
