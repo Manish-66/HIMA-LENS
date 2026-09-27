@@ -8,10 +8,10 @@
 [![AI Vision](https://img.shields.io/badge/AI-Google%20Gemini%20Vision-4285F4.svg?logo=google&logoColor=white)](https://ai.google.dev/)
 [![License](https://img.shields.io/badge/License-Academic%20Research-darkgreen.svg)](LICENSE)
 
-> 🌐 **Live Web Application**: [**https://hima-lens.vercel.app/**](https://hima-lens.vercel.app/)  
-> 📰 **Live Landslide News Wire**: [**https://hima-lens.vercel.app/news**](https://hima-lens.vercel.app/news)  
-> 🗺️ **Interactive 2D/3D Web-GIS**: [**https://hima-lens.vercel.app/explore**](https://hima-lens.vercel.app/explore)  
-> 📑 **AI Geotechnical Assessment & Field Reports**: [**https://hima-lens.vercel.app/report**](https://hima-lens.vercel.app/report)
+> - **Live Platform Deployment**: [https://hima-lens.vercel.app/](https://hima-lens.vercel.app/)  
+> - **Live Landslide & Road Alert Wire**: [https://hima-lens.vercel.app/news](https://hima-lens.vercel.app/news)  
+> - **Interactive 2D/3D Web-GIS Observatory**: [https://hima-lens.vercel.app/explore](https://hima-lens.vercel.app/explore)  
+> - **Geotechnical AI Assessment & Reporting**: [https://hima-lens.vercel.app/report](https://hima-lens.vercel.app/report)
 
 **HIMA-LENS** (*Himachal Landslide Exploration & Spatial Intelligence System*) is a full-stack Web-GIS platform and geotechnical decision-support engine developed at the **School of Civil & Environmental Engineering (SCENE), Indian Institute of Technology Mandi (IIT Mandi)**.
 
