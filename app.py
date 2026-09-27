@@ -393,7 +393,14 @@ def feed():
     tab = request.args.get("tab", "")
     if request.path == "/news":
         tab = "news"
-    return render_template("feed.html", initial_tab=tab)
+    articles = get_himachal_landslide_news()
+    return render_template(
+        "feed.html",
+        initial_tab=tab,
+        initial_news=articles,
+        news_count=len(articles),
+        last_updated=time.strftime("%d %b %Y, %H:%M UTC", time.gmtime(_NEWS_CACHE["timestamp"])) if _NEWS_CACHE["timestamp"] else "Active"
+    )
 
 @app.get("/api/news")
 def api_news():

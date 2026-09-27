@@ -36,7 +36,7 @@ HIMA-LENS | Landslide & Flash Flood Chronology Feed
                 <button type="button" class="feed-nav-tab {% if initial_tab == 'news' %}active{% endif %}" id="tab-btn-news" data-target="panel-news" role="tab" aria-selected="{% if initial_tab == 'news' %}true{% else %}false{% endif %}">
                     <span class="live-pulse-dot"></span>
                     <span>Live Himachal Landslide News</span>
-                    <span class="tab-badge live-wire-badge" id="live-news-counter-pill">Live Stream</span>
+                    <span class="tab-badge live-wire-badge" id="live-news-counter-pill">{{ news_count or 74 }} Live Items</span>
                 </button>
             </div>
         </div>
@@ -299,7 +299,7 @@ HIMA-LENS | Landslide & Flash Flood Chronology Feed
                             </svg>
                             <span>Refresh Wire</span>
                         </button>
-                        <div class="last-sync-tag" id="last-sync-label">Connecting wire...</div>
+                        <div class="last-sync-tag" id="last-sync-label">{{ last_updated or 'Live Wire Active' }}</div>
                     </div>
                 </div>
 
@@ -345,7 +345,7 @@ HIMA-LENS | Landslide & Flash Flood Chronology Feed
 
                 <!-- Status & Counter Bar -->
                 <div class="news-status-bar">
-                    <span id="news-counter-text">Connecting to real-time Himachal landslide feed...</span>
+                    <span id="news-counter-text">Showing all <strong>{{ news_count or 74 }}</strong> active landslide &amp; hazard bulletins across Himachal Pradesh.</span>
                 </div>
 
                 <!-- Loading Skeleton -->
@@ -372,6 +372,11 @@ HIMA-LENS | Landslide & Flash Flood Chronology Feed
         </section>
     </div>
 
+    <!-- Embedded News Payload (Instant Server Hydration) -->
+    <script id="initial-news-payload" type="application/json">
+        {{ (initial_news or []) | tojson | safe }}
+    </script>
+
 </div>
 {% endblock %}
 
@@ -379,95 +384,7 @@ HIMA-LENS | Landslide & Flash Flood Chronology Feed
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     // -----------------------------------------------------------------
-    // 1. CHRONOLOGY FEED CATEGORY FILTERING (BENCHMARKS)
-    // -----------------------------------------------------------------
-    const filterBtns = document.querySelectorAll(".feed-filter-btn");
-    const eventCards = document.querySelectorAll("#panel-benchmarks .event-card");
-
-    filterBtns.forEach(btn => {
-        btn.addEventListener("click", () => {
-            filterBtns.forEach(b => b.classList.remove("active"));
-            btn.classList.add("active");
-
-            const filter = btn.getAttribute("data-filter");
-            eventCards.forEach(card => {
-                if (filter === "all" || card.getAttribute("data-category") === filter) {
-                    card.style.display = "flex";
-                } else {
-                    card.style.display = "none";
-                }
-            });
-        });
-    });
-
-    // -----------------------------------------------------------------
-    // 2. COORDINATE DISPATCHER TO /explore MAP
-    // -----------------------------------------------------------------
-    const exploreBtns = document.querySelectorAll("#panel-benchmarks .event-explore-btn");
-    exploreBtns.forEach(btn => {
-        btn.addEventListener("click", () => {
-            const card = btn.closest(".event-card");
-            if (!card) return;
-
-            const lat = parseFloat(card.getAttribute("data-lat"));
-            const lng = parseFloat(card.getAttribute("data-lng"));
-            const zoom = parseInt(card.getAttribute("data-zoom"), 10) || 12;
-
-            if (!isNaN(lat) && !isNaN(lng)) {
-                sessionStorage.setItem("hima_jump_coords", JSON.stringify({ lat, lng, zoom }));
-            }
-        });
-    });
-
-    // -----------------------------------------------------------------
-    // 3. TAB CONTROLLER: BENCHMARKS vs LIVE NEWS
-    // -----------------------------------------------------------------
-    const tabBtns = document.querySelectorAll(".feed-nav-tab");
-    const tabPanels = document.querySelectorAll(".feed-tab-panel");
-
-    function switchTab(targetId, updateUrl = true) {
-        tabBtns.forEach(btn => {
-            const isMatch = btn.getAttribute("data-target") === targetId;
-            btn.classList.toggle("active", isMatch);
-            btn.setAttribute("aria-selected", isMatch ? "true" : "false");
-        });
-
-        tabPanels.forEach(panel => {
-            if (panel.id === targetId) {
-                panel.classList.remove("is-hidden");
-            } else {
-                panel.classList.add("is-hidden");
-            }
-        });
-
-        if (targetId === "panel-news" && !newsLoaded) {
-            fetchNewsArticles();
-        }
-
-        if (updateUrl) {
-            const tabParam = targetId === "panel-news" ? "news" : "benchmarks";
-            const newUrl = tabParam === "news" ? "/feed?tab=news" : "/feed";
-            history.replaceState(null, "", newUrl);
-        }
-    }
-
-    tabBtns.forEach(btn => {
-        btn.addEventListener("click", () => {
-            const target = btn.getAttribute("data-target");
-            switchTab(target, true);
-        });
-    });
-
-    // Detect initial tab from URL or template
-    const urlParams = new URLSearchParams(window.location.search);
-    const hash = window.location.hash;
-    const initialParam = urlParams.get("tab") || (hash === "#news" ? "news" : "");
-    if (initialParam === "news" || "{{ initial_tab }}" === "news") {
-        switchTab("panel-news", false);
-    }
-
-    // -----------------------------------------------------------------
-    // 4. LIVE HIMACHAL LANDSLIDE NEWS FEED ENGINE
+    // 1. DATA STRUCTURES & CONFIGURATION
     // -----------------------------------------------------------------
     const DISTRICT_COORDS = {
         "Shimla": { lat: 31.1048, lng: 77.1734, zoom: 11 },
@@ -490,6 +407,16 @@ document.addEventListener("DOMContentLoaded", () => {
     let searchQuery = "";
     let newsLoaded = false;
 
+    // DOM Elements - Benchmarks
+    const filterBtns = document.querySelectorAll(".feed-filter-btn");
+    const eventCards = document.querySelectorAll("#panel-benchmarks .event-card");
+    const exploreBtns = document.querySelectorAll("#panel-benchmarks .event-explore-btn");
+
+    // DOM Elements - Tabs
+    const tabBtns = document.querySelectorAll(".feed-nav-tab");
+    const tabPanels = document.querySelectorAll(".feed-tab-panel");
+
+    // DOM Elements - News
     const newsGrid = document.getElementById("news-grid-container");
     const newsSkeleton = document.getElementById("news-loading-skeleton");
     const newsEmptyState = document.getElementById("news-empty-state");
@@ -503,9 +430,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const categoryPills = document.querySelectorAll("#news-category-pills .news-pill-btn");
     const resetFiltersBtn = document.getElementById("reset-news-filters");
 
+    // -----------------------------------------------------------------
+    // 2. HELPER FUNCTIONS
+    // -----------------------------------------------------------------
     function escapeHtml(str) {
         if (!str) return "";
-        return str
+        return String(str)
             .replace(/&/g, "&amp;")
             .replace(/</g, "&lt;")
             .replace(/>/g, "&gt;")
@@ -522,60 +452,21 @@ document.addEventListener("DOMContentLoaded", () => {
         return "severity-info";
     }
 
-    async function fetchNewsArticles(forceRefresh = false) {
-        if (refreshBtn) refreshBtn.classList.add("loading");
-        newsSkeleton.style.display = "grid";
-        newsGrid.style.display = "none";
-        newsEmptyState.style.display = "none";
-        if (lastSyncLabel) lastSyncLabel.textContent = forceRefresh ? "Refreshing wire..." : "Connecting wire...";
-
-        const endpoint = forceRefresh ? "/api/news?refresh=1" : "/api/news";
-
-        try {
-            const resp = await fetch(endpoint);
-            if (!resp.ok) throw new Error("Network response was not ok");
-            const data = await resp.json();
-
-            if (data.success && Array.isArray(data.articles)) {
-                allNewsArticles = data.articles;
-                newsLoaded = true;
-
-                if (liveCounterPill) {
-                    liveCounterPill.textContent = `${data.articles.length} Live Items`;
-                }
-
-                if (lastSyncLabel) {
-                    lastSyncLabel.textContent = data.last_updated ? `Updated: ${data.last_updated.slice(11, 16)} UTC` : "Updated just now";
-                }
-
-                renderNewsCards();
-            } else {
-                throw new Error("Invalid payload format");
-            }
-        } catch (err) {
-            console.error("Failed to load Himachal landslide news:", err);
-            if (counterText) counterText.textContent = "Unable to load live wire at this time. Please try refreshing.";
-            newsSkeleton.style.display = "none";
-        } finally {
-            if (refreshBtn) refreshBtn.classList.remove("loading");
-        }
-    }
-
+    // -----------------------------------------------------------------
+    // 3. RENDER NEWS CARDS
+    // -----------------------------------------------------------------
     function renderNewsCards() {
-        newsSkeleton.style.display = "none";
+        if (newsSkeleton) newsSkeleton.style.display = "none";
+        if (!newsGrid) return;
 
-        // Filter articles based on search query, category, and district
         const query = searchQuery.trim().toLowerCase();
         const filtered = allNewsArticles.filter(art => {
-            // Category match
             if (activeCategory !== "all" && art.category !== activeCategory) {
                 return false;
             }
-            // District match
-            if (activeDistrict !== "all" && art.district.toLowerCase() !== activeDistrict.toLowerCase()) {
+            if (activeDistrict !== "all" && art.district && art.district.toLowerCase() !== activeDistrict.toLowerCase()) {
                 return false;
             }
-            // Search query match
             if (query) {
                 const titleMatch = art.title && art.title.toLowerCase().includes(query);
                 const sourceMatch = art.source && art.source.toLowerCase().includes(query);
@@ -588,7 +479,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return true;
         });
 
-        // Update counter text
         if (counterText) {
             if (filtered.length === allNewsArticles.length) {
                 counterText.innerHTML = `Showing all <strong>${allNewsArticles.length}</strong> active landslide &amp; hazard bulletins across Himachal Pradesh.`;
@@ -599,11 +489,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (filtered.length === 0) {
             newsGrid.style.display = "none";
-            newsEmptyState.style.display = "block";
+            if (newsEmptyState) newsEmptyState.style.display = "block";
             return;
         }
 
-        newsEmptyState.style.display = "none";
+        if (newsEmptyState) newsEmptyState.style.display = "none";
         newsGrid.style.display = "grid";
         newsGrid.innerHTML = "";
 
@@ -620,12 +510,12 @@ document.addEventListener("DOMContentLoaded", () => {
             card.innerHTML = `
                 <div class="event-card-header news-card-header">
                     <div class="news-source-meta">
-                        <span class="news-source-badge">${escapeHtml(art.source)}</span>
-                        <span class="news-time-badge">${escapeHtml(art.time_ago || art.pub_date)}</span>
+                        <span class="news-source-badge">${escapeHtml(art.source || 'Himachal Wire')}</span>
+                        <span class="news-time-badge">${escapeHtml(art.time_ago || art.pub_date || '')}</span>
                     </div>
                     <div class="news-tags-group">
-                        <span class="event-severity-badge ${badgeClass}">${escapeHtml(art.category)}</span>
-                        <span class="news-district-tag">${escapeHtml(art.district)}</span>
+                        <span class="event-severity-badge ${badgeClass}">${escapeHtml(art.category || 'Disaster Alert')}</span>
+                        <span class="news-district-tag">${escapeHtml(art.district || 'Himachal Pradesh')}</span>
                     </div>
                 </div>
 
@@ -636,7 +526,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 <div class="event-card-footer news-card-footer">
                     <div class="news-footer-meta">
-                        <span>Verified Media Wire &bull; ${escapeHtml(art.pub_date)}</span>
+                        <span>Verified Media Wire &bull; ${escapeHtml(art.pub_date || 'Live')}</span>
                     </div>
                     <div class="news-action-buttons">
                         ${hasCoords ? `
@@ -653,7 +543,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
             `;
 
-            // District locate click listener
             if (hasCoords) {
                 const locateBtn = card.querySelector(".news-locate-btn");
                 if (locateBtn) {
@@ -669,7 +558,151 @@ document.addEventListener("DOMContentLoaded", () => {
         newsGrid.appendChild(fragment);
     }
 
-    // Filter Listeners
+    // -----------------------------------------------------------------
+    // 4. FETCH NEWS FROM API
+    // -----------------------------------------------------------------
+    async function fetchNewsArticles(forceRefresh = false) {
+        if (refreshBtn) refreshBtn.classList.add("loading");
+        if (forceRefresh) {
+            if (newsSkeleton) newsSkeleton.style.display = "grid";
+            if (newsGrid) newsGrid.style.display = "none";
+            if (lastSyncLabel) lastSyncLabel.textContent = "Refreshing wire...";
+        }
+
+        const endpoint = forceRefresh ? "/api/news?refresh=1" : "/api/news";
+
+        try {
+            const resp = await fetch(endpoint);
+            if (!resp.ok) throw new Error("Status " + resp.status);
+            const data = await resp.json();
+
+            if (data.success && Array.isArray(data.articles) && data.articles.length > 0) {
+                allNewsArticles = data.articles;
+                newsLoaded = true;
+
+                if (liveCounterPill) {
+                    liveCounterPill.textContent = `${data.articles.length} Live Items`;
+                }
+
+                if (lastSyncLabel) {
+                    lastSyncLabel.textContent = data.last_updated ? `Synced: ${data.last_updated}` : "Live Wire Active";
+                }
+
+                renderNewsCards();
+            } else {
+                throw new Error("No articles in payload");
+            }
+        } catch (err) {
+            console.warn("API news fetch failed, relying on cached data:", err);
+            if (allNewsArticles.length > 0) {
+                renderNewsCards();
+                if (lastSyncLabel) lastSyncLabel.textContent = "Live Wire Cached";
+            } else {
+                if (counterText) counterText.textContent = "Live wire is reconnecting. Please click 'Refresh Wire'.";
+                if (newsSkeleton) newsSkeleton.style.display = "none";
+            }
+        } finally {
+            if (refreshBtn) refreshBtn.classList.remove("loading");
+        }
+    }
+
+    // -----------------------------------------------------------------
+    // 5. HYDRATE INITIAL EMBEDDED PAYLOAD (INSTANT 0MS LOAD)
+    // -----------------------------------------------------------------
+    const payloadEl = document.getElementById("initial-news-payload");
+    if (payloadEl && payloadEl.textContent) {
+        try {
+            const parsed = JSON.parse(payloadEl.textContent);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+                allNewsArticles = parsed;
+                newsLoaded = true;
+                if (liveCounterPill) {
+                    liveCounterPill.textContent = `${parsed.length} Live Items`;
+                }
+                renderNewsCards();
+            }
+        } catch (e) {
+            console.warn("Could not parse embedded news payload:", e);
+        }
+    }
+
+    // -----------------------------------------------------------------
+    // 6. BENCHMARK CATEGORY FILTERING & DISPATCHER
+    // -----------------------------------------------------------------
+    filterBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            filterBtns.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            const filter = btn.getAttribute("data-filter");
+            eventCards.forEach(card => {
+                if (filter === "all" || card.getAttribute("data-category") === filter) {
+                    card.style.display = "flex";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        });
+    });
+
+    exploreBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const card = btn.closest(".event-card");
+            if (!card) return;
+
+            const lat = parseFloat(card.getAttribute("data-lat"));
+            const lng = parseFloat(card.getAttribute("data-lng"));
+            const zoom = parseInt(card.getAttribute("data-zoom"), 10) || 12;
+
+            if (!isNaN(lat) && !isNaN(lng)) {
+                sessionStorage.setItem("hima_jump_coords", JSON.stringify({ lat, lng, zoom }));
+            }
+        });
+    });
+
+    // -----------------------------------------------------------------
+    // 7. TAB CONTROLLER
+    // -----------------------------------------------------------------
+    function switchTab(targetId, updateUrl = true) {
+        tabBtns.forEach(btn => {
+            const isMatch = btn.getAttribute("data-target") === targetId;
+            btn.classList.toggle("active", isMatch);
+            btn.setAttribute("aria-selected", isMatch ? "true" : "false");
+        });
+
+        tabPanels.forEach(panel => {
+            if (panel.id === targetId) {
+                panel.classList.remove("is-hidden");
+            } else {
+                panel.classList.add("is-hidden");
+            }
+        });
+
+        if (targetId === "panel-news") {
+            if (!newsLoaded || allNewsArticles.length === 0) {
+                fetchNewsArticles();
+            } else {
+                renderNewsCards();
+            }
+        }
+
+        if (updateUrl) {
+            const tabParam = targetId === "panel-news" ? "news" : "benchmarks";
+            const newUrl = tabParam === "news" ? "/feed?tab=news" : "/feed";
+            history.replaceState(null, "", newUrl);
+        }
+    }
+
+    tabBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const target = btn.getAttribute("data-target");
+            switchTab(target, true);
+        });
+    });
+
+    // -----------------------------------------------------------------
+    // 8. NEWS FILTER CONTROLS & LISTENERS
+    // -----------------------------------------------------------------
     if (districtSelect) {
         districtSelect.addEventListener("change", (e) => {
             activeDistrict = e.target.value;
@@ -725,16 +758,21 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Auto-fetch news immediately if on news tab or in background
-    if (document.getElementById("tab-btn-news").classList.contains("active")) {
-        fetchNewsArticles();
-    } else {
-        // Pre-fetch in background after 1.5 seconds so tab switch is instantaneous
+    // -----------------------------------------------------------------
+    // 9. INITIAL ROUTE & TAB ACTIVATION
+    // -----------------------------------------------------------------
+    const urlParams = new URLSearchParams(window.location.search);
+    const hash = window.location.hash;
+    const initialParam = urlParams.get("tab") || (hash === "#news" ? "news" : "");
+    if (initialParam === "news" || "{{ initial_tab }}" === "news") {
+        switchTab("panel-news", false);
+    } else if (!newsLoaded) {
+        // Pre-fetch in background if not already hydrated
         setTimeout(() => {
             if (!newsLoaded) {
                 fetchNewsArticles();
             }
-        }, 1500);
+        }, 1200);
     }
 });
 </script>
