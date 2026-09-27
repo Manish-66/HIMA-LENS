@@ -202,202 +202,107 @@
 
     <div class="footer-inner">
 
-
         <!-- =================================================
              FOOTER INTRO
         ================================================== -->
-
         <div class="footer-intro">
-
-
             <div class="footer-brand">
-
-                <a
-                    href="{{ url_for('home') }}"
-                    class="footer-logo"
-                >
-
+                <a href="{{ url_for('home') }}" class="footer-logo">
                     HIMA<span>·</span>LENS
-
                 </a>
-
-
                 <p>
-
-                    A spatial intelligence platform for
-                    exploring the distribution, characteristics
-                    and history of landslides across
-                    Himachal Pradesh.
-
+                    Himachal Landslide Inventory &amp; Spatial Intelligence Decision Support System. 
+                    A unified Web-GIS platform cataloging 14,190 verified slope-failure occurrences across all 12 districts of Himachal Pradesh to empower mountain hazard resilience, rapid engineering assessment, and community safety.
                 </p>
-
+                <div style="margin-top: 10px; font-size: 11.5px; color: #52c29c; font-weight: 600; letter-spacing: 0.04em;">
+                    School of Civil &amp; Environmental Engineering (SCENE) &bull; IIT Mandi
+                </div>
             </div>
-
 
             <div class="footer-tagline">
-
-                <span>
-                    MAPPING
-                </span>
-
-                <span>
-                    UNDERSTANDING
-                </span>
-
-                <span>
-                    PREPARING
-                </span>
-
+                <span>MAPPING</span>
+                <span>UNDERSTANDING</span>
+                <span>PREPARING</span>
             </div>
-
         </div>
-
-
 
         <!-- =================================================
              FOOTER GRID
         ================================================== -->
-
         <div class="footer-grid">
 
-
+            <!-- Column 1: Navigation -->
             <div class="footer-column">
-
                 <div class="footer-heading">
-                    NAVIGATION
+                    PLATFORM
                 </div>
-
-                <a href="{{ url_for('home') }}">
-                    Home
-                </a>
-
-                <a href="{{ url_for('explore') }}">
-                    Explore inventory
-                </a>
-
-                <a href="{{ url_for('feed') }}">
-                    Event feed
-                </a>
-
-                <a href="{{ url_for('about') }}">
-                    About
-                </a>
-
+                <a href="{{ url_for('home') }}">Home Overview</a>
+                <a href="{{ url_for('explore') }}">Interactive Web-GIS (2D/3D)</a>
+                <a href="{{ url_for('feed') }}">Incident Feed &amp; Records</a>
+                <a href="{{ url_for('report') }}">Submit Field Report</a>
+                <a href="{{ url_for('about') }}">Research Team &amp; System</a>
             </div>
 
-
-
+            <!-- Column 2: Master Inventory -->
             <div class="footer-column">
-
                 <div class="footer-heading">
-                    RESEARCH
+                    DATASETS &amp; SPATIAL LAYERS
                 </div>
-
-                <span>
-                    Landslide inventory
-                </span>
-
-                <span>
-                    Spatial distribution
-                </span>
-
-                <span>
-                    Temporal analysis
-                </span>
-
-                <span>
-                    Geospatial visualization
-                </span>
-
+                <span>14,190 Total Mapped Points</span>
+                <span>9,399 Mandi Field Survey (10m)</span>
+                <span>4,791 Statewide GSI Locations</span>
+                <span>17,122 Landslide Polygons</span>
+                <span>2,287 Mandi Road Segments</span>
+                <span>EPSG:4326 (WGS 84 Datum)</span>
             </div>
 
-
-
+            <!-- Column 3: Engineering Standards -->
             <div class="footer-column">
-
                 <div class="footer-heading">
-                    DATA
+                    GEOTECHNICAL STANDARDS
                 </div>
-
-                <span>
-                    14,190 mapped locations
-                </span>
-
-                <span>
-                    12 districts statewide
-                </span>
-
-                <span>
-                    Point & polygon layers
-                </span>
-
-                <span>
-                    EPSG:4326
-                </span>
-
-            </div>
-
-
-
-            <div class="footer-column">
-
-                <div class="footer-heading">
-                    LOCATION
-                </div>
-
-                <span>
-                    Himachal Pradesh
-                </span>
-
-                <span>
-                    Western Himalaya
-                </span>
-
-                <span>
-                    India
-                </span>
-
-                <a href="{{ url_for('explore') }}">
-                    Open live map ↗
+                <span>IS:14458 (Hill Retaining Walls)</span>
+                <span>IRC:SP:48 (Hill Road Manual)</span>
+                <span>IS:13365 (Rock Mass Classification)</span>
+                <span>Varnes (2014) Kinematic Modes</span>
+                <a href="{{ url_for('feed') }}" title="Inspect PWD technical assessment sheets">
+                    Automated PWD Dossiers &nearr;
                 </a>
+            </div>
 
+            <!-- Column 4: Institutional Affiliation -->
+            <div class="footer-column">
+                <div class="footer-heading">
+                    INSTITUTION &amp; SCOPE
+                </div>
+                <span>IIT Mandi &bull; SCENE</span>
+                <span>Kamand Campus, Mandi &mdash; 175075</span>
+                <span>Himachal Pradesh, India</span>
+                <span>All 12 Administrative Districts</span>
+                <a href="{{ url_for('explore') }}" style="color: #52c29c; font-weight: 700;">
+                    Launch Live Map &nearr;
+                </a>
             </div>
 
         </div>
 
-
-
         <!-- =================================================
              FOOTER BOTTOM
         ================================================== -->
-
         <div class="footer-bottom">
-
             <div>
-
-                © 2026 HIMA-LENS
-
-                <span class="footer-separator">
-                    /
-                </span>
-
-                Research & Spatial Intelligence
-
+                &copy; 2026 HIMA-LENS
+                <span class="footer-separator">/</span>
+                Developed at SCENE, Indian Institute of Technology Mandi
             </div>
 
-
             <div>
-
-                30°–33° N
-
-                <span class="footer-separator">
-                    ·
-                </span>
-
-                75°–79° E
-
+                Western Himalaya
+                <span class="footer-separator">&bull;</span>
+                30&deg;&ndash;33&deg; N, 75&deg;&ndash;79&deg; E
+                <span class="footer-separator">&bull;</span>
+                EPSG:4326
             </div>
-
         </div>
 
     </div>
