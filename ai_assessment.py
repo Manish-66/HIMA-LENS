@@ -618,95 +618,101 @@ def generate_ai_assessment(report: dict[str, Any], force_refresh: bool = False) 
     severity = report.get("severity") or "Moderate"
     user_desc = report.get("description") or "None recorded"
 
-    prompt = f"""You are the Chief Geotechnical & Disaster Response Specialist for HIMA-LENS (Himachal Landslide Inventory & Spatial Intelligence System).
+    prompt = f"""You are the Chief Geotechnical Engineer & Slope Disaster Specialist for HIMA-LENS (Himachal Landslide Spatial Observatory & Engineering System).
 
 TASK:
-Examine the attached field photograph and incident metadata to audit optical authenticity and evaluate visible failure kinematics, affected assets (residential dwellings vs roads), and critical emergency safety directives.
+Perform a rigorous, 5-dimensional diagnostic audit of the attached field photograph and incident telemetry. You must determine with absolute scientific precision whether this image genuinely depicts an active or recent landslide event, or if it is a non-landslide scene or non-terrain upload.
 
-CRITICAL FIRST STEP — OPTICAL VALIDATION:
-1. Carefully check what is depicted in the photograph.
-2. Is this an authentic photograph of natural outdoor geological terrain, hill slope failure, rockfall, road breach, or landslide displacement?
-3. IF THE IMAGE SHOWS AN ANIMAL (e.g. dog, cat), A HUMAN SELFIE, A SCREENSHOT OF A PHONE/APP/WEBSITE, A COMPUTER MONITOR, INDOOR FURNITURE, A VEHICLE, OR ANY NON-TERRAIN OBJECT:
-   - Set "is_landslide_or_terrain": false
-   - Set "validation_status": "INVALID_NON_TERRAIN_IMAGE"
-   - Set "detected_content": Exact concise description of what is actually in the photo (e.g. "Domestic pet (Golden Retriever dog)", "Smartphone screenshot of HIMA-LENS web application")
-   - Set "rejection_reason": "The uploaded photograph displays [detected_content] rather than geological terrain or hill slope failure. Geotechnical parameter evaluation is suspended."
-   - Set "senior_engineer_remarks": "Optical validation audit rejected this submission: the image contains [detected_content] instead of physical terrain. Authentic slope photography must be re-submitted."
-   - Set "plain_language_explanation": {{
-       "summary_title": "Image Audit Notice: Non-Terrain Photo Uploaded",
-       "what_happened": "The photo attached to this report shows a [detected_content] and not an outdoor hill slope, rockfall, or road landslide.",
-       "why_it_happened": "Our automated visual audit verified that no natural hillside, road crack, or fallen rock mass is present in this upload.",
-       "road_and_travel_impact": "Road conditions cannot be evaluated from this photograph. Ground field inspection is required.",
-       "ongoing_hazards": "No terrain hazards could be verified from this image.",
-       "what_needs_to_be_done": "Please upload a clear photograph of the actual hill slope, road blockage, or fallen rock debris.",
-       "citizen_safety_advice": "Please stay safe and only photograph slopes from a secure vantage point away from active landslide zones."
-     }}
+FOLLOW THESE 5 RIGOROUS DIAGNOSTIC INQUIRIES:
 
-SECOND STEP — DETAILED GEOTECHNICAL EXTRACTION (ONLY IF is_landslide_or_terrain is true):
-Analyze the physical evidence in the photograph thoroughly. Every field must describe what is genuinely visible in the photograph:
-1. "site_context":
-   - "environment_type": Choose one: "Residential Dwelling / Settlement" (if houses, buildings, village structures are visible) OR "Highway / Transport Corridor" (if roadway/pavement is visible) OR "Agricultural / Orchard" OR "Rural Footpath / Forest"
-   - "impacted_assets": Exact description of what is damaged (e.g. "Traditional slate-roof village house with masonry and corrugated metal walls", or "ODR hill road carriageway and roadside drain")
-   - "structural_damage": Exact damage to building or infrastructure (e.g. "Wall breached and mud entered living room; roof integrity compromised", or "Carriageway blocked by debris accumulation")
-2. "safety_directives":
-   Provide scene-specific safety directives grounded strictly in what is visible (DO NOT add redundant title prefixes):
-   - "utility_hazard": Specific utility hazard visible or immediate risk (e.g. for houses: risk of domestic electrical short-circuiting and broken water lines in mud; for roads: overhead electric/telecom cables or none visible).
-   - "machinery_and_rescue": Specific equipment or rescue action needed (e.g. for houses: manual debris clearance with shovels/mini loaders to avoid damaging foundation; for roads: hydraulic excavators/tippers).
-   - "access_or_evacuation": Immediate life safety, evacuation, or access notice (e.g. for houses: immediate evacuation of dwelling and 30m exclusion perimeter; for roads: single-lane clearance target).
-   - "permanent_stabilization": Permanent engineering stabilization required (e.g. retaining wall with lined hillside catch-water drain behind house, or breast wall and saucer drain along road cut).
-3. "observed_features":
-   - "prominent_rock_type": Visible lithology (e.g. "Jointed Sandstone & Siltstone", "Weathered Metamorphic Phyllite", "Gneissic Bedrock", "Colluvial Soil & Boulders", "Slaty Shale")
-   - "rock_colour": Dominant visible color (e.g. "Greyish Brown", "Buff Yellow", "Dark Charcoal Grey", "Reddish Brown / Ochre", "Mottled Brown")
-   - "in_situ_soil_desc": Visible soil/matrix (e.g. "Sandy Colluvium Overburden", "Plastic Clayey Silt", "Gravelly Scree", "None / Bare Rock Face")
-   - "debris_accumulation_desc": Visible debris mass (e.g. "Heavy Mud Slurry & Colluvium Inundating Building", "Heavy Boulder Mass (1m-3m chunks)", "Angular Rock Scree Fan")
-   - "slope_presence_above": true/false
-   - "slope_presence_below": true/false
-   - "slope_presence_both": true/false
-   - "in_situ_rock_visible": true/false
-   - "slope_type_cut": true/false
-   - "slope_type_fill": true/false
-   - "slope_type_natural_desc": string
-   - "slope_geometry_profile": string
-   - "cut_slope_angle_est": string
-   - "carriageway_obstruction": "Fully Blocked" or "Partially Blocked" or "Single-Lane Restricted" or "Clear"
-   - "pavement_type": "Flexible Bituminous Pavement (BT)" or "Rigid Concrete (CC)" or "Unpaved Gravel / Earth"
-   - "road_alignment": string
-   - "jointing_spacing": string
-   - "weathering_grade": string
-   - "rock_strength": string
-   - "fracture_pattern": string
-   - "minerals_or_matrix": string
-   - "dip_joints_visible": string
-   - "defects_gully": true/false
-   - "defects_crack": true/false
-   - "defects_unstable_rock": true/false
-   - "defects_seepage": true/false
-   - "defects_erosion": true/false
-   - "defects_landslide": true/false
-   - "road_crack": true/false
-   - "road_heaving": true/false
-   - "road_settlement": true/false
-   - "road_recent_repair": true/false
-   - "drain_overflow": true/false
-   - "drain_clogged": true/false
-   - "drain_deformation": true/false
-   - "drain_crack": true/false
-   - "wall_distress_crack": true/false
-   - "wall_distress_bulging": true/false
-   - "wall_distress_collapse": true/false
-   - "wall_distress_joint": true/false
-   - "failure_movement_observed": string
-4. "plain_language_explanation":
-   Explain the landslide in clear, everyday terms matching the photograph:
-   - "summary_title": Plain title (e.g. "Residential Landslide Impact in Mandi Sector")
-   - "what_happened": What detached and fell down and where it landed (mentioning whether it hit a house, road, etc.)
-   - "why_it_happened": Clear cause (rainfall saturation, weak slope, lack of retaining wall)
-   - "property_and_access_impact": Impact on building, residents, commuters, or land
-   - "ongoing_hazards": Immediate risks visible in the image
-   - "what_needs_to_be_done": Concrete, non-technical explanation of the solution
-   - "citizen_safety_advice": Crucial safety recommendation for public
-5. "senior_engineer_remarks":
-   Professional 3-4 sentence senior geotechnical engineering diagnosis of the failure mechanism, kinematic stability, drainage cause, and remedial recommendations.
+================================================================================
+INQUIRY 1: GEOMORPHIC & OPTICAL GROUND TRUTH VERIFICATION
+(Is this ACTUALLY a Landslide / Mass Wasting Event, or a Non-Landslide False Alarm?)
+================================================================================
+Examine the image forensically for physical geomorphic markers of slope failure versus non-landslide scenes:
+
+A. NON-TERRAIN / IRRELEVANT UPLOADS (REJECT IMMEDIATELY):
+   - Does the image show domestic pets or animals (e.g. dogs, cats, cattle, birds)?
+   - Does the image show human selfies, portraits, crowds, indoor rooms, furniture, electronic screens, app screenshots, vehicle interiors, food, or documents?
+   -> If YES to any: Set "is_landslide_or_terrain": false, "validation_status": "INVALID_NON_TERRAIN_IMAGE".
+
+B. NON-LANDSLIDE TERRAIN & FALSE POSITIVES (REJECT AS NON-FAILURE):
+   - Stable Mountains / Forested Slopes: Intact green hills, undisturbed forests, tranquil valleys, or ridgelines with unbroken canopy cover and zero detachment scarps or displaced debris.
+   - Planned Construction / Benching Excavations: Engineered road cuts, building foundation pits, or terraced excavation benches that are stable and exhibit no slope collapse or uncontrolled displacement.
+   - Active Quarries & Mining Pits: Open-cast stone extraction faces or aggregate pits under operational control without unexpected slope failure.
+   - Minor Surface Discontinuities: Normal surface puddles, dry river gravel, seasonal stream beds, or shallow isolated asphalt potholes with no hillside involvement.
+   - Agricultural Tillage: Regular terraced farming, seasonal plowing, or bare soil patches without shear displacement.
+   -> If the photo shows ANY stable terrain, normal construction cut, quarry, or non-failure scene:
+      Set "is_landslide_or_terrain": false, "validation_status": "NON_LANDSLIDE_STABLE_TERRAIN" (or "NON_LANDSLIDE_MANMADE_EXCAVATION" / "NON_LANDSLIDE_MINING_OR_QUARRY" / "NON_LANDSLIDE_MINOR_SURFACE_FEATURE").
+      Set "detected_content": Concise description of what is actually shown (e.g. "Undisturbed forested mountain ridge with intact tree canopy and no ground displacement").
+      Set "rejection_reason": "Optical analysis confirmed the image depicts [detected_content]. No active mass-wasting, tension crack, detachment scarp, or debris accumulation is observed."
+
+C. TRUE LANDSLIDE VERIFICATION MARKERS (ACCEPT AS AUTHENTIC LANDSLIDE):
+   To be accepted as an authentic landslide ("is_landslide_or_terrain": true, "validation_status": "VALID_TERRAIN_IMAGE"), the image MUST exhibit at least one or more of these definitive morphological criteria:
+   1. Detachment Crown / Main Scarp: A fresh, exposed, steep rupture headwall or concave shear face where soil, colluvium, or rock detached.
+   2. Tension Cracks & Shear Fissures: Open extensional ground fissures or scarplets in the crown or slope body.
+   3. Displaced Material & Chaotic Debris: A chaotic, hummocky, jumbled accumulation of detached colluvium, angular rock boulders, gravel scree, or liquefied mud slurry distinct from the intact surrounding ground.
+   4. Toe Bulge / Debris Apron: A protruding toe lobe, debris apron, or runout tongue encroaching upon roadways, structures, river channels, or valley floors.
+   5. Vegetation Distress: Trees or shrubs that are tilted ("drunken forest"), sheared, snapped, or uprooted within or immediately adjacent to the displaced mass.
+   6. Structural Breach / Damage: Walls sheared or breached by falling earth/rock, foundations undermined, or road pavement buckled, cracked, or buried.
+
+================================================================================
+INQUIRY 2: KINEMATIC FAILURE MECHANISM (VARNES / CRUDEN & VARNES 2014)
+(What exact physical mode of slope movement occurred?)
+================================================================================
+If confirmed as an authentic landslide, classify the movement kinematics into the standard Varnes taxonomy:
+- Rockfall / Boulder Fall: Free-fall, bounding, or rolling of detached bedrock fragments or boulders from near-vertical rock cuts or escarpments.
+- Rock / Block Topple: Forward rotation and pivoting of rock slabs or columns along vertical or steeply-dipping joint planes.
+- Translational / Planar Slide: Non-rotational displacement along a planar surface of weakness (bedding plane, foliation plane, or soil-bedrock contact).
+- Rotational Slump: Movement along a curved, concave shear surface producing backward-tilted slope benches, head scarps, and toe heaving.
+- Debris Slide / Mudflow / Debris Flow: Rapid downslope transit of water-saturated colluvium, boulders, silt, and slurry coursing down a gully or open slope face.
+- Retaining / Breast Wall Collapse: Overturning, sliding, bulging, or structural collapse of engineered roadside breast walls or retaining masonry.
+Specify the movement activity state (active, reactivated, suspended, dormant) and depth (shallow <2m vs deep-seated >2m).
+
+================================================================================
+INQUIRY 3: MICRO-SETTING & IMPACTED ASSET VULNERABILITY
+(What is the exact physical environment and what specific assets are damaged?)
+================================================================================
+Carefully inspect what the landslide has struck. NEVER assume a road unless a road is visible!
+- "Residential Dwelling / Settlement": Houses, village dwellings, slate-roof cottages, CGI-sheet roofs, courtyards, living quarters, cattle sheds, or boundary walls.
+  * State exact structural damage (e.g. "Rear load-bearing stone masonry wall breached; saturated mud entered living quarters; roof rafters destabilized").
+- "Highway / Transport Corridor": National Highway (NH), State Highway (SH), Major District Road (MDR), or Other District Road (ODR) with asphalt or concrete carriageway.
+  * State carriageway obstruction ("Fully Blocked", "Partially Blocked", "Single-Lane Restricted", "Clear").
+- "Agricultural / Terrace Orchard": Stepped agricultural terraces, apple orchards, farm irrigation channels, or village footpaths.
+  * State land/crop damage.
+
+================================================================================
+INQUIRY 4: LIFE-SAFETY, UTILITY HAZARDS & STABILIZATION DIRECTIVES
+(What emergency life-safety actions, utility mitigations, and engineering works are required?)
+================================================================================
+Provide physically grounded safety actions tailored strictly to the observed environment:
+- "utility_hazard":
+  * For Residential: Risk of domestic electrical short-circuits, electrocution from submerged household wiring, damaged LPG cylinders, or severed municipal water lines exacerbating ground saturation.
+  * For Roads: Overhead electrical distribution/telecom cables sagging across the scarp, ruptured culverts, or damaged crash barriers.
+  * Note: Do NOT add label prefixes like "Overhead Electrical & Telecom Hazard:".
+- "machinery_and_rescue":
+  * For Residential: Deploy manual clearance squads with shovels, wheelbarrows, and compact mini-skid loaders. Restrict heavy tracked excavators near compromised foundations to prevent vibration-induced structural collapse.
+  * For Roads: Deploy hydraulic excavators (Poclain / JCB with rock breaker attachments) and 16 MT tippers for road debris clearance.
+- "access_or_evacuation":
+  * For Residential: Immediate mandatory evacuation of the dwelling and establishment of a 30m-50m exclusion perimeter due to secondary slope slumping risks.
+  * For Roads: Target clearance timeframe (e.g. single-lane clearance within 12-24 hours).
+- "permanent_stabilization":
+  * For Residential: Plum concrete / RCC retaining breast wall with PVC weep holes founded on solid bedrock behind the structure, hillside interceptor drain, and slope regrading with bio-turfing.
+  * For Roads: Gravity breast wall (IS:14458 Part 1), concrete saucer drain with catchpits (IS:14458 Part 2), rockfall drape netting, or soil nailing.
+
+================================================================================
+INQUIRY 5: LITHOLOGICAL, HYDROGEOLOGICAL & DISCONTINUITY CHARACTERISTICS
+(What geological rock, soil, and drainage factors caused this failure?)
+================================================================================
+Examine visible geological parameters:
+- Visible Lithology: Prominent rock type (e.g. Jointed Sandstone & Siltstone, Weathered Metamorphic Phyllite, Quartzite, Mica Schist, Gneissic Bedrock, Colluvial Overburden).
+- Visible Rock Color: Dominant color (Greyish Brown, Buff Yellow, Dark Charcoal Grey, Reddish Brown).
+- Overburden Soil Matrix: Sandy Colluvium, Plastic Clayey Silt, Gravelly Scree, Angular Boulders in Mud.
+- Jointing Spacing: Distance between rock fractures (<0.20m Closely Jointed, 0.20m-0.45m Moderately Jointed, >0.60m Widely Jointed).
+- Weathering Grade: IS:13365 / ISRM Grade (Grade I Fresh to Grade V Completely Weathered).
+- Rock Mass Strength: IS:13365 Class (R1 Very Weak to R5 Very Strong).
+- Hydrogeological Seepage: Active water seepage, wet saturated shear plane, drain overflow, or water pooling.
+- Distress Check: Identify specific distress indicators (cracks, bulges, erosion, clogged drains, retaining wall displacement).
 
 INCIDENT TELEMETRY:
 - Report ID: {report_id}
@@ -719,13 +725,13 @@ INCIDENT TELEMETRY:
 RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
 {{
   "is_landslide_or_terrain": true or false,
-  "validation_status": "VALID_TERRAIN_IMAGE" or "INVALID_NON_TERRAIN_IMAGE",
+  "validation_status": "VALID_TERRAIN_IMAGE" or "INVALID_NON_TERRAIN_IMAGE" or "NON_LANDSLIDE_STABLE_TERRAIN" or "NON_LANDSLIDE_MANMADE_EXCAVATION",
   "detected_content": "String describing exact image content",
   "rejection_reason": "String or null",
   "site_context": {{
-    "environment_type": "Residential Dwelling / Settlement or Highway / Transport Corridor",
-    "impacted_assets": "String",
-    "structural_damage": "String"
+    "environment_type": "Residential Dwelling / Settlement or Highway / Transport Corridor or Agricultural / Terrace Orchard",
+    "impacted_assets": "String describing specific assets damaged",
+    "structural_damage": "String describing physical structural breach or impact"
   }},
   "safety_directives": {{
     "utility_hazard": "String without label prefix",
@@ -738,6 +744,7 @@ RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
     "rock_colour": "String",
     "in_situ_soil_desc": "String",
     "debris_accumulation_desc": "String",
+    "failure_movement_observed": "String",
     "slope_presence_above": true,
     "slope_presence_below": false,
     "slope_presence_both": false,
@@ -747,8 +754,8 @@ RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
     "slope_type_natural_desc": "String",
     "slope_geometry_profile": "String",
     "cut_slope_angle_est": "String",
-    "carriageway_obstruction": "Fully Blocked or Partially Blocked",
-    "pavement_type": "String",
+    "carriageway_obstruction": "Fully Blocked or Partially Blocked or Single-Lane Restricted or Clear",
+    "pavement_type": "Flexible Bituminous Pavement (BT) or Rigid Concrete (CC) or Unpaved Gravel / Earth",
     "road_alignment": "String",
     "jointing_spacing": "String",
     "weathering_grade": "String",
@@ -773,8 +780,7 @@ RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
     "wall_distress_crack": true,
     "wall_distress_bulging": true,
     "wall_distress_collapse": true,
-    "wall_distress_joint": true,
-    "failure_movement_observed": "String"
+    "wall_distress_joint": true
   }},
   "plain_language_explanation": {{
     "summary_title": "String",
