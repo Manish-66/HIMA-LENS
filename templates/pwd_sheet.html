@@ -497,10 +497,26 @@
         </div>
       </div>
       <div class="header-dossier-meta">
+        {% if assessment.is_landslide_or_terrain is defined and not assessment.is_landslide_or_terrain %}
+        <div class="dossier-tag" style="background:#fee2e2;color:#991b1b;border-color:#f87171;">AUDIT: NON-TERRAIN MEDIA DETECTED</div>
+        {% else %}
         <div class="dossier-tag">VERIFIED &bull; HIMA-LENS AI REVIEWED</div>
+        {% endif %}
         <div class="dossier-title">Technical Landslide Field Dossier</div>
       </div>
     </div>
+
+    {% if assessment.is_landslide_or_terrain is defined and not assessment.is_landslide_or_terrain %}
+    <div style="border: 1.5px solid #f87171; background: #fef2f2; border-radius: 8px; padding: 12px 16px; margin: 0 0 14px 0;">
+      <div style="display: flex; align-items: center; gap: 8px; font-family: 'Manrope', sans-serif; font-size: 11px; font-weight: 800; color: #991b1b; text-transform: uppercase; letter-spacing: 0.4px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+        <span>Optical Validation Warning &bull; Non-Geological Media Detected</span>
+      </div>
+      <p style="font-size: 10.5px; color: #7f1d1d; margin-top: 5px; line-height: 1.45;">
+        The attached photograph was audited by the HIMA-LENS Multimodal Vision Engine and identified as: <strong>{{ assessment.detected_content }}</strong>. No natural terrain, geological slope, or landslide phenomena are present in this media. Technical geotechnical parameter computation is suspended.
+      </p>
+    </div>
+    {% endif %}
 
     <!-- Quick Telemetry Hero Bar -->
     <div class="telemetry-hero-grid">

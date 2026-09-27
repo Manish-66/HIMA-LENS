@@ -1,9 +1,9 @@
-"""HIMA-LENS AI Geotechnical & Visual Assessment Engine.
+"""HIMA-LENS Multimodal AI Vision & Geotechnical Assessment Engine.
 
-Performs strict, grounded visual analysis of citizen landslide photographs using
-Google Gemini Vision. Extracts strictly observable features (material, scarp,
-blockage, water seepage) and flags unobservable geotechnical parameters as
-requiring on-site investigation, eliminating hallucinations.
+Performs strict, honest visual analysis of citizen landslide photographs using
+Google Gemini Vision. Validates whether the image is actually a geological slope/terrain.
+If a non-landslide image (dog, selfie, phone screenshot, indoor object) is submitted,
+it explicitly flags it and rejects hallucinating slope parameters.
 """
 from __future__ import annotations
 
@@ -25,7 +25,15 @@ from config import (
 
 logger = logging.getLogger(__name__)
 
-GEMINI_MODELS = ["gemini-flash-latest", "gemini-pro-latest"]
+# Ordered list of robust multimodal vision models with automated fallback
+GEMINI_MODELS = [
+    "gemini-3.8-flash",
+    "gemini-3.7-flash",
+    "gemini-3.5-flash-lite",
+    "gemini-3.1-flash-lite",
+    "gemini-flash-latest",
+    "gemini-flash-lite-latest",
+]
 
 
 def _get_image_base64_and_mime(photo_url: str) -> tuple[str, str] | tuple[None, None]:
@@ -35,7 +43,7 @@ def _get_image_base64_and_mime(photo_url: str) -> tuple[str, str] | tuple[None, 
 
     try:
         if photo_url.startswith("http://") or photo_url.startswith("https://"):
-            resp = requests.get(photo_url, timeout=12)
+            resp = requests.get(photo_url, timeout=14)
             if resp.status_code == 200 and resp.content:
                 ext = photo_url.split("?")[0].rsplit(".", 1)[-1].lower()
                 mime = mimetypes.types_map.get(f".{ext}", "image/jpeg")
@@ -77,9 +85,9 @@ def _format_coordinates_dms(lat: float, lng: float) -> str:
 
 
 def fallback_visual_assessment(report: dict[str, Any]) -> dict[str, Any]:
-    """Generates an honest, strictly bounded baseline assessment derived only from
+    """Fallback when AI is completely unreachable. Does NOT fabricate fake slope features
 
-    the user's submitted telemetry without fabricating fake names or measurements.
+    if no terrain can be confirmed.
     """
     district = report.get("district") or "Himachal Pradesh"
     movement = report.get("movement_type") or "Landslide"
@@ -87,28 +95,15 @@ def fallback_visual_assessment(report: dict[str, Any]) -> dict[str, Any]:
     lat = float(report.get("latitude") or 31.7)
     lng = float(report.get("longitude") or 76.9)
     inc_date = report.get("incident_date") or datetime.utcnow().strftime("%Y-%m-%d")
-    user_desc = report.get("description") or "Field observation submitted via HIMA-LENS citizen monitoring."
+    user_desc = report.get("description") or "Citizen field telemetry observation."
 
-    # Factual ranges based strictly on reported severity
-    if severity == "Critical":
-        impact_summary = "Severe slope failure with heavy debris deposition and imminent infrastructure risk."
-        traffic_status = "Substantially blocked or impassable. Requires emergency heavy equipment."
-        clearance_urgency = "Immediate emergency response (within 12-24 hours)."
-    elif severity == "High":
-        impact_summary = "Significant slope displacement with debris spilling onto roadway or shoulder."
-        traffic_status = "Partially blocked or single-lane restricted. Caution advised."
-        clearance_urgency = "High priority clearance (within 24-48 hours)."
-    elif severity == "Low":
-        impact_summary = "Minor surface raveling or localized debris sloughing."
-        traffic_status = "Carriageway largely clear. Routine maintenance clearance."
-        clearance_urgency = "Routine slope clearance and roadside drain scouring."
-    else:  # Moderate
-        impact_summary = "Moderate slope movement with localized debris accumulation."
-        traffic_status = "Shoulder encroachment or partial lane restriction."
-        clearance_urgency = "Standard priority clearance."
+    has_photo = bool(report.get("photo_url"))
 
     return {
-        "source": "HIMA-LENS Baseline Rule Engine",
+        "is_landslide_or_terrain": True if not has_photo else True,
+        "validation_status": "TELEMETRY_UNVERIFIED",
+        "detected_content": "Field observation submitted by citizen" if not has_photo else "Pending AI optical verification",
+        "source": "HIMA-LENS Telemetry Engine",
         "generated_at": datetime.utcnow().strftime("%d %b %Y, %H:%M UTC"),
         "telemetry": {
             "report_id": report.get("id") or "HL-CR-RECORD",
@@ -122,42 +117,38 @@ def fallback_visual_assessment(report: dict[str, Any]) -> dict[str, Any]:
             "user_notes": user_desc,
         },
         "visual_analysis": {
-            "visible_failure_type": f"{movement} (Surface Observation)",
-            "material_composition": "Mixed colluvium, angular rock fragments, and unconsolidated soil overburden",
-            "slope_condition": "Steep hillside cut with visible detachment zone",
-            "infrastructure_impact": traffic_status,
-            "drainage_and_seepage": "Surface runoff saturation suspected; hillside drainage inspection required",
-            "secondary_hazard_risk": "Moderate risk of residual rock rolls during continued precipitation",
+            "visible_failure_type": f"{movement} (Citizen Reported)",
+            "material_composition": "Pending on-site geological classification",
+            "slope_condition": "Reported slope instability in " + district,
+            "infrastructure_impact": f"{severity} severity reported by observer",
+            "drainage_and_seepage": "Requires on-site drainage inspection",
+            "secondary_hazard_risk": "Subject to weather conditions and field evaluation",
         },
         "geotechnical_parameters": {
-            "slope_height": "Approx. 6 - 12 m (Subject to total station verification)",
-            "slope_angle": "Approx. 60° - 75° (Field clinometer measurement required)",
-            "rock_structure": "Requires on-site geological mapping for joint strike/dip orientation",
-            "debris_volume": "Pending on-site volumetric cross-section survey",
+            "slope_height": "Requires total station / lidar field survey",
+            "slope_angle": "Requires clinometer field measurement",
+            "rock_structure": "Requires on-site geological strike/dip mapping",
+            "debris_volume": "Requires volumetric cross-section survey",
         },
         "recommended_interventions": [
-            {"measure": "Carriageway Debris Clearance", "priority": "High", "details": clearance_urgency},
-            {"measure": "Hillside Saucer Drain Restoration", "priority": "High", "details": "Clear and line hillside catch drain to divert upslope water"},
-            {"measure": "Toe Support / Retaining Structure", "priority": "Medium", "details": "Evaluate necessity of plum concrete or gabion toe wall following debris removal"},
-            {"measure": "Slope Bioengineering", "priority": "Medium", "details": "Vegetative hydroseeding or vetiver grass stabilization on trimmed upper scarp"},
+            {"measure": "Ground Field Inspection", "priority": "High", "details": "Deploy local sub-division team to verify reported hazard."},
+            {"measure": "Citizen Report Verification", "priority": "Medium", "details": "Validate reported coordinates and roadway clearance status."},
         ],
         "synthesis_remarks": (
-            f"Field report confirms active {movement.lower()} in {district}. "
-            f"{impact_summary} {traffic_status} Ground geotechnical survey recommended to confirm "
-            f"bedrock depth and permanent toe stabilization measures."
+            f"Citizen observation recorded for {district} ({severity} {movement.lower()}). "
+            f"AI optical verification was unavailable at generation time. Field inspection required to verify terrain impact."
         ),
     }
 
 
 def generate_ai_assessment(report: dict[str, Any]) -> dict[str, Any]:
-    """Invokes Google Gemini Vision with strict instructions to only report what is
+    """Invokes Google Gemini Vision with strict instructions:
 
-    actually observable in the photograph. Marks unobservable data as pending field survey.
+    1. Determine whether the image actually depicts a landslide or geological slope.
+    2. If NOT a landslide (e.g. pet dog, smartphone screenshot, selfie, indoor object),
+       reject and clearly identify what the image actually depicts.
+    3. If YES, extract ONLY what is genuinely visible in the photograph.
     """
-    if not GEMINI_API_KEY:
-        logger.info("GEMINI_API_KEY not configured; using baseline assessment.")
-        return fallback_visual_assessment(report)
-
     photo_url = report.get("photo_url", "")
     base64_data, mime_type = _get_image_base64_and_mime(photo_url)
 
@@ -171,16 +162,37 @@ def generate_ai_assessment(report: dict[str, Any]) -> dict[str, Any]:
     reporter = report.get("reporter_name") or "Anonymous Observer"
     inc_date = report.get("incident_date") or datetime.utcnow().strftime("%Y-%m-%d")
 
-    prompt = f"""You are the Lead Geotechnical & Computer Vision Specialist for HIMA-LENS (Himachal Landslide Inventory & Spatial Intelligence System).
+    # If no photo was attached, return factual telemetry
+    if not base64_data:
+        res = fallback_visual_assessment(report)
+        res["source"] = "HIMA-LENS Telemetry Engine (No Photo Attached)"
+        return res
 
-CRITICAL INSTRUCTIONS:
-1. Examine the attached photograph with strict scientific rigor.
-2. Report ONLY what is clearly VISIBLE in the image.
-3. DO NOT invent, fabricate, or hallucinate specific road names, specific chainage numbers (e.g. RD 0+780), or arbitrary joint orientations (e.g. Strike N35W).
-4. If a parameter cannot be measured from a single photo (such as exact rock joint strike/dip, underground borehole data, or exact wall dimensions), EXPLICITLY state: "Pending on-site geotechnical survey" or "Requires field instrumentation".
-5. Ground the location strictly in the user's reported telemetry: District: {district}, Coordinates: {lat:.5f} N, {lng:.5f} E.
+    if not GEMINI_API_KEY:
+        logger.warning("GEMINI_API_KEY not configured in environment.")
+        return fallback_visual_assessment(report)
 
-INCIDENT TELEMETRY:
+    prompt = f"""You are the Lead Visual Auditor and Geotechnical Specialist for HIMA-LENS (Himachal Landslide Inventory & Spatial Intelligence System).
+
+CRITICAL TASK:
+You must strictly audit the attached photograph.
+
+FIRST STEP - IMAGE VALIDATION:
+Carefully look at what is shown in the image.
+- Is this image an authentic photograph of a geological landslide, hill slope failure, rock fall, mudflow, or natural terrain displacement?
+- If the image shows an animal/pet (e.g. dog, cat), a human selfie, a smartphone screen screenshot, an app UI, a computer screen, a room/furniture, a vehicle, food, or anything that is NOT a real-world outdoor terrain/landslide:
+  -> You MUST set "is_landslide_or_terrain": false.
+  -> State exactly what is in the photo in "detected_content" (e.g. "Domestic pet (Golden Retriever dog)", "Smartphone screenshot of HIMA-LENS application").
+  -> Do NOT invent or hallucinate any slope parameters or rock descriptions for non-terrain photos!
+
+SECOND STEP - GEOTECHNICAL ANALYSIS (ONLY IF is_landslide_or_terrain is true):
+- If and only if the image is real outdoor terrain/landslide, describe strictly what you see:
+  - What failure type is visually apparent?
+  - What visible materials are present (soil, mud, boulders, bedrock)?
+  - Is a road or structure visible? If yes, is it blocked? If no road is visible, state "No roadway visible in camera frame".
+  - If a parameter cannot be measured from a photo alone, state "Requires on-site field survey".
+
+INCIDENT METADATA:
 - Report ID: {report_id}
 - District: {district}, Himachal Pradesh
 - GPS Coordinates: {lat:.5f}° N, {lng:.5f}° E
@@ -188,9 +200,13 @@ INCIDENT TELEMETRY:
 - Reported Severity: {severity}
 - Citizen Notes: {user_desc}
 
-RETURN ONLY A VALID JSON OBJECT WITH THIS EXACT SCHEMA (no markdown code fences, backticks, or preamble):
+RETURN ONLY A VALID JSON OBJECT WITH THIS EXACT SCHEMA (no markdown code blocks, backticks, or explanation):
 
 {{
+  "is_landslide_or_terrain": true or false,
+  "validation_status": "VALID_TERRAIN_IMAGE" or "INVALID_NON_TERRAIN_IMAGE",
+  "detected_content": "Exact factual description of what is visible in the photo",
+  "rejection_reason": "Explanation if not a terrain image, or null if valid",
   "telemetry": {{
     "report_id": "{report_id}",
     "district": "{district}",
@@ -203,50 +219,43 @@ RETURN ONLY A VALID JSON OBJECT WITH THIS EXACT SCHEMA (no markdown code fences,
     "user_notes": "{user_desc}"
   }},
   "visual_analysis": {{
-    "visible_failure_type": "String describing what type of failure is clearly seen (e.g., Translational rock slide, shallow debris flow, road shoulder subsidence)",
-    "material_composition": "String describing visible materials (e.g., Colluvial soil with angular boulders, jointed rock mass, mud and gravel)",
-    "slope_condition": "String describing visible slope scarp and vegetation (e.g., Steep cut slope with fresh scarp face, overhanging crown)",
-    "infrastructure_impact": "String describing visible roadway/structure condition (e.g., Carriageway partially blocked by boulder debris, culvert inlet obscured)",
-    "drainage_and_seepage": "String describing visible water/drainage state (e.g., Moisture saturation evident on scarp, dry slope, or obstructed side drain)",
-    "secondary_hazard_risk": "String describing visible immediate risks (e.g., Hanging boulders subject to secondary rockfall, potential scarp retrogradation)"
+    "visible_failure_type": "Factual failure type if terrain, or 'Non-Geological Media' if invalid",
+    "material_composition": "Factual materials seen if terrain, or 'N/A — No natural earth/rock in image' if invalid",
+    "slope_condition": "Factual slope scarp description if terrain, or 'N/A' if invalid",
+    "infrastructure_impact": "Factual visible road/structure status if terrain, or 'N/A' if invalid",
+    "drainage_and_seepage": "Factual visible moisture/runoff if terrain, or 'N/A' if invalid",
+    "secondary_hazard_risk": "Factual visible hazard if terrain, or 'N/A' if invalid"
   }},
   "geotechnical_parameters": {{
-    "slope_height": "String with estimated visible height range, e.g. 'Approx. 8-12 m (Subject to field total station survey)'",
-    "slope_angle": "String with estimated visible angle range, e.g. 'Approx. 65°-75° (Requires field clinometer survey)'",
-    "rock_structure": "String noting visible jointing or 'Requires geological compass mapping on-site'",
-    "debris_volume": "String estimating visual order of magnitude or 'Pending volumetric cross-section survey'"
+    "slope_height": "Visible approximate height or 'N/A'",
+    "slope_angle": "Visible approximate cut angle or 'N/A'",
+    "rock_structure": "Visible rock formation or 'N/A'",
+    "debris_volume": "Visible debris extent or 'N/A'"
   }},
   "recommended_interventions": [
-    {{"measure": "String (e.g. Carriageway Debris Clearance)", "priority": "High / Medium / Low", "details": "String explaining practical action"}},
-    {{"measure": "String (e.g. Hillside Drainage Improvement)", "priority": "High / Medium / Low", "details": "String explaining practical action"}},
-    {{"measure": "String (e.g. Slope Toe Protection)", "priority": "High / Medium / Low", "details": "String explaining practical action"}},
-    {{"measure": "String (e.g. Bioengineering / Turfing)", "priority": "High / Medium / Low", "details": "String explaining practical action"}}
+    {{"measure": "Intervention Measure", "priority": "High / Medium / Low", "details": "Action details"}}
   ],
-  "synthesis_remarks": "String: A concise, factual 2-3 sentence technical assessment synthesizing the visual evidence and hazard potential without assumptions."
+  "synthesis_remarks": "Concise 2-3 sentence honest synthesis. If invalid photo, state that the photo was rejected for showing [detected_content] instead of a landslide."
 }}"""
 
-    parts: list[dict[str, Any]] = [{"text": prompt}]
-    if base64_data and mime_type:
-        parts.append({
-            "inline_data": {
-                "mime_type": mime_type,
-                "data": base64_data,
-            }
-        })
-
     payload = {
-        "contents": [{"parts": parts}],
+        "contents": [{
+            "parts": [
+                {"text": prompt},
+                {"inline_data": {"mime_type": mime_type, "data": base64_data}}
+            ]
+        }],
         "generationConfig": {
-            "temperature": 0.15,
+            "temperature": 0.1,
             "responseMimeType": "application/json",
         },
     }
 
-    # Attempt Gemini models with fallback
+    # Iterate through Gemini models
     for model_name in GEMINI_MODELS:
         try:
             url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={GEMINI_API_KEY}"
-            resp = requests.post(url, json=payload, timeout=22)
+            resp = requests.post(url, json=payload, timeout=24)
             if resp.status_code == 200:
                 result_json = resp.json()
                 candidates = result_json.get("candidates", [])
@@ -259,9 +268,9 @@ RETURN ONLY A VALID JSON OBJECT WITH THIS EXACT SCHEMA (no markdown code fences,
                     parsed["generated_at"] = datetime.utcnow().strftime("%d %b %Y, %H:%M UTC")
                     return parsed
             else:
-                logger.warning("Gemini model %s returned status %s: %s", model_name, resp.status_code, resp.text[:200])
+                logger.warning("Gemini model %s returned status %s: %s", model_name, resp.status_code, resp.text[:180])
         except Exception as exc:
             logger.warning("Gemini model %s exception: %s", model_name, exc)
 
-    logger.info("Using baseline geotechnical assessment.")
+    logger.warning("All Gemini models failed or timed out. Falling back to baseline.")
     return fallback_visual_assessment(report)

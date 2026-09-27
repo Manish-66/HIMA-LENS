@@ -477,8 +477,8 @@ def view_pwd_sheet(report_id: str):
     if not report:
         return f"Report with ID {report_id} was not found.", 404
 
-    # Baseline visual assessment to hydrate sheet
-    assessment = ai_assessment.fallback_visual_assessment(report)
+    # Run genuine AI multimodal assessment on the report
+    assessment = ai_assessment.generate_ai_assessment(report)
     return render_template("pwd_sheet.html", report=report, assessment=assessment)
 
 @app.errorhandler(FileNotFoundError)
