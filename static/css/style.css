@@ -13964,21 +13964,21 @@ html[data-theme="dark"] .footer-column a:hover {
     pointer-events: auto !important;
 }
 
-/* Modern large tactile mobile menu toggle button (44px touch target) */
+/* Sleek tactile mobile menu toggle button (smaller than 34px main logo) */
 .menu-toggle {
     display: none;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 5px !important;
-    width: 44px !important;
-    height: 44px !important;
-    min-width: 44px !important;
-    min-height: 44px !important;
-    border-radius: 12px !important;
+    gap: 3.5px !important;
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    border-radius: 8px !important;
     background: #eef6f2 !important;
-    border: 1.5px solid #cce2d8 !important;
-    box-shadow: 0 2px 6px rgba(12, 38, 30, 0.08) !important;
+    border: 1.2px solid #cce2d8 !important;
+    box-shadow: 0 1px 4px rgba(12, 38, 30, 0.06) !important;
     cursor: pointer !important;
     padding: 0 !important;
     margin: 0 !important;
@@ -13988,6 +13988,15 @@ html[data-theme="dark"] .footer-column a:hover {
     z-index: 50 !important;
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
     -webkit-tap-highlight-color: transparent !important;
+}
+
+/* Expanded invisible touch hit-target for effortless tapping */
+.menu-toggle::before {
+    content: "" !important;
+    position: absolute !important;
+    inset: -6px !important;
+    border-radius: 12px !important;
+    pointer-events: auto !important;
 }
 
 @media (max-width: 800px) {
@@ -14004,16 +14013,16 @@ html[data-theme="dark"] .footer-column a:hover {
 .menu-toggle:active {
     background: #17624d !important;
     border-color: #17624d !important;
-    box-shadow: 0 4px 12px rgba(23, 98, 77, 0.25) !important;
+    box-shadow: 0 3px 10px rgba(23, 98, 77, 0.25) !important;
     transform: scale(0.96) !important;
 }
 
 .menu-toggle span {
     display: block !important;
-    width: 22px !important;
-    height: 2.5px !important;
+    width: 16px !important;
+    height: 2px !important;
     background: #17624d !important;
-    border-radius: 3px !important;
+    border-radius: 2px !important;
     transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease, background-color 0.2s ease !important;
     transform-origin: center !important;
 }
@@ -14027,7 +14036,7 @@ html[data-theme="dark"] .footer-column a:hover {
 .menu-toggle.open {
     background: #17624d !important;
     border-color: #17624d !important;
-    box-shadow: 0 4px 12px rgba(23, 98, 77, 0.3) !important;
+    box-shadow: 0 3px 10px rgba(23, 98, 77, 0.3) !important;
 }
 
 .menu-toggle.open span {
@@ -14035,7 +14044,7 @@ html[data-theme="dark"] .footer-column a:hover {
 }
 
 .menu-toggle.open span:nth-child(1) {
-    transform: translateY(7.5px) rotate(45deg) !important;
+    transform: translateY(5.5px) rotate(45deg) !important;
 }
 
 .menu-toggle.open span:nth-child(2) {
@@ -14044,7 +14053,7 @@ html[data-theme="dark"] .footer-column a:hover {
 }
 
 .menu-toggle.open span:nth-child(3) {
-    transform: translateY(-7.5px) rotate(-45deg) !important;
+    transform: translateY(-5.5px) rotate(-45deg) !important;
 }
 
 /* Mobile Navigation Dropdown Drawer */
