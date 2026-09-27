@@ -1,0 +1,504 @@
+\documentclass[12pt,a4paper]{report}
+
+% ==============================================================================
+% PACKAGES & FORMATTING (Standard IIT Mandi Guidelines)
+% ==============================================================================
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{caption}
+\usepackage{enumitem}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=black,
+    urlcolor=blue!80!black,
+    pdfauthor={Manish Kumar, Khushi},
+    pdftitle={MTP Mid-Semester Progress Report - HIMA-LENS}
+}
+
+\setstretch{1.25}
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+% Header and Footer configuration
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textit{MTP Mid-Semester Progress Report (HIMA-LENS)}}
+\fancyhead[R]{\small\textit{SCENE, IIT Mandi}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% Title format
+\titleformat{\chapter}[display]
+  {\normalfont\bfseries\Large}
+  {\MakeUppercase{\chaptertitlename} \thechapter}
+  {0.5ex}
+  {\titlerule\vspace{0.8ex}\LARGE}
+  [\vspace{0.8ex}\titlerule]
+\titlespacing*{\chapter}{0pt}{-20pt}{20pt}
+
+\begin{document}
+
+% ------------------------------------------------------------------------------
+% 1. COVER PAGE
+% ------------------------------------------------------------------------------
+\begin{titlepage}
+\centering
+\vspace*{0.5cm}
+
+{\Large \textbf{HIMA-LENS: Development of a Web-GIS and Semi-Automated Geotechnical Decision Support System for Landslide Hazard Assessment in Himachal Pradesh}\par}
+
+\vspace{1.2cm}
+{\large \textit{A Mid-Semester Progress Report}\par}
+\vspace{0.3cm}
+{\normalsize Submitted in partial fulfillment of the requirements for the degree of\par}
+\vspace{0.3cm}
+{\large \textbf{Bachelor of Technology in Civil Engineering}\par}
+
+\vspace{1.5cm}
+
+\begin{minipage}[t]{0.48\textwidth}
+\textbf{Submitted by:}\\
+\textbf{Manish Kumar}\\
+Roll No: [Your Roll Number]\\
+\vspace{0.2cm}\\
+\textbf{Khushi}\\
+Roll No: B23077\\
+\textit{B.Tech 4th Year, Civil Engineering}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\textwidth}
+\raggedleft
+\textbf{Under the Supervision of:}\\
+\textbf{Dr. Ashutosh Kumar}\\
+Assistant Professor\\
+School of Civil \& Environmental Engineering (SCENE)\\
+Indian Institute of Technology Mandi
+\end{minipage}
+
+\vspace{2.0cm}
+
+% IIT Mandi Logo Area
+\begin{center}
+\fbox{\parbox[c][2.8cm][c]{3.5cm}{\centering \large \textbf{IIT MANDI}\\\small [Institute Logo]}}
+\end{center}
+
+\vspace{1.5cm}
+
+{\large \textbf{School of Civil \& Environmental Engineering (SCENE)}\par}
+{\large \textbf{Indian Institute of Technology Mandi}\par}
+{\normalsize Kamand, Mandi -- 175075, Himachal Pradesh, India\par}
+\vspace{0.3cm}
+{\normalsize \textbf{October 2026}\par}
+
+\end{titlepage}
+
+% ------------------------------------------------------------------------------
+% PRELIMINARY PAGES
+% ------------------------------------------------------------------------------
+\pagenumbering{roman}
+\setcounter{page}{1}
+
+% CANDIDATE DECLARATION
+\chapter*{Declaration of Authorship}
+\addcontentsline{toc}{chapter}{Declaration of Authorship}
+
+We hereby declare that this mid-semester progress report entitled \textbf{``HIMA-LENS: Development of a Web-GIS and Semi-Automated Geotechnical Decision Support System for Landslide Hazard Assessment in Himachal Pradesh''} represents our own work carried out under the supervision of \textbf{Dr. Ashutosh Kumar}, Assistant Professor, School of Civil and Environmental Engineering, IIT Mandi.
+
+All datasets, design standards (IS:14458, IRC:SP:48, IS:13365), and external code libraries used have been properly cited and acknowledged.
+
+\vspace{2.5cm}
+
+\noindent
+\begin{minipage}[t]{0.45\textwidth}
+\textbf{Manish Kumar}\\
+Roll No: [Your Roll Number]\\
+B.Tech 4th Year, Civil Engineering\\
+IIT Mandi
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.45\textwidth}
+\textbf{Khushi}\\
+Roll No: B23077\\
+B.Tech 4th Year, Civil Engineering\\
+IIT Mandi
+\end{minipage}
+
+\vspace{1.5cm}
+\noindent \textbf{Date:} October 05, 2026\\
+\noindent \textbf{Place:} IIT Mandi, Kamand
+
+\newpage
+
+% CERTIFICATE OF APPROVAL
+\chapter*{Certificate of Approval}
+\addcontentsline{toc}{chapter}{Certificate of Approval}
+
+This is to certify that the MTP mid-semester progress report entitled \textbf{``HIMA-LENS: Development of a Web-GIS and Semi-Automated Geotechnical Decision Support System for Landslide Hazard Assessment in Himachal Pradesh''}, submitted by \textbf{Manish Kumar} (Roll No: [Your Roll Number]) and \textbf{Khushi} (Roll No: B23077) to the School of Civil and Environmental Engineering, Indian Institute of Technology Mandi, is a record of bonafide research work carried out under my supervision.
+
+\vspace{3.5cm}
+
+\noindent
+\textbf{Dr. Ashutosh Kumar}\\
+Assistant Professor\\
+School of Civil and Environmental Engineering (SCENE)\\
+Indian Institute of Technology Mandi, Kamand -- 175075
+
+\vspace{1.5cm}
+\noindent \textbf{Date:}\dotfill\\
+\noindent \textbf{Place:} IIT Mandi, Kamand
+
+\newpage
+
+% ABSTRACT
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+
+Himachal Pradesh experiences recurring rainfall-induced slope instability that severely damages roads, slopes, and rural settlements. A central operational bottleneck in post-disaster remediation is the lack of an integrated system linking spatial landslide inventory data with rapid engineering damage estimation.
+
+In this Major Technology Project, a web-based geographic information system and decision-support tool named \textbf{HIMA-LENS} has been designed and implemented. The work completed during the first phase comprises three primary components:
+\begin{enumerate}[noitemsep]
+    \item \textbf{Spatial Data Harmonization}: Compilation and spatial deduplication of 9,399 detailed field inventory records from Mandi district and 6,287 statewide Geological Survey of India (GSI) records, resulting in a unified spatial database of 14,190 unique landslide points (9,399 Mandi field survey points and 4,791 deduplicated statewide GSI points). Thematic raster layers for lithology, geomorphology, and land use/land cover (LULC), alongside the Mandi road network, have been processed, reprojected to EPSG:4326, and integrated.
+    \item \textbf{Web-GIS Platform}: Development of a full-stack spatial web application using Python (Flask) on the backend and Leaflet.js on the frontend. The platform provides interactive cluster mapping, attribute filtering, and a mobile crowdsourcing interface allowing field observers to submit georeferenced incident photographs.
+    \item \textbf{Geotechnical Sizing and Reporting}: Implementation of a rule-based engineering engine adhering to IRC:SP:48 and IS:14458 (Parts 1--4). The engine automatically calculates retaining/breast wall dimensions (base width $B=0.5H$, top width $b=0.60\,\text{m}$), roadside saucer drains, and excavation volumes based on site severity. A multimodal vision interface (Gemini API) is used to perform preliminary image validation to separate genuine terrain failures from non-terrain uploads and distinguish residential from highway settings.
+\end{enumerate}
+
+The planned second-phase work will focus on empirical rainfall threshold calibration ($I-D$ curves) and statistical landslide susceptibility mapping for Mandi district.
+
+\newpage
+
+% TABLE OF CONTENTS & LISTS
+\tableofcontents
+\listoffigures
+\listoftables
+
+\chapter*{List of Abbreviations}
+\addcontentsline{toc}{chapter}{List of Abbreviations}
+
+\begin{tabular}{ll}
+\textbf{BIS} & Bureau of Indian Standards\\
+\textbf{DDMA} & District Disaster Management Authority\\
+\textbf{DEM} & Digital Elevation Model\\
+\textbf{EPSG} & European Petroleum Survey Group (Geodetic Datum)\\
+\textbf{GIS} & Geographic Information System\\
+\textbf{GSI} & Geological Survey of India\\
+\textbf{HPSDMA} & Himachal Pradesh State Disaster Management Authority\\
+\textbf{IMD} & India Meteorological Department\\
+\textbf{IRC} & Indian Roads Congress\\
+\textbf{IS} & Indian Standard\\
+\textbf{ISRM} & International Society for Rock Mechanics\\
+\textbf{LULC} & Land Use and Land Cover\\
+\textbf{MDR} & Major District Road\\
+\textbf{MTP} & Major Technology Project\\
+\textbf{NH} & National Highway\\
+\textbf{ODR} & Other District Road\\
+\textbf{PWD} & Public Works Department\\
+\textbf{SCENE} & School of Civil and Environmental Engineering\\
+\textbf{WGS 84} & World Geodetic System 1984\\
+\end{tabular}
+
+\newpage
+
+% ------------------------------------------------------------------------------
+% MAIN CHAPTERS
+% ------------------------------------------------------------------------------
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+% CHAPTER 1
+\chapter{Background and Introduction}
+
+\section{Introduction and Regional Context}
+Himachal Pradesh is situated in the fragile geodynamic environment of the North-Western Himalayas. The state's terrain is characterized by steep slopes, complex structural jointing, active tectonic faults, and variable overburden depths. During the monsoon season (July to September), intense and prolonged rainfall frequently triggers landslides, debris flows, and cut-slope collapses. 
+
+The monsoon of 2023 caused unprecedented road network severances across Mandi, Kullu, and Shimla districts. National Highways (NH-21, NH-5) and Other District Roads (ODR) sustained severe structural cut-slope failures, isolating settlements and requiring immediate reconstruction of hillside breast walls and drainage channels.
+
+\section{Problem Statement}
+Field-level landslide mitigation and emergency restoration in Himachal Pradesh face several practical limitations:
+\begin{enumerate}
+    \item \textbf{Fragmented Spatial Data}: Existing landslide inventories compiled by organizations such as the Geological Survey of India (GSI) or academic studies exist as standalone shapefiles, spreadsheets, or technical reports that are not accessible to field engineers via a common web interface.
+    \item \textbf{Delays in Initial Field Estimation}: When a slope failure occurs, the Public Works Department (PWD) field staff must inspect the site, record cross-sectional dimensions, and manually compute earthwork excavation volumes and breast wall dimensions. This process often takes several days.
+    \item \textbf{Inconsistent Field Data Collection}: Crowdsourced or junior field reports frequently lack standardized geotechnical parameters (e.g., rock mass weathering grade to IS:13365, failure mode classification, or specific utility hazards).
+\end{enumerate}
+
+\section{Scope of the MTP}
+This project aims to develop a practical decision-support software platform, \textbf{HIMA-LENS}, tailored for Himachal Pradesh, with primary focus on:
+\begin{itemize}
+    \item Synthesizing historical landslide data and regional geospatial thematic layers into an accessible Web-GIS.
+    \item Developing a crowdsourced mobile submission pipeline with optical validation.
+    \item Automating preliminary geometric sizing of slope protection measures (breast walls, saucer drains, earthwork volumes) strictly in accordance with Indian Standards (IS:14458, IRC:SP:48).
+\end{itemize}
+
+\newpage
+
+% CHAPTER 2
+\chapter{Review of Relevant Literature}
+
+\section{Landslide Inventories and Spatial Systems}
+A comprehensive landslide inventory is the fundamental prerequisite for hazard assessment (Guzzetti et al., 2012). In India, the GSI National Landslide Susceptibility Mapping (NLSM) program has mapped historical failures at 1:50,000 scale. However, operationalizing these datasets into dynamic, queryable Web-GIS platforms that support field personnel remains an active area of development.
+
+\section{Rainfall Thresholds and Slope Failure Mechanics}
+Rainfall-triggered shallow slides in residual soils and colluvium are primarily governed by matric suction dissipation and transient seepage (Fredlund and Rahardjo, 1993; Kumar et al., 2018). The loss of shear strength under saturated conditions triggers rapid downward movement. Empirical Intensity-Duration ($I-D$) thresholds (Caine, 1980; Dikshit et al., 2020) relate rainfall intensity $I$ (mm/h) and duration $D$ (hours) through power-law equations ($I = \alpha D^{-\beta}$) to identify critical precipitation triggers.
+
+\section{Indian Standard Design Codes}
+Standard engineering practice for hill road stability in India is codified under:
+\begin{itemize}
+    \item \textbf{IRC:SP:48 (1998) -- Hill Road Manual}: Specifies roadway geometry, hillside benching, minimum formation widths, and roadside catch-water/saucer drains.
+    \item \textbf{IS:14458 (Parts 1--4) -- Retaining Walls for Hill Areas}:
+    \begin{itemize}
+        \item Part 1 (1998): Selection of wall types (Gravity breast walls, masonry, plum concrete).
+        \item Part 2 (1998): Design requirements; stipulates base width $B \ge 0.50 \cdot H$ for gravity breast walls, top width $b \ge 0.60\,\text{m}$, front batter of $1:3$ to $1:4$, and backface stepping.
+        \item Part 2, Section 7: Weep hole specifications (minimum 75--100\,mm diameter PVC pipes at 1.2\,m to 1.5\,m center-to-center staggered spacing).
+    \end{itemize}
+    \item \textbf{IS:13365 (Part 1: 1998)}: Quantitative classification of rock mass weathering grades (Grade I Fresh to Grade V Completely Weathered) and joint condition index.
+\end{itemize}
+
+\newpage
+
+% CHAPTER 3
+\chapter{Objectives of the MTP}
+
+\section{Primary Objectives}
+The specific objectives formulated for this MTP are:
+\begin{enumerate}
+    \item \textbf{Data Ingestion \& Standardization}: Process, clean, and spatially integrate historical landslide points, road networks, and geological thematic rasters for Himachal Pradesh.
+    \item \textbf{Web-GIS Explorer Implementation}: Build an interactive map platform enabling spatial filtering, attribute inspection, and layer overlays.
+    \item \textbf{Field Incident Reporting Module}: Provide a lightweight reporting tool to capture site coordinates, failure type, severity, and field photographs.
+    \item \textbf{Image Quality Screening}: Implement an automated image verification pipeline to filter non-terrain uploads and categorize scene settings (residential vs road corridor).
+    \item \textbf{Automated PWD Engineering Sheet Generation}: Implement a deterministic sizing engine conforming to IS:14458 and IRC:SP:48 to produce printable technical inspection dossiers.
+    \item \textbf{Susceptibility \& Rainfall Analysis (Phase 2)}: Calibrate empirical rainfall thresholds and develop a statistical landslide susceptibility map for Mandi district.
+\end{enumerate}
+
+\newpage
+
+% CHAPTER 4
+\chapter{Methodology and System Architecture}
+
+\section{System Architecture}
+The system consists of three modular components:
+\begin{enumerate}
+    \item \textbf{Backend Application Server}: Python 3.12/3.13 utilizing the Flask web framework. Handles spatial data serving, API endpoints, incident serialization, and geotechnical calculation functions.
+    \item \textbf{Database Storage}: Local JSON persistence combined with Supabase PostgreSQL (PostGIS) for geospatial storage of user-reported incidents and assessment caching.
+    \item \textbf{Frontend User Interface}: HTML5, CSS3, and JavaScript utilizing the Leaflet.js library for map rendering, marker clustering (Leaflet.markercluster), and responsive report generation.
+\end{enumerate}
+
+\section{Data Pipeline and Geo-Processing}
+The data pipeline script (\texttt{scripts/process\_arcgis\_layers.py}) carries out the following processing steps:
+\begin{itemize}
+    \item \textbf{Road Network}: Extracted from \texttt{Mandi all roads.shp}, reprojected from local UTM to EPSG:4326 (WGS 84), geometry simplified using the Douglas-Peucker algorithm ($\epsilon = 0.00008^{\circ} \approx 8\,\text{m}$), and exported as \texttt{mandi\_roads.geojson}.
+    \item \textbf{Statewide GSI Points}: Ingested from \texttt{Hp\_landslide\_points.lpkx} (6,287 points). Points falling outside Himachal Pradesh boundaries were removed.
+    \item \textbf{Mandi Detailed Inventory}: Ingested from \texttt{data.xlsx} (9,399 points with attributes including movement type, activity, period, and distance to road).
+    \item \textbf{Spatial Deduplication}: Coordinate rounding to four decimal places ($\approx 11\,\text{m}$) was used to identify and merge duplicate spatial entries between datasets, producing a final clean dataset of \textbf{14,190 unique points} saved as \texttt{landslides\_clean.geojson} (9,399 Mandi field records and 4,791 deduplicated statewide GSI points).
+    \item \textbf{Thematic Overlays}: Raster layers for Lithology, Geomorphology, and 2023 Land Use/Land Cover (LULC) were extracted from ESRI File Geodatabases, color-mapped, and exported as georeferenced PNG overlays with matching coordinate bounds.
+\end{itemize}
+
+\section{Deterministic Geotechnical Sizing Engine}
+To ensure engineering consistency, structural dimensions are calculated using a rule-based sizing matrix derived from IS:14458 and IRC:SP:48:
+
+\begin{table}[h!]
+\centering
+\caption{Deterministic Sizing Parameters Based on Failure Severity (IS:14458)}
+\label{tab:sizing_matrix}
+\vspace{0.2cm}
+\small
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{Severity} & $H_{\text{wall}}$ (m) & $L_{\text{wall}}$ (m) & Base $B$ (m) & Embedment $D_f$ (m) & $H_{\text{cut}}$ (m) & $W_{\text{cut}}$ (m) \\
+\midrule
+Low & 2.0 & 10.0 & 1.00 & 1.00 & 1.5 & 3.5 \\
+Moderate & 2.8 & 14.0 & 1.40 & 1.00 & 2.2 & 5.0 \\
+High & 3.5 & 18.0 & 1.75 & 1.00 & 3.0 & 6.0 \\
+Critical & 4.5 & 24.0 & 2.25 & 1.12 & 3.5 & 6.5 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The volume of excavation for debris clearance and foundation benching is computed as:
+\begin{equation}
+    V_{\text{exc}} = H_{\text{cut}} \cdot L_{\text{wall}} \cdot W_{\text{cut}} \quad (\text{m}^3)
+\end{equation}
+Granular backfill volume behind the breast wall is estimated as:
+\begin{equation}
+    V_{\text{fill}} = 0.35 \cdot L_{\text{wall}} \cdot 4.5 \quad (\text{m}^3)
+\end{equation}
+Top width of the wall is kept constant at $b = 0.60\,\text{m}$ across all categories, conforming to IS:14458 Part 2.
+
+\section{Image Quality and Feature Extraction Pipeline}
+The vision analysis module (\texttt{ai\_assessment.py}) queries the Gemini Vision API using a structured 5-inquiry diagnostic prompt:
+\begin{enumerate}[noitemsep]
+    \item \textbf{Terrain Verification}: Checks for the presence of physical terrain failure features (scarp, displaced mass, debris apron) versus non-terrain images (selfies, screenshots, pets) or stable non-failed slopes.
+    \item \textbf{Failure Mode}: Classifies the physical movement (fall, topple, planar slide, rotational slump, debris slide/flow) based on Varnes classification.
+    \item \textbf{Environment Context}: Differentiates residential dwellings (slate/stone structures) from highway corridors to prevent inappropriate machinery recommendations.
+    \item \textbf{Safety Directives}: Identifies specific utility risks (domestic wiring vs overhead transmission lines) and access restrictions.
+    \item \textbf{Lithology \& Weathering}: Extracts visible rock type, joint spacing, and IS:13365 weathering grade.
+\end{enumerate}
+All outputs are parsed into a strict JSON schema and cached by \texttt{report\_id}. If the image is non-terrain, the report is flagged and engineering parameter computation is withheld.
+
+\newpage
+
+% CHAPTER 5
+\chapter{Progress and Work Completed}
+
+\section{Current Implementation Status}
+The primary technical milestones completed to date include:
+\begin{enumerate}
+    \item \textbf{Processed Spatial Database}: 14,190 landslide points normalized and queryable statewide; Mandi road shapefile (2,287 segments) simplified to 1.1\,MB GeoJSON for smooth client-side rendering.
+    \item \textbf{Web-GIS Interface}:
+    \begin{itemize}
+        \item \texttt{/explore}: Interactive Leaflet map with clustering, filter drawers for activity/movement/trigger, and toggles for Lithology, Geomorphology, and LULC overlays.
+        \item \texttt{/feed}: Chronological list of user-submitted reports with status indicators and search functionality.
+        \item \texttt{/report}: HTML5 GPS-enabled submission form supporting camera image uploads.
+    \end{itemize}
+    \item \textbf{Automated PWD Engineering Sheet (\texttt{pwd\_sheet.html})}: A 2-page print-optimized engineering template presenting:
+    \begin{itemize}
+        \item Incident coordinates, district, and road classification.
+        \item Site context and asset damage breakdown.
+        \item Rock mass properties (lithology, weathering grade, jointing).
+        \item Standardized breast wall dimensions ($H, B, b, D_f$) and weep hole layout.
+        \item Earthwork excavation ($V_{\text{exc}}$) and backfill ($V_{\text{fill}}$) estimates.
+        \item Critical life-safety notices.
+    \end{itemize}
+    \item \textbf{Assessment Caching}: Dual-tier caching (JSON file and database) ensuring that once a report is computed, subsequent page views load deterministically in $<50\,\text{ms}$ with zero variation in numerical values.
+\end{enumerate}
+
+\section{Validation and Testing}
+The system was tested against sample field photographs representing different operational cases:
+\begin{itemize}
+    \item \textbf{Residential Landslide Test}: Tested on a field photo of a village house struck by colluvial mudflow in Mandi district. The vision model correctly classified the environment as a residential dwelling, suppressing generic highway clearance text and recommending manual clearance squads with domestic power isolation.
+    \item \textbf{Non-Terrain / UI Screenshot Test}: Tested on screenshots of mobile apps and dashboards. The verification filter successfully returned \texttt{INVALID\_NON\_TERRAIN\_IMAGE}, rejecting geotechnical calculation and generating an explanatory notice.
+    \item \textbf{Deterministic Consistency}: Verified that repeated page refreshes produce identical engineering values ($V_{\text{exc}}, V_{\text{fill}}, B, H$).
+\end{itemize}
+
+\newpage
+
+% CHAPTER 6
+\chapter{Key Conclusions}
+
+The work completed during the initial phase demonstrates:
+\begin{enumerate}
+    \item Multi-source historical landslide datasets can be systematically cleaned, deduplicated, and served via a lightweight Web-GIS architecture suitable for low-bandwidth Himalayan areas.
+    \item Integrating standard Indian Standard formulas (IS:14458, IRC:SP:48) with automated report generation provides a consistent, repeatable baseline for rapid post-disaster field inspection.
+    \item Applying structured prompt constraints to multimodal vision models allows reliable filtering of invalid user uploads while tailoring safety recommendations between residential and highway contexts.
+\end{enumerate}
+
+\newpage
+
+% CHAPTER 7
+\chapter{Remaining Tasks and Proposed Timeline}
+
+\section{Work Plan for the Second Phase}
+The work planned for the remaining semester period comprises:
+\begin{itemize}
+    \item \textbf{Task 1: Rainfall Correlation and Threshold Analysis}:
+    \begin{itemize}
+        \item Collect historical daily/hourly precipitation data from IMD Mandi and local AWS stations for known landslide events in \texttt{data.xlsx}.
+        \item Calibrate empirical Intensity-Duration ($I-D$) power-law threshold curves ($I = \alpha D^{-\beta}$) for Mandi district.
+    \end{itemize}
+    \item \textbf{Task 2: Landslide Susceptibility Mapping (LSM)}:
+    \begin{itemize}
+        \item Extract conditioning factor rasters: Slope angle, Aspect, Curvature (from SRTM/CartoDEM), Lithology, Geomorphology, LULC, and Distance to Roads.
+        \item Train statistical/machine learning models (Information Value / Frequency Ratio / Random Forest) using the 9,399 Mandi inventory locations.
+        \item Generate a validated 5-class susceptibility zonation map (Very Low to Very High).
+    \end{itemize}
+    \item \textbf{Task 3: Integration into HIMA-LENS}:
+    \begin{itemize}
+        \item Serve the calibrated susceptibility raster as an interactive map layer on \texttt{/explore}.
+        \item Implement automated warning level indicators based on real-time rainfall inputs.
+    \end{itemize}
+    \item \textbf{Task 4: Thesis Documentation and Defense Preparation}:
+    \begin{itemize}
+        \item Final thesis writing, code documentation, and preparation for final evaluation.
+    \end{itemize}
+\end{itemize}
+
+\section{Milestone Schedule}
+
+\begin{table}[h!]
+\centering
+\caption{Project Timeline and Milestone Schedule (October 2026 -- May 2027)}
+\label{tab:timeline}
+\vspace{0.2cm}
+\begin{tabularx}{\textwidth}{p{3.5cm}Xcc}
+\toprule
+\textbf{Task / Activity} & \textbf{Scope of Work} & \textbf{Start} & \textbf{Completion} \\
+\midrule
+Rainfall Data Collation & IMD precipitation records for Mandi events & Oct 2026 & Nov 2026 \\
+$I-D$ Threshold Modeling & Fitting empirical threshold curves & Nov 2026 & Dec 2026 \\
+Factor Preparation (LSM) & DEM derivative extraction \& raster encoding & Dec 2026 & Jan 2027 \\
+Susceptibility Modeling & Random Forest / Statistical training \& AUC validation & Jan 2027 & Feb 2027 \\
+Platform Integration & Layer hosting and rainfall alert route & Mar 2027 & Apr 2027 \\
+Final Thesis Preparation & Report drafting, verification, and defense & Apr 2027 & May 2027 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\newpage
+
+% ------------------------------------------------------------------------------
+% ACKNOWLEDGEMENTS & REFERENCES
+% ------------------------------------------------------------------------------
+\chapter*{Acknowledgements}
+\addcontentsline{toc}{chapter}{Acknowledgements}
+
+We express our gratitude to our project supervisor, \textbf{Dr. Ashutosh Kumar}, Assistant Professor, School of Civil and Environmental Engineering, IIT Mandi, for his continued guidance, technical feedback, and support throughout this project. 
+
+We thank the School of Civil and Environmental Engineering, IIT Mandi, for providing the necessary computing resources. We also acknowledge the Geological Survey of India (GSI) for making baseline regional landslide inventory records publicly available.
+
+\vspace{2cm}
+\noindent \textbf{Manish Kumar}\\
+\textbf{Khushi}\\
+\textit{IIT Mandi, Kamand}
+
+\newpage
+
+\begin{thebibliography}{99}
+\addcontentsline{toc}{chapter}{References}
+
+\bibitem{caine1980}
+Caine, N. (1980). The rainfall intensity-duration control of shallow landslides and debris flows. \textit{Geografiska Annaler: Series A, Physical Geography}, 62(1-2), 23--27.
+
+\bibitem{cruden1996}
+Cruden, D. M., \& Varnes, D. J. (1996). Landslide types and processes. \textit{Landslides: Investigation and Mitigation}, Transportation Research Board Special Report 247, National Academy Press, Washington, D.C., 36--75.
+
+\bibitem{dikshit2020}
+Dikshit, K. G., Satyam, N., \& Pradhan, B. (2020). Rainfall induced landslide hazard modeling using empirical and probabilistic approach in Kalimpong, India. \textit{Natural Hazards}, 104(3), 2485--2509.
+
+\bibitem{fredlund1993}
+Fredlund, D. G., \& Rahardjo, H. (1993). \textit{Soil Mechanics for Unsaturated Soils}. John Wiley \& Sons, New York.
+
+\bibitem{guzzetti2012}
+Guzzetti, F., Mondini, A. C., Cardinali, M., Fiorucci, F., Santangelo, M., \& Chang, K. T. (2012). Landslide inventory maps: New tools for an old problem. \textit{Earth-Science Reviews}, 112(1-2), 42--66.
+
+\bibitem{ircsp48}
+Indian Roads Congress (IRC). (1998). \textit{IRC:SP:48: Hill Road Manual}. New Delhi, India.
+
+\bibitem{is13365}
+Bureau of Indian Standards (BIS). (1998). \textit{IS 13365 (Part 1): Quantitative Classification Systems of Rock Mass -- Guidelines}. New Delhi, India.
+
+\bibitem{is14458p1}
+Bureau of Indian Standards (BIS). (1998). \textit{IS 14458 (Part 1): Guidelines for Retaining Walls for Hill Areas -- Part 1: Selection of Type of Wall}. New Delhi, India.
+
+\bibitem{is14458p2}
+Bureau of Indian Standards (BIS). (1998). \textit{IS 14458 (Part 2): Guidelines for Retaining Walls for Hill Areas -- Part 2: Design of Retaining/Breast Walls}. New Delhi, India.
+
+\bibitem{kumar2018}
+Kumar, A., Laloui, L., \& Vulliet, L. (2018). Numerical modeling of transient rainfall infiltration in unsaturated slopes considering coupled hydro-mechanical behavior. \textit{Computers and Geotechnics}, 98, 120--134.
+
+\bibitem{varnes2014}
+Hungr, O., Leroueil, S., \& Picarelli, L. (2014). The Varnes classification of landslide types, an update. \textit{Landslides}, 11(2), 167--194.
+
+\end{thebibliography}
+
+\end{document}

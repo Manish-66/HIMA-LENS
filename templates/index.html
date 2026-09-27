@@ -52,14 +52,14 @@ HIMA-LENS | Himalayan Landslide Intelligence Platform
                 <span class="live-indicator">LIVE MONITOR</span>
             </div>
             <div class="data-indicator-value">
-                <span id="hero-total" class="counter-val" data-target="10593">0</span>
+                <span id="hero-total" class="counter-val" data-target="14190">0</span>
                 <small>mapped records</small>
             </div>
             <div class="data-indicator-line">
                 <span></span>
             </div>
             <div class="data-indicator-footer">
-                <span>COVERAGE: 6 DISTRICTS</span>
+                <span>COVERAGE: 12 DISTRICTS</span>
                 <span>EPSG:4326</span>
             </div>
         </div>
@@ -156,9 +156,9 @@ HIMA-LENS | Himalayan Landslide Intelligence Platform
                         <span class="stat-dot"></span>
                         TOTAL MAPPED RECORDS
                     </div>
-                    <div class="stat-value counter-val" id="stat-total" data-target="10593">0</div>
+                    <div class="stat-value counter-val" id="stat-total" data-target="14190">0</div>
                     <div class="stat-description">
-                        Verified spatial points cataloged across the Himalayan terrain.
+                        Verified spatial points cataloged across the 12 districts of Himachal Pradesh.
                     </div>
                     <div class="stat-card-index">01 / 04</div>
                 </div>
@@ -169,35 +169,35 @@ HIMA-LENS | Himalayan Landslide Intelligence Platform
                         <span class="stat-icon">&bull;</span>
                         DISTRICT COVERAGE
                     </div>
-                    <div class="stat-value counter-val" id="stat-districts" data-target="6">0</div>
+                    <div class="stat-value counter-val" id="stat-districts" data-target="12">0</div>
                     <div class="stat-description">
-                        Administrative divisions mapped with slope failure events.
+                        All 12 administrative divisions mapped with slope failure events.
                     </div>
                     <div class="stat-card-index">02 / 04</div>
                 </div>
 
-                <!-- TIME SPAN -->
+                <!-- MANDI DETAILED FIELD SURVEY -->
                 <div class="stat-card">
                     <div class="stat-card-label">
                         <span class="stat-icon">&#x23F1;</span>
-                        TEMPORAL ARCHIVE
+                        MANDI FIELD INVENTORY
                     </div>
-                    <div class="stat-value stat-value-range" id="stat-years">2010 &mdash; 2023</div>
+                    <div class="stat-value counter-val" id="stat-mandi" data-target="9399">0</div>
                     <div class="stat-description">
-                        Years of documented landslide and rainfall event history.
+                        High-resolution 10m field survey records in Mandi district.
                     </div>
                     <div class="stat-card-index">03 / 04</div>
                 </div>
 
-                <!-- DETAILED -->
+                <!-- STATEWIDE GSI SURVEY -->
                 <div class="stat-card">
                     <div class="stat-card-label">
                         <span class="stat-icon">&#9670;</span>
-                        ATTRIBUTED RECORDS
+                        STATEWIDE GSI SURVEY
                     </div>
-                    <div class="stat-value counter-val" id="stat-detailed" data-target="3066">0</div>
+                    <div class="stat-value counter-val" id="stat-detailed" data-target="4791">0</div>
                     <div class="stat-description">
-                        Records containing granular geology, trigger & movement attributes.
+                        Deduplicated regional geological survey landslide locations.
                     </div>
                     <div class="stat-card-index">04 / 04</div>
                 </div>
@@ -534,11 +534,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 animateHero(total);
             } else {
-                animateHero(parseInt(heroCounter?.getAttribute("data-target") || "10593", 10));
+                animateHero(parseInt(heroCounter?.getAttribute("data-target") || "14190", 10));
             }
         })
         .catch(() => {
-            animateHero(parseInt(heroCounter?.getAttribute("data-target") || "10593", 10));
+            animateHero(parseInt(heroCounter?.getAttribute("data-target") || "14190", 10));
         });
 });
 </script>
