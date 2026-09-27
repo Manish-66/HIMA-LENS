@@ -43,3 +43,6 @@ SUPABASE_URL = os.environ.get("SUPABASE_URL", "").strip().rstrip("/")
 SUPABASE_KEY = os.environ.get("SUPABASE_KEY", "").strip() or os.environ.get("SUPABASE_ANON_KEY", "").strip()
 SUPABASE_BUCKET = os.environ.get("SUPABASE_BUCKET", "report-images").strip()
 
+# Google Gemini Vision API for Geotechnical AI Assessment
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
+

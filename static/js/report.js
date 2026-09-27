@@ -424,6 +424,15 @@ document.addEventListener("DOMContentLoaded", function () {
             mediaWrap.style.display = "none";
         }
 
+        const pwdSheetBtn = document.getElementById("btn-detail-pwd-sheet");
+        if (pwdSheetBtn) {
+            pwdSheetBtn.onclick = () => {
+                if (p.id && window.openPwdAssessmentModal) {
+                    window.openPwdAssessmentModal(p.id);
+                }
+            };
+        }
+
         const pinMapBtn = document.getElementById("btn-detail-pin-map");
         if (pinMapBtn) {
             pinMapBtn.onclick = () => {

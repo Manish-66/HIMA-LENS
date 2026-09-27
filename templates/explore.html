@@ -7,6 +7,7 @@ HIMA-LENS | Interactive Geospatial Landslide Explorer
 <link rel="stylesheet" href="https://cesium.com/downloads/cesiumjs/releases/1.122/Build/Cesium/Widgets/widgets.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pwd_modal.css') }}?v=1.0">
 <script src="https://cesium.com/downloads/cesiumjs/releases/1.122/Build/Cesium/Cesium.js"></script>
 {% endblock %}
 
@@ -409,5 +410,6 @@ window.HIMA_CONFIG = {
 };
 </script>
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<script src="{{ url_for('static', filename='js/pwd_modal.js') }}?v=1.0"></script>
 <script src="{{ url_for('static', filename='js/explore.js') }}?v=4.2"></script>
 {% endblock %}

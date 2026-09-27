@@ -11,6 +11,7 @@ from functools import lru_cache
 from typing import Any
 from flask import Flask, jsonify, render_template, request, Response
 import supabase_db
+import ai_assessment
 from config import (
     APP_DESCRIPTION,
     APP_NAME,
@@ -452,6 +453,33 @@ def health():
         district_boundary_count=boundary_count,
         validation_error=error
     ), (200 if valid else 503)
+
+def find_report_by_id(report_id: str) -> dict[str, Any] | None:
+    reports = supabase_db.fetch_community_reports()
+    clean_id = report_id.strip().casefold()
+    for r in reports:
+        if str(r.get("id", "")).strip().casefold() == clean_id:
+            return r
+    return None
+
+@app.post("/api/reports/<report_id>/ai-assessment")
+def generate_report_ai_assessment(report_id: str):
+    report = find_report_by_id(report_id)
+    if not report:
+        return jsonify(success=False, error="REPORT_NOT_FOUND", message=f"Report '{report_id}' not found."), 404
+
+    assessment = ai_assessment.generate_ai_assessment(report)
+    return jsonify(success=True, report_id=report_id, assessment=assessment)
+
+@app.get("/report/pwd-sheet/<report_id>")
+def view_pwd_sheet(report_id: str):
+    report = find_report_by_id(report_id)
+    if not report:
+        return f"Report with ID {report_id} was not found.", 404
+
+    # Baseline geotechnical assessment to hydrate sheet
+    assessment = ai_assessment.fallback_geotechnical_assessment(report)
+    return render_template("pwd_sheet.html", report=report, assessment=assessment)
 
 @app.errorhandler(FileNotFoundError)
 def missing_dataset(error):
