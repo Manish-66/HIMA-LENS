@@ -72,14 +72,6 @@ def deep_merge(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]
     return result
 
 
-def normalize_assessment_structure(assessment: dict[str, Any] | None, report: dict[str, Any]) -> dict[str, Any]:
-    """Ensures assessment contains the complete nested schema required by templates and PWD sheets."""
-    baseline = compute_deterministic_engineering_dossier(report)
-    if not assessment:
-        return baseline
-    return deep_merge(baseline, assessment)
-
-
 def get_cached_assessment(report_id: str) -> dict[str, Any] | None:
     if not report_id:
         return None
@@ -598,6 +590,235 @@ def fallback_visual_assessment(report: dict[str, Any]) -> dict[str, Any]:
     return compute_deterministic_engineering_dossier(report)
 
 
+def build_rejected_assessment_dossier(
+    report: dict[str, Any],
+    detected_content: str = "Non-terrain media",
+    rejection_reason: str = "Image does not depict geological terrain or slope failure.",
+    senior_remarks: str | None = None,
+    plain_lang: dict[str, Any] | None = None,
+    model_name: str = "Optical Audit",
+) -> dict[str, Any]:
+    """Builds a pristine, standardized rejection dossier for non-terrain media uploads.
+
+    Guarantees all nested keys exist to prevent template render errors, while ensuring
+    zero fabricated geotechnical features (no fake sandstone, minerals, cracks, or wall designs).
+    """
+    report_id = str(report.get("id") or "HL-CR-RECORD").strip()
+    lat = float(report.get("latitude") or 31.7000)
+    lng = float(report.get("longitude") or 76.9000)
+    district = report.get("district") or "Mandi"
+    movement = report.get("movement_type") or "Reported Incident"
+    severity = report.get("severity") or "Unverified"
+    user_desc = report.get("description") or "None recorded"
+    reporter = report.get("reporter_name") or "Community Observer"
+    inc_date = report.get("created_at") or datetime.utcnow().strftime("%Y-%m-%d")
+
+    return {
+        "is_landslide_or_terrain": False,
+        "validation_status": "INVALID_NON_TERRAIN_IMAGE",
+        "detected_content": detected_content,
+        "rejection_reason": rejection_reason,
+        "source": f"HIMA-LENS Optical Audit ({model_name})",
+        "generated_at": datetime.utcnow().strftime("%d %b %Y, %H:%M UTC"),
+        "telemetry": {
+            "report_id": report_id,
+            "district": district,
+            "site_road_name": f"{district} Sector — Verification Rejected",
+            "location_chainage": "N/A — Disqualified / Non-Terrain",
+            "road_type": "N/A — Unverified Ground Asset",
+            "inspection_date": str(inc_date)[:10],
+            "coordinates_dms": _format_coordinates_dms(lat, lng),
+            "coordinates_dec": f"{lat:.5f}° N, {lng:.5f}° E",
+            "reported_movement": movement,
+            "reported_severity": severity,
+            "reporter_name": reporter,
+            "user_notes": user_desc,
+        },
+        "site_context": {
+            "environment_type": "N/A — Non-Terrain Upload",
+            "impacted_assets": "None Verified — Non-Terrain Media",
+            "structural_damage": "No geological or physical terrain damage verified.",
+        },
+        "slope_characteristics": {
+            "presence_above": False,
+            "presence_below": False,
+            "presence_both": False,
+            "in_situ_rock": False,
+            "in_situ_soil": "N/A — Non-Terrain Media",
+            "debris_accumulation": "N/A — No Debris Present",
+            "slope_type_cut": False,
+            "slope_type_fill": False,
+            "slope_type_natural": "N/A — Non-Terrain Media",
+            "slope_height_above": "N/A",
+            "cut_slope_angle": "N/A",
+            "slope_geometry_below": "N/A",
+            "slope_geometry_profile": "N/A — Non-Terrain Image Uploaded",
+        },
+        "road_impact": {
+            "road_alignment": "N/A",
+            "fencing_type": "N/A",
+            "width_before": "N/A",
+            "width_after": "N/A",
+            "pavement_type": "N/A — Unverified",
+            "shoulder_width": "N/A",
+            "number_of_lanes": "N/A",
+            "traffic_flow": "N/A — Unaffected",
+            "bridge_present": "No",
+            "culvert_present": "N/A",
+            "carriageway_status": "No Obstruction — Non-Terrain Upload",
+        },
+        "protection_works": [],
+        "geology": {
+            "prominent_soil_rock": "N/A — Non-Geological Media",
+            "prominent_rock_desc": "N/A — Image does not depict geological rock strata",
+            "colour": "N/A",
+            "jointing_spacing": "N/A",
+            "strength": "N/A",
+            "dip_joints": "N/A",
+            "minerals_present": "N/A",
+            "joint_orientation": "N/A",
+            "dip_strike_relation": "N/A",
+            "weathering_grade": "N/A",
+            "material_type": "N/A — Non-Terrain Media",
+            "fracture_pattern": "N/A",
+        },
+        "defects_and_distress": {
+            "defects_on_slope": {
+                "gully": False,
+                "crack": False,
+                "unstable_rock": False,
+                "seepage": False,
+                "erosion": False,
+                "landslide": False,
+            },
+            "road_surface": {
+                "crack": False,
+                "heaving": False,
+                "settlement": False,
+                "recent_repair": False,
+            },
+            "roadside_drain": {
+                "overflow": False,
+                "clogged_100": False,
+                "deformation": False,
+                "crack": False,
+            },
+            "slope_drainage": {
+                "overflow": False,
+                "clogged_100": False,
+                "deformation": False,
+                "crack": False,
+            },
+            "distress_remarks": f"Audit Disqualification: Image uploaded depicts {detected_content}. Zero landslide or terrain distress verified.",
+        },
+        "pavement_dimensions": {
+            "potholes": "N/A — Non-Terrain Media",
+            "subsidence": "N/A — No Settlement",
+            "rutting": "N/A — No Rutting",
+        },
+        "retaining_wall_specs": {
+            "shape_front": "N/A",
+            "shape_back": "N/A",
+            "shape_base": "N/A",
+            "material": "N/A — No Wall Proposed (Non-Terrain)",
+            "height_m": "N/A",
+            "length_m": "N/A",
+            "embedded_depth_m": "N/A",
+            "top_width_m": "N/A",
+            "base_width_m": "N/A",
+            "distress_crack": False,
+            "distress_bulging": False,
+            "distress_collapse": False,
+            "distress_joint": False,
+            "signs_of_distress": "None — Image Disqualified",
+            "distress_behind": "N/A — No terrain surcharge",
+            "distress_in_front": "N/A — No toe distress",
+            "weep_holes": "N/A",
+        },
+        "drainage_and_bioengineering": {
+            "roadside_drain": "N/A — Verification Rejected",
+            "lined_channel": "N/A",
+            "lined_cutoff": "N/A",
+            "french_drain": "N/A",
+            "check_dam": "N/A",
+            "catch_drain": "N/A",
+            "bioengineering_desc": "N/A — No bioengineering stabilization required for non-terrain upload.",
+        },
+        "gabion_and_earthworks": {
+            "gabion_wall": {
+                "wire_dia": "N/A",
+                "mesh_dia": "N/A",
+                "base_width": "N/A",
+                "top_width": "N/A",
+                "total_height": "N/A",
+                "embedded_depth": "N/A",
+                "packing": "N/A",
+            },
+            "excavation": {
+                "material": "N/A — Zero Clearance Required",
+                "dimensions": "0.00 m (H) x 0.00 m (L) x 0.00 m (W)",
+                "volume_m3": 0.0,
+            },
+            "fill": {
+                "material": "N/A — Zero Backfill Required",
+                "dimensions": "0.00 m (H) x 0.00 m (L) x 0.00 m (W)",
+                "volume_m3": 0.0,
+            },
+        },
+        "safety_directives": {
+            "utility_hazard": "No physical utility hazard evaluated from non-terrain photo.",
+            "electrical_hazard": "No hazard evaluated from non-terrain photo.",
+            "machinery_deployment": "Zero equipment deployment authorized. Suspend machinery until verified terrain photograph is submitted.",
+            "traffic_restoration": "Normal flow — no verified physical road obstruction.",
+            "permanent_restoration": "Submission rejected. Mandatory photographic re-inspection with genuine slope imagery required.",
+        },
+        "visual_analysis": {
+            "material_composition": f"Disqualified Media ({detected_content})",
+            "slope_condition": "Non-geological upload",
+            "infrastructure_impact": "None — Non-Terrain Upload",
+            "drainage_and_seepage": "None",
+        },
+        "synthesis_remarks": senior_remarks or f"Audit Disqualification: Image uploaded depicts {detected_content}. Disqualifying incident entry.",
+        "senior_engineer_remarks": senior_remarks or f"Audit Disqualification: Image uploaded depicts {detected_content}. Disqualifying incident entry.",
+        "plain_language_explanation": plain_lang or {
+            "summary_title": "Image Audit Notice: Non-Terrain Photo Uploaded",
+            "what_happened": f"The photo attached to this report shows {detected_content} and not an outdoor hill slope, rockfall, or road landslide.",
+            "why_it_happened": "Our automated visual scanner verified that no natural hillside, road crack, or fallen rock mass is present in this upload.",
+            "property_and_access_impact": "No physical property or road is affected.",
+            "road_and_travel_impact": "No physical property or road is affected.",
+            "ongoing_hazards": "None.",
+            "what_needs_to_be_done": "Please upload a clear photograph of the actual hill slope, road blockage, or fallen rock debris.",
+            "citizen_safety_advice": "Please stay safe and only photograph slopes from a secure vantage point away from active landslide zones.",
+        },
+    }
+
+
+def normalize_assessment_structure(assessment: dict[str, Any] | None, report: dict[str, Any]) -> dict[str, Any]:
+    """Ensures assessment contains the complete nested schema required by templates and PWD sheets.
+    If the assessment is flagged as non-terrain/rejected, baseline schema is built using
+    build_rejected_assessment_dossier to prevent fabricating synthetic landslide parameters.
+    """
+    if assessment and (assessment.get("is_landslide_or_terrain") is False or assessment.get("validation_status") == "INVALID_NON_TERRAIN_IMAGE"):
+        detected = assessment.get("detected_content", "Non-terrain image")
+        reason = assessment.get("rejection_reason", "Non-terrain media uploaded.")
+        remarks = assessment.get("senior_engineer_remarks")
+        plain = assessment.get("plain_language_explanation")
+        source = assessment.get("source", "HIMA-LENS Optical Audit")
+        return build_rejected_assessment_dossier(
+            report,
+            detected_content=detected,
+            rejection_reason=reason,
+            senior_remarks=remarks,
+            plain_lang=plain,
+            model_name=source,
+        )
+
+    baseline = compute_deterministic_engineering_dossier(report)
+    if not assessment:
+        return baseline
+    return deep_merge(baseline, assessment)
+
+
 def generate_ai_assessment(report: dict[str, Any], force_refresh: bool = False) -> dict[str, Any]:
     """Inspects the field photograph using Google Gemini Multimodal Vision,
 
@@ -843,28 +1064,14 @@ RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
                     # Optical Validation Check: Non-Terrain Rejection
                     if not parsed.get("is_landslide_or_terrain", True):
                         logger.info("Non-terrain media flagged: %s", parsed.get("detected_content"))
-                        rejection_override = {
-                            "is_landslide_or_terrain": False,
-                            "validation_status": "INVALID_NON_TERRAIN_IMAGE",
-                            "detected_content": parsed.get("detected_content", "Non-terrain image"),
-                            "rejection_reason": parsed.get("rejection_reason", "Non-terrain object uploaded."),
-                            "source": f"HIMA-LENS Optical Audit ({model_name})",
-                            "generated_at": datetime.utcnow().strftime("%d %b %Y, %H:%M UTC"),
-                            "defects_and_distress": {
-                                "distress_remarks": f"Audit rejected upload: contains {parsed.get('detected_content', 'non-terrain')}"
-                            },
-                            "senior_engineer_remarks": parsed.get("senior_engineer_remarks", f"Rejected: {parsed.get('detected_content')}"),
-                            "plain_language_explanation": parsed.get("plain_language_explanation") or {
-                                "summary_title": "Image Audit Notice: Non-Terrain Photo Uploaded",
-                                "what_happened": f"The photo attached to this report shows a {parsed.get('detected_content', 'non-terrain object')} and not an outdoor hill slope, rockfall, or road landslide.",
-                                "why_it_happened": "Our automated visual scanner verified that no natural hillside, road crack, or fallen rock mass is present in this upload.",
-                                "road_and_travel_impact": "Road conditions cannot be evaluated from this photograph. Ground field inspection is required.",
-                                "ongoing_hazards": "No terrain hazards could be verified from this upload.",
-                                "what_needs_to_be_done": "Please upload a clear photograph of the actual hill slope, road blockage, or fallen rock debris.",
-                                "citizen_safety_advice": "Please stay safe and only photograph slopes from a secure vantage point away from active landslide zones.",
-                            },
-                        }
-                        rejection_dossier = normalize_assessment_structure(rejection_override, report)
+                        rejection_dossier = build_rejected_assessment_dossier(
+                            report,
+                            detected_content=parsed.get("detected_content", "Non-terrain media"),
+                            rejection_reason=parsed.get("rejection_reason", "Non-terrain object uploaded."),
+                            senior_remarks=parsed.get("senior_engineer_remarks"),
+                            plain_lang=parsed.get("plain_language_explanation"),
+                            model_name=model_name,
+                        )
                         save_assessment_to_cache(report_id, rejection_dossier)
                         return rejection_dossier
 
