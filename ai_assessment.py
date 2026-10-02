@@ -61,6 +61,25 @@ def _save_cache(cache: dict[str, Any]) -> None:
         logger.warning("Could not write assessment cache: %s", exc)
 
 
+def deep_merge(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
+    """Recursively merges override into base, ensuring all base fields remain present."""
+    result = dict(base)
+    for k, v in override.items():
+        if k in result and isinstance(result[k], dict) and isinstance(v, dict):
+            result[k] = deep_merge(result[k], v)
+        else:
+            result[k] = v
+    return result
+
+
+def normalize_assessment_structure(assessment: dict[str, Any] | None, report: dict[str, Any]) -> dict[str, Any]:
+    """Ensures assessment contains the complete nested schema required by templates and PWD sheets."""
+    baseline = compute_deterministic_engineering_dossier(report)
+    if not assessment:
+        return baseline
+    return deep_merge(baseline, assessment)
+
+
 def get_cached_assessment(report_id: str) -> dict[str, Any] | None:
     if not report_id:
         return None
@@ -593,7 +612,7 @@ def generate_ai_assessment(report: dict[str, Any], force_refresh: bool = False) 
         cached = get_cached_assessment(report_id)
         if cached:
             logger.info("Serving assessment for %s from persistent cache.", report_id)
-            return cached
+            return normalize_assessment_structure(cached, report)
 
     photo_url = report.get("photo_url", "")
     base64_data, mime_type = _get_image_base64_and_mime(photo_url)
@@ -824,41 +843,15 @@ RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
                     # Optical Validation Check: Non-Terrain Rejection
                     if not parsed.get("is_landslide_or_terrain", True):
                         logger.info("Non-terrain media flagged: %s", parsed.get("detected_content"))
-                        rejection_dossier = {
+                        rejection_override = {
                             "is_landslide_or_terrain": False,
                             "validation_status": "INVALID_NON_TERRAIN_IMAGE",
                             "detected_content": parsed.get("detected_content", "Non-terrain image"),
                             "rejection_reason": parsed.get("rejection_reason", "Non-terrain object uploaded."),
                             "source": f"HIMA-LENS Optical Audit ({model_name})",
                             "generated_at": datetime.utcnow().strftime("%d %b %Y, %H:%M UTC"),
-                            "telemetry": {
-                                "report_id": report_id,
-                                "district": district,
-                                "site_road_name": f"{district} Sub-Divisional Hill Road Sector",
-                                "location_chainage": "N/A — Verification Rejected",
-                                "road_type": "ODR / Secondary Hill Road",
-                                "inspection_date": datetime.utcnow().strftime("%Y-%m-%d"),
-                                "coordinates_dms": _format_coordinates_dms(lat, lng),
-                                "coordinates_dec": f"{lat:.5f}° N, {lng:.5f}° E",
-                                "reported_movement": movement,
-                                "reported_severity": severity,
-                                "reporter_name": report.get("reporter_name") or "Community Observer",
-                                "user_notes": user_desc,
-                            },
-                            "slope_characteristics": {"in_situ_soil": "N/A — Non-Terrain Media", "debris_accumulation": "N/A", "cut_slope_angle": "N/A", "slope_geometry_profile": "N/A"},
-                            "road_impact": {"width_before": "N/A", "width_after": "N/A", "carriageway_status": "Unverified — Non-Terrain Media"},
-                            "protection_works": [],
-                            "geology": {"prominent_soil_rock": "N/A — Non-Terrain Media", "weathering_grade": "N/A", "strength": "N/A", "fracture_pattern": "N/A"},
-                            "defects_and_distress": {"distress_remarks": f"Audit rejected upload: contains {parsed.get('detected_content', 'non-terrain')}"},
-                            "pavement_dimensions": {"potholes": "N/A", "subsidence": "N/A", "rutting": "N/A"},
-                            "retaining_wall_specs": {"height_m": "N/A", "length_m": "N/A", "material": "N/A", "shape_front": "N/A", "weep_holes": "N/A"},
-                            "drainage_and_bioengineering": {"roadside_drain": "N/A", "lined_channel": "N/A", "bioengineering_desc": "N/A"},
-                            "gabion_and_earthworks": {"gabion_wall": {"wire_dia": "N/A"}, "excavation": {"material": "N/A", "volume_m3": 0.0}, "fill": {"volume_m3": 0.0}},
-                            "safety_directives": {
-                                "electrical_hazard": "No hazard could be evaluated from non-terrain photo.",
-                                "machinery_deployment": "Suspend machinery until verified terrain photograph is submitted.",
-                                "traffic_restoration": "Pending authentic field verification.",
-                                "permanent_restoration": "Mandatory photographic re-inspection required.",
+                            "defects_and_distress": {
+                                "distress_remarks": f"Audit rejected upload: contains {parsed.get('detected_content', 'non-terrain')}"
                             },
                             "senior_engineer_remarks": parsed.get("senior_engineer_remarks", f"Rejected: {parsed.get('detected_content')}"),
                             "plain_language_explanation": parsed.get("plain_language_explanation") or {
@@ -871,6 +864,7 @@ RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
                                 "citizen_safety_advice": "Please stay safe and only photograph slopes from a secure vantage point away from active landslide zones.",
                             },
                         }
+                        rejection_dossier = normalize_assessment_structure(rejection_override, report)
                         save_assessment_to_cache(report_id, rejection_dossier)
                         return rejection_dossier
 
@@ -884,6 +878,7 @@ RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
                         site_context=parsed.get("site_context"),
                     )
                     dossier["source"] = f"HIMA-LENS Senior Engineering Vision ({model_name})"
+                    dossier = normalize_assessment_structure(dossier, report)
                     save_assessment_to_cache(report_id, dossier)
                     return dossier
             else:
@@ -893,5 +888,6 @@ RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
 
     logger.warning("All Gemini vision models failed or timed out. Falling back to deterministic engineering engine.")
     dossier = compute_deterministic_engineering_dossier(report)
+    dossier = normalize_assessment_structure(dossier, report)
     save_assessment_to_cache(report_id, dossier)
     return dossier

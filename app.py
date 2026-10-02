@@ -747,6 +747,7 @@ def view_pwd_sheet(report_id: str):
     force = request.args.get("force", "").lower() in ("1", "true", "yes")
     # Read from cache or run deterministic calculation
     assessment = ai_assessment.generate_ai_assessment(report, force_refresh=force)
+    assessment = ai_assessment.normalize_assessment_structure(assessment, report)
     return render_template("pwd_sheet.html", report=report, assessment=assessment)
 
 @app.errorhandler(FileNotFoundError)
