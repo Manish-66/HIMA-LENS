@@ -76,27 +76,48 @@ def save_local_reports(reports: list[dict[str, Any]]) -> None:
         logger.warning("Local filesystem write skipped (serverless environment): %s", exc)
 
 
-def fetch_community_reports() -> list[dict[str, Any]]:
-    """Fetches community reports from Supabase DB or falls back to local JSON."""
+def fetch_community_reports(include_hidden: bool = False) -> list[dict[str, Any]]:
+    """Fetches community reports from Supabase DB or falls back to local JSON.
+
+    If include_hidden is False, filters out records with is_hidden=True or
+    status in ('hidden', 'archived', 'rejected', 'deleted').
+    """
     if not is_supabase_configured():
-        return load_local_reports()
+        reports = load_local_reports()
+    else:
+        url = f"{SUPABASE_URL}/rest/v1/community_reports?select=*&order=created_at.desc"
+        try:
+            resp = requests.get(url, headers=_supabase_headers(), timeout=6)
+            if resp.status_code == 200:
+                data = resp.json()
+                reports = data if isinstance(data, list) else load_local_reports()
+            else:
+                logger.warning(
+                    "Supabase reports query returned status %s: %s",
+                    resp.status_code,
+                    resp.text[:200],
+                )
+                reports = load_local_reports()
+        except Exception as exc:
+            logger.warning("Supabase reports query exception: %s. Falling back to local data.", exc)
+            reports = load_local_reports()
 
-    url = f"{SUPABASE_URL}/rest/v1/community_reports?select=*&order=created_at.desc"
-    try:
-        resp = requests.get(url, headers=_supabase_headers(), timeout=6)
-        if resp.status_code == 200:
-            data = resp.json()
-            if isinstance(data, list):
-                return data
-        logger.warning(
-            "Supabase reports query returned status %s: %s",
-            resp.status_code,
-            resp.text[:200],
-        )
-    except Exception as exc:
-        logger.warning("Supabase reports query exception: %s. Falling back to local data.", exc)
+    if include_hidden:
+        return reports
 
-    return load_local_reports()
+    visible_reports = []
+    for r in reports:
+        # Check boolean is_hidden column
+        is_hidden_val = r.get("is_hidden")
+        if is_hidden_val is True or str(is_hidden_val).strip().lower() in ("true", "1"):
+            continue
+        # Check text status column
+        status_val = str(r.get("status") or "").strip().lower()
+        if status_val in ("hidden", "archived", "rejected", "deleted"):
+            continue
+        visible_reports.append(r)
+
+    return visible_reports
 
 
 def save_community_report(report_data: dict[str, Any]) -> bool:

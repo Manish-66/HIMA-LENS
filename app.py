@@ -708,7 +708,7 @@ def health():
     ), (200 if valid else 503)
 
 def find_report_by_id(report_id: str) -> dict[str, Any] | None:
-    reports = supabase_db.fetch_community_reports()
+    reports = supabase_db.fetch_community_reports(include_hidden=True)
     clean_id = report_id.strip().casefold()
     for r in reports:
         if str(r.get("id", "")).strip().casefold() == clean_id:
