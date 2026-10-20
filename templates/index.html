@@ -4,338 +4,605 @@
 HIMA-LENS | Himalayan Landslide Intelligence Platform
 {% endblock %}
 
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home_interactive.css') }}?v=1.1">
+{% endblock %}
+
 {% block content %}
 <div class="home-page">
 
     <!-- =====================================================
-         01. HERO: DYNAMIC AMBIENT TOPOLOGICAL CANVAS
-    ====================================================== -->
-    <!-- =====================================================
-         HERO: DYNAMIC MOUNTAIN CONTOUR TOPOGRAPHY
+         01. HERO: DUAL-PANE INTERACTIVE COMMAND CENTER
     ====================================================== -->
     <section class="home-hero">
-        <!-- Interactive 3D Terrain & Flow Line Mesh -->
+        <!-- Interactive 3D Terrain & Flow Line Mesh Canvas Background -->
         <canvas id="hero-canvas" class="hero-canvas"></canvas>
 
-        <div class="home-hero-content">
-            <div class="hero-badge">
-                <span class="live-ping"></span>
-                <span>HIMACHAL PRADESH &bull; 30°22′N &mdash; 33°12′N</span>
+        <div class="home-hero-grid">
+            <!-- LEFT NARRATIVE COLUMN -->
+            <div class="home-hero-narrative">
+                <div class="hero-badge">
+                    <span class="live-ping"></span>
+                    <span>HIMACHAL PRADESH &bull; 30°22′N &mdash; 33°12′N</span>
+                </div>
+
+                <h1 class="hero-title" style="margin-bottom: 0;">
+                    Reading the mountain <br>
+                    through its <span class="hero-title-accent">landslides.</span>
+                </h1>
+
+                <p class="hero-description" style="max-width: 580px; margin-bottom: 4px;">
+                    HIMA-LENS transforms raw historical slope failures into an interactive spatial intelligence system &mdash; exploring triggers, geology, and hazard patterns across Himachal Pradesh.
+                </p>
+
+                <div class="hero-pill-cluster">
+                    <span class="hero-feature-pill">📍 14,190 Cataloged Records</span>
+                    <span class="hero-feature-pill">🤖 Multimodal AI Auditing</span>
+                    <span class="hero-feature-pill">📊 HPSOR Parametric BOQ</span>
+                    <span class="hero-feature-pill">🏔️ 12 Districts</span>
+                </div>
+
+                <div class="hero-actions" style="margin-top: 14px;">
+                    <a href="{{ url_for('explore') }}" class="hero-primary-button">
+                        <span>Launch Spatial Explorer</span>
+                        <span class="button-arrow">&nearr;</span>
+                    </a>
+
+                    <a href="{{ url_for('report') }}" class="hero-scroll-button" style="text-decoration:none;">
+                        <span class="scroll-icon">+</span>
+                        <span>Submit Field Report</span>
+                    </a>
+                </div>
             </div>
 
-            <h1 class="hero-title">
-                Reading the mountain <br>
-                through its <span class="hero-title-accent">landslides.</span>
-            </h1>
+            <!-- RIGHT COLUMN: INTERACTIVE AI SCANNER TERMINAL -->
+            <div class="hero-scanner-terminal">
+                <div class="terminal-header">
+                    <div class="terminal-header-title">
+                        <span class="pulse-dot-green"></span>
+                        <span>AI OPTICAL SCANNER & STABILIZATION TERMINAL</span>
+                    </div>
+                    <span style="font-size: 9.5px; color: #94a3b8; font-family: 'JetBrains Mono', monospace;">GEMINI GEOTECH V2.4</span>
+                </div>
 
-            <p class="hero-description">
-                HIMA-LENS transforms raw historical slope failures into an interactive spatial intelligence system &mdash; exploring triggers, geology, and hazard patterns across Himachal Pradesh.
-            </p>
+                <!-- Scenario Selector Tabs -->
+                <div class="scenario-pill-tabs">
+                    <button class="scenario-btn active" data-scenario="mandi_rock">Mandi NH-21 Rock Slide</button>
+                    <button class="scenario-btn" data-scenario="mandi_cut">Aut-Larji Corridor Cut</button>
+                    <button class="scenario-btn" data-scenario="kullu_debris">Kullu Valley Slip</button>
+                    <button class="scenario-btn disqualify-btn" data-scenario="audit_demo">Audit Disqualification Demo</button>
+                </div>
 
-            <div class="hero-actions">
-                <a href="{{ url_for('explore') }}" class="hero-primary-button">
-                    <span>Launch Spatial Explorer</span>
-                    <span class="button-arrow">&nearr;</span>
-                </a>
+                <!-- Live Viewport with Laser Scanline and Target Bounding Box -->
+                <div class="terminal-viewport">
+                    <img id="terminal-img" src="https://lsjnontlkffkneiuxmwx.supabase.co/storage/v1/object/public/report-images/report_df6c4fc035f2_1791793364.jpg" alt="AI Landslide Scan Viewport">
+                    <div class="scanline-laser"></div>
+                    <div class="target-bounding-box" id="terminal-bbox" style="top: 18%; left: 20%; width: 55%; height: 55%;">
+                        <span class="target-tag" id="terminal-tag">CRITICAL ROCK SLIDE</span>
+                    </div>
 
-                <a href="#inventory-snapshot" class="hero-scroll-button">
-                    <span class="scroll-icon">&darr;</span>
-                    <span>Explore Dataset Insights</span>
-                </a>
-            </div>
-        </div>
+                    <div class="terminal-meta-overlay">
+                        <div>
+                            <div class="meta-title" id="terminal-title">Mandi-Pandoh Sector NH-21</div>
+                            <div class="meta-loc" id="terminal-loc">31.7080° N, 76.9320° E</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <span style="font-size: 9px; color: #2dd4bf; font-weight: 700; font-family: 'JetBrains Mono', monospace;">HIMA-LENS AUDITED</span>
+                        </div>
+                    </div>
+                </div>
 
-        <!-- Floating Live Telemetry Badge -->
-        <div class="hero-data-indicator">
-            <div class="data-indicator-header">
-                <span>INVENTORY STATUS</span>
-                <span class="live-indicator">LIVE MONITOR</span>
-            </div>
-            <div class="data-indicator-value">
-                <span id="hero-total" class="counter-val" data-target="14190">0</span>
-                <small>mapped records</small>
-            </div>
-            <div class="data-indicator-line">
-                <span></span>
-            </div>
-            <div class="data-indicator-footer">
-                <span>COVERAGE: 12 DISTRICTS</span>
-                <span>EPSG:4326</span>
+                <!-- Live Telemetry 4-Pill Grid -->
+                <div class="terminal-telemetry-grid">
+                    <div class="terminal-chip">
+                        <span class="terminal-chip-lbl">USGS CLASSIFICATION</span>
+                        <span class="terminal-chip-val" id="terminal-usgs">Translational Rock Slide (Cruden-Varnes Class 5)</span>
+                    </div>
+                    <div class="terminal-chip">
+                        <span class="terminal-chip-lbl">GSI STRATIGRAPHY</span>
+                        <span class="terminal-chip-val" id="terminal-geol">Sandstone & Siltstone Interbeds (GSI 53A14)</span>
+                    </div>
+                    <div class="terminal-chip highlight">
+                        <span class="terminal-chip-lbl">PRESCRIBED REMEDY</span>
+                        <span class="terminal-chip-val" id="terminal-rem">Plum Breast Wall H=2.8m + Soil Nails Fe500</span>
+                    </div>
+                    <div class="terminal-chip cost-chip">
+                        <span class="terminal-chip-lbl">PARAMETRIC HPSOR COST</span>
+                        <span class="terminal-chip-val" id="terminal-cost" style="color: #34d399; font-size: 13px;">₹ 6,99,080</span>
+                        <span style="font-size: 8.5px; color: #94a3b8;" id="terminal-cost-sub">16 HPSOR Scheduled Packages (Incl. 18% GST)</span>
+                    </div>
+                </div>
+
+                <!-- Action Links -->
+                <div class="terminal-footer-actions">
+                    <div style="display: flex; gap: 8px;">
+                        <a id="terminal-link-pwd" href="/report/pwd-sheet/HL-CR-37541B33" class="btn-terminal-open">
+                            <span>Open PWD Field Dossier</span>
+                            <span>&nearr;</span>
+                        </a>
+                        <a id="terminal-link-boq" href="/report/boq-sheet/HL-CR-37541B33" class="btn-terminal-boq">
+                            <span>View HPSOR Cost Sheet</span>
+                            <span>&nearr;</span>
+                        </a>
+                    </div>
+                    <span style="font-size: 9.5px; color: #5eead4; font-family: 'JetBrains Mono', monospace;">EPSG:4326</span>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- =====================================================
-         02. PLATFORM CAPABILITIES
+         02. INTERACTIVE DISTRICT LANDSLIDE RADAR
     ====================================================== -->
-    <section class="home-section platform-section" id="platform">
+    <section class="radar-section" id="district-radar">
         <div class="section-container">
-            <div class="section-heading-row">
-                <div class="section-number">01</div>
+            <div class="section-heading-row" style="margin-bottom: 20px;">
+                <div class="section-number" style="color: #2dd4bf;">01</div>
                 <div class="section-heading-content">
-                    <div class="section-label">THE PLATFORM</div>
-                    <h2 class="section-title">From scattered <span>records</span> to a spatial story.</h2>
-                    <p class="section-introduction">
-                        HIMA-LENS brings landslide records together in a single interactive environment &mdash; allowing you to move from regional patterns to individual mapped events.
+                    <div class="section-label" style="color: #2dd4bf;">REGIONAL HAZARD RADAR</div>
+                    <h2 class="section-title" style="color: #ffffff;">Himachal Pradesh <span>District Corridor Radar.</span></h2>
+                    <p class="section-introduction" style="color: #cbd5e1; max-width: 800px;">
+                        Filter statewide inventory distributions, high-risk arterial highway corridors, lithological units, and indicative SDRF reconstruction outlays by administrative division.
                     </p>
                 </div>
             </div>
 
-            <div class="feature-grid">
-                <!-- FEATURE 01 -->
-                <article class="feature-card">
-                    <div class="feature-card-top">
-                        <span class="feature-number">01</span>
-                        <span class="feature-icon">&target;</span>
-                    </div>
-                    <div class="feature-card-body">
-                        <h3>Explore <br>the terrain.</h3>
-                        <p>Navigate the spatial inventory and investigate where recorded landslides occur across the Himalayan landscape.</p>
-                    </div>
-                    <div class="feature-card-footer">
-                        <span>SPATIAL EXPLORATION</span>
-                        <span class="feature-arrow">&nearr;</span>
-                    </div>
-                </article>
-
-                <!-- FEATURE 02 -->
-                <article class="feature-card feature-card-dark">
-                    <div class="feature-card-top">
-                        <span class="feature-number">02</span>
-                        <span class="feature-icon">&#9672;</span>
-                    </div>
-                    <div class="feature-card-body">
-                        <h3>Inspect <br>every record.</h3>
-                        <p>Open individual mapped locations to examine available information including year, activity, material, and movement.</p>
-                    </div>
-                    <div class="feature-card-footer">
-                        <span>RECORD INTELLIGENCE</span>
-                        <span class="feature-arrow">&nearr;</span>
-                    </div>
-                </article>
-
-                <!-- FEATURE 03 -->
-                <article class="feature-card">
-                    <div class="feature-card-top">
-                        <span class="feature-number">03</span>
-                        <span class="feature-icon">&#8767;</span>
-                    </div>
-                    <div class="feature-card-body">
-                        <h3>Discover <br>the patterns.</h3>
-                        <p>Filter, compare, and investigate the spatial and temporal patterns contained within the regional inventory.</p>
-                    </div>
-                    <div class="feature-card-footer">
-                        <span>DATA DISCOVERY</span>
-                        <span class="feature-arrow">&nearr;</span>
-                    </div>
-                </article>
+            <!-- District Pill Scroller (All 12 Districts + Statewide All) -->
+            <div class="district-pill-scroller">
+                <button class="district-pill-btn active" data-district="All">
+                    <span>All Districts</span>
+                    <span class="pill-count">14,190</span>
+                </button>
+                <button class="district-pill-btn" data-district="Mandi">
+                    <span>Mandi</span>
+                    <span class="pill-count">9,429</span>
+                </button>
+                <button class="district-pill-btn" data-district="Sirmaur">
+                    <span>Sirmaur</span>
+                    <span class="pill-count">1,082</span>
+                </button>
+                <button class="district-pill-btn" data-district="Shimla">
+                    <span>Shimla</span>
+                    <span class="pill-count">991</span>
+                </button>
+                <button class="district-pill-btn" data-district="Solan">
+                    <span>Solan</span>
+                    <span class="pill-count">786</span>
+                </button>
+                <button class="district-pill-btn" data-district="Kangra">
+                    <span>Kangra</span>
+                    <span class="pill-count">516</span>
+                </button>
+                <button class="district-pill-btn" data-district="Chamba">
+                    <span>Chamba</span>
+                    <span class="pill-count">492</span>
+                </button>
+                <button class="district-pill-btn" data-district="Kullu">
+                    <span>Kullu</span>
+                    <span class="pill-count">411</span>
+                </button>
+                <button class="district-pill-btn" data-district="Bilaspur">
+                    <span>Bilaspur</span>
+                    <span class="pill-count">197</span>
+                </button>
+                <button class="district-pill-btn" data-district="Kinnaur">
+                    <span>Kinnaur</span>
+                    <span class="pill-count">118</span>
+                </button>
+                <button class="district-pill-btn" data-district="Lahaul And Spiti">
+                    <span>Lahaul & Spiti</span>
+                    <span class="pill-count">69</span>
+                </button>
+                <button class="district-pill-btn" data-district="Hamirpur">
+                    <span>Hamirpur</span>
+                    <span class="pill-count">54</span>
+                </button>
+                <button class="district-pill-btn" data-district="Una">
+                    <span>Una</span>
+                    <span class="pill-count">45</span>
+                </button>
             </div>
-        </div>
-    </section>
 
-    <!-- =====================================================
-         03. LIVE INVENTORY SNAPSHOT (DYNAMIC COUNTERS)
-    ====================================================== -->
-    <section class="home-section inventory-section" id="inventory-snapshot">
-        <div class="section-container">
-            <div class="inventory-header">
-                <div>
-                    <div class="section-label">DATASET METRICS</div>
-                    <h2 class="section-title">What the <span>inventory</span> holds today.</h2>
+            <!-- Radar Display Cards -->
+            <div class="radar-dashboard-grid">
+                <div class="radar-card">
+                    <div class="radar-card-head">
+                        <span>TOTAL CATALOGED SLOPES</span>
+                        <span>📊</span>
+                    </div>
+                    <div class="radar-card-val" id="radar-count-val">14,190</div>
+                    <div class="radar-card-desc">Georeferenced spatial points recorded in this sector.</div>
                 </div>
-                <a href="{{ url_for('explore') }}" class="text-link">
-                    <span>Open full spatial explorer</span>
-                    <span>&nearr;</span>
+
+                <div class="radar-card">
+                    <div class="radar-card-head">
+                        <span>HAZARD CLASSIFICATION</span>
+                        <span>⚠️</span>
+                    </div>
+                    <div class="radar-card-val" id="radar-hazard-val" style="font-size: 17px; color: #fcd34d;">STATEWIDE HIGH HAZARD</div>
+                    <div class="radar-card-desc">Calculated regional susceptibility tier.</div>
+                </div>
+
+                <div class="radar-card">
+                    <div class="radar-card-head">
+                        <span>CRITICAL HIGHWAY CORRIDORS</span>
+                        <span>🛣️</span>
+                    </div>
+                    <div class="radar-card-val" id="radar-corridor-val" style="font-size: 15px; color: #99f6e4;">NH-21, NH-05, NH-205, SH-13</div>
+                    <div class="radar-card-desc">Key arterial lifelines monitored in sector.</div>
+                </div>
+
+                <div class="radar-card">
+                    <div class="radar-card-head">
+                        <span>EST. SDRF RECONSTRUCTION</span>
+                        <span>💰</span>
+                    </div>
+                    <div class="radar-card-val" id="radar-outlay-val" style="color: #34d399;">₹ 1,280 Cr</div>
+                    <div class="radar-card-desc" id="radar-focus-val">All 12 Administrative Divisions Cataloged</div>
+                </div>
+            </div>
+
+            <!-- Context Strip & Action Link -->
+            <div class="radar-action-row">
+                <div style="font-size: 12.5px; color: #cbd5e1; display: flex; align-items: center; gap: 8px;">
+                    <span style="color: #5eead4; font-weight: 700; font-family: 'JetBrains Mono', monospace;">LITHOLOGY:</span>
+                    <span id="radar-geology-val" style="color: #ffffff; font-weight: 600;">Tertiary Sandstone, Chail Phyllites, Jutogh Gneiss</span>
+                </div>
+                <a href="{{ url_for('explore') }}" id="radar-action-btn" class="hero-primary-button" style="padding: 8px 18px; font-size: 12px;">
+                    <span>Launch GIS Explorer (All Districts)</span>
+                    <span class="button-arrow">&nearr;</span>
                 </a>
             </div>
-
-            <div class="statistics-grid">
-                <!-- TOTAL -->
-                <div class="stat-card stat-card-primary">
-                    <div class="stat-card-label">
-                        <span class="stat-dot"></span>
-                        TOTAL MAPPED RECORDS
-                    </div>
-                    <div class="stat-value counter-val" id="stat-total" data-target="14190">0</div>
-                    <div class="stat-description">
-                        Verified spatial points cataloged across the 12 districts of Himachal Pradesh.
-                    </div>
-                    <div class="stat-card-index">01 / 04</div>
-                </div>
-
-                <!-- DISTRICTS -->
-                <div class="stat-card">
-                    <div class="stat-card-label">
-                        <span class="stat-icon">&bull;</span>
-                        DISTRICT COVERAGE
-                    </div>
-                    <div class="stat-value counter-val" id="stat-districts" data-target="12">0</div>
-                    <div class="stat-description">
-                        All 12 administrative divisions mapped with slope failure events.
-                    </div>
-                    <div class="stat-card-index">02 / 04</div>
-                </div>
-
-                <!-- MANDI DETAILED FIELD SURVEY -->
-                <div class="stat-card">
-                    <div class="stat-card-label">
-                        <span class="stat-icon">&#x23F1;</span>
-                        MANDI FIELD INVENTORY
-                    </div>
-                    <div class="stat-value counter-val" id="stat-mandi" data-target="9399">0</div>
-                    <div class="stat-description">
-                        High-resolution 10m field survey records in Mandi district.
-                    </div>
-                    <div class="stat-card-index">03 / 04</div>
-                </div>
-
-                <!-- STATEWIDE GSI SURVEY -->
-                <div class="stat-card">
-                    <div class="stat-card-label">
-                        <span class="stat-icon">&#9670;</span>
-                        STATEWIDE GSI SURVEY
-                    </div>
-                    <div class="stat-value counter-val" id="stat-detailed" data-target="4791">0</div>
-                    <div class="stat-description">
-                        Deduplicated regional geological survey landslide locations.
-                    </div>
-                    <div class="stat-card-index">04 / 04</div>
-                </div>
-            </div>
-
-            <div class="inventory-status">
-                <div class="inventory-status-left">
-                    <span class="status-dot"></span>
-                    <span>SPATIAL DATABASE STREAM ACTIVE &bull; GEOJSON V2.4</span>
-                </div>
-                <div class="inventory-status-right">
-                    <span>COORDINATE SYSTEM:</span>
-                    <strong>WGS 84 / EPSG:4326</strong>
-                </div>
-            </div>
         </div>
     </section>
 
     <!-- =====================================================
-         04. DATA STORY & GEOLOGICAL CONTEXT
+         03. INTERACTIVE SLOPE FAILURE ANATOMY INSPECTOR
     ====================================================== -->
-    <section class="home-section story-section">
+    <section class="anatomy-section" id="slope-anatomy">
         <div class="section-container">
-            <div class="story-grid">
-                <!-- LEFT VISUAL -->
-                <div class="story-visual">
-                    <div class="story-map-placeholder">
-                        <div class="map-grid"></div>
-                        <div class="mountain-profile">
-                            <span></span><span></span><span></span><span></span><span></span>
-                        </div>
-                        <div class="map-point point-1"><span></span></div>
-                        <div class="map-point point-2"><span></span></div>
-                        <div class="map-point point-3"><span></span></div>
-                        <div class="map-point point-4"><span></span></div>
-                        <div class="map-point point-5"><span></span></div>
+            <div class="section-heading-row" style="margin-bottom: 20px;">
+                <div class="section-number" style="color: #2dd4bf;">02</div>
+                <div class="section-heading-content">
+                    <div class="section-label" style="color: #2dd4bf;">FAILURE ANATOMY & REMEDIAL DESIGN</div>
+                    <h2 class="section-title" style="color: #ffffff;">Deconstructing a <span>Himalayan Cut-Slope Failure.</span></h2>
+                    <p class="section-introduction" style="color: #cbd5e1; max-width: 800px;">
+                        Interactive architectural cross-section of a roadway cut slope showing progressive tension detachment, hydrogeological pore-pressure triggers, and structural mitigation works compliant with HPPWD HPSOR and MoRTH standards.
+                    </p>
+                </div>
+            </div>
 
-                        <div class="map-label map-label-one">31.76° N</div>
-                        <div class="map-label map-label-two">77.19° E</div>
+            <div class="anatomy-grid">
+                <!-- LEFT: INTERACTIVE SVG CROSS-SECTION -->
+                <div class="slope-diagram-card">
+                    <div class="slope-svg-wrapper">
+                        <svg viewBox="0 0 600 420" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#051c15" />
+                                    <stop offset="100%" stop-color="#0b382c" />
+                                </linearGradient>
+                                <linearGradient id="bedrockGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#144d3e" />
+                                    <stop offset="100%" stop-color="#0c3227" />
+                                </linearGradient>
+                                <linearGradient id="colluviumGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#78593a" />
+                                    <stop offset="100%" stop-color="#543c26" />
+                                </linearGradient>
+                                <pattern id="rockHatch" width="20" height="20" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+                                    <line x1="0" y1="0" x2="0" y2="20" stroke="rgba(45, 212, 191, 0.12)" stroke-width="1.5" />
+                                </pattern>
+                            </defs>
 
-                        <div class="map-caption">
-                            <span>SPATIAL INVENTORY</span>
-                            <strong>HIMACHAL PRADESH</strong>
-                        </div>
+                            <!-- Background Sky -->
+                            <rect width="600" height="420" rx="10" fill="url(#skyGrad)" />
+
+                            <!-- Mountain Cut Profile (Bedrock) -->
+                            <polygon points="50,40 180,90 290,170 410,290 410,380 50,380" fill="url(#bedrockGrad)" />
+                            <polygon points="50,40 180,90 290,170 410,290 410,380 50,380" fill="url(#rockHatch)" />
+
+                            <!-- Overlying Colluvium / Weathered Horizon -->
+                            <polygon points="50,40 180,90 230,120 190,135 110,95 50,60" fill="url(#colluviumGrad)" opacity="0.85" />
+
+                            <!-- Failure Shear Plane (Dashed Red Line) -->
+                            <path d="M 175,92 Q 260,190 410,290" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-dasharray="6,4" />
+
+                            <!-- Roadway Platform -->
+                            <polygon points="410,380 410,340 580,340 580,380" fill="#1e293b" />
+                            <line x1="410" y1="340" x2="580" y2="340" stroke="#94a3b8" stroke-width="3" />
+                            <!-- Road Center Markings -->
+                            <line x1="430" y1="360" x2="460" y2="360" stroke="#fef08a" stroke-width="2" />
+                            <line x1="480" y1="360" x2="510" y2="360" stroke="#fef08a" stroke-width="2" />
+                            <line x1="530" y1="360" x2="560" y2="360" stroke="#fef08a" stroke-width="2" />
+
+                            <!-- Plum Concrete Breast Wall at Toe -->
+                            <polygon points="400,285 418,285 428,340 395,340" fill="#475569" stroke="#94a3b8" stroke-width="1.5" />
+                            <!-- Weepholes in Wall -->
+                            <circle cx="410" cy="325" r="2.5" fill="#38bdf8" />
+                            <circle cx="420" cy="305" r="2.5" fill="#38bdf8" />
+
+                            <!-- Daylighting Joint Discontinuities (Dip 59 deg) -->
+                            <line x1="220" y1="130" x2="330" y2="230" stroke="#f59e0b" stroke-width="1.8" stroke-dasharray="4,3" />
+                            <line x1="260" y1="170" x2="380" y2="280" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4,3" />
+                            <line x1="300" y1="210" x2="405" y2="305" stroke="#f59e0b" stroke-width="1.8" stroke-dasharray="4,3" />
+
+                            <!-- Soil Nails (Inclined Steel Tendons) -->
+                            <line x1="320" y1="200" x2="240" y2="225" stroke="#38bdf8" stroke-width="2.5" />
+                            <line x1="360" y1="240" x2="280" y2="265" stroke="#38bdf8" stroke-width="2.5" />
+                            <line x1="395" y1="280" x2="320" y2="305" stroke="#38bdf8" stroke-width="2.5" />
+
+                            <!-- Perched Water Table (Blue Wavy Flow Lines) -->
+                            <path d="M 190,140 Q 230,190 280,240" fill="none" stroke="#0284c7" stroke-width="2" opacity="0.75" />
+                            <circle cx="280" cy="240" r="3" fill="#38bdf8" />
+
+                            <!-- Catchwater Drain at Crest -->
+                            <polygon points="170,88 185,88 180,98 172,98" fill="#64748b" />
+
+                            <!-- Bio-Turfing Grass on Upper Slope -->
+                            <path d="M 110,65 L 115,55 M 125,72 L 130,62 M 140,78 L 145,68 M 155,83 L 160,73" stroke="#4ade80" stroke-width="1.8" />
+
+                            <!-- HOTSPOT 01: Crown Fissures -->
+                            <g class="hotspot-node active" data-hotspot="crown" transform="translate(175, 88)">
+                                <circle class="hotspot-pulse" cx="0" cy="0" r="10" fill="#2dd4bf" />
+                                <circle class="hotspot-circle" cx="0" cy="0" r="8" />
+                                <text x="0" y="3.5" font-size="8.5" font-weight="900" fill="#092f25" text-anchor="middle" font-family="'JetBrains Mono',monospace">1</text>
+                            </g>
+
+                            <!-- HOTSPOT 02: Joint Discontinuity Dip 59 deg -->
+                            <g class="hotspot-node" data-hotspot="joint" transform="translate(320, 235)">
+                                <circle class="hotspot-pulse" cx="0" cy="0" r="10" fill="#2dd4bf" />
+                                <circle class="hotspot-circle" cx="0" cy="0" r="8" />
+                                <text x="0" y="3.5" font-size="8.5" font-weight="900" fill="#092f25" text-anchor="middle" font-family="'JetBrains Mono',monospace">2</text>
+                            </g>
+
+                            <!-- HOTSPOT 03: Perched Seepage & Pore Water -->
+                            <g class="hotspot-node" data-hotspot="seepage" transform="translate(255, 215)">
+                                <circle class="hotspot-pulse" cx="0" cy="0" r="10" fill="#2dd4bf" />
+                                <circle class="hotspot-circle" cx="0" cy="0" r="8" />
+                                <text x="0" y="3.5" font-size="8.5" font-weight="900" fill="#092f25" text-anchor="middle" font-family="'JetBrains Mono',monospace">3</text>
+                            </g>
+
+                            <!-- HOTSPOT 04: Plum Breast Wall at Toe -->
+                            <g class="hotspot-node" data-hotspot="wall" transform="translate(412, 312)">
+                                <circle class="hotspot-pulse" cx="0" cy="0" r="10" fill="#2dd4bf" />
+                                <circle class="hotspot-circle" cx="0" cy="0" r="8" />
+                                <text x="0" y="3.5" font-size="8.5" font-weight="900" fill="#092f25" text-anchor="middle" font-family="'JetBrains Mono',monospace">4</text>
+                            </g>
+
+                            <!-- HOTSPOT 05: Soil Nails Fe500 -->
+                            <g class="hotspot-node" data-hotspot="nails" transform="translate(360, 255)">
+                                <circle class="hotspot-pulse" cx="0" cy="0" r="10" fill="#2dd4bf" />
+                                <circle class="hotspot-circle" cx="0" cy="0" r="8" />
+                                <text x="0" y="3.5" font-size="8.5" font-weight="900" fill="#092f25" text-anchor="middle" font-family="'JetBrains Mono',monospace">5</text>
+                            </g>
+
+                            <!-- HOTSPOT 06: Vetiver Bio-Turfing -->
+                            <g class="hotspot-node" data-hotspot="bio" transform="translate(135, 70)">
+                                <circle class="hotspot-pulse" cx="0" cy="0" r="10" fill="#2dd4bf" />
+                                <circle class="hotspot-circle" cx="0" cy="0" r="8" />
+                                <text x="0" y="3.5" font-size="8.5" font-weight="900" fill="#092f25" text-anchor="middle" font-family="'JetBrains Mono',monospace">6</text>
+                            </g>
+
+                            <!-- Legend Overlay in Corner -->
+                            <g transform="translate(430, 25)">
+                                <rect width="155" height="70" rx="5" fill="rgba(6, 31, 24, 0.85)" stroke="rgba(45, 212, 191, 0.3)" />
+                                <text x="10" y="18" fill="#5eead4" font-size="9" font-weight="700" font-family="'JetBrains Mono',monospace">SLOPE FAILURE LEGEND</text>
+                                <line x1="10" y1="30" x2="30" y2="30" stroke="#ef4444" stroke-width="2" stroke-dasharray="4,2" />
+                                <text x="36" y="33" fill="#cbd5e1" font-size="8.5">Failure Slip Plane</text>
+                                <line x1="10" y1="44" x2="30" y2="44" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4,2" />
+                                <text x="36" y="47" fill="#cbd5e1" font-size="8.5">Joint Set J1 (Dip 59°)</text>
+                                <line x1="10" y1="58" x2="30" y2="58" stroke="#38bdf8" stroke-width="2" />
+                                <text x="36" y="61" fill="#cbd5e1" font-size="8.5">Soil Nails (Fe500)</text>
+                            </g>
+                        </svg>
                     </div>
                 </div>
 
-                <!-- RIGHT CONTENT -->
-                <div class="story-content">
-                    <div class="section-number">02</div>
-                    <div class="section-label">WHY SPATIAL DATA MATTERS</div>
-                    <h2 class="story-title">A landslide is <span>more than a point.</span></h2>
-                    <p>Every mapped location exists within a larger landscape. Its position connects it to terrain, geology, hydrology, land use, infrastructure, rainfall, and human activity.</p>
-                    <p>HIMA-LENS makes those spatial relationships easier to explore &mdash; starting with the inventory and opening a path toward deeper risk analysis.</p>
+                <!-- RIGHT: HOTSPOT TECHNICAL READ-OUT INSPECTOR -->
+                <div class="inspector-card">
+                    <div>
+                        <div class="inspector-tag" id="ins-tag">01 / KINEMATIC DETACHMENT</div>
+                        <div class="inspector-title" id="ins-title">Crown Tension Fissures & Detachment Scarp</div>
+                        <span class="inspector-code-pill" id="ins-code">USGS Circular 1325 • Cruden-Varnes (1996)</span>
+                        <p class="inspector-body" id="ins-body">
+                            Gravitational stress relief creates sub-vertical extensional tension cracks 5m to 15m uphill of the cut slope crest. When fissure aperture exceeds 15mm under rainfall saturation, progressive shear rupture initiates kinematic downhill displacement.
+                        </p>
 
-                    <div class="story-list">
-                        <div class="story-list-item">
-                            <span>01</span>
-                            <div>
-                                <strong>WHERE</strong>
-                                <p>Spatial distribution and concentration across mountain slopes.</p>
+                        <div class="inspector-metrics-box" id="ins-metrics">
+                            <div class="inspector-metric-row">
+                                <span class="inspector-metric-lbl">Diagnostic Feature:</span>
+                                <span class="inspector-metric-val">Tension Cracks (&gt;15mm aperture)</span>
                             </div>
-                        </div>
-                        <div class="story-list-item">
-                            <span>02</span>
-                            <div>
-                                <strong>WHEN</strong>
-                                <p>Temporal patterns and seasonal clustering within available records.</p>
+                            <div class="inspector-metric-row">
+                                <span class="inspector-metric-lbl">Failure Kinematics:</span>
+                                <span class="inspector-metric-val">Translational Planar Slip</span>
                             </div>
-                        </div>
-                        <div class="story-list-item">
-                            <span>03</span>
-                            <div>
-                                <strong>WHAT</strong>
-                                <p>Material, movement classification, and geological triggering mechanisms.</p>
+                            <div class="inspector-metric-row">
+                                <span class="inspector-metric-lbl">Prescribed Action:</span>
+                                <span class="inspector-metric-val">Crown Unloading &amp; Interceptor Catch Drains</span>
+                            </div>
+                            <div class="inspector-metric-row">
+                                <span class="inspector-metric-lbl">HPSOR Code:</span>
+                                <span class="inspector-metric-val">MoRTH Section 301 / HPSOR Item 2.1</span>
                             </div>
                         </div>
                     </div>
 
-                    <a href="{{ url_for('explore') }}" class="story-link">
-                        <span>Enter the spatial explorer</span>
-                        <span>&nearr;</span>
-                    </a>
+                    <div style="font-size: 11px; color: #94a3b8; font-family: 'JetBrains Mono', monospace; padding-top: 10px; border-top: 1px dashed rgba(255, 255, 255, 0.1);">
+                        ⚡ Click any numbered hotspot [1 &ndash; 6] on the slope cross-section to inspect structural engineering parameters.
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- =====================================================
-         05. INVENTORY DIMENSIONS
+         04. INTERACTIVE MODULE WORKSTATION CONSOLE
     ====================================================== -->
-    <section class="home-section dimensions-section">
+    <section class="workstation-section" id="workstation">
         <div class="section-container">
-            <div class="dimensions-header">
-                <div>
-                    <div class="section-label">INVENTORY DIMENSIONS</div>
-                    <h2 class="section-title">Look at the <span>same landscape</span> differently.</h2>
+            <div class="section-heading-row" style="margin-bottom: 20px;">
+                <div class="section-number" style="color: #2dd4bf;">03</div>
+                <div class="section-heading-content">
+                    <div class="section-label" style="color: #2dd4bf;">PLATFORM WORKSTATION</div>
+                    <h2 class="section-title" style="color: #ffffff;">Interactive Geotechnical <span>Sandbox.</span></h2>
+                    <p class="section-introduction" style="color: #cbd5e1; max-width: 800px;">
+                        Explore live GIS geospatial hotspots, test parametric HPSOR slope mitigation budgets with real-time sliders, or examine multidimensional data facets.
+                    </p>
                 </div>
-                <p>The inventory can be approached through multiple lenses, allowing different questions to emerge from the same dataset.</p>
             </div>
 
-            <div class="dimension-grid">
-                <div class="dimension-item">
-                    <span class="dimension-number">01</span>
-                    <strong>LOCATION</strong>
-                    <span>District & spatial distribution</span>
+            <!-- Tab Buttons -->
+            <div class="workstation-tabs">
+                <button class="workstation-tab-btn active" data-tab="tab-mini-map">
+                    <span>🗺️ Live Spatial GIS Map</span>
+                </button>
+                <button class="workstation-tab-btn" data-tab="tab-cost-calc">
+                    <span>💰 HPSOR Parametric Cost Sandbox</span>
+                </button>
+                <button class="workstation-tab-btn" data-tab="tab-dimensions">
+                    <span>📐 Multimodal Inventory Dimensions</span>
+                </button>
+            </div>
+
+            <!-- TAB PANEL 1: LIVE LEAFLET MINI-MAP -->
+            <div class="workstation-panel active" id="tab-mini-map">
+                <div class="mini-map-frame" id="home-mini-map"></div>
+                <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; color: #94a3b8;">
+                    <span>📍 High-density landslide clusters shown across Himachal Pradesh. Click any cluster marker to view details.</span>
+                    <a href="{{ url_for('explore') }}" style="color: #2dd4bf; text-decoration: none; font-weight: 700;">Open Full Spatial Explorer &nearr;</a>
                 </div>
-                <div class="dimension-item">
-                    <span class="dimension-number">02</span>
-                    <strong>TIME</strong>
-                    <span>Year & temporal coverage</span>
+            </div>
+
+            <!-- TAB PANEL 2: LIVE HPSOR COST CALCULATOR SANDBOX -->
+            <div class="workstation-panel" id="tab-cost-calc">
+                <div class="cost-sandbox-card">
+                    <!-- Left: Sliders & Controls -->
+                    <div>
+                        <h3 style="font-family: 'Manrope', sans-serif; font-size: 18px; color: #ffffff; margin-bottom: 6px;">
+                            Slope Stabilization Parametric Calculator
+                        </h3>
+                        <p style="font-size: 11.5px; color: #94a3b8; margin-bottom: 20px;">
+                            Adjust cut-slope dimensions and severity tier to calculate real-time civil works quantities and HPSOR/MoRTH estimated contract outlays.
+                        </p>
+
+                        <!-- Slider Height -->
+                        <div class="slider-group">
+                            <div class="slider-label-row">
+                                <span style="color: #cbd5e1;">Cut-Slope Vertical Height (H):</span>
+                                <span id="calc-val-h" style="color: #2dd4bf; font-family: 'JetBrains Mono', monospace; font-weight: 700;">4.5 m</span>
+                            </div>
+                            <input type="range" class="slider-range-input" id="calc-h" min="2.0" max="12.0" step="0.5" value="4.5">
+                        </div>
+
+                        <!-- Slider Length -->
+                        <div class="slider-group">
+                            <div class="slider-label-row">
+                                <span style="color: #cbd5e1;">Road Corridor Rupture Length (L):</span>
+                                <span id="calc-val-l" style="color: #2dd4bf; font-family: 'JetBrains Mono', monospace; font-weight: 700;">25 m</span>
+                            </div>
+                            <input type="range" class="slider-range-input" id="calc-l" min="10" max="100" step="5" value="25">
+                        </div>
+
+                        <!-- Severity Selector Pills -->
+                        <div style="margin-top: 18px;">
+                            <span style="font-size: 11.5px; color: #cbd5e1; font-weight: 700; display: block; margin-bottom: 8px;">Hazard Severity Multiplier:</span>
+                            <div style="display: flex; gap: 8px;">
+                                <button class="calc-sev-pill scenario-btn" data-severity="Low">Low (0.75x)</button>
+                                <button class="calc-sev-pill scenario-btn active" data-severity="Moderate">Moderate (1.0x)</button>
+                                <button class="calc-sev-pill scenario-btn" data-severity="High">High (1.35x)</button>
+                                <button class="calc-sev-pill scenario-btn" data-severity="Critical">Critical (1.75x)</button>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 24px; font-size: 10px; color: #94a3b8; line-height: 1.4;">
+                            * Rates calibrated against HPPWD Schedule of Rates 2020 (HPSOR 4.2) and MoRTH Specifications for Road &amp; Bridge Works (5th Rev).
+                        </div>
+                    </div>
+
+                    <!-- Right: Results Panel -->
+                    <div class="sandbox-results-panel">
+                        <div>
+                            <div style="font-size: 11px; font-weight: 700; color: #5eead4; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; margin-bottom: 12px;">
+                                ESTIMATED PHYSICAL QUANTITIES
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px;">
+                                <div style="background: rgba(16, 76, 59, 0.4); padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(45, 212, 191, 0.2);">
+                                    <div style="font-size: 9.5px; color: #94a3b8; font-family: 'JetBrains Mono', monospace;">EXCAVATION &amp; BENCHING</div>
+                                    <div id="calc-val-exc" style="font-size: 15px; font-weight: 800; color: #ffffff; font-family: 'Manrope', sans-serif;">174 m³</div>
+                                </div>
+                                <div style="background: rgba(16, 76, 59, 0.4); padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(45, 212, 191, 0.2);">
+                                    <div style="font-size: 9.5px; color: #94a3b8; font-family: 'JetBrains Mono', monospace;">PLUM BREAST WALL</div>
+                                    <div id="calc-val-wall" style="font-size: 15px; font-weight: 800; color: #ffffff; font-family: 'Manrope', sans-serif;">63 m³</div>
+                                </div>
+                            </div>
+
+                            <div style="background: rgba(16, 76, 59, 0.4); padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(45, 212, 191, 0.2); margin-bottom: 16px;">
+                                <div style="font-size: 9.5px; color: #94a3b8; font-family: 'JetBrains Mono', monospace;">SOIL NAILS (Fe500 DIA 25mm)</div>
+                                <div id="calc-val-nails" style="font-size: 15px; font-weight: 800; color: #ffffff; font-family: 'Manrope', sans-serif;">38 Nos</div>
+                            </div>
+
+                            <div style="border-top: 1px solid rgba(45, 212, 191, 0.25); padding-top: 12px;">
+                                <div style="font-size: 10.5px; color: #94a3b8; font-family: 'JetBrains Mono', monospace;">ESTIMATED GRAND CIVIL TOTAL (INCL. 18% GST):</div>
+                                <div class="live-boq-total" id="calc-val-total">₹ 6,12,450</div>
+                            </div>
+
+                            <div style="margin-top: 8px; font-size: 11.5px; color: #cbd5e1;">
+                                Recommended SDRF Relief Reserve: <strong id="calc-val-sdrf" style="color: #fcd34d;">₹ 5,48,000</strong>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 18px;">
+                            <a href="{{ url_for('report') }}" class="hero-primary-button" style="width: 100%; justify-content: center; font-size: 12px; padding: 10px;">
+                                <span>Generate Official PWD BOQ for Any Slope &nearr;</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <div class="dimension-item">
-                    <span class="dimension-number">03</span>
-                    <strong>TRIGGER</strong>
-                    <span>Recorded rainfall & seismic factors</span>
-                </div>
-                <div class="dimension-item">
-                    <span class="dimension-number">04</span>
-                    <strong>MOVEMENT</strong>
-                    <span>Landslide movement & failure modes</span>
-                </div>
-                <div class="dimension-item">
-                    <span class="dimension-number">05</span>
-                    <strong>GEOLOGY</strong>
-                    <span>Geological and lithological context</span>
-                </div>
-                <div class="dimension-item">
-                    <span class="dimension-number">06</span>
-                    <strong>LAND USE</strong>
-                    <span>Recorded anthropogenic and land-use factors</span>
+            </div>
+
+            <!-- TAB PANEL 3: MULTIMODAL INVENTORY DIMENSIONS -->
+            <div class="workstation-panel" id="tab-dimensions">
+                <div class="dimension-grid">
+                    <div class="dimension-item">
+                        <span class="dimension-number">01</span>
+                        <strong>LOCATION</strong>
+                        <span>12 Districts &amp; arterial highway road-cut distribution</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-number">02</span>
+                        <strong>TEMPORAL</strong>
+                        <span>Historical inventory from 1971 to present day</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-number">03</span>
+                        <strong>TRIGGER</strong>
+                        <span>Recorded monsoon precipitation &amp; seismic factors</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-number">04</span>
+                        <strong>KINEMATICS</strong>
+                        <span>Cruden-Varnes planar, rotational &amp; rockfall modes</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-number">05</span>
+                        <strong>GEOLOGY</strong>
+                        <span>GSI Bhukosh lithological and tectonic shear context</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-number">06</span>
+                        <strong>MITIGATION</strong>
+                        <span>Parametric HPSOR Schedule of Rates cost engineering</span>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- =====================================================
-         06. FINAL CALL TO ACTION
+         05. FINAL CALL TO ACTION
     ====================================================== -->
     <section class="home-section final-cta-section">
         <div class="section-container">
@@ -350,10 +617,16 @@ HIMA-LENS | Himalayan Landslide Intelligence Platform
                     <h2>The map is <span>waiting.</span></h2>
                     <p>Move beyond flat tables. Explore where landslides occur, examine what is known about them, and let the Himalayan landscape tell the story.</p>
 
-                    <a href="{{ url_for('explore') }}" class="hero-primary-button">
-                        <span>Open the interactive map</span>
-                        <span class="button-arrow">&nearr;</span>
-                    </a>
+                    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                        <a href="{{ url_for('explore') }}" class="hero-primary-button">
+                            <span>Open the Interactive Map</span>
+                            <span class="button-arrow">&nearr;</span>
+                        </a>
+                        <a href="{{ url_for('report') }}" class="hero-scroll-button" style="text-decoration: none; border-color: rgba(255, 255, 255, 0.2);">
+                            <span>Submit a Field Report</span>
+                            <span class="button-arrow">&nearr;</span>
+                        </a>
+                    </div>
                 </div>
 
                 <div class="final-cta-coordinate">
@@ -369,7 +642,7 @@ HIMA-LENS | Himalayan Landslide Intelligence Platform
 {% block scripts %}
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Fluid Topological Mesh & Particle Background Canvas
+    // Fluid Topological Mesh & Particle Background Canvas
     const canvas = document.getElementById("hero-canvas");
     if (canvas) {
         const ctx = canvas.getContext("2d");
@@ -466,80 +739,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         animateCanvas();
     }
-
-    // 2. Animated Counter Numbers
-    const counters = document.querySelectorAll(".counter-val");
-    const animateCounters = () => {
-        counters.forEach(counter => {
-            const target = +counter.getAttribute("data-target");
-            let count = 0;
-            const speed = target / 60;
-
-            const updateCount = () => {
-                count += speed;
-                if (count < target) {
-                    counter.textContent = Math.ceil(count).toLocaleString("en-IN");
-                    requestAnimationFrame(updateCount);
-                } else {
-                    counter.textContent = target.toLocaleString("en-IN");
-                }
-            };
-            updateCount();
-        });
-    };
-
-    let animated = false;
-    window.addEventListener("scroll", () => {
-        const section = document.getElementById("inventory-snapshot");
-        if (section && !animated) {
-            const rect = section.getBoundingClientRect();
-            if (rect.top <= window.innerHeight * 0.85) {
-                animateCounters();
-                animated = true;
-            }
-        }
-    });
-
-    const heroCounter = document.getElementById("hero-total");
-    function animateHero(target) {
-        if (!heroCounter) return;
-        let heroCount = 0;
-        const step = Math.max(1, Math.floor(target / 60));
-        const heroInterval = setInterval(() => {
-            heroCount += step;
-            if (heroCount >= target) {
-                heroCounter.textContent = target.toLocaleString("en-IN");
-                clearInterval(heroInterval);
-            } else {
-                heroCounter.textContent = heroCount.toLocaleString("en-IN");
-            }
-        }, 16);
-    }
-
-    // Dynamic telemetry synchronization from /api/summary
-    fetch("/api/summary")
-        .then(res => res.json())
-        .then(data => {
-            if (data.success && data.total_records) {
-                const total = data.total_records;
-                const dists = data.districts;
-                if (heroCounter) heroCounter.setAttribute("data-target", total);
-                const statTotal = document.getElementById("stat-total");
-                if (statTotal) statTotal.setAttribute("data-target", total);
-                const statDists = document.getElementById("stat-districts");
-                if (statDists) statDists.setAttribute("data-target", dists);
-
-                const footerSpan = document.querySelector(".data-indicator-footer span:first-child");
-                if (footerSpan) footerSpan.textContent = `COVERAGE: ${dists} DISTRICTS`;
-
-                animateHero(total);
-            } else {
-                animateHero(parseInt(heroCounter?.getAttribute("data-target") || "14190", 10));
-            }
-        })
-        .catch(() => {
-            animateHero(parseInt(heroCounter?.getAttribute("data-target") || "14190", 10));
-        });
 });
 </script>
+<script src="{{ url_for('static', filename='js/home_interactive.js') }}?v=1.1"></script>
 {% endblock %}
