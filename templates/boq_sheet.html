@@ -6,23 +6,20 @@
   <title>HPPWD Official BOQ &amp; Loss Estimate - {{ report.id }}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Manrope:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Manrope:wght@600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary-dark: #092f25;
       --primary-forest: #104c3b;
       --accent-teal: #17624d;
-      --border-dark: #1e293b;
-      --border-mid: #64748b;
-      --border-light: #cbd5e1;
+      --border-dark: #0f172a;
+      --border-mid: #475569;
+      --border-light: #94a3b8;
       --bg-header: #092f25;
       --bg-table-head: #f1f5f9;
       --bg-alt: #f8fafc;
       --ink: #0f172a;
       --ink-soft: #334155;
-      --danger-red: #991b1b;
-      --danger-bg: #fef2f2;
-      --danger-border: #f87171;
     }
 
     * {
@@ -33,16 +30,16 @@
 
     body {
       font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      font-size: 8.5px;
-      line-height: 1.25;
+      font-size: 8.5pt;
+      line-height: 1.3;
       color: var(--ink);
       background: #cbd5e1;
       padding: 16px;
     }
 
-    /* Screen Top Action Bar */
+    /* Screen Top Action Bar (Hidden on Print) */
     .screen-action-bar {
-      max-width: 900px;
+      max-width: 920px;
       margin: 0 auto 14px auto;
       display: flex;
       flex-wrap: wrap;
@@ -82,8 +79,8 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 6px 14px;
-      font-size: 11px;
+      padding: 7px 15px;
+      font-size: 11.5px;
       font-weight: 600;
       border-radius: 6px;
       border: none;
@@ -95,6 +92,7 @@
     .btn-print {
       background: #2dd4bf;
       color: var(--primary-dark);
+      font-weight: 700;
     }
     .btn-print:hover {
       background: #5eead4;
@@ -108,40 +106,40 @@
       background: rgba(255, 255, 255, 0.22);
     }
 
-    /* Mobile Canvas Scroll Wrapper */
+    /* Screen Canvas Wrapper (Enables smooth mobile scroll without collapsing A4 layout) */
     .report-canvas-wrapper {
       width: 100%;
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
     }
     .report-canvas {
-      width: 900px;
-      min-width: 900px;
+      width: 920px;
+      min-width: 920px;
       margin: 0 auto;
     }
 
     .mobile-hint-banner {
       display: none;
-      max-width: 900px;
+      max-width: 920px;
       margin: 0 auto 10px auto;
       background: #eff6ff;
       border: 1px solid #bfdbfe;
       border-left: 3px solid #3b82f6;
       border-radius: 6px;
-      padding: 6px 10px;
-      font-size: 10px;
+      padding: 7px 12px;
+      font-size: 10.5px;
       color: #1e40af;
       text-align: center;
     }
 
-    /* Standard A4 Printable Page Frame (Strict 2-Page Model) */
+    /* Standard A4 Printable Page Frame (Fills Sheet with zero white waste) */
     .report-page {
-      width: 900px;
+      width: 920px;
       margin: 0 auto 20px auto;
       background: #ffffff;
-      padding: 18px 24px;
-      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
-      border: 1.5px solid var(--border-dark);
+      padding: 20px 26px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      border: 2px solid var(--border-dark);
       page-break-after: always;
       break-after: page;
       box-sizing: border-box;
@@ -156,32 +154,33 @@
     /* Official Master Header */
     .master-header {
       border: 2px solid var(--border-dark);
-      padding: 6px 10px;
+      padding: 8px 12px;
       text-align: center;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       background: #ffffff;
     }
     .master-title {
       font-family: 'Manrope', sans-serif;
-      font-size: 12.5px;
+      font-size: 13.5pt;
       font-weight: 800;
       letter-spacing: 0.8px;
       color: var(--primary-dark);
       text-transform: uppercase;
+      line-height: 1.2;
     }
     .master-subtitle {
       font-family: 'Manrope', sans-serif;
-      font-size: 10px;
+      font-size: 10.5pt;
       font-weight: 700;
       color: #0284c7;
       letter-spacing: 0.5px;
-      margin-top: 1px;
+      margin-top: 3px;
       text-transform: uppercase;
     }
     .master-standards {
-      font-size: 7.5px;
+      font-size: 8pt;
       color: #475569;
-      margin-top: 2px;
+      margin-top: 3px;
       font-weight: 500;
     }
 
@@ -189,21 +188,21 @@
     .grid-table {
       width: 100%;
       border-collapse: collapse;
-      margin-bottom: 6px;
-      border: 1px solid var(--border-dark);
-      font-size: 8px;
+      margin-bottom: 8px;
+      border: 1.5px solid var(--border-dark);
+      font-size: 8.5pt;
     }
     .grid-table td {
       border: 1px solid var(--border-light);
-      padding: 3px 6px;
+      padding: 4px 7px;
       vertical-align: middle;
     }
     .grid-table .col-lbl {
       background: #f1f5f9;
       font-weight: 700;
-      color: #1e293b;
+      color: #0f172a;
       text-transform: uppercase;
-      font-size: 7.5px;
+      font-size: 8pt;
       letter-spacing: 0.3px;
     }
     .grid-table .col-val {
@@ -214,35 +213,35 @@
     .kpi-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 6px;
-      margin-bottom: 6px;
+      gap: 8px;
+      margin-bottom: 8px;
     }
     .kpi-card {
       background: #ffffff;
-      border: 1px solid #94a3b8;
+      border: 1.5px solid #94a3b8;
       border-radius: 4px;
-      padding: 5px 8px;
+      padding: 6px 10px;
       box-shadow: 0 1px 2px rgba(0,0,0,0.04);
     }
     .kpi-card-title {
-      font-size: 7px;
+      font-size: 7.5pt;
       font-weight: 700;
       text-transform: uppercase;
       color: #475569;
       letter-spacing: 0.3px;
-      margin-bottom: 2px;
+      margin-bottom: 3px;
     }
     .kpi-card-val {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
+      font-size: 13.5pt;
       font-weight: 800;
       color: #092f25;
       line-height: 1.1;
     }
     .kpi-card-sub {
-      font-size: 6.5px;
+      font-size: 7pt;
       color: #64748b;
-      margin-top: 2px;
+      margin-top: 3px;
     }
     .kpi-card.highlight {
       border-color: #d97706;
@@ -264,19 +263,19 @@
       background: var(--bg-header);
       color: #ffffff;
       font-family: 'Manrope', sans-serif;
-      font-size: 8.5px;
+      font-size: 9pt;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      padding: 3px 8px;
-      margin-top: 5px;
-      margin-bottom: 4px;
+      padding: 4px 10px;
+      margin-top: 6px;
+      margin-bottom: 6px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
     .sec-bar span {
-      font-size: 7px;
+      font-size: 7.5pt;
       font-weight: 600;
       color: #99f6e4;
       text-transform: none;
@@ -286,30 +285,30 @@
     .data-table {
       width: 100%;
       border-collapse: collapse;
-      border: 1px solid var(--border-dark);
-      margin-bottom: 5px;
-      font-size: 7.5px;
+      border: 1.5px solid var(--border-dark);
+      margin-bottom: 8px;
+      font-size: 8pt;
     }
     .data-table th {
       background: #f1f5f9;
       color: #0f172a;
       font-weight: 700;
       text-transform: uppercase;
-      font-size: 7px;
+      font-size: 7.5pt;
       letter-spacing: 0.3px;
-      padding: 4px 6px;
-      border: 1px solid #94a3b8;
+      padding: 5px 7px;
+      border: 1px solid #64748b;
       text-align: left;
     }
     .data-table th.num, .data-table td.num {
       text-align: right;
     }
     .data-table td {
-      padding: 2.5px 5px;
+      padding: 3.5px 6px;
       border: 1px solid #cbd5e1;
       vertical-align: middle;
       color: #1e293b;
-      line-height: 1.2;
+      line-height: 1.25;
     }
     .data-table tr:nth-child(even) td {
       background: #f8fafc;
@@ -327,30 +326,30 @@
       background: #f1f5f9;
       font-weight: 700;
       color: #0f172a;
-      border-top: 1.5px solid #64748b;
-      padding: 3px 6px;
+      border-top: 1.5px solid #475569;
+      padding: 4px 7px;
     }
     .data-table tr.statutory-row td {
       background: #fafaf9;
-      color: #44403c;
-      padding: 2.5px 6px;
-      font-size: 7.5px;
+      color: #334155;
+      padding: 3.5px 7px;
+      font-size: 8pt;
     }
     .data-table tr.grand-row td {
       background: #ecfdf5;
       font-weight: 800;
       color: #065f46;
-      font-size: 8.5px;
-      border-top: 1.5px solid #059669;
-      border-bottom: 1.5px solid #059669;
-      padding: 3.5px 6px;
+      font-size: 9pt;
+      border-top: 2px solid #059669;
+      border-bottom: 2px solid #059669;
+      padding: 5px 7px;
     }
 
     .badge-chip {
       display: inline-block;
-      padding: 1px 5px;
+      padding: 2px 6px;
       border-radius: 3px;
-      font-size: 6.5px;
+      font-size: 7pt;
       font-weight: 700;
       text-transform: uppercase;
     }
@@ -359,46 +358,53 @@
 
     /* Statutory Certification Box */
     .cert-box {
-      border: 1px solid #ca8a04;
+      border: 1.5px solid #ca8a04;
       background: #fefce8;
-      border-left: 3px solid #ca8a04;
-      padding: 5px 8px;
-      border-radius: 3px;
-      margin-top: 6px;
-      margin-bottom: 8px;
-      font-size: 7px;
+      border-left: 4px solid #ca8a04;
+      padding: 8px 12px;
+      border-radius: 4px;
+      margin-top: 10px;
+      margin-bottom: 12px;
+      font-size: 7.5pt;
       color: #713f12;
-      line-height: 1.35;
+      line-height: 1.4;
     }
 
     /* 3-Tier Official Signature Blocks */
     .sig-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-top: 8px;
-      padding-top: 4px;
+      gap: 16px;
+      margin-top: 12px;
+      margin-bottom: 8px;
     }
     .sig-box {
-      border: 1px solid #94a3b8;
+      border: 1.5px solid #64748b;
       background: #ffffff;
-      padding: 6px 8px;
+      padding: 8px 10px;
       text-align: center;
-      border-radius: 3px;
+      border-radius: 4px;
     }
     .sig-space {
-      height: 28px;
-      border-bottom: 1px dashed #cbd5e1;
-      margin-bottom: 4px;
+      height: 40px;
+      border-bottom: 1px dashed #94a3b8;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      font-size: 7pt;
+      color: #94a3b8;
+      padding-bottom: 2px;
     }
     .sig-title {
       font-weight: 700;
-      font-size: 7.5px;
+      font-size: 8.5pt;
       color: #0f172a;
     }
     .sig-dept {
-      font-size: 6.5px;
-      color: #64748b;
+      font-size: 7pt;
+      color: #475569;
+      margin-top: 2px;
     }
 
     /* Page Footer */
@@ -406,11 +412,11 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 7px;
-      color: #64748b;
-      border-top: 1px solid #cbd5e1;
-      padding-top: 4px;
-      margin-top: 6px;
+      font-size: 7.5pt;
+      color: #475569;
+      border-top: 1px solid #94a3b8;
+      padding-top: 6px;
+      margin-top: 10px;
     }
 
     /* Mobile Responsive Rules */
@@ -427,14 +433,15 @@
       }
     }
 
-    /* Print Formatting Rules */
+    /* PRINT STYLES - ZERO WHITE SPACE OVERHEAD */
     @page {
       size: A4 portrait;
       margin: 8mm 10mm;
     }
     @media print {
       html, body {
-        width: 210mm !important;
+        width: 100% !important;
+        max-width: 100% !important;
         margin: 0 !important;
         padding: 0 !important;
         background: #ffffff !important;
@@ -445,28 +452,28 @@
       .mobile-hint-banner {
         display: none !important;
       }
-      .report-canvas-wrapper {
-        overflow: visible !important;
-        width: 100% !important;
-      }
+      .report-canvas-wrapper,
       .report-canvas {
-        width: 100% !important;
-        min-width: 0 !important;
-        margin: 0 !important;
-      }
-      .report-page {
         width: 100% !important;
         min-width: 0 !important;
         max-width: none !important;
         margin: 0 !important;
-        padding: 12px 16px !important;
+        padding: 0 !important;
+        overflow: visible !important;
+      }
+      .report-page {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 6mm 8mm !important;
         box-shadow: none !important;
-        border: 1.5px solid var(--border-dark) !important;
+        border: 2px solid var(--border-dark) !important;
+        box-sizing: border-box !important;
         page-break-after: always !important;
         break-after: page !important;
         page-break-inside: avoid !important;
         break-inside: avoid !important;
-        box-sizing: border-box !important;
       }
       .report-page:last-child {
         page-break-after: avoid !important;
@@ -576,7 +583,7 @@
         </div>
 
         {% if not boq or not boq.is_applicable %}
-        <div style="background: #fef2f2; border: 1px solid #f87171; border-radius: 4px; padding: 12px; text-align: center; color: #991b1b; margin: 10px 0;">
+        <div style="background: #fef2f2; border: 1.5px solid #f87171; border-radius: 4px; padding: 14px; text-align: center; color: #991b1b; margin: 10px 0;">
           <strong>CIVIL WORKS ESTIMATION SUSPENDED:</strong> {{ boq.rejection_notice if boq else "Media upload disqualified." }}
         </div>
         {% else %}
@@ -611,7 +618,7 @@
             <!-- Subtotals & Statutory Rows -->
             <tr class="total-row">
               <td colspan="6" style="text-align: right; padding-right: 8px; text-transform: uppercase;">Direct Civil Works Subtotal (MoRTH / HPSOR Scheduled Items):</td>
-              <td class="num mono" style="font-size: 8.5px; color: #092f25;">{{ boq.financial_summary.civil_subtotal_fmt }}</td>
+              <td class="num mono" style="font-size: 8.5pt; color: #092f25;">{{ boq.financial_summary.civil_subtotal_fmt }}</td>
             </tr>
             <tr class="statutory-row">
               <td colspan="6" style="text-align: right; padding-right: 8px;">Add: Physical &amp; Unforeseen Contingencies (3.0% as per PWD Hill Norms):</td>
@@ -666,10 +673,10 @@
           <thead>
             <tr>
               <th style="width: 24px; text-align: center;">Sl.</th>
-              <th style="width: 105px;">Category</th>
-              <th style="width: 170px;">Impacted Asset / Vector</th>
+              <th style="width: 110px;">Category</th>
+              <th style="width: 175px;">Impacted Asset / Vector</th>
               <th>Forensic Valuation Basis &amp; Assessment Criteria</th>
-              <th class="num" style="width: 85px;">Loss Amount (₹)</th>
+              <th class="num" style="width: 90px;">Loss Amount (₹)</th>
             </tr>
           </thead>
           <tbody>
@@ -682,30 +689,67 @@
                 </span>
               </td>
               <td style="font-weight: 700; color: #0f172a;">{{ loss.asset }}</td>
-              <td style="color: #475569;">{{ loss.criteria }}</td>
-              <td class="num mono" style="font-weight: 700; color: #991b1b;">{{ loss.amount_fmt }}</td>
+              <td style="color: #334155; line-height: 1.3;">{{ loss.criteria }}</td>
+              <td class="num mono" style="font-weight: 700; color: #991b1b; font-size: 8.5pt;">{{ loss.amount_fmt }}</td>
             </tr>
             {% endfor %}
 
             <tr class="total-row">
               <td colspan="4" style="text-align: right; padding-right: 8px; text-transform: uppercase;">Direct Physical Asset Loss Subtotal:</td>
-              <td class="num mono" style="color: #991b1b;">{{ boq.financial_summary.direct_asset_loss_fmt }}</td>
+              <td class="num mono" style="color: #991b1b; font-size: 8.5pt;">{{ boq.financial_summary.direct_asset_loss_fmt }}</td>
             </tr>
             <tr class="total-row">
               <td colspan="4" style="text-align: right; padding-right: 8px; text-transform: uppercase;">Indirect Economic Disruption Loss Subtotal:</td>
-              <td class="num mono" style="color: #b45309;">{{ boq.financial_summary.indirect_economic_loss_fmt }}</td>
+              <td class="num mono" style="color: #b45309; font-size: 8.5pt;">{{ boq.financial_summary.indirect_economic_loss_fmt }}</td>
             </tr>
             <tr class="grand-row">
               <td colspan="4" style="text-align: right; padding-right: 8px; text-transform: uppercase; letter-spacing: 0.4px;">Total Disaster Loss (Physical Damage + Economic Disruption):</td>
               <td class="num mono">{{ boq.financial_summary.total_disaster_loss_fmt }}</td>
             </tr>
-            <tr style="background: #092f25; color: #ffffff; font-weight: 800; font-size: 9.5px;">
-              <td colspan="4" style="text-align: right; padding: 6px 8px; text-transform: uppercase; letter-spacing: 0.6px; color: #5eead4;">
+            <tr style="background: #092f25; color: #ffffff; font-weight: 800; font-size: 9.5pt;">
+              <td colspan="4" style="text-align: right; padding: 8px 10px; text-transform: uppercase; letter-spacing: 0.6px; color: #5eead4;">
                 COMPREHENSIVE DISASTER IMPACT (Remediation Works + Total Disaster Loss):
               </td>
-              <td class="num mono" style="padding: 6px 8px; color: #facc15; font-size: 10.5px;">
+              <td class="num mono" style="padding: 8px 10px; color: #facc15; font-size: 11pt;">
                 {{ boq.financial_summary.grand_total_disaster_impact_fmt }}
               </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Section 3: Recovery Financing Matrix (Fills page naturally with critical SDRF/NDRF allocations) -->
+        <div class="sec-bar">
+          <div>3. Disaster Recovery Financing &amp; Statutory Requisition Allocation</div>
+          <span>SDRF &bull; NDRF &bull; MoRTH Capital Slope Protection Head &bull; State Disaster Management Authority</span>
+        </div>
+
+        <table class="grid-table" style="margin-bottom: 8px;">
+          <thead>
+            <tr style="background: #f1f5f9;">
+              <th style="padding: 4px 7px; text-align: left; font-size: 7.5pt; width: 35%;">Financing Head / Fund Source</th>
+              <th style="padding: 4px 7px; text-align: left; font-size: 7.5pt; width: 45%;">Statutory Requisition Scope</th>
+              <th style="padding: 4px 7px; text-align: right; font-size: 7.5pt; width: 20%;">Allocated Sum (₹)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>MoRTH / HPPWD Capital Works</strong></td>
+              <td>Permanent Plum Concrete Breast Wall &amp; Soil Nailing Array</td>
+              <td class="num mono" style="font-weight: 700;">{{ boq.financial_summary.total_remediation_fmt }}</td>
+            </tr>
+            <tr>
+              <td><strong>SDRF Section 34 (Infrastructure Restoration)</strong></td>
+              <td>Pavement Reconstruction, Culvert De-silting &amp; Traffic Diversion</td>
+              <td class="num mono" style="font-weight: 700;">{{ boq.financial_summary.direct_asset_loss_fmt }}</td>
+            </tr>
+            <tr>
+              <td><strong>Disaster Economic Impact Allowance</strong></td>
+              <td>Corridor Transit Disruption &amp; Regional Freight Detour Impact</td>
+              <td class="num mono" style="font-weight: 700; color: #b45309;">{{ boq.financial_summary.indirect_economic_loss_fmt }}</td>
+            </tr>
+            <tr style="background: #f1f5f9; font-weight: 800;">
+              <td colspan="2" style="text-align: right; text-transform: uppercase;">Total Statutory Sanction &amp; Requisition:</td>
+              <td class="num mono" style="color: #065f46; font-size: 9pt;">{{ boq.financial_summary.grand_total_disaster_impact_fmt }}</td>
             </tr>
           </tbody>
         </table>
@@ -714,23 +758,23 @@
         <!-- Statutory Certification Note -->
         <div class="cert-box">
           <strong>OFFICIAL STATUTORY NOTICE &bull; HPPWD / MoRTH SPECIFICATIONS:</strong><br>
-          All unit rates referenced in this dossier are extracted strictly from the Himachal Pradesh Public Works Department (HPPWD) Schedule of Rates for Hill Roads and the Ministry of Road Transport and Highways (MoRTH) Standard Data Book for Road &amp; Bridge Works (5th Revision). Derived quantities are computed deterministically from empirical terrain dimensions, surveyed slope scarp geometry, cut angles, and geotechnical stability criteria (IRC:SP:48 / CEDD Geoguide 1). This abstract estimate is prepared for administrative sanction, emergency relief allocation, and SDRF/NDRF financial requisition under the Disaster Management Act 2005.
+          All unit rates referenced in this dossier are extracted strictly from the Himachal Pradesh Public Works Department (HPPWD) Schedule of Rates for Hill Roads and the Ministry of Road Transport and Highways (MoRTH) Standard Data Book for Road &amp; Bridge Works (5th Revision). Derived quantities are computed deterministically from empirical terrain dimensions, surveyed slope scarp geometry, cut angles, and geotechnical stability criteria (IRC:SP:48 / CEDD Geoguide 1). This abstract estimate is prepared for administrative sanction, emergency relief allocation, and SDRF/NDRF financial requisition under Section 34 of the Disaster Management Act 2005.
         </div>
 
         <!-- Official 3-Tier Sanction Signature Blocks -->
         <div class="sig-grid">
           <div class="sig-box">
-            <div class="sig-space"></div>
+            <div class="sig-space">[OFFICIAL SIGNATURE / DATE]</div>
             <div class="sig-title">Junior Engineer (Civil)</div>
             <div class="sig-dept">Field Survey, Dimension Measurements &amp; BOQ Derivation</div>
           </div>
           <div class="sig-box">
-            <div class="sig-space"></div>
+            <div class="sig-space">[VERIFICATION STAMP / DATE]</div>
             <div class="sig-title">Assistant Engineer (AE)</div>
             <div class="sig-dept">Quality Control Sub-Division &bull; Rate &amp; Standard Verification</div>
           </div>
           <div class="sig-box">
-            <div class="sig-space"></div>
+            <div class="sig-space">[ADMINISTRATIVE SEAL / DATE]</div>
             <div class="sig-title">Executive Engineer (XEN)</div>
             <div class="sig-dept">HPPWD Division &bull; Administrative Sanction &amp; Allocation</div>
           </div>

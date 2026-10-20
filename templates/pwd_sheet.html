@@ -786,10 +786,12 @@
     }
     @media print {
       html, body {
-        width: 210mm !important;
+        width: 100% !important;
+        max-width: 100% !important;
         margin: 0 !important;
         padding: 0 !important;
         background: #ffffff !important;
+        font-size: 8.5pt !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
       }
@@ -798,22 +800,22 @@
       .mobile-hint-banner {
         display: none !important;
       }
-      .report-canvas-wrapper {
-        overflow: visible !important;
-        width: 100% !important;
-      }
+      .report-canvas-wrapper,
       .report-canvas {
         width: 100% !important;
         min-width: 0 !important;
+        max-width: none !important;
         margin: 0 !important;
+        padding: 0 !important;
+        overflow: visible !important;
       }
       .report-page {
         width: 100% !important;
         min-width: 0 !important;
-        max-width: none !important;
+        max-width: 100% !important;
         box-sizing: border-box !important;
         margin: 0 !important;
-        padding: 16px 20px !important;
+        padding: 6mm 8mm !important;
         box-shadow: none !important;
         border: 1.5px solid var(--border-dark) !important;
         page-break-after: always !important;
