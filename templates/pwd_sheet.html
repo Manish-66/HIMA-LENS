@@ -33,7 +33,7 @@
 
     body {
       font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      font-size: 10px;
+      font-size: 9.5px;
       line-height: 1.35;
       color: var(--ink);
       background: #e2e8f0;
@@ -109,7 +109,7 @@
       max-width: 920px;
       margin: 0 auto 24px auto;
       background: #ffffff;
-      padding: 28px 34px;
+      padding: 24px 30px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
       border: 1.5px solid var(--border-dark);
       page-break-after: always;
@@ -124,14 +124,14 @@
     /* Official Master Header */
     .master-header {
       border: 2px solid var(--border-dark);
-      padding: 8px 12px;
+      padding: 6px 10px;
       text-align: center;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       background: #ffffff;
     }
     .master-title {
       font-family: 'Manrope', sans-serif;
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 800;
       letter-spacing: 0.8px;
       color: var(--primary-dark);
@@ -139,45 +139,50 @@
     }
     .master-subtitle {
       font-family: 'Manrope', sans-serif;
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 700;
       color: #0284c7;
       letter-spacing: 0.5px;
-      margin-top: 2px;
+      margin-top: 1px;
       text-transform: uppercase;
     }
     .master-standards {
-      font-size: 8.5px;
-      color: #64748b;
-      margin-top: 1px;
-      font-style: italic;
+      font-size: 8px;
+      font-weight: 600;
+      color: var(--ink-soft);
+      letter-spacing: 0.3px;
+      margin-top: 2px;
+      text-transform: uppercase;
     }
 
-    /* Section Bar */
+    /* Section Header Bars */
     .sec-bar {
       background: var(--bg-header);
       color: #ffffff;
       font-family: 'Manrope', sans-serif;
+      font-size: 9.5px;
       font-weight: 700;
-      font-size: 9.8px;
-      letter-spacing: 0.4px;
-      padding: 3.5px 8px;
       text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 7px;
       margin-top: 6px;
       margin-bottom: 0;
       border: 1px solid var(--border-dark);
+      border-bottom: none;
     }
 
-    /* Grid & Tables */
+    /* Compact Grid Tables */
     table.grid-table {
       width: 100%;
       border-collapse: collapse;
+      border: 1px solid var(--border-dark);
       margin-bottom: 6px;
-      font-size: 9.5px;
+      font-size: 8.5px;
+      line-height: 1.3;
     }
     table.grid-table th, table.grid-table td {
       border: 1px solid var(--border-dark);
-      padding: 4px 6px;
+      padding: 3px 5px;
       vertical-align: top;
     }
     table.grid-table th {
@@ -203,7 +208,7 @@
       display: inline-flex;
       align-items: center;
       gap: 3px;
-      margin-right: 10px;
+      margin-right: 8px;
       font-weight: 500;
     }
     .chk-item.checked {
@@ -212,12 +217,12 @@
     }
     .chk-box {
       display: inline-block;
-      width: 11px;
-      height: 11px;
+      width: 10px;
+      height: 10px;
       border: 1.2px solid #000000;
       text-align: center;
-      line-height: 9px;
-      font-size: 8.5px;
+      line-height: 8.5px;
+      font-size: 8px;
       font-weight: 900;
     }
     .chk-box.active {
@@ -229,52 +234,52 @@
     .safety-box {
       border: 1.5px solid var(--danger-red);
       background: var(--danger-bg);
-      padding: 8px 12px;
-      margin: 8px 0;
+      padding: 6px 10px;
+      margin: 6px 0;
       border-radius: 4px;
     }
     .safety-box .head {
       color: var(--danger-red);
       font-family: 'Manrope', sans-serif;
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 800;
       text-transform: uppercase;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
       display: flex;
       align-items: center;
       gap: 6px;
     }
     .safety-box ol {
-      padding-left: 16px;
-      font-size: 9.5px;
+      padding-left: 14px;
+      font-size: 8.5px;
       color: #7f1d1d;
-      line-height: 1.4;
+      line-height: 1.35;
     }
 
     /* Optical Validation Alert */
     .optical-alert {
       border: 2px solid var(--danger-border);
       background: #fff1f2;
-      padding: 10px 14px;
+      padding: 8px 12px;
       border-radius: 4px;
-      margin: 8px 0;
+      margin: 6px 0;
     }
     .optical-alert-title {
       font-family: 'Manrope', sans-serif;
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 800;
       color: var(--danger-red);
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
 
     /* Evidence & Plain-Language Public Briefing Grid */
     .evidence-briefing-grid {
       display: grid;
       grid-template-columns: 46% 54%;
-      gap: 10px;
-      margin: 8px 0;
+      gap: 8px;
+      margin: 6px 0;
       align-items: stretch;
     }
     .photo-plate-column {
@@ -284,17 +289,16 @@
     .photo-plate-container {
       border: 1.5px solid var(--border-dark);
       background: #071f19;
-      text-align: center;
       position: relative;
+      height: 230px;
       overflow: hidden;
-      height: 250px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
     .photo-plate-container img {
-      max-width: 100%;
-      max-height: 100%;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       display: block;
       margin: 0 auto;
@@ -306,24 +310,24 @@
       right: 0;
       background: rgba(7, 31, 25, 0.92);
       color: #ffffff;
-      padding: 4px 8px;
-      font-size: 8.5px;
+      padding: 3px 6px;
+      font-size: 8px;
       font-family: 'JetBrains Mono', monospace;
       display: flex;
       justify-content: space-between;
       border-top: 1px solid rgba(255, 255, 255, 0.2);
     }
     .photo-sub-bar {
-      margin-top: 4px;
+      margin-top: 3px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 8.5px;
+      font-size: 8px;
       font-family: 'JetBrains Mono', monospace;
       color: var(--ink-soft);
     }
     .badge-status-valid {
-      padding: 1px 6px;
+      padding: 1px 5px;
       background: #dcfce7;
       color: #166534;
       border: 1px solid #86efac;
@@ -331,7 +335,7 @@
       font-weight: 700;
     }
     .badge-status-invalid {
-      padding: 1px 6px;
+      padding: 1px 5px;
       background: #fee2e2;
       color: #991b1b;
       border: 1px solid #fca5a5;
@@ -351,11 +355,11 @@
     .plain-briefing-head {
       background: #f0fdf4;
       border-bottom: 1px solid #bbf7d0;
-      padding: 5px 8px;
+      padding: 4px 6px;
     }
     .plain-briefing-tag {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 8px;
+      font-size: 7.5px;
       font-weight: 700;
       color: var(--primary-forest);
       text-transform: uppercase;
@@ -363,21 +367,21 @@
     }
     .plain-briefing-title {
       font-family: 'Manrope', sans-serif;
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 800;
       color: var(--primary-dark);
       margin-top: 1px;
       line-height: 1.25;
     }
     .plain-briefing-body {
-      padding: 6px 8px;
+      padding: 5px 6px;
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 4px;
       flex-grow: 1;
       justify-content: space-between;
-      font-size: 9px;
-      line-height: 1.35;
+      font-size: 8.5px;
+      line-height: 1.3;
     }
     .plain-item {
       display: flex;
@@ -386,7 +390,7 @@
     }
     .plain-item-label {
       font-weight: 700;
-      font-size: 8px;
+      font-size: 7.5px;
       color: var(--primary-forest);
       text-transform: uppercase;
       letter-spacing: 0.4px;
@@ -397,10 +401,10 @@
     .plain-item-advisory {
       background: #fffbeb;
       border-left: 3px solid #f59e0b;
-      padding: 4px 6px;
+      padding: 3px 5px;
       color: #92400e;
-      font-size: 8.5px;
-      line-height: 1.3;
+      font-size: 8px;
+      line-height: 1.25;
       border-radius: 0 2px 2px 0;
     }
 
@@ -408,22 +412,22 @@
     .remarks-card {
       border: 1px solid var(--border-dark);
       background: #f8fafc;
-      padding: 8px 12px;
-      font-size: 9.5px;
+      padding: 6px 10px;
+      font-size: 8.5px;
       color: var(--ink-soft);
-      line-height: 1.45;
-      margin-bottom: 8px;
+      line-height: 1.4;
+      margin-bottom: 6px;
     }
 
     /* 3-Tier Sign-Off Block */
     .sign-table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 14px;
+      margin-top: 10px;
     }
     .sign-table th, .sign-table td {
       border: 1px solid var(--border-dark);
-      padding: 8px 6px;
+      padding: 6px 4px;
       text-align: center;
       width: 33.33%;
     }
@@ -431,13 +435,13 @@
       background: var(--bg-table-head);
       font-family: 'Manrope', sans-serif;
       font-weight: 700;
-      font-size: 9.5px;
+      font-size: 8.5px;
       color: var(--primary-dark);
     }
     .sign-space {
-      height: 48px;
+      height: 42px;
       vertical-align: bottom;
-      font-size: 8.5px;
+      font-size: 8px;
       color: #64748b;
     }
 
@@ -445,57 +449,51 @@
     .page-footer {
       display: flex;
       justify-content: space-between;
-      margin-top: 6px;
-      font-size: 8px;
+      margin-top: 4px;
+      font-size: 7.5px;
       color: #64748b;
       border-top: 1px solid var(--border-light);
-      padding-top: 4px;
+      padding-top: 2px;
     }
 
-    /* Screen Editable Effect */
-    .editable:hover {
-      background-color: #fef08a !important;
-      outline: 1px dashed #ca8a04;
-      cursor: text;
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
     }
 
-    /* Print Overrides */
+    /* Print Styles */
     @media print {
       body {
         background: #ffffff;
         padding: 0;
+        margin: 0;
       }
       .screen-action-bar {
         display: none !important;
       }
       .report-page {
         margin: 0;
-        padding: 0;
+        padding: 20px 24px;
         box-shadow: none;
         border: none;
-        width: 100%;
-        max-width: 100%;
+        page-break-after: always;
+        break-after: page;
       }
-      @page {
-        size: A4 portrait;
-        margin: 10mm 12mm;
+      .report-page:last-child {
+        page-break-after: avoid;
+        break-after: avoid;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Screen Floating Toolbar (Hidden on Print) -->
+  <!-- Screen Top Actions Bar -->
   <div class="screen-action-bar">
     <div class="brand">
-      <span class="hl-tag">HL</span>
-      <span>HIMA-LENS &bull; Technical Landslide Field Dossier</span>
+      <span class="hl-tag">HIMA-LENS</span>
+      <span>PWD Field Assessment Sheet &bull; Data Collection Dossier</span>
     </div>
     <div class="action-btn-cluster">
-      <button type="button" class="screen-btn btn-ghost" onclick="window.location.search='?force=true'" title="Force fresh AI multimodal evaluation and clear cache">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
-        <span>Re-Analyze</span>
-      </button>
       <button type="button" class="screen-btn btn-ghost" id="btn-toggle-edit" onclick="toggleEditMode()">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
         <span>Edit Fields Inline</span>
@@ -516,39 +514,43 @@
   <!-- ======================================================== -->
   <div class="report-page">
     <div class="master-header">
-      <div class="master-title">HIMA-LENS &bull; Spatial Intelligence &amp; Landslide Observatory</div>
+      <div class="master-title">FIELD VISIT SHEET &bull; HIMA-LENS SPATIAL OBSERVATORY</div>
       <div class="master-subtitle">Landslide Disaster &amp; Slope Stability Technical Assessment Report</div>
       <div class="master-standards">Technical Evaluation Form &bull; IRC:SP:48 Hill Road Guidelines &bull; IS:14458 Landslide Stabilization Standards</div>
     </div>
 
-    <!-- Master Identification Table -->
+    <!-- Master Identification Table (Data Collection Sheet Header Format) -->
     <table class="grid-table">
       <tr>
-        <td class="col-lbl">Site / Road Name:</td>
-        <td class="col-val editable" id="f-road-name" colspan="2"><strong>{{ assessment.telemetry.site_road_name }}</strong></td>
-        <td class="col-lbl">Report Reference:</td>
-        <td class="col-val font-mono"><strong>{{ assessment.telemetry.report_id }}</strong></td>
+        <td class="col-lbl" style="width: 18%;">Site:</td>
+        <td class="col-val editable" id="f-road-name" style="width: 32%;"><strong>{{ assessment.telemetry.site_road_name }}</strong></td>
+        <td class="col-lbl" style="width: 18%;">Lat.:</td>
+        <td class="col-val font-mono" style="width: 32%;">{{ assessment.telemetry.coordinates_dec.split(',')[0] }}</td>
       </tr>
       <tr>
-        <td class="col-lbl">Location (Chainage):</td>
+        <td class="col-lbl">Location (chainage):</td>
         <td class="col-val editable" id="f-chainage">{{ assessment.telemetry.location_chainage }}</td>
-        <td class="col-lbl">Type of Road:</td>
-        <td class="col-val editable" id="f-road-type" colspan="2">{{ assessment.telemetry.road_type }}</td>
+        <td class="col-lbl">Long.:</td>
+        <td class="col-val font-mono">{{ assessment.telemetry.coordinates_dec.split(',')[1] if ',' in assessment.telemetry.coordinates_dec else '' }}</td>
       </tr>
       <tr>
         <td class="col-lbl">Date of Inspection:</td>
         <td class="col-val editable" id="f-date">{{ assessment.telemetry.inspection_date }}</td>
-        <td class="col-lbl">GPS Coordinates:</td>
-        <td class="col-val font-mono" colspan="2">{{ assessment.telemetry.coordinates_dms }}</td>
+        <td class="col-lbl">Elevation:</td>
+        <td class="col-val editable font-mono" id="f-elevation">{{ assessment.telemetry.elevation }}</td>
+      </tr>
+      <tr>
+        <td class="col-lbl">Type of road:</td>
+        <td class="col-val editable" id="f-road-type" colspan="3"><strong>{{ assessment.telemetry.road_type }}</strong> &nbsp;<span style="color: #64748b; font-size: 8px;">(SH, NH, major district road, other district road, rural road)</span></td>
       </tr>
     </table>
 
     {% if assessment.is_landslide_or_terrain is defined and not assessment.is_landslide_or_terrain %}
-    <div style="background: #fef2f2; border: 2px solid #ef4444; border-radius: 4px; padding: 8px 12px; margin-top: 10px; margin-bottom: 10px; color: #991b1b;">
-      <div style="font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px;">
-        <span style="font-size: 13px;">⛔</span> AUDIT DISQUALIFICATION NOTICE &bull; NON-GEOLOGICAL MEDIA DETECTED
+    <div style="background: #fef2f2; border: 2px solid #ef4444; border-radius: 4px; padding: 6px 10px; margin-top: 6px; margin-bottom: 6px; color: #991b1b;">
+      <div style="font-weight: 700; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px;">
+        <span style="font-size: 12px;">⛔</span> AUDIT DISQUALIFICATION NOTICE &bull; NON-GEOLOGICAL MEDIA DETECTED
       </div>
-      <p style="margin: 4px 0 0 0; font-size: 9.5px; line-height: 1.4; color: #7f1d1d;">
+      <p style="margin: 3px 0 0 0; font-size: 8.5px; line-height: 1.35; color: #7f1d1d;">
         Automated multimodal visual scanner audited this upload as: <strong>{{ assessment.detected_content }}</strong>.<br>
         This image does not depict an outdoor hill slope, geological formation, or road landslide failure. <strong>All slope distress parameters, retaining wall specifications, and clearance quantities are marked Disqualified / Not Applicable (N/A)</strong>.
       </p>
@@ -560,9 +562,9 @@
     <table class="grid-table">
       <thead>
         <tr>
-          <th>Presence of Slope</th>
-          <th>Earth Material</th>
-          <th>Slope Type</th>
+          <th style="width: 33%;">Presence of slope</th>
+          <th style="width: 34%;">Earth material</th>
+          <th style="width: 33%;">Slope type</th>
         </tr>
       </thead>
       <tbody>
@@ -589,47 +591,53 @@
         </tr>
         <tr>
           <td colspan="2"><strong>Slope geometry (below road):</strong> <span class="editable" id="f-slope-below">{{ assessment.slope_characteristics.slope_geometry_below }}</span></td>
-          <td><strong>Slope geometry:</strong> <span class="editable" id="f-slope-profile">{{ assessment.slope_characteristics.slope_geometry_profile }}</span></td>
+          <td><strong>Slope profile:</strong> <span class="editable" id="f-slope-profile">{{ assessment.slope_characteristics.slope_geometry_profile }}</span></td>
         </tr>
       </tbody>
     </table>
 
-    <!-- 2. Site Context & Disaster Impact -->
-    <div class="sec-bar">2. Site Context &amp; Infrastructure Impact ({{ assessment.site_context.environment_type if assessment.site_context else 'Site Assessment' }})</div>
+    <!-- 2. Road Characteristics (Table 1 of Data Collection Sheet) -->
+    <div class="sec-bar">2. Road Characteristics</div>
     <table class="grid-table">
       <tr>
-        <td class="col-lbl">Environment / Setting:</td>
-        <td class="col-val editable" id="f-env-type"><strong>{{ assessment.site_context.environment_type if assessment.site_context else assessment.road_impact.road_alignment }}</strong></td>
-        <td class="col-lbl">Impacted Asset:</td>
-        <td class="col-val editable" id="f-asset">{{ assessment.site_context.impacted_assets if assessment.site_context else assessment.road_impact.fencing_type }}</td>
+        <td class="col-lbl">Road Alignment:</td>
+        <td class="col-val editable" id="f-align"><strong>{{ assessment.road_impact.road_alignment }}</strong></td>
+        <td class="col-lbl">Type of fencing:</td>
+        <td class="col-val editable" id="f-fencing">{{ assessment.road_impact.fencing_type }}</td>
       </tr>
       <tr>
-        <td class="col-lbl">Pre-disaster Dimension / State:</td>
+        <td class="col-lbl">Width before disaster:</td>
         <td class="col-val editable" id="f-w-before">{{ assessment.road_impact.width_before }}</td>
-        <td class="col-lbl">Post-disaster State / Damage:</td>
-        <td class="col-val editable" id="f-w-after"><strong>{{ assessment.site_context.structural_damage if assessment.site_context else assessment.road_impact.width_after }}</strong></td>
+        <td class="col-lbl">Width after disaster:</td>
+        <td class="col-val editable" id="f-w-after"><strong>{{ assessment.road_impact.width_after }}</strong></td>
       </tr>
       <tr>
-        <td class="col-lbl">Access / Surface Type:</td>
+        <td class="col-lbl">Type of pavement:</td>
         <td class="col-val editable" id="f-pavement">{{ assessment.road_impact.pavement_type }}</td>
-        <td class="col-lbl">Toe / Clearance Buffer:</td>
+        <td class="col-lbl">Shoulder width:</td>
         <td class="col-val editable" id="f-shoulder">{{ assessment.road_impact.shoulder_width }}</td>
       </tr>
       <tr>
-        <td class="col-lbl">Connectivity / Lanes:</td>
+        <td class="col-lbl">Number of lanes:</td>
         <td class="col-val editable" id="f-lanes">{{ assessment.road_impact.number_of_lanes }}</td>
-        <td class="col-lbl">Traffic / Movement Flow:</td>
-        <td class="col-val editable" id="f-traffic">{{ assessment.road_impact.traffic_flow }}</td>
+        <td class="col-lbl">Way:</td>
+        <td class="col-val editable" id="f-traffic">{{ assessment.road_impact.way or assessment.road_impact.traffic_flow }}</td>
       </tr>
       <tr>
+        <td class="col-lbl">Width of median (if any):</td>
+        <td class="col-val editable" id="f-median">{{ assessment.road_impact.width_of_median or 'None (Hill Road Formation)' }}</td>
         <td class="col-lbl">Usability Status:</td>
         <td class="col-val editable" id="f-cway-status"><strong>{{ assessment.road_impact.carriageway_status }}</strong></td>
-        <td class="col-lbl">Drainage / Runoff:</td>
+      </tr>
+      <tr>
+        <td class="col-lbl">Bridge (yes/no):</td>
+        <td class="col-val editable" id="f-bridge">{{ assessment.road_impact.bridge_present }}</td>
+        <td class="col-lbl">Culvert (yes/no):</td>
         <td class="col-val editable" id="f-culvert">{{ assessment.road_impact.culvert_present }}</td>
       </tr>
     </table>
 
-    <!-- 3. Protection Works (Proposed Measures) Matrix -->
+    <!-- 3. Protection Works (Proposed Measures) Matrix (7 Rows per Data Collection Sheet) -->
     <div class="sec-bar">3. Protection Works (Proposed Measures)</div>
     <table class="grid-table">
       <thead>
@@ -663,7 +671,7 @@
         {% endfor %}
         {% else %}
         <tr>
-          <td colspan="7" style="text-align: center; color: #64748b; font-style: italic; padding: 6px;">
+          <td colspan="7" style="text-align: center; color: #64748b; font-style: italic; padding: 4px;">
             No structural protection measures proposed — Verification Rejected / Non-Terrain Upload.
           </td>
         </tr>
@@ -671,7 +679,7 @@
       </tbody>
     </table>
 
-    <!-- 4. Geology of In-Situ Rock Around Works -->
+    <!-- 4. Geology of In-Situ Rock Around Works (Table 2 of Data Collection Sheet) -->
     <div class="sec-bar">4. Geology of In-Situ Rock Around Works</div>
     <table class="grid-table">
       <tr>
@@ -712,9 +720,25 @@
       </tr>
     </table>
 
-    <!-- 5. Defects & Distress Observed Around Works -->
+    <div class="page-footer">
+      <span>HIMA-LENS Spatial Intelligence &bull; Field Visit Sheet (IRC:SP:48 Standards)</span>
+      <span>Page 1 of 3</span>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- PAGE 2: DEFECTS, RETAINING WALL, DRAINAGE, GABION & EARTHWORKS -->
+  <!-- ======================================================== -->
+  <div class="report-page">
+    <div class="master-header">
+      <div class="master-title">HIMA-LENS &bull; Field Visit Sheet (Page 2)</div>
+      <div class="master-subtitle">Defects Observed, Retaining Wall Specifications &amp; Earthworks Quantification</div>
+      <div class="master-standards">IS:14458 (Design of Retaining Structures) &bull; IRC:SP:48 Hill Road Drainage Specifications</div>
+    </div>
+
+    <!-- 5. Defects & Distress Observed Around Works (Table 2 of Data Collection Sheet) -->
     <div class="sec-bar">5. Defects &amp; Distress Observed Around Works</div>
-    <div style="border: 1px solid var(--border-dark); border-bottom: none; padding: 4px 8px; font-size: 9px; background: #f8fafc;">
+    <div style="border: 1px solid var(--border-dark); border-bottom: none; padding: 3px 6px; font-size: 8.5px; background: #f8fafc;">
       <strong>Defect on slope:</strong>
       <span class="chk-item {{ 'checked' if assessment.defects_and_distress and assessment.defects_and_distress.defects_on_slope and assessment.defects_and_distress.defects_on_slope.gully }}"><span class="chk-box {{ 'active' if assessment.defects_and_distress and assessment.defects_and_distress.defects_on_slope and assessment.defects_and_distress.defects_on_slope.gully }}">{{ '✔' if assessment.defects_and_distress and assessment.defects_and_distress.defects_on_slope and assessment.defects_and_distress.defects_on_slope.gully else ' ' }}</span> 1. Gully</span>
       <span class="chk-item {{ 'checked' if assessment.defects_and_distress and assessment.defects_and_distress.defects_on_slope and assessment.defects_and_distress.defects_on_slope.crack }}"><span class="chk-box {{ 'active' if assessment.defects_and_distress and assessment.defects_and_distress.defects_on_slope and assessment.defects_and_distress.defects_on_slope.crack }}">{{ '✔' if assessment.defects_and_distress and assessment.defects_and_distress.defects_on_slope and assessment.defects_and_distress.defects_on_slope.crack else ' ' }}</span> 2. Crack</span>
@@ -726,10 +750,10 @@
     <table class="grid-table">
       <thead>
         <tr>
-          <th>Road Surface Distress</th>
-          <th>Roadside Drain</th>
-          <th>Slope Drainage</th>
-          <th>Defects Remarks</th>
+          <th style="width: 25%;">Road Distress</th>
+          <th style="width: 25%;">Roadside Drain</th>
+          <th style="width: 25%;">Slope Drainage</th>
+          <th style="width: 25%;">Defects Remarks</th>
         </tr>
       </thead>
       <tbody>
@@ -738,19 +762,26 @@
             Crack: [ {{ '✔' if assessment.defects_and_distress and assessment.defects_and_distress.road_surface and assessment.defects_and_distress.road_surface.crack else '—' }} ] {{ 'Yes' if assessment.defects_and_distress and assessment.defects_and_distress.road_surface and assessment.defects_and_distress.road_surface.crack else 'No' }}<br>
             Heaving: [ {{ '✔' if assessment.defects_and_distress and assessment.defects_and_distress.road_surface and assessment.defects_and_distress.road_surface.heaving else '—' }} ] {{ 'Yes' if assessment.defects_and_distress and assessment.defects_and_distress.road_surface and assessment.defects_and_distress.road_surface.heaving else 'No' }}<br>
             Settlement: [ {{ '✔' if assessment.defects_and_distress and assessment.defects_and_distress.road_surface and assessment.defects_and_distress.road_surface.settlement else '—' }} ] {{ 'Yes' if assessment.defects_and_distress and assessment.defects_and_distress.road_surface and assessment.defects_and_distress.road_surface.settlement else 'No' }}<br>
-            Recent repair: [ {{ '✔' if assessment.defects_and_distress and assessment.defects_and_distress.road_surface and assessment.defects_and_distress.road_surface.recent_repair else '—' }} ] {{ 'Yes' if assessment.defects_and_distress and assessment.defects_and_distress.road_surface and assessment.defects_and_distress.road_surface.recent_repair else 'No' }}
+            Recent repair: [ {{ '✔' if assessment.defects_and_distress and assessment.defects_and_distress.road_surface and assessment.defects_and_distress.road_surface.recent_repair else '—' }} ] {{ 'Yes' if assessment.defects_and_distress and assessment.defects_and_distress.road_surface and assessment.defects_and_distress.road_surface.recent_repair else 'No' }}<br>
+            Potholes: {{ assessment.pavement_dimensions.potholes }}<br>
+            Subsidence: {{ assessment.pavement_dimensions.subsidence }}<br>
+            Rutting: {{ assessment.pavement_dimensions.rutting }}
           </td>
           <td>
             Overflow: [ {{ '✔' if assessment.defects_and_distress and assessment.defects_and_distress.roadside_drain and assessment.defects_and_distress.roadside_drain.overflow else '—' }} ] {{ 'Yes' if assessment.defects_and_distress and assessment.defects_and_distress.roadside_drain and assessment.defects_and_distress.roadside_drain.overflow else 'No' }}<br>
             Clogging/blocked: [ {{ '✔' if assessment.defects_and_distress and assessment.defects_and_distress.roadside_drain and assessment.defects_and_distress.roadside_drain.clogged_100 else '—' }} ] {{ '100%' if assessment.defects_and_distress and assessment.defects_and_distress.roadside_drain and assessment.defects_and_distress.roadside_drain.clogged_100 else 'Clear' }}<br>
             Deformation: [ {{ '✔' if assessment.defects_and_distress and assessment.defects_and_distress.roadside_drain and assessment.defects_and_distress.roadside_drain.deformation else '—' }} ] {{ 'Yes' if assessment.defects_and_distress and assessment.defects_and_distress.roadside_drain and assessment.defects_and_distress.roadside_drain.deformation else 'No' }}<br>
-            Crack: [ {{ '✔' if assessment.defects_and_distress and assessment.defects_and_distress.roadside_drain and assessment.defects_and_distress.roadside_drain.crack else '—' }} ] {{ 'Yes' if assessment.defects_and_distress and assessment.defects_and_distress.roadside_drain and assessment.defects_and_distress.roadside_drain.crack else 'No' }}
+            Crack: [ {{ '✔' if assessment.defects_and_distress and assessment.defects_and_distress.roadside_drain and assessment.defects_and_distress.roadside_drain.crack else '—' }} ] {{ 'Yes' if assessment.defects_and_distress and assessment.defects_and_distress.roadside_drain and assessment.defects_and_distress.roadside_drain.crack else 'No' }}<br>
+            Width: {{ assessment.defects_and_distress.roadside_drain.width if assessment.defects_and_distress and assessment.defects_and_distress.roadside_drain else 'N/A' }}<br>
+            Depth: {{ assessment.defects_and_distress.roadside_drain.depth if assessment.defects_and_distress and assessment.defects_and_distress.roadside_drain else 'N/A' }}
           </td>
           <td>
             Overflow: [ {{ '✔' if assessment.defects_and_distress and assessment.defects_and_distress.slope_drainage and assessment.defects_and_distress.slope_drainage.overflow else '—' }} ] {{ 'Yes' if assessment.defects_and_distress and assessment.defects_and_distress.slope_drainage and assessment.defects_and_distress.slope_drainage.overflow else 'No' }}<br>
             Clogging/blocked: [ {{ '✔' if assessment.defects_and_distress and assessment.defects_and_distress.slope_drainage and assessment.defects_and_distress.slope_drainage.clogged_100 else '—' }} ] {{ '100%' if assessment.defects_and_distress and assessment.defects_and_distress.slope_drainage and assessment.defects_and_distress.slope_drainage.clogged_100 else 'Clear' }}<br>
             Deformation: [ {{ '✔' if assessment.defects_and_distress and assessment.defects_and_distress.slope_drainage and assessment.defects_and_distress.slope_drainage.deformation else '—' }} ] {{ 'Yes' if assessment.defects_and_distress and assessment.defects_and_distress.slope_drainage and assessment.defects_and_distress.slope_drainage.deformation else 'No' }}<br>
-            Crack: [ {{ '✔' if assessment.defects_and_distress and assessment.defects_and_distress.slope_drainage and assessment.defects_and_distress.slope_drainage.crack else '—' }} ] {{ 'Yes' if assessment.defects_and_distress and assessment.defects_and_distress.slope_drainage and assessment.defects_and_distress.slope_drainage.crack else 'No' }}
+            Crack: [ {{ '✔' if assessment.defects_and_distress and assessment.defects_and_distress.slope_drainage and assessment.defects_and_distress.slope_drainage.crack else '—' }} ] {{ 'Yes' if assessment.defects_and_distress and assessment.defects_and_distress.slope_drainage and assessment.defects_and_distress.slope_drainage.crack else 'No' }}<br>
+            Width: {{ assessment.defects_and_distress.slope_drainage.width if assessment.defects_and_distress and assessment.defects_and_distress.slope_drainage else 'N/A' }}<br>
+            Depth: {{ assessment.defects_and_distress.slope_drainage.depth if assessment.defects_and_distress and assessment.defects_and_distress.slope_drainage else 'N/A' }}
           </td>
           <td class="editable" id="f-distress-rem">
             {{ assessment.defects_and_distress.distress_remarks if assessment.defects_and_distress else '' }}
@@ -759,50 +790,13 @@
       </tbody>
     </table>
 
-    <div class="page-footer">
-      <span>HIMA-LENS Spatial Intelligence &bull; Standard Technical Dossier</span>
-      <span>Page 1 of 3</span>
-    </div>
-  </div>
-
-  <!-- ======================================================== -->
-  <!-- PAGE 2: DISTRESS DIMENSIONS, RETAINING WALL, EARTHWORKS -->
-  <!-- ======================================================== -->
-  <div class="report-page">
-    <div class="master-header">
-      <div class="master-title">HIMA-LENS &bull; Field Visit Sheet (Page 2)</div>
-      <div class="master-subtitle">Detailed Structural &amp; Earthworks Quantification Sheet</div>
-      <div class="master-standards">IS:14458 (Design of Retaining Structures) &bull; IRC:SP:48 Hill Road Drainage Specifications</div>
-    </div>
-
-    {% if assessment.is_landslide_or_terrain is defined and not assessment.is_landslide_or_terrain %}
-    <div style="background: #fef2f2; border: 1.5px solid #ef4444; border-radius: 4px; padding: 7px 12px; margin-top: 10px; margin-bottom: 10px; color: #991b1b; font-size: 9.5px;">
-      <strong>Quantification Notice:</strong> Structural dimensioning, retaining wall profiles, and clearance earthworks are <strong>DISQUALIFIED (0.0 m³)</strong> due to non-geological media upload ({{ assessment.detected_content }}).
-    </div>
-    {% endif %}
-
-    <!-- 6. Pavement & Surface Distress Dimensions -->
-    <div class="sec-bar">6. Pavement &amp; Surface Distress Dimensions</div>
-    <table class="grid-table">
-      <tr>
-        <td class="col-lbl">Potholes:</td>
-        <td class="col-val editable" id="f-potholes">{{ assessment.pavement_dimensions.potholes }}</td>
-        <td class="col-lbl">Subsidence:</td>
-        <td class="col-val editable" id="f-subsidence">{{ assessment.pavement_dimensions.subsidence }}</td>
-      </tr>
-      <tr>
-        <td class="col-lbl">Rutting:</td>
-        <td class="col-val editable" id="f-rutting" colspan="3">{{ assessment.pavement_dimensions.rutting }}</td>
-      </tr>
-    </table>
-
-    <!-- 7. Retaining Wall / Breast Wall Specifications -->
-    <div class="sec-bar">7. Retaining Wall / Breast Wall Specifications</div>
+    <!-- 6. Retaining Wall Specifications (Table 3 of Data Collection Sheet) -->
+    <div class="sec-bar">6. Retaining Wall / Breast Wall Specifications</div>
     <table class="grid-table">
       <thead>
         <tr>
           <th colspan="2" style="width: 50%;">Shape Configuration</th>
-          <th colspan="2" style="width: 50%;">Design Dimensions &amp; Distress</th>
+          <th colspan="2" style="width: 50%;">Dimensions &amp; Structural Distress</th>
         </tr>
       </thead>
       <tbody>
@@ -840,7 +834,8 @@
             [ {{ '✔' if assessment.retaining_wall_specs.distress_crack else '—' }} ] Crack &nbsp;|&nbsp; 
             [ {{ '✔' if assessment.retaining_wall_specs.distress_bulging else '—' }} ] Bulging &nbsp;|&nbsp; 
             [ {{ '✔' if assessment.retaining_wall_specs.distress_collapse else '—' }} ] Collapse &nbsp;|&nbsp; 
-            [ {{ '✔' if assessment.retaining_wall_specs.distress_joint else '—' }} ] Slip-out joint
+            [ {{ '✔' if assessment.retaining_wall_specs.distress_joint else '—' }} ] Slip-out joint &nbsp;|&nbsp;
+            <strong>Overall:</strong> {{ assessment.retaining_wall_specs.signs_of_distress }}
           </td>
         </tr>
         <tr>
@@ -848,134 +843,166 @@
           <td class="col-val editable" id="f-distress-behind" colspan="3">{{ assessment.retaining_wall_specs.distress_behind }}</td>
         </tr>
         <tr>
-          <td class="col-lbl">Distress in front:</td>
+          <td class="col-lbl">Distress in front of wall:</td>
           <td class="col-val editable" id="f-distress-front" colspan="3">{{ assessment.retaining_wall_specs.distress_in_front }}</td>
         </tr>
         <tr>
-          <td class="col-lbl">Weep holes:</td>
+          <td class="col-lbl">Dia of weepholes:</td>
           <td class="col-val editable" id="f-weep-holes" colspan="3">{{ assessment.retaining_wall_specs.weep_holes }}</td>
         </tr>
       </tbody>
     </table>
 
-    <!-- 8. Drainage & Bioengineering Measures -->
-    <div class="sec-bar">8. Drainage &amp; Bioengineering Measures</div>
+    <!-- 7. Drainage (12 Types per Table 3 of Data Collection Sheet) -->
+    <div class="sec-bar">7. Drainage Measures &amp; Typology (IS:14458 Part 2 &amp; IRC:SP:48)</div>
     <table class="grid-table">
-      <thead>
-        <tr>
-          <th style="width: 25%;">Drain Type</th>
-          <th style="width: 25%;">Status</th>
-          <th style="width: 25%;">Drain Type</th>
-          <th style="width: 25%;">Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="col-lbl">Roadside (stone/concrete):</td>
-          <td class="col-val editable" id="f-d-road">{{ assessment.drainage_and_bioengineering.roadside_drain }}</td>
-          <td class="col-lbl">Lined Channel / Chute:</td>
-          <td class="col-val editable" id="f-d-chute">{{ assessment.drainage_and_bioengineering.lined_channel }}</td>
-        </tr>
-        <tr>
-          <td class="col-lbl">Lined cut-off drain:</td>
-          <td class="col-val editable" id="f-d-cutoff">{{ assessment.drainage_and_bioengineering.lined_cutoff }}</td>
-          <td class="col-lbl">Sub-surface French drain:</td>
-          <td class="col-val editable" id="f-d-french">{{ assessment.drainage_and_bioengineering.french_drain }}</td>
-        </tr>
-        <tr>
-          <td class="col-lbl">Check Dam (gully control):</td>
-          <td class="col-val editable" id="f-d-dam">{{ assessment.drainage_and_bioengineering.check_dam }}</td>
-          <td class="col-lbl">Slope surface catch drain:</td>
-          <td class="col-val editable" id="f-d-catch">{{ assessment.drainage_and_bioengineering.catch_drain }}</td>
-        </tr>
-        <tr>
-          <td class="col-lbl">Bioengineering Desc:</td>
-          <td class="col-val editable" id="f-bio-desc" colspan="3">{{ assessment.drainage_and_bioengineering.bioengineering_desc }}</td>
-        </tr>
-      </tbody>
+      <tr>
+        <td style="width: 25%;">
+          <div class="chk-item {{ 'checked' if assessment.drainage and assessment.drainage.roadside_stone }}"><span class="chk-box {{ 'active' if assessment.drainage and assessment.drainage.roadside_stone }}">{{ '✔' if assessment.drainage and assessment.drainage.roadside_stone else ' ' }}</span> Roadside (stone)</div>
+        </td>
+        <td style="width: 25%;">
+          <div class="chk-item {{ 'checked' if assessment.drainage and assessment.drainage.roadside_concrete }}"><span class="chk-box {{ 'active' if assessment.drainage and assessment.drainage.roadside_concrete }}">{{ '✔' if assessment.drainage and assessment.drainage.roadside_concrete else ' ' }}</span> Roadside (concrete)</div>
+        </td>
+        <td style="width: 25%;">
+          <div class="chk-item {{ 'checked' if assessment.drainage and assessment.drainage.lined_channel }}"><span class="chk-box {{ 'active' if assessment.drainage and assessment.drainage.lined_channel }}">{{ '✔' if assessment.drainage and assessment.drainage.lined_channel else ' ' }}</span> Lined Channel</div>
+        </td>
+        <td style="width: 25%;">
+          <div class="chk-item {{ 'checked' if assessment.drainage and assessment.drainage.lined_cutoff }}"><span class="chk-box {{ 'active' if assessment.drainage and assessment.drainage.lined_cutoff }}">{{ '✔' if assessment.drainage and assessment.drainage.lined_cutoff else ' ' }}</span> Lined cut-off</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="chk-item {{ 'checked' if assessment.drainage and assessment.drainage.counterfort }}"><span class="chk-box {{ 'active' if assessment.drainage and assessment.drainage.counterfort }}">{{ '✔' if assessment.drainage and assessment.drainage.counterfort else ' ' }}</span> Counterfort</div>
+        </td>
+        <td>
+          <div class="chk-item {{ 'checked' if assessment.drainage and assessment.drainage.branched }}"><span class="chk-box {{ 'active' if assessment.drainage and assessment.drainage.branched }}">{{ '✔' if assessment.drainage and assessment.drainage.branched else ' ' }}</span> Branched</div>
+        </td>
+        <td>
+          <div class="chk-item {{ 'checked' if assessment.drainage and assessment.drainage.unlined_cutoff }}"><span class="chk-box {{ 'active' if assessment.drainage and assessment.drainage.unlined_cutoff }}">{{ '✔' if assessment.drainage and assessment.drainage.unlined_cutoff else ' ' }}</span> Unlined cut-off</div>
+        </td>
+        <td>
+          <div class="chk-item {{ 'checked' if assessment.drainage and assessment.drainage.horizontal }}"><span class="chk-box {{ 'active' if assessment.drainage and assessment.drainage.horizontal }}">{{ '✔' if assessment.drainage and assessment.drainage.horizontal else ' ' }}</span> Horizontal</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="chk-item {{ 'checked' if assessment.drainage and assessment.drainage.sub_surface }}"><span class="chk-box {{ 'active' if assessment.drainage and assessment.drainage.sub_surface }}">{{ '✔' if assessment.drainage and assessment.drainage.sub_surface else ' ' }}</span> Sub-surface (French)</div>
+        </td>
+        <td>
+          <div class="chk-item {{ 'checked' if assessment.drainage and assessment.drainage.herringbone }}"><span class="chk-box {{ 'active' if assessment.drainage and assessment.drainage.herringbone }}">{{ '✔' if assessment.drainage and assessment.drainage.herringbone else ' ' }}</span> Herringbone</div>
+        </td>
+        <td>
+          <div class="chk-item {{ 'checked' if assessment.drainage and assessment.drainage.check_dam }}"><span class="chk-box {{ 'active' if assessment.drainage and assessment.drainage.check_dam }}">{{ '✔' if assessment.drainage and assessment.drainage.check_dam else ' ' }}</span> Check Dam (gully)</div>
+        </td>
+        <td>
+          <div class="chk-item {{ 'checked' if assessment.drainage and assessment.drainage.slope_surface }}"><span class="chk-box {{ 'active' if assessment.drainage and assessment.drainage.slope_surface }}">{{ '✔' if assessment.drainage and assessment.drainage.slope_surface else ' ' }}</span> Slope surface</div>
+        </td>
+      </tr>
+      <tr>
+        <td class="col-lbl">Material:</td>
+        <td class="col-val editable" id="f-drain-mat">{{ assessment.drainage.material if assessment.drainage else 'Masonry / Lined Concrete' }}</td>
+        <td class="col-lbl">Signs of distress:</td>
+        <td class="col-val editable" id="f-drain-distress">{{ assessment.drainage.signs_of_distress if assessment.drainage else 'None observed' }}</td>
+      </tr>
     </table>
 
-    <!-- 9. Gabion & Earthworks Quantification -->
-    <div class="sec-bar">9. Gabion &amp; Earthworks Quantification</div>
+    <!-- 8. Bioengineering & Gabion (Table 5 of Data Collection Sheet) -->
+    <div class="sec-bar">8. Bioengineering &amp; Gabion Specifications</div>
+    <table class="grid-table">
+      <tr>
+        <td class="col-lbl" style="width: 20%;">Bioengineering Desc:</td>
+        <td class="col-val editable" id="f-bio-desc" colspan="3">{{ assessment.bioengineering.description if assessment.bioengineering else assessment.drainage_and_bioengineering.bioengineering_desc }}</td>
+      </tr>
+      <tr>
+        <td class="col-lbl">Signs of distress:</td>
+        <td class="col-val editable" id="f-bio-distress" colspan="3">{{ assessment.bioengineering.signs_of_distress if assessment.bioengineering else 'Surface creeping & root shear' }}</td>
+      </tr>
+      <tr>
+        <td class="col-lbl">Gabion Wire Dia (mm):</td>
+        <td class="col-val editable" id="f-gab-wire">{{ assessment.gabion_and_earthworks.gabion_wall.wire_dia }}</td>
+        <td class="col-lbl">Base width (m):</td>
+        <td class="col-val editable" id="f-gab-base">{{ assessment.gabion_and_earthworks.gabion_wall.base_width }}</td>
+      </tr>
+      <tr>
+        <td class="col-lbl">Mesh dia (mm):</td>
+        <td class="col-val editable" id="f-gab-mesh">{{ assessment.gabion_and_earthworks.gabion_wall.mesh_dia }}</td>
+        <td class="col-lbl">Width at top (m):</td>
+        <td class="col-val editable" id="f-gab-top">{{ assessment.gabion_and_earthworks.gabion_wall.top_width }}</td>
+      </tr>
+      <tr>
+        <td class="col-lbl">Packing:</td>
+        <td class="col-val editable" id="f-gab-pack">{{ assessment.gabion_and_earthworks.gabion_wall.packing }}</td>
+        <td class="col-lbl">Total height (m):</td>
+        <td class="col-val editable" id="f-gab-h">{{ assessment.gabion_and_earthworks.gabion_wall.total_height }}</td>
+      </tr>
+      <tr>
+        <td class="col-lbl">Embedded depth (m):</td>
+        <td class="col-val editable" id="f-gab-embed">{{ assessment.gabion_and_earthworks.gabion_wall.embedded_depth }}</td>
+        <td class="col-lbl">Signs of distress:</td>
+        <td class="col-val editable" id="f-gab-distress">{{ assessment.gabion_and_earthworks.gabion_wall.signs_of_distress or 'Bulging / Mesh deformation' }}</td>
+      </tr>
+      <tr>
+        <td class="col-lbl">Distress behind wall:</td>
+        <td class="col-val editable" id="f-gab-behind">{{ assessment.gabion_and_earthworks.gabion_wall.distress_behind or 'Settlement / Surcharge' }}</td>
+        <td class="col-lbl">Distress in front of wall:</td>
+        <td class="col-val editable" id="f-gab-front">{{ assessment.gabion_and_earthworks.gabion_wall.distress_in_front or 'Toe erosion / Scour' }}</td>
+      </tr>
+    </table>
+
+    <!-- 9. Earthworks Quantification (Excavated & Fill per Table 5) -->
+    <div class="sec-bar">9. Earthworks Quantification (IS:14458 Clearance &amp; Rebuilding)</div>
     <table class="grid-table">
       <thead>
         <tr>
-          <th colspan="2" style="width: 50%;">Gabion Wall (Toe Support)</th>
-          <th colspan="2" style="width: 50%;">Earthworks Required (Clearance &amp; Rebuilding)</th>
+          <th style="width: 50%;">Excavated Material &amp; Dimensions</th>
+          <th style="width: 50%;">Fill Material &amp; Dimensions</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td class="col-lbl">Wire diameter:</td>
-          <td class="col-val editable" id="f-gab-wire">{{ assessment.gabion_and_earthworks.gabion_wall.wire_dia }}</td>
-          <td class="col-lbl">Excavation Material:</td>
-          <td class="col-val editable" id="f-exc-mat">{{ assessment.gabion_and_earthworks.excavation.material }}</td>
-        </tr>
-        <tr>
-          <td class="col-lbl">Mesh diameter:</td>
-          <td class="col-val editable" id="f-gab-mesh">{{ assessment.gabion_and_earthworks.gabion_wall.mesh_dia }}</td>
-          <td class="col-lbl" rowspan="2">Excavation Dim (H x L x W):</td>
-          <td class="col-val editable" id="f-exc-dim" rowspan="2">
-            {{ assessment.gabion_and_earthworks.excavation.dimensions }}<br>
-            <strong>= {{ assessment.gabion_and_earthworks.excavation.volume_m3 }} m³</strong>
+          <td>
+            <strong>Material:</strong> <span class="editable" id="f-exc-mat">{{ assessment.gabion_and_earthworks.excavation.material }}</span><br>
+            <strong>H (m):</strong> {{ assessment.gabion_and_earthworks.excavation.h_m }} m &nbsp;|&nbsp; 
+            <strong>L (m):</strong> {{ assessment.gabion_and_earthworks.excavation.l_m }} m &nbsp;|&nbsp; 
+            <strong>W (m):</strong> {{ assessment.gabion_and_earthworks.excavation.w_m }} m<br>
+            <strong>Excavation Volume:</strong> <span class="editable" id="f-exc-dim"><strong>{{ assessment.gabion_and_earthworks.excavation.volume_m3 }} m³</strong></span>
           </td>
-        </tr>
-        <tr>
-          <td class="col-lbl">Base width:</td>
-          <td class="col-val editable" id="f-gab-base">{{ assessment.gabion_and_earthworks.gabion_wall.base_width }}</td>
-        </tr>
-        <tr>
-          <td class="col-lbl">Width at top:</td>
-          <td class="col-val editable" id="f-gab-top">{{ assessment.gabion_and_earthworks.gabion_wall.top_width }}</td>
-          <td class="col-lbl">Fill Material:</td>
-          <td class="col-val editable" id="f-fill-mat">{{ assessment.gabion_and_earthworks.fill.material }}</td>
-        </tr>
-        <tr>
-          <td class="col-lbl">Total height:</td>
-          <td class="col-val editable" id="f-gab-h">{{ assessment.gabion_and_earthworks.gabion_wall.total_height }}</td>
-          <td class="col-lbl" rowspan="2">Fill Dim (H x L x W):</td>
-          <td class="col-val editable" id="f-fill-dim" rowspan="2">
-            {{ assessment.gabion_and_earthworks.fill.dimensions }}<br>
-            <strong>= {{ assessment.gabion_and_earthworks.fill.volume_m3 }} m³</strong>
+          <td>
+            <strong>Material:</strong> <span class="editable" id="f-fill-mat">{{ assessment.gabion_and_earthworks.fill.material }}</span><br>
+            <strong>H (m):</strong> {{ assessment.gabion_and_earthworks.fill.h_m }} m &nbsp;|&nbsp; 
+            <strong>L (m):</strong> {{ assessment.gabion_and_earthworks.fill.l_m }} m &nbsp;|&nbsp; 
+            <strong>W (m):</strong> {{ assessment.gabion_and_earthworks.fill.w_m }} m<br>
+            <strong>Backfill Volume:</strong> <span class="editable" id="f-fill-dim"><strong>{{ assessment.gabion_and_earthworks.fill.volume_m3 }} m³</strong></span>
           </td>
-        </tr>
-        <tr>
-          <td class="col-lbl">Embedded depth:</td>
-          <td class="col-val editable" id="f-gab-embed">{{ assessment.gabion_and_earthworks.gabion_wall.embedded_depth }}</td>
-        </tr>
-        <tr>
-          <td class="col-lbl">Packing:</td>
-          <td class="col-val editable" id="f-gab-pack" colspan="3">{{ assessment.gabion_and_earthworks.gabion_wall.packing }}</td>
         </tr>
       </tbody>
     </table>
 
     <div class="page-footer">
-      <span>HIMA-LENS Structural &amp; Quantification Module &bull; IRC:SP:48 Standard</span>
+      <span>HIMA-LENS Structural &amp; Quantification Module &bull; IRC:SP:48 / IS:14458 Standard</span>
       <span>Page 2 of 3</span>
     </div>
   </div>
 
   <!-- ======================================================== -->
-  <!-- PAGE 3: PHOTOGRAPH, SAFETY DIRECTIVES, REMARKS & SIGN-OFF -->
+  <!-- PAGE 3: EVIDENCE, MITIGATION, REMARKS & STATUTORY SIGN-OFF -->
   <!-- ======================================================== -->
   <div class="report-page">
     <div class="master-header">
       <div class="master-title">HIMA-LENS &bull; Field Visit Sheet (Page 3)</div>
-      <div class="master-subtitle">Site Photographic Evidence, Critical Safety &amp; Official Audit</div>
-      <div class="master-standards">Optical Verification &bull; Immediate Emergency Directives &bull; Statutory Engineering Sign-Off</div>
+      <div class="master-subtitle">Ground Evidence, Mitigation Measures, Safety Directives &amp; Official Sign-Off</div>
+      <div class="master-standards">Optical Verification &bull; Multi-tier Statutory Engineering Sign-Off</div>
     </div>
 
     <!-- 10. Site Photograph & Plain-Language Public Briefing -->
-    <div class="sec-bar">10. Ground Evidence &amp; Plain-Language Incident Briefing ({{ assessment.telemetry.location_chainage }})</div>
+    <div class="sec-bar">10. Ground Evidence &amp; Plain-Language Incident Briefing</div>
 
-    <!-- If Non-Terrain Media (e.g. dog or screenshot) is detected, render prominent audit banner -->
     {% if assessment.is_landslide_or_terrain is defined and not assessment.is_landslide_or_terrain %}
     <div class="optical-alert">
       <div class="optical-alert-title">
         Optical Validation Warning &bull; Non-Geological Media Detected
       </div>
-      <p style="font-size: 9.5px; color: #7f1d1d; line-height: 1.45;">
+      <p style="font-size: 8.5px; color: #7f1d1d; line-height: 1.35;">
         Automated multimodal visual auditing identified this upload as: <strong>{{ assessment.detected_content }}</strong>. 
         This image does not contain authentic outdoor terrain, geological rock slope, or road landslide failure. 
         Structural dimensioning and clearance quantities above represent standard parametric defaults and require authentic terrain photography verification.
@@ -984,7 +1011,7 @@
     {% endif %}
 
     <div class="evidence-briefing-grid">
-      <!-- Left Column: Ground Photo Plate -->
+      <!-- Ground Photo Plate -->
       <div class="photo-plate-column">
         {% if report.photo_url %}
         <div class="photo-plate-container">
@@ -997,7 +1024,7 @@
         <div class="photo-sub-bar">
           <span>
             {% if assessment.is_landslide_or_terrain is defined and not assessment.is_landslide_or_terrain %}
-              <span class="badge-status-invalid">Flagged: {{ assessment.detected_content }}</span>
+              <span class="badge-status-invalid">Flagged: Non-Terrain</span>
             {% else %}
               <span class="badge-status-valid">Verified Slope Imagery</span>
             {% endif %}
@@ -1005,13 +1032,13 @@
           <span>Date: {{ assessment.telemetry.inspection_date }}</span>
         </div>
         {% else %}
-        <div style="border: 1px dashed var(--border-light); background: #f8fafc; height: 250px; display: flex; align-items: center; justify-content: center; text-align: center; color: #64748b; font-size: 9.5px; padding: 15px;">
+        <div style="border: 1px dashed var(--border-light); background: #f8fafc; height: 230px; display: flex; align-items: center; justify-content: center; text-align: center; color: #64748b; font-size: 8.5px; padding: 12px;">
           No ground photograph uploaded with this field observation.
         </div>
         {% endif %}
       </div>
 
-      <!-- Right Column: Plain Language Explanation for Non-Technical Citizens & Public -->
+      <!-- Plain Language Explanation -->
       <div class="plain-briefing-card">
         <div class="plain-briefing-head">
           <div class="plain-briefing-tag">Public &amp; Field Briefing &bull; Plain Language (Non-Technical)</div>
@@ -1060,7 +1087,20 @@
       </div>
     </div>
 
-    <!-- 11. Critical Safety & Immediate Action Notice -->
+    <!-- 11. Mitigation Measures Provided & Other Observations (Data Collection Sheet End Section) -->
+    <div class="sec-bar">11. Mitigation Measures Provided to the Site &amp; Site Observations</div>
+    <table class="grid-table">
+      <tr>
+        <td class="col-lbl" style="width: 25%;">Mitigation measures provided to the site:</td>
+        <td class="col-val editable" id="f-mitigation" style="width: 75%; white-space: pre-line;">{{ assessment.mitigation_measures }}</td>
+      </tr>
+      <tr>
+        <td class="col-lbl">Any other observation at the site:</td>
+        <td class="col-val editable" id="f-observation" style="white-space: pre-line;">{{ assessment.other_observations }}</td>
+      </tr>
+    </table>
+
+    <!-- 12. Critical Safety & Immediate Action Notice -->
     <div class="safety-box">
       <div class="head">Critical Safety &amp; Immediate Action Notice:</div>
       <ol>
@@ -1071,18 +1111,18 @@
       </ol>
     </div>
 
-    <!-- 12. Senior Geotechnical Diagnostic Remarks -->
-    <div class="sec-bar">11. Senior Geotechnical Diagnostic Observations &amp; Kinematics</div>
+    <!-- 13. Senior Geotechnical Diagnostic Remarks -->
+    <div class="sec-bar">12. Senior Geotechnical Diagnostic Observations &amp; Kinematics</div>
     <div class="remarks-card editable" id="f-senior-rem">
       {{ assessment.senior_engineer_remarks }}
     </div>
 
-    <!-- 13. Official 3-Tier Sign-Off Block -->
+    <!-- 14. Official 3-Tier Sign-Off Block -->
     <table class="sign-table">
       <thead>
         <tr>
-          <th>Junior Field Observer / Geologist<br>HIMA-LENS Field Cell</th>
-          <th>Assistant Geotechnical Engineer<br>HIMA-LENS Technical Cell</th>
+          <th>Junior Field Observer / Junior Engineer<br>HIMA-LENS Field Cell</th>
+          <th>Assistant Geotechnical Engineer / Geologist<br>HIMA-LENS Technical Cell</th>
           <th>Executive Highway Structural Lead<br>HIMA-LENS Geotechnical Division</th>
         </tr>
       </thead>
@@ -1096,7 +1136,7 @@
     </table>
 
     <div class="page-footer">
-      <span>HIMA-LENS Automated Scientific Evaluation Dossier &bull; Verified Copy</span>
+      <span>HIMA-LENS Automated Scientific Evaluation Dossier &bull; Official Statutory Copy</span>
       <span>Page 3 of 3</span>
     </div>
   </div>
@@ -1120,21 +1160,23 @@
     function applyCustomData(data) {
       if (!data) return;
       if (data.telemetry) {
-        if (data.telemetry.site_road_name) document.getElementById('f-road-name').innerText = data.telemetry.site_road_name;
-        if (data.telemetry.location_chainage) document.getElementById('f-chainage').innerText = data.telemetry.location_chainage;
-        if (data.telemetry.inspection_date) document.getElementById('f-date').innerText = data.telemetry.inspection_date;
+        if (data.telemetry.site_road_name && document.getElementById('f-road-name')) document.getElementById('f-road-name').innerText = data.telemetry.site_road_name;
+        if (data.telemetry.location_chainage && document.getElementById('f-chainage')) document.getElementById('f-chainage').innerText = data.telemetry.location_chainage;
+        if (data.telemetry.inspection_date && document.getElementById('f-date')) document.getElementById('f-date').innerText = data.telemetry.inspection_date;
+        if (data.telemetry.road_type && document.getElementById('f-road-type')) document.getElementById('f-road-type').innerText = data.telemetry.road_type;
+        if (data.telemetry.elevation && document.getElementById('f-elevation')) document.getElementById('f-elevation').innerText = data.telemetry.elevation;
       }
       if (data.retaining_wall_specs) {
         const rw = data.retaining_wall_specs;
-        if (rw.height_m) document.getElementById('f-wall-h').innerText = rw.height_m + ' m';
-        if (rw.length_m) document.getElementById('f-wall-l').innerText = rw.length_m + ' m';
-        if (rw.material) document.getElementById('f-wall-mat').innerText = rw.material;
+        if (rw.height_m && document.getElementById('f-wall-h')) document.getElementById('f-wall-h').innerText = rw.height_m + ' m';
+        if (rw.length_m && document.getElementById('f-wall-l')) document.getElementById('f-wall-l').innerText = rw.length_m + ' m';
+        if (rw.material && document.getElementById('f-wall-mat')) document.getElementById('f-wall-mat').innerText = rw.material;
       }
       if (data.gabion_and_earthworks && data.gabion_and_earthworks.excavation) {
         const exc = data.gabion_and_earthworks.excavation;
-        if (exc.volume_m3) document.getElementById('f-exc-dim').innerHTML = exc.dimensions + '<br><strong>= ' + exc.volume_m3 + ' m³</strong>';
+        if (exc.volume_m3 && document.getElementById('f-exc-dim')) document.getElementById('f-exc-dim').innerText = exc.volume_m3 + ' m³';
       }
-      if (data.senior_engineer_remarks) {
+      if (data.senior_engineer_remarks && document.getElementById('f-senior-rem')) {
         document.getElementById('f-senior-rem').innerText = data.senior_engineer_remarks;
       }
       if (data.plain_language_explanation) {
@@ -1164,7 +1206,6 @@
       btn.querySelector('span').innerText = isEditMode ? "Done Editing" : "Edit Fields Inline";
       btn.style.background = isEditMode ? "#16a34a" : "";
 
-      // When finishing editing, persist changes to server-side cache
       if (!isEditMode) {
         saveInlineEditsToServer();
       }
@@ -1175,6 +1216,8 @@
         telemetry: {
           site_road_name: document.getElementById('f-road-name') ? document.getElementById('f-road-name').innerText.trim() : undefined,
           location_chainage: document.getElementById('f-chainage') ? document.getElementById('f-chainage').innerText.trim() : undefined,
+          road_type: document.getElementById('f-road-type') ? document.getElementById('f-road-type').innerText.trim() : undefined,
+          elevation: document.getElementById('f-elevation') ? document.getElementById('f-elevation').innerText.trim() : undefined,
         },
         retaining_wall_specs: {
           height_m: document.getElementById('f-wall-h') ? parseFloat(document.getElementById('f-wall-h').innerText) : undefined,
