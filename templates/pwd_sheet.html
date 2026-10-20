@@ -491,6 +491,7 @@
   <div class="screen-action-bar">
     <div class="brand">
       <span class="hl-tag">HIMA-LENS</span>
+      <span class="hl-tag" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);">{{ assessment.telemetry.report_id }}</span>
       <span>PWD Field Assessment Sheet &bull; Data Collection Dossier</span>
     </div>
     <div class="action-btn-cluster">
@@ -522,16 +523,16 @@
     <!-- Master Identification Table (Data Collection Sheet Header Format) -->
     <table class="grid-table">
       <tr>
-        <td class="col-lbl" style="width: 18%;">Site:</td>
-        <td class="col-val editable" id="f-road-name" style="width: 32%;"><strong>{{ assessment.telemetry.site_road_name }}</strong></td>
-        <td class="col-lbl" style="width: 18%;">Lat.:</td>
-        <td class="col-val font-mono" style="width: 32%;">{{ assessment.telemetry.coordinates_dec.split(',')[0] }}</td>
+        <td class="col-lbl" style="width: 16%;">Site:</td>
+        <td class="col-val editable" id="f-road-name" style="width: 34%;"><strong>{{ assessment.telemetry.site_road_name }}</strong></td>
+        <td class="col-lbl" style="width: 18%;">Report Reference:</td>
+        <td class="col-val font-mono" style="width: 32%; color: var(--primary-forest);"><strong>{{ assessment.telemetry.report_id }}</strong></td>
       </tr>
       <tr>
         <td class="col-lbl">Location (chainage):</td>
         <td class="col-val editable" id="f-chainage">{{ assessment.telemetry.location_chainage }}</td>
-        <td class="col-lbl">Long.:</td>
-        <td class="col-val font-mono">{{ assessment.telemetry.coordinates_dec.split(',')[1] if ',' in assessment.telemetry.coordinates_dec else '' }}</td>
+        <td class="col-lbl">Lat. &bull; Long.:</td>
+        <td class="col-val font-mono">{{ assessment.telemetry.coordinates_dec }} &nbsp;<span style="color: #64748b; font-size: 7.5px;">({{ assessment.telemetry.coordinates_dms }})</span></td>
       </tr>
       <tr>
         <td class="col-lbl">Date of Inspection:</td>
@@ -721,7 +722,7 @@
     </table>
 
     <div class="page-footer">
-      <span>HIMA-LENS Spatial Intelligence &bull; Field Visit Sheet (IRC:SP:48 Standards)</span>
+      <span>HIMA-LENS Spatial Intelligence &bull; Field Visit Sheet &bull; Ref: <strong>{{ assessment.telemetry.report_id }}</strong></span>
       <span>Page 1 of 3</span>
     </div>
   </div>
@@ -979,7 +980,7 @@
     </table>
 
     <div class="page-footer">
-      <span>HIMA-LENS Structural &amp; Quantification Module &bull; IRC:SP:48 / IS:14458 Standard</span>
+      <span>HIMA-LENS Structural &amp; Quantification Module &bull; Ref: <strong>{{ assessment.telemetry.report_id }}</strong></span>
       <span>Page 2 of 3</span>
     </div>
   </div>
@@ -1205,7 +1206,7 @@
     </table>
 
     <div class="page-footer">
-      <span>HIMA-LENS Automated Scientific Evaluation Dossier &bull; Official Statutory Copy</span>
+      <span>HIMA-LENS Automated Scientific Evaluation Dossier &bull; Official Statutory Copy &bull; Ref: <strong>{{ assessment.telemetry.report_id }}</strong></span>
       <span>Page 3 of 3</span>
     </div>
   </div>
