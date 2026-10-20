@@ -132,7 +132,6 @@
                 <a href="{{ url_for('home') }}" class="{% if request.endpoint == 'home' %}active{% endif %}">Home</a>
                 <a href="{{ url_for('explore') }}" class="{% if request.endpoint == 'explore' %}active{% endif %}">Explore</a>
                 <a href="{{ url_for('feed') }}" class="{% if request.endpoint in ['feed', 'news'] %}active{% endif %}">Events &amp; News</a>
-                <a href="{{ url_for('terrain_lab') }}" class="{% if request.endpoint == 'terrain_lab' %}active{% endif %}">3D Alpine Lab</a>
                 <a href="{{ url_for('report') }}" class="{% if request.endpoint == 'report' %}active{% endif %}">Report</a>
                 <a href="{{ url_for('about') }}" class="{% if request.endpoint == 'about' %}active{% endif %}">About</a>
             </nav>
