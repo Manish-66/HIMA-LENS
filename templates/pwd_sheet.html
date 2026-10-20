@@ -1088,9 +1088,43 @@
       </div>
     </div>
 
-    <!-- 11. Advanced Geotechnical Stabilization Framework (CEDD GEO & LaRiMiT Standards) -->
-    <div class="sec-bar">11. Advanced Quantitative Mitigation Schedule (CEDD GEO &amp; LaRiMiT Standards)</div>
+    <!-- 11. Advanced Quantitative Mitigation Schedule (USGS, CEDD GEO & LaRiMiT Standards) -->
+    {% set adv_stab = assessment.advanced_geotechnical_stabilization if assessment and assessment.advanced_geotechnical_stabilization else {} %}
+    {% set usgs = adv_stab.get('usgs_classification', {}) if adv_stab else {} %}
+    {% set cedd = adv_stab.get('cedd_consequence', {}) if adv_stab else {} %}
+    {% set lrm = adv_stab.get('larimit_mitigations', {}) if adv_stab else {} %}
+    {% set sn = adv_stab.get('prescribed_soil_nailing', {}) if adv_stab else {} %}
+    {% set fb = adv_stab.get('flexible_barrier', {}) if adv_stab else {} %}
+    {% set sd = adv_stab.get('subsurface_drainage', {}) if adv_stab else {} %}
+    <div class="sec-bar">11. International Geotechnical &amp; Mitigation Schedule (USGS, CEDD GEO &amp; LaRiMiT)</div>
     <table class="grid-table">
+      <thead>
+        <tr>
+          <th colspan="4" style="background: #0f172a; color: #f8fafc; font-size: 8px; padding: 4px 6px; text-transform: uppercase; letter-spacing: 0.5px;">
+            USGS Circular 1325 &amp; Cruden-Varnes (1996) Landslide Definition &amp; Kinematic Taxonomy
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-lbl" style="width: 22%;">USGS Standard Definition:</td>
+          <td class="col-val" colspan="3" style="font-size: 7.5px; color: #334155; line-height: 1.35;">
+            <em>&ldquo;{{ usgs.get('usgs_general_definition') or 'A landslide is a general term used to describe the downslope movement of soil, rock, and organic materials under the effects of gravity and also the landform that results from such movement.' }}&rdquo;</em> (Highland &amp; Bobrowsky, USGS Circular 1325)
+          </td>
+        </tr>
+        <tr>
+          <td class="col-lbl">Two-Term Classification:</td>
+          <td class="col-val">
+            <strong style="color: #0369a1;">{{ usgs.get('two_term_classification') or 'Translational Rock Slide' }}</strong><br>
+            <span style="font-size: 7px; color: #64748b;">(Movement: {{ usgs.get('primary_movement') or 'Translational Slide' }} &bull; Material: {{ usgs.get('material_class') or 'Rock' }})</span>
+          </td>
+          <td class="col-lbl" style="width: 20%;">Cruden-Varnes Velocity:</td>
+          <td class="col-val">
+            <strong>{{ (usgs.get('velocity_class', {})).get('rate_name') or 'Rapid' }}</strong> ({{ (usgs.get('velocity_class', {})).get('class_code') or 'Class 5' }})<br>
+            <span style="font-size: 7px; color: #64748b;">Rate: {{ (usgs.get('velocity_class', {})).get('velocity_range') or '1.8 m/h to 3 m/min' }}</span>
+          </td>
+        </tr>
+      </tbody>
       <thead>
         <tr>
           <th colspan="2" style="width: 50%;">Hong Kong CEDD GEO Slope Safety &amp; Consequence Classification</th>
@@ -1101,57 +1135,57 @@
         <tr>
           <td class="col-lbl">Consequence Category:</td>
           <td class="col-val">
-            <strong>{{ assessment.advanced_geotechnical_stabilization.cedd_consequence.consequence_category if assessment.advanced_geotechnical_stabilization else 'Category 2' }}</strong> 
-            ({{ assessment.advanced_geotechnical_stabilization.cedd_consequence.consequence_level if assessment.advanced_geotechnical_stabilization else 'Moderate' }})
+            <strong>{{ cedd.get('consequence_category') or 'Category 2' }}</strong> 
+            ({{ cedd.get('consequence_level') or 'Moderate' }})
           </td>
           <td class="col-lbl">Primary Structural:</td>
           <td class="col-val">
-            <strong>{{ assessment.advanced_geotechnical_stabilization.larimit_mitigations.primary_structural.name if assessment.advanced_geotechnical_stabilization else 'Passive Soil Nailing' }}</strong><br>
-            <span style="color: #15803d; font-weight: 700;">Suitability: {{ assessment.advanced_geotechnical_stabilization.larimit_mitigations.primary_structural.suitability_score if assessment.advanced_geotechnical_stabilization else '0.95' }}</span> &bull; 
-            Est. Time: {{ assessment.advanced_geotechnical_stabilization.larimit_mitigations.primary_structural.construction_time if assessment.advanced_geotechnical_stabilization else '14 Days' }}
+            <strong>{{ (lrm.get('primary_structural', {})).get('name') or 'Passive Soil Nailing' }}</strong><br>
+            <span style="color: #15803d; font-weight: 700;">Suitability: {{ (lrm.get('primary_structural', {})).get('suitability_score') or '0.95' }}</span> &bull; 
+            Est. Time: {{ (lrm.get('primary_structural', {})).get('construction_time') or '14 Days' }}
           </td>
         </tr>
         <tr>
           <td class="col-lbl">Minimum Target FOS:</td>
           <td class="col-val">
-            <strong>FOS &ge; {{ assessment.advanced_geotechnical_stabilization.cedd_consequence.target_fos_10yr if assessment.advanced_geotechnical_stabilization else '1.30' }}</strong> (10-Yr Storm)<br>
-            FOS &ge; {{ assessment.advanced_geotechnical_stabilization.cedd_consequence.target_fos_extreme if assessment.advanced_geotechnical_stabilization else '1.15' }} (Extreme Storm)
+            <strong>FOS &ge; {{ cedd.get('target_fos_10yr') or '1.30' }}</strong> (10-Yr Storm)<br>
+            FOS &ge; {{ cedd.get('target_fos_extreme') or '1.15' }} (Extreme Storm)
           </td>
           <td class="col-lbl">Subsurface Drainage:</td>
           <td class="col-val">
-            <strong>{{ assessment.advanced_geotechnical_stabilization.larimit_mitigations.hydrogeological_drainage.name if assessment.advanced_geotechnical_stabilization else 'Horizontal Relief Drains' }}</strong><br>
-            <span style="color: #15803d; font-weight: 700;">Suitability: {{ assessment.advanced_geotechnical_stabilization.larimit_mitigations.hydrogeological_drainage.suitability_score if assessment.advanced_geotechnical_stabilization else '0.95' }}</span> &bull; 
-            Est. Time: {{ assessment.advanced_geotechnical_stabilization.larimit_mitigations.hydrogeological_drainage.construction_time if assessment.advanced_geotechnical_stabilization else '7 Days' }}
+            <strong>{{ (lrm.get('hydrogeological_drainage', {})).get('name') or 'Horizontal Relief Drains' }}</strong><br>
+            <span style="color: #15803d; font-weight: 700;">Suitability: {{ (lrm.get('hydrogeological_drainage', {})).get('suitability_score') or '0.95' }}</span> &bull; 
+            Est. Time: {{ (lrm.get('hydrogeological_drainage', {})).get('construction_time') or '7 Days' }}
           </td>
         </tr>
         <tr>
           <td class="col-lbl">Inspection Protocol:</td>
           <td class="col-val">
-            <strong>{{ assessment.advanced_geotechnical_stabilization.cedd_consequence.inspection_regime.code if assessment.advanced_geotechnical_stabilization else 'EIM' }}:</strong> 
-            {{ assessment.advanced_geotechnical_stabilization.cedd_consequence.inspection_regime.name if assessment.advanced_geotechnical_stabilization else 'Engineer Inspection' }}<br>
-            <span style="font-size: 7.5px; color: #64748b;">Freq: {{ assessment.advanced_geotechnical_stabilization.cedd_consequence.inspection_regime.frequency if assessment.advanced_geotechnical_stabilization else 'Every 2 Years' }}</span>
+            <strong>{{ (cedd.get('inspection_regime', {})).get('code') or 'EIM' }}:</strong> 
+            {{ (cedd.get('inspection_regime', {})).get('name') or 'Engineer Inspection' }}<br>
+            <span style="font-size: 7.5px; color: #64748b;">Freq: {{ (cedd.get('inspection_regime', {})).get('frequency') or 'Every 2 Years' }}</span>
           </td>
           <td class="col-lbl">Nature-Based Solution (NBS):</td>
           <td class="col-val">
-            <strong>{{ assessment.advanced_geotechnical_stabilization.larimit_mitigations.nature_based_solution.name if assessment.advanced_geotechnical_stabilization else 'Vetiver Contour Hedges' }}</strong><br>
-            <span style="color: #15803d; font-weight: 700;">Suitability: {{ assessment.advanced_geotechnical_stabilization.larimit_mitigations.nature_based_solution.suitability_score if assessment.advanced_geotechnical_stabilization else '0.92' }}</span> &bull; 
-            Est. Time: {{ assessment.advanced_geotechnical_stabilization.larimit_mitigations.nature_based_solution.construction_time if assessment.advanced_geotechnical_stabilization else '5 Days' }}
+            <strong>{{ (lrm.get('nature_based_solution', {})).get('name') or 'Vetiver Contour Hedges' }}</strong><br>
+            <span style="color: #15803d; font-weight: 700;">Suitability: {{ (lrm.get('nature_based_solution', {})).get('suitability_score') or '0.92' }}</span> &bull; 
+            Est. Time: {{ (lrm.get('nature_based_solution', {})).get('construction_time') or '5 Days' }}
           </td>
         </tr>
         <tr>
           <td class="col-lbl">Prescribed Soil Nailing (Geoguide 7):</td>
           <td class="col-val" colspan="3">
-            <strong>Steel Bar:</strong> {{ assessment.advanced_geotechnical_stabilization.prescribed_soil_nailing.bar_diameter if assessment.advanced_geotechnical_stabilization else 'N/A' }} &nbsp;|&nbsp; 
-            <strong>Grid Spacing:</strong> {{ assessment.advanced_geotechnical_stabilization.prescribed_soil_nailing.grid_spacing if assessment.advanced_geotechnical_stabilization else 'N/A' }} &nbsp;|&nbsp; 
-            <strong>Borehole:</strong> {{ assessment.advanced_geotechnical_stabilization.prescribed_soil_nailing.drillhole_diameter if assessment.advanced_geotechnical_stabilization else 'N/A' }} @ {{ assessment.advanced_geotechnical_stabilization.prescribed_soil_nailing.drillhole_inclination if assessment.advanced_geotechnical_stabilization else 'N/A' }}<br>
-            <strong>Grout &amp; Head Pad:</strong> {{ assessment.advanced_geotechnical_stabilization.prescribed_soil_nailing.grout_strength if assessment.advanced_geotechnical_stabilization else 'N/A' }} &bull; {{ assessment.advanced_geotechnical_stabilization.prescribed_soil_nailing.head_assembly if assessment.advanced_geotechnical_stabilization else 'N/A' }}
+            <strong>Steel Bar:</strong> {{ sn.get('bar_diameter') or 'N/A' }} &nbsp;|&nbsp; 
+            <strong>Grid Spacing:</strong> {{ sn.get('grid_spacing') or 'N/A' }} &nbsp;|&nbsp; 
+            <strong>Borehole:</strong> {{ sn.get('drillhole_diameter') or 'N/A' }} @ {{ sn.get('drillhole_inclination') or 'N/A' }}<br>
+            <strong>Grout &amp; Head Pad:</strong> {{ sn.get('grout_strength') or 'N/A' }} &bull; {{ sn.get('head_assembly') or 'N/A' }}
           </td>
         </tr>
         <tr>
           <td class="col-lbl">Flexible Barrier &amp; Deep Sub-Drains:</td>
           <td class="col-val" colspan="3">
-            <strong>Rockfall Barrier (GEO 138):</strong> {{ assessment.advanced_geotechnical_stabilization.flexible_barrier.energy_absorption_capacity if assessment.advanced_geotechnical_stabilization else 'N/A' }} (Height: {{ assessment.advanced_geotechnical_stabilization.flexible_barrier.barrier_height if assessment.advanced_geotechnical_stabilization else 'N/A' }}, {{ assessment.advanced_geotechnical_stabilization.flexible_barrier.net_specification if assessment.advanced_geotechnical_stabilization else 'N/A' }})<br>
-            <strong>Sub-horizontal Directional Drains (TGN 24):</strong> {{ assessment.advanced_geotechnical_stabilization.subsurface_drainage.drain_length if assessment.advanced_geotechnical_stabilization else 'N/A' }} ({{ assessment.advanced_geotechnical_stabilization.subsurface_drainage.pipe_specification if assessment.advanced_geotechnical_stabilization else 'N/A' }} @ {{ assessment.advanced_geotechnical_stabilization.subsurface_drainage.upward_inclination if assessment.advanced_geotechnical_stabilization else 'N/A' }})
+            <strong>Rockfall Barrier (GEO 138):</strong> {{ fb.get('energy_absorption_capacity') or 'N/A' }} (Height: {{ fb.get('barrier_height') or 'N/A' }}, {{ fb.get('net_specification') or 'N/A' }})<br>
+            <strong>Sub-horizontal Directional Drains (TGN 24):</strong> {{ sd.get('drain_length') or 'N/A' }} ({{ sd.get('pipe_specification') or 'N/A' }} @ {{ sd.get('upward_inclination') or 'N/A' }})
           </td>
         </tr>
       </tbody>

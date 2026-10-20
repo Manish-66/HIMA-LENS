@@ -533,7 +533,8 @@ def compute_deterministic_engineering_dossier(
         "permanent_restoration": safe_perm,
     }
 
-    # Advanced Geotechnical Stabilization Frameworks (CEDD GEO & LaRiMiT)
+    # Advanced Geotechnical Stabilization Frameworks (CEDD GEO, LaRiMiT & USGS / Cruden-Varnes)
+    usgs_eval = geotech_engine.evaluate_usgs_classification(observed_failure, geo_info["material_type"], sev)
     cedd_eval = geotech_engine.evaluate_cedd_consequence(env_type, road_type_val, sev)
     larimit_eval = geotech_engine.evaluate_larimit_mitigations(observed_failure, geo_info["material_type"], sev, is_residential)
     soil_nail_eval = geotech_engine.derive_prescribed_soil_nailing(sev, h_cut)
@@ -541,6 +542,7 @@ def compute_deterministic_engineering_dossier(
     subsurface_drain_eval = geotech_engine.derive_subsurface_drainage_specs(h_cut, l_wall)
 
     advanced_stabilization = {
+        "usgs_classification": usgs_eval,
         "cedd_consequence": cedd_eval,
         "larimit_mitigations": larimit_eval,
         "prescribed_soil_nailing": soil_nail_eval,
@@ -548,18 +550,25 @@ def compute_deterministic_engineering_dossier(
         "subsurface_drainage": subsurface_drain_eval,
     }
 
-    # Senior Geotechnical Engineering Remarks (Adopting HK CEDD GEO LSR & Klima 2050 / LaRiMiT Diagnostic Phrasing)
+    # Senior Geotechnical Engineering Remarks (Adopting USGS Circular 1325, HK CEDD GEO LSR & Klima 2050 / LaRiMiT)
     default_remarks = (
-        f"1. GEOTECHNICAL CLASSIFICATION & CONSEQUENCE RATING (CEDD Geoguide 1):\n"
-        f"Forensic field reconnaissance of the {district} sector identifies an active {observed_failure.lower()} "
-        f"directly impacting {impacted_assets.lower()}. Under Hong Kong CEDD Geoguide 1 criteria, the slope is classified as "
+        f"1. GEOTECHNICAL & USGS CLASSIFICATION (USGS Circular 1325 / Cruden & Varnes 1996):\n"
+        f"Forensic field reconnaissance of the {district} sector confirms an active mass wasting event conforming strictly to the "
+        f"USGS standard definition of a landslide: \"{usgs_eval['usgs_general_definition']}\"\n"
+        f"Under the Cruden & Varnes (1996) two-term taxonomy, the failure is formally designated as: {usgs_eval['two_term_classification']} "
+        f"(Kinematic Movement: {usgs_eval['primary_movement']}, Substrate: {usgs_eval['material_class']}, "
+        f"Velocity Rating: {usgs_eval['velocity_class']['rate_name']} [{usgs_eval['velocity_class']['class_code']}, {usgs_eval['velocity_class']['velocity_range']}]).\n\n"
+        f"2. CONSEQUENCE RATING & TARGET FACTOR OF SAFETY (CEDD Geoguide 1):\n"
+        f"Directly impacting {impacted_assets.lower()}. Under Hong Kong CEDD Geoguide 1 criteria, the slope is classified as "
         f"{cedd_eval['consequence_category']} ({cedd_eval['consequence_level']}), requiring a statutory minimum target Factor of Safety "
         f"FOS >= {cedd_eval['target_fos_10yr']:.2f} under 10-year return period rainfall (FOS >= {cedd_eval['target_fos_extreme']:.2f} under extreme storm conditions).\n\n"
-        f"2. KINEMATIC FAILURE MECHANICS & HYDROGEOLOGY:\n"
-        f"Instability is characterized by Varnes {larimit_eval['analyzed_mechanism']} kinematics within {observed_rock} strata under steep cut geometry ({cut_angle_val}). "
+        f"3. KINEMATIC FAILURE MECHANICS, ANATOMY & HYDROGEOLOGY:\n"
+        f"Instability is characterized by {usgs_eval['movement_definition']} within {observed_rock} strata under steep cut geometry ({cut_angle_val}). "
+        f"Diagnostic landslide anatomical features (USGS Circular 1325) include an exposed detachment main scarp and depletion mass, "
+        f"open tension crown fissures, and an accumulation toe encroaching upon the corridor. "
         f"Failure was triggered by antecedent rainfall infiltration inducing transient perched groundwater tables, loss of matric suction in the upper colluvium, "
         f"and hydrostatic cleft-water pressure along daylighting relict joints (dipping {calc_dip}° into the cut face).\n\n"
-        f"3. MULTI-BARRIER MITIGATION STRATEGY (LaRiMiT / CEDD GEO Standards):\n"
+        f"4. MULTI-BARRIER MITIGATION STRATEGY (LaRiMiT / CEDD GEO Standards):\n"
         f"- Primary Toe Retention (LaRiMiT Cluster 4): Construction of a {l_wall:.0f}m long Plum Concrete Breast Wall "
         f"(H={h_wall:.1f}m, Base B={base_w:.2f}m) founded on competent bedrock with 100mm PVC weep holes @ 1.2m c/c.\n"
         f"- Internal Ground Reinforcement (LaRiMiT Cluster 5 / CEDD Geoguide 7): Prescribed Soil Nailing Array ({soil_nail_eval['bar_diameter']}, "
@@ -567,7 +576,7 @@ def compute_deterministic_engineering_dossier(
         f"- Pore Pressure Relief (LaRiMiT Cluster 3 / CEDD TGN 24): Installation of {subsurface_drain_eval['drain_length']} sub-horizontal slotted PVC relief drains "
         f"inclined at {subsurface_drain_eval['upward_inclination']} to intercept perched seepage, paired with lined crest interceptor drains ({rd_drain_w} x {rd_drain_d}).\n"
         f"- Dynamic Impact & NBS Protection: {barrier_eval['energy_absorption_capacity']} flexible ring net barrier ({barrier_eval['design_code']}) in fall zones, combined with {larimit_eval['nature_based_solution']['name']}.\n\n"
-        f"4. STATUTORY MAINTENANCE REGIME:\n"
+        f"5. STATUTORY MAINTENANCE REGIME:\n"
         f"Mandatory {cedd_eval['inspection_regime']['name']} ({cedd_eval['inspection_regime']['code']}) at {cedd_eval['inspection_regime']['frequency']} "
         f"by a {cedd_eval['inspection_regime']['personnel']} in strict accordance with CEDD Geoguide 5."
     )
@@ -1070,6 +1079,26 @@ def build_rejected_assessment_dossier(
             "drainage_and_seepage": "N/A",
         },
         "advanced_geotechnical_stabilization": {
+            "usgs_classification": {
+                "usgs_general_definition": "N/A — Verification Rejected: Upload does not depict geological terrain.",
+                "usgs_kinematic_definition": "N/A — Non-Terrain Upload",
+                "two_term_classification": "Disqualified / Non-Terrain",
+                "primary_movement": "N/A",
+                "material_class": "N/A",
+                "velocity_class": {
+                    "class_code": "N/A",
+                    "rate_name": "N/A",
+                    "velocity_range": "N/A",
+                    "consequences": "N/A",
+                },
+                "landslide_anatomy": {
+                    "crown_and_scarp": "N/A",
+                    "displaced_mass": "N/A",
+                    "toe_and_foot": "N/A",
+                },
+                "causal_factors": {},
+                "standard_reference": "USGS Circular 1325 (Highland & Bobrowsky, 2008)",
+            },
             "cedd_consequence": {
                 "consequence_category": "N/A — Disqualified",
                 "consequence_level": "N/A",
@@ -1231,15 +1260,21 @@ def generate_ai_assessment(report: dict[str, Any], force_refresh: bool = False) 
     prompt = f"""You are the Chief Geotechnical Engineer & Slope Disaster Specialist for HIMA-LENS (Himachal Landslide Spatial Observatory & Engineering System).
 
 TASK:
-Perform a rigorous, 6-dimensional diagnostic audit of the attached field photograph and incident telemetry. You must determine with absolute scientific precision whether this image genuinely depicts an active or recent landslide event, or if it is a non-landslide scene or non-terrain upload.
+Perform a rigorous, 6-dimensional diagnostic audit of the attached field photograph and incident telemetry using the official United States Geological Survey (USGS Circular 1325 / Cruden & Varnes 1996) standard definition of landslide and international engineering frameworks (CEDD GEO & LaRiMiT). You must determine with absolute scientific precision whether this image genuinely depicts an active or recent landslide event, or if it is a non-landslide scene or non-terrain upload.
 
 FOLLOW THESE 6 RIGOROUS DIAGNOSTIC INQUIRIES:
 
 ================================================================================
-INQUIRY 1: GEOMORPHIC & OPTICAL GROUND TRUTH VERIFICATION
+INQUIRY 1: GEOMORPHIC & OPTICAL GROUND TRUTH (USGS LANDSLIDE DEFINITION AUDIT)
 (Is this ACTUALLY a Landslide / Mass Wasting Event, or a Non-Landslide False Alarm?)
 ================================================================================
-Examine the image forensically for physical geomorphic markers of slope failure versus non-landslide scenes:
+The official USGS definition (USGS Circular 1325, Highland & Bobrowsky 2008; Cruden & Varnes 1996) governs this audit:
+"A landslide is a general term used to describe the downslope movement of soil, rock, and organic materials under the effects of gravity and also the landform that results from such movement."
+To be accepted as an authentic landslide, the image MUST exhibit physical evidence of downslope displacement occurring on a surface of rupture or detachment, producing discernible features of:
+1. Crown / Crown tension cracks
+2. Main scarp / exposed shear headwall
+3. Displaced / depleted mass (soil, rock, debris, or mud slurry)
+4. Toe / accumulation foot encroaching on slopes, roads, or structures.
 
 A. NON-TERRAIN / IRRELEVANT UPLOADS (REJECT IMMEDIATELY):
    - Domestic pets or animals (e.g. dogs, cats, cattle, birds)
@@ -1266,9 +1301,13 @@ C. TRUE LANDSLIDE VERIFICATION MARKERS (ACCEPT AS AUTHENTIC LANDSLIDE):
    6. Structural Breach / Damage: Walls sheared or breached by falling earth/rock, foundations undermined, or road pavement buckled, cracked, or buried.
 
 ================================================================================
-INQUIRY 2: KINEMATIC FAILURE MECHANISM (VARNES / CRUDEN & VARNES 2014)
+INQUIRY 2: KINEMATIC FAILURE MECHANISM & USGS TWO-TERM CLASSIFICATION (CRUDEN & VARNES 1996)
 ================================================================================
-Classify movement kinematics: Rockfall, Block Topple, Planar Slide, Rotational Slump, Debris Slide, Mudflow, or Retaining Wall Collapse.
+Classify movement kinematics using the formal USGS / Cruden & Varnes (1996) Two-Term Classification System [Type of Movement + Type of Material]:
+1. Movement Type: Fall, Topple, Slide (Rotational Slide / Slump vs. Translational Slide / Planar), Lateral Spread, Flow, or Complex.
+2. Material Type: Rock, Debris (coarse fragments > 2mm), or Earth (fine particles < 2mm).
+- Assign the precise Two-Term Name (e.g. "Translational Rock Slide", "Rotational Earth Slide", "Debris Flow", "Rock Fall", "Rock Topple", "Complex Rock Slide - Debris Flow").
+- Estimate the Cruden & Varnes Velocity Class: Class 7 Extremely Rapid (>5 m/s), Class 6 Very Rapid (3 m/min - 5 m/s), Class 5 Rapid (1.8 m/h - 3 m/min), Class 4 Moderate (13 m/mo - 1.8 m/h), Class 3 Slow (1.6 m/yr - 13 m/mo).
 
 ================================================================================
 INQUIRY 3: MICRO-SETTING & IMPACTED ASSET VULNERABILITY
@@ -1299,23 +1338,30 @@ INQUIRY 5: LITHOLOGICAL & FIELD SHEET INDICATORS (DATA COLLECTION SHEET)
 - Distress Indicators: Gully, crack, unstable rock, seepage, erosion, potholes, subsidence, rutting, drain clogging, wall bulging/collapse.
 
 ================================================================================
-INQUIRY 6: SENIOR GEOTECHNICAL FORENSIC WRITING (CEDD GEO & LARIMIT STANDARDS)
+INQUIRY 6: SENIOR GEOTECHNICAL FORENSIC WRITING (USGS, CEDD GEO & LARIMIT STANDARDS)
 ================================================================================
-When generating "senior_engineer_remarks", adopt the authoritative forensic diagnostic writing style of Hong Kong Civil Engineering and Development Department (CEDD GEO) Landslide Study Reports (LSR) and the Norwegian Geotechnical Institute (NGI) / Klima 2050 LaRiMiT decision framework.
+When generating "senior_engineer_remarks", adopt the authoritative forensic diagnostic writing style synthesizing:
+- USGS Circular 1325 (Highland & Bobrowsky 2008) and Cruden & Varnes (1996) standard definitions, two-term taxonomy, velocity ratings, and anatomical parts.
+- Hong Kong CEDD GEO Landslide Study Reports (LSR: Geoguide 1 consequence categories, target FOS, Geoguide 7 soil nailing, GEO 138 flexible barriers).
+- Klima 2050 / LaRiMiT multi-barrier mitigation framework.
 
-Structure your remarks into 4 numbered engineering sections:
-1. GEOTECHNICAL CLASSIFICATION & CONSEQUENCE RATING (CEDD Geoguide 1):
+Structure your remarks into 5 numbered engineering sections:
+1. GEOTECHNICAL & USGS CLASSIFICATION (USGS Circular 1325 / Cruden & Varnes 1996):
+   - Cite the USGS standard definition of a landslide ("the downslope movement of soil, rock, and organic materials under the effects of gravity and also the landform that results from such movement").
+   - Explicitly formulate the formal Cruden & Varnes (1996) Two-Term Classification (e.g., Translational Rock Slide, Rotational Earth Slide, Debris Flow).
+   - Specify the estimated Cruden & Varnes Velocity Class (Class 1 to 7).
+2. CONSEQUENCE RATING & TARGET FACTOR OF SAFETY (CEDD Geoguide 1):
    - Designate the Consequence-to-Life Category (Category 1: residential dwellings or major highways; Category 2: secondary roads; Category 3: remote/low-traffic).
    - Specify statutory minimum target Factor of Safety (FOS >= 1.40 for 10-year return storm, FOS >= 1.20 for rare storm).
-2. KINEMATIC FAILURE MECHANICS & HYDROGEOLOGY:
-   - Identify precise Varnes failure kinematics (e.g. planar shear slide along daylighting relict joints, rotational circular slump within saturated colluvium, wedge detachment, or debris torrent).
+3. KINEMATIC FAILURE MECHANICS, ANATOMY & HYDROGEOLOGY:
+   - Identify precise failure kinematics and diagnostic anatomical features per USGS Circular 1325 (Crown, Main Scarp, Surface of Rupture, Displaced Mass, Depletion Zone, Accumulation Foot).
    - Detail the hydrogeological trigger: antecedent rainfall infiltration, loss of soil matric suction, transient perched water table build-up, and cleft-water hydrostatic pressure along lithological boundaries.
-3. MULTI-BARRIER MITIGATION STRATEGY (LaRiMiT / CEDD GEO Standards):
+4. MULTI-BARRIER MITIGATION STRATEGY (LaRiMiT / CEDD GEO Standards):
    - Primary Toe Retention: Retaining / Breast wall (IS:14458 / CEDD Geoguide 1) with staggered PVC weep holes.
    - Internal Reinforcement: Prescribed soil nailing array (CEDD Geoguide 7) with high-yield steel bars, cementitious grout, and sacrificial pullout testing.
    - Drainage Relief: Sub-horizontal directional relief drains (CEDD TGN 24) to depress perched phreatic surfaces and lined crest catch drains.
    - Dynamic & Surficial Defense: Flexible ring net rockfall barrier (CEDD GEO Report 138) and Nature-Based bioengineering (vetiver grass / hydroseeding, LaRiMiT Cluster 8).
-4. STATUTORY MAINTENANCE REGIME:
+5. STATUTORY MAINTENANCE REGIME:
    - Mandate statutory inspection regime under CEDD Geoguide 5 (e.g., Engineer Inspection for Maintenance [EIM] or Detailed Stability Assessment [DSA]) and routine clearing of drainage networks.
 
 INCIDENT TELEMETRY:
@@ -1354,6 +1400,8 @@ RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
     "in_situ_soil_desc": "String",
     "debris_accumulation_desc": "String",
     "failure_movement_observed": "String",
+    "usgs_two_term_name": "Translational Rock Slide or Rotational Earth Slide or Debris Flow etc.",
+    "usgs_velocity_class": "Class 5 (Rapid, 1.8 m/h to 3 m/min) or similar",
     "slope_presence_above": true,
     "slope_presence_below": false,
     "slope_presence_both": false,

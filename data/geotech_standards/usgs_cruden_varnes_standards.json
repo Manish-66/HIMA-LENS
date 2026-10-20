@@ -1,0 +1,155 @@
+{
+  "standard_metadata": {
+    "title": "USGS & Cruden-Varnes Landslide Classification and Terminology Framework",
+    "primary_references": [
+      "Highland, L.M., and Bobrowsky, P., 2008, The Landslide Handbook—A Guide to Understanding Landslides: U.S. Geological Survey Circular 1325, 129 p.",
+      "Cruden, D.M., and Varnes, D.J., 1996, Landslide Types and Processes, in Turner, A.K., and Schuster, R.L., eds., Landslides: Investigation and Mitigation: Transportation Research Board Special Report 247, National Academy of Sciences, p. 36-75.",
+      "Varnes, D.J., 1978, Slope Movement Types and Processes, in Schuster, R.L., and Krizek, R.J., eds., Landslides: Analysis and Control: Transportation Research Board Special Report 176, National Academy of Sciences, p. 11-33."
+    ],
+    "organization": "United States Geological Survey (USGS) & Transportation Research Board (TRB)"
+  },
+  "definitions": {
+    "general_definition": "A landslide is a general term used to describe the downslope movement of soil, rock, and organic materials under the effects of gravity and also the landform that results from such movement.",
+    "kinematic_definition": "A downslope movement of rock or soil, or both, occurring on the surface of rupture—either curved (rotational slide) or planar (translational slide) rupture—in which much of the material often moves as a coherent or semicoherent mass with little internal deformation.",
+    "material_divisions": {
+      "rock": "A hard or firm mass that was intact and in its natural place before the initiation of movement.",
+      "soil": "An aggregate of solid particles, generally of minerals and rocks, that either was transported or was formed by the weathering of rock in place. Subdivided into Earth and Debris.",
+      "earth": "Soil in which 80% or more of the particles are smaller than 2 mm (sand-, silt-, and clay-sized particles).",
+      "debris": "Soil containing a significant proportion of coarse fragments; 20% to 80% of the particles are greater than 2 mm in size (gravel, cobbles, and boulders)."
+    }
+  },
+  "cruden_varnes_classification_matrix": {
+    "Fall": {
+      "definition": "Detachment of soil or rock from a steep slope or cliff along a surface with little or no shear displacement; material descends primarily through the air by falling, bouncing, or rolling.",
+      "rock": "Rock Fall",
+      "debris": "Debris Fall",
+      "earth": "Earth Fall",
+      "typical_velocity": "Very Rapid to Extremely Rapid (Class 6-7, > 3 m/min to > 5 m/s)"
+    },
+    "Topple": {
+      "definition": "Forward rotation out of the slope of a mass of soil or rock about a point or axis below the center of gravity of the displaced mass.",
+      "rock": "Rock Topple",
+      "debris": "Debris Topple",
+      "earth": "Earth Topple",
+      "typical_velocity": "Extremely Slow to Extremely Rapid (Class 1-7)"
+    },
+    "Rotational Slide": {
+      "definition": "A slide in which the surface of rupture is curved concavely upward (spoon-shaped) and the slide movement is roughly rotational about an axis parallel to the ground surface.",
+      "rock": "Rotational Rock Slide (Rock Slump)",
+      "debris": "Rotational Debris Slide (Debris Slump)",
+      "earth": "Rotational Earth Slide (Earth Slump)",
+      "typical_velocity": "Slow to Moderate (Class 3-4, 1.6 m/yr to 1.8 m/h)"
+    },
+    "Translational Slide": {
+      "definition": "A landslide mass that moves out, or down and outward, along a relatively planar surface with little rotational movement or backward tilting; frequently controlled by structural discontinuities (bedding, joints, faults).",
+      "rock": "Translational Rock Slide (Rock Block Slide)",
+      "debris": "Translational Debris Slide",
+      "earth": "Translational Earth Slide (Earth Block Slide)",
+      "typical_velocity": "Moderate to Very Rapid (Class 4-6, 13 m/month to 5 m/s)"
+    },
+    "Lateral Spread": {
+      "definition": "Extension of a cohesive soil or rock mass combined with general subsidence of the fractured mass into softer underlying material; failure occurs by liquefaction or plastic flow.",
+      "rock": "Rock Spread",
+      "debris": "Debris Spread",
+      "earth": "Earth Spread",
+      "typical_velocity": "Very Slow to Rapid (Class 2-5)"
+    },
+    "Flow": {
+      "definition": "Spatially continuous movement in which shear surfaces are short-lived, closely spaced, and usually not preserved; component velocities resemble those in a viscous fluid.",
+      "rock": "Rock Flow (Deep-Seated Creep)",
+      "debris": "Debris Flow / Debris Avalanche",
+      "earth": "Earthflow / Mudflow",
+      "typical_velocity": "Rapid to Extremely Rapid (Class 5-7, 1.8 m/h to > 5 m/s)"
+    },
+    "Complex": {
+      "definition": "Slope failure involving a combination of two or more principal types of movement (e.g., Rock Slide evolving into a Debris Flow).",
+      "rock": "Complex Rock Slide - Debris Flow",
+      "debris": "Complex Debris Slide - Debris Flow",
+      "earth": "Complex Slump - Earthflow",
+      "typical_velocity": "Moderate to Extremely Rapid"
+    }
+  },
+  "landslide_anatomy_features": {
+    "crown": "The practically undisplaced material still in place and adjacent to the highest parts of the main scarp.",
+    "crown_cracks": "Tension cracks in the crown that indicate incipient or retrogressive slope movement.",
+    "main_scarp": "A steep surface on the undisturbed ground at the upper edge of the landslide, caused by movement of the displaced mass away from undisturbed ground.",
+    "minor_scarp": "A steep surface on the displaced material produced by differential movements within the sliding mass.",
+    "surface_of_rupture": "The surface that forms the lower boundary of the displaced material below the original ground surface (shear plane).",
+    "surface_of_separation": "The part of the original ground surface now overlain by the foot of the landslide.",
+    "head": "The upper parts of the landslide along the contact between the displaced material and the main scarp.",
+    "top": "The highest point of contact between the displaced material and the main scarp.",
+    "toe_of_surface_of_rupture": "The intersection (usually buried) between the lower part of the surface of rupture and the original ground surface.",
+    "toe": "The lower, usually curved margin of the displaced material of a landslide, most distant from the main scarp.",
+    "tip_of_toe": "The point on the toe that is farthest from the top of the landslide.",
+    "foot": "The portion of the landslide that has moved beyond the toe of the surface of rupture and overlies the original ground surface.",
+    "main_body": "The part of the displaced material that overlies the surface of rupture between the main scarp and the toe of the surface of rupture.",
+    "flanks": "The undisplaced material adjacent to the sides of the rupture surface (described facing downslope from the crown).",
+    "depleted_mass": "The volume of the displaced material that overlies the rupture surface but underlies the original ground surface.",
+    "accumulation": "The volume of the displaced material that lies above the original ground surface."
+  },
+  "velocity_scale": {
+    "Class_7": {
+      "name": "Extremely Rapid",
+      "velocity_range": "> 5 m/s (~18 km/h)",
+      "consequences": "Catastrophe of major scale; buildings destroyed by impact; casualties high; evacuation impossible."
+    },
+    "Class_6": {
+      "name": "Very Rapid",
+      "velocity_range": "3 m/min to 5 m/s",
+      "consequences": "Loss of life expected; some temporary evacuation possible; structures destroyed."
+    },
+    "Class_5": {
+      "name": "Rapid",
+      "velocity_range": "1.8 m/h to 3 m/min",
+      "consequences": "Escape possible; property and structures destroyed; roads severely disrupted."
+    },
+    "Class_4": {
+      "name": "Moderate",
+      "velocity_range": "13 m/month to 1.8 m/h",
+      "consequences": "Structures can be evacuated; temporary maintenance/repair feasible."
+    },
+    "Class_3": {
+      "name": "Slow",
+      "velocity_range": "1.6 m/year to 13 m/month",
+      "consequences": "Remedial construction possible; structures may be maintained with ongoing repairs."
+    },
+    "Class_2": {
+      "name": "Very Slow",
+      "velocity_range": "16 mm/year to 1.6 m/year",
+      "consequences": "Imperceptible without optical or geotechnical instrumentation; structures crack slowly."
+    },
+    "Class_1": {
+      "name": "Extremely Slow",
+      "velocity_range": "< 16 mm/year",
+      "consequences": "Imperceptible without long-term geodetic survey monitoring."
+    }
+  },
+  "causal_factors_and_triggers": {
+    "geological_causes": [
+      "Weak, weathered, or fractured rock and soil materials",
+      "Adversely oriented structural discontinuities (faults, joints, bedding planes daylighting into cut face)",
+      "Contrast in permeability between permeable colluvial mantle and impermeable underlying bedrock",
+      "Contrast in stiffness (stiff fractured rock over plastic argillaceous strata)"
+    ],
+    "morphological_causes": [
+      "Fluvial or wave erosion undermining the slope toe",
+      "Tectonic or steep gravitational escarpment oversteepening",
+      "Deposition loading along the slope crest or upper bench",
+      "Vegetation stripping and loss of root cohesive reinforcement"
+    ],
+    "physical_triggers": [
+      "Prolonged antecedent precipitation and high-intensity storm rainfall",
+      "Transient perched groundwater table development and loss of matric suction",
+      "Hydrostatic cleft-water pressure build-up along open tension fissures",
+      "Seismic ground shaking / earthquake vibration",
+      "Rapid freeze-thaw or shrink-swell cycling"
+    ],
+    "human_causes": [
+      "Anthropogenic excavation / toe undercutting for roadway benching or foundation cuts",
+      "Surcharge loading at the slope crest (unengineered spoil disposal or building construction)",
+      "Defective hillside drainage causing concentrated runoff discharge into slope body",
+      "Deforestation, tree felling, and destabilizing agricultural terracing",
+      "Blasting and heavy machinery vibrations"
+    ]
+  }
+}

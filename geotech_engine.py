@@ -25,9 +25,24 @@ logger = logging.getLogger(__name__)
 STANDARDS_DIR = BASE_DIR / "data" / "geotech_standards"
 LARIMIT_FILE = STANDARDS_DIR / "larimit_mitigation_catalog.json"
 CEDD_FILE = STANDARDS_DIR / "cedd_geo_standards.json"
+USGS_FILE = STANDARDS_DIR / "usgs_cruden_varnes_standards.json"
 
 _LARIMIT_CACHE: dict[str, Any] | None = None
 _CEDD_CACHE: dict[str, Any] | None = None
+_USGS_CACHE: dict[str, Any] | None = None
+
+
+def load_usgs_standards() -> dict[str, Any]:
+    global _USGS_CACHE
+    if _USGS_CACHE is not None:
+        return _USGS_CACHE
+    if USGS_FILE.exists():
+        try:
+            _USGS_CACHE = json.loads(USGS_FILE.read_text(encoding="utf-8"))
+            return _USGS_CACHE
+        except Exception as exc:
+            logger.warning("Could not read USGS standards: %s", exc)
+    return {}
 
 
 def load_larimit_catalog() -> dict[str, Any]:
@@ -275,4 +290,99 @@ def derive_subsurface_drainage_specs(slope_height_m: float = 6.0, wall_length_m:
         "upward_inclination": d_params.get("upward_inclination", "5° to 10° upward rake for gravity self-cleansing flow"),
         "array_spacing": d_params.get("standard_spacing_m", "3.0 m to 6.0 m c/c staggered"),
         "drain_length": f"{drain_len} m per borehole (Total {num_drains} Nos. array)",
+    }
+
+
+def evaluate_usgs_classification(
+    movement_type: str,
+    material_type: str = "Colluvium / Soil",
+    severity: str = "Moderate",
+    trigger_cause: str = "Rainfall Infiltration",
+) -> dict[str, Any]:
+    """Evaluates slope movement according to USGS Circular 1325 (Highland & Bobrowsky, 2008)
+    and Cruden & Varnes (1996) Transportation Research Board Special Report 247.
+    """
+    usgs = load_usgs_standards()
+    defs = usgs.get("definitions", {})
+    matrix = usgs.get("cruden_varnes_classification_matrix", {})
+    velocities = usgs.get("velocity_scale", {})
+    causal = usgs.get("causal_factors_and_triggers", {})
+
+    mov_lower = (movement_type or "").lower()
+    mat_lower = (material_type or "").lower()
+
+    # Determine Varnes Movement Group
+    if "fall" in mov_lower or "boulder" in mov_lower:
+        mov_group = "Fall"
+    elif "topple" in mov_lower:
+        mov_group = "Topple"
+    elif "slump" in mov_lower or "rotational" in mov_lower:
+        mov_group = "Rotational Slide"
+    elif "flow" in mov_lower or "mud" in mov_lower or "torrent" in mov_lower:
+        mov_group = "Flow"
+    elif "spread" in mov_lower:
+        mov_group = "Lateral Spread"
+    elif "complex" in mov_lower:
+        mov_group = "Complex"
+    else:
+        mov_group = "Translational Slide"
+
+    # Determine Material Substrate (Rock vs Debris vs Earth per USGS Circular 1325 / Cruden & Varnes 1996)
+    if any(w in mat_lower for w in ("rock", "dolomite", "quartzite", "sandstone", "phyllite", "slate", "schist", "gneiss", "limestone", "basalt", "granite")):
+        mat_key = "rock"
+        mat_label = "Rock"
+    elif any(w in mat_lower for w in ("clay", "silt", "sand", "fine", "earth")):
+        mat_key = "earth"
+        mat_label = "Earth (fine-grained soil < 2mm)"
+    else:
+        mat_key = "debris"
+        mat_label = "Debris (coarse fragments > 2mm)"
+
+    cat_entry = matrix.get(mov_group, matrix.get("Translational Slide", {}))
+    two_term_name = cat_entry.get(mat_key, f"{mov_group} in {mat_label}")
+
+    # Velocity Rating (Cruden & Varnes 1996 Table 3-6 / USGS Circular 1325)
+    if mov_group in ("Fall", "Flow") or severity == "Critical":
+        vel_key = "Class_6"
+    elif mov_group == "Translational Slide" or severity == "High":
+        vel_key = "Class_5"
+    elif mov_group == "Rotational Slide":
+        vel_key = "Class_4"
+    else:
+        vel_key = "Class_3"
+
+    vel_info = velocities.get(vel_key, velocities.get("Class_4", {}))
+
+    return {
+        "usgs_general_definition": defs.get(
+            "general_definition",
+            "A landslide is a general term used to describe the downslope movement of soil, rock, and organic materials under the effects of gravity and also the landform that results from such movement.",
+        ),
+        "usgs_kinematic_definition": defs.get(
+            "kinematic_definition",
+            "A downslope movement of rock or soil, or both, occurring on the surface of rupture—either curved or planar rupture—in which much of the material often moves as a coherent or semicoherent mass.",
+        ),
+        "two_term_classification": two_term_name,
+        "primary_movement": mov_group,
+        "material_class": mat_label,
+        "material_definition": defs.get("material_divisions", {}).get(mat_key, ""),
+        "movement_definition": cat_entry.get("definition", ""),
+        "velocity_class": {
+            "class_code": vel_key.replace("_", " "),
+            "rate_name": vel_info.get("name", "Moderate"),
+            "velocity_range": vel_info.get("velocity_range", "13 m/month to 1.8 m/h"),
+            "consequences": vel_info.get("consequences", ""),
+        },
+        "landslide_anatomy": {
+            "crown_and_scarp": "Undisplaced crown with open extensional crown cracks; distinct steep main scarp exposing rupture surface.",
+            "displaced_mass": "Depleted mass above planar/rotational surface of rupture, extending downslope into zone of accumulation.",
+            "toe_and_foot": "Displaced foot advancing beyond toe of rupture surface across roadway/property margin.",
+        },
+        "causal_factors": {
+            "geological": causal.get("geological_causes", [])[:2],
+            "morphological": causal.get("morphological_causes", [])[:2],
+            "physical_trigger": causal.get("physical_triggers", [])[:2],
+            "human_causes": causal.get("human_causes", [])[:2],
+        },
+        "standard_reference": "USGS Circular 1325 (Highland & Bobrowsky, 2008) & Cruden & Varnes (1996) TRB Special Report 247",
     }
