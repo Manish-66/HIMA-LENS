@@ -9,6 +9,7 @@ import json
 import re
 import time
 import urllib.request
+import urllib.parse
 import uuid
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
@@ -180,15 +181,90 @@ def matching_features() -> list[dict[str, Any]]:
 _NEWS_CACHE: dict[str, Any] = {"timestamp": 0, "articles": []}
 _NEWS_CACHE_TTL = 900  # 15 minutes in seconds
 
+HP_LOCATIONS = [
+    "himachal", "himachal pradesh",
+    "mandi", "shimla", "kullu", "kinnaur", "kangra", "chamba", 
+    "solan", "sirmaur", "sirmour", "bilaspur", "hamirpur", "una", 
+    "lahaul", "spiti",
+    "manali", "dharamshala", "dharamsala", "mcleodganj", "dalhousie", 
+    "kasauli", "palampur", "paonta", "rampur", "rohru", "bharmour", "pandoh", 
+    "aut", "larji", "parvati", "parbati", "beas", "sutlej", "sangla", "chitkul", "kalpa", 
+    "reckong peo", "kaza", "keylong", "rohtang", "atal tunnel", "jalori", 
+    "samej", "nigulsari", "kotropi", "kiratpur", "parwanoo", "jabli", "kalka-shimla",
+    "shikari devi", "kamrau", "shillai", "suni", "theog", "narkanda", "karsog",
+    "arki", "sundernagar", "jogindernagar", "baijnath", "nurpur", "jawali",
+    "chopal", "jubbal", "kotkhai", "sarahan", "tapri", "pooh", "jhakri"
+]
+
+NON_HP_PRIMARY = [
+    "in nepal", "nepal flood", "nepal landslide", "sikkim", "wayanad", "kerala", 
+    "uttarakhand", "arunachal", "meghalaya", "manipur", "mizoram", "nagaland", 
+    "tripura", "assam", "ladakh", "jabalpur", "bhopal", "bihar", "odisha", 
+    "poonch", "kashmir", "bangladesh", "pakistan"
+]
+
+IRRELEVANT_NOISE = [
+    "raksha bandhan", "diwali", "holiday", "festival", "fiscal landslide", 
+    "election", "cricket", "bollywood", "cabinet", "bypoll", "congress", "bjp", 
+    "assembly election", "no, the video is from"
+]
+
+HAZARD_KEYWORDS = [
+    "landslide", "rockfall", "rockslide", "cloudburst", "flash flood", 
+    "debris flow", "subsidence", "sinking", "slope", "boulder", "heavy rain", 
+    "deluge", "highway blocked", "nh-", "nh ", "road blocked", "tunnel", 
+    "erosion", "damaged", "washed away", "ravine", "alert", "warning", "toll", "traffic"
+]
+
+def _is_strictly_himachal(title: str, desc: str) -> bool:
+    t_lower = title.casefold()
+    d_lower = desc.casefold()
+    combined = t_lower + " " + d_lower
+
+    if any(nk in t_lower for nk in IRRELEVANT_NOISE):
+        return False
+    if "nepal" in t_lower or "trishuli" in t_lower:
+        return False
+    if not any(hk in combined for hk in HAZARD_KEYWORDS):
+        return False
+    if not any(k in combined for k in HP_LOCATIONS):
+        return False
+
+    has_hp_in_title = any(k in t_lower for k in HP_LOCATIONS)
+    for other in NON_HP_PRIMARY:
+        if other in t_lower and not has_hp_in_title:
+            return False
+        if other.startswith("in ") and other in t_lower:
+            return False
+
+    return True
+
 def _classify_news_district(text: str) -> str:
     lower = text.casefold()
-    if "lahaul" in lower or "spiti" in lower:
+    if any(k in lower for k in ["lahaul", "spiti", "kaza", "keylong", "tabo", "lossar", "malling"]):
         return "Lahaul & Spiti"
-    if "sirmaur" in lower or "sirmour" in lower:
+    if any(k in lower for k in ["sirmaur", "sirmour", "paonta", "shillai", "kamrau", "nahan", "rajgarh"]):
         return "Sirmaur"
-    for d in ["Mandi", "Shimla", "Kullu", "Kinnaur", "Kangra", "Chamba", "Solan", "Bilaspur", "Hamirpur", "Una"]:
-        if d.casefold() in lower:
-            return d
+    if any(k in lower for k in ["kinnaur", "sangla", "chitkul", "kalpa", "reckong", "nigulsari", "urni", "pooh", "tapri", "nichar"]):
+        return "Kinnaur"
+    if any(k in lower for k in ["kullu", "manali", "sainj", "malana", "parvati", "parbati", "rohtang", "atal tunnel", "jalori", "bhuntar", "naggar"]):
+        return "Kullu"
+    if any(k in lower for k in ["shimla", "summer hill", "rampur", "rohru", "samej", "theog", "narkanda", "chopal", "jubbal", "kotkhai", "sarahan", "suni"]):
+        return "Shimla"
+    if any(k in lower for k in ["mandi", "pandoh", "kotropi", "sundernagar", "jogindernagar", "aut", "larji", "karsog", "padhar", "urla", "balh"]):
+        return "Mandi"
+    if any(k in lower for k in ["kangra", "dharamshala", "dharamsala", "mcleodganj", "palampur", "bhagsu", "nurpur", "baijnath", "jawali", "jawalamukhi"]):
+        return "Kangra"
+    if any(k in lower for k in ["solan", "kasauli", "parwanoo", "jabli", "kumarhatti", "arki", "kandaghat", "chail"]):
+        return "Solan"
+    if any(k in lower for k in ["chamba", "dalhousie", "bharmour", "tissa", "salooni", "manimahesh", "khajjiar", "chaurasi"]):
+        return "Chamba"
+    if "bilaspur" in lower or "ghumarwin" in lower or "swarghat" in lower:
+        return "Bilaspur"
+    if "hamirpur" in lower or "nadaun" in lower or "bhoranj" in lower or "barsar" in lower:
+        return "Hamirpur"
+    if "una" in lower or "amb" in lower or "haroli" in lower or "gagret" in lower:
+        return "Una"
     return "Himachal Pradesh"
 
 def _classify_news_category(text: str) -> str:
@@ -291,7 +367,9 @@ def get_himachal_landslide_news(force_refresh: bool = False) -> list[dict[str, A
     if not force_refresh and _NEWS_CACHE["articles"] and (now_ts - _NEWS_CACHE["timestamp"]) < _NEWS_CACHE_TTL:
         return _NEWS_CACHE["articles"]
 
-    url = "https://news.google.com/rss/search?q=Himachal+Pradesh+landslide+OR+cloudburst+OR+%22flash+flood%22+when:45d&hl=en-IN&gl=IN&ceid=IN:en"
+    query = '("Himachal Pradesh" OR Himachal) (landslide OR rockfall OR cloudburst OR "debris flow" OR "flash flood") when:60d'
+    encoded_query = urllib.parse.quote(query)
+    url = f"https://news.google.com/rss/search?q={encoded_query}&hl=en-IN&gl=IN&ceid=IN:en"
     req = urllib.request.Request(
         url,
         headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"}
@@ -351,18 +429,19 @@ def get_himachal_landslide_news(force_refresh: bool = False) -> list[dict[str, A
             district = _classify_news_district(clean_title + " " + clean_desc)
             category = _classify_news_category(clean_title + " " + clean_desc)
 
-            articles.append({
-                "id": str(uuid.uuid4())[:8],
-                "title": clean_title,
-                "link": link,
-                "source": source_tag or "Himachal Media Wire",
-                "pub_date": pub_date_str,
-                "time_ago": time_ago_str,
-                "timestamp": ts,
-                "district": district,
-                "category": category,
-                "snippet": clean_desc
-            })
+            if _is_strictly_himachal(clean_title, clean_desc):
+                articles.append({
+                    "id": str(uuid.uuid4())[:8],
+                    "title": clean_title,
+                    "link": link,
+                    "source": source_tag or "Himachal Media Wire",
+                    "pub_date": pub_date_str,
+                    "time_ago": time_ago_str,
+                    "timestamp": ts,
+                    "district": district,
+                    "category": category,
+                    "snippet": clean_desc
+                })
 
         if articles:
             articles.sort(key=lambda a: a.get("timestamp", 0), reverse=True)
