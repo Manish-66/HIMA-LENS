@@ -1,10 +1,10 @@
 /**
  * ============================================================================
- * HIMA-LENS: 3D Himalayan Alpine Terrain & Landslide Kinematics Showcase
+ * HIMA-LENS: 3D Himalayan Alpine Terrain & Kinematics Showcase
  * Awwwards "Site of the Day" Quality Architecture
  * 
- * Inspired by Swiss Alpine Club, Moncler Grenoble, and EnduroSat Minimalism
- * Built in TypeScript (ES2020) with Three.js WebGL & GSAP ScrollTrigger
+ * Uses Real 3D Production Mountain GLB Asset with PBR Materials & Textures
+ * Combined with Three.js UnrealBloomPass, Volumetric Mist, & GSAP ScrollTrigger
  * ============================================================================
  */
 
@@ -33,19 +33,13 @@ class HimalayanTerrainShowcase {
     private composer: any = null;
     private clock: any = null;
 
-    // 3D Scene Elements
+    // Real 3D GLTF Mountain Model
+    private mountainModel: any = null;
     private terrainGroup: any = null;
-    private terrainMesh: any = null;
-    private terrainMaterial: any = null;
-    private valleyRiverMesh: any = null;
-    private highwayRibbon: any = null;
     private shearFaultMesh: any = null;
+    private laserScanRing: any = null;
     private mistParticles: any = null;
-    private sunLight: any = null;
-
-    // Interactive Pins
-    private hotspotPins: any[] = [];
-    private pinDomElements: HTMLElement[] = [];
+    private highwayRibbon: any = null;
 
     // State & Mouse Tracking
     private currentChapter: number = 0;
@@ -66,8 +60,8 @@ class HimalayanTerrainShowcase {
             kicker: "01 / HIGH HIMALAYAN SUMMITS",
             title: "The Living Massif.",
             subtext: "Towering, active, and under unrelenting tectonic compression. Himachal's alpine ridges rise above 6,000 meters, shaped by glacial cirques and extreme freeze-thaw weathering.",
-            camPos: { x: 0, y: 16, z: 28 },
-            targetPos: { x: 0, y: 4, z: 0 },
+            camPos: { x: 0, y: 14, z: 24 },
+            targetPos: { x: 0, y: 2, z: 0 },
             elevation: "5,840 M",
             slopeAngle: "62° ARÊTE",
             status: "TECTONIC CREEP",
@@ -78,8 +72,8 @@ class HimalayanTerrainShowcase {
             kicker: "02 / DAYLIGHTING CLEAVAGE",
             title: "Where Rock Meets Gravity.",
             subtext: "Steep highway cuts expose daylighting metamorphic bedding joints. When joint dip angles align with the valley slope, colossal rock masses become frictionally unstable.",
-            camPos: { x: -8, y: 7.5, z: 14 },
-            targetPos: { x: 1.5, y: 3.2, z: 2 },
+            camPos: { x: -8.5, y: 6.8, z: 12 },
+            targetPos: { x: 1.0, y: 2.5, z: 1.0 },
             elevation: "2,910 M",
             slopeAngle: "46° DAYLIGHTING",
             status: "CRITICAL SHEAR",
@@ -90,8 +84,8 @@ class HimalayanTerrainShowcase {
             kicker: "03 / CLOUDBURST INFILTRATION",
             title: "The Water Trigger.",
             subtext: "Monsoon precipitation fluxes exceed 40 mm per hour. Water infiltrates deep colluvial fissures, spiking pore-water pressure and dissolving effective shear resistance along the slip plane.",
-            camPos: { x: 9.5, y: 6.2, z: 12 },
-            targetPos: { x: -2.0, y: 2.5, z: -1 },
+            camPos: { x: 8.5, y: 5.5, z: 11 },
+            targetPos: { x: -1.5, y: 2.0, z: -0.5 },
             elevation: "2,150 M",
             slopeAngle: "38° COLLUVIUM",
             status: "SATURATION FLUX",
@@ -102,7 +96,7 @@ class HimalayanTerrainShowcase {
             kicker: "04 / VALLEY HUMAN LIFELINE",
             title: "Protecting the Corridor.",
             subtext: "At the valley floor, the national highway corridor connects communities, hydroelectric projects, and transit lifelines. Automated sensors deliver early warning before failure reaches the road.",
-            camPos: { x: 0.5, y: 3.5, z: 9.5 },
+            camPos: { x: 0.2, y: 3.2, z: 8.5 },
             targetPos: { x: 0, y: 0.5, z: 0 },
             elevation: "1,220 M",
             slopeAngle: "14° VALLEY FLOOR",
@@ -127,9 +121,9 @@ class HimalayanTerrainShowcase {
         this.setupRendererAndCamera();
         this.setupPostProcessing();
         this.setupAtmosphericLighting();
-        this.generateAlpineMassifMesh();
-        this.createValleyRiverAndCorridor();
+        this.loadReal3DMountainModel();
         this.createActiveShearPlane();
+        this.createLaserScanRing();
         this.createAtmosphericMistParticles();
         this.bindEvents();
         this.setupGsapScrollScrubbing();
@@ -142,7 +136,7 @@ class HimalayanTerrainShowcase {
         const h = window.innerHeight;
 
         this.scene = new THREE.Scene();
-        // Deep alpine twilight navy-black background
+        // Deep alpine twilight background
         this.scene.background = new THREE.Color(0x020a08);
         this.scene.fog = new THREE.FogExp2(0x020a08, 0.018);
 
@@ -158,7 +152,7 @@ class HimalayanTerrainShowcase {
         this.renderer.setSize(w, h);
         this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        this.renderer.toneMappingExposure = 1.25;
+        this.renderer.toneMappingExposure = 1.35;
     }
 
     private setupPostProcessing(): void {
@@ -170,183 +164,84 @@ class HimalayanTerrainShowcase {
             const renderPass = new THREE.RenderPass(this.scene, this.camera);
             this.composer.addPass(renderPass);
 
-            // Refined High-End Optical Bloom (soft luminescence on contour lasers & ridge crests)
+            // Refined Optical Bloom for glowing radar scans and summit highlights
             const bloom = new THREE.UnrealBloomPass(
                 new THREE.Vector2(w, h),
-                0.85, // Strength
-                0.5,  // Radius
-                0.68  // Threshold
+                0.8,  // Strength
+                0.45, // Radius
+                0.7   // Threshold
             );
             this.composer.addPass(bloom);
         }
     }
 
     private setupAtmosphericLighting(): void {
-        // Cool alpine ambient shadow light
-        const ambient = new THREE.AmbientLight(0x08221b, 1.6);
+        // Ambient sky fill (cool alpine teal-slate)
+        const ambient = new THREE.AmbientLight(0x0d2822, 1.8);
         this.scene.add(ambient);
 
-        // Low golden-hour Sun over Himalayan peaks
-        this.sunLight = new THREE.DirectionalLight(0xffeedd, 3.2);
-        this.sunLight.position.set(30, 22, -20);
-        this.sunLight.castShadow = true;
-        this.scene.add(this.sunLight);
+        // Golden Hour Sun over mountain peaks (dramatic shadows across valleys)
+        const sun = new THREE.DirectionalLight(0xffeedd, 3.4);
+        sun.position.set(28, 24, -18);
+        sun.castShadow = true;
+        this.scene.add(sun);
 
-        // Soft cyan valley up-bounce light
-        const bounce = new THREE.DirectionalLight(0x2dd4bf, 0.9);
-        bounce.position.set(-25, -10, 15);
+        // Soft cyan valley bounce light
+        const bounce = new THREE.DirectionalLight(0x2dd4bf, 1.1);
+        bounce.position.set(-22, -8, 16);
         this.scene.add(bounce);
     }
 
     /**
-     * Procedural High-Relief Himalayan Mountain Massif
-     * Uses Ridged Multi-Fractal Brownian Motion (fBm) to generate sharp razor-crested alpine arêtes,
-     * steep metamorphic rock faces, and deep river gorges.
+     * Load Genuine Production 3D Mountain Model (mountain.glb)
+     * Features real photogrammetric mountain topology, high-resolution rock textures, and PBR shading.
      */
-    private generateAlpineMassifMesh(): void {
+    private loadReal3DMountainModel(): void {
         this.terrainGroup = new THREE.Group();
+        this.scene.add(this.terrainGroup);
 
-        const terrainSize = 65;
-        const segments = 220; // High mesh resolution for razor-sharp ridge contours
-        const geom = new THREE.PlaneGeometry(terrainSize, terrainSize, segments, segments);
-
-        // Procedural Ridged Mountain Sculpting
-        const pos = geom.attributes.position;
-        for (let i = 0; i < pos.count; i++) {
-            const x = pos.getX(i);
-            const y = pos.getY(i);
-
-            // Radial falloff to keep edges clean and contained
-            const distFromCenter = Math.sqrt(x * x + y * y);
-            const edgeMask = Math.max(0.0, Math.min(1.0, 1.0 - (distFromCenter / (terrainSize * 0.48))));
-            const smoothEdge = edgeMask * edgeMask * (3.0 - 2.0 * edgeMask);
-
-            // 1. Primary Tectonic Ridge (NW to SE strike, typical of the Himalayas)
-            const ridge1 = Math.abs(Math.sin(x * 0.14 + y * 0.11)) * 5.5;
-            const sharpPeak1 = (1.0 - Math.abs(Math.cos(x * 0.22 - y * 0.18))) * 4.2;
-
-            // 2. High Alpine Pyramidal Horns & Arêtes
-            const detail1 = (1.0 - Math.abs(Math.sin(x * 0.42 + y * 0.35))) * 2.2;
-            const detail2 = Math.sin(x * 0.85 - y * 0.72) * 0.8;
-
-            // 3. Glacial River Gorge Carve (Valley floor through center)
-            const riverValleyDist = Math.abs(x * 0.65 - y * 0.35);
-            const valleyDepth = Math.exp(-Math.pow(riverValleyDist, 2) / 18.0) * 4.8;
-
-            // Combine into final elevation
-            const elevation = ((ridge1 * sharpPeak1 * 0.35 + detail1 + detail2) - valleyDepth) * smoothEdge;
-            pos.setZ(i, Math.max(-0.5, elevation));
+        if (!THREE.GLTFLoader) {
+            console.error("GLTFLoader not loaded");
+            return;
         }
 
-        geom.computeVertexNormals();
+        const loader = new THREE.GLTFLoader();
+        loader.load(
+            "/static/models/mountain.glb",
+            (gltf: any) => {
+                this.mountainModel = gltf.scene;
 
-        // Custom High-End Alpine PBR & LiDAR Topographic Shader
-        this.terrainMaterial = new THREE.ShaderMaterial({
-            uniforms: {
-                uTime: { value: 0 },
-                uContourStep: { value: 1.4 },
-                uLaserSweep: { value: 0.0 }
-            },
-            vertexShader: `
-                varying vec3 vWorldPosition;
-                varying vec3 vNormal;
-                varying float vElevation;
+                // Compute bounding box and normalize scale to 32 units across
+                const box = new THREE.Box3().setFromObject(this.mountainModel);
+                const size = box.getSize(new THREE.Vector3());
+                const center = box.getCenter(new THREE.Vector3());
+                const maxDim = Math.max(size.x, size.z);
+                const scale = 32.0 / maxDim;
 
-                void main() {
-                    vNormal = normalize(normalMatrix * normal);
-                    vec4 worldPos = modelMatrix * vec4(position, 1.0);
-                    vWorldPosition = worldPos.xyz;
-                    vElevation = position.z;
-                    gl_Position = projectionMatrix * viewMatrix * worldPos;
-                }
-            `,
-            fragmentShader: `
-                uniform float uTime;
-                uniform float uContourStep;
-                varying vec3 vWorldPosition;
-                varying vec3 vNormal;
-                varying float vElevation;
+                this.mountainModel.scale.set(scale, scale, scale);
+                this.mountainModel.position.set(
+                    -center.x * scale,
+                    -box.min.y * scale - 1.2,
+                    -center.z * scale
+                );
 
-                void main() {
-                    // Alpine Elevation & Geotechnical Stratigraphy Palette
-                    vec3 valleyPine   = vec3(0.02, 0.14, 0.10);  // Dark sub-alpine forest
-                    vec3 colluviumScree = vec3(0.12, 0.18, 0.17); // Colluvial regolith
-                    vec3 graniteGneiss  = vec3(0.24, 0.29, 0.28); // Metamorphic bedrock cliffs
-                    vec3 alpineSnow     = vec3(0.94, 0.98, 0.98); // High snow crests
-
-                    // Elevation blend
-                    vec3 rockColor = valleyPine;
-                    if (vElevation > 0.6) rockColor = mix(valleyPine, colluviumScree, clamp((vElevation - 0.6) / 1.5, 0.0, 1.0));
-                    if (vElevation > 2.2) rockColor = mix(colluviumScree, graniteGneiss, clamp((vElevation - 2.2) / 2.0, 0.0, 1.0));
-                    if (vElevation > 4.2) rockColor = mix(graniteGneiss, alpineSnow, clamp((vElevation - 4.2) / 1.8, 0.0, 1.0));
-
-                    // Slope steepness shading (steep rock sheds snow)
-                    float slope = 1.0 - max(0.0, vNormal.z);
-                    if (slope > 0.45 && vElevation > 4.2) {
-                        rockColor = mix(rockColor, graniteGneiss, 0.75); // Steep bare cliff face
+                // Enhance materials with realistic alpine PBR values
+                this.mountainModel.traverse((node: any) => {
+                    if (node.isMesh && node.material) {
+                        node.material.roughness = Math.max(0.75, node.material.roughness || 0.8);
+                        node.material.metalness = Math.min(0.25, node.material.metalness || 0.1);
+                        node.receiveShadow = true;
+                        node.castShadow = true;
                     }
+                });
 
-                    // Direct Sunlight & Shadow Diffuse
-                    vec3 sunDir = normalize(vec3(0.65, 0.75, -0.45));
-                    float diff = max(0.22, dot(vNormal, sunDir));
-
-                    // Subtle, Elegant Topographic LiDAR Elevation Isolines (Thin, glowing cyan)
-                    float contour = mod(vElevation, uContourStep);
-                    float isoline = smoothstep(0.0, 0.05, contour) - smoothstep(0.05, 0.10, contour);
-
-                    // Dynamic InSAR Radar Plane Wave (Traveling smoothly down the mountain)
-                    float wave = sin(vWorldPosition.x * 0.25 + vWorldPosition.z * 0.25 - uTime * 2.2);
-                    wave = smoothstep(0.96, 1.0, wave);
-
-                    vec3 neonTeal = vec3(0.18, 0.83, 0.75);
-                    vec3 finalSurface = mix(rockColor * diff, neonTeal, isoline * 0.38 + wave * 0.55);
-
-                    gl_FragColor = vec4(finalSurface, 1.0);
-                }
-            `,
-            side: THREE.DoubleSide
-        });
-
-        this.terrainMesh = new THREE.Mesh(geom, this.terrainMaterial);
-        this.terrainMesh.rotation.x = -Math.PI / 2.2;
-        this.terrainMesh.position.y = -1.2;
-        this.terrainGroup.add(this.terrainMesh);
-
-        this.scene.add(this.terrainGroup);
-    }
-
-    /**
-     * Valley Floor River & Highway Corridor (NH-21 Lifeline)
-     */
-    private createValleyRiverAndCorridor(): void {
-        // Winding Valley Highway Path
-        const highwayCurve = new THREE.CatmullRomCurve3([
-            new THREE.Vector3(-22, -0.4, -14),
-            new THREE.Vector3(-10, -0.2, -6),
-            new THREE.Vector3(0, 0.1, 2),
-            new THREE.Vector3(12, 0.3, 10),
-            new THREE.Vector3(24, 0.6, 18)
-        ]);
-
-        const roadGeom = new THREE.TubeGeometry(highwayCurve, 80, 0.22, 8, false);
-        const roadMat = new THREE.MeshBasicMaterial({
-            color: 0x38bdf8, // Luminous highway corridor indicator
-            transparent: true,
-            opacity: 0.95
-        });
-        this.highwayRibbon = new THREE.Mesh(roadGeom, roadMat);
-        this.terrainGroup.add(this.highwayRibbon);
-
-        // River Bed Shimmer
-        const riverGeom = new THREE.TubeGeometry(highwayCurve, 80, 0.55, 6, false);
-        const riverMat = new THREE.MeshBasicMaterial({
-            color: 0x092f25,
-            transparent: true,
-            opacity: 0.6
-        });
-        this.valleyRiverMesh = new THREE.Mesh(riverGeom, riverMat);
-        this.valleyRiverMesh.position.y = -0.15;
-        this.terrainGroup.add(this.valleyRiverMesh);
+                this.terrainGroup.add(this.mountainModel);
+            },
+            undefined,
+            (err: any) => {
+                console.error("Error loading mountain.glb:", err);
+            }
+        );
     }
 
     /**
@@ -354,7 +249,7 @@ class HimalayanTerrainShowcase {
      * Displays a luminous planar rupture surface on a critical mountain cut-slope.
      */
     private createActiveShearPlane(): void {
-        const faultGeom = new THREE.PlaneGeometry(8.5, 5.5, 12, 12);
+        const faultGeom = new THREE.PlaneGeometry(6.5, 4.2, 8, 8);
         const faultMat = new THREE.MeshBasicMaterial({
             color: 0xf59e0b, // Amber Warning indicator
             wireframe: true,
@@ -363,39 +258,58 @@ class HimalayanTerrainShowcase {
         });
 
         this.shearFaultMesh = new THREE.Mesh(faultGeom, faultMat);
-        this.shearFaultMesh.position.set(4.5, 4.2, 1.8);
-        this.shearFaultMesh.rotation.set(-0.9, 0.35, 0.25);
+        this.shearFaultMesh.position.set(3.2, 3.8, 2.2);
+        this.shearFaultMesh.rotation.set(-0.85, 0.35, 0.2);
         this.terrainGroup.add(this.shearFaultMesh);
 
-        // Hotspot Beacon Pin on the slip plane
-        const pinGeom = new THREE.SphereGeometry(0.2, 16, 16);
+        // Warning Beacon Pin
+        const pinGeom = new THREE.SphereGeometry(0.18, 16, 16);
         const pinMat = new THREE.MeshBasicMaterial({ color: 0xfacc15 });
         const pin = new THREE.Mesh(pinGeom, pinMat);
-        pin.position.set(4.5, 4.8, 2.2);
+        pin.position.set(3.2, 4.2, 2.5);
         this.terrainGroup.add(pin);
+    }
+
+    /**
+     * Dynamic InSAR & LiDAR Topographic Laser Scanner Ring
+     * Sweeps smoothly across the mountain slopes, visualizing real-time elevation scanning.
+     */
+    private createLaserScanRing(): void {
+        const ringGeom = new THREE.RingGeometry(1.2, 1.4, 64);
+        const ringMat = new THREE.MeshBasicMaterial({
+            color: 0x2dd4bf,
+            side: THREE.DoubleSide,
+            transparent: true,
+            opacity: 0.75
+        });
+
+        this.laserScanRing = new THREE.Mesh(ringGeom, ringMat);
+        this.laserScanRing.rotation.x = -Math.PI / 2;
+        this.laserScanRing.position.set(0, 2.0, 0);
+        this.terrainGroup.add(this.laserScanRing);
     }
 
     /**
      * Atmospheric Alpine Mist & Cloud Particles
      */
     private createAtmosphericMistParticles(): void {
-        const count = 350;
+        const count = 280;
         const geom = new THREE.BufferGeometry();
         const positions = new Float32Array(count * 3);
 
         for (let i = 0; i < count; i++) {
             const i3 = i * 3;
-            positions[i3] = (Math.random() - 0.5) * 55;
-            positions[i3 + 1] = Math.random() * 8.0 + 0.5; // Hovering above valleys
-            positions[i3 + 2] = (Math.random() - 0.5) * 55;
+            positions[i3] = (Math.random() - 0.5) * 45;
+            positions[i3 + 1] = Math.random() * 6.0 + 0.5;
+            positions[i3 + 2] = (Math.random() - 0.5) * 45;
         }
 
         geom.setAttribute("position", new THREE.BufferAttribute(positions, 3));
         const mat = new THREE.PointsMaterial({
             color: 0xd1fae5,
-            size: 0.85,
+            size: 0.9,
             transparent: true,
-            opacity: 0.28,
+            opacity: 0.26,
             blending: THREE.AdditiveBlending,
             fog: true
         });
@@ -493,12 +407,10 @@ class HimalayanTerrainShowcase {
         const elElev = document.getElementById("hud-elev");
         const elSlope = document.getElementById("hud-slope");
         const elStatus = document.getElementById("hud-status");
-        const elFeature = document.getElementById("hud-feature");
 
         if (elElev) elElev.textContent = chapter.elevation;
         if (elSlope) elSlope.textContent = chapter.slopeAngle;
         if (elStatus) elStatus.textContent = chapter.status;
-        if (elFeature) elFeature.textContent = chapter.activeFeature;
     }
 
     private bindEvents(): void {
@@ -563,8 +475,8 @@ class HimalayanTerrainShowcase {
         this.mouseY += (this.targetMouseY - this.mouseY) * 0.05;
 
         // Apply mouse tilt to camera
-        this.camera.position.x += this.mouseX * 0.02;
-        this.camera.position.y += this.mouseY * 0.015;
+        this.camera.position.x += this.mouseX * 0.015;
+        this.camera.position.y += this.mouseY * 0.012;
 
         // User Orbit Offset Damping
         if (this.terrainGroup) {
@@ -578,9 +490,13 @@ class HimalayanTerrainShowcase {
             }
         }
 
-        // Animate LiDAR Topographic Contour Shader Uniforms
-        if (this.terrainMaterial && this.terrainMaterial.uniforms) {
-            this.terrainMaterial.uniforms.uTime.value = t;
+        // Animate LiDAR Laser Scanner Ring expanding across mountain
+        if (this.laserScanRing) {
+            const pulse = (t * 1.5) % 8.0;
+            const rScale = pulse * 1.8 + 0.5;
+            this.laserScanRing.scale.set(rScale, rScale, rScale);
+            this.laserScanRing.position.y = 1.0 + Math.sin(t * 0.8) * 1.5;
+            this.laserScanRing.material.opacity = Math.max(0.0, 0.8 - (pulse / 8.0));
         }
 
         // Pulsing Landslide Shear Fault Warning Plane
@@ -592,8 +508,8 @@ class HimalayanTerrainShowcase {
         if (this.mistParticles) {
             const pos = this.mistParticles.geometry.attributes.position.array;
             for (let i = 0; i < pos.length; i += 3) {
-                pos[i] += 0.015; // Drift across valley
-                if (pos[i] > 28) pos[i] = -28;
+                pos[i] += 0.012;
+                if (pos[i] > 22) pos[i] = -22;
             }
             this.mistParticles.geometry.attributes.position.needsUpdate = true;
         }
@@ -607,7 +523,7 @@ class HimalayanTerrainShowcase {
     }
 }
 
-// Bootstrap on DOM ready
+// Bootstrap
 document.addEventListener("DOMContentLoaded", () => {
     new HimalayanTerrainShowcase();
 });
