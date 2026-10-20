@@ -343,7 +343,17 @@ def compute_deterministic_engineering_dossier(
     if not geo_info:
         geo_info = HP_DISTRICT_GEOLOGY["Mandi"]
 
-    observed_rock = visual_clues.get("prominent_rock_type") or geo_info["prominent_rock"]
+    # 1. GSI Bhukosh Spatial Geology Query & AI Reconciliation
+    bhukosh_info = geotech_engine.query_bhukosh_geology(lat, lng, district)
+    ai_detected_rock = visual_clues.get("prominent_rock_type") if visual_clues else None
+    bhukosh_rock_audit = geotech_engine.validate_and_reconcile_rock_classification(ai_detected_rock, bhukosh_info)
+
+    # Rock classification is governed by GSI Bhukosh: if AI model diverged, calibrate to Bhukosh ground truth
+    if bhukosh_rock_audit.get("is_discrepancy"):
+        observed_rock = bhukosh_rock_audit["calibrated_rock"]
+    else:
+        observed_rock = ai_detected_rock or bhukosh_info["primary_rock"] or geo_info["prominent_rock"]
+
     rock_colour = visual_clues.get("rock_colour") or geo_info["colour"]
     in_situ_soil_desc = visual_clues.get("in_situ_soil_desc") or geo_info["material_type"]
     observed_obstruction = visual_clues.get("carriageway_obstruction") or ""
@@ -844,6 +854,7 @@ def compute_deterministic_engineering_dossier(
         "senior_engineer_remarks": senior_remarks,
         "plain_language_explanation": plain_explanation,
         "advanced_geotechnical_stabilization": advanced_stabilization,
+        "bhukosh_rock_audit": bhukosh_rock_audit,
     }
 
 
@@ -1176,6 +1187,17 @@ def build_rejected_assessment_dossier(
                 "drain_length": "N/A",
             },
         },
+        "bhukosh_rock_audit": {
+            "bhukosh_formation": "N/A — Non-Terrain Upload",
+            "toposheet": "N/A",
+            "distance_km": None,
+            "ai_detected_rock": "Disqualified",
+            "is_discrepancy": False,
+            "status": "DISQUALIFIED",
+            "status_label": "Disqualified Non-Terrain Upload",
+            "calibrated_rock": "N/A",
+            "reconciliation_note": "No geological strata evaluated for non-terrain upload.",
+        },
         "synthesis_remarks": senior_remarks or f"Image validation failed completely. The upload displays {detected_content} instead of geological terrain data. Rejecting incident telemetry entry {report_id}.",
         "senior_engineer_remarks": senior_remarks or f"Image validation failed completely. The upload displays {detected_content} instead of geological terrain data. Rejecting incident telemetry entry {report_id}.",
         "plain_language_explanation": plain_lang or {
@@ -1257,6 +1279,9 @@ def generate_ai_assessment(report: dict[str, Any], force_refresh: bool = False) 
     severity = report.get("severity") or "Moderate"
     user_desc = report.get("description") or "None recorded"
 
+    bhukosh_ref = geotech_engine.query_bhukosh_geology(lat, lng, district)
+    bhukosh_rock_str = f"{bhukosh_ref['primary_rock']} (Toposheet: {bhukosh_ref.get('toposheet', 'N/A')})"
+
     prompt = f"""You are the Chief Geotechnical Engineer & Slope Disaster Specialist for HIMA-LENS (Himachal Landslide Spatial Observatory & Engineering System).
 
 TASK:
@@ -1329,7 +1354,7 @@ Physical safety directives without label prefixes:
 ================================================================================
 INQUIRY 5: LITHOLOGICAL & FIELD SHEET INDICATORS (DATA COLLECTION SHEET)
 ================================================================================
-- Prominent Rock Type: Lithology observed in scarp/boulders
+- Prominent Rock Type: Identify rock lithology observed in scarp/boulders. Note: The official Geological Survey of India (GSI Bhukosh) database maps this sector as "{bhukosh_rock_str}". Cross-examine your optical analysis against this GSI Bhukosh benchmark. If the photograph shows weathered colluvium or specific bedrock, record it accurately, but ensure alignment with this geological setting.
 - Rock Colour: Visible coloration
 - Jointing Spacing: Distance between fractures
 - Weathering Grade: Grade I to Grade V
@@ -1368,6 +1393,7 @@ INCIDENT TELEMETRY:
 - Report ID: {report_id}
 - District: {district}, Himachal Pradesh
 - GPS Coordinates: {lat:.5f}° N, {lng:.5f}° E
+- GSI Bhukosh Ground Truth Geology: {bhukosh_rock_str}
 - Reported Failure: {movement}
 - Reported Severity: {severity}
 - Field Notes: {user_desc}
