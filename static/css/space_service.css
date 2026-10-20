@@ -1,0 +1,465 @@
+/* ==========================================================================
+   HIMA-LENS • SATELLITE INTELLIGENCE & EARTH OBSERVATION SERVICE
+   Inspired by EnduroSat Space Service (Awwwards WebGL Experience)
+   ========================================================================== */
+
+:root {
+    --space-bg: #020705;
+    --space-card-bg: rgba(4, 20, 16, 0.78);
+    --space-border: rgba(45, 212, 191, 0.22);
+    --space-border-hover: rgba(45, 212, 191, 0.6);
+    --accent-teal: #2dd4bf;
+    --accent-cyan: #38bdf8;
+    --accent-amber: #facc15;
+    --text-primary: #ffffff;
+    --text-muted: #94a3b8;
+    --text-dim: #64748b;
+}
+
+body.space-service-page {
+    background-color: var(--space-bg) !important;
+    color: var(--text-primary);
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Fixed Full-Viewport Three.js Canvas */
+#space-webgl-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    pointer-events: auto;
+    cursor: grab;
+}
+
+#space-webgl-canvas:active {
+    cursor: grabbing;
+}
+
+/* ==========================================================================
+   TOP LIFECYCLE NAVIGATION BAR (EnduroSat Style)
+   ========================================================================== */
+.fps-navigation-bar {
+    position: fixed;
+    top: 76px; /* below site header */
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: linear-gradient(180deg, rgba(2, 7, 5, 0.92) 0%, rgba(2, 7, 5, 0.6) 80%, transparent 100%);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(45, 212, 191, 0.14);
+    padding: 12px 36px 14px 36px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    transition: all 0.3s ease;
+}
+
+.fps-nav-section {
+    flex: 1;
+    max-width: 280px;
+    cursor: pointer;
+    position: relative;
+    padding-bottom: 6px;
+    transition: all 0.25s ease;
+}
+
+.fps-nav-section-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    transition: color 0.2s ease;
+}
+
+.fps-nav-progress {
+    width: 100%;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+}
+
+.fps-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #2dd4bf 0%, #5eead4 100%);
+    box-shadow: 0 0 10px rgba(45, 212, 191, 0.8);
+    transition: width 0.15s ease-out;
+}
+
+.fps-nav-subtext {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-top: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color 0.2s ease;
+}
+
+.fps-nav-section:hover .fps-nav-section-title {
+    color: #e2e8f0;
+}
+
+.fps-nav-section.active .fps-nav-section-title {
+    color: var(--accent-teal);
+    font-weight: 800;
+}
+
+.fps-nav-section.active .fps-nav-subtext {
+    color: #ffffff;
+}
+
+.fps-nav-section.completed .fps-nav-section-title {
+    color: #5eead4;
+}
+
+.fps-nav-section.completed .fps-progress-fill {
+    width: 100% !important;
+    background: #17624d;
+    box-shadow: none;
+}
+
+/* ==========================================================================
+   FLOATING HUD TELEMETRY PILL & TOGGLES
+   ========================================================================== */
+.fps-telemetry-pill {
+    position: fixed;
+    top: 154px;
+    left: 36px;
+    z-index: 100;
+    background: rgba(4, 26, 20, 0.88);
+    border: 1px solid var(--space-border);
+    border-radius: 30px;
+    padding: 6px 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.fps-live-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #2dd4bf;
+    box-shadow: 0 0 10px #2dd4bf;
+    animation: livePulse 2s infinite ease-in-out;
+}
+
+@keyframes livePulse {
+    0%, 100% { opacity: 0.4; transform: scale(0.9); }
+    50% { opacity: 1; transform: scale(1.3); }
+}
+
+.fps-hud-controls {
+    position: fixed;
+    top: 154px;
+    right: 36px;
+    z-index: 100;
+    display: flex;
+    gap: 8px;
+}
+
+.fps-chip-btn {
+    background: rgba(4, 26, 20, 0.88);
+    border: 1px solid var(--space-border);
+    color: #cbd5e1;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    backdrop-filter: blur(12px);
+    transition: all 0.2s ease;
+}
+
+.fps-chip-btn:hover {
+    border-color: var(--accent-teal);
+    color: #ffffff;
+    background: rgba(16, 76, 59, 0.95);
+}
+
+.fps-chip-btn.active {
+    background: #17624d;
+    border-color: var(--accent-teal);
+    color: #5eead4;
+    box-shadow: 0 0 14px rgba(45, 212, 191, 0.35);
+}
+
+/* Drag to orbit hint */
+.fps-drag-hint {
+    position: fixed;
+    bottom: 24px;
+    left: 36px;
+    z-index: 100;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    background: rgba(2, 10, 8, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 6px 12px;
+    border-radius: 6px;
+    backdrop-filter: blur(8px);
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Signature EnduroSat Floating CTA Button */
+.fps-button.fps-fixed {
+    position: fixed;
+    bottom: 24px;
+    right: 36px;
+    z-index: 100;
+    background: #ffffff;
+    color: #020705;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    padding: 12px 16px 12px 22px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fps-button.fps-fixed:hover {
+    background: #2dd4bf;
+    color: #020705;
+    transform: translateY(-2px);
+    box-shadow: 0 14px 40px rgba(45, 212, 191, 0.4);
+}
+
+.fps-button.fps-fixed .fps-square {
+    width: 22px;
+    height: 22px;
+    background: #020705;
+    color: #ffffff;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.fps-button.fps-fixed:hover .fps-square {
+    background: #020705;
+    transform: translate(2px, -2px);
+}
+
+/* ==========================================================================
+   SCROLL-DRIVEN NARRATIVE FRAMES (EnduroSat Multi-Stage Content)
+   ========================================================================== */
+.fps-scroll-wrapper {
+    position: relative;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.fps-frame {
+    min-height: 100vh;
+    padding: 180px 60px 100px 60px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.fps-frame-inner {
+    max-width: 580px;
+    background: var(--space-card-bg);
+    border: 1px solid var(--space-border);
+    border-radius: 18px;
+    padding: 38px 42px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65), inset 0 0 40px rgba(4, 26, 20, 0.5);
+    pointer-events: auto;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.fps-frame-inner:hover {
+    border-color: var(--space-border-hover);
+}
+
+/* Section alignments matching EnduroSat */
+.fps-frame.align-left {
+    justify-content: flex-start;
+}
+
+.fps-frame.align-right {
+    justify-content: flex-end;
+}
+
+.fps-frame.align-center {
+    justify-content: center;
+    text-align: center;
+}
+
+/* Frame Elements */
+.fps-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent-teal);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.align-center .fps-kicker {
+    justify-content: center;
+}
+
+.fps-title {
+    font-family: 'Manrope', sans-serif;
+    font-size: clamp(32px, 4vw, 44px);
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.15;
+    letter-spacing: -0.6px;
+    margin-bottom: 18px;
+}
+
+.fps-title span {
+    background: linear-gradient(135deg, #2dd4bf 0%, #5eead4 50%, #facc15 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.fps-desc {
+    font-size: 15px;
+    color: #cbd5e1;
+    line-height: 1.65;
+    margin-bottom: 24px;
+}
+
+/* Spec Pills & Parameter Grids */
+.fps-specs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.fps-spec-item {
+    background: rgba(9, 47, 37, 0.5);
+    border: 1px solid rgba(45, 212, 191, 0.2);
+    border-radius: 8px;
+    padding: 10px 14px;
+}
+
+.fps-spec-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.fps-spec-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.fps-spec-value.teal { color: var(--accent-teal); }
+.fps-spec-value.cyan { color: var(--accent-cyan); }
+.fps-spec-value.amber { color: var(--accent-amber); }
+
+/* Quick Action Links */
+.fps-action-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.fps-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #104c3b 0%, #17624d 100%);
+    border: 1px solid var(--accent-teal);
+    color: #ffffff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 10px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.fps-link-btn:hover {
+    background: linear-gradient(135deg, #17624d 0%, #2dd4bf 100%);
+    color: #020705;
+    box-shadow: 0 6px 20px rgba(45, 212, 191, 0.4);
+}
+
+.fps-link-secondary {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    color: var(--accent-teal);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.fps-link-secondary:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 900px) {
+    .fps-navigation-bar {
+        padding: 10px 16px;
+        overflow-x: auto;
+    }
+    .fps-nav-section {
+        min-width: 140px;
+    }
+    .fps-frame {
+        padding: 160px 20px 80px 20px;
+    }
+    .fps-frame-inner {
+        padding: 24px;
+    }
+    .fps-specs-grid {
+        grid-template-columns: 1fr;
+    }
+    .fps-hud-controls {
+        display: none;
+    }
+    .fps-button.fps-fixed {
+        bottom: 16px;
+        right: 16px;
+        font-size: 11px;
+        padding: 10px 14px;
+    }
+}

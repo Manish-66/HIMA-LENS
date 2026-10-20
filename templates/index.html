@@ -3,9 +3,6 @@
 {% block title %}
 HIMA-LENS | Himalayan Landslide Intelligence Platform
 {% endblock %}
-{% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/three_landslide_anatomy.css') }}?v=1.0">
-{% endblock %}
 
 {% block content %}
 <div class="home-page">
@@ -338,127 +335,6 @@ HIMA-LENS | Himalayan Landslide Intelligence Platform
     </section>
 
     <!-- =====================================================
-         05B. INTERACTIVE 3D LANDSLIDE ANATOMY & FAILURE LAB
-         USGS Circular 1325 & Cruden-Varnes (1996) Compliant
-    ====================================================== -->
-    <section class="home-section anatomy-section" id="3d-landslide-anatomy">
-        <div class="section-container">
-            <div class="anatomy-header">
-                <div class="anatomy-header-text">
-                    <div class="anatomy-section-label">
-                        <span class="pulse-cyan"></span>
-                        <span>INTERACTIVE 3D GEOTECHNICAL LAB &bull; KINEMATIC SIMULATOR</span>
-                    </div>
-                    <h2 class="anatomy-title">
-                        Anatomy of a Himalayan <span>Slope Failure.</span>
-                    </h2>
-                    <p class="anatomy-subtitle">
-                        Explore the real-world 3D structural kinematics of mountain cut-slope detachment, daylighting shear planes, crown tension cracks, and engineered stabilization countermeasures under USGS Circular 1325 and Cruden-Varnes (1996) frameworks.
-                    </p>
-                </div>
-                <div class="anatomy-standards-badge">
-                    <span>FRAMEWORK STANDARD</span>
-                    <span>USGS CIRCULAR 1325 &bull; CRUDEN-VARNES</span>
-                </div>
-            </div>
-
-            <div class="anatomy-lab-grid">
-                <!-- 3D Viewport Card -->
-                <div class="anatomy-viewport-card">
-                    <div id="three-canvas-container"></div>
-
-                    <!-- Top Floating HUD -->
-                    <div class="anatomy-hud-top">
-                        <div class="anatomy-hud-pill">
-                            <span class="live-dot"></span>
-                            <span>WEBGL 3D KINEMATICS ENGINE</span>
-                        </div>
-                        <div class="anatomy-camera-presets">
-                            <button type="button" class="hud-btn cam-preset-btn active" data-preset="perspective" title="Perspective View">Perspective</button>
-                            <button type="button" class="hud-btn cam-preset-btn" data-preset="cross-section" title="Cross-Section Cut">Section</button>
-                            <button type="button" class="hud-btn cam-preset-btn" data-preset="overhead" title="Top-Down View">Plan</button>
-                            <button type="button" class="hud-btn cam-preset-btn" data-preset="toe" title="Debris Toe View">Toe Cut</button>
-                        </div>
-                    </div>
-
-                    <!-- Bottom Floating HUD -->
-                    <div class="anatomy-hud-bottom">
-                        <div class="anatomy-toggles-cluster">
-                            <button type="button" class="toggle-chip active" id="btn-toggle-water">
-                                <span class="chip-dot"></span>
-                                <span>Groundwater Seepage</span>
-                            </button>
-                            <button type="button" class="toggle-chip active-amber" id="btn-toggle-stabilization">
-                                <span class="chip-dot"></span>
-                                <span>Engineered Plum Wall &amp; Nails</span>
-                            </button>
-                            <button type="button" class="toggle-chip active" id="btn-toggle-pins">
-                                <span class="chip-dot"></span>
-                                <span>Hotspot Pins</span>
-                            </button>
-                            <button type="button" class="toggle-chip" id="btn-toggle-wireframe">
-                                <span class="chip-dot"></span>
-                                <span>Wireframe</span>
-                            </button>
-                            <button type="button" class="toggle-chip active" id="btn-toggle-rotate">
-                                <span class="chip-dot"></span>
-                                <span>Auto-Orbit</span>
-                            </button>
-                        </div>
-                        <div class="anatomy-drag-hint">
-                            Drag to rotate &bull; Scroll to zoom
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Side Diagnostic Inspector -->
-                <div class="anatomy-sidebar-card">
-                    <div class="inspector-header">
-                        <div class="inspector-kicker" id="inspector-kicker">USGS ANATOMICAL FEATURE 01</div>
-                        <h3 class="inspector-title" id="inspector-title">Crown Tension Cracks</h3>
-                    </div>
-
-                    <div class="inspector-body">
-                        <div class="inspector-param-grid" id="inspector-params">
-                            <div class="param-pill">
-                                <div class="param-lbl">MOVEMENT</div>
-                                <div class="param-val accent-amber">Incipient Shear</div>
-                            </div>
-                            <div class="param-pill">
-                                <div class="param-lbl">APERTURE</div>
-                                <div class="param-val accent-cyan">15 to 45 mm</div>
-                            </div>
-                            <div class="param-pill">
-                                <div class="param-lbl">FOS IMPACT</div>
-                                <div class="param-val accent-green">FOS drops 25%</div>
-                            </div>
-                            <div class="param-pill">
-                                <div class="param-lbl">USGS CLASS</div>
-                                <div class="param-val accent-cyan">Tension Fissure</div>
-                            </div>
-                        </div>
-
-                        <div class="inspector-text-block" id="inspector-desc">
-                            Extensional tensile fractures opening along the crest uphill of the detachment scarp. Indicates active loss of lateral confinement and imminent secondary slide retrocession.
-                        </div>
-
-                        <div class="inspector-formula-box" id="inspector-formula">
-                            \sigma_t \le \gamma \cdot z \cdot (1 - K_0)
-                        </div>
-                    </div>
-
-                    <div class="inspector-footer">
-                        <a href="{{ url_for('explore') }}" class="btn-inspect-explore">
-                            <span>Correlate on Spatial Map</span>
-                            <span>&rarr;</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- =====================================================
          06. FINAL CALL TO ACTION
     ====================================================== -->
     <section class="home-section final-cta-section">
@@ -666,8 +542,4 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 });
 </script>
-<!-- Three.js WebGL Landslide Anatomy Engine -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="{{ url_for('static', filename='js/three_landslide_anatomy.js') }}?v=1.0"></script>
 {% endblock %}

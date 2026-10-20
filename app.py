@@ -440,6 +440,11 @@ def report():
 def about():
     return render_template("about.html")
 
+@app.get("/space-service")
+@app.get("/satellite-intelligence")
+def space_service():
+    return render_template("space_service.html")
+
 @app.get("/api/landslides")
 def landslides():
     return jsonify(type="FeatureCollection", features=matching_features())

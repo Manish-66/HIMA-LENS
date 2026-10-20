@@ -1,0 +1,306 @@
+{% extends "base.html" %}
+
+{% block title %}
+HIMA-LENS | Satellite Intelligence & Earth Observation Service
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/space_service.css') }}?v=1.0">
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        document.body.classList.add('space-service-page');
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="space-service-container">
+
+    <!-- Fixed 3D WebGL Canvas -->
+    <canvas id="space-webgl-canvas"></canvas>
+
+    <!-- Top Mission Lifecycle Navigation Bar (EnduroSat Style) -->
+    <nav class="fps-navigation-bar" aria-label="Mission Lifecycle">
+        <div class="fps-nav-section active" data-step="0" role="button" tabindex="0">
+            <div class="fps-nav-section-title">01 ORBITAL OVERVIEW</div>
+            <div class="fps-nav-progress"><div class="fps-progress-fill"></div></div>
+            <div class="fps-nav-subtext">LEO 690 KM Constellation</div>
+        </div>
+        <div class="fps-nav-section" data-step="1" role="button" tabindex="0">
+            <div class="fps-nav-section-title">02 C-BAND SAR SCAN</div>
+            <div class="fps-nav-progress"><div class="fps-progress-fill"></div></div>
+            <div class="fps-nav-subtext">Synthetic Aperture Radar</div>
+        </div>
+        <div class="fps-nav-section" data-step="2" role="button" tabindex="0">
+            <div class="fps-nav-section-title">03 CLIMATE &amp; FLUX</div>
+            <div class="fps-nav-progress"><div class="fps-progress-fill"></div></div>
+            <div class="fps-nav-subtext">Doppler Precipitation Radar</div>
+        </div>
+        <div class="fps-nav-section" data-step="3" role="button" tabindex="0">
+            <div class="fps-nav-section-title">04 KINEMATIC INFERENCE</div>
+            <div class="fps-nav-progress"><div class="fps-progress-fill"></div></div>
+            <div class="fps-nav-subtext">Sub-mm Ground Displacement</div>
+        </div>
+        <div class="fps-nav-section" data-step="4" role="button" tabindex="0">
+            <div class="fps-nav-section-title">05 EARLY WARNING OPS</div>
+            <div class="fps-nav-progress"><div class="fps-progress-fill"></div></div>
+            <div class="fps-nav-subtext">Autonomous Corridor Routing</div>
+        </div>
+    </nav>
+
+    <!-- Floating HUD Telemetry Status Pill -->
+    <div class="fps-telemetry-pill">
+        <span class="fps-live-dot"></span>
+        <span id="telem-altitude">690 KM LEO</span>
+        <span style="color: rgba(255,255,255,0.2)">&bull;</span>
+        <span id="telem-mode">ORBITAL INGESTION</span>
+        <span style="color: rgba(255,255,255,0.2)">&bull;</span>
+        <span id="telem-revisit">12-DAY CADENCE</span>
+    </div>
+
+    <!-- Floating HUD Toggles -->
+    <div class="fps-hud-controls">
+        <button type="button" class="fps-chip-btn active" id="btn-toggle-orbit">Auto-Orbit</button>
+        <button type="button" class="fps-chip-btn active" id="btn-toggle-beam">InSAR Beam</button>
+    </div>
+
+    <!-- Drag to Orbit User Interaction Hint -->
+    <div class="fps-drag-hint">
+        <span>&#8635;</span>
+        <span>Drag to rotate 3D orbit &bull; Scroll to navigate mission lifecycle</span>
+    </div>
+
+    <!-- Floating Signature EnduroSat Call to Action Button -->
+    <a class="fps-button fps-fixed" href="{{ url_for('explore') }}" data-text="Open Interactive Map">
+        <span>Open Interactive Map</span>
+        <div class="fps-square">
+            <svg width="14" height="14" viewBox="0 0 15 16" fill="none">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M13.9996 0.999952L13.9996 15L14.9996 15L14.9996 -4.7981e-05L14.5713 -4.73067e-05H13.9996L0.428759 -4.7981e-05L0.428759 0.999952L13.9996 0.999952ZM0.707197 15.0217L3.61672e-05 14.3147L10.3131 4.00009L11.0202 4.70714L0.707197 15.0217Z" fill="currentColor"/>
+            </svg>
+        </div>
+    </a>
+
+    <!-- =====================================================================
+         SCROLL-DRIVEN NARRATIVE FRAMES (Stages 0 to 4)
+    ====================================================================== -->
+    <div class="fps-scroll-wrapper">
+
+        <!-- Stage 0: Hero / Mission Introduction -->
+        <section class="fps-frame align-left" data-step="0">
+            <div class="fps-frame-inner">
+                <div class="fps-kicker">
+                    <span>HIMA-LENS &bull; SPACE-TO-SLOPE INTELLIGENCE</span>
+                </div>
+                <h1 class="fps-title">
+                    Orbital Sensing for <span>Mountain Safety.</span>
+                </h1>
+                <p class="fps-desc">
+                    Bridging 690 km Low-Earth Orbit radar satellite constellations with high-altitude Himalayan geotechnical slope sensors. Detect incipient rock creep, saturated colluvium, and catastrophic corridor collapses before they happen.
+                </p>
+
+                <div class="fps-specs-grid">
+                    <div class="fps-spec-item">
+                        <div class="fps-spec-label">ORBITAL ALTITUDE</div>
+                        <div class="fps-spec-value teal">690 KM (LEO)</div>
+                    </div>
+                    <div class="fps-spec-item">
+                        <div class="fps-spec-label">DISPLACEMENT PRECISION</div>
+                        <div class="fps-spec-value cyan">&plusmn; 0.5 mm / yr</div>
+                    </div>
+                    <div class="fps-spec-item">
+                        <div class="fps-spec-label">CALIBRATED INVENTORY</div>
+                        <div class="fps-spec-value amber">14,190 Events</div>
+                    </div>
+                    <div class="fps-spec-item">
+                        <div class="fps-spec-label">HIMACHAL COVERAGE</div>
+                        <div class="fps-spec-value teal">12 Districts</div>
+                    </div>
+                </div>
+
+                <div class="fps-action-row">
+                    <a href="#step-1" class="fps-link-btn" onclick="document.querySelector('.fps-frame[data-step=\'1\']').scrollIntoView({behavior:'smooth'}); return false;">
+                        <span>Explore InSAR Scan Phase</span>
+                        <span>&darr;</span>
+                    </a>
+                    <a href="{{ url_for('explore') }}" class="fps-link-secondary">Go to Spatial Map &rarr;</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stage 1: Synthetic Aperture Radar (SAR) InSAR Scan -->
+        <section class="fps-frame align-right" data-step="1" id="step-1">
+            <div class="fps-frame-inner">
+                <div class="fps-kicker">
+                    <span>PHASE 01 &bull; RADAR CONSTELLATION</span>
+                </div>
+                <h2 class="fps-title">
+                    Synthetic Aperture <span>Radar (InSAR).</span>
+                </h2>
+                <p class="fps-desc">
+                    Repeated Sentinel-1 C-band SAR passes project phase differences across ascending and descending orbit tracks. Differential interferograms illuminate subtle hillside micro-strain long before daylighting shear detachment.
+                </p>
+
+                <div class="fps-specs-grid">
+                    <div class="fps-spec-item">
+                        <div class="fps-spec-label">RADAR FREQUENCY</div>
+                        <div class="fps-spec-value cyan">5.405 GHz (C-Band)</div>
+                    </div>
+                    <div class="fps-spec-item">
+                        <div class="fps-spec-label">TEMPORAL REVISIT</div>
+                        <div class="fps-spec-value teal">6 to 12 Days</div>
+                    </div>
+                    <div class="fps-spec-item">
+                        <div class="fps-spec-label">POLARIZATION</div>
+                        <div class="fps-spec-value amber">VV + VH Dual-Pol</div>
+                    </div>
+                    <div class="fps-spec-item">
+                        <div class="fps-spec-label">INCIDENCE ANGLE</div>
+                        <div class="fps-spec-value teal">29.1° &mdash; 46.0°</div>
+                    </div>
+                </div>
+
+                <div class="fps-action-row">
+                    <a href="#step-2" class="fps-link-btn" onclick="document.querySelector('.fps-frame[data-step=\'2\']').scrollIntoView({behavior:'smooth'}); return false;">
+                        <span>Analyze Rainfall Triggers</span>
+                        <span>&darr;</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stage 2: Atmospheric Flux & Doppler Weather Radar -->
+        <section class="fps-frame align-left" data-step="2" id="step-2">
+            <div class="fps-frame-inner">
+                <div class="fps-kicker">
+                    <span>PHASE 02 &bull; CLIMATIC MULTI-SENSOR FUSION</span>
+                </div>
+                <h2 class="fps-title">
+                    Extreme Precipitation &amp; <span>Pore Water Surge.</span>
+                </h2>
+                <p class="fps-desc">
+                    Fusing IMD Doppler Weather Radar, GPM satellite precipitation telemetry, and ground rain-gauge arrays. Intense Himalayan cloudbursts trigger rapid pore-water pressure spikes ($u$), dissolving effective shear strength ($\sigma' = \sigma - u$).
+                </p>
+
+                <div class="fps-specs-grid">
+                    <div class="fps-spec-item">
+                        <div class="fps-spec-label">HOURLY TRIGGER THRESHOLD</div>
+                        <div class="fps-spec-value amber">&gt; 38.5 mm / hr</div>
+                    </div>
+                    <div class="fps-spec-item">
+                        <div class="fps-spec-label">ANTECEDENT 3-DAY FLUX</div>
+                        <div class="fps-spec-value cyan">&gt; 140 mm Cumulative</div>
+                    </div>
+                    <div class="fps-spec-item">
+                        <div class="fps-spec-label">SATURATION DEPTH</div>
+                        <div class="fps-spec-value teal">Top 3.5 m Regolith</div>
+                    </div>
+                    <div class="fps-spec-item">
+                        <div class="fps-spec-label">INFILTRATION RATE</div>
+                        <div class="fps-spec-value teal">4.2 &times; 10⁻⁵ m/s</div>
+                    </div>
+                </div>
+
+                <div class="fps-action-row">
+                    <a href="#step-3" class="fps-link-btn" onclick="document.querySelector('.fps-frame[data-step=\'3\']').scrollIntoView({behavior:'smooth'}); return false;">
+                        <span>Calculate Geotechnical Kinematics</span>
+                        <span>&darr;</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stage 3: Kinematic Inference & Limit Equilibrium -->
+        <section class="fps-frame align-right" data-step="3" id="step-3">
+            <div class="fps-frame-inner">
+                <div class="fps-kicker">
+                    <span>PHASE 03 &bull; GEOTECHNICAL PHYSICS ENGINE</span>
+                </div>
+                <h2 class="fps-title">
+                    Sub-millimeter Creep &amp; <span>Failure Kinematics.</span>
+                </h2>
+                <p class="fps-desc">
+                    By cross-referencing high-resolution LiDAR digital elevation models (DEM) with geological bedding strike and dip angles, HIMA-LENS calculates the real-time Limit Equilibrium Factor of Safety (FOS) across critical highway cut-slopes.
+                </p>
+
+                <div class="fps-specs-grid">
+                    <div class="fps-spec-item">
+                        <div class="fps-spec-label">CRITICAL SHEAR ANGLE</div>
+                        <div class="fps-spec-value amber">&theta; &ge; 34° Daylighting</div>
+                    </div>
+                    <div class="fps-spec-item">
+                        <div class="fps-spec-label">INTERNAL FRICTION (&phi;')</div>
+                        <div class="fps-spec-value teal">28° (Sandstone)</div>
+                    </div>
+                    <div class="fps-spec-item">
+                        <div class="fps-spec-label">CRITICAL FOS ALERT</div>
+                        <div class="fps-spec-value amber">FOS &lt; 1.10 (Failure)</div>
+                    </div>
+                    <div class="fps-spec-item">
+                        <div class="fps-spec-label">DISPLACEMENT VELOCITY</div>
+                        <div class="fps-spec-value cyan">&gt; 12 mm / day Creep</div>
+                    </div>
+                </div>
+
+                <div class="fps-action-row">
+                    <a href="#step-4" class="fps-link-btn" onclick="document.querySelector('.fps-frame[data-step=\'4\']').scrollIntoView({behavior:'smooth'}); return false;">
+                        <span>Review Early Warning Operations Hub</span>
+                        <span>&darr;</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stage 4: Autonomous Operations Hub & Corridor Dispatch -->
+        <section class="fps-frame align-center" data-step="4" id="step-4">
+            <div class="fps-frame-inner">
+                <div class="fps-kicker">
+                    <span>PHASE 04 &bull; AUTONOMOUS DISASTER OPERATIONS</span>
+                </div>
+                <h2 class="fps-title">
+                    Real-Time Telemetry &amp; <span>Corridor Clearance.</span>
+                </h2>
+                <p class="fps-desc">
+                    When telemetry indices exceed warning thresholds, automated alerts are broadcast to HPPWD control rooms, NHAI patrol units, and emergency SDRF dispatchers. Real-time traffic rerouting prevents vehicular entrapment on vulnerable mountain corridors.
+                </p>
+
+                <div class="fps-specs-grid">
+                    <div class="fps-spec-item">
+                        <div class="fps-spec-label">TARGET HIGHWAY CORRIDORS</div>
+                        <div class="fps-spec-value teal">NH-21 &bull; NH-5 &bull; NH-154</div>
+                    </div>
+                    <div class="fps-spec-item">
+                        <div class="fps-spec-label">ALERT DISPATCH SPEED</div>
+                        <div class="fps-spec-value cyan">&lt; 45 Seconds</div>
+                    </div>
+                    <div class="fps-spec-item">
+                        <div class="fps-spec-label">PREDICTION CONFIDENCE</div>
+                        <div class="fps-spec-value amber">98.4% Geo-AI Engine</div>
+                    </div>
+                    <div class="fps-spec-item">
+                        <div class="fps-spec-label">FIELD PROTOCOL</div>
+                        <div class="fps-spec-value teal">IRC:SP:48 / MoRTH 301</div>
+                    </div>
+                </div>
+
+                <div class="fps-action-row" style="justify-content: center;">
+                    <a href="{{ url_for('explore') }}" class="fps-link-btn">
+                        <span>Launch 3D Spatial Intelligence Map</span>
+                        <span>&rarr;</span>
+                    </a>
+                    <a href="{{ url_for('feed') }}" class="fps-link-secondary">View Live Landslide News Feed &rarr;</a>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Three.js WebGL Engine -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<!-- HIMA-LENS Satellite Service Script (Compiled from TypeScript) -->
+<script src="{{ url_for('static', filename='js/satellite_service.js') }}?v=1.0"></script>
+{% endblock %}
