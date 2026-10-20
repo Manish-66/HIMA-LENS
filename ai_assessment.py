@@ -1236,7 +1236,35 @@ def normalize_assessment_structure(assessment: dict[str, Any] | None, report: di
     baseline = compute_deterministic_engineering_dossier(report)
     if not assessment:
         return baseline
-    return deep_merge(baseline, assessment)
+    merged = deep_merge(baseline, assessment)
+
+    # Harmonize senior engineering remarks & standards across all reports (resolving stale cache entries)
+    if merged.get("is_landslide_or_terrain", True):
+        cur_rem = merged.get("senior_engineer_remarks", "")
+        if not ("CEDD" in cur_rem and "USGS" in cur_rem):
+            merged["senior_engineer_remarks"] = baseline["senior_engineer_remarks"]
+            merged["synthesis_remarks"] = baseline["synthesis_remarks"]
+
+        cur_mit = merged.get("mitigation_measures", "")
+        if "LaRiMiT" not in cur_mit:
+            merged["mitigation_measures"] = baseline["mitigation_measures"]
+
+        cur_obs = merged.get("other_observations", "")
+        if "discontinuity" not in cur_obs.lower():
+            merged["other_observations"] = baseline["other_observations"]
+
+        # Ensure complete advanced_geotechnical_stabilization
+        adv = merged.get("advanced_geotechnical_stabilization", {})
+        for sub_key in ("usgs_classification", "cedd_consequence", "larimit_mitigations", "prescribed_soil_nailing", "flexible_barrier", "subsurface_drainage"):
+            if not adv.get(sub_key):
+                adv[sub_key] = baseline["advanced_geotechnical_stabilization"][sub_key]
+        merged["advanced_geotechnical_stabilization"] = adv
+
+        # Ensure bhukosh_rock_audit
+        if not merged.get("bhukosh_rock_audit"):
+            merged["bhukosh_rock_audit"] = baseline["bhukosh_rock_audit"]
+
+    return merged
 
 
 def generate_ai_assessment(report: dict[str, Any], force_refresh: bool = False) -> dict[str, Any]:
