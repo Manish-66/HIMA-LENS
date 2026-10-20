@@ -13,6 +13,7 @@ import uuid
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from functools import lru_cache
+from pathlib import Path
 from typing import Any
 from flask import Flask, jsonify, render_template, request, Response
 import supabase_db
@@ -387,6 +388,16 @@ def home():
 def explore():
     return render_template("explore.html", cesium_ion_token=CESIUM_ION_TOKEN)
 
+def get_historical_events():
+    events_path = Path(__file__).resolve().parent / "data" / "historical_events.json"
+    if events_path.exists():
+        try:
+            with open(events_path, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"Error loading historical_events.json: {e}")
+    return []
+
 @app.get("/feed")
 @app.get("/news")
 def feed():
@@ -394,13 +405,37 @@ def feed():
     if request.path == "/news":
         tab = "news"
     articles = get_himachal_landslide_news()
+    events = get_historical_events()
     return render_template(
         "feed.html",
         initial_tab=tab,
         initial_news=articles,
         news_count=len(articles),
+        historical_events=events,
+        events_count=len(events),
         last_updated=time.strftime("%d %b %Y, %H:%M UTC", time.gmtime(_NEWS_CACHE["timestamp"])) if _NEWS_CACHE["timestamp"] else "Active"
     )
+
+@app.get("/api/historical-events")
+def api_historical_events():
+    events = get_historical_events()
+    category = request.args.get("category", "").strip().lower()
+    district = request.args.get("district", "").strip().lower()
+    query = request.args.get("q", "").strip().lower()
+
+    if category and category != "all":
+        events = [e for e in events if e.get("category", "").lower() == category]
+    if district and district != "all":
+        events = [e for e in events if district in e.get("district", "").lower()]
+    if query:
+        events = [
+            e for e in events
+            if query in e.get("title", "").lower()
+            or query in e.get("summary", "").lower()
+            or query in e.get("district", "").lower()
+            or query in e.get("corridor", "").lower()
+        ]
+    return jsonify(events)
 
 @app.get("/api/news")
 def api_news():
@@ -445,6 +480,7 @@ def about():
 @app.get("/space-service")
 def terrain_lab():
     return render_template("terrain_lab.html")
+
 
 @app.get("/api/landslides")
 def landslides():

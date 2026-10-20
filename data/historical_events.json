@@ -1,0 +1,353 @@
+[
+  {
+    "id": "kotropi_2017",
+    "title": "Kotropi Catastrophic Highway Debris Avalanche",
+    "year_tag": "AUGUST 2017",
+    "date": "13 August 2017",
+    "district": "Mandi",
+    "corridor": "NH-154 (Mandi–Pathankot Highway)",
+    "coordinates": { "lat": 31.8642, "lng": 76.9450 },
+    "elevation_m": 1280,
+    "severity": "critical",
+    "severity_label": "DEADLIEST HIGHWAY DISASTER",
+    "category": "highway",
+    "image": "/static/img/events/himachal_highway_slide.jpg",
+    "caption": "Devastating scar of the 2017 Kotropi debris avalanche across NH-154 in Mandi district.",
+    "summary": "At midnight on August 13, 2017, a massive saturated slope collapsed along the Mandi–Pathankot National Highway at Kotropi. Over 2.5 million cubic meters of debris cascaded down 250 vertical meters, completely burying two Himachal Roadways (HRTC) buses and roadside kiosks.",
+    "geotechnical": {
+      "failure_mode": "Rapid Channelized Debris Avalanche & Mudflow",
+      "lithology": "Weathered Red Clayey Siltstone & Sheared Sandstone (Subathu / Lower Tertiary Formation)",
+      "trigger": "Antecedent 48-hour monsoon torrent (>180 mm) + severe pore-water pressure buildup",
+      "estimated_volume": "~2,500,000 m³ of displaced rock and debris"
+    },
+    "impact": {
+      "casualties": "46 Confirmed Fatalities (2 Buses Buried)",
+      "infrastructure": "250m of National Highway obliterated; months of regional transit severed"
+    },
+    "mitigation": "Comprehensive bench flattening, deep subsurface counterfort drainage trenches, continuous piezometric slope monitoring, and real-time highway radar sensors."
+  },
+  {
+    "id": "summer_hill_2023",
+    "title": "Summer Hill & Shiv Bawadi Temple Debris Avalanche",
+    "year_tag": "AUGUST 2023",
+    "date": "14 August 2023",
+    "district": "Shimla",
+    "corridor": "UNESCO Kalka–Shimla Railway & Summer Hill Link",
+    "coordinates": { "lat": 31.1048, "lng": 77.1388 },
+    "elevation_m": 2050,
+    "severity": "critical",
+    "severity_label": "CATASTROPHIC URBAN FAILURE",
+    "category": "urban",
+    "image": "/static/img/events/shoghi_shimla.jpg",
+    "caption": "Saturated slope failure along the steep Summer Hill ridge overlooking Shiv Bawadi in Shimla.",
+    "summary": "During the peak of the August 2023 deluge, saturated colluvium gave way above the historic Kalka-Shimla heritage railway. The debris mobilized into a high-velocity avalanche down the narrow Shiv Bawadi gorge, obliterating an ancient temple packed with devotees during Monday morning prayers.",
+    "geotechnical": {
+      "failure_mode": "Saturated Colluvium Translational Slide transitioning to Debris Flow",
+      "lithology": "Jointed Boileauganj Quartzite & Carbonaceous Mica Schist of Jutogh Group",
+      "trigger": "Continuous 72-hour rainfall (>320 mm) saturating loose soil overburden on 45° slope",
+      "estimated_volume": "~150,000 m³ of soil, trees, and quartzite boulders"
+    },
+    "impact": {
+      "casualties": "20 Fatalities (Temple Demolished)",
+      "infrastructure": "Railway track suspended mid-air; university access corridors compromised"
+    },
+    "mitigation": "High-tensile steel mesh draping, micropiles drilled into bedrock, perforated horizontal drain pipes, and slope reforestation with native deep-root vegetation."
+  },
+  {
+    "id": "samej_2024",
+    "title": "Samej Khad & Rampur Hydro Catchment Inundation",
+    "year_tag": "AUGUST 2024",
+    "date": "31 July – 1 August 2024",
+    "district": "Shimla",
+    "corridor": "Sutlej Basin & Rampur–Nirmand Corridor",
+    "coordinates": { "lat": 31.4285, "lng": 77.6254 },
+    "elevation_m": 1420,
+    "severity": "critical",
+    "severity_label": "HIGH-ALTITUDE CLOUDBURST",
+    "category": "cloudburst",
+    "image": "/static/img/events/himalayan_cloudburst_flood.jpg",
+    "caption": "Raging boulder torrent and flash flood surge tearing through the Samej river valley.",
+    "summary": "Simultaneous midnight cloudbursts near Shrikhand Mahadev triggered an unprecedented surge of water and boulders down Samej Khad. The deluge swept away residential colonies near the 412MW Rampur Hydro Project, schools, access bridges, and multi-tier terraces in minutes.",
+    "geotechnical": {
+      "failure_mode": "Flash Flood Torrent & Glacio-Fluvial Debris Mobilization",
+      "lithology": "Granites, Gneisses, and Loose Quaternary Glacial Moraine",
+      "trigger": "Extreme localized cloudburst (>150 mm/hr) in glaciated headwaters",
+      "estimated_volume": "Massive glacial till and millions of liters of sediment surge"
+    },
+    "impact": {
+      "casualties": "55+ Persons Dead / Missing",
+      "infrastructure": "Entire villages washed away; power generation halts; major bridges erased"
+    },
+    "mitigation": "Deployment of automated Doppler X-band weather radars, catchment early warning acoustic sirens, and strict riparian settlement exclusion zones."
+  },
+  {
+    "id": "nigulsari_2021",
+    "title": "Nigulsari Strategic Corridor Wedge Rockslide",
+    "year_tag": "AUGUST 2021",
+    "date": "11 August 2021",
+    "district": "Kinnaur",
+    "corridor": "NH-5 (Hindustan–Tibet Road)",
+    "coordinates": { "lat": 31.5422, "lng": 77.9214 },
+    "elevation_m": 1880,
+    "severity": "critical",
+    "severity_label": "HIGH-VELOCITY WEDGE FAILURE",
+    "category": "highway",
+    "image": "/static/img/events/nigulsari_2021.jpg",
+    "caption": "Steep metamorphic cliffs along NH-5 at Nigulsari, scene of the fatal 2021 rock avalanche.",
+    "summary": "A sudden wedge failure occurred along steep quartzitic-gneiss cliffs above National Highway 5 at Nigulsari. Hundreds of tons of jagged boulders rained down 300 meters onto highway traffic, crushing an HRTC bus, multiple passenger vehicles, and an excavator.",
+    "geotechnical": {
+      "failure_mode": "Structural Wedge Toppling & High-Velocity Rock Avalanche",
+      "lithology": "Highly Jointed Jeori-Wangtu Gneissic Complex with Intercalated Schists",
+      "trigger": "Hydrostatic pressure in vertical tension cracks following steady rainfall",
+      "estimated_volume": "~40,000 m³ of high-velocity rock fragments"
+    },
+    "impact": {
+      "casualties": "28 Fatalities, 13 Seriously Injured",
+      "infrastructure": "NH-5 closed for 3 days; total blockade of border supply lines"
+    },
+    "mitigation": "Deep pre-stressed rock anchors, flexible high-energy rockfall barrier nets (3000 kJ rating), and planned bypass rock tunnels."
+  },
+  {
+    "id": "batseri_2021",
+    "title": "Batseri Sangla Valley Bailey Bridge Rockfall",
+    "year_tag": "JULY 2021",
+    "date": "25 July 2021",
+    "district": "Kinnaur",
+    "corridor": "Sangla–Chitkul Alpine Road",
+    "coordinates": { "lat": 31.4230, "lng": 78.2910 },
+    "elevation_m": 2700,
+    "severity": "critical",
+    "severity_label": "EXTREME BOULDER IMPACT",
+    "category": "rockfall",
+    "image": "/static/img/events/kinnaur_pooh_nh5.jpg",
+    "caption": "Alpine valley landscape in Kinnaur where high-velocity boulder avalanches threaten river crossings.",
+    "summary": "Massive granite boulders dislodged from 80-degree rocky cliffs in Batseri, Sangla Valley. The high-speed boulder avalanche barreled down into the valley floor, crushing a tourist vehicle and directly severing the 120-foot steel Bailey bridge over the Baspa river.",
+    "geotechnical": {
+      "failure_mode": "Translational Rockfall & Free-Fall Boulder Projectiles",
+      "lithology": "Higher Himalayan Leucogranite and Crystalline Gneiss",
+      "trigger": "Progressive weathering and rainfall lubrication of joint planes",
+      "estimated_volume": "Multiple monolithic boulders weighing up to 20 tons each"
+    },
+    "impact": {
+      "casualties": "9 Tourists Killed, 3 Injured",
+      "infrastructure": "Complete destruction of strategic Baspa Bailey Bridge; tourist corridor closed"
+    },
+    "mitigation": "Dynamic rockfall attenuator barriers, real-time acoustic rockfall sensors, and vegetative buffer reforestation."
+  },
+  {
+    "id": "kamrau_2021",
+    "title": "Kamrau Paonta–Shillai Mountain Flank Slide",
+    "year_tag": "JULY 2021",
+    "date": "30 July 2021",
+    "district": "Sirmaur",
+    "corridor": "NH-707 (Paonta Sahib–Shillai Highway)",
+    "coordinates": { "lat": 30.5620, "lng": 77.6340 },
+    "elevation_m": 1520,
+    "severity": "high",
+    "severity_label": "MASSIVE MOUNTAIN FLANK COLLAPSE",
+    "category": "highway",
+    "image": "/static/img/events/himachal_slope_failure.jpg",
+    "caption": "Dramatic slope failure in Sirmaur where an entire mountain flank collapsed into the canyon.",
+    "summary": "At Kali Mandir near Kamrau on NH-707, a 100-meter section of the mountain flank gave way along bedding planes within seconds. The dramatic video of the mountain sliding into the ravine gained worldwide attention as an example of structurally-controlled rock mass failure.",
+    "geotechnical": {
+      "failure_mode": "Planar Bedding Rockslide & Dip-Slope Failure",
+      "lithology": "Steeply Dipping Limestone, Dolomite & Slate (Krol Formation)",
+      "trigger": "Monsoon saturation combined with toe excavation and limestone quarrying",
+      "estimated_volume": "~300,000 m³ of bedded limestone mass"
+    },
+    "impact": {
+      "casualties": "0 Fatalities (Advance warning allowed traffic halt)",
+      "infrastructure": "NH-707 severed for weeks; 50+ remote villages completely isolated"
+    },
+    "mitigation": "Scientific terracing of quarry slopes, ban on unscientific hill-cutting, and geotechnical bench reinforcement."
+  },
+  {
+    "id": "pandoh_2023",
+    "title": "Pandoh & 7-Mile Four-Lane Highway Inundation",
+    "year_tag": "JULY & AUGUST 2023",
+    "date": "9–11 July & 23 August 2023",
+    "district": "Mandi",
+    "corridor": "NH-21 (Chandigarh–Manali Four-Lane Expressway)",
+    "coordinates": { "lat": 31.6780, "lng": 76.9920 },
+    "elevation_m": 890,
+    "severity": "critical",
+    "severity_label": "CORRIDOR WASH-OUT & TOE SCOUR",
+    "category": "highway",
+    "image": "/static/img/events/mandi_panchvaktra_2023.jpg",
+    "caption": "Panchvaktra temple and flood surge marks in Mandi along the turbulent Beas river.",
+    "summary": "Historic discharge levels on the Beas River (>150,000 cusecs) inundated the narrow gorge between Mandi and Pandoh. Severe riverbank toe scouring coupled with newly excavated four-lane highway slopes caused massive carriageway collapses at 7-Mile, 9-Mile, and near Pandoh Dam.",
+    "geotechnical": {
+      "failure_mode": "Retrogressive Rotational Slump & River Toe-Erosion Washout",
+      "lithology": "Mandi Granite, Saturated Colluvium, and River Terrace Alluvium",
+      "trigger": "Unprecedented monsoon rainfall (>350 mm/48h) + historic river discharge",
+      "estimated_volume": "Over 500m of continuous multi-lane roadbed collapsed into river"
+    },
+    "impact": {
+      "casualties": "Widespread structural damage across Mandi district; multiple fatalities",
+      "infrastructure": "NH-21 shut down for weeks; major economic disruption to Kullu & Lahaul"
+    },
+    "mitigation": "Deep cast-in-place concrete diaphragm walls, heavy rip-rap river armor, groyne river deflection, and cantilevered rock sheds."
+  },
+  {
+    "id": "bhagsu_2021",
+    "title": "Bhagsu Nag & Dharamshala Channelized Debris Flow",
+    "year_tag": "JULY 2021",
+    "date": "12 July 2021",
+    "district": "Kangra",
+    "corridor": "Dharamshala–McLeod Ganj Urban Belt",
+    "coordinates": { "lat": 32.2472, "lng": 76.3352 },
+    "elevation_m": 1780,
+    "severity": "high",
+    "severity_label": "URBAN CHANNELIZED MUD TORRENT",
+    "category": "cloudburst",
+    "image": "/static/img/events/debris_flow_torrent.jpg",
+    "caption": "Channelized debris flow course carrying boulders and glacio-fluvial scree down mountain gullies.",
+    "summary": "A cloudburst in the upper Dhauladhar ridgeline triggered the rapid mobilization of scree down Bhagsu Nullah. The surge turned the mountain stream into a violent debris torrent, sweeping luxury cars into ravines, crushing hotel boundary walls, and flooding McLeod Ganj.",
+    "geotechnical": {
+      "failure_mode": "Channelized Debris Flow & Hyper-Concentrated Sediment Run",
+      "lithology": "Dhauladhar Granites, Gneisses, and Loose Scree Colluvium",
+      "trigger": "High-intensity orographic cloudburst on steep glaciated slopes",
+      "estimated_volume": "~25,000 m³ of viscous mud, boulders, and debris"
+    },
+    "impact": {
+      "casualties": "0 Fatalities; extensive panic and evacuation",
+      "infrastructure": "10+ vehicles crushed and swept away; hotels and roads heavily damaged"
+    },
+    "mitigation": "Upstream slit check dams to arrest boulder velocity, desilting of natural nullahs, and strict zoning prohibiting construction in riparian channels."
+  },
+  {
+    "id": "jabli_solan_2023",
+    "title": "Kalka–Shimla Four-Lane Toe-Cutting Slopes",
+    "year_tag": "JULY 2023",
+    "date": "July – August 2023",
+    "district": "Solan",
+    "corridor": "NH-5 (Himalayan Expressway: Parwanoo–Solan–Shimla)",
+    "coordinates": { "lat": 30.8520, "lng": 77.0140 },
+    "elevation_m": 1250,
+    "severity": "high",
+    "severity_label": "ANTHROPOGENIC TOE-CUTTING FAILURE",
+    "category": "highway",
+    "image": "/static/img/events/himalaya_road_cut.jpg",
+    "caption": "Extensive highway slope cuts in weak sedimentary formations along the Himalayan foothills.",
+    "summary": "Unengineered vertical hill-cutting during the four-lane widening of the Kalka-Shimla Expressway triggered widespread slope failures between Parwanoo, Jabli, and Kumarhatti. Entire mountainsides collapsed under hydrostatic pressure, destroying concrete breast walls and bridges.",
+    "geotechnical": {
+      "failure_mode": "Progressive Rotational & Translational Slope Failure",
+      "lithology": "Weak Sandstones, Mudstones & Siltstones of Lower Siwalik & Kasauli Formations",
+      "trigger": "Excavation without adequate retaining structures + prolonged saturation",
+      "estimated_volume": "Hundreds of thousands of cubic meters across multiple chainages"
+    },
+    "impact": {
+      "casualties": "Multiple vehicle accidents and fatalities",
+      "infrastructure": "Himalayan Expressway blocked repeatedly, stranding apple harvest transit"
+    },
+    "mitigation": "Mandatory slope benches at 6-8m vertical intervals, self-drilling soil nails with shotcrete, and geo-composite drainage mats."
+  },
+  {
+    "id": "malana_2023",
+    "title": "Malana Dam II & Sainj Valley Hydro Surge",
+    "year_tag": "JULY 2023 & AUGUST 2024",
+    "date": "10 July 2023 & 1 August 2024",
+    "district": "Kullu",
+    "corridor": "Parvati Valley & Sainj Catchment",
+    "coordinates": { "lat": 31.9800, "lng": 77.2950 },
+    "elevation_m": 1920,
+    "severity": "critical",
+    "severity_label": "HYDRO DAM OVERTOPPING & SURGE",
+    "category": "cloudburst",
+    "image": "/static/img/events/manali_beas_flood.jpg",
+    "caption": "Torrential monsoon river swell across the Kullu valley sweeping riverine infrastructure.",
+    "summary": "Cloudburst-induced debris flows in the upper Parvati catchment choked floodgates at the 86MW Malana II barrage. The river overtopped the dam crest, triggering downstream surges that demolished powerhouses, washed away bridges, and flooded homes in Sainj.",
+    "geotechnical": {
+      "failure_mode": "Dam Gate Jamming, Silt Overtopping & Riverine Fluvial Erosion",
+      "lithology": "High-Grade Crystalline Gneisses, Granites, and Glacial Debris",
+      "trigger": "Continuous cloudburst rainfall in high-altitude glacier-fed tributaries",
+      "estimated_volume": "Massive hydro-mechanical surge and thousands of tons of silt"
+    },
+    "impact": {
+      "casualties": "Multiple fatalities; dozens rescued by NDRF and Indian Air Force",
+      "infrastructure": "Severely damaged Malana II powerhouse; multiple bridges and roads destroyed"
+    },
+    "mitigation": "Automated debris boom barriers upstream of reservoirs, dual-redundant emergency gate winches, and automated discharge sensors."
+  },
+  {
+    "id": "malling_spiti",
+    "title": "Malling High-Altitude Scree Chute & Creep",
+    "year_tag": "ACTIVE ANNUAL HAZARD",
+    "date": "Monitored Annually (Spring & Monsoon)",
+    "district": "Lahaul & Spiti",
+    "corridor": "NH-505 (Sumdo–Kaza Road, Spiti Valley)",
+    "coordinates": { "lat": 31.8950, "lng": 78.6350 },
+    "elevation_m": 3650,
+    "severity": "high",
+    "severity_label": "PERMAFROST & TALUS CREEP",
+    "category": "rockfall",
+    "image": "/static/img/events/spiti_malling.jpg",
+    "caption": "Shattered rock scree and steep talus chutes along the cold desert slopes of Spiti.",
+    "summary": "Located above 3,600m in the trans-Himalayan rain shadow of Spiti, Malling Nullah is one of the most notoriously unstable scree cones in India. Diurnal freeze-thaw cycles and permafrost degradation continuously feed loose rock fragments down the slope, burying NH-505.",
+    "geotechnical": {
+      "failure_mode": "Translational Scree Creep, Talus Avalanche & Permafrost Slump",
+      "lithology": "Tethyan Sedimentary Sequence: Fractured Triassic Limestone & Shales",
+      "trigger": "Freeze-thaw thermal cycling, frost wedging, and spring snowmelt",
+      "estimated_volume": "Continuous active talus displacement of hundreds of cubic meters weekly"
+    },
+    "impact": {
+      "casualties": "Chronic vehicular strandings and rockfall casualties",
+      "infrastructure": "Routine isolation of Spiti Valley from the lower Kinnaur corridor"
+    },
+    "mitigation": "Heavy reinforced concrete rock sheds (snow galleries), dynamic wire-mesh deflector barriers, and satellite InSAR deformation surveillance."
+  },
+  {
+    "id": "urni_kinnaur",
+    "title": "Urni Chronic Deep-Seated Rockslide & Damming Hazard",
+    "year_tag": "CHRONIC SINCE 2014",
+    "date": "December 2014 – Ongoing Reactivation",
+    "district": "Kinnaur",
+    "corridor": "NH-5 (Tapri–Urni Gorge Stretch)",
+    "coordinates": { "lat": 31.5280, "lng": 78.1120 },
+    "elevation_m": 1750,
+    "severity": "high",
+    "severity_label": "DEEP-SEATED ROCK MASS FAILURE",
+    "category": "highway",
+    "image": "/static/img/events/disaster_relief_airforce.jpg",
+    "caption": "Indian Air Force and disaster teams mobilizing for emergency access across rugged Kinnaur terrain.",
+    "summary": "A massive deep-seated rock failure at Urni completely blocked the Sutlej river gorge and severed NH-5 in 2014. The chronic slope has shown ongoing progressive displacement, posing recurring risks of river damming, flood wave generation, and highway paralysis.",
+    "geotechnical": {
+      "failure_mode": "Deep-Seated Progressive Rock Mass Creep & Planar Shear Failure",
+      "lithology": "Wangtu Gneissic Complex, Quartz-Mica Schist with Sheared Fault Zones",
+      "trigger": "Deep tectonic faulting, continuous river toe undercutting, and seismic activity",
+      "estimated_volume": "Over 1,000,000 m³ of unstable rock mass in active motion"
+    },
+    "impact": {
+      "casualties": "Multiple vehicles struck during periodic reactivations",
+      "infrastructure": "NH-5 forced onto high-altitude Urni village detour; major border transit strain"
+    },
+    "mitigation": "Comprehensive multi-sensor borehole extensometers, piezometric alerts, river channel dredging, and long-span bypass tunnel construction."
+  },
+  {
+    "id": "gsi_statewide_baseline",
+    "title": "GSI Statewide Spatial Baseline & Risk Observatory",
+    "year_tag": "STATEWIDE COMPILATION",
+    "date": "14,190 Geocoded Benchmark Records",
+    "district": "Statewide (All 12 Districts)",
+    "corridor": "Himachal Pradesh Multi-Corridor Highway Grid",
+    "coordinates": { "lat": 31.7500, "lng": 77.1000 },
+    "elevation_m": 2100,
+    "severity": "info",
+    "severity_label": "STATEWIDE GIS SPATIAL INVENTORY",
+    "category": "historical",
+    "image": "/static/img/events/satellite_radar_disaster.jpg",
+    "caption": "High-resolution satellite radar observation of Western Himalayan alpine slope dynamics.",
+    "summary": "The baseline geospatial inventory cataloging 14,190 verified landslide incidents across all 12 districts of Himachal Pradesh. Combines field surveys by the Geological Survey of India (GSI) with satellite SAR interferometry and IIT Mandi field validation.",
+    "geotechnical": {
+      "failure_mode": "Statewide Multihazard Classification (Slides, Falls, Debris Flows, Slumps)",
+      "lithology": "Complete Himalayan Stratigraphy: Siwalik Sedimentary to Higher Himalayan Crystallines",
+      "trigger": "Monsoon Hydrology, Western Disturbances, Seismic Shocks, and Infrastructure Excavation",
+      "estimated_volume": "14,190 Individual Geocoded Slope Failure Polygons"
+    },
+    "impact": {
+      "casualties": "Thousands of historical casualties cataloged across modern records",
+      "infrastructure": "Foundation for State Disaster Management Authority (SDMA) mitigation masterplan"
+    },
+    "mitigation": "Machine-learning susceptibility zonation, high-resolution InSAR early warning, and community disaster resilience training."
+  }
+]

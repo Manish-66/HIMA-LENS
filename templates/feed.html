@@ -31,7 +31,7 @@ HIMA-LENS | Landslide & Flash Flood Chronology Feed
                         <polyline points="12 6 12 12 16 14"></polyline>
                     </svg>
                     <span>Disaster Chronology &amp; Benchmarks</span>
-                    <span class="tab-badge">6 Historical Cases</span>
+                    <span class="tab-badge" id="tab-benchmarks-counter">{{ events_count or 13 }} Historical Cases</span>
                 </button>
                 <button type="button" class="feed-nav-tab {% if initial_tab == 'news' %}active{% endif %}" id="tab-btn-news" data-target="panel-news" role="tab" aria-selected="{% if initial_tab == 'news' %}true{% else %}false{% endif %}">
                     <span class="live-pulse-dot"></span>
@@ -49,225 +49,118 @@ HIMA-LENS | Landslide & Flash Flood Chronology Feed
         <section class="feed-section">
             <div class="feed-container">
 
-            <!-- FILTER PILLS -->
-            <div class="feed-filter-bar">
-                <button type="button" class="feed-filter-btn active" data-filter="all">All Disasters</button>
-                <button type="button" class="feed-filter-btn" data-filter="cloudburst">Cloudburst & Floods</button>
-                <button type="button" class="feed-filter-btn" data-filter="highway">Highway Breaches</button>
-                <button type="button" class="feed-filter-btn" data-filter="urban">Urban Failures</button>
-                <button type="button" class="feed-filter-btn" data-filter="historical">Statewide Archive</button>
+            <!-- FILTER CONTROLS & SEARCH BAR -->
+            <div class="feed-controls-row">
+                <div class="feed-search-wrap">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" id="benchmark-search-input" placeholder="Search disaster cases (e.g. Kotropi, Nigulsari, Summer Hill, Samej, Mandi, NH-5...)" class="feed-search-input">
+                </div>
+                <div class="feed-district-filter-wrap">
+                    <select id="benchmark-district-select" class="feed-district-select">
+                        <option value="all">All 12 Districts</option>
+                        <option value="Mandi">Mandi District</option>
+                        <option value="Shimla">Shimla District</option>
+                        <option value="Kinnaur">Kinnaur District</option>
+                        <option value="Kullu">Kullu District</option>
+                        <option value="Kangra">Kangra District</option>
+                        <option value="Sirmaur">Sirmaur District</option>
+                        <option value="Solan">Solan District</option>
+                        <option value="Lahaul & Spiti">Lahaul &amp; Spiti District</option>
+                        <option value="Statewide">Statewide Multi-District</option>
+                    </select>
+                </div>
+                <div class="benchmark-results-counter" id="benchmark-counter">
+                    Showing {{ events_count or 13 }} of {{ events_count or 13 }} Benchmarks
+                </div>
             </div>
 
-            <div class="feed-grid">
+            <!-- CATEGORY FILTER PILLS -->
+            <div class="feed-filter-bar" id="benchmark-category-bar">
+                <button type="button" class="feed-filter-btn active" data-filter="all">All Disasters</button>
+                <button type="button" class="feed-filter-btn" data-filter="highway">Highway Breaches (NH-5, NH-21, NH-154)</button>
+                <button type="button" class="feed-filter-btn" data-filter="cloudburst">Cloudburst &amp; Flash Floods</button>
+                <button type="button" class="feed-filter-btn" data-filter="rockfall">Rockfalls &amp; Avalanches</button>
+                <button type="button" class="feed-filter-btn" data-filter="urban">Urban Slope Failures</button>
+                <button type="button" class="feed-filter-btn" data-filter="historical">Statewide GIS Baseline</button>
+            </div>
 
-                <!-- EVENT 01: 2024 SAMEJ / RAMPUR CLOUDBURST SURGE -->
-                <article class="event-card event-card-featured" data-category="cloudburst" data-lat="31.4285" data-lng="77.6254" data-zoom="13">
+            <!-- DYNAMIC HISTORICAL DISASTER BENCHMARKS GRID -->
+            <div class="feed-grid" id="benchmarks-grid-container">
+                {% for event in historical_events %}
+                <article class="event-card {% if loop.first %}event-card-featured{% endif %}" 
+                         data-category="{{ event.category }}" 
+                         data-district="{{ event.district }}" 
+                         data-lat="{{ event.coordinates.lat }}" 
+                         data-lng="{{ event.coordinates.lng }}" 
+                         data-zoom="13" 
+                         id="event-{{ event.id }}">
+                    
+                    <!-- High-Resolution Disaster Image Banner -->
+                    <div class="event-card-media">
+                        <img src="{{ event.image }}" alt="{{ event.title }}" loading="lazy" class="event-img">
+                        <div class="event-media-overlay">
+                            <span class="event-district-tag">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                {{ event.district }} &bull; {{ event.elevation_m }}m Elev
+                            </span>
+                            <span class="event-corridor-tag">{{ event.corridor }}</span>
+                        </div>
+                    </div>
+
                     <div class="event-card-header">
-                        <span class="event-year-tag">AUGUST 2024</span>
-                        <span class="event-severity-badge severity-critical">EXTREME MULTI-VALLEY CLOUDBURST</span>
+                        <span class="event-year-tag">{{ event.year_tag }}</span>
+                        <span class="event-severity-badge severity-{{ event.severity }}">{{ event.severity_label }}</span>
                     </div>
 
                     <div class="event-content">
-                        <h2>Samej Khad & Rampur Hydro Catchment Inundation</h2>
-                        <p>
-                            Simultaneous midnight cloudbursts along the Shimla–Kullu–Mandi border unleashed massive flash floods and boulder debris torrents down Samej Khad and Nirmand. Severe infrastructural destruction washed out downstream settlements, schools, and access bridges near the Rampur hydro project.
-                        </p>
+                        {% if loop.first %}
+                        <h2>{{ event.title }}</h2>
+                        {% else %}
+                        <h3>{{ event.title }}</h3>
+                        {% endif %}
+                        
+                        <p>{{ event.summary }}</p>
 
+                        <!-- Forensic Geotechnical Telemetry Grid -->
                         <div class="event-telemetry-grid">
                             <div class="telemetry-pill">
-                                <span class="lbl">EPICENTER REGION</span>
-                                <strong>Samej (Rampur, Shimla) & Nirmand (Kullu)</strong>
+                                <span class="lbl">FAILURE MECHANISM</span>
+                                <strong>{{ event.geotechnical.failure_mode }}</strong>
+                            </div>
+                            <div class="telemetry-pill">
+                                <span class="lbl">GEOLOGY &amp; LITHOLOGY</span>
+                                <strong>{{ event.geotechnical.lithology }}</strong>
                             </div>
                             <div class="telemetry-pill">
                                 <span class="lbl">TRIGGER MECHANISM</span>
-                                <strong>High-Altitude Cloudburst (>150mm/hr localized)</strong>
+                                <strong>{{ event.geotechnical.trigger }}</strong>
                             </div>
                             <div class="telemetry-pill">
-                                <span class="lbl">HYDROLOGICAL IMPACT</span>
-                                <strong>Sutlej River Silt Surge & Dam Gate Alerts</strong>
+                                <span class="lbl">ESTIMATED VOLUME</span>
+                                <strong>{{ event.geotechnical.estimated_volume }}</strong>
                             </div>
+                            <div class="telemetry-pill">
+                                <span class="lbl">CASUALTIES &amp; LOSS</span>
+                                <strong style="color: #ef4444;">{{ event.impact.casualties }}</strong>
+                            </div>
+                        </div>
+
+                        <!-- Geotechnical Mitigation & Engineering Remediation Lessons -->
+                        <div class="event-mitigation-box">
+                            <span class="mitigation-label">ENGINEERING MITIGATION &amp; REMEDIATION:</span>
+                            <p class="mitigation-text">{{ event.mitigation }}</p>
                         </div>
                     </div>
 
                     <div class="event-card-footer">
-                        <span class="record-count-tag">EPSG:4326 &bull; 31.4285° N, 77.6254° E</span>
+                        <span class="record-count-tag">EPSG:4326 &bull; {{ event.coordinates.lat }}° N, {{ event.coordinates.lng }}° E</span>
                         <a href="{{ url_for('explore') }}" class="event-explore-btn">
                             <span>Locate on GIS Map</span>
                             <span>&nearr;</span>
                         </a>
                     </div>
                 </article>
-
-                <!-- EVENT 02: 2023 STATEWIDE MONSOON DISASTER -->
-                <article class="event-card" data-category="cloudburst" data-lat="31.7087" data-lng="76.9320" data-zoom="11">
-                    <div class="event-card-header">
-                        <span class="event-year-tag">JULY &ndash; AUGUST 2023</span>
-                        <span class="event-severity-badge severity-critical">HISTORIC MONSOON DELUGE</span>
-                    </div>
-
-                    <div class="event-content">
-                        <h3>Beas & Sutlej Basin Extreme Inundation & Debris Flows</h3>
-                        <p>
-                            Unprecedented back-to-back rainfall spells triggered over 5,000+ landslide incidents, bank scouring, and rotational slope failures across Kullu, Mandi, and Solan. NH-21 along the Pandoh-Aut gorge suffered extensive structural collapse.
-                        </p>
-
-                        <div class="event-telemetry-grid">
-                            <div class="telemetry-pill">
-                                <span class="lbl">PRIMARY BASIN</span>
-                                <strong>Beas River & Parvati Catchment</strong>
-                            </div>
-                            <div class="telemetry-pill">
-                                <span class="lbl">48H PRECIPITATION</span>
-                                <strong>>300 mm Orographic Torrent</strong>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="event-card-footer">
-                        <span class="record-count-tag">Beas &amp; Sutlej Corridors</span>
-                        <a href="{{ url_for('explore') }}" class="event-explore-btn">
-                            <span>Locate</span>
-                            <span>&nearr;</span>
-                        </a>
-                    </div>
-                </article>
-
-                <!-- EVENT 03: 2023 SHIMLA SUMMER HILL URBAN DISASTER -->
-                <article class="event-card" data-category="urban" data-lat="31.1048" data-lng="77.1388" data-zoom="14">
-                    <div class="event-card-header">
-                        <span class="event-year-tag">AUGUST 2023</span>
-                        <span class="event-severity-badge severity-high">URBAN SLOPE FAILURE</span>
-                    </div>
-
-                    <div class="event-content">
-                        <h3>Summer Hill & Shiv Bawadi Temple Debris Avalanche</h3>
-                        <p>
-                            Saturated slope overburden collapsed along steep forested terrain above Summer Hill railway track, generating a catastrophic channelized debris avalanche down the Shiv Bawadi ravine during morning peak hours.
-                        </p>
-
-                        <div class="event-telemetry-grid">
-                            <div class="telemetry-pill">
-                                <span class="lbl">DISTRICT</span>
-                                <strong>Shimla Urban (Summer Hill)</strong>
-                            </div>
-                            <div class="telemetry-pill">
-                                <span class="lbl">FAILURE MODE</span>
-                                <strong>Saturated Colluvium Translational Slide</strong>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="event-card-footer">
-                        <span class="record-count-tag">EPSG:4326 &bull; 31.1048° N, 77.1388° E</span>
-                        <a href="{{ url_for('explore') }}" class="event-explore-btn">
-                            <span>Locate</span>
-                            <span>&nearr;</span>
-                        </a>
-                    </div>
-                </article>
-
-                <!-- EVENT 04: 2021 KINNAUR NIGULSARI ROCKFALL -->
-                <article class="event-card" data-category="highway" data-lat="31.5422" data-lng="77.9214" data-zoom="13">
-                    <div class="event-card-header">
-                        <span class="event-year-tag">AUGUST 2021</span>
-                        <span class="event-severity-badge severity-high">HIGH-VELOCITY ROCKFALL</span>
-                    </div>
-
-                    <div class="event-content">
-                        <h3>Nigulsari Rockfall & NH-5 Strategic Corridor Breach</h3>
-                        <p>
-                            Sudden structural wedge toppling failure along steep quartzitic-gneiss cliffs above National Highway 5, severing transport corridors into Kinnaur and the Spiti Valley.
-                        </p>
-
-                        <div class="event-telemetry-grid">
-                            <div class="telemetry-pill">
-                                <span class="lbl">CORRIDOR</span>
-                                <strong>NH-5 (Hindustan-Tibet Road)</strong>
-                            </div>
-                            <div class="telemetry-pill">
-                                <span class="lbl">LITHOLOGY</span>
-                                <strong>Jointed Gneiss & Mica Schist</strong>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="event-card-footer">
-                        <span class="record-count-tag">EPSG:4326 &bull; 31.5422° N, 77.9214° E</span>
-                        <a href="{{ url_for('explore') }}" class="event-explore-btn">
-                            <span>Locate</span>
-                            <span>&nearr;</span>
-                        </a>
-                    </div>
-                </article>
-
-                <!-- EVENT 05: 2021 BHAGSU NAG FLASH FLOOD -->
-                <article class="event-card" data-category="cloudburst" data-lat="32.2472" data-lng="76.3352" data-zoom="14">
-                    <div class="event-card-header">
-                        <span class="event-year-tag">JULY 2021</span>
-                        <span class="event-severity-badge severity-medium">FLASH FLOOD & DEBRIS FLOW</span>
-                    </div>
-
-                    <div class="event-content">
-                        <h3>Bhagsu Nag Channelized Flash Flood (Dharamshala)</h3>
-                        <p>
-                            Intense cloudburst in the upper Dhauladhar ridgeline triggered the rapid mobilization of scree and morainic deposits down the Bhagsu nullah, damaging parking lots and urban infrastructure.
-                        </p>
-
-                        <div class="event-telemetry-grid">
-                            <div class="telemetry-pill">
-                                <span class="lbl">CATCHMENT</span>
-                                <strong>Upper Dhauladhar Range, Kangra</strong>
-                            </div>
-                            <div class="telemetry-pill">
-                                <span class="lbl">FAILURE MODE</span>
-                                <strong>Hydrodynamic Glacio-Fluvial Transport</strong>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="event-card-footer">
-                        <span class="record-count-tag">EPSG:4326 &bull; 32.2472° N, 76.3352° E</span>
-                        <a href="{{ url_for('explore') }}" class="event-explore-btn">
-                            <span>Locate</span>
-                            <span>&nearr;</span>
-                        </a>
-                    </div>
-                </article>
-
-                <!-- EVENT 06: GSI HISTORICAL BASELINE INVENTORY -->
-                <article class="event-card" data-category="historical" data-lat="31.7500" data-lng="77.1000" data-zoom="8">
-                    <div class="event-card-header">
-                        <span class="event-year-tag">2010 &ndash; 2020 ARCHIVE</span>
-                        <span class="event-severity-badge severity-info">GSI STATEWIDE COMPILATION</span>
-                    </div>
-
-                    <div class="event-content">
-                        <h3>Regional Baseline Slope Inventory & Susceptibility Grid</h3>
-                        <p>
-                            Comprehensive spatial inventory cataloging 14,190 geocoded slope failure occurrences across all 12 districts to calibrate regional susceptibility zonation and geomorphological risk factors.
-                        </p>
-
-                        <div class="event-telemetry-grid">
-                            <div class="telemetry-pill">
-                                <span class="lbl">COVERAGE</span>
-                                <strong>All 12 Administrative Districts</strong>
-                            </div>
-                            <div class="telemetry-pill">
-                                <span class="lbl">TOTAL ENTRIES</span>
-                                <strong>14,190 Geocoded Entities</strong>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="event-card-footer">
-                        <span class="record-count-tag">Full Spatial Inventory</span>
-                        <a href="{{ url_for('explore') }}" class="event-explore-btn">
-                            <span>Open Spatial Grid</span>
-                            <span>&nearr;</span>
-                        </a>
-                    </div>
-                </article>
-
+                {% endfor %}
             </div>
         </div>
     </section>
@@ -632,21 +525,59 @@ document.addEventListener("DOMContentLoaded", () => {
     // -----------------------------------------------------------------
     // 6. BENCHMARK CATEGORY FILTERING & DISPATCHER
     // -----------------------------------------------------------------
+    // -----------------------------------------------------------------
+    // 6. BENCHMARK CATEGORY & SEARCH FILTERING
+    // -----------------------------------------------------------------
+    const benchmarkSearch = document.getElementById("benchmark-search-input");
+    const benchmarkDistrict = document.getElementById("benchmark-district-select");
+    const benchmarkCounter = document.getElementById("benchmark-counter");
+
+    function applyBenchmarkFilters() {
+        const activeCatBtn = document.querySelector("#benchmark-category-bar .feed-filter-btn.active");
+        const category = activeCatBtn ? activeCatBtn.getAttribute("data-filter") : "all";
+        const district = benchmarkDistrict ? benchmarkDistrict.value.toLowerCase() : "all";
+        const query = benchmarkSearch ? benchmarkSearch.value.trim().toLowerCase() : "";
+
+        const allCards = document.querySelectorAll("#benchmarks-grid-container .event-card");
+        let visibleCount = 0;
+
+        allCards.forEach(card => {
+            const cardCat = card.getAttribute("data-category") || "";
+            const cardDist = (card.getAttribute("data-district") || "").toLowerCase();
+            const textContent = card.textContent.toLowerCase();
+
+            const matchCat = (category === "all" || cardCat === category);
+            const matchDist = (district === "all" || cardDist.includes(district));
+            const matchQuery = (!query || textContent.includes(query));
+
+            if (matchCat && matchDist && matchQuery) {
+                card.style.display = "flex";
+                visibleCount++;
+            } else {
+                card.style.display = "none";
+            }
+        });
+
+        if (benchmarkCounter) {
+            benchmarkCounter.textContent = `Showing ${visibleCount} of ${allCards.length} Benchmarks`;
+        }
+    }
+
     filterBtns.forEach(btn => {
         btn.addEventListener("click", () => {
             filterBtns.forEach(b => b.classList.remove("active"));
             btn.classList.add("active");
-
-            const filter = btn.getAttribute("data-filter");
-            eventCards.forEach(card => {
-                if (filter === "all" || card.getAttribute("data-category") === filter) {
-                    card.style.display = "flex";
-                } else {
-                    card.style.display = "none";
-                }
-            });
+            applyBenchmarkFilters();
         });
     });
+
+    if (benchmarkSearch) {
+        benchmarkSearch.addEventListener("input", applyBenchmarkFilters);
+    }
+
+    if (benchmarkDistrict) {
+        benchmarkDistrict.addEventListener("change", applyBenchmarkFilters);
+    }
 
     exploreBtns.forEach(btn => {
         btn.addEventListener("click", () => {

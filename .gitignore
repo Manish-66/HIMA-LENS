@@ -24,3 +24,14 @@ archived_root_files/
 # User uploads
 static/uploads/reports/*
 !static/uploads/reports/.gitkeep
+
+
+# Large binary 3D test models and root documents
+*.glb
+*.pdf
+*.docx
+templates/preview_hero.html
+static/css/preview_hero.css
+static/js/preview_hero.js
+src/ts/preview_hero.ts
+src/ts/globals.d.ts
