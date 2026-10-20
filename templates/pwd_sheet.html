@@ -569,19 +569,21 @@
     }
     .photo-plate-container {
       border: 1.5px solid var(--border-dark);
-      background: #071f19;
+      background: #092f25;
       position: relative;
-      height: 155px;
-      max-height: 155px;
+      height: 160px;
+      max-height: 160px;
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
     }
     .photo-plate-container img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
       display: block;
       margin: 0 auto;
     }
@@ -891,8 +893,23 @@
         margin-bottom: 2px !important;
       }
       .photo-plate-container {
-        height: 130px !important;
-        max-height: 130px !important;
+        height: 135px !important;
+        max-height: 135px !important;
+        background: #092f25 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+      .photo-plate-container img {
+        max-width: 100% !important;
+        max-height: 100% !important;
+        width: auto !important;
+        height: auto !important;
+        object-fit: contain !important;
+        display: block !important;
+        margin: 0 auto !important;
       }
       .plain-briefing-body {
         padding: 3px 5px !important;
@@ -1526,7 +1543,9 @@
       <div class="photo-plate-column">
         {% if report.photo_url %}
         <div class="photo-plate-container">
-          <img src="{{ report.photo_url }}" alt="Site Evidence Plate">
+          <a href="{{ report.photo_url }}" target="_blank" rel="noopener noreferrer" title="Click to view full original uncropped image" style="display:flex; width:100%; height:100%; align-items:center; justify-content:center; text-decoration:none;">
+            <img src="{{ report.photo_url }}" alt="Site Evidence Plate">
+          </a>
           <div class="photo-caption-bar">
             <span>PLATE: {{ assessment.telemetry.report_id }}</span>
             <span>{{ assessment.telemetry.coordinates_dec }}</span>
