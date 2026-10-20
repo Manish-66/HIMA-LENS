@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
   <title>HPPWD Official BOQ &amp; Loss Estimate - {{ report.id }}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -286,17 +286,17 @@
       width: 100%;
       border-collapse: collapse;
       border: 1.5px solid var(--border-dark);
-      margin-bottom: 8px;
-      font-size: 8pt;
+      margin-bottom: 6px;
+      font-size: 7.5pt;
     }
     .data-table th {
       background: #f1f5f9;
       color: #0f172a;
       font-weight: 700;
       text-transform: uppercase;
-      font-size: 7.5pt;
+      font-size: 7pt;
       letter-spacing: 0.3px;
-      padding: 5px 7px;
+      padding: 3.5px 5px;
       border: 1px solid #64748b;
       text-align: left;
     }
@@ -304,11 +304,11 @@
       text-align: right;
     }
     .data-table td {
-      padding: 3.5px 6px;
+      padding: 2.2px 5px;
       border: 1px solid #cbd5e1;
       vertical-align: middle;
       color: #1e293b;
-      line-height: 1.25;
+      line-height: 1.2;
     }
     .data-table tr:nth-child(even) td {
       background: #f8fafc;
@@ -318,6 +318,7 @@
       font-weight: 700;
       color: #0369a1;
       white-space: nowrap;
+      font-size: 7pt;
     }
     .data-table td.mono {
       font-family: 'JetBrains Mono', monospace;
@@ -327,22 +328,23 @@
       font-weight: 700;
       color: #0f172a;
       border-top: 1.5px solid #475569;
-      padding: 4px 7px;
+      padding: 3px 5px;
+      font-size: 7.5pt;
     }
     .data-table tr.statutory-row td {
       background: #fafaf9;
       color: #334155;
-      padding: 3.5px 7px;
-      font-size: 8pt;
+      padding: 2px 5px;
+      font-size: 7.2pt;
     }
     .data-table tr.grand-row td {
       background: #ecfdf5;
       font-weight: 800;
       color: #065f46;
-      font-size: 9pt;
+      font-size: 8.5pt;
       border-top: 2px solid #059669;
       border-bottom: 2px solid #059669;
-      padding: 5px 7px;
+      padding: 3.5px 5px;
     }
 
     .badge-chip {
@@ -422,26 +424,63 @@
     /* Mobile Responsive Rules */
     @media screen and (max-width: 940px) {
       body {
-        padding: 8px;
-      }
-      .mobile-hint-banner {
-        display: block;
+        padding: 6px 4px;
       }
       .screen-action-bar {
         width: 100%;
         max-width: 100%;
+        padding: 8px 12px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+      }
+      .screen-action-bar .brand {
+        justify-content: center;
+        font-size: 12px;
+      }
+      .action-btn-cluster {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+        width: 100%;
+      }
+      .screen-btn {
+        justify-content: center;
+        padding: 8px 10px;
+        font-size: 11px;
+      }
+      .mobile-hint-banner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 10px;
+        font-size: 10px;
+      }
+      .mobile-zoom-toggle {
+        background: #3b82f6;
+        color: #ffffff;
+        border: none;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 10px;
+        font-weight: 700;
+        cursor: pointer;
+        white-space: nowrap;
       }
     }
 
-    /* PRINT STYLES - ZERO WHITE SPACE OVERHEAD */
+    /* PRINT STYLES - PHYSICAL A4 STRICT ENGINE (ZERO WHITE SPACE • EXACT 2 PAGES) */
     @page {
       size: A4 portrait;
-      margin: 8mm 10mm;
+      margin: 0mm;
     }
     @media print {
       html, body {
-        width: 100% !important;
-        max-width: 100% !important;
+        width: 210mm !important;
+        height: 297mm !important;
+        min-width: 210mm !important;
+        max-width: 210mm !important;
         margin: 0 !important;
         padding: 0 !important;
         background: #ffffff !important;
@@ -454,26 +493,40 @@
       }
       .report-canvas-wrapper,
       .report-canvas {
-        width: 100% !important;
-        min-width: 0 !important;
-        max-width: none !important;
+        width: 210mm !important;
+        min-width: 210mm !important;
+        max-width: 210mm !important;
         margin: 0 !important;
         padding: 0 !important;
         overflow: visible !important;
+        transform: none !important;
       }
       .report-page {
-        width: 100% !important;
-        min-width: 0 !important;
-        max-width: 100% !important;
+        width: 210mm !important;
+        min-width: 210mm !important;
+        max-width: 210mm !important;
+        height: 296.5mm !important;
+        min-height: 296.5mm !important;
+        max-height: 296.5mm !important;
         margin: 0 !important;
         padding: 6mm 8mm !important;
         box-shadow: none !important;
-        border: 2px solid var(--border-dark) !important;
+        border: 1.5px solid var(--border-dark) !important;
         box-sizing: border-box !important;
+        page-break-before: always !important;
+        break-before: page !important;
         page-break-after: always !important;
         break-after: page !important;
         page-break-inside: avoid !important;
         break-inside: avoid !important;
+        overflow: hidden !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+      }
+      .report-page:first-child {
+        page-break-before: avoid !important;
+        break-before: avoid !important;
       }
       .report-page:last-child {
         page-break-after: avoid !important;
@@ -507,7 +560,8 @@
   </div>
 
   <div class="mobile-hint-banner">
-    📱 <strong>Mobile A4 Document View:</strong> Swipe horizontally or rotate your device to landscape for full page view. Tap <strong>Print Official PDF</strong> to save full-resolution A4 document.
+    <span>📱 <strong>Mobile A4 View:</strong> Swipe or tap to fit screen width.</span>
+    <button type="button" class="mobile-zoom-toggle" onclick="toggleMobileFit()">🔍 Fit to Screen</button>
   </div>
 
   {% set boq = assessment.cost_estimate_boq %}
@@ -606,7 +660,7 @@
               <td class="item-code">{{ item.item_code }}</td>
               <td>
                 <strong style="color: #0f172a;">[{{ item.work_package }}]</strong>
-                <span>{{ item.description }}</span>
+                <span>{{ item.short_description or item.description }}</span>
               </td>
               <td class="num mono">{{ "%.2f"|format(item.quantity) if item.quantity is number else item.quantity }}</td>
               <td style="text-align: center; font-weight: 600;">{{ item.unit }}</td>
@@ -790,5 +844,29 @@
     </div>
   </div>
 
+  <script>
+    let isFitScreen = false;
+    function toggleMobileFit() {
+      isFitScreen = !isFitScreen;
+      const canvas = document.querySelector('.report-canvas');
+      const btn = document.querySelector('.mobile-zoom-toggle');
+      const wrapper = document.querySelector('.report-canvas-wrapper');
+      if (!canvas) return;
+      if (isFitScreen) {
+        const screenW = window.innerWidth - 16;
+        const scale = Math.min(1, screenW / 920);
+        canvas.style.transform = `scale(${scale})`;
+        canvas.style.transformOrigin = 'top left';
+        canvas.style.width = '920px';
+        if (wrapper) wrapper.style.height = `${canvas.offsetHeight * scale + 30}px`;
+        if (btn) btn.innerText = "🔍 100% Zoom";
+      } else {
+        canvas.style.transform = 'none';
+        canvas.style.width = '920px';
+        if (wrapper) wrapper.style.height = 'auto';
+        if (btn) btn.innerText = "🔍 Fit to Screen";
+      }
+    }
+  </script>
 </body>
 </html>
