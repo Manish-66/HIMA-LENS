@@ -741,28 +741,89 @@
       font-family: 'JetBrains Mono', monospace;
     }
 
-    /* Print Styles */
-    @media print {
+    /* Mobile Canvas Scroll Wrapper */
+    .report-canvas-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .report-canvas {
+      width: 900px;
+      min-width: 900px;
+      margin: 0 auto;
+    }
+    .mobile-hint-banner {
+      display: none;
+      max-width: 900px;
+      margin: 0 auto 10px auto;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-left: 3px solid #3b82f6;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 10px;
+      color: #1e40af;
+      text-align: center;
+    }
+
+    @media screen and (max-width: 940px) {
       body {
-        background: #ffffff;
-        padding: 0;
-        margin: 0;
+        padding: 8px;
+      }
+      .mobile-hint-banner {
+        display: block;
+      }
+      .screen-action-bar {
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+
+    /* Print Styles */
+    @page {
+      size: A4 portrait;
+      margin: 8mm 10mm;
+    }
+    @media print {
+      html, body {
+        width: 210mm !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #ffffff !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
       .screen-action-bar,
-      .cost-modal-overlay {
+      .cost-modal-overlay,
+      .mobile-hint-banner {
         display: none !important;
       }
+      .report-canvas-wrapper {
+        overflow: visible !important;
+        width: 100% !important;
+      }
+      .report-canvas {
+        width: 100% !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+      }
       .report-page {
-        margin: 0;
-        padding: 20px 24px;
-        box-shadow: none;
-        border: none;
-        page-break-after: always;
-        break-after: page;
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: none !important;
+        box-sizing: border-box !important;
+        margin: 0 !important;
+        padding: 16px 20px !important;
+        box-shadow: none !important;
+        border: 1.5px solid var(--border-dark) !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
       }
       .report-page:last-child {
-        page-break-after: avoid;
-        break-after: avoid;
+        page-break-after: avoid !important;
+        break-after: avoid !important;
       }
     }
   </style>
@@ -795,6 +856,13 @@
       </a>
     </div>
   </div>
+
+  <div class="mobile-hint-banner">
+    📱 <strong>Mobile A4 Document View:</strong> Swipe horizontally or rotate device to landscape for full page view. Tap <strong>Print Official PDF</strong> to save full-resolution A4 document.
+  </div>
+
+  <div class="report-canvas-wrapper">
+    <div class="report-canvas">
 
   <!-- ======================================================== -->
   <!-- PAGE 1: SITE METADATA, SLOPE, ROAD IMPACT, MEASURES, GEOLOGY -->
@@ -1531,6 +1599,9 @@
     </div>
   </div>
 
+    </div>
+  </div>
+
   <!-- ======================================================== -->
   <!-- MODAL: HPPWD & MoRTH COST ESTIMATE & LOSS ASSESSMENT BOQ -->
   <!-- ======================================================== -->
@@ -1726,10 +1797,10 @@
         </div>
         <div style="display: flex; gap: 8px;">
           {% if boq and boq.is_applicable %}
-          <button type="button" class="screen-btn btn-print" onclick="printCostEstimateSheet()">
+          <a href="/report/boq-sheet/{{ report.id }}" target="_blank" class="screen-btn btn-print" style="text-decoration: none;">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
             <span>Print Official BOQ (A4)</span>
-          </button>
+          </a>
           {% endif %}
           <button type="button" class="screen-btn btn-ghost" style="color: #0f172a; border-color: #cbd5e1; background: #e2e8f0;" onclick="closeCostEstimateModal()">
             <span>Close</span>
@@ -1778,203 +1849,7 @@
     });
 
     function printCostEstimateSheet() {
-      const content = document.getElementById('cost-estimate-printable-content');
-      if (!content) return;
-
-      const printWin = window.open('', '_blank', 'width=1000,height=800');
-      if (!printWin) {
-        alert("Please allow popups to print the official BOQ sheet.");
-        return;
-      }
-
-      printWin.document.open();
-      printWin.document.write(`<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>HPPWD Official BOQ & Loss Estimate - ${reportId}</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=JetBrains+Mono:wght@500;700&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
-  <style>
-    @page { size: A4 portrait; margin: 12mm 15mm; }
-    body {
-      font-family: 'DM Sans', -apple-system, sans-serif;
-      font-size: 8.5pt;
-      line-height: 1.3;
-      color: #0f172a;
-      background: #ffffff;
-      padding: 0;
-      margin: 0;
-    }
-    .print-header {
-      text-align: center;
-      border-bottom: 2px solid #0f172a;
-      padding-bottom: 8px;
-      margin-bottom: 12px;
-    }
-    .print-header h1 {
-      font-family: 'Manrope', sans-serif;
-      font-size: 13pt;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin: 0 0 2px 0;
-      color: #092f25;
-    }
-    .print-header h2 {
-      font-family: 'Manrope', sans-serif;
-      font-size: 10pt;
-      font-weight: 700;
-      text-transform: uppercase;
-      color: #0284c7;
-      margin: 0 0 4px 0;
-    }
-    .print-header p {
-      font-size: 7.5pt;
-      color: #475569;
-      margin: 0;
-    }
-    .cost-badge-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-      margin-bottom: 10px;
-    }
-    .cost-chip {
-      border: 1px solid #94a3b8;
-      padding: 2px 6px;
-      border-radius: 3px;
-      font-size: 7.5pt;
-    }
-    .cost-chip-pri { background: #f0fdf4; font-weight: bold; }
-    .cost-chip-amber { background: #fefce8; font-weight: bold; }
-    .cost-kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-    .cost-kpi-card {
-      border: 1px solid #0f172a;
-      border-radius: 4px;
-      padding: 6px 8px;
-      background: #fafafa;
-    }
-    .cost-kpi-title {
-      font-size: 7pt;
-      font-weight: 700;
-      text-transform: uppercase;
-      color: #475569;
-    }
-    .cost-kpi-val {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11pt;
-      font-weight: 800;
-      color: #0f172a;
-    }
-    .cost-kpi-sub { font-size: 6.5pt; color: #64748b; }
-    .cost-sec-head {
-      margin-top: 10px;
-      margin-bottom: 4px;
-      padding-bottom: 2px;
-      border-bottom: 1px solid #0f172a;
-      display: flex;
-      justify-content: space-between;
-    }
-    .cost-sec-head h3 {
-      font-family: 'Manrope', sans-serif;
-      font-size: 8.5pt;
-      font-weight: 800;
-      text-transform: uppercase;
-      margin: 0;
-    }
-    .cost-sec-head span { font-size: 7pt; color: #475569; }
-    .cost-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 10px;
-      font-size: 7.5pt;
-    }
-    .cost-table th, .cost-table td {
-      border: 1px solid #94a3b8;
-      padding: 4px 6px;
-    }
-    .cost-table th {
-      background: #f1f5f9;
-      font-weight: 700;
-      text-transform: uppercase;
-      font-size: 7pt;
-    }
-    .cost-table th.num, .cost-table td.num { text-align: right; }
-    .cost-table td.item-code {
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 700;
-    }
-    .cost-table td.mono { font-family: 'JetBrains Mono', monospace; }
-    .cost-table tr.total-row td {
-      background: #f1f5f9;
-      font-weight: 700;
-    }
-    .cost-table tr.statutory-row td {
-      background: #fafafa;
-      font-size: 7pt;
-    }
-    .cost-table tr.grand-row td {
-      background: #f0fdf4;
-      font-weight: 800;
-      font-size: 8.5pt;
-      border-top: 1.5px solid #0f172a;
-      border-bottom: 1.5px solid #0f172a;
-    }
-    .cost-cert-note {
-      border: 1px solid #ca8a04;
-      background: #fefce8;
-      padding: 6px 8px;
-      font-size: 7pt;
-      margin-top: 8px;
-      line-height: 1.3;
-    }
-    .sig-row {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 24px;
-      padding-top: 8px;
-    }
-    .sig-box {
-      width: 28%;
-      text-align: center;
-      border-top: 1px solid #0f172a;
-      padding-top: 4px;
-      font-size: 7pt;
-      font-weight: 600;
-    }
-  </style>
-</head>
-<body>
-  <div class="print-header">
-    <h1>Government of Himachal Pradesh &bull; Public Works Department</h1>
-    <h2>Standard Schedule of Rates (HPSOR) Bill of Quantities & Disaster Loss Audit</h2>
-    <p>Reference Standards: MoRTH Specifications for Road & Bridge Works (5th Rev) &bull; IRC:SP:48 &bull; Disaster Management Act 2005</p>
-  </div>
-  ${content.innerHTML}
-  <div class="sig-row">
-    <div class="sig-box">
-      Junior Engineer (Civil)<br>HPPWD Field Sub-Division
-    </div>
-    <div class="sig-box">
-      Assistant Engineer (AE)<br>HPPWD Quality Control Sub-Division
-    </div>
-    <div class="sig-box">
-      Executive Engineer (XEN)<br>HPPWD Division & Statutory Sanction
-    </div>
-  </div>
-</body>
-</html>`);
-      printWin.document.close();
-      setTimeout(() => {
-        printWin.focus();
-        printWin.print();
-      }, 350);
+      window.open(`/report/boq-sheet/${encodeURIComponent(reportId)}`, '_blank');
     }
 
     // Apply any customized assessment values passed from sessionStorage

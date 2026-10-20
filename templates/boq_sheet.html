@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HPPWD Official BOQ &amp; Loss Estimate - {{ report.id }}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Manrope:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-dark: #092f25;
+      --primary-forest: #104c3b;
+      --accent-teal: #17624d;
+      --border-dark: #1e293b;
+      --border-mid: #64748b;
+      --border-light: #cbd5e1;
+      --bg-header: #092f25;
+      --bg-table-head: #f1f5f9;
+      --bg-alt: #f8fafc;
+      --ink: #0f172a;
+      --ink-soft: #334155;
+      --danger-red: #991b1b;
+      --danger-bg: #fef2f2;
+      --danger-border: #f87171;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 8.5px;
+      line-height: 1.25;
+      color: var(--ink);
+      background: #cbd5e1;
+      padding: 16px;
+    }
+
+    /* Screen Top Action Bar */
+    .screen-action-bar {
+      max-width: 900px;
+      margin: 0 auto 14px auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--primary-dark);
+      color: #ffffff;
+      padding: 10px 18px;
+      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(9, 47, 37, 0.25);
+    }
+    .screen-action-bar .brand {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Manrope', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+    }
+    .screen-action-bar .hl-tag {
+      background: #17624d;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 800;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+    .action-btn-cluster {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+    .screen-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.15s ease;
+    }
+    .btn-print {
+      background: #2dd4bf;
+      color: var(--primary-dark);
+    }
+    .btn-print:hover {
+      background: #5eead4;
+    }
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.22);
+    }
+
+    /* Mobile Canvas Scroll Wrapper */
+    .report-canvas-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .report-canvas {
+      width: 900px;
+      min-width: 900px;
+      margin: 0 auto;
+    }
+
+    .mobile-hint-banner {
+      display: none;
+      max-width: 900px;
+      margin: 0 auto 10px auto;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-left: 3px solid #3b82f6;
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 10px;
+      color: #1e40af;
+      text-align: center;
+    }
+
+    /* Standard A4 Printable Page Frame (Strict 2-Page Model) */
+    .report-page {
+      width: 900px;
+      margin: 0 auto 20px auto;
+      background: #ffffff;
+      padding: 18px 24px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
+      border: 1.5px solid var(--border-dark);
+      page-break-after: always;
+      break-after: page;
+      box-sizing: border-box;
+      position: relative;
+    }
+    .report-page:last-child {
+      margin-bottom: 0;
+      page-break-after: avoid;
+      break-after: avoid;
+    }
+
+    /* Official Master Header */
+    .master-header {
+      border: 2px solid var(--border-dark);
+      padding: 6px 10px;
+      text-align: center;
+      margin-bottom: 6px;
+      background: #ffffff;
+    }
+    .master-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: 12.5px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      color: var(--primary-dark);
+      text-transform: uppercase;
+    }
+    .master-subtitle {
+      font-family: 'Manrope', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      color: #0284c7;
+      letter-spacing: 0.5px;
+      margin-top: 1px;
+      text-transform: uppercase;
+    }
+    .master-standards {
+      font-size: 7.5px;
+      color: #475569;
+      margin-top: 2px;
+      font-weight: 500;
+    }
+
+    /* Header & Telemetry Grid */
+    .grid-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 6px;
+      border: 1px solid var(--border-dark);
+      font-size: 8px;
+    }
+    .grid-table td {
+      border: 1px solid var(--border-light);
+      padding: 3px 6px;
+      vertical-align: middle;
+    }
+    .grid-table .col-lbl {
+      background: #f1f5f9;
+      font-weight: 700;
+      color: #1e293b;
+      text-transform: uppercase;
+      font-size: 7.5px;
+      letter-spacing: 0.3px;
+    }
+    .grid-table .col-val {
+      color: var(--ink);
+    }
+
+    /* 4-Column KPI Cards Grid */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+    .kpi-card {
+      background: #ffffff;
+      border: 1px solid #94a3b8;
+      border-radius: 4px;
+      padding: 5px 8px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+    .kpi-card-title {
+      font-size: 7px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #475569;
+      letter-spacing: 0.3px;
+      margin-bottom: 2px;
+    }
+    .kpi-card-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 800;
+      color: #092f25;
+      line-height: 1.1;
+    }
+    .kpi-card-sub {
+      font-size: 6.5px;
+      color: #64748b;
+      margin-top: 2px;
+    }
+    .kpi-card.highlight {
+      border-color: #d97706;
+      background: #fffbeb;
+    }
+    .kpi-card.highlight .kpi-card-val {
+      color: #b45309;
+    }
+    .kpi-card.grand {
+      border-color: #059669;
+      background: #f0fdf4;
+    }
+    .kpi-card.grand .kpi-card-val {
+      color: #065f46;
+    }
+
+    /* Section Bar */
+    .sec-bar {
+      background: var(--bg-header);
+      color: #ffffff;
+      font-family: 'Manrope', sans-serif;
+      font-size: 8.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 8px;
+      margin-top: 5px;
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .sec-bar span {
+      font-size: 7px;
+      font-weight: 600;
+      color: #99f6e4;
+      text-transform: none;
+    }
+
+    /* Itemized BOQ & Loss Tables */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid var(--border-dark);
+      margin-bottom: 5px;
+      font-size: 7.5px;
+    }
+    .data-table th {
+      background: #f1f5f9;
+      color: #0f172a;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 7px;
+      letter-spacing: 0.3px;
+      padding: 4px 6px;
+      border: 1px solid #94a3b8;
+      text-align: left;
+    }
+    .data-table th.num, .data-table td.num {
+      text-align: right;
+    }
+    .data-table td {
+      padding: 2.5px 5px;
+      border: 1px solid #cbd5e1;
+      vertical-align: middle;
+      color: #1e293b;
+      line-height: 1.2;
+    }
+    .data-table tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+    .data-table td.item-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      color: #0369a1;
+      white-space: nowrap;
+    }
+    .data-table td.mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .data-table tr.total-row td {
+      background: #f1f5f9;
+      font-weight: 700;
+      color: #0f172a;
+      border-top: 1.5px solid #64748b;
+      padding: 3px 6px;
+    }
+    .data-table tr.statutory-row td {
+      background: #fafaf9;
+      color: #44403c;
+      padding: 2.5px 6px;
+      font-size: 7.5px;
+    }
+    .data-table tr.grand-row td {
+      background: #ecfdf5;
+      font-weight: 800;
+      color: #065f46;
+      font-size: 8.5px;
+      border-top: 1.5px solid #059669;
+      border-bottom: 1.5px solid #059669;
+      padding: 3.5px 6px;
+    }
+
+    .badge-chip {
+      display: inline-block;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 6.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .badge-direct { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+    .badge-indirect { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+
+    /* Statutory Certification Box */
+    .cert-box {
+      border: 1px solid #ca8a04;
+      background: #fefce8;
+      border-left: 3px solid #ca8a04;
+      padding: 5px 8px;
+      border-radius: 3px;
+      margin-top: 6px;
+      margin-bottom: 8px;
+      font-size: 7px;
+      color: #713f12;
+      line-height: 1.35;
+    }
+
+    /* 3-Tier Official Signature Blocks */
+    .sig-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 8px;
+      padding-top: 4px;
+    }
+    .sig-box {
+      border: 1px solid #94a3b8;
+      background: #ffffff;
+      padding: 6px 8px;
+      text-align: center;
+      border-radius: 3px;
+    }
+    .sig-space {
+      height: 28px;
+      border-bottom: 1px dashed #cbd5e1;
+      margin-bottom: 4px;
+    }
+    .sig-title {
+      font-weight: 700;
+      font-size: 7.5px;
+      color: #0f172a;
+    }
+    .sig-dept {
+      font-size: 6.5px;
+      color: #64748b;
+    }
+
+    /* Page Footer */
+    .page-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 7px;
+      color: #64748b;
+      border-top: 1px solid #cbd5e1;
+      padding-top: 4px;
+      margin-top: 6px;
+    }
+
+    /* Mobile Responsive Rules */
+    @media screen and (max-width: 940px) {
+      body {
+        padding: 8px;
+      }
+      .mobile-hint-banner {
+        display: block;
+      }
+      .screen-action-bar {
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+
+    /* Print Formatting Rules */
+    @page {
+      size: A4 portrait;
+      margin: 8mm 10mm;
+    }
+    @media print {
+      html, body {
+        width: 210mm !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #ffffff !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .screen-action-bar,
+      .mobile-hint-banner {
+        display: none !important;
+      }
+      .report-canvas-wrapper {
+        overflow: visible !important;
+        width: 100% !important;
+      }
+      .report-canvas {
+        width: 100% !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+      }
+      .report-page {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 12px 16px !important;
+        box-shadow: none !important;
+        border: 1.5px solid var(--border-dark) !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        box-sizing: border-box !important;
+      }
+      .report-page:last-child {
+        page-break-after: avoid !important;
+        break-after: avoid !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Screen Action Bar -->
+  <div class="screen-action-bar">
+    <div class="brand">
+      <span class="hl-tag">HIMA-LENS</span>
+      <span class="hl-tag" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);">{{ assessment.telemetry.report_id }}</span>
+      <span>HPPWD Official BOQ &amp; Loss Estimate Sheet</span>
+    </div>
+    <div class="action-btn-cluster">
+      <button type="button" class="screen-btn btn-print" onclick="window.print()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+        <span>Print Official PDF (A4)</span>
+      </button>
+      <a href="/report/pwd-sheet/{{ report.id }}" class="screen-btn btn-ghost">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        <span>Back to Field Report</span>
+      </a>
+      <a href="/explore" class="screen-btn btn-ghost">
+        <span>Map View</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="mobile-hint-banner">
+    📱 <strong>Mobile A4 Document View:</strong> Swipe horizontally or rotate your device to landscape for full page view. Tap <strong>Print Official PDF</strong> to save full-resolution A4 document.
+  </div>
+
+  {% set boq = assessment.cost_estimate_boq %}
+
+  <div class="report-canvas-wrapper">
+    <div class="report-canvas">
+
+      <!-- ======================================================== -->
+      <!-- PAGE 1 OF 2: REMEDIATION CIVIL WORKS BOQ -->
+      <!-- ======================================================== -->
+      <div class="report-page">
+        <!-- Master Header -->
+        <div class="master-header">
+          <div class="master-title">GOVERNMENT OF HIMACHAL PRADESH &bull; PUBLIC WORKS DEPARTMENT</div>
+          <div class="master-subtitle">STANDARD SCHEDULE OF RATES (HPSOR) BILL OF QUANTITIES &amp; TECHNICAL ESTIMATE</div>
+          <div class="master-standards">Reference Standards: MoRTH Specifications for Road &amp; Bridge Works (5th Rev) &bull; IRC:SP:48 &bull; Disaster Management Act 2005</div>
+        </div>
+
+        <!-- Master Telemetry Table -->
+        <table class="grid-table">
+          <tr>
+            <td class="col-lbl" style="width: 14%;">Report ID:</td>
+            <td class="col-val font-mono" style="width: 21%; font-weight: 700; color: var(--primary-forest);">{{ assessment.telemetry.report_id }}</td>
+            <td class="col-lbl" style="width: 14%;">District / Division:</td>
+            <td class="col-val" style="width: 21%;"><strong>{{ assessment.telemetry.district }}</strong> Division (HP)</td>
+            <td class="col-lbl" style="width: 14%;">Inspection Date:</td>
+            <td class="col-val font-mono" style="width: 16%;">{{ assessment.telemetry.inspection_date }}</td>
+          </tr>
+          <tr>
+            <td class="col-lbl">Site / Road Sector:</td>
+            <td class="col-val" colspan="3"><strong>{{ assessment.telemetry.site_road_name }}</strong> ({{ assessment.telemetry.road_type }})</td>
+            <td class="col-lbl">Chainage / GPS:</td>
+            <td class="col-val font-mono">{{ assessment.telemetry.location_chainage }}</td>
+          </tr>
+          <tr>
+            <td class="col-lbl">Terrain &amp; Failure:</td>
+            <td class="col-val">{{ assessment.site_context.environment_type }} &bull; {{ assessment.telemetry.reported_movement }}</td>
+            <td class="col-lbl">Severity Rating:</td>
+            <td class="col-val"><strong>{{ assessment.telemetry.reported_severity }}</strong></td>
+            <td class="col-lbl">Rate Regime:</td>
+            <td class="col-val">HPSOR Hill &bull; MoRTH 5th</td>
+          </tr>
+        </table>
+
+        <!-- 4 KPI Cards -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-card-title">Direct Civil Works (BOQ)</div>
+            <div class="kpi-card-val">{{ boq.financial_summary.civil_subtotal_fmt if boq else "₹ 0" }}</div>
+            <div class="kpi-card-sub">{{ boq.boq_items|length if boq else 0 }} Scheduled Works Packages</div>
+          </div>
+          <div class="kpi-card highlight">
+            <div class="kpi-card-title">Total Civil Remediation</div>
+            <div class="kpi-card-val">{{ boq.financial_summary.total_remediation_badge if boq else "₹ 0" }}</div>
+            <div class="kpi-card-sub">Incl. 3% Contingency, 1.5% QC &amp; 18% GST</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-title">Direct Asset Physical Loss</div>
+            <div class="kpi-card-val">{{ boq.financial_summary.direct_asset_loss_badge if boq else "₹ 0" }}</div>
+            <div class="kpi-card-sub">Carriageway, Culverts &amp; Structural Damage</div>
+          </div>
+          <div class="kpi-card grand">
+            <div class="kpi-card-title">Grand Total Disaster Impact</div>
+            <div class="kpi-card-val">{{ boq.financial_summary.grand_total_disaster_impact_badge if boq else "₹ 0" }}</div>
+            <div class="kpi-card-sub">Works Outlay + Physical Loss + Transit Delay</div>
+          </div>
+        </div>
+
+        <!-- Section 1: Itemized BOQ Table -->
+        <div class="sec-bar">
+          <div>1. Itemized Bill of Quantities (BOQ) &bull; Remedial Civil Works</div>
+          <span>Schedule: HPPWD HPSOR &bull; MoRTH 5th Rev Section 300, 700, 1000, 1300, 1400, 1700</span>
+        </div>
+
+        {% if not boq or not boq.is_applicable %}
+        <div style="background: #fef2f2; border: 1px solid #f87171; border-radius: 4px; padding: 12px; text-align: center; color: #991b1b; margin: 10px 0;">
+          <strong>CIVIL WORKS ESTIMATION SUSPENDED:</strong> {{ boq.rejection_notice if boq else "Media upload disqualified." }}
+        </div>
+        {% else %}
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width: 24px; text-align: center;">Sl.</th>
+              <th style="width: 95px;">Item Code</th>
+              <th>Work Package &amp; Technical Description</th>
+              <th class="num" style="width: 60px;">Quantity</th>
+              <th style="width: 38px; text-align: center;">Unit</th>
+              <th class="num" style="width: 65px;">Rate (₹)</th>
+              <th class="num" style="width: 78px;">Amount (₹)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in boq.boq_items %}
+            <tr>
+              <td style="text-align: center; font-weight: 600; color: #64748b;">{{ item.sl_no }}</td>
+              <td class="item-code">{{ item.item_code }}</td>
+              <td>
+                <strong style="color: #0f172a;">[{{ item.work_package }}]</strong>
+                <span>{{ item.description }}</span>
+              </td>
+              <td class="num mono">{{ "%.2f"|format(item.quantity) if item.quantity is number else item.quantity }}</td>
+              <td style="text-align: center; font-weight: 600;">{{ item.unit }}</td>
+              <td class="num mono">{{ item.rate_fmt }}</td>
+              <td class="num mono" style="font-weight: 700; color: #0f172a;">{{ item.amount_fmt }}</td>
+            </tr>
+            {% endfor %}
+
+            <!-- Subtotals & Statutory Rows -->
+            <tr class="total-row">
+              <td colspan="6" style="text-align: right; padding-right: 8px; text-transform: uppercase;">Direct Civil Works Subtotal (MoRTH / HPSOR Scheduled Items):</td>
+              <td class="num mono" style="font-size: 8.5px; color: #092f25;">{{ boq.financial_summary.civil_subtotal_fmt }}</td>
+            </tr>
+            <tr class="statutory-row">
+              <td colspan="6" style="text-align: right; padding-right: 8px;">Add: Physical &amp; Unforeseen Contingencies (3.0% as per PWD Hill Norms):</td>
+              <td class="num mono">{{ boq.financial_summary.contingencies_fmt }}</td>
+            </tr>
+            <tr class="statutory-row">
+              <td colspan="6" style="text-align: right; padding-right: 8px;">Add: Quality Control, Field Laboratory &amp; Third-Party Testing Audit (1.5%):</td>
+              <td class="num mono">{{ boq.financial_summary.qc_testing_fmt }}</td>
+            </tr>
+            <tr class="statutory-row" style="font-weight: 700; background: #f1f5f9;">
+              <td colspan="6" style="text-align: right; padding-right: 8px;">Subtotal (Direct Civil Works + Contingencies + QC Testing):</td>
+              <td class="num mono">{{ boq.financial_summary.subtotal_before_tax_fmt }}</td>
+            </tr>
+            <tr class="statutory-row">
+              <td colspan="6" style="text-align: right; padding-right: 8px;">Add: Statutory Goods &amp; Services Tax (GST @ 18.0%):</td>
+              <td class="num mono">{{ boq.financial_summary.gst_fmt }}</td>
+            </tr>
+            <tr class="grand-row">
+              <td colspan="6" style="text-align: right; padding-right: 8px; text-transform: uppercase; letter-spacing: 0.4px;">Total Civil Remediation Capital Outlay:</td>
+              <td class="num mono">{{ boq.financial_summary.total_remediation_fmt }}</td>
+            </tr>
+          </tbody>
+        </table>
+        {% endif %}
+
+        <!-- Page 1 Footer -->
+        <div class="page-footer">
+          <span>HIMA-LENS Disaster Spatial Observatory &bull; HPPWD Hill Roads Schedule of Rates BOQ</span>
+          <span>Page 1 of 2</span>
+        </div>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- PAGE 2 OF 2: DISASTER DAMAGE LOSS & FORMAL SANCTIONS -->
+      <!-- ======================================================== -->
+      <div class="report-page">
+        <!-- Master Header Page 2 -->
+        <div class="master-header">
+          <div class="master-title">HIMA-LENS &bull; DISASTER LOSS AUDIT &amp; STATUTORY SANCTION DOSSIER</div>
+          <div class="master-subtitle">COMPREHENSIVE DAMAGE VALUATION &bull; INFRASTRUCTURE LOSS &bull; REGIONAL ECONOMIC DISRUPTION</div>
+          <div class="master-standards">Disaster Management Act 2005 &bull; IRC:SP:48 Hill Road Guidelines &bull; HPPWD Technical Code</div>
+        </div>
+
+        <!-- Section 2: Disaster Damage Assessment Table -->
+        <div class="sec-bar">
+          <div>2. Comprehensive Disaster Damage &amp; Economic Disruption Assessment</div>
+          <span>Direct Physical Infrastructure &bull; Dwelling Damage &bull; Regional Transport Disruption</span>
+        </div>
+
+        {% if boq and boq.is_applicable %}
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width: 24px; text-align: center;">Sl.</th>
+              <th style="width: 105px;">Category</th>
+              <th style="width: 170px;">Impacted Asset / Vector</th>
+              <th>Forensic Valuation Basis &amp; Assessment Criteria</th>
+              <th class="num" style="width: 85px;">Loss Amount (₹)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for loss in boq.loss_items %}
+            <tr>
+              <td style="text-align: center; font-weight: 600; color: #64748b;">{{ loss.sl_no }}</td>
+              <td>
+                <span class="badge-chip {% if loss.category == 'Direct Asset Loss' %}badge-direct{% else %}badge-indirect{% endif %}">
+                  {{ loss.category }}
+                </span>
+              </td>
+              <td style="font-weight: 700; color: #0f172a;">{{ loss.asset }}</td>
+              <td style="color: #475569;">{{ loss.criteria }}</td>
+              <td class="num mono" style="font-weight: 700; color: #991b1b;">{{ loss.amount_fmt }}</td>
+            </tr>
+            {% endfor %}
+
+            <tr class="total-row">
+              <td colspan="4" style="text-align: right; padding-right: 8px; text-transform: uppercase;">Direct Physical Asset Loss Subtotal:</td>
+              <td class="num mono" style="color: #991b1b;">{{ boq.financial_summary.direct_asset_loss_fmt }}</td>
+            </tr>
+            <tr class="total-row">
+              <td colspan="4" style="text-align: right; padding-right: 8px; text-transform: uppercase;">Indirect Economic Disruption Loss Subtotal:</td>
+              <td class="num mono" style="color: #b45309;">{{ boq.financial_summary.indirect_economic_loss_fmt }}</td>
+            </tr>
+            <tr class="grand-row">
+              <td colspan="4" style="text-align: right; padding-right: 8px; text-transform: uppercase; letter-spacing: 0.4px;">Total Disaster Loss (Physical Damage + Economic Disruption):</td>
+              <td class="num mono">{{ boq.financial_summary.total_disaster_loss_fmt }}</td>
+            </tr>
+            <tr style="background: #092f25; color: #ffffff; font-weight: 800; font-size: 9.5px;">
+              <td colspan="4" style="text-align: right; padding: 6px 8px; text-transform: uppercase; letter-spacing: 0.6px; color: #5eead4;">
+                COMPREHENSIVE DISASTER IMPACT (Remediation Works + Total Disaster Loss):
+              </td>
+              <td class="num mono" style="padding: 6px 8px; color: #facc15; font-size: 10.5px;">
+                {{ boq.financial_summary.grand_total_disaster_impact_fmt }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        {% endif %}
+
+        <!-- Statutory Certification Note -->
+        <div class="cert-box">
+          <strong>OFFICIAL STATUTORY NOTICE &bull; HPPWD / MoRTH SPECIFICATIONS:</strong><br>
+          All unit rates referenced in this dossier are extracted strictly from the Himachal Pradesh Public Works Department (HPPWD) Schedule of Rates for Hill Roads and the Ministry of Road Transport and Highways (MoRTH) Standard Data Book for Road &amp; Bridge Works (5th Revision). Derived quantities are computed deterministically from empirical terrain dimensions, surveyed slope scarp geometry, cut angles, and geotechnical stability criteria (IRC:SP:48 / CEDD Geoguide 1). This abstract estimate is prepared for administrative sanction, emergency relief allocation, and SDRF/NDRF financial requisition under the Disaster Management Act 2005.
+        </div>
+
+        <!-- Official 3-Tier Sanction Signature Blocks -->
+        <div class="sig-grid">
+          <div class="sig-box">
+            <div class="sig-space"></div>
+            <div class="sig-title">Junior Engineer (Civil)</div>
+            <div class="sig-dept">Field Survey, Dimension Measurements &amp; BOQ Derivation</div>
+          </div>
+          <div class="sig-box">
+            <div class="sig-space"></div>
+            <div class="sig-title">Assistant Engineer (AE)</div>
+            <div class="sig-dept">Quality Control Sub-Division &bull; Rate &amp; Standard Verification</div>
+          </div>
+          <div class="sig-box">
+            <div class="sig-space"></div>
+            <div class="sig-title">Executive Engineer (XEN)</div>
+            <div class="sig-dept">HPPWD Division &bull; Administrative Sanction &amp; Allocation</div>
+          </div>
+        </div>
+
+        <!-- Page 2 Footer -->
+        <div class="page-footer">
+          <span>HIMA-LENS Disaster Spatial Observatory &bull; Comprehensive Loss Audit &amp; Technical Sanction</span>
+          <span>Page 2 of 2</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>

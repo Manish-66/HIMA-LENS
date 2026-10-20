@@ -275,7 +275,8 @@ window.submitAndOpenOfficialSheet = function(openEstimate = false) {
 };
 
 window.submitAndOpenCostEstimate = function() {
-  window.submitAndOpenOfficialSheet(true);
+  window.open(`/report/boq-sheet/${encodeURIComponent(activeReportId)}`, '_blank');
+  closePwdAssessmentModal();
 };
 
 window.openDirectSheet = function(reportId) {
@@ -284,6 +285,6 @@ window.openDirectSheet = function(reportId) {
 };
 
 window.openDirectCostEstimate = function(reportId) {
-  window.open(`/report/pwd-sheet/${encodeURIComponent(reportId)}?estimate=1`, '_blank');
+  window.open(`/report/boq-sheet/${encodeURIComponent(reportId)}`, '_blank');
   closePwdAssessmentModal();
 };
