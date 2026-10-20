@@ -45,6 +45,8 @@
       max-width: 920px;
       margin: 0 auto 18px auto;
       display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
       justify-content: space-between;
       align-items: center;
       background: var(--primary-dark);
@@ -55,11 +57,12 @@
     }
     .screen-action-bar .brand {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       font-family: 'Manrope', sans-serif;
       font-weight: 700;
-      font-size: 13.5px;
+      font-size: 13px;
       letter-spacing: 0.5px;
     }
     .screen-action-bar .hl-tag {
@@ -72,6 +75,8 @@
     }
     .action-btn-cluster {
       display: flex;
+      flex-wrap: wrap;
+      align-items: center;
       gap: 8px;
     }
     .screen-btn {
@@ -1762,6 +1767,13 @@
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') {
         closeCostEstimateModal();
+      }
+    });
+
+    window.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('estimate') === '1' || window.location.hash.includes('estimate')) {
+        openCostEstimateModal();
       }
     });
 
