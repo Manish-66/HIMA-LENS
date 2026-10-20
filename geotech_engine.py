@@ -27,11 +27,26 @@ LARIMIT_FILE = STANDARDS_DIR / "larimit_mitigation_catalog.json"
 CEDD_FILE = STANDARDS_DIR / "cedd_geo_standards.json"
 USGS_FILE = STANDARDS_DIR / "usgs_cruden_varnes_standards.json"
 BHUKOSH_FILE = STANDARDS_DIR / "bhukosh_geology_index.json"
+SOR_FILE = STANDARDS_DIR / "pwd_schedule_of_rates.json"
 
 _LARIMIT_CACHE: dict[str, Any] | None = None
 _CEDD_CACHE: dict[str, Any] | None = None
 _USGS_CACHE: dict[str, Any] | None = None
 _BHUKOSH_CACHE: list[dict[str, Any]] | None = None
+_SOR_CACHE: dict[str, Any] | None = None
+
+
+def load_sor_standards() -> dict[str, Any]:
+    global _SOR_CACHE
+    if _SOR_CACHE is not None:
+        return _SOR_CACHE
+    if SOR_FILE.exists():
+        try:
+            _SOR_CACHE = json.loads(SOR_FILE.read_text(encoding="utf-8"))
+            return _SOR_CACHE
+        except Exception as exc:
+            logger.warning("Could not read PWD SoR catalog: %s", exc)
+    return {}
 
 
 def load_bhukosh_dataset() -> list[dict[str, Any]]:
@@ -552,3 +567,451 @@ def validate_and_reconcile_rock_classification(
             "calibrated_rock": bhukosh_rock,
             "reconciliation_note": f"Optical vision model predicted '{ai_clean}', which diverges from official GSI Bhukosh ground truth ('{bhukosh_rock}'{dist_str}, Toposheet {toposheet}). Lithology flagged and calibrated to Bhukosh.",
         }
+
+
+def format_inr(amount: float) -> str:
+    """Formats a floating-point number into official Indian Rupee currency representation."""
+    amount_int = int(round(amount))
+    s = str(abs(amount_int))
+    if len(s) <= 3:
+        formatted = s
+    else:
+        last_three = s[-3:]
+        remaining = s[:-3]
+        groups = []
+        while len(remaining) > 2:
+            groups.insert(0, remaining[-2:])
+            remaining = remaining[:-2]
+        if remaining:
+            groups.insert(0, remaining)
+        formatted = ",".join(groups) + "," + last_three
+    sign = "-" if amount_int < 0 else ""
+    return f"₹ {sign}{formatted}"
+
+
+def format_lakhs_crores(amount: float) -> str:
+    """Formats amount into compact Lakhs / Crores string for executive KPI cards."""
+    abs_amt = abs(amount)
+    if abs_amt >= 10000000:
+        return f"₹ {amount / 10000000:.2f} Cr"
+    elif abs_amt >= 100000:
+        return f"₹ {amount / 100000:.2f} Lakh"
+    else:
+        return format_inr(amount)
+
+
+def calculate_comprehensive_cost_and_loss_estimate(
+    dossier: dict[str, Any],
+    report: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Generates an itemized Bill of Quantities (BOQ) conforming to the HPPWD Schedule of Rates
+    (HPSOR) and MoRTH Specifications for Road and Bridge Works (5th Revision), accompanied by a
+    comprehensive Disaster Loss Assessment (Direct Asset Physical Damage & Corridor Disruption Economics).
+    """
+    sor_data = load_sor_standards()
+    metadata = sor_data.get("schedule_metadata", {
+        "title": "Himachal Pradesh Public Works Department (HPPWD) & MoRTH Schedule of Rates for Hill Roads",
+        "primary_references": [
+            "HPPWD Schedule of Rates (HPSOR), Government of Himachal Pradesh",
+            "MoRTH Specifications for Road and Bridge Works (5th Revision)",
+            "IRC Standard Data Book for Analysis of Rates for Road and Bridge Works",
+        ],
+        "applicable_terrain": "Himalayan Hill Roads & High Altitude Sectors",
+        "currency": "INR (₹)",
+        "tax_regime": {
+            "gst_percentage": 18.0,
+            "contingencies_percentage": 3.0,
+            "quality_control_percentage": 1.5,
+        },
+    })
+
+    is_valid = dossier.get("is_landslide_or_terrain", True)
+    status = dossier.get("validation_status", "VALID_TERRAIN_IMAGE")
+
+    if not is_valid or status == "INVALID_NON_TERRAIN_IMAGE":
+        return {
+            "status": "DISQUALIFIED_NON_TERRAIN",
+            "is_applicable": False,
+            "rejection_notice": "Non-terrain media upload / Verification Rejected: Remediation BOQ suspended. Field reconnaissance survey required prior to civil estimates.",
+            "schedule_metadata": metadata,
+            "financial_summary": {
+                "civil_subtotal_raw": 0.0,
+                "civil_subtotal_fmt": "₹ 0",
+                "contingencies_raw": 0.0,
+                "contingencies_fmt": "₹ 0",
+                "qc_testing_raw": 0.0,
+                "qc_testing_fmt": "₹ 0",
+                "gst_raw": 0.0,
+                "gst_fmt": "₹ 0",
+                "total_remediation_raw": 0.0,
+                "total_remediation_fmt": "₹ 0",
+                "total_remediation_badge": "₹ 0.00 Lakh",
+                "direct_asset_loss_raw": 0.0,
+                "direct_asset_loss_fmt": "₹ 0",
+                "indirect_economic_loss_raw": 0.0,
+                "indirect_economic_loss_fmt": "₹ 0",
+                "grand_total_disaster_impact_raw": 0.0,
+                "grand_total_disaster_impact_fmt": "₹ 0",
+                "grand_total_disaster_impact_badge": "₹ 0.00 Lakh",
+            },
+            "boq_items": [],
+            "loss_items": [],
+        }
+
+    # Extract geometric and physical site dimensions
+    wall_specs = dossier.get("retaining_wall_specs") or {}
+    h_wall = float(wall_specs.get("height_m") or 3.2)
+    l_wall = float(wall_specs.get("length_m") or 16.0)
+    embed_d = float(wall_specs.get("embedded_depth_m") or max(1.0, round(0.25 * h_wall, 2)))
+    base_w = float(wall_specs.get("base_width_m") or round(0.50 * h_wall, 2))
+    top_w = float(wall_specs.get("top_width_m") or (0.70 if h_wall >= 4.0 else 0.60))
+
+    gab_earth = dossier.get("gabion_and_earthworks") or {}
+    exc = gab_earth.get("excavation") or {}
+    exc_vol = float(exc.get("volume_m3") or round(h_wall * 0.8 * l_wall * 4.5, 1))
+    h_cut = float(exc.get("h_m") or round(h_wall * 0.8, 1))
+    fill = gab_earth.get("fill") or {}
+    fill_vol = float(fill.get("volume_m3") or round(0.35 * l_wall * (h_wall * 0.60), 2))
+
+    sev = (dossier.get("telemetry") or {}).get("reported_severity") or (report or {}).get("severity") or "Moderate"
+    site_ctx = dossier.get("site_context") or {}
+    env_type = (site_ctx.get("environment_type") or "").lower()
+    is_residential = "residential" in env_type or "house" in env_type or "settlement" in env_type
+    is_orchard = "orchard" in env_type or "agri" in env_type or "terrace" in env_type
+
+    # Prescribed soil nailing parameters
+    nail_len = 9.0
+    if sev == "Critical":
+        nail_len = 12.0
+    elif sev == "High":
+        nail_len = 10.0
+    elif sev == "Low":
+        nail_len = 6.0
+    n_nails = max(8, int(round((l_wall / 1.75) * (max(2.0, h_cut) / 1.75))))
+
+    # Drainage parameters
+    n_drains = max(4, int(l_wall / 4.0) + 1)
+    drain_len = round(max(15.0, h_cut * 2.2), 1)
+
+    # Plum concrete wall volume (trapezoidal cross-section * length)
+    wall_total_h = h_wall + embed_d
+    cs_area = ((top_w + base_w) / 2.0) * wall_total_h
+    plum_conc_vol = round(cs_area * l_wall, 2)
+    trench_exc_vol = round(l_wall * base_w * embed_d, 2)
+    slope_trim_area = round(l_wall * (h_cut * 1.3), 2)
+    geotextile_area = round(l_wall * wall_total_h, 2)
+    weep_pipes_count = max(6, int(round((l_wall / 1.2) * (h_wall / 1.2))))
+    weep_pipes_len = round(weep_pipes_count * (base_w * 0.75), 1)
+
+    boq_raw = [
+        {
+            "item_code": "MoRTH 301.1",
+            "work_package": "Earthwork & Clearance",
+            "description": "Hydraulic excavation of saturated landslide debris, loose soil, and boulders up to 3 m³ using heavy hydraulic breaker excavator, including loading into tippers and disposal with lead up to 1000m.",
+            "quantity": exc_vol,
+            "unit": "m³",
+            "rate": 220.0,
+        },
+        {
+            "item_code": "MoRTH 305.2",
+            "work_package": "Earthwork & Clearance",
+            "description": "Slope trimming, scarp reprofiling, and dressing of unstable overburden cut face to stable bench profile in all kinds of soil and soft rock.",
+            "quantity": slope_trim_area,
+            "unit": "m²",
+            "rate": 115.0,
+        },
+        {
+            "item_code": "MoRTH 304.3",
+            "work_package": "Earthwork & Clearance",
+            "description": "Foundation trench excavation in hard rock / compact boulder strata with pneumatic breaker tools, including necessary shoring, strutting, and dewatering for breast wall footing.",
+            "quantity": trench_exc_vol,
+            "unit": "m³",
+            "rate": 580.0,
+        },
+        {
+            "item_code": "HPSOR 4.2 / MoRTH 1402",
+            "work_package": "Structural Retention",
+            "description": f"Construction of Plum Concrete Retaining / Breast Wall (H={h_wall:.1f}m, B={base_w:.2f}m, b={top_w:.2f}m) in M15 grade concrete (1:2:4) with 30% to 40% clean sound quarry plum boulders (density >= 18 kN/m³), including steel shuttering, scaffolding, compaction, and 14 days water curing.",
+            "quantity": plum_conc_vol,
+            "unit": "m³",
+            "rate": 4250.0,
+        },
+        {
+            "item_code": "MoRTH 702.1",
+            "work_package": "Structural Retention",
+            "description": "Supplying and laying non-woven needle-punched polypropylene geotextile filter fabric (weight >= 250 GSM, O90 < 0.15 mm) behind retaining wall backface.",
+            "quantity": geotextile_area,
+            "unit": "m²",
+            "rate": 145.0,
+        },
+        {
+            "item_code": "HPSOR 4.8 / MoRTH 305",
+            "work_package": "Structural Retention",
+            "description": "Providing and laying free-draining granular backfill filter material (crushed stone gravel 20-40mm) behind retaining wall in layers not exceeding 150mm compacted thickness.",
+            "quantity": fill_vol,
+            "unit": "m³",
+            "rate": 980.0,
+        },
+        {
+            "item_code": "HPSOR 4.9",
+            "work_package": "Structural Retention",
+            "description": f"Providing and installing 100mm dia heavy-duty PVC weep hole pipes (Class 3) placed at 1.20m c/c staggered with 1:20 outward slope and gravel filter envelope at inlet (Total {weep_pipes_count} Nos.).",
+            "quantity": weep_pipes_len,
+            "unit": "meter",
+            "rate": 260.0,
+        },
+        {
+            "item_code": "MoRTH 1302 / Geoguide 7",
+            "work_package": "Internal Ground Reinforcement",
+            "description": f"Rotary / percussive drilling of 100mm to 110mm dia boreholes in soil/colluvium/fractured rock for soil nails at 15° to 20° downward rake to specified design length ({n_nails} Nos. x {nail_len:.1f}m).",
+            "quantity": round(n_nails * nail_len, 1),
+            "unit": "meter",
+            "rate": 880.0,
+        },
+        {
+            "item_code": "MoRTH 1002.1",
+            "work_package": "Internal Ground Reinforcement",
+            "description": f"Supplying, cutting, threading, and inserting Dia. 28mm Fe500 high-yield deformed steel soil nail bars with polypropylene centralizers @ 2m c/c.",
+            "quantity": round(n_nails * nail_len, 1),
+            "unit": "meter",
+            "rate": 420.0,
+        },
+        {
+            "item_code": "MoRTH 1304.2",
+            "work_package": "Internal Ground Reinforcement",
+            "description": "Pressure grouting of soil nail boreholes with non-shrink neat cementitious grout (f_cu >= 30 MPa @ 28 days, W/C = 0.42, injection pressure 0.3-0.5 MPa).",
+            "quantity": round(n_nails * nail_len, 1),
+            "unit": "meter",
+            "rate": 520.0,
+        },
+        {
+            "item_code": "MoRTH 1306.1",
+            "work_package": "Internal Ground Reinforcement",
+            "description": f"Cast-in-situ reinforced concrete bearing pad (400x400x200mm Grade C30/37) with galvanized steel bearing plate (200x200x20mm) and high-tensile spherical hex nut assembly ({n_nails} sets).",
+            "quantity": float(n_nails),
+            "unit": "unit",
+            "rate": 2150.0,
+        },
+        {
+            "item_code": "CEDD Geoguide 7",
+            "work_package": "Internal Ground Reinforcement",
+            "description": "Sacrificial pullout verification proof testing of soil nails using hydraulic hollow-plunger jack up to 1.5x design working load with dial gauge creep recording (2% statutory testing).",
+            "quantity": float(max(2, int(round(n_nails * 0.05)))),
+            "unit": "test",
+            "rate": 5000.0,
+        },
+        {
+            "item_code": "MoRTH 1704 / TGN 24",
+            "work_package": "Subsurface & Surface Drainage",
+            "description": f"Directional drilling and installation of 65mm dia heavy-duty slotted PVC sub-horizontal relief drains (Schedule 80) jacketed with non-woven geotextile filter sock at 5° to 10° upward rake ({n_drains} Nos. array).",
+            "quantity": round(n_drains * drain_len, 1),
+            "unit": "meter",
+            "rate": 1150.0,
+        },
+        {
+            "item_code": "HPSOR 5.3 / MoRTH 1702",
+            "work_package": "Subsurface & Surface Drainage",
+            "description": "Construction of Stone Masonry Hillside Saucer Catch Drain (0.60m wide x 0.60m deep) in cement mortar 1:4 with 100mm M15 concrete bedding and pointing.",
+            "quantity": round(l_wall + 8.0, 1),
+            "unit": "meter",
+            "rate": 780.0,
+        },
+        {
+            "item_code": "MoRTH 1703.1",
+            "work_package": "Subsurface & Surface Drainage",
+            "description": "Construction of stepped cascade drainage chute lined with stone pitching and concrete cross-weirs discharging into natural ravine.",
+            "quantity": round(min(25.0, l_wall + 5.0), 1),
+            "unit": "meter",
+            "rate": 1050.0,
+        },
+    ]
+
+    # Flexible rockfall & debris barrier (if High/Critical)
+    if sev in ("High", "Critical"):
+        b_rate = 26500.0 if sev == "Critical" else 14500.0
+        b_code = "GEO 138 (1500-3000 kJ)" if sev == "Critical" else "GEO 138 (500 kJ)"
+        b_name = "1500 to 3000 kJ certified heavy-duty flexible ring net barrier (HEB 180 posts, ROCCO ring nets)" if sev == "Critical" else "500 kJ certified flexible wire-rope ring net rockfall barrier (HEB 140 posts, friction brake rings)"
+        boq_raw.append({
+            "item_code": b_code,
+            "work_package": "Dynamic Defense & Bioengineering",
+            "description": f"Supply and erection of {b_name} along active slide / rockfall chute.",
+            "quantity": l_wall,
+            "unit": "meter",
+            "rate": b_rate,
+        })
+
+    # Bioengineering
+    boq_raw.append({
+        "item_code": "MoRTH 1802 / IRC:SP:48",
+        "work_package": "Dynamic Defense & Bioengineering",
+        "description": "Soil bioengineering: Supplying and laying open-weave coir geotextile netting (700 GSM) anchored with bamboo pins, hydroseeding with native grass mixes, and planting deep-rooting Vetiver grass (Chrysopogon zizanioides) contour hedges.",
+        "quantity": slope_trim_area,
+        "unit": "m²",
+        "rate": 195.0,
+    })
+
+    # Build final formatted BOQ list
+    boq_items: list[dict[str, Any]] = []
+    civil_subtotal = 0.0
+    for idx, item in enumerate(boq_raw, start=1):
+        amt = round(item["quantity"] * item["rate"], 2)
+        civil_subtotal += amt
+        boq_items.append({
+            "sl_no": idx,
+            "item_code": item["item_code"],
+            "work_package": item["work_package"],
+            "description": item["description"],
+            "quantity": item["quantity"],
+            "unit": item["unit"],
+            "rate": item["rate"],
+            "rate_fmt": format_inr(item["rate"]),
+            "amount": amt,
+            "amount_fmt": format_inr(amt),
+        })
+
+    contingencies = round(civil_subtotal * 0.03, 2)
+    qc_testing = round(civil_subtotal * 0.015, 2)
+    subtotal_before_tax = civil_subtotal + contingencies + qc_testing
+    gst = round(subtotal_before_tax * 0.18, 2)
+    total_remediation = round(subtotal_before_tax + gst, 2)
+
+    # Disaster Loss Assessment
+    loss_raw: list[dict[str, Any]] = []
+
+    if is_residential:
+        dwell_amt = 1200000.0 if sev in ("High", "Critical") else 450000.0
+        dwell_desc = "Major Structural Rebuilding: Breached foundation/rearing wall, debris infiltration into living quarters" if sev in ("High", "Critical") else "Structural Repair: Masonry crack stitching, plaster reinstatement, foundation stabilization"
+        loss_raw.append({
+            "category": "Direct Asset Loss",
+            "asset": "Residential Dwelling / Habitable Structure",
+            "criteria": dwell_desc,
+            "amount": dwell_amt,
+        })
+        loss_raw.append({
+            "category": "Direct Asset Loss",
+            "asset": "Household Belongings & Interior Salvage",
+            "criteria": "Loss of furniture, domestic appliances, and stored goods due to slurry inundation",
+            "amount": 180000.0,
+        })
+        loss_raw.append({
+            "category": "Direct Asset Loss",
+            "asset": "Occupant Emergency Relocation & Subsistence",
+            "criteria": "Statutory temporary accommodation and family evacuation support allowance (3 months)",
+            "amount": 75000.0,
+        })
+
+    # Highway / Transport Corridor Direct Asset Damage
+    pave_area = round(l_wall * 6.5, 1)
+    pave_amt = round(pave_area * 1650.0, 2)
+    loss_raw.append({
+        "category": "Direct Asset Loss",
+        "asset": "Highway Carriageway & Formation",
+        "criteria": f"Full pavement reconstruction ({pave_area} m²): Scarification of damaged bitumen, subgrade re-compaction, 150mm WMM and 50mm Bituminous Concrete overlay @ ₹1,650/m²",
+        "amount": pave_amt,
+    })
+    loss_raw.append({
+        "category": "Direct Asset Loss",
+        "asset": "Roadside Culvert & Drainage Appurtenances",
+        "criteria": "Choked box culvert barrel hydraulic flushing, wingwall crack injection, and headwall masonry repair",
+        "amount": 180000.0,
+    })
+    loss_raw.append({
+        "category": "Direct Asset Loss",
+        "asset": "Emergency Highway Corridor Staging & Traffic Diversion",
+        "criteria": "Deployment of temporary steel crash barricades, solar LED hazard flashers, warning signage, and 24/7 flagger spotters",
+        "amount": 35000.0,
+    })
+
+    if is_orchard:
+        loss_raw.append({
+            "category": "Direct Asset Loss",
+            "asset": "Apple Orchard & Agricultural Terraces",
+            "criteria": "Rebuilding dry stone retaining terraces, topsoil replacement, and sapling reinstatement compensation",
+            "amount": 470000.0,
+        })
+
+    # Indirect Economic Disruption Loss (Corridor Closure / Detour)
+    blockage_days = 3.5 if sev == "Critical" else (2.0 if sev == "High" else (1.0 if sev == "Moderate" else 0.5))
+    daily_detour_cost = 125000.0
+    transit_loss = round(blockage_days * daily_detour_cost, 2)
+    loss_raw.append({
+        "category": "Indirect Economic Loss",
+        "asset": "Regional Corridor Transit Disruption",
+        "criteria": f"{blockage_days:.1f} days estimated corridor severance / restricted passage: Commercial freight detours (extra 45 km via alternate link), passenger idle hours, and fuel consumption surcharge @ ₹1,25,000/day",
+        "amount": transit_loss,
+    })
+
+    loss_items: list[dict[str, Any]] = []
+    direct_asset_loss = 0.0
+    indirect_economic_loss = 0.0
+    for idx, it in enumerate(loss_raw, start=1):
+        amt = it["amount"]
+        if it["category"] == "Direct Asset Loss":
+            direct_asset_loss += amt
+        else:
+            indirect_economic_loss += amt
+        loss_items.append({
+            "sl_no": idx,
+            "category": it["category"],
+            "asset": it["asset"],
+            "criteria": it["criteria"],
+            "amount": amt,
+            "amount_fmt": format_inr(amt),
+        })
+
+    total_disaster_loss = round(direct_asset_loss + indirect_economic_loss, 2)
+    grand_total_disaster_impact = round(total_remediation + total_disaster_loss, 2)
+
+    return {
+        "status": "CALCULATED_OK",
+        "is_applicable": True,
+        "rejection_notice": None,
+        "schedule_metadata": metadata,
+        "parameters_used": {
+            "severity": sev,
+            "environment_type": env_type or "Highway Corridor",
+            "wall_height_m": h_wall,
+            "wall_length_m": l_wall,
+            "wall_embed_m": embed_d,
+            "base_width_m": base_w,
+            "top_width_m": top_w,
+            "plum_concrete_vol_m3": plum_conc_vol,
+            "excavation_vol_m3": exc_vol,
+            "slope_trim_area_m2": slope_trim_area,
+            "fill_vol_m3": fill_vol,
+            "soil_nails_count": n_nails,
+            "soil_nail_len_m": nail_len,
+            "relief_drains_count": n_drains,
+            "relief_drain_len_m": drain_len,
+        },
+        "financial_summary": {
+            "civil_subtotal_raw": civil_subtotal,
+            "civil_subtotal_fmt": format_inr(civil_subtotal),
+            "contingencies_raw": contingencies,
+            "contingencies_fmt": format_inr(contingencies),
+            "qc_testing_raw": qc_testing,
+            "qc_testing_fmt": format_inr(qc_testing),
+            "subtotal_before_tax_raw": subtotal_before_tax,
+            "subtotal_before_tax_fmt": format_inr(subtotal_before_tax),
+            "gst_raw": gst,
+            "gst_fmt": format_inr(gst),
+            "total_remediation_raw": total_remediation,
+            "total_remediation_fmt": format_inr(total_remediation),
+            "total_remediation_badge": format_lakhs_crores(total_remediation),
+            "direct_asset_loss_raw": direct_asset_loss,
+            "direct_asset_loss_fmt": format_inr(direct_asset_loss),
+            "direct_asset_loss_badge": format_lakhs_crores(direct_asset_loss),
+            "indirect_economic_loss_raw": indirect_economic_loss,
+            "indirect_economic_loss_fmt": format_inr(indirect_economic_loss),
+            "indirect_economic_loss_badge": format_lakhs_crores(indirect_economic_loss),
+            "total_disaster_loss_raw": total_disaster_loss,
+            "total_disaster_loss_fmt": format_inr(total_disaster_loss),
+            "total_disaster_loss_badge": format_lakhs_crores(total_disaster_loss),
+            "grand_total_disaster_impact_raw": grand_total_disaster_impact,
+            "grand_total_disaster_impact_fmt": format_inr(grand_total_disaster_impact),
+            "grand_total_disaster_impact_badge": format_lakhs_crores(grand_total_disaster_impact),
+        },
+        "boq_items": boq_items,
+        "loss_items": loss_items,
+    }
+

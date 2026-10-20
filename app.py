@@ -750,6 +750,18 @@ def view_pwd_sheet(report_id: str):
     assessment = ai_assessment.normalize_assessment_structure(assessment, report)
     return render_template("pwd_sheet.html", report=report, assessment=assessment)
 
+@app.get("/report/cost-estimate/<report_id>")
+def get_cost_estimate(report_id: str):
+    report = find_report_by_id(report_id)
+    if not report:
+        return jsonify(success=False, error="REPORT_NOT_FOUND", message=f"Report {report_id} not found."), 404
+
+    force = request.args.get("force", "").lower() in ("1", "true", "yes")
+    assessment = ai_assessment.generate_ai_assessment(report, force_refresh=force)
+    assessment = ai_assessment.normalize_assessment_structure(assessment, report)
+    cost_data = assessment.get("cost_estimate_boq") or geotech_engine.calculate_comprehensive_cost_and_loss_estimate(assessment, report)
+    return jsonify(success=True, report_id=report_id, cost_estimate_boq=cost_data)
+
 @app.errorhandler(FileNotFoundError)
 def missing_dataset(error):
     return jsonify(success=False, error="DATASET_NOT_FOUND", message=str(error)), 404

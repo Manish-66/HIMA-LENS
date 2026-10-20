@@ -1,0 +1,155 @@
+{
+  "schedule_metadata": {
+    "title": "Himachal Pradesh Public Works Department (HPPWD) & MoRTH Schedule of Rates for Hill Roads",
+    "primary_references": [
+      "HPPWD Schedule of Rates (HPSOR), Government of Himachal Pradesh",
+      "Ministry of Road Transport and Highways (MoRTH) Specifications for Road and Bridge Works (5th Revision)",
+      "Standard Data Book for Analysis of Rates for Road and Bridge Works, IRC / MoRTH"
+    ],
+    "applicable_terrain": "Himalayan Hill Roads & High Altitude Sectors",
+    "currency": "INR (₹)",
+    "tax_regime": {
+      "gst_percentage": 18.0,
+      "contingencies_percentage": 3.0,
+      "quality_control_percentage": 1.5
+    }
+  },
+  "rate_catalog": {
+    "earthwork_and_clearance": [
+      {
+        "item_code": "MoRTH 301.1",
+        "description": "Hydraulic excavation of saturated landslide debris, loose soil, and boulders up to 3 m³ using heavy hydraulic breaker excavator, including loading into tippers and disposal with lead up to 1000m.",
+        "unit": "m³",
+        "standard_rate": 220.0
+      },
+      {
+        "item_code": "MoRTH 305.2",
+        "description": "Slope trimming, scarp reprofiling, and dressing of unstable overburden cut face to stable bench profile in all kinds of soil and soft rock.",
+        "unit": "m²",
+        "standard_rate": 115.0
+      },
+      {
+        "item_code": "MoRTH 304.3",
+        "description": "Foundation trench excavation in hard rock / compact boulder strata with pneumatic breaker tools, including necessary shoring, strutting, and dewatering.",
+        "unit": "m³",
+        "standard_rate": 580.0
+      }
+    ],
+    "structural_retention": [
+      {
+        "item_code": "HPSOR 4.2 / MoRTH 1402",
+        "description": "Construction of Plum Concrete Retaining / Breast Wall in M15 grade concrete (1:2:4) with 30% to 40% clean sound quarry plum boulders (density >= 18 kN/m³), including steel shuttering, scaffolding, compaction, and 14 days water curing.",
+        "unit": "m³",
+        "standard_rate": 4250.0
+      },
+      {
+        "item_code": "MoRTH 702.1",
+        "description": "Supplying and laying non-woven needle-punched polypropylene geotextile filter fabric (weight >= 250 GSM, O90 < 0.15 mm) behind retaining wall backface.",
+        "unit": "m²",
+        "standard_rate": 145.0
+      },
+      {
+        "item_code": "HPSOR 4.8 / MoRTH 305",
+        "description": "Providing and laying free-draining granular backfill filter material (crushed stone gravel 20-40mm) behind retaining wall in layers not exceeding 150mm compacted thickness.",
+        "unit": "m³",
+        "standard_rate": 980.0
+      },
+      {
+        "item_code": "HPSOR 4.9",
+        "description": "Providing and installing 100mm dia heavy-duty PVC weep hole pipes (Class 3) placed at 1.20m c/c staggered with 1:20 outward slope and gravel filter envelope at inlet.",
+        "unit": "meter",
+        "standard_rate": 260.0
+      }
+    ],
+    "internal_ground_reinforcement": [
+      {
+        "item_code": "MoRTH 1302 / Geoguide 7",
+        "description": "Rotary / percussive drilling of 100mm to 110mm dia boreholes in soil/colluvium/fractured rock for soil nails at 15° to 20° downward rake to specified design length.",
+        "unit": "meter",
+        "standard_rate": 880.0
+      },
+      {
+        "item_code": "MoRTH 1002.1",
+        "description": "Supplying, cutting, threading, and inserting Dia. 25mm to 32mm Fe500 high-yield deformed steel soil nail bars with polypropylene centralizers @ 2m c/c.",
+        "unit": "meter",
+        "standard_rate": 420.0
+      },
+      {
+        "item_code": "MoRTH 1304.2",
+        "description": "Pressure grouting of soil nail boreholes with non-shrink neat cementitious grout (f_cu >= 30 MPa @ 28 days, W/C = 0.42, injection pressure 0.3-0.5 MPa).",
+        "unit": "meter",
+        "standard_rate": 520.0
+      },
+      {
+        "item_code": "MoRTH 1306.1",
+        "description": "Cast-in-situ reinforced concrete bearing pad (400x400x200mm Grade C30/37) with galvanized steel bearing plate (200x200x20mm) and high-tensile spherical hex nut assembly.",
+        "unit": "unit",
+        "standard_rate": 2150.0
+      },
+      {
+        "item_code": "CEDD Geoguide 7 Testing",
+        "description": "Sacrificial pullout verification proof testing of soil nails using hydraulic hollow-plunger jack up to 1.5x design working load with dial gauge creep recording.",
+        "unit": "test",
+        "standard_rate": 5000.0
+      }
+    ],
+    "drainage_works": [
+      {
+        "item_code": "MoRTH 1704 / TGN 24",
+        "description": "Directional drilling and installation of 50mm to 75mm dia heavy-duty slotted PVC sub-horizontal relief drains (Schedule 80) jacketed with non-woven geotextile filter sock at 5° to 10° upward rake.",
+        "unit": "meter",
+        "standard_rate": 1150.0
+      },
+      {
+        "item_code": "HPSOR 5.3 / MoRTH 1702",
+        "description": "Construction of Stone Masonry Hillside Saucer Catch Drain (0.60m wide x 0.60m deep) in cement mortar 1:4 with 100mm M15 concrete bedding and pointing.",
+        "unit": "meter",
+        "standard_rate": 780.0
+      },
+      {
+        "item_code": "MoRTH 1703.1",
+        "description": "Construction of stepped cascade drainage chute lined with stone pitching and concrete cross-weirs discharging into natural ravine.",
+        "unit": "meter",
+        "standard_rate": 1050.0
+      }
+    ],
+    "barrier_and_bioengineering": [
+      {
+        "item_code": "GEO 138 / EAD 340059 (500 kJ)",
+        "description": "Supply and erection of 500 kJ certified flexible wire-rope ring net rockfall barrier (Height 3.0m to 4.0m, HEB 140 structural steel posts, stainless steel friction brake rings, wire-rope anchor cables).",
+        "unit": "meter",
+        "standard_rate": 14500.0
+      },
+      {
+        "item_code": "GEO 138 / EAD 340059 (1500-3000 kJ)",
+        "description": "Supply and erection of 1500 kJ to 3000 kJ certified heavy-duty flexible ring net barrier (Height 4.0m to 5.0m, HEB 180 posts, ROCCO ring nets, high-energy dissipators).",
+        "unit": "meter",
+        "standard_rate": 26500.0
+      },
+      {
+        "item_code": "MoRTH 1802 / IRC:SP:48",
+        "description": "Soil bioengineering: Supplying and laying open-weave coir geotextile netting (700 GSM) anchored with bamboo pins, hydroseeding with native grass mixes, and planting deep-rooting Vetiver grass (Chrysopogon zizanioides) contour hedges.",
+        "unit": "m²",
+        "standard_rate": 195.0
+      }
+    ]
+  },
+  "asset_loss_benchmarks": {
+    "residential_dwelling": {
+      "minor_breach_repair": 250000.0,
+      "major_structural_rebuild": 1200000.0,
+      "household_goods_loss": 180000.0,
+      "evacuation_temporary_housing": 75000.0
+    },
+    "highway_corridor": {
+      "pavement_reconstruction_per_m2": 1650.0,
+      "culvert_repair_and_unblocking": 180000.0,
+      "traffic_delay_economic_loss_per_day": 125000.0,
+      "emergency_police_traffic_diversion": 35000.0
+    },
+    "agricultural_orchard": {
+      "terrace_reconstruction_per_ha": 350000.0,
+      "apple_crop_sapling_loss_allowance": 120000.0
+    }
+  }
+}

@@ -631,7 +631,7 @@ def compute_deterministic_engineering_dossier(
     ]
 
 
-    return {
+    dossier_dict = {
         "is_landslide_or_terrain": True,
         "validation_status": "VALID_TERRAIN_IMAGE",
         "detected_content": f"Authentic geological terrain failure ({observed_rock})",
@@ -856,6 +856,8 @@ def compute_deterministic_engineering_dossier(
         "advanced_geotechnical_stabilization": advanced_stabilization,
         "bhukosh_rock_audit": bhukosh_rock_audit,
     }
+    dossier_dict["cost_estimate_boq"] = geotech_engine.calculate_comprehensive_cost_and_loss_estimate(dossier_dict, report)
+    return dossier_dict
 
 
 def fallback_visual_assessment(report: dict[str, Any]) -> dict[str, Any]:
@@ -887,7 +889,7 @@ def build_rejected_assessment_dossier(
     reporter = report.get("reporter_name") or "Community Observer"
     inc_date = report.get("created_at") or report.get("incident_date") or datetime.utcnow().strftime("%Y-%m-%d")
 
-    return {
+    rejected_dossier = {
         "is_landslide_or_terrain": False,
         "validation_status": "INVALID_NON_TERRAIN_IMAGE",
         "detected_content": detected_content,
@@ -1211,6 +1213,8 @@ def build_rejected_assessment_dossier(
             "citizen_safety_advice": "Ensure correct image attachments are uploaded to the HIMA-LENS spatial observatory system.",
         },
     }
+    rejected_dossier["cost_estimate_boq"] = geotech_engine.calculate_comprehensive_cost_and_loss_estimate(rejected_dossier, report)
+    return rejected_dossier
 
 
 def normalize_assessment_structure(assessment: dict[str, Any] | None, report: dict[str, Any]) -> dict[str, Any]:
@@ -1263,6 +1267,9 @@ def normalize_assessment_structure(assessment: dict[str, Any] | None, report: di
         # Ensure bhukosh_rock_audit
         if not merged.get("bhukosh_rock_audit"):
             merged["bhukosh_rock_audit"] = baseline["bhukosh_rock_audit"]
+
+        # Ensure cost_estimate_boq is present and up-to-date
+        merged["cost_estimate_boq"] = geotech_engine.calculate_comprehensive_cost_and_loss_estimate(merged, report)
 
     return merged
 
