@@ -12166,14 +12166,11 @@ body:has(.gis-console-layout) {
 }
 
 .dropzone-preview img {
-    max-height: 190px;
-    max-width: 100%;
+    max-height: 180px;
+    width: 100%;
     border-radius: 8px;
-    object-fit: contain;
-    background: #092f25;
+    object-fit: cover;
     border: 1px solid #dce7e1;
-    display: block;
-    margin: 0 auto;
 }
 
 .preview-meta-bar {
@@ -13178,17 +13175,12 @@ body:has(.gis-console-layout) {
     border-radius: 12px;
     overflow: hidden;
     border: 1px solid #dce7e1;
-    background: #092f25;
+    background: #edf3f0;
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .detail-photo-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
     width: 100%;
     height: 100%;
     cursor: zoom-in;
@@ -13198,14 +13190,11 @@ body:has(.gis-console-layout) {
 }
 
 .report-detail-media img {
-    max-width: 100%;
-    max-height: 100%;
-    width: auto;
-    height: auto;
-    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     object-position: center;
     display: block;
-    margin: 0 auto;
     transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 

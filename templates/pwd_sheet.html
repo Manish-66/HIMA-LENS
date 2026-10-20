@@ -566,13 +566,14 @@
     .photo-plate-column {
       display: flex;
       flex-direction: column;
+      height: 100%;
     }
     .photo-plate-container {
       border: 1.5px solid var(--border-dark);
       background: #092f25;
       position: relative;
-      height: 160px;
-      max-height: 160px;
+      flex: 1 1 auto;
+      min-height: 200px;
       overflow: hidden;
       display: flex;
       align-items: center;
@@ -892,9 +893,21 @@
         margin-top: 3px !important;
         margin-bottom: 2px !important;
       }
+      .evidence-briefing-grid {
+        margin: 3px 0 !important;
+        gap: 6px !important;
+        align-items: stretch !important;
+      }
+      .photo-plate-column {
+        height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+      }
       .photo-plate-container {
-        height: 135px !important;
-        max-height: 135px !important;
+        flex: 1 1 auto !important;
+        min-height: 170px !important;
+        height: 100% !important;
+        max-height: none !important;
         background: #092f25 !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
