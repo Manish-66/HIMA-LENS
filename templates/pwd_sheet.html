@@ -681,36 +681,8 @@
     </table>
 
     <!-- 4. Geology of In-Situ Rock Around Works (Table 2 of Data Collection Sheet) -->
-    <div class="sec-bar" style="display: flex; justify-content: space-between; align-items: center;">
-      <span>4. Geology of In-Situ Rock Around Works</span>
-      <span style="font-size: 7px; text-transform: none; font-weight: 700; background: #0284c7; padding: 1px 6px; border-radius: 2px; color: #fff;">
-        GSI Bhukosh Ground Truth Calibrated
-      </span>
-    </div>
+    <div class="sec-bar">4. Geology of In-Situ Rock Around Works</div>
     <table class="grid-table">
-      {% set bhukosh = assessment.bhukosh_rock_audit if assessment and assessment.bhukosh_rock_audit else {} %}
-      {% if bhukosh and bhukosh.get('bhukosh_formation') and bhukosh.get('status') != 'DISQUALIFIED' %}
-      <tr>
-        <td class="col-lbl" style="background: #f1f5f9; color: #0f172a; font-weight: 700; width: 25%;">GSI Bhukosh Reference:</td>
-        <td class="col-val" colspan="3" style="background: #f8fafc; font-size: 7.5px; line-height: 1.4;">
-          <strong style="color: #0369a1;">{{ bhukosh.get('bhukosh_formation') }}</strong>
-          {% if bhukosh.get('toposheet') and bhukosh.get('toposheet') != 'N/A' %} &bull; <span style="color: #475569;">Toposheet: {{ bhukosh.get('toposheet') }}</span>{% endif %}
-          {% if bhukosh.get('distance_km') is not none %} &bull; <span style="color: #475569;">Survey Proximity: {{ bhukosh.get('distance_km') }} km</span>{% endif %}
-          <br>
-          {% if bhukosh.get('is_discrepancy') %}
-            <span style="color: #b45309; font-weight: 700; background: #fef3c7; padding: 1px 4px; border-radius: 2px;">
-              &#9888; Optical Discrepancy Flagged:
-            </span>
-            <span style="color: #92400e;"> AI vision detected <em>&lsquo;{{ bhukosh.get('ai_detected_rock') }}&rsquo;</em> &mdash; Overridden and calibrated to official GSI Bhukosh ground truth.</span>
-          {% else %}
-            <span style="color: #15803d; font-weight: 700; background: #dcfce7; padding: 1px 4px; border-radius: 2px;">
-              &#10003; Bhukosh Match Confirmed:
-            </span>
-            <span style="color: #166534;"> AI optical observation is verified consistent with GSI Bhukosh geological mapping.</span>
-          {% endif %}
-        </td>
-      </tr>
-      {% endif %}
       <tr>
         <td class="col-lbl">Prominent soil/rock desc:</td>
         <td class="col-val editable" id="f-soil-desc">{{ assessment.geology.prominent_soil_rock }}</td>
