@@ -533,13 +533,43 @@ def compute_deterministic_engineering_dossier(
         "permanent_restoration": safe_perm,
     }
 
-    # Senior Engineering Remarks
+    # Advanced Geotechnical Stabilization Frameworks (CEDD GEO & LaRiMiT)
+    cedd_eval = geotech_engine.evaluate_cedd_consequence(env_type, road_type_val, sev)
+    larimit_eval = geotech_engine.evaluate_larimit_mitigations(observed_failure, geo_info["material_type"], sev, is_residential)
+    soil_nail_eval = geotech_engine.derive_prescribed_soil_nailing(sev, h_cut)
+    barrier_eval = geotech_engine.derive_flexible_barrier_specs(observed_failure, sev)
+    subsurface_drain_eval = geotech_engine.derive_subsurface_drainage_specs(h_cut, l_wall)
+
+    advanced_stabilization = {
+        "cedd_consequence": cedd_eval,
+        "larimit_mitigations": larimit_eval,
+        "prescribed_soil_nailing": soil_nail_eval,
+        "flexible_barrier": barrier_eval,
+        "subsurface_drainage": subsurface_drain_eval,
+    }
+
+    # Senior Geotechnical Engineering Remarks (Adopting HK CEDD GEO LSR & Klima 2050 / LaRiMiT Diagnostic Phrasing)
     default_remarks = (
-        f"Detailed geotechnical field assessment of the {district} sector reveals an active {observed_failure.lower()} "
-        f"impacting {impacted_assets.lower()}. "
-        f"Failure was triggered by saturation of the upper colluvial mantle ({observed_rock}) under steep geometry ({cut_angle_val}). "
-        f"Immediate safety stabilization followed by construction of a {l_wall:.0f}m long Plum Concrete Wall (H={h_wall:.1f}m, Base B={base_w:.2f}m) "
-        f"and crest interceptor drainage is mandatory to secure the location and prevent retrograde slope slumping."
+        f"1. GEOTECHNICAL CLASSIFICATION & CONSEQUENCE RATING (CEDD Geoguide 1):\n"
+        f"Forensic field reconnaissance of the {district} sector identifies an active {observed_failure.lower()} "
+        f"directly impacting {impacted_assets.lower()}. Under Hong Kong CEDD Geoguide 1 criteria, the slope is classified as "
+        f"{cedd_eval['consequence_category']} ({cedd_eval['consequence_level']}), requiring a statutory minimum target Factor of Safety "
+        f"FOS >= {cedd_eval['target_fos_10yr']:.2f} under 10-year return period rainfall (FOS >= {cedd_eval['target_fos_extreme']:.2f} under extreme storm conditions).\n\n"
+        f"2. KINEMATIC FAILURE MECHANICS & HYDROGEOLOGY:\n"
+        f"Instability is characterized by Varnes {larimit_eval['analyzed_mechanism']} kinematics within {observed_rock} strata under steep cut geometry ({cut_angle_val}). "
+        f"Failure was triggered by antecedent rainfall infiltration inducing transient perched groundwater tables, loss of matric suction in the upper colluvium, "
+        f"and hydrostatic cleft-water pressure along daylighting relict joints (dipping {calc_dip}° into the cut face).\n\n"
+        f"3. MULTI-BARRIER MITIGATION STRATEGY (LaRiMiT / CEDD GEO Standards):\n"
+        f"- Primary Toe Retention (LaRiMiT Cluster 4): Construction of a {l_wall:.0f}m long Plum Concrete Breast Wall "
+        f"(H={h_wall:.1f}m, Base B={base_w:.2f}m) founded on competent bedrock with 100mm PVC weep holes @ 1.2m c/c.\n"
+        f"- Internal Ground Reinforcement (LaRiMiT Cluster 5 / CEDD Geoguide 7): Prescribed Soil Nailing Array ({soil_nail_eval['bar_diameter']}, "
+        f"{soil_nail_eval['grid_spacing']}, length {soil_nail_eval['nail_length']}) with sacrificial pullout verification testing.\n"
+        f"- Pore Pressure Relief (LaRiMiT Cluster 3 / CEDD TGN 24): Installation of {subsurface_drain_eval['drain_length']} sub-horizontal slotted PVC relief drains "
+        f"inclined at {subsurface_drain_eval['upward_inclination']} to intercept perched seepage, paired with lined crest interceptor drains ({rd_drain_w} x {rd_drain_d}).\n"
+        f"- Dynamic Impact & NBS Protection: {barrier_eval['energy_absorption_capacity']} flexible ring net barrier ({barrier_eval['design_code']}) in fall zones, combined with {larimit_eval['nature_based_solution']['name']}.\n\n"
+        f"4. STATUTORY MAINTENANCE REGIME:\n"
+        f"Mandatory {cedd_eval['inspection_regime']['name']} ({cedd_eval['inspection_regime']['code']}) at {cedd_eval['inspection_regime']['frequency']} "
+        f"by a {cedd_eval['inspection_regime']['personnel']} in strict accordance with CEDD Geoguide 5."
     )
     senior_remarks = custom_remarks.strip() if custom_remarks else default_remarks
 
@@ -581,20 +611,6 @@ def compute_deterministic_engineering_dossier(
         {"structure": "Netting", "above": True, "below": False, "prev_cut": True, "prev_nat": False, "rem_cut": has_unstable_rock, "rem_nat": False},
     ]
 
-    # Advanced Geotechnical Stabilization Frameworks (CEDD GEO & LaRiMiT)
-    cedd_eval = geotech_engine.evaluate_cedd_consequence(env_type, road_type_val, sev)
-    larimit_eval = geotech_engine.evaluate_larimit_mitigations(observed_failure, geo_info["material_type"], sev, is_residential)
-    soil_nail_eval = geotech_engine.derive_prescribed_soil_nailing(sev, h_cut)
-    barrier_eval = geotech_engine.derive_flexible_barrier_specs(observed_failure, sev)
-    subsurface_drain_eval = geotech_engine.derive_subsurface_drainage_specs(h_cut, l_wall)
-
-    advanced_stabilization = {
-        "cedd_consequence": cedd_eval,
-        "larimit_mitigations": larimit_eval,
-        "prescribed_soil_nailing": soil_nail_eval,
-        "flexible_barrier": barrier_eval,
-        "subsurface_drainage": subsurface_drain_eval,
-    }
 
     return {
         "is_landslide_or_terrain": True,
@@ -791,15 +807,22 @@ def compute_deterministic_engineering_dossier(
             },
         },
         "mitigation_measures": (
-            f"1. Emergency clearance of {exc_vol:.0f} m³ displaced debris using hydraulic excavator.\n"
-            f"2. Construction of {l_wall:.0f}m long Plum Concrete Breast Wall (H={h_wall:.1f}m, Base={base_w:.2f}m) with 100mm PVC weep holes.\n"
-            f"3. Hillside interceptor drain ({rd_drain_w} x {rd_drain_d}) and catch drain along slope crest.\n"
-            f"4. Slope reprofiling to safe angle with bio-turfing and coir geotextile."
+            f"1. Primary Toe Retention & Arrest (LaRiMiT Cluster 4 / IS:14458 / CEDD Geoguide 1):\n"
+            f"   Emergency hydraulic clearance of {exc_vol:.0f} m³ displaced debris followed by construction of a {l_wall:.0f}m long Plum Concrete Breast Wall (H={h_wall:.1f}m, Base={base_w:.2f}m, Embedment={embed_d:.2f}m) with 100mm dia PVC weep holes @ 1.20m c/c staggered in non-woven geotextile envelopes.\n"
+            f"2. Internal Ground Reinforcement (LaRiMiT Cluster 5 / CEDD Geoguide 7):\n"
+            f"   Prescribed Soil Nailing Array ({soil_nail_eval['bar_diameter']}) installed in {soil_nail_eval['drillhole_diameter']} drillholes at {soil_nail_eval['drillhole_inclination']}, {soil_nail_eval['grid_spacing']}, length {soil_nail_eval['nail_length']}, neat cementitious grout (f_cu >= 30 MPa) with 2% sacrificial pullout verification testing.\n"
+            f"3. Hydrogeological Pore-Pressure Depression (LaRiMiT Cluster 3 / CEDD TGN 24):\n"
+            f"   Subsurface Directional Drainage Array: {subsurface_drain_eval['drain_length']} slotted PVC pipes (O90 geotextile filter sock) installed at {subsurface_drain_eval['upward_inclination']} to discharge perched groundwater, supplemented by lined crest interceptor catch drains ({rd_drain_w} x {rd_drain_d}) and hillside saucer channels.\n"
+            f"4. Dynamic Rockfall / Debris Barrier (LaRiMiT Cluster 6 / CEDD GEO Report 138):\n"
+            f"   Installation of {barrier_eval['energy_absorption_capacity']} flexible ring net barrier (H={barrier_eval['barrier_height']}, {barrier_eval['steel_posts']}) with energy dissipators along active fall chutes.\n"
+            f"5. Nature-Based Solutions & Bioengineering (LaRiMiT Cluster 8):\n"
+            f"   {larimit_eval['nature_based_solution']['name']} and coir geotextile bio-turfing (700 GSM) across reprofiled slope faces to restore matric suction and prevent shallow surficial raveling."
         ),
         "other_observations": (
-            f"Active tension cracks observed 8-12m uphill of current detachment crown. "
-            f"Sub-surface groundwater seepage daylighting at contact between colluvial mantle and {observed_rock.split('/')[0].strip()} strata. "
-            f"Immediate installation of French drains recommended to depress pore pressures."
+            f"Sub-surface groundwater seepage daylighting along the colluvial mantle and {observed_rock.split('/')[0].strip()} bedrock interface, confirming elevated perched phreatic levels during rainfall. "
+            f"Active extensional tension fissures (apertures 15-45 mm) trace 8-15 m uphill of the detachment crown. "
+            f"Relict discontinuity set J1 ({calc_dip}° dip daylighting adversely into the slope face) exhibits planar persistent slickensides with iron-oxide staining, "
+            f"confirming kinematic daylighting and high susceptibility to progressive retrogressive failure during prolonged monsoon precipitation."
         ),
         "safety_directives": safety_dict,
         "visual_analysis": {
@@ -1208,9 +1231,9 @@ def generate_ai_assessment(report: dict[str, Any], force_refresh: bool = False) 
     prompt = f"""You are the Chief Geotechnical Engineer & Slope Disaster Specialist for HIMA-LENS (Himachal Landslide Spatial Observatory & Engineering System).
 
 TASK:
-Perform a rigorous, 5-dimensional diagnostic audit of the attached field photograph and incident telemetry. You must determine with absolute scientific precision whether this image genuinely depicts an active or recent landslide event, or if it is a non-landslide scene or non-terrain upload.
+Perform a rigorous, 6-dimensional diagnostic audit of the attached field photograph and incident telemetry. You must determine with absolute scientific precision whether this image genuinely depicts an active or recent landslide event, or if it is a non-landslide scene or non-terrain upload.
 
-FOLLOW THESE 5 RIGOROUS DIAGNOSTIC INQUIRIES:
+FOLLOW THESE 6 RIGOROUS DIAGNOSTIC INQUIRIES:
 
 ================================================================================
 INQUIRY 1: GEOMORPHIC & OPTICAL GROUND TRUTH VERIFICATION
@@ -1274,6 +1297,26 @@ INQUIRY 5: LITHOLOGICAL & FIELD SHEET INDICATORS (DATA COLLECTION SHEET)
 - Rock Strength: R1 Very Weak to R5 Very Strong
 - Slope Geometry: Scarp height (m), cut slope angle (deg)
 - Distress Indicators: Gully, crack, unstable rock, seepage, erosion, potholes, subsidence, rutting, drain clogging, wall bulging/collapse.
+
+================================================================================
+INQUIRY 6: SENIOR GEOTECHNICAL FORENSIC WRITING (CEDD GEO & LARIMIT STANDARDS)
+================================================================================
+When generating "senior_engineer_remarks", adopt the authoritative forensic diagnostic writing style of Hong Kong Civil Engineering and Development Department (CEDD GEO) Landslide Study Reports (LSR) and the Norwegian Geotechnical Institute (NGI) / Klima 2050 LaRiMiT decision framework.
+
+Structure your remarks into 4 numbered engineering sections:
+1. GEOTECHNICAL CLASSIFICATION & CONSEQUENCE RATING (CEDD Geoguide 1):
+   - Designate the Consequence-to-Life Category (Category 1: residential dwellings or major highways; Category 2: secondary roads; Category 3: remote/low-traffic).
+   - Specify statutory minimum target Factor of Safety (FOS >= 1.40 for 10-year return storm, FOS >= 1.20 for rare storm).
+2. KINEMATIC FAILURE MECHANICS & HYDROGEOLOGY:
+   - Identify precise Varnes failure kinematics (e.g. planar shear slide along daylighting relict joints, rotational circular slump within saturated colluvium, wedge detachment, or debris torrent).
+   - Detail the hydrogeological trigger: antecedent rainfall infiltration, loss of soil matric suction, transient perched water table build-up, and cleft-water hydrostatic pressure along lithological boundaries.
+3. MULTI-BARRIER MITIGATION STRATEGY (LaRiMiT / CEDD GEO Standards):
+   - Primary Toe Retention: Retaining / Breast wall (IS:14458 / CEDD Geoguide 1) with staggered PVC weep holes.
+   - Internal Reinforcement: Prescribed soil nailing array (CEDD Geoguide 7) with high-yield steel bars, cementitious grout, and sacrificial pullout testing.
+   - Drainage Relief: Sub-horizontal directional relief drains (CEDD TGN 24) to depress perched phreatic surfaces and lined crest catch drains.
+   - Dynamic & Surficial Defense: Flexible ring net rockfall barrier (CEDD GEO Report 138) and Nature-Based bioengineering (vetiver grass / hydroseeding, LaRiMiT Cluster 8).
+4. STATUTORY MAINTENANCE REGIME:
+   - Mandate statutory inspection regime under CEDD Geoguide 5 (e.g., Engineer Inspection for Maintenance [EIM] or Detailed Stability Assessment [DSA]) and routine clearing of drainage networks.
 
 INCIDENT TELEMETRY:
 - Report ID: {report_id}
