@@ -27,6 +27,7 @@ from pathlib import Path
 from typing import Any
 import requests
 
+import geotech_engine
 from config import (
     BASE_DIR,
     COMMUNITY_REPORTS_UPLOAD_DIR,
@@ -580,6 +581,21 @@ def compute_deterministic_engineering_dossier(
         {"structure": "Netting", "above": True, "below": False, "prev_cut": True, "prev_nat": False, "rem_cut": has_unstable_rock, "rem_nat": False},
     ]
 
+    # Advanced Geotechnical Stabilization Frameworks (CEDD GEO & LaRiMiT)
+    cedd_eval = geotech_engine.evaluate_cedd_consequence(env_type, road_type_val, sev)
+    larimit_eval = geotech_engine.evaluate_larimit_mitigations(observed_failure, geo_info["material_type"], sev, is_residential)
+    soil_nail_eval = geotech_engine.derive_prescribed_soil_nailing(sev, h_cut)
+    barrier_eval = geotech_engine.derive_flexible_barrier_specs(observed_failure, sev)
+    subsurface_drain_eval = geotech_engine.derive_subsurface_drainage_specs(h_cut, l_wall)
+
+    advanced_stabilization = {
+        "cedd_consequence": cedd_eval,
+        "larimit_mitigations": larimit_eval,
+        "prescribed_soil_nailing": soil_nail_eval,
+        "flexible_barrier": barrier_eval,
+        "subsurface_drainage": subsurface_drain_eval,
+    }
+
     return {
         "is_landslide_or_terrain": True,
         "validation_status": "VALID_TERRAIN_IMAGE",
@@ -795,6 +811,7 @@ def compute_deterministic_engineering_dossier(
         "synthesis_remarks": senior_remarks,
         "senior_engineer_remarks": senior_remarks,
         "plain_language_explanation": plain_explanation,
+        "advanced_geotechnical_stabilization": advanced_stabilization,
     }
 
 
@@ -1028,6 +1045,84 @@ def build_rejected_assessment_dossier(
             "slope_condition": "Disqualified",
             "infrastructure_impact": "None verified",
             "drainage_and_seepage": "N/A",
+        },
+        "advanced_geotechnical_stabilization": {
+            "cedd_consequence": {
+                "consequence_category": "N/A — Disqualified",
+                "consequence_level": "N/A",
+                "consequence_criteria": "None verified — Non-terrain media upload.",
+                "economic_consequence": "N/A",
+                "target_fos_10yr": "N/A",
+                "target_fos_extreme": "N/A",
+                "mandatory_investigation": "N/A",
+                "inspection_regime": {
+                    "code": "N/A",
+                    "name": "N/A",
+                    "frequency": "N/A",
+                    "personnel": "N/A",
+                    "key_checks": "N/A",
+                },
+            },
+            "larimit_mitigations": {
+                "analyzed_mechanism": "N/A",
+                "primary_structural": {
+                    "id": "N/A",
+                    "name": "N/A — Verification Rejected",
+                    "cluster": "N/A",
+                    "description": "N/A",
+                    "suitability_score": 0.0,
+                    "cost_tier": "N/A",
+                    "construction_time": "N/A",
+                },
+                "hydrogeological_drainage": {
+                    "id": "N/A",
+                    "name": "N/A",
+                    "cluster": "N/A",
+                    "description": "N/A",
+                    "suitability_score": 0.0,
+                    "cost_tier": "N/A",
+                    "construction_time": "N/A",
+                },
+                "nature_based_solution": {
+                    "id": "N/A",
+                    "name": "N/A",
+                    "cluster": "N/A",
+                    "description": "N/A",
+                    "suitability_score": 0.0,
+                    "cost_tier": "N/A",
+                    "construction_time": "N/A",
+                },
+            },
+            "prescribed_soil_nailing": {
+                "design_code": "N/A",
+                "bar_diameter": "N/A",
+                "drillhole_diameter": "N/A",
+                "drillhole_inclination": "N/A",
+                "grid_spacing": "N/A",
+                "nail_length": "N/A",
+                "grout_strength": "N/A",
+                "head_assembly": "N/A",
+                "testing_protocol": "N/A",
+            },
+            "flexible_barrier": {
+                "design_code": "N/A",
+                "energy_absorption_capacity": "N/A",
+                "barrier_height": "N/A",
+                "steel_posts": "N/A",
+                "net_specification": "N/A",
+                "energy_dissipators": "N/A",
+                "application_field": "N/A",
+                "debris_clearance": "N/A",
+            },
+            "subsurface_drainage": {
+                "design_code": "N/A",
+                "pipe_specification": "N/A",
+                "slot_aperture": "N/A",
+                "filter_sock": "N/A",
+                "upward_inclination": "N/A",
+                "array_spacing": "N/A",
+                "drain_length": "N/A",
+            },
         },
         "synthesis_remarks": senior_remarks or f"Image validation failed completely. The upload displays {detected_content} instead of geological terrain data. Rejecting incident telemetry entry {report_id}.",
         "senior_engineer_remarks": senior_remarks or f"Image validation failed completely. The upload displays {detected_content} instead of geological terrain data. Rejecting incident telemetry entry {report_id}.",

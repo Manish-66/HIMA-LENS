@@ -1087,8 +1087,77 @@
       </div>
     </div>
 
-    <!-- 11. Mitigation Measures Provided & Other Observations (Data Collection Sheet End Section) -->
-    <div class="sec-bar">11. Mitigation Measures Provided to the Site &amp; Site Observations</div>
+    <!-- 11. Advanced Geotechnical Stabilization Framework (CEDD GEO & LaRiMiT Standards) -->
+    <div class="sec-bar">11. Advanced Quantitative Mitigation Schedule (CEDD GEO &amp; LaRiMiT Standards)</div>
+    <table class="grid-table">
+      <thead>
+        <tr>
+          <th colspan="2" style="width: 50%;">Hong Kong CEDD GEO Slope Safety &amp; Consequence Classification</th>
+          <th colspan="2" style="width: 50%;">LaRiMiT (Klima 2050) Multi-Criteria Ranked Mitigation Options</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-lbl">Consequence Category:</td>
+          <td class="col-val">
+            <strong>{{ assessment.advanced_geotechnical_stabilization.cedd_consequence.consequence_category if assessment.advanced_geotechnical_stabilization else 'Category 2' }}</strong> 
+            ({{ assessment.advanced_geotechnical_stabilization.cedd_consequence.consequence_level if assessment.advanced_geotechnical_stabilization else 'Moderate' }})
+          </td>
+          <td class="col-lbl">Primary Structural:</td>
+          <td class="col-val">
+            <strong>{{ assessment.advanced_geotechnical_stabilization.larimit_mitigations.primary_structural.name if assessment.advanced_geotechnical_stabilization else 'Passive Soil Nailing' }}</strong><br>
+            <span style="color: #15803d; font-weight: 700;">Suitability: {{ assessment.advanced_geotechnical_stabilization.larimit_mitigations.primary_structural.suitability_score if assessment.advanced_geotechnical_stabilization else '0.95' }}</span> &bull; 
+            Est. Time: {{ assessment.advanced_geotechnical_stabilization.larimit_mitigations.primary_structural.construction_time if assessment.advanced_geotechnical_stabilization else '14 Days' }}
+          </td>
+        </tr>
+        <tr>
+          <td class="col-lbl">Minimum Target FOS:</td>
+          <td class="col-val">
+            <strong>FOS &ge; {{ assessment.advanced_geotechnical_stabilization.cedd_consequence.target_fos_10yr if assessment.advanced_geotechnical_stabilization else '1.30' }}</strong> (10-Yr Storm)<br>
+            FOS &ge; {{ assessment.advanced_geotechnical_stabilization.cedd_consequence.target_fos_extreme if assessment.advanced_geotechnical_stabilization else '1.15' }} (Extreme Storm)
+          </td>
+          <td class="col-lbl">Subsurface Drainage:</td>
+          <td class="col-val">
+            <strong>{{ assessment.advanced_geotechnical_stabilization.larimit_mitigations.hydrogeological_drainage.name if assessment.advanced_geotechnical_stabilization else 'Horizontal Relief Drains' }}</strong><br>
+            <span style="color: #15803d; font-weight: 700;">Suitability: {{ assessment.advanced_geotechnical_stabilization.larimit_mitigations.hydrogeological_drainage.suitability_score if assessment.advanced_geotechnical_stabilization else '0.95' }}</span> &bull; 
+            Est. Time: {{ assessment.advanced_geotechnical_stabilization.larimit_mitigations.hydrogeological_drainage.construction_time if assessment.advanced_geotechnical_stabilization else '7 Days' }}
+          </td>
+        </tr>
+        <tr>
+          <td class="col-lbl">Inspection Protocol:</td>
+          <td class="col-val">
+            <strong>{{ assessment.advanced_geotechnical_stabilization.cedd_consequence.inspection_regime.code if assessment.advanced_geotechnical_stabilization else 'EIM' }}:</strong> 
+            {{ assessment.advanced_geotechnical_stabilization.cedd_consequence.inspection_regime.name if assessment.advanced_geotechnical_stabilization else 'Engineer Inspection' }}<br>
+            <span style="font-size: 7.5px; color: #64748b;">Freq: {{ assessment.advanced_geotechnical_stabilization.cedd_consequence.inspection_regime.frequency if assessment.advanced_geotechnical_stabilization else 'Every 2 Years' }}</span>
+          </td>
+          <td class="col-lbl">Nature-Based Solution (NBS):</td>
+          <td class="col-val">
+            <strong>{{ assessment.advanced_geotechnical_stabilization.larimit_mitigations.nature_based_solution.name if assessment.advanced_geotechnical_stabilization else 'Vetiver Contour Hedges' }}</strong><br>
+            <span style="color: #15803d; font-weight: 700;">Suitability: {{ assessment.advanced_geotechnical_stabilization.larimit_mitigations.nature_based_solution.suitability_score if assessment.advanced_geotechnical_stabilization else '0.92' }}</span> &bull; 
+            Est. Time: {{ assessment.advanced_geotechnical_stabilization.larimit_mitigations.nature_based_solution.construction_time if assessment.advanced_geotechnical_stabilization else '5 Days' }}
+          </td>
+        </tr>
+        <tr>
+          <td class="col-lbl">Prescribed Soil Nailing (Geoguide 7):</td>
+          <td class="col-val" colspan="3">
+            <strong>Steel Bar:</strong> {{ assessment.advanced_geotechnical_stabilization.prescribed_soil_nailing.bar_diameter if assessment.advanced_geotechnical_stabilization else 'N/A' }} &nbsp;|&nbsp; 
+            <strong>Grid Spacing:</strong> {{ assessment.advanced_geotechnical_stabilization.prescribed_soil_nailing.grid_spacing if assessment.advanced_geotechnical_stabilization else 'N/A' }} &nbsp;|&nbsp; 
+            <strong>Borehole:</strong> {{ assessment.advanced_geotechnical_stabilization.prescribed_soil_nailing.drillhole_diameter if assessment.advanced_geotechnical_stabilization else 'N/A' }} @ {{ assessment.advanced_geotechnical_stabilization.prescribed_soil_nailing.drillhole_inclination if assessment.advanced_geotechnical_stabilization else 'N/A' }}<br>
+            <strong>Grout &amp; Head Pad:</strong> {{ assessment.advanced_geotechnical_stabilization.prescribed_soil_nailing.grout_strength if assessment.advanced_geotechnical_stabilization else 'N/A' }} &bull; {{ assessment.advanced_geotechnical_stabilization.prescribed_soil_nailing.head_assembly if assessment.advanced_geotechnical_stabilization else 'N/A' }}
+          </td>
+        </tr>
+        <tr>
+          <td class="col-lbl">Flexible Barrier &amp; Deep Sub-Drains:</td>
+          <td class="col-val" colspan="3">
+            <strong>Rockfall Barrier (GEO 138):</strong> {{ assessment.advanced_geotechnical_stabilization.flexible_barrier.energy_absorption_capacity if assessment.advanced_geotechnical_stabilization else 'N/A' }} (Height: {{ assessment.advanced_geotechnical_stabilization.flexible_barrier.barrier_height if assessment.advanced_geotechnical_stabilization else 'N/A' }}, {{ assessment.advanced_geotechnical_stabilization.flexible_barrier.net_specification if assessment.advanced_geotechnical_stabilization else 'N/A' }})<br>
+            <strong>Sub-horizontal Directional Drains (TGN 24):</strong> {{ assessment.advanced_geotechnical_stabilization.subsurface_drainage.drain_length if assessment.advanced_geotechnical_stabilization else 'N/A' }} ({{ assessment.advanced_geotechnical_stabilization.subsurface_drainage.pipe_specification if assessment.advanced_geotechnical_stabilization else 'N/A' }} @ {{ assessment.advanced_geotechnical_stabilization.subsurface_drainage.upward_inclination if assessment.advanced_geotechnical_stabilization else 'N/A' }})
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- 12. Mitigation Measures Provided & Other Observations (Data Collection Sheet End Section) -->
+    <div class="sec-bar">12. Mitigation Measures Provided to the Site &amp; Site Observations</div>
     <table class="grid-table">
       <tr>
         <td class="col-lbl" style="width: 25%;">Mitigation measures provided to the site:</td>
@@ -1100,7 +1169,7 @@
       </tr>
     </table>
 
-    <!-- 12. Critical Safety & Immediate Action Notice -->
+    <!-- 13. Critical Safety & Immediate Action Notice -->
     <div class="safety-box">
       <div class="head">Critical Safety &amp; Immediate Action Notice:</div>
       <ol>
@@ -1111,13 +1180,13 @@
       </ol>
     </div>
 
-    <!-- 13. Senior Geotechnical Diagnostic Remarks -->
-    <div class="sec-bar">12. Senior Geotechnical Diagnostic Observations &amp; Kinematics</div>
+    <!-- 14. Senior Geotechnical Diagnostic Remarks -->
+    <div class="sec-bar">13. Senior Geotechnical Diagnostic Observations &amp; Kinematics</div>
     <div class="remarks-card editable" id="f-senior-rem">
       {{ assessment.senior_engineer_remarks }}
     </div>
 
-    <!-- 14. Official 3-Tier Sign-Off Block -->
+    <!-- 15. Official 3-Tier Sign-Off Block -->
     <table class="sign-table">
       <thead>
         <tr>

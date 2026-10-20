@@ -1,0 +1,170 @@
+{
+  "authority": "Geotechnical Engineering Office (GEO), Civil Engineering and Development Department (CEDD), Hong Kong",
+  "programme": "Landslip Prevention and Mitigation Programme (LPMitP)",
+  "version": "GEO-2024-Himalayan-Adapted",
+  "statutory_references": [
+    "CEDD Geoguide 1: Guide to Retaining Wall Design (2nd Edition)",
+    "CEDD Geoguide 5: Guide to Slope Maintenance (3rd Edition)",
+    "CEDD Geoguide 7: Guide to Soil Nail Design and Construction (1st Edition)",
+    "GEO Report No. 138: Model Specification for Flexible Rockfall and Debris-Resisting Barriers",
+    "GEO Technical Guidance Note (TGN) 24: Guidelines on Subsurface Drainage Design"
+  ],
+  "consequence_to_life_categories": {
+    "Category_1": {
+      "level": "High Consequence",
+      "criteria": "Residential dwellings, schools, hospitals, commercial complexes, or heavily trafficked National Highway corridors where failure poses immediate threat to human life.",
+      "minimum_target_fos": {
+        "ten_year_rainfall": 1.40,
+        "extreme_storm_event": 1.20
+      },
+      "mandatory_investigation": "Detailed Stability Assessment (DSA) & Continuous Displacement Monitoring"
+    },
+    "Category_2": {
+      "level": "Moderate Consequence",
+      "criteria": "Secondary roads (State Highways, Major District Roads), bus stands, open commercial yards, rural bypasses where failure causes severe transit disruption but low direct risk to occupied buildings.",
+      "minimum_target_fos": {
+        "ten_year_rainfall": 1.25,
+        "extreme_storm_event": 1.15
+      },
+      "mandatory_investigation": "Engineer Inspection for Maintenance (EIM) & Preventive Upgrading"
+    },
+    "Category_3": {
+      "level": "Low Consequence",
+      "criteria": "Rural link roads (ODR/PMGSY), remote forested slopes, agricultural terraces, or open pasture with no permanently occupied structures.",
+      "minimum_target_fos": {
+        "ten_year_rainfall": 1.15,
+        "extreme_storm_event": 1.05
+      },
+      "mandatory_investigation": "Routine Maintenance Inspection (RMI)"
+    }
+  },
+  "consequence_to_economic_loss": {
+    "Category_A": {
+      "level": "High Economic Consequence",
+      "criteria": "Critical strategic transport corridor where road closure cost exceeds Rs 5 Crore or causes >7 days inter-state supply disruption."
+    },
+    "Category_B": {
+      "level": "Moderate Economic Consequence",
+      "criteria": "Secondary transport link with established detour alternatives within 15 km."
+    },
+    "Category_C": {
+      "level": "Low Economic Consequence",
+      "criteria": "Local feeder road with low traffic density (<500 PCU/day) and low repair cost."
+    }
+  },
+  "prescribed_soil_nailing": {
+    "design_code": "CEDD Geoguide 7 / BS EN 14490",
+    "reinforcement_bar": {
+      "steel_grade": "High-Yield Deformed Steel Bar (Fe500 / BS 4449 Grade 500B)",
+      "yield_strength_mpa": 500,
+      "diameters_mm": [25, 28, 32],
+      "corrosion_protection": "Hot-dip galvanized (min 610 g/m²) plus corrugated HDPE duct encasement for Category 1 slopes"
+    },
+    "borehole_specification": {
+      "diameters_mm": [100, 125, 150],
+      "inclination_degrees": "15° to 20° downward from horizontal",
+      "drilling_method": "Rotary percussion drilling with casing through overburden colluvium"
+    },
+    "grout_specification": {
+      "material": "Non-shrink neat cementitious grout (Ordinary Portland Cement)",
+      "water_cement_ratio": "0.40 to 0.45",
+      "minimum_28day_cube_strength_mpa": 30,
+      "admixtures": "Expanding / non-shrink plasticizer (expansion <= 2% to ASTM C940)"
+    },
+    "grid_layouts": {
+      "Critical": {
+        "spacing": "1.50 m (H) x 1.50 m (V) Staggered Pattern",
+        "bar_diameter_mm": 32,
+        "drillhole_diameter_mm": 150,
+        "typical_length_m": "12.0 m to 18.0 m"
+      },
+      "High": {
+        "spacing": "1.75 m (H) x 1.75 m (V) Staggered Pattern",
+        "bar_diameter_mm": 28,
+        "drillhole_diameter_mm": 125,
+        "typical_length_m": "10.0 m to 14.0 m"
+      },
+      "Moderate": {
+        "spacing": "2.00 m (H) x 2.00 m (V) Staggered Pattern",
+        "bar_diameter_mm": 25,
+        "drillhole_diameter_mm": 100,
+        "typical_length_m": "8.0 m to 12.0 m"
+      },
+      "Low": {
+        "spacing": "2.25 m (H) x 2.25 m (V) Square Pattern",
+        "bar_diameter_mm": 25,
+        "drillhole_diameter_mm": 100,
+        "typical_length_m": "6.0 m to 9.0 m"
+      }
+    },
+    "head_assembly": {
+      "bearing_pad": "Cast-in-situ reinforced concrete pad (400mm x 400mm x 200mm) Grade C30/37 with T12 mesh",
+      "bearing_plate": "Hot-dip galvanized structural steel plate (200mm x 200mm x 20mm, Grade S275)",
+      "beveled_washer": "Cast iron beveled washer compensating for borehole inclination angle",
+      "retaining_nut": "High-strength galvanized hex nut tightened to 50 Nm seating torque"
+    },
+    "testing_protocol": "2% of production nails subjected to sacrificial pullout test up to 1.5x design working pullout capacity"
+  },
+  "flexible_rockfall_and_debris_barriers": {
+    "design_code": "GEO Report No. 138 / EOTA EAD 340059-00-0106",
+    "energy_classes_kj": [250, 500, 1000, 1500, 3000, 5000],
+    "specifications": {
+      "500_kJ": {
+        "barrier_height_m": 3.0,
+        "post_section": "HEB 140 Structural Steel Section",
+        "mesh_type": "High-tensile steel wire ring net (ROCCO 16-ring, 3mm wire)",
+        "energy_dissipators": "Stainless steel friction brake rings on top and bottom support ropes",
+        "application": "Intermediate road cuts with boulder diameters up to 0.8m"
+      },
+      "1500_kJ": {
+        "barrier_height_m": 4.0,
+        "post_section": "HEB 180 Structural Steel Section",
+        "mesh_type": "High-tensile steel wire ring net (ROCCO 19-ring, 3.5mm wire)",
+        "energy_dissipators": "Double-acting friction brake rings on top, bottom, and retaining ropes",
+        "application": "Steep talus scree and high rockfall frequency corridors (boulder dia <= 1.3m)"
+      },
+      "3000_kJ": {
+        "barrier_height_m": 5.0,
+        "post_section": "HEB 220 Structural Steel Section",
+        "mesh_type": "Ultra-high-tensile steel ring net (ROCCO 22-ring, 4mm wire)",
+        "energy_dissipators": "Triple-stage hydraulic/friction energy dissipators",
+        "application": "High-velocity debris flow gullies and major escarpments (boulder dia <= 1.8m)"
+      }
+    },
+    "debris_flow_clearance": "0.5m to 0.8m bottom clearance for water and fluid slurry passage while retaining coarse boulder fronts"
+  },
+  "subsurface_directional_drainage": {
+    "design_code": "CEDD GEO TGN 24 / Geoguide 1",
+    "pipe_spec": "50mm to 75mm dia heavy-duty slotted PVC pipe (Schedule 80)",
+    "slot_dimensions": "1.0mm to 1.5mm transverse slots @ 10mm c/c with 15% open drainage area",
+    "filter_jacket": "Non-woven needle-punched polypropylene geotextile sock (O90 < 0.15mm) to prevent silt piping",
+    "drill_parameters": {
+      "upward_inclination": "5° to 10° upward rake for gravity self-cleansing flow",
+      "standard_spacing_m": "3.0 m to 6.0 m c/c staggered across slope face or wall base",
+      "effective_length_m": "15.0 m to 30.0 m (must penetrate min 5.0m beyond active shear plane into sound bedrock)"
+    }
+  },
+  "slope_maintenance_inspection_regime": {
+    "design_code": "CEDD Geoguide 5: Guide to Slope Maintenance",
+    "inspection_types": {
+      "RMI": {
+        "name": "Routine Maintenance Inspection",
+        "frequency": "Monthly during monsoon season (June–September) and quarterly in dry season",
+        "personnel": "Junior Field Staff / Highway Section Observer",
+        "key_checks": "Clearance of catchwater drains, removal of vegetative debris from weep holes, observation of fresh tension cracks"
+      },
+      "EIM": {
+        "name": "Engineer Inspection for Maintenance",
+        "frequency": "Every 2 years for Category 1 slopes; every 5 years for Category 2/3 slopes",
+        "personnel": "Qualified Geotechnical Engineer (Executive / Assistant Engineer)",
+        "key_checks": "Structural integrity of retaining walls, soil nail head pad displacement, crack gauge monitoring, drainage gradient verification"
+      },
+      "DSA": {
+        "name": "Detailed Stability Assessment",
+        "frequency": "Immediate upon occurrence of major slope failure (>50 m³ displaced volume) or active tension cracking (>10mm aperture)",
+        "personnel": "Senior Geotechnical Engineering Specialist / Academic Panel",
+        "key_checks": "Subsurface core drilling, limit equilibrium back-analysis (Bishop / Morgenstern-Price), kinematic rock joint stereonet audit"
+      }
+    }
+  }
+}

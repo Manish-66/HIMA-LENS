@@ -1,0 +1,558 @@
+{
+  "system": "LaRiMiT (Landslide Risk Mitigation Toolbox)",
+  "institution": "Norwegian Geotechnical Institute (NGI) / Centre for Research-based Innovation (Klima 2050, Norway)",
+  "version": "2.4-Himalayan-Adapted",
+  "reference_urls": [
+    "https://www.klima2050.no/larimit",
+    "https://www.larimit.com"
+  ],
+  "clusters": {
+    "C1": {
+      "name": "Slope Geometry Modification",
+      "type": "Hazard Reduction",
+      "description": "Re-profiling slope geometry to decrease driving shear stresses or increase resisting forces."
+    },
+    "C2": {
+      "name": "Surface Water Drainage",
+      "type": "Hazard Reduction",
+      "description": "Interception, conveyance, and rapid discharge of storm surface runoff to minimize rainfall infiltration."
+    },
+    "C3": {
+      "name": "Subsurface Drainage",
+      "type": "Hazard Reduction",
+      "description": "Depression of internal groundwater phreatic surface and dissipation of destabilizing pore water pressures."
+    },
+    "C4": {
+      "name": "Retaining Systems",
+      "type": "Hazard Reduction",
+      "description": "Structural earth-retaining gravity, cantilever, or composite walls providing mechanical toe retention."
+    },
+    "C5": {
+      "name": "Internal Ground Reinforcement",
+      "type": "Hazard Reduction",
+      "description": "Deep in-situ structural inclusions transferring tensile, shear, and compressive loads into stable ground."
+    },
+    "C6": {
+      "name": "Surface Protection & Slope Armoring",
+      "type": "Hazard Reduction",
+      "description": "Surface covers, draperies, and surficial facings to prevent progressive weathering and localized detachment."
+    },
+    "C7": {
+      "name": "Runout & Debris Impact Barriers",
+      "type": "Consequence Reduction",
+      "description": "Passive barriers, catch basins, and deflection bunds positioned to dissipate kinetic energy and arrest runout debris."
+    },
+    "C8": {
+      "name": "Nature-Based Solutions: Soil Bioengineering",
+      "type": "NBS / Hybrid",
+      "description": "Living vegetative ground architecture combining live woody/herbaceous root reinforcement with hydrological transpiration."
+    },
+    "C9": {
+      "name": "Nature-Based Solutions: Vegetated Structural Systems",
+      "type": "NBS / Hybrid",
+      "description": "Composite structural frameworks incorporating live willow/native cuttings within cribwalls, gabions, and geogrids."
+    },
+    "C10": {
+      "name": "Erosion Control Mattings & Geotextiles",
+      "type": "NBS / Hybrid",
+      "description": "Biodegradable natural coir/jute meshes stabilizing topsoil seedbeds during vegetative establishment."
+    },
+    "C11": {
+      "name": "Monitoring, Warning & Institutional Preparedness",
+      "type": "Passive / Operational",
+      "description": "Instrumented sensor telemetries, early-warning thresholds, and statutory zoning restrictions."
+    }
+  },
+  "failure_mechanisms_supported": [
+    "Rockfall",
+    "Block Topple",
+    "Planar Slide",
+    "Rotational Slump",
+    "Debris Slide",
+    "Debris Flow",
+    "Mudflow",
+    "Gully Erosion"
+  ],
+  "measures": [
+    {
+      "id": "M01",
+      "cluster": "C1",
+      "cluster_name": "Slope Geometry Modification",
+      "name": "Excavation & Benching of Slope Crest",
+      "description": "Unloading the driving mass by removing overburden or cutting intermediate benches (3-5m width).",
+      "suitability": {
+        "Rotational Slump": 0.95,
+        "Debris Slide": 0.9,
+        "Planar Slide": 0.85,
+        "Block Topple": 0.7,
+        "Rockfall": 0.6,
+        "Debris Flow": 0.5,
+        "Mudflow": 0.75,
+        "Gully Erosion": 0.4
+      },
+      "cost_tier": "Medium",
+      "environmental_impact": "Moderate",
+      "construction_time": "7-14 Days"
+    },
+    {
+      "id": "M02",
+      "cluster": "C1",
+      "cluster_name": "Slope Geometry Modification",
+      "name": "Slope Flattening / Reprofiling to Angle of Repose",
+      "description": "Trimming over-steepened hill cut face to a flatter stable inclination (e.g. 1:1.5 to 1:2).",
+      "suitability": {
+        "Rotational Slump": 0.9,
+        "Debris Slide": 0.92,
+        "Planar Slide": 0.75,
+        "Block Topple": 0.65,
+        "Rockfall": 0.5,
+        "Debris Flow": 0.6,
+        "Mudflow": 0.8,
+        "Gully Erosion": 0.7
+      },
+      "cost_tier": "Medium",
+      "environmental_impact": "Moderate",
+      "construction_time": "5-10 Days"
+    },
+    {
+      "id": "M03",
+      "cluster": "C1",
+      "cluster_name": "Slope Geometry Modification",
+      "name": "Toe Counterweighting Berm (Rockfill / Earth Berm)",
+      "description": "Constructing a compacted ballast berm at the slope toe to provide resisting moment against circular slip.",
+      "suitability": {
+        "Rotational Slump": 0.95,
+        "Debris Slide": 0.7,
+        "Planar Slide": 0.65,
+        "Block Topple": 0.3,
+        "Rockfall": 0.2,
+        "Debris Flow": 0.3,
+        "Mudflow": 0.6,
+        "Gully Erosion": 0.2
+      },
+      "cost_tier": "Medium",
+      "environmental_impact": "Low",
+      "construction_time": "4-8 Days"
+    },
+    {
+      "id": "M04",
+      "cluster": "C2",
+      "cluster_name": "Surface Water Drainage",
+      "name": "Crest Interceptor Catchwater Drain",
+      "description": "Trapezoidal lined channel excavated 5-10m uphill of detachment crown to divert sheet runoff away from slope face.",
+      "suitability": {
+        "Rotational Slump": 0.95,
+        "Debris Slide": 0.95,
+        "Planar Slide": 0.85,
+        "Block Topple": 0.6,
+        "Rockfall": 0.5,
+        "Debris Flow": 0.9,
+        "Mudflow": 0.95,
+        "Gully Erosion": 0.98
+      },
+      "cost_tier": "Low",
+      "environmental_impact": "Low",
+      "construction_time": "3-7 Days"
+    },
+    {
+      "id": "M05",
+      "cluster": "C2",
+      "cluster_name": "Surface Water Drainage",
+      "name": "Stepped Concrete Cascade / Chute Drain",
+      "description": "Energy-dissipating stepped RC flume conveying concentrated water down steep slope faces into valley culverts.",
+      "suitability": {
+        "Rotational Slump": 0.85,
+        "Debris Slide": 0.9,
+        "Planar Slide": 0.8,
+        "Block Topple": 0.5,
+        "Rockfall": 0.4,
+        "Debris Flow": 0.92,
+        "Mudflow": 0.9,
+        "Gully Erosion": 0.95
+      },
+      "cost_tier": "Medium",
+      "environmental_impact": "Low",
+      "construction_time": "5-10 Days"
+    },
+    {
+      "id": "M06",
+      "cluster": "C2",
+      "cluster_name": "Surface Water Drainage",
+      "name": "Herringbone Surface Feeder Drains",
+      "description": "Branching network of lined shallow chevron channels preventing water concentration and ponding on slide body.",
+      "suitability": {
+        "Rotational Slump": 0.9,
+        "Debris Slide": 0.88,
+        "Planar Slide": 0.7,
+        "Block Topple": 0.4,
+        "Rockfall": 0.3,
+        "Debris Flow": 0.8,
+        "Mudflow": 0.85,
+        "Gully Erosion": 0.9
+      },
+      "cost_tier": "Low",
+      "environmental_impact": "Low",
+      "construction_time": "4-8 Days"
+    },
+    {
+      "id": "M07",
+      "cluster": "C3",
+      "cluster_name": "Subsurface Drainage",
+      "name": "Sub-Horizontal Directional Relief Drains (GEO Standard)",
+      "description": "Array of perforated PVC pipes (50-75mm dia, 15-30m length) drilled at 5-10 deg upward rake into slope to depress water table.",
+      "suitability": {
+        "Rotational Slump": 0.98,
+        "Debris Slide": 0.95,
+        "Planar Slide": 0.92,
+        "Block Topple": 0.75,
+        "Rockfall": 0.55,
+        "Debris Flow": 0.7,
+        "Mudflow": 0.85,
+        "Gully Erosion": 0.3
+      },
+      "cost_tier": "Medium",
+      "environmental_impact": "Low",
+      "construction_time": "6-12 Days"
+    },
+    {
+      "id": "M08",
+      "cluster": "C3",
+      "cluster_name": "Subsurface Drainage",
+      "name": "Deep Granular Trench Drains (French Drains)",
+      "description": "Deep continuous trench (2-4m depth) backfilled with graded aggregate wrapped in non-woven geotextile with slotted base pipe.",
+      "suitability": {
+        "Rotational Slump": 0.9,
+        "Debris Slide": 0.92,
+        "Planar Slide": 0.75,
+        "Block Topple": 0.4,
+        "Rockfall": 0.2,
+        "Debris Flow": 0.65,
+        "Mudflow": 0.88,
+        "Gully Erosion": 0.6
+      },
+      "cost_tier": "Medium",
+      "environmental_impact": "Low",
+      "construction_time": "5-10 Days"
+    },
+    {
+      "id": "M09",
+      "cluster": "C3",
+      "cluster_name": "Subsurface Drainage",
+      "name": "Vertical Drainage Relief Wells / Siphon Drains",
+      "description": "Deep vertical drilled boreholes equipped with passive siphons to bypass impermeable perched aquifer layers.",
+      "suitability": {
+        "Rotational Slump": 0.92,
+        "Debris Slide": 0.8,
+        "Planar Slide": 0.85,
+        "Block Topple": 0.5,
+        "Rockfall": 0.3,
+        "Debris Flow": 0.4,
+        "Mudflow": 0.7,
+        "Gully Erosion": 0.1
+      },
+      "cost_tier": "High",
+      "environmental_impact": "Low",
+      "construction_time": "10-20 Days"
+    },
+    {
+      "id": "M10",
+      "cluster": "C4",
+      "cluster_name": "Retaining Systems",
+      "name": "Plum Concrete Gravity Breast Wall (IS:14458 / IRC:SP:48)",
+      "description": "Massive M15 gravity retaining wall incorporating 40% clean sound boulder plums (<=150mm) to resist active earth pressure.",
+      "suitability": {
+        "Rotational Slump": 0.92,
+        "Debris Slide": 0.94,
+        "Planar Slide": 0.88,
+        "Block Topple": 0.85,
+        "Rockfall": 0.75,
+        "Debris Flow": 0.6,
+        "Mudflow": 0.7,
+        "Gully Erosion": 0.5
+      },
+      "cost_tier": "High",
+      "environmental_impact": "Moderate",
+      "construction_time": "14-21 Days"
+    },
+    {
+      "id": "M11",
+      "cluster": "C4",
+      "cluster_name": "Retaining Systems",
+      "name": "Double-Twisted Wire Mesh Gabion Wall (IS:16014)",
+      "description": "Flexible, free-draining galvanized wire mesh baskets filled with sound river rock boulders to support toe surcharge.",
+      "suitability": {
+        "Rotational Slump": 0.88,
+        "Debris Slide": 0.92,
+        "Planar Slide": 0.8,
+        "Block Topple": 0.7,
+        "Rockfall": 0.65,
+        "Debris Flow": 0.75,
+        "Mudflow": 0.8,
+        "Gully Erosion": 0.7
+      },
+      "cost_tier": "Medium",
+      "environmental_impact": "Low",
+      "construction_time": "7-14 Days"
+    },
+    {
+      "id": "M12",
+      "cluster": "C4",
+      "cluster_name": "Retaining Systems",
+      "name": "Mechanically Stabilized Earth (MSE) Wall with Geogrids",
+      "description": "Engineered granular fill reinforced with high-strength polymeric geogrids and facing units for tall embankments.",
+      "suitability": {
+        "Rotational Slump": 0.9,
+        "Debris Slide": 0.85,
+        "Planar Slide": 0.75,
+        "Block Topple": 0.5,
+        "Rockfall": 0.4,
+        "Debris Flow": 0.45,
+        "Mudflow": 0.6,
+        "Gully Erosion": 0.4
+      },
+      "cost_tier": "High",
+      "environmental_impact": "Moderate",
+      "construction_time": "14-28 Days"
+    },
+    {
+      "id": "M13",
+      "cluster": "C5",
+      "cluster_name": "Internal Ground Reinforcement",
+      "name": "Passive Grouted Soil Nailing Array (CEDD Geoguide 7 Standard)",
+      "description": "Closely spaced grid (1.5-2.0m) of high-yield steel bars (25-32mm) fully grouted into pre-drilled boreholes with RC head pads.",
+      "suitability": {
+        "Rotational Slump": 0.98,
+        "Debris Slide": 0.95,
+        "Planar Slide": 0.96,
+        "Block Topple": 0.92,
+        "Rockfall": 0.8,
+        "Debris Flow": 0.4,
+        "Mudflow": 0.65,
+        "Gully Erosion": 0.5
+      },
+      "cost_tier": "High",
+      "environmental_impact": "Low",
+      "construction_time": "14-25 Days"
+    },
+    {
+      "id": "M14",
+      "cluster": "C5",
+      "cluster_name": "Internal Ground Reinforcement",
+      "name": "Prestressed High-Tensile Rock Anchors",
+      "description": "Post-tensioned multi-strand steel cable tendons anchored deep into bedrock to tie back unstable structural rock wedges.",
+      "suitability": {
+        "Rotational Slump": 0.7,
+        "Debris Slide": 0.5,
+        "Planar Slide": 0.98,
+        "Block Topple": 0.98,
+        "Rockfall": 0.9,
+        "Debris Flow": 0.2,
+        "Mudflow": 0.2,
+        "Gully Erosion": 0.1
+      },
+      "cost_tier": "Very High",
+      "environmental_impact": "Low",
+      "construction_time": "21-35 Days"
+    },
+    {
+      "id": "M15",
+      "cluster": "C5",
+      "cluster_name": "Internal Ground Reinforcement",
+      "name": "Micropile Root Reticulated Network",
+      "description": "Small-diameter (100-200mm) steel-cased drilled piles acting in composite 3D shear groups to arrest slip surface shear displacement.",
+      "suitability": {
+        "Rotational Slump": 0.92,
+        "Debris Slide": 0.85,
+        "Planar Slide": 0.88,
+        "Block Topple": 0.75,
+        "Rockfall": 0.3,
+        "Debris Flow": 0.3,
+        "Mudflow": 0.5,
+        "Gully Erosion": 0.2
+      },
+      "cost_tier": "Very High",
+      "environmental_impact": "Low",
+      "construction_time": "14-30 Days"
+    },
+    {
+      "id": "M16",
+      "cluster": "C6",
+      "cluster_name": "Surface Protection & Slope Armoring",
+      "name": "Active High-Tensile Steel Wire Mesh Drapery (TECCO / Steelgrid)",
+      "description": "Diamond wire mesh pinned securely against slope face using soil nails and perimeter boundary ropes to arrest rock detachment.",
+      "suitability": {
+        "Rotational Slump": 0.6,
+        "Debris Slide": 0.75,
+        "Planar Slide": 0.92,
+        "Block Topple": 0.95,
+        "Rockfall": 0.98,
+        "Debris Flow": 0.5,
+        "Mudflow": 0.3,
+        "Gully Erosion": 0.7
+      },
+      "cost_tier": "High",
+      "environmental_impact": "Low",
+      "construction_time": "7-14 Days"
+    },
+    {
+      "id": "M17",
+      "cluster": "C6",
+      "cluster_name": "Surface Protection & Slope Armoring",
+      "name": "Fiber-Reinforced Shotcrete Facing with Weep Holes",
+      "description": "Pneumatically applied concrete skin (75-100mm) reinforced with steel/polypropylene fibers to seal moisture-sensitive shales.",
+      "suitability": {
+        "Rotational Slump": 0.7,
+        "Debris Slide": 0.6,
+        "Planar Slide": 0.85,
+        "Block Topple": 0.8,
+        "Rockfall": 0.85,
+        "Debris Flow": 0.3,
+        "Mudflow": 0.3,
+        "Gully Erosion": 0.9
+      },
+      "cost_tier": "High",
+      "environmental_impact": "High",
+      "construction_time": "7-14 Days"
+    },
+    {
+      "id": "M18",
+      "cluster": "C7",
+      "cluster_name": "Runout & Debris Impact Barriers",
+      "name": "Flexible Ring-Net Rockfall Barrier (500 kJ to 3000 kJ per GEO 138)",
+      "description": "High-energy flexible barrier with steel posts, ring nets, and friction brake rings to arrest high-velocity falling boulders.",
+      "suitability": {
+        "Rotational Slump": 0.2,
+        "Debris Slide": 0.4,
+        "Planar Slide": 0.7,
+        "Block Topple": 0.95,
+        "Rockfall": 0.99,
+        "Debris Flow": 0.6,
+        "Mudflow": 0.2,
+        "Gully Erosion": 0.1
+      },
+      "cost_tier": "High",
+      "environmental_impact": "Low",
+      "construction_time": "10-18 Days"
+    },
+    {
+      "id": "M19",
+      "cluster": "C7",
+      "cluster_name": "Runout & Debris Impact Barriers",
+      "name": "Flexible Debris-Flow Ring Barrier (GEO Report 138 VX/UX Class)",
+      "description": "Multi-level ring nets anchored across mountain torrents with bottom clearance to retain boulder fronts while passing slurry.",
+      "suitability": {
+        "Rotational Slump": 0.1,
+        "Debris Slide": 0.7,
+        "Planar Slide": 0.3,
+        "Block Topple": 0.4,
+        "Rockfall": 0.5,
+        "Debris Flow": 0.98,
+        "Mudflow": 0.85,
+        "Gully Erosion": 0.8
+      },
+      "cost_tier": "Very High",
+      "environmental_impact": "Moderate",
+      "construction_time": "14-25 Days"
+    },
+    {
+      "id": "M20",
+      "cluster": "C7",
+      "cluster_name": "Runout & Debris Impact Barriers",
+      "name": "Reinforced Concrete Debris Deflection Wall & Impact Basin",
+      "description": "Massive cantilever RC wall aligned obliquely (30-45 deg) to deflect debris runout away from road corridors into natural ravines.",
+      "suitability": {
+        "Rotational Slump": 0.2,
+        "Debris Slide": 0.65,
+        "Planar Slide": 0.4,
+        "Block Topple": 0.7,
+        "Rockfall": 0.85,
+        "Debris Flow": 0.95,
+        "Mudflow": 0.9,
+        "Gully Erosion": 0.6
+      },
+      "cost_tier": "Very High",
+      "environmental_impact": "Moderate",
+      "construction_time": "21-35 Days"
+    },
+    {
+      "id": "M21",
+      "cluster": "C8",
+      "cluster_name": "Nature-Based Solutions: Soil Bioengineering",
+      "name": "Deep-Rooting Vetiver Grass Contour Hedges (Chrysopogon zizanioides)",
+      "description": "Dense linear vegetative hedges with 2-3m deep massive fibrous root systems (tensile strength ~75 MPa) providing mechanical soil binding and hydraulic shear enhancement.",
+      "suitability": {
+        "Rotational Slump": 0.85,
+        "Debris Slide": 0.92,
+        "Planar Slide": 0.6,
+        "Block Topple": 0.2,
+        "Rockfall": 0.2,
+        "Debris Flow": 0.75,
+        "Mudflow": 0.9,
+        "Gully Erosion": 0.98
+      },
+      "cost_tier": "Low",
+      "environmental_impact": "Very Positive",
+      "construction_time": "3-7 Days"
+    },
+    {
+      "id": "M22",
+      "cluster": "C8",
+      "cluster_name": "Nature-Based Solutions: Soil Bioengineering",
+      "name": "Live Fascines & Brush Layering with Native Himalayan Shrubs (Vitex negundo)",
+      "description": "Bundles of live dormant woody branch cuttings buried in shallow trenches along slope contours to trap colluvium and root rapidly.",
+      "suitability": {
+        "Rotational Slump": 0.8,
+        "Debris Slide": 0.9,
+        "Planar Slide": 0.55,
+        "Block Topple": 0.15,
+        "Rockfall": 0.15,
+        "Debris Flow": 0.7,
+        "Mudflow": 0.88,
+        "Gully Erosion": 0.95
+      },
+      "cost_tier": "Low",
+      "environmental_impact": "Very Positive",
+      "construction_time": "4-8 Days"
+    },
+    {
+      "id": "M23",
+      "cluster": "C9",
+      "cluster_name": "Nature-Based Solutions: Vegetated Structural Systems",
+      "name": "Live Vegetated Crib Wall / Timber Cribbing",
+      "description": "Hollow box-like interlocking timber or precast concrete beam framework backfilled with soil/rock and planted with live root cuttings.",
+      "suitability": {
+        "Rotational Slump": 0.88,
+        "Debris Slide": 0.9,
+        "Planar Slide": 0.75,
+        "Block Topple": 0.5,
+        "Rockfall": 0.4,
+        "Debris Flow": 0.6,
+        "Mudflow": 0.75,
+        "Gully Erosion": 0.7
+      },
+      "cost_tier": "Medium",
+      "environmental_impact": "Positive",
+      "construction_time": "10-18 Days"
+    },
+    {
+      "id": "M24",
+      "cluster": "C10",
+      "cluster_name": "Erosion Control Mattings & Geotextiles",
+      "name": "Coir Geotextile Netting (700-900 GSM) with Hydroseeding",
+      "description": "Biodegradable open-mesh coconut coir blanket pinned to trimmed slope face to shield bare soil against raindrop splash erosion during germination.",
+      "suitability": {
+        "Rotational Slump": 0.65,
+        "Debris Slide": 0.85,
+        "Planar Slide": 0.5,
+        "Block Topple": 0.1,
+        "Rockfall": 0.1,
+        "Debris Flow": 0.7,
+        "Mudflow": 0.85,
+        "Gully Erosion": 0.95
+      },
+      "cost_tier": "Low",
+      "environmental_impact": "Very Positive",
+      "construction_time": "3-6 Days"
+    }
+  ]
+}
