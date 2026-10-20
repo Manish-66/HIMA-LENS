@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+
+{% block title %}
+HIMA-LENS | 3D Himalayan Alpine Terrain & Kinematics Lab
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/terrain_lab.css') }}?v=1.0">
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        document.body.classList.add('alpine-page');
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="alpine-page-container">
+
+    <!-- Fixed Full-Viewport 3D WebGL Canvas (Alpine Massif, LiDAR Contours, Shear Fault) -->
+    <canvas id="terrain-webgl-canvas"></canvas>
+
+    <!-- Top Chapter Navigation Bar (Minimalist Swiss Line Tracker) -->
+    <nav class="alpine-nav-bar" aria-label="Alpine Chapters">
+        <div class="alpine-nav-item active" data-step="0" role="button" tabindex="0">
+            <div class="alpine-nav-kicker">01 / SUMMITS</div>
+            <div class="alpine-nav-progress"><div class="nav-progress-fill"></div></div>
+            <div class="alpine-nav-subtext">The Living Massif</div>
+        </div>
+        <div class="alpine-nav-item" data-step="1" role="button" tabindex="0">
+            <div class="alpine-nav-kicker">02 / CLEAVAGE</div>
+            <div class="alpine-nav-progress"><div class="nav-progress-fill"></div></div>
+            <div class="alpine-nav-subtext">Daylighting Shear</div>
+        </div>
+        <div class="alpine-nav-item" data-step="2" role="button" tabindex="0">
+            <div class="alpine-nav-kicker">03 / INFILTRATION</div>
+            <div class="alpine-nav-progress"><div class="nav-progress-fill"></div></div>
+            <div class="alpine-nav-subtext">The Water Trigger</div>
+        </div>
+        <div class="alpine-nav-item" data-step="3" role="button" tabindex="0">
+            <div class="alpine-nav-kicker">04 / CORRIDOR</div>
+            <div class="alpine-nav-progress"><div class="nav-progress-fill"></div></div>
+            <div class="alpine-nav-subtext">Protecting the Lifeline</div>
+        </div>
+    </nav>
+
+    <!-- Floating Telemetry HUD -->
+    <div class="alpine-hud-telemetry">
+        <span class="alpine-live-dot"></span>
+        <span id="hud-elev">5,840 M</span>
+        <span class="hud-separator">&bull;</span>
+        <span id="hud-slope">62° ARÊTE</span>
+        <span class="hud-separator">&bull;</span>
+        <span id="hud-status" style="color: #2dd4bf;">TECTONIC CREEP</span>
+    </div>
+
+    <!-- Drag to Orbit Hint -->
+    <div class="alpine-drag-hint">
+        <span>&#8635;</span>
+        <span>Drag to rotate massif &bull; Scroll to fly down the Himalayas</span>
+    </div>
+
+    <!-- EnduroSat-Style Luxury Floating Action Button -->
+    <a class="alpine-cta-fixed" href="{{ url_for('explore') }}" data-text="Launch Spatial Map">
+        <span>Launch Spatial Map</span>
+        <div class="cta-arrow-square">
+            <svg width="13" height="13" viewBox="0 0 15 16" fill="none">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M13.9996 0.999952L13.9996 15L14.9996 15L14.9996 -4.7981e-05L14.5713 -4.73067e-05H13.9996L0.428759 -4.7981e-05L0.428759 0.999952L13.9996 0.999952ZM0.707197 15.0217L3.61672e-05 14.3147L10.3131 4.00009L11.0202 4.70714L0.707197 15.0217Z" fill="currentColor"/>
+            </svg>
+        </div>
+    </a>
+
+    <!-- =====================================================================
+         SCROLL-DRIVEN NARRATIVE (Spacious, Minimalist Typography)
+         NO Heavy Cards. NO Bulky Borders. Pure Negative Space.
+    ====================================================================== -->
+    <div class="alpine-scroll-wrapper">
+
+        <!-- Chapter 0: High Himalayan Summits -->
+        <section class="alpine-frame align-left" data-step="0">
+            <div class="alpine-narrative-block">
+                <div class="alpine-kicker">
+                    <span>01 / HIGH HIMALAYAN SUMMITS</span>
+                </div>
+                <h1 class="alpine-title">
+                    The Living <span>Massif.</span>
+                </h1>
+                <p class="alpine-desc">
+                    Towering, active, and under unrelenting tectonic compression. Himachal's alpine ridges rise above 6,000 meters, sculpted by glacial cirques and extreme freeze-thaw weathering.
+                </p>
+                <a href="#chap-1" class="alpine-action-link" onclick="document.querySelector('.alpine-frame[data-step=\'1\']').scrollIntoView({behavior:'smooth'}); return false;">
+                    <span>Examine Daylighting Shear</span>
+                    <span class="arrow">&darr;</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Chapter 1: Daylighting Cleavage -->
+        <section class="alpine-frame align-right" data-step="1" id="chap-1">
+            <div class="alpine-narrative-block">
+                <div class="alpine-kicker">
+                    <span>02 / DAYLIGHTING CLEAVAGE</span>
+                </div>
+                <h2 class="alpine-title">
+                    Where Rock <span>Meets Gravity.</span>
+                </h2>
+                <p class="alpine-desc">
+                    Steep highway cuts expose daylighting metamorphic bedding joints. When joint dip angles align with the valley slope, colossal rock masses become frictionally unstable.
+                </p>
+                <a href="#chap-2" class="alpine-action-link" onclick="document.querySelector('.alpine-frame[data-step=\'2\']').scrollIntoView({behavior:'smooth'}); return false;">
+                    <span>Analyze Cloudburst Infiltration</span>
+                    <span class="arrow">&darr;</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Chapter 2: Cloudburst Infiltration & Pore Pressure -->
+        <section class="alpine-frame align-left" data-step="2" id="chap-2">
+            <div class="alpine-narrative-block">
+                <div class="alpine-kicker">
+                    <span>03 / CLOUDBURST INFILTRATION</span>
+                </div>
+                <h2 class="alpine-title">
+                    The Water <span>Trigger.</span>
+                </h2>
+                <p class="alpine-desc">
+                    Monsoon precipitation fluxes exceed 40 mm per hour. Water rapidly infiltrates deep colluvial fissures, spiking pore-water pressure and dissolving effective shear resistance along the slip plane.
+                </p>
+                <a href="#chap-3" class="alpine-action-link" onclick="document.querySelector('.alpine-frame[data-step=\'3\']').scrollIntoView({behavior:'smooth'}); return false;">
+                    <span>Descend to Valley Lifeline</span>
+                    <span class="arrow">&darr;</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Chapter 3: Valley Human Lifeline & Corridor Protection -->
+        <section class="alpine-frame align-center" data-step="3" id="chap-3">
+            <div class="alpine-narrative-block">
+                <div class="alpine-kicker">
+                    <span>04 / VALLEY HUMAN LIFELINE</span>
+                </div>
+                <h2 class="alpine-title">
+                    Protecting <span>the Corridor.</span>
+                </h2>
+                <p class="alpine-desc">
+                    At the valley floor, the national highway corridor connects mountain communities and transit lifelines. Automated sensors deliver early warning before failure reaches the road.
+                </p>
+                <div style="display: flex; gap: 20px; justify-content: center; align-items: center; flex-wrap: wrap;">
+                    <a href="{{ url_for('explore') }}" class="alpine-action-link" style="color: #ffffff; background: #17624d; padding: 12px 22px; border-radius: 4px;">
+                        <span>Open 3D Spatial Map</span>
+                        <span class="arrow">&rarr;</span>
+                    </a>
+                    <a href="{{ url_for('feed') }}" class="alpine-action-link">
+                        <span>Live News Telemetry &rarr;</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Three.js Core Engine -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<!-- Three.js Post-Processing & Shaders (UnrealBloomPass) -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+
+<!-- GSAP & ScrollTrigger Animation Engine -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+<!-- HIMA-LENS 3D Himalayan Alpine Terrain Engine (Compiled from TypeScript) -->
+<script src="{{ url_for('static', filename='js/terrain_lab.js') }}?v=1.0"></script>
+{% endblock %}
