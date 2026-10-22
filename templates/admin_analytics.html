@@ -1,790 +1,769 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <title>HIMA-LENS — Geotechnical Analytics & Risk Command</title>
-  <style>
-    /* Design Tokens */
-    :root {
-      --bg-base: #060b13;
-      --bg-surface: rgba(14, 23, 38, 0.85);
-      --bg-surface-hover: rgba(22, 36, 60, 0.9);
-      --bg-card: rgba(18, 30, 49, 0.65);
-      --border-subtle: rgba(255, 255, 255, 0.08);
-      --border-focus: #38bdf8;
-      
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --text-faint: #64748b;
-      
-      --accent-cyan: #06b6d4;
-      --accent-emerald: #10b981;
-      --accent-amber: #f59e0b;
-      --accent-rose: #f43f5e;
-      
-      --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      
-      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
-      --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
-    }
+{% extends "base.html" %}
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+{% block title %}
+HIMA-LENS | Hazard Analytics & Regional Risk Command
+{% endblock %}
 
-    body {
-      background-color: var(--bg-base);
-      color: var(--text-main);
-      font-family: var(--font-stack);
-      line-height: 1.5;
-      min-height: 100vh;
-      padding: 1.5rem;
-      -webkit-font-smoothing: antialiased;
-    }
+{% block head %}
+<style>
+  /* =========================================================
+     ADMIN ANALYTICS THEMED TO HIMA-LENS DESIGN SYSTEM
+     ========================================================= */
 
-    .skip-link {
-      position: absolute;
-      top: -40px;
-      left: 0;
-      background: var(--border-focus);
-      color: #000;
-      padding: 8px;
-      z-index: 100;
-      transition: top 0.2s;
-    }
-    .skip-link:focus {
-      top: 0;
-    }
+  .analytics-page-wrapper {
+    background: var(--paper);
+    min-height: calc(100vh - 80px);
+  }
 
-    .dashboard-shell {
-      max-width: 1440px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
+  /* Toolbar */
+  .analytics-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 16px 20px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-xs);
+    margin-bottom: 24px;
+    transition: all var(--transition);
+  }
+
+  .analytics-filters {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .filter-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .filter-select {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    color: var(--ink);
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: border-color var(--transition-fast);
+  }
+
+  .filter-select:focus {
+    outline: none;
+    border-color: var(--forest);
+  }
+
+  .analytics-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .btn-sync {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    color: var(--ink);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .btn-sync:hover {
+    background: var(--forest-pale);
+    color: var(--forest);
+    border-color: var(--forest);
+  }
+
+  .btn-export-csv {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 18px;
+    background: var(--forest);
+    border: 1px solid var(--forest);
+    border-radius: var(--radius-sm);
+    color: #ffffff !important;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: var(--shadow-xs);
+    transition: all var(--transition-fast);
+  }
+
+  .btn-export-csv:hover {
+    background: var(--forest-dark);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .sync-spin {
+    animation: spinRotate 1s linear infinite;
+  }
+
+  @keyframes spinRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* KPI Grid */
+  .analytics-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .kpi-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    box-shadow: var(--shadow-xs);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 140px;
+    transition: transform var(--transition), box-shadow var(--transition);
+  }
+
+  .kpi-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+  }
+
+  .kpi-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .kpi-kicker {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--ink-muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .kpi-pill {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+
+  .kpi-pill-emerald {
+    background: rgba(23, 98, 77, 0.1);
+    color: var(--forest);
+  }
+
+  .kpi-pill-rose {
+    background: rgba(189, 81, 81, 0.12);
+    color: #bd5151;
+  }
+
+  .kpi-pill-amber {
+    background: rgba(178, 122, 41, 0.12);
+    color: #b27a29;
+  }
+
+  .kpi-value {
+    font-family: var(--display, 'Manrope', sans-serif);
+    font-size: 32px;
+    font-weight: 850;
+    color: var(--ink-strong);
+    line-height: 1.1;
+    margin-bottom: 6px;
+    letter-spacing: -0.03em;
+  }
+
+  .kpi-caption {
+    font-size: 12px;
+    color: var(--ink-soft);
+    line-height: 1.4;
+  }
+
+  /* Visual Analytics Split */
+  .analytics-split {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+
+  @media (max-width: 992px) {
+    .analytics-split {
+      grid-template-columns: 1fr;
     }
+  }
 
-    /* Top Command Header */
-    .dashboard-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-      padding: 1.25rem 1.5rem;
-      background: var(--bg-surface);
-      backdrop-filter: blur(12px);
-      border: 1px solid var(--border-subtle);
-      border-radius: 12px;
-      box-shadow: var(--shadow-sm);
-    }
+  .analytics-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow-xs);
+  }
 
-    .brand-group {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
+  .analytics-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+  }
 
-    .brand-badge {
-      width: 44px;
-      height: 44px;
-      border-radius: 8px;
-      background: linear-gradient(135deg, #0284c7, #0f766e);
-      display: grid;
-      place-items: center;
-      font-weight: 800;
-      font-size: 1.25rem;
-      color: #fff;
-      box-shadow: 0 0 15px rgba(2, 132, 199, 0.4);
-    }
+  .analytics-card-title {
+    font-family: var(--display, 'Manrope', sans-serif);
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--ink-strong);
+    margin: 0 0 4px;
+  }
 
-    .brand-title {
-      font-size: 1.25rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
+  .analytics-card-sub {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin: 0;
+  }
 
-    .brand-subtitle {
-      font-size: 0.8125rem;
-      color: var(--text-muted);
-    }
+  /* District Bar Chart */
+  .district-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
 
-    .nav-links {
-      display: flex;
-      gap: 0.5rem;
-      margin-left: 1rem;
-    }
+  .bar-item {
+    display: grid;
+    grid-template-columns: 110px 1fr 50px;
+    align-items: center;
+    gap: 14px;
+    font-size: 13px;
+  }
 
-    .nav-link {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.8125rem;
-      padding: 0.35rem 0.65rem;
-      border-radius: 6px;
-      transition: all 0.15s;
-    }
+  .bar-district-name {
+    font-weight: 700;
+    color: var(--ink);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
-    .nav-link:hover {
-      color: #fff;
-      background: rgba(255, 255, 255, 0.05);
-    }
+  .bar-rail {
+    background: var(--paper-dark);
+    height: 14px;
+    border-radius: 999px;
+    overflow: hidden;
+    position: relative;
+  }
 
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
+  .bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--forest) 0%, #25856b 100%);
+    transition: width 0.4s var(--ease);
+  }
 
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.35rem 0.75rem;
-      background: rgba(16, 185, 129, 0.1);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      color: var(--accent-emerald);
-      border-radius: 9999px;
-      font-size: 0.75rem;
-      font-weight: 600;
-    }
+  .bar-fill.bar-hot {
+    background: linear-gradient(90deg, #bd5151 0%, #d97706 100%);
+  }
 
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: currentColor;
-      box-shadow: 0 0 8px currentColor;
-    }
+  .bar-fill.bar-warm {
+    background: linear-gradient(90deg, #d97706 0%, #eab308 100%);
+  }
 
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.5rem 1rem;
-      border-radius: 6px;
-      font-size: 0.875rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      text-decoration: none;
-      border: 1px solid var(--border-subtle);
-      background: var(--bg-card);
-      color: var(--text-main);
-    }
+  .bar-count {
+    font-weight: 800;
+    color: var(--ink-strong);
+    text-align: right;
+    font-size: 13px;
+  }
 
-    .btn:hover {
-      background: var(--bg-surface-hover);
-      border-color: rgba(255, 255, 255, 0.2);
-    }
+  /* Movement List */
+  .movement-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
 
-    .btn:focus-visible {
-      outline: 2px solid var(--border-focus);
-      outline-offset: 2px;
-    }
+  .movement-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 14px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+  }
 
-    .btn-primary {
-      background: #0284c7;
-      border-color: #38bdf8;
-      color: #fff;
-    }
-    .btn-primary:hover {
-      background: #0369a1;
-    }
+  .movement-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink-strong);
+  }
 
-    /* Warning Banner */
-    .alert-banner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      padding: 0.875rem 1.25rem;
-      background: rgba(244, 63, 94, 0.12);
-      border: 1px solid rgba(244, 63, 94, 0.35);
-      border-radius: 8px;
-      color: #fecdd3;
-      font-size: 0.875rem;
-    }
+  .movement-desc {
+    font-size: 11px;
+    color: var(--ink-muted);
+    margin-top: 2px;
+  }
 
-    .alert-content {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
+  /* Table */
+  .ledger-table-wrap {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow-xs);
+    overflow-x: auto;
+  }
 
-    /* Filter Toolbar */
-    .filter-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 1rem;
-      padding: 1rem 1.25rem;
-      background: var(--bg-surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: 8px;
-    }
+  .ledger-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    text-align: left;
+  }
 
-    .filter-controls {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-    }
+  .ledger-table th {
+    padding: 12px 14px;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid var(--line);
+    background: var(--paper);
+  }
 
-    .select-label {
-      font-size: 0.8125rem;
-      color: var(--text-muted);
-    }
+  .ledger-table td {
+    padding: 14px;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+    vertical-align: middle;
+  }
 
-    .select-input {
-      background: #0a111e;
-      border: 1px solid var(--border-subtle);
-      color: var(--text-main);
-      padding: 0.45rem 0.85rem;
-      border-radius: 6px;
-      font-size: 0.875rem;
-      outline: none;
-      cursor: pointer;
-    }
+  .ledger-table tr:hover td {
+    background: rgba(23, 98, 77, 0.02);
+  }
 
-    .select-input:focus {
-      border-color: var(--border-focus);
-    }
+  .badge-severity {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 800;
+  }
 
-    /* Metric Cards Grid */
-    .metric-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.25rem;
-    }
+  .badge-critical { background: rgba(189, 81, 81, 0.12); color: #bd5151; }
+  .badge-high { background: rgba(178, 122, 41, 0.12); color: #b27a29; }
+  .badge-moderate { background: rgba(82, 125, 153, 0.12); color: #527d99; }
+  .badge-low { background: rgba(60, 139, 104, 0.12); color: #3c8b68; }
 
-    .metric-card {
-      background: var(--bg-surface);
-      backdrop-filter: blur(8px);
-      border: 1px solid var(--border-subtle);
-      border-radius: 10px;
-      padding: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      box-shadow: var(--shadow-sm);
-    }
+  .action-buttons {
+    display: flex;
+    gap: 6px;
+  }
 
-    .metric-title {
-      font-size: 0.8125rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
+  .btn-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 10px;
+    border-radius: var(--radius-xs);
+    font-size: 11px;
+    font-weight: 700;
+    text-decoration: none;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    color: var(--ink-soft);
+    transition: all var(--transition-fast);
+  }
 
-    .metric-value-row {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 0.5rem;
-    }
+  .btn-action:hover {
+    background: var(--forest-pale);
+    color: var(--forest);
+    border-color: var(--forest);
+  }
 
-    .metric-number {
-      font-size: 1.875rem;
-      font-weight: 800;
-      font-family: var(--font-mono);
-      letter-spacing: -0.03em;
-    }
+  .btn-action-primary {
+    background: var(--forest);
+    color: #ffffff !important;
+    border-color: var(--forest);
+  }
 
-    .trend-badge {
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
-    }
+  .btn-action-primary:hover {
+    background: var(--forest-dark);
+  }
+</style>
+{% endblock %}
 
-    .trend-up {
-      background: rgba(244, 63, 94, 0.15);
-      color: var(--accent-rose);
-    }
+{% block content %}
+<div class="analytics-page-wrapper">
 
-    .trend-down {
-      background: rgba(16, 185, 129, 0.15);
-      color: var(--accent-emerald);
-    }
-
-    .metric-caption {
-      font-size: 0.75rem;
-      color: var(--text-faint);
-    }
-
-    /* Charts & Telemetry Visual Split */
-    .visual-split {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 1.25rem;
-    }
-
-    @media (max-width: 992px) {
-      .visual-split {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .chart-panel {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: 10px;
-      padding: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .panel-heading {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .panel-title {
-      font-size: 1rem;
-      font-weight: 700;
-    }
-
-    .panel-sub {
-      font-size: 0.8125rem;
-      color: var(--text-muted);
-    }
-
-    /* Pure CSS Accessible Bar Chart */
-    .bar-chart-container {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      padding-top: 0.5rem;
-    }
-
-    .bar-row {
-      display: grid;
-      grid-template-columns: 110px 1fr 50px;
-      align-items: center;
-      gap: 1rem;
-      font-size: 0.8125rem;
-    }
-
-    .bar-track {
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 4px;
-      height: 12px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .bar-fill {
-      height: 100%;
-      border-radius: 4px;
-      transition: width 0.4s ease;
-    }
-
-    .fill-danger { background: var(--accent-rose); }
-    .fill-warning { background: var(--accent-amber); }
-    .fill-info { background: var(--accent-cyan); }
-    .fill-success { background: var(--accent-emerald); }
-
-    .bar-val {
-      font-family: var(--font-mono);
-      font-weight: 700;
-      text-align: right;
-    }
-
-    /* Movement Type List */
-    .movement-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-    }
-
-    .movement-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.65rem 0.85rem;
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: 6px;
-      font-size: 0.8125rem;
-    }
-
-    /* Telemetry Table */
-    .table-container {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: 10px;
-      overflow-x: auto;
-      box-shadow: var(--shadow-lg);
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: left;
-      font-size: 0.875rem;
-    }
-
-    th {
-      background: rgba(10, 17, 30, 0.8);
-      padding: 0.875rem 1rem;
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      border-bottom: 1px solid var(--border-subtle);
-    }
-
-    td {
-      padding: 1rem;
-      border-bottom: 1px solid var(--border-subtle);
-      vertical-align: middle;
-    }
-
-    tr:hover td {
-      background: var(--bg-surface-hover);
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
-      font-size: 0.75rem;
-      font-weight: 700;
-    }
-
-    .badge-critical { background: rgba(244, 63, 94, 0.2); color: #fda4af; }
-    .badge-high { background: rgba(245, 158, 11, 0.2); color: #fde68a; }
-    .badge-moderate { background: rgba(56, 189, 248, 0.2); color: #bae6fd; }
-    .badge-low { background: rgba(16, 185, 129, 0.2); color: #a7f3d0; }
-
-    .mono-cell {
-      font-family: var(--font-mono);
-      font-size: 0.8125rem;
-      color: var(--text-muted);
-    }
-
-    .action-group {
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    .btn-xs {
-      padding: 0.25rem 0.5rem;
-      font-size: 0.75rem;
-      border-radius: 4px;
-    }
-  </style>
-</head>
-<body>
-  <a href="#main-content" class="skip-link">Skip to main content</a>
-
-  <div class="dashboard-shell">
-    
-    <!-- Top Command Header -->
-    <header class="dashboard-header" role="banner">
-      <div class="brand-group">
-        <div class="brand-badge" aria-hidden="true">HL</div>
-        <div>
-          <h1 class="brand-title">HIMA-LENS Command Analytics</h1>
-          <p class="brand-subtitle">Himachal Pradesh Hazard Aggregation & Geotechnical Telemetry</p>
-        </div>
-        <nav class="nav-links" aria-label="Quick links">
-          <a href="/explore" class="nav-link">3D Globe</a>
-          <a href="/report" class="nav-link">Submit Report</a>
-          <a href="/feed" class="nav-link">Disaster Wire</a>
-        </nav>
+  <!-- =====================================================
+       01. HERO HEADER (NATIVE HIMA-LENS STYLE)
+  ====================================================== -->
+  <header class="feed-hero">
+    <div class="feed-hero-inner">
+      <div class="section-label">
+        <span class="live-ping"></span>
+        ADMINISTRATIVE COMMAND &bull; STATEWIDE TELEMETRY
       </div>
-      <div class="header-actions">
-        <div class="status-pill" role="status" aria-label="System telemetry operational">
-          <span class="status-dot" aria-hidden="true"></span>
-          <span id="stream-status-text">TELEMETRY SYNCED</span>
+      <h1 class="feed-title">
+        Hazard &amp; Regional <span>Analytics.</span>
+      </h1>
+      <p class="feed-description">
+        Statewide landslide intelligence, district risk density, and geotechnical mitigation expenditure aggregated across all 12 districts of Himachal Pradesh.
+      </p>
+    </div>
+  </header>
+
+  <!-- =====================================================
+       02. ANALYTICS CONTAINER
+  ====================================================== -->
+  <div class="feed-container" style="padding-top: 32px; padding-bottom: 60px;">
+
+    <!-- Filter & Action Toolbar -->
+    <div class="analytics-toolbar">
+      <div class="analytics-filters">
+        <div class="filter-group">
+          <label for="district-select" class="filter-label">District:</label>
+          <select id="district-select" class="filter-select" onchange="syncMetrics();">
+            <option value="all" {% if current_district == 'all' %}selected{% endif %}>All Himachal Pradesh</option>
+            <option value="mandi" {% if current_district == 'mandi' %}selected{% endif %}>Mandi District</option>
+            <option value="kullu" {% if current_district == 'kullu' %}selected{% endif %}>Kullu District</option>
+            <option value="shimla" {% if current_district == 'shimla' %}selected{% endif %}>Shimla District</option>
+            <option value="kinnaur" {% if current_district == 'kinnaur' %}selected{% endif %}>Kinnaur District</option>
+            <option value="kangra" {% if current_district == 'kangra' %}selected{% endif %}>Kangra District</option>
+            <option value="chamba" {% if current_district == 'chamba' %}selected{% endif %}>Chamba District</option>
+            <option value="solan" {% if current_district == 'solan' %}selected{% endif %}>Solan District</option>
+            <option value="sirmaur" {% if current_district == 'sirmaur' %}selected{% endif %}>Sirmaur District</option>
+            <option value="bilaspur" {% if current_district == 'bilaspur' %}selected{% endif %}>Bilaspur District</option>
+            <option value="hamirpur" {% if current_district == 'hamirpur' %}selected{% endif %}>Hamirpur District</option>
+            <option value="una" {% if current_district == 'una' %}selected{% endif %}>Una District</option>
+            <option value="lahaul and spiti" {% if current_district == 'lahaul and spiti' %}selected{% endif %}>Lahaul &amp; Spiti</option>
+          </select>
         </div>
-        <button class="btn" onclick="syncMetrics();" aria-label="Refresh dashboard data">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+
+        <div class="filter-group">
+          <label for="time-range-select" class="filter-label">Time Window:</label>
+          <select id="time-range-select" class="filter-select" onchange="syncMetrics();">
+            <option value="24h" {% if current_range == '24h' %}selected{% endif %}>Last 24 Hours</option>
+            <option value="7d" {% if current_range == '7d' %}selected{% endif %}>Last 7 Days</option>
+            <option value="30d" {% if current_range == '30d' %}selected{% endif %}>Last 30 Days</option>
+            <option value="all" {% if current_range == 'all' %}selected{% endif %}>All Available History</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="analytics-actions">
+        <button type="button" class="btn-sync" id="sync-btn" onclick="syncMetrics();" title="Refresh metrics">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" id="sync-icon">
             <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
           </svg>
-          Sync
+          <span id="sync-label">Sync</span>
         </button>
-        <a href="/api/export?format=csv" class="btn btn-primary" download>Export Rollup CSV</a>
+        <a href="/api/export?format=csv" class="btn-export-csv" download>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+          </svg>
+          Export Rollup CSV
+        </a>
       </div>
-    </header>
+    </div>
 
-    <!-- Emergency Hazard Warning Banner -->
-    <aside class="alert-banner" role="alert" aria-live="polite">
-      <div class="alert-content">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-          <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
-        </svg>
-        <span><strong>Geotechnical Operational Notice:</strong> Regional precipitation thresholds active across Mandi and Kinnaur corridors. Real-time community telemetry synchronized with GSI landslide baseline.</span>
+    <!-- =====================================================
+         03. KPI METRIC CARDS
+    ====================================================== -->
+    <div class="analytics-kpi-grid">
+      
+      <!-- Card 1: Active Field Incidents -->
+      <div class="kpi-card">
+        <div>
+          <div class="kpi-header">
+            <span class="kpi-kicker">01 / INCIDENT TELEMETRY</span>
+            <span class="kpi-pill kpi-pill-emerald">HP Boundary Verified</span>
+          </div>
+          <div class="kpi-value" id="kpi-total-reports">{{ summary.kpis.total_reports }}</div>
+        </div>
+        <div class="kpi-caption">Active incidents verified within Himachal Pradesh territory</div>
       </div>
-      <a href="/feed" class="btn btn-xs" style="background: rgba(0,0,0,0.3); color: #fff;">Inspect Wire</a>
-    </aside>
 
-    <!-- Filter Control Bar -->
-    <nav class="filter-bar" aria-label="Dashboard filters">
-      <div class="filter-controls">
-        <label for="district-select" class="select-label">District Focus:</label>
-        <select id="district-select" class="select-input" onchange="syncMetrics();">
-          <option value="all" {% if current_district == 'all' %}selected{% endif %}>All Himachal Pradesh</option>
-          <option value="mandi" {% if current_district == 'mandi' %}selected{% endif %}>Mandi</option>
-          <option value="kullu" {% if current_district == 'kullu' %}selected{% endif %}>Kullu</option>
-          <option value="shimla" {% if current_district == 'shimla' %}selected{% endif %}>Shimla</option>
-          <option value="kinnaur" {% if current_district == 'kinnaur' %}selected{% endif %}>Kinnaur</option>
-          <option value="kangra" {% if current_district == 'kangra' %}selected{% endif %}>Kangra</option>
-          <option value="solan" {% if current_district == 'solan' %}selected{% endif %}>Solan</option>
-          <option value="chamba" {% if current_district == 'chamba' %}selected{% endif %}>Chamba</option>
-          <option value="sirmaur" {% if current_district == 'sirmaur' %}selected{% endif %}>Sirmaur</option>
-          <option value="bilaspur" {% if current_district == 'bilaspur' %}selected{% endif %}>Bilaspur</option>
-          <option value="hamirpur" {% if current_district == 'hamirpur' %}selected{% endif %}>Hamirpur</option>
-          <option value="una" {% if current_district == 'una' %}selected{% endif %}>Una</option>
-          <option value="lahaul and spiti" {% if current_district == 'lahaul and spiti' %}selected{% endif %}>Lahaul &amp; Spiti</option>
-        </select>
-
-        <label for="time-range-select" class="select-label">Time Window:</label>
-        <select id="time-range-select" class="select-input" onchange="syncMetrics();">
-          <option value="24h" {% if current_range == '24h' %}selected{% endif %}>Last 24 Hours</option>
-          <option value="7d" {% if current_range == '7d' %}selected{% endif %}>Last 7 Days</option>
-          <option value="30d" {% if current_range == '30d' %}selected{% endif %}>Last 30 Days</option>
-          <option value="all" {% if current_range == 'all' %}selected{% endif %}>All Available History</option>
-        </select>
+      <!-- Card 2: Critical Hazard Slopes -->
+      <div class="kpi-card">
+        <div>
+          <div class="kpi-header">
+            <span class="kpi-kicker">02 / HIGH RISK SLOPES</span>
+            <span class="kpi-pill kpi-pill-rose">High Severity</span>
+          </div>
+          <div class="kpi-value" id="kpi-critical-hazards" style="color: #bd5151;">{{ summary.kpis.critical_hazards }}</div>
+        </div>
+        <div class="kpi-caption">High &amp; critical severity slope failures requiring structural barrier or clearing</div>
       </div>
-      <div class="filter-status">
-        <span class="mono-cell">Aggregating live telemetry &amp; <strong>14,190</strong> GSI historical points</span>
+
+      <!-- Card 3: AI Dossiers Processed -->
+      <div class="kpi-card">
+        <div>
+          <div class="kpi-header">
+            <span class="kpi-kicker">03 / GEOTECHNICAL DOSSIERS</span>
+            <span class="kpi-pill kpi-pill-emerald" id="kpi-ai-coverage">{{ summary.kpis.ai_coverage_pct }}% Coverage</span>
+          </div>
+          <div class="kpi-value" id="kpi-ai-dossiers" style="color: var(--forest);">{{ summary.kpis.ai_dossiers_count }}</div>
+        </div>
+        <div class="kpi-caption">Deterministic geotechnical parameters &amp; PWD sheets generated</div>
       </div>
-    </nav>
 
-    <!-- KPI Metric Cards Grid -->
-    <main id="main-content" class="dashboard-shell" style="gap: 1.5rem; margin: 0;">
-      <section class="metric-grid" aria-label="Key Performance Indicators">
-        
-        <article class="metric-card">
-          <span class="metric-title">Active Field Reports</span>
-          <div class="metric-value-row">
-            <span class="metric-number" id="metric-total-reports">{{ summary.kpis.total_reports }}</span>
-            <span class="trend-badge trend-up">Active Field Log</span>
+      <!-- Card 4: Mitigation Budget -->
+      <div class="kpi-card">
+        <div>
+          <div class="kpi-header">
+            <span class="kpi-kicker">04 / MITIGATION ESTIMATE</span>
+            <span class="kpi-pill kpi-pill-amber">HPPWD Schedule</span>
           </div>
-          <span class="metric-caption">Field incidents validated against Himachal terrain</span>
-        </article>
+          <div class="kpi-value" id="kpi-est-cost" style="color: var(--clay);">₹{{ summary.kpis.estimated_cost_cr }} Cr</div>
+        </div>
+        <div class="kpi-caption">Cumulative slope protection and road clearing estimate</div>
+      </div>
 
-        <article class="metric-card">
-          <span class="metric-title">Critical &amp; High Hazards</span>
-          <div class="metric-value-row">
-            <span class="metric-number" id="metric-critical-hazards" style="color: var(--accent-rose);">{{ summary.kpis.critical_hazards }}</span>
-            <span class="trend-badge trend-up">High Risk Slopes</span>
+    </div>
+
+    <!-- =====================================================
+         04. VISUAL ANALYTICS SPLIT (BARS + MECHANICS)
+    ====================================================== -->
+    <div class="analytics-split">
+      
+      <!-- District Distribution Bar Chart -->
+      <div class="analytics-card">
+        <div class="analytics-card-header">
+          <div>
+            <h2 class="analytics-card-title">Slope Hazard Density by District</h2>
+            <p class="analytics-card-sub">Distribution of verified landslides across Himachal watersheds</p>
           </div>
-          <span class="metric-caption">Immediate structural stabilization / mitigation required</span>
-        </article>
+          <span class="tab-badge" id="chart-total-pill">{{ summary.kpis.total_reports }} Total Events</span>
+        </div>
 
-        <article class="metric-card">
-          <span class="metric-title">AI Dossiers &amp; BOQ Processed</span>
-          <div class="metric-value-row">
-            <span class="metric-number" id="metric-ai-dossiers" style="color: var(--accent-cyan);">{{ summary.kpis.ai_dossiers_count }}</span>
-            <span class="trend-badge trend-down" id="metric-ai-coverage">{{ summary.kpis.ai_coverage_pct }}% Coverage</span>
-          </div>
-          <span class="metric-caption">Deterministic geotechnical parameters attached</span>
-        </article>
-
-        <article class="metric-card">
-          <span class="metric-title">Est. Cumulative Mitigation (INR)</span>
-          <div class="metric-value-row">
-            <span class="metric-number" id="metric-est-cost" style="color: var(--accent-emerald); font-size: 1.6rem;">₹{{ summary.kpis.estimated_cost_cr }} Cr</span>
-            <span class="trend-badge trend-down">HPPWD Schedule</span>
-          </div>
-          <span class="metric-caption">Computed via HIMA-LENS geotechnical cost engine</span>
-        </article>
-
-      </section>
-
-      <!-- Charts & Visual Analytics -->
-      <section class="visual-split" aria-label="Visual Analytics Breakdown">
-        
-        <!-- District Risk Density (Pure CSS Bar Chart) -->
-        <div class="chart-panel">
-          <div class="panel-heading">
-            <div>
-              <h2 class="panel-title">Slope Hazard Density by District</h2>
-              <p class="panel-sub">Reporting frequency across vulnerable watersheds</p>
+        <div class="district-bars" id="district-bars-container">
+          {% for item in summary.district_distribution %}
+          <div class="bar-item">
+            <span class="bar-district-name" title="{{ item.district }}">{{ item.district }}</span>
+            <div class="bar-rail" aria-hidden="true">
+              <div class="bar-fill {% if loop.index == 1 %}bar-hot{% elif loop.index == 2 %}bar-warm{% endif %}" style="width: {{ item.percentage }}%;"></div>
             </div>
-            <span class="mono-cell" id="chart-total-count">Active Submissions: {{ summary.kpis.total_reports }}</span>
+            <span class="bar-count">{{ item.count }}</span>
           </div>
+          {% else %}
+          <div style="padding: 16px 0; color: var(--ink-muted); font-size: 13px;">No hazard distribution recorded for the selected filter.</div>
+          {% endfor %}
+        </div>
+      </div>
 
-          <div class="bar-chart-container" id="district-bar-container" role="figure" aria-label="District hazard density bar chart">
-            {% for item in summary.district_distribution %}
-            <div class="bar-row">
-              <span>{{ item.district }}</span>
-              <div class="bar-track" aria-hidden="true">
-                <div class="bar-fill {% if loop.index == 1 %}fill-danger{% elif loop.index == 2 %}fill-warning{% elif loop.index == 3 %}fill-info{% else %}fill-success{% endif %}" style="width: {{ item.percentage }}%;"></div>
-              </div>
-              <span class="bar-val">{{ item.count }}</span>
-            </div>
-            {% else %}
-            <div class="panel-sub" style="padding: 1rem 0;">No incident distribution recorded for this filter.</div>
-            {% endfor %}
+      <!-- Failure Mechanics Typology -->
+      <div class="analytics-card">
+        <div class="analytics-card-header">
+          <div>
+            <h2 class="analytics-card-title">Movement Mechanics</h2>
+            <p class="analytics-card-sub">Classified geological failure modes</p>
           </div>
         </div>
 
-        <!-- Failure Mechanics Breakdown -->
-        <div class="chart-panel">
-          <div class="panel-heading">
+        <div class="movement-group" id="movement-group-container">
+          {% for item in summary.movement_distribution %}
+          <div class="movement-row">
             <div>
-              <h2 class="panel-title">Movement Mechanics</h2>
-              <p class="panel-sub">Classified hazard typology</p>
+              <div class="movement-title">{{ item.movement }}</div>
+              <div class="movement-desc">Geological mode classification</div>
             </div>
+            <span class="badge-severity {% if item.movement in ['Slide', 'Debris Slide'] %}badge-critical{% elif item.movement in ['Rockfall', 'Topple'] %}badge-high{% else %}badge-moderate{% endif %}">
+              {{ item.percentage }}% ({{ item.count }})
+            </span>
           </div>
+          {% else %}
+          <div style="padding: 16px 0; color: var(--ink-muted); font-size: 13px;">No movement typology recorded.</div>
+          {% endfor %}
+        </div>
+      </div>
 
-          <div class="movement-list" id="movement-list-container" role="list">
-            {% for item in summary.movement_distribution %}
-            <div class="movement-item" role="listitem">
-              <div>
-                <strong>{{ item.movement }}</strong>
-                <p class="panel-sub">Mechanics classification</p>
-              </div>
-              <span class="badge {% if item.movement in ['Slide', 'Debris Slide'] %}badge-critical{% elif item.movement in ['Rockfall', 'Topple'] %}badge-high{% else %}badge-moderate{% endif %}">
-                {{ item.percentage }}% ({{ item.count }})
+    </div>
+
+    <!-- =====================================================
+         05. INCIDENT LEDGER TABLE
+    ====================================================== -->
+    <div class="ledger-table-wrap">
+      <div class="analytics-card-header" style="margin-bottom: 16px;">
+        <div>
+          <h2 class="analytics-card-title">Recent Field Incident Ledger</h2>
+          <p class="analytics-card-sub">Direct field submissions and automated PWD engineering sheets</p>
+        </div>
+      </div>
+
+      <table class="ledger-table" role="table">
+        <thead>
+          <tr role="row">
+            <th scope="col">Incident ID</th>
+            <th scope="col">District &amp; Location</th>
+            <th scope="col">Movement Type</th>
+            <th scope="col">Severity</th>
+            <th scope="col">Coordinates</th>
+            <th scope="col">AI Dossier</th>
+            <th scope="col">Reported Time</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="ledger-table-body">
+          {% for rep in summary.recent_reports %}
+          <tr role="row">
+            <td style="font-family: var(--font-mono, monospace); font-weight: 700; color: var(--forest);">
+              {{ rep.id }}
+            </td>
+            <td>
+              <div style="font-weight: 700;">{{ rep.district }}</div>
+              <div style="font-size: 11px; color: var(--ink-muted);">{{ rep.description[:65] if rep.description else 'Field report recorded' }}</div>
+            </td>
+            <td>{{ rep.movement_type or 'Unknown' }}</td>
+            <td>
+              <span class="badge-severity {% if rep.severity|lower == 'critical' %}badge-critical{% elif rep.severity|lower == 'high' %}badge-high{% elif rep.severity|lower == 'low' %}badge-low{% else %}badge-moderate{% endif %}">
+                {{ rep.severity or 'Moderate' }}
               </span>
-            </div>
-            {% else %}
-            <div class="panel-sub" style="padding: 1rem 0;">No movement telemetry available.</div>
-            {% endfor %}
-          </div>
-        </div>
+            </td>
+            <td style="font-family: var(--font-mono, monospace); font-size: 12px; color: var(--ink-soft);">
+              {{ rep.latitude }}°N, {{ rep.longitude }}°E
+            </td>
+            <td>
+              {% if rep.ai_assessment %}
+              <span class="badge-severity badge-low">Generated (BOQ Verified)</span>
+              {% else %}
+              <span class="badge-severity badge-high">Pending Computation</span>
+              {% endif %}
+            </td>
+            <td style="font-size: 12px; color: var(--ink-muted);">
+              {{ rep.created_at[:16]|replace('T', ' ') if rep.created_at else 'Recent' }}
+            </td>
+            <td>
+              <div class="action-buttons">
+                <a href="/report/pwd-sheet/{{ rep.id }}" class="btn-action" title="View PWD Engineering Sheet">PWD</a>
+                <a href="/report/boq-sheet/{{ rep.id }}" class="btn-action" title="View BOQ Cost Sheet">BOQ</a>
+                <a href="/explore?lat={{ rep.latitude }}&lng={{ rep.longitude }}" class="btn-action btn-action-primary" title="Inspect on 3D Globe">3D</a>
+              </div>
+            </td>
+          </tr>
+          {% else %}
+          <tr role="row">
+            <td colspan="8" style="text-align: center; color: var(--ink-muted); padding: 32px;">No field incidents recorded for this filter criteria.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
 
-      </section>
-
-      <!-- Detailed Telemetry Table -->
-      <section class="table-container" aria-label="Community Landslide Incident Ledger">
-        <table role="table">
-          <thead>
-            <tr role="row">
-              <th scope="col">Incident ID</th>
-              <th scope="col">District &amp; Location</th>
-              <th scope="col">Movement Type</th>
-              <th scope="col">Severity</th>
-              <th scope="col">Coordinates</th>
-              <th scope="col">AI Assessment</th>
-              <th scope="col">Reported Date</th>
-              <th scope="col">Actions</th>
-            </tr>
-          </thead>
-          <tbody id="telemetry-table-body">
-            {% for rep in summary.recent_reports %}
-            <tr role="row">
-              <td class="mono-cell"><strong>{{ rep.id }}</strong></td>
-              <td>
-                <strong>{{ rep.district }}</strong>
-                <div class="panel-sub">{{ rep.description[:60] if rep.description else 'Field report recorded' }}</div>
-              </td>
-              <td>{{ rep.movement_type or 'Unknown' }}</td>
-              <td>
-                <span class="badge {% if rep.severity|lower == 'critical' %}badge-critical{% elif rep.severity|lower == 'high' %}badge-high{% elif rep.severity|lower == 'low' %}badge-low{% else %}badge-moderate{% endif %}">
-                  {{ rep.severity or 'Moderate' }}
-                </span>
-              </td>
-              <td class="mono-cell">{{ rep.latitude }}°N, {{ rep.longitude }}°E</td>
-              <td>
-                {% if rep.ai_assessment %}
-                <span class="badge badge-low">Generated (BOQ Verified)</span>
-                {% else %}
-                <span class="badge badge-high">Pending Computation</span>
-                {% endif %}
-              </td>
-              <td class="mono-cell">{{ rep.created_at[:16]|replace('T', ' ') if rep.created_at else 'Recent' }}</td>
-              <td>
-                <div class="action-group">
-                  <a href="/report/pwd-sheet/{{ rep.id }}" class="btn btn-xs">PWD Sheet</a>
-                  <a href="/report/boq-sheet/{{ rep.id }}" class="btn btn-xs">BOQ</a>
-                  <a href="/explore?lat={{ rep.latitude }}&lng={{ rep.longitude }}" class="btn btn-xs btn-primary">Fly 3D</a>
-                </div>
-              </td>
-            </tr>
-            {% else %}
-            <tr role="row">
-              <td colspan="8" style="text-align: center; color: var(--text-muted); padding: 2rem;">No field reports found for this filter criteria.</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </section>
-
-    </main>
   </div>
+</div>
+{% endblock %}
 
-  <script>
-    async function syncMetrics() {
-      const district = document.getElementById("district-select").value;
-      const timeRange = document.getElementById("time-range-select").value;
-      const statusPill = document.getElementById("stream-status-text");
+{% block scripts %}
+<script>
+  async function syncMetrics() {
+    const districtSelect = document.getElementById("district-select");
+    const rangeSelect = document.getElementById("time-range-select");
+    const syncBtn = document.getElementById("sync-btn");
+    const syncIcon = document.getElementById("sync-icon");
+    const syncLabel = document.getElementById("sync-label");
 
-      statusPill.textContent = "SYNCING...";
+    const district = districtSelect ? districtSelect.value : "all";
+    const timeRange = rangeSelect ? rangeSelect.value : "7d";
 
-      try {
-        const resp = await fetch(`/api/admin/metrics?district=${encodeURIComponent(district)}&time_range=${encodeURIComponent(timeRange)}`);
-        const json = await resp.json();
+    if (syncIcon) syncIcon.classList.add("sync-spin");
+    if (syncLabel) syncLabel.textContent = "Syncing...";
+
+    try {
+      const resp = await fetch(`/api/admin/metrics?district=${encodeURIComponent(district)}&time_range=${encodeURIComponent(timeRange)}`);
+      const json = await resp.json();
+
+      if (json.success && json.summary) {
+        const s = json.summary;
+
+        // 1. Update KPI Numbers
+        document.getElementById("kpi-total-reports").textContent = s.kpis.total_reports;
+        document.getElementById("kpi-critical-hazards").textContent = s.kpis.critical_hazards;
+        document.getElementById("kpi-ai-dossiers").textContent = s.kpis.ai_dossiers_count;
+        document.getElementById("kpi-ai-coverage").textContent = `${s.kpis.ai_coverage_pct}% Coverage`;
+        document.getElementById("kpi-est-cost").textContent = `₹${s.kpis.estimated_cost_cr} Cr`;
         
-        if (json.success && json.summary) {
-          const s = json.summary;
-          
-          // Update KPI Cards
-          document.getElementById("metric-total-reports").textContent = s.kpis.total_reports;
-          document.getElementById("metric-critical-hazards").textContent = s.kpis.critical_hazards;
-          document.getElementById("metric-ai-dossiers").textContent = s.kpis.ai_dossiers_count;
-          document.getElementById("metric-ai-coverage").textContent = `${s.kpis.ai_coverage_pct}% Coverage`;
-          document.getElementById("metric-est-cost").textContent = `₹${s.kpis.estimated_cost_cr} Cr`;
-          document.getElementById("chart-total-count").textContent = `Active Submissions: ${s.kpis.total_reports}`;
+        const totalPill = document.getElementById("chart-total-pill");
+        if (totalPill) totalPill.textContent = `${s.kpis.total_reports} Total Events`;
 
-          // Update Bar Chart
-          const barContainer = document.getElementById("district-bar-container");
+        // 2. Update District Bars
+        const barContainer = document.getElementById("district-bars-container");
+        if (barContainer) {
           if (s.district_distribution && s.district_distribution.length > 0) {
             barContainer.innerHTML = s.district_distribution.map((item, idx) => {
-              const fillClass = idx === 0 ? 'fill-danger' : idx === 1 ? 'fill-warning' : idx === 2 ? 'fill-info' : 'fill-success';
+              const hotClass = idx === 0 ? 'bar-hot' : idx === 1 ? 'bar-warm' : '';
               return `
-                <div class="bar-row">
-                  <span>${item.district}</span>
-                  <div class="bar-track" aria-hidden="true">
-                    <div class="bar-fill ${fillClass}" style="width: ${item.percentage}%;"></div>
+                <div class="bar-item">
+                  <span class="bar-district-name" title="${item.district}">${item.district}</span>
+                  <div class="bar-rail" aria-hidden="true">
+                    <div class="bar-fill ${hotClass}" style="width: ${item.percentage}%;"></div>
                   </div>
-                  <span class="bar-val">${item.count}</span>
+                  <span class="bar-count">${item.count}</span>
                 </div>
               `;
             }).join('');
           } else {
-            barContainer.innerHTML = `<div class="panel-sub" style="padding: 1rem 0;">No incident distribution recorded for this filter.</div>`;
+            barContainer.innerHTML = `<div style="padding: 16px 0; color: var(--ink-muted); font-size: 13px;">No hazard distribution recorded for the selected filter.</div>`;
           }
+        }
 
-          // Update Movement List
-          const moveContainer = document.getElementById("movement-list-container");
+        // 3. Update Movement Typology
+        const moveContainer = document.getElementById("movement-group-container");
+        if (moveContainer) {
           if (s.movement_distribution && s.movement_distribution.length > 0) {
             moveContainer.innerHTML = s.movement_distribution.map(item => {
               const badgeClass = ['Slide', 'Debris Slide'].includes(item.movement) ? 'badge-critical' : ['Rockfall', 'Topple'].includes(item.movement) ? 'badge-high' : 'badge-moderate';
               return `
-                <div class="movement-item" role="listitem">
+                <div class="movement-row">
                   <div>
-                    <strong>${item.movement}</strong>
-                    <p class="panel-sub">Mechanics classification</p>
+                    <div class="movement-title">${item.movement}</div>
+                    <div class="movement-desc">Geological mode classification</div>
                   </div>
-                  <span class="badge ${badgeClass}">${item.percentage}% (${item.count})</span>
+                  <span class="badge-severity ${badgeClass}">${item.percentage}% (${item.count})</span>
                 </div>
               `;
             }).join('');
+          } else {
+            moveContainer.innerHTML = `<div style="padding: 16px 0; color: var(--ink-muted); font-size: 13px;">No movement typology recorded.</div>`;
           }
-
-          statusPill.textContent = "TELEMETRY SYNCED";
         }
-      } catch (err) {
-        console.error("Failed to sync metrics:", err);
-        statusPill.textContent = "OFFLINE / LOCAL";
       }
+    } catch (err) {
+      console.error("Failed to sync analytics metrics:", err);
+    } finally {
+      if (syncIcon) syncIcon.classList.remove("sync-spin");
+      if (syncLabel) syncLabel.textContent = "Sync";
     }
-  </script>
-</body>
-</html>
+  }
+</script>
+{% endblock %}
