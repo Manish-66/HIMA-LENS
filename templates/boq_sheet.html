@@ -609,7 +609,7 @@
   <div class="screen-action-bar">
     <div class="brand">
       <span class="hl-tag">HIMA-LENS</span>
-      <span class="hl-tag" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);">{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-STAR-') if assessment.telemetry.report_id else 'IITM-STAR-RECORD') }}</span>
+      <span class="hl-tag" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);">{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-CR-') if assessment.telemetry.report_id else 'IITM-CR-RECORD') }}</span>
       <span>IIT Mandi Slope Technical Assessment &bull; BOQ &amp; Loss Estimate</span>
     </div>
     <div class="action-btn-cluster">
@@ -656,7 +656,7 @@
             <div class="master-badge-col">
               <div class="report-stamp">
                 <span class="stamp-lbl">STATUTORY BOQ</span>
-                <span class="stamp-code">IITM-BOQ-{{ assessment.telemetry.report_id.replace('HL-CR-', '').replace('IITM-STAR-', '') }}</span>
+                <span class="stamp-code">IITM-BOQ-{{ assessment.telemetry.report_id.replace('HL-CR-', '').replace('IITM-CR-', '') }}</span>
                 <span class="stamp-stat">HPSOR &bull; 2024-25</span>
               </div>
             </div>
@@ -667,7 +667,7 @@
         <table class="grid-table">
           <tr>
             <td class="col-lbl" style="width: 14%;">Report Reference:</td>
-            <td class="col-val font-mono" style="width: 21%; font-weight: 700; color: var(--primary-forest);">{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-STAR-') if assessment.telemetry.report_id else 'IITM-STAR-RECORD') }}</td>
+            <td class="col-val font-mono" style="width: 21%; font-weight: 700; color: var(--primary-forest);">{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-CR-') if assessment.telemetry.report_id else 'IITM-CR-RECORD') }}</td>
             <td class="col-lbl" style="width: 14%;">District / Division:</td>
             <td class="col-val" style="width: 21%;"><strong>{{ assessment.telemetry.district }}</strong> Division (HP)</td>
             <td class="col-lbl" style="width: 14%;">Inspection Date:</td>
@@ -783,7 +783,7 @@
 
         <!-- Page 1 Footer -->
         <div class="page-footer">
-          <span>IIT Mandi Slope Technical Assessment Report &bull; Ref: <strong>{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-STAR-') if assessment.telemetry.report_id else 'IITM-STAR-RECORD') }}</strong> &bull; HPPWD Hill Roads BOQ</span>
+          <span>IIT Mandi Slope Technical Assessment Report &bull; Ref: <strong>{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-CR-') if assessment.telemetry.report_id else 'IITM-CR-RECORD') }}</strong> &bull; HPPWD Hill Roads BOQ</span>
           <span>Page 1 of 2</span>
         </div>
       </div>
@@ -929,7 +929,7 @@
 
         <!-- Page 2 Footer -->
         <div class="page-footer">
-          <span>IIT Mandi Slope Technical Assessment Report &bull; Ref: <strong>{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-STAR-') if assessment.telemetry.report_id else 'IITM-STAR-RECORD') }}</strong> &bull; Comprehensive Loss Audit</span>
+          <span>IIT Mandi Slope Technical Assessment Report &bull; Ref: <strong>{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-CR-') if assessment.telemetry.report_id else 'IITM-CR-RECORD') }}</strong> &bull; Comprehensive Loss Audit</span>
           <span>Page 2 of 2</span>
         </div>
       </div>

@@ -794,7 +794,7 @@ def submit_report():
     if file and file.filename and allowed_image_file(file.filename):
         photo_url = supabase_db.upload_report_image(file, file.filename)
 
-    report_id = f"IITM-STAR-{uuid.uuid4().hex[:8].upper()}"
+    report_id = f"IITM-CR-{uuid.uuid4().hex[:8].upper()}"
     new_report = {
         "id": report_id,
         "latitude": round(lat, 5),
@@ -924,12 +924,21 @@ def find_report_by_id(report_id: str) -> dict[str, Any] | None:
     if rep:
         return rep
     clean_id = (report_id or "").strip()
-    if clean_id.startswith("IITM-STAR-"):
-        alt_id = "HL-CR-" + clean_id[10:]
-        return supabase_db.fetch_report_by_id(alt_id)
+    candidates = []
+    if clean_id.startswith("IITM-CR-"):
+        suffix = clean_id[8:]
+        candidates = ["HL-CR-" + suffix, "IITM-STAR-" + suffix]
     elif clean_id.startswith("HL-CR-"):
-        alt_id = "IITM-STAR-" + clean_id[6:]
-        return supabase_db.fetch_report_by_id(alt_id)
+        suffix = clean_id[6:]
+        candidates = ["IITM-CR-" + suffix, "IITM-STAR-" + suffix]
+    elif clean_id.startswith("IITM-STAR-"):
+        suffix = clean_id[10:]
+        candidates = ["IITM-CR-" + suffix, "HL-CR-" + suffix]
+
+    for alt_id in candidates:
+        alt_rep = supabase_db.fetch_report_by_id(alt_id)
+        if alt_rep:
+            return alt_rep
     return None
 
 @app.post("/api/reports/<report_id>/ai-assessment")

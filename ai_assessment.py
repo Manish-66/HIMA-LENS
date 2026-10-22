@@ -229,9 +229,17 @@ def get_cached_assessment(report_id: str) -> dict[str, Any] | None:
     cache = _load_cache()
     cached = cache.get(clean_id)
     if not cached:
-        alt_id = clean_id.replace("IITM-STAR-", "HL-CR-") if clean_id.startswith("IITM-STAR-") else (
-            clean_id.replace("HL-CR-", "IITM-STAR-") if clean_id.startswith("HL-CR-") else None
-        )
+        alt_prefixes = ["IITM-CR-", "HL-CR-", "IITM-STAR-"]
+        alt_id = None
+        for pfx in alt_prefixes:
+            if clean_id.startswith(pfx):
+                suffix = clean_id[len(pfx):]
+                for target_pfx in alt_prefixes:
+                    if target_pfx != pfx and (target_pfx + suffix) in cache:
+                        alt_id = target_pfx + suffix
+                        break
+                if alt_id:
+                    break
         if alt_id:
             cached = cache.get(alt_id)
     if cached:
@@ -258,11 +266,10 @@ def save_assessment_to_cache(report_id: str, assessment: dict[str, Any]) -> None
     clean_id = str(report_id).strip()
     cache = _load_cache()
     cache[clean_id] = assessment
-    # Also save under alternate prefix
-    if clean_id.startswith("IITM-STAR-"):
-        cache["HL-CR-" + clean_id[10:]] = assessment
-    elif clean_id.startswith("HL-CR-"):
-        cache["IITM-STAR-" + clean_id[6:]] = assessment
+    # Also save under alternate prefixes
+    suffix = clean_id.split("-", 2)[-1] if "-" in clean_id else clean_id
+    for pfx in ("IITM-CR-", "HL-CR-", "IITM-STAR-"):
+        cache[pfx + suffix] = assessment
     _save_cache(cache)
 
     # Persist directly into Supabase JSONB column so assessments survive serverless restarts
@@ -689,9 +696,9 @@ def compute_deterministic_engineering_dossier(
         "telemetry": {
             "report_id": report_id,
             "report_reference": (
-                report_id.replace("HL-CR-", "IITM-STAR-")
+                report_id.replace("HL-CR-", "IITM-CR-").replace("IITM-STAR-", "IITM-CR-")
                 if report_id.startswith("HL-CR-")
-                else (report_id if report_id.startswith("IITM-STAR-") else f"IITM-STAR-{report_id}")
+                else (report_id if report_id.startswith("IITM-CR-") else f"IITM-CR-{report_id}")
             ),
             "district": district,
             "site_road_name": site_road_name,
@@ -952,9 +959,9 @@ def build_rejected_assessment_dossier(
         "telemetry": {
             "report_id": report_id,
             "report_reference": (
-                report_id.replace("HL-CR-", "IITM-STAR-")
+                report_id.replace("HL-CR-", "IITM-CR-").replace("IITM-STAR-", "IITM-CR-")
                 if report_id.startswith("HL-CR-")
-                else (report_id if report_id.startswith("IITM-STAR-") else f"IITM-STAR-{report_id}")
+                else (report_id if report_id.startswith("IITM-CR-") else f"IITM-CR-{report_id}")
             ),
             "district": district,
             "site_road_name": f"{district} Sector — Verification Rejected",
@@ -1330,9 +1337,9 @@ def normalize_assessment_structure(assessment: dict[str, Any] | None, report: di
         merged["cost_estimate_boq"] = geotech_engine.calculate_comprehensive_cost_and_loss_estimate(merged, report)
 
     # Harmonize official report reference (IITM-STAR)
-    rep_id = str(report.get("id") or (merged.get("telemetry") or {}).get("report_id") or "IITM-STAR-RECORD").strip()
-    ref_name = rep_id.replace("HL-CR-", "IITM-STAR-") if rep_id.startswith("HL-CR-") else (
-        rep_id if rep_id.startswith("IITM-STAR-") else f"IITM-STAR-{rep_id}"
+    rep_id = str(report.get("id") or (merged.get("telemetry") or {}).get("report_id") or "IITM-CR-RECORD").strip()
+    ref_name = rep_id.replace("HL-CR-", "IITM-CR-").replace("IITM-STAR-", "IITM-CR-") if (rep_id.startswith("HL-CR-") or rep_id.startswith("IITM-STAR-")) else (
+        rep_id if rep_id.startswith("IITM-CR-") else f"IITM-CR-{rep_id}"
     )
     if "telemetry" not in merged:
         merged["telemetry"] = {}

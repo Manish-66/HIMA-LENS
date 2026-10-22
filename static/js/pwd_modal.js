@@ -179,7 +179,7 @@ window.openPwdAssessmentModal = async function(reportId) {
   const form = document.getElementById('pwd-form');
   const subtitle = document.getElementById('pwd-modal-sub');
 
-  const displayRef = reportId.replace(/^HL-CR-/, "IITM-STAR-");
+  const displayRef = reportId.replace(/^HL-CR-/, "IITM-CR-");
   subtitle.innerText = `REF: ${displayRef}`;
   loader.style.display = 'block';
   form.style.display = 'none';

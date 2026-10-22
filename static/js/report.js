@@ -269,7 +269,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const data = await response.json();
 
                 if (response.ok && data.success) {
-                    const reportId = data.report?.id || "IITM-STAR-SUBMITTED";
+                    const reportId = data.report?.id || "IITM-CR-SUBMITTED";
                     showStatus(
                         `<strong>Field Report Registered!</strong> Incident Record ID: <code>${reportId}</code>. Your submission has been pinned to the spatial inventory. <a href="/explore" class="status-action-link">Open in Spatial Explorer &nearr;</a>`,
                         "success"
@@ -387,7 +387,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!modal) return;
 
         const detailId = document.getElementById("detail-id");
-        if (detailId) detailId.textContent = p.id ? p.id.replace(/^HL-CR-/, "IITM-STAR-") : "IITM-STAR-OBSERVATION";
+        if (detailId) detailId.textContent = p.id ? p.id.replace(/^HL-CR-/, "IITM-CR-") : "IITM-CR-OBSERVATION";
 
         const detailTitle = document.getElementById("report-detail-title");
         if (detailTitle) detailTitle.textContent = `${p.movement_type || "Landslide"} — ${p.district || "Himachal Pradesh"}`;

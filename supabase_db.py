@@ -213,13 +213,22 @@ def fetch_report_by_id(report_id: str) -> dict[str, Any] | None:
     if result:
         return result
 
-    # Transparent fallback between new and legacy prefixes
-    if clean_id.startswith("IITM-STAR-"):
-        alt_id = "HL-CR-" + clean_id[10:]
-        return _lookup(alt_id)
+    # Transparent fallback across IITM-CR-, HL-CR-, and IITM-STAR-
+    candidates = []
+    if clean_id.startswith("IITM-CR-"):
+        suffix = clean_id[8:]
+        candidates = ["HL-CR-" + suffix, "IITM-STAR-" + suffix]
     elif clean_id.startswith("HL-CR-"):
-        alt_id = "IITM-STAR-" + clean_id[6:]
-        return _lookup(alt_id)
+        suffix = clean_id[6:]
+        candidates = ["IITM-CR-" + suffix, "IITM-STAR-" + suffix]
+    elif clean_id.startswith("IITM-STAR-"):
+        suffix = clean_id[10:]
+        candidates = ["IITM-CR-" + suffix, "HL-CR-" + suffix]
+
+    for alt in candidates:
+        r = _lookup(alt)
+        if r:
+            return r
 
     return None
 
