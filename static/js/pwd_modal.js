@@ -17,7 +17,7 @@ function ensurePwdModalInDOM() {
           <div class="title-wrap" style="align-items: center; gap: 12px;">
             <img src="/static/img/iit_mandi_logo.svg" alt="IIT Mandi Emblem" style="width: 36px; height: 36px; object-fit: contain; background: #ffffff; padding: 2px; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.25);">
             <div>
-              <div style="font-size: 9.5px; font-weight: 800; color: #5eead4; letter-spacing: 0.5px; text-transform: uppercase;">IIT MANDI &bull; SCENE</div>
+              <div style="font-size: 9.5px; font-weight: 800; color: #5eead4; letter-spacing: 0.5px; text-transform: uppercase;">IIT MANDI</div>
               <h3 class="pwd-modal-title" style="font-size: 15px; margin: 0; line-height: 1.2;">
                 IIT Mandi Slope Technical Assessment
                 <span class="pwd-modal-badge">AI Reviewed</span>
@@ -179,7 +179,8 @@ window.openPwdAssessmentModal = async function(reportId) {
   const form = document.getElementById('pwd-form');
   const subtitle = document.getElementById('pwd-modal-sub');
 
-  subtitle.innerText = `REF: ${reportId}`;
+  const displayRef = reportId.replace(/^HL-CR-/, "IITM-STAR-");
+  subtitle.innerText = `REF: ${displayRef}`;
   loader.style.display = 'block';
   form.style.display = 'none';
   modal.style.display = 'flex';

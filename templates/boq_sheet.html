@@ -609,7 +609,7 @@
   <div class="screen-action-bar">
     <div class="brand">
       <span class="hl-tag">HIMA-LENS</span>
-      <span class="hl-tag" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);">{{ assessment.telemetry.report_id }}</span>
+      <span class="hl-tag" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);">{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-STAR-') if assessment.telemetry.report_id else 'IITM-STAR-RECORD') }}</span>
       <span>IIT Mandi Slope Technical Assessment &bull; BOQ &amp; Loss Estimate</span>
     </div>
     <div class="action-btn-cluster">
@@ -648,7 +648,7 @@
               <img src="{{ url_for('static', filename='img/iit_mandi_logo.svg') }}" alt="IIT Mandi Emblem" class="inst-logo-img">
             </div>
             <div class="master-text-col">
-              <div class="inst-name">INDIAN INSTITUTE OF TECHNOLOGY MANDI &bull; SCENE</div>
+              <div class="inst-name">INDIAN INSTITUTE OF TECHNOLOGY MANDI</div>
               <div class="master-title">IIT MANDI SLOPE TECHNICAL ASSESSMENT REPORT</div>
               <div class="master-subtitle">HPPWD SCHEDULE OF RATES (HPSOR) BILL OF QUANTITIES &amp; REMEDIATION ESTIMATE</div>
               <div class="master-standards">Reference Standards: MoRTH (5th Rev) &bull; IRC:SP:48 &bull; IS:14458 &bull; Disaster Management Act 2005</div>
@@ -656,7 +656,7 @@
             <div class="master-badge-col">
               <div class="report-stamp">
                 <span class="stamp-lbl">STATUTORY BOQ</span>
-                <span class="stamp-code">IITM-BOQ-{{ assessment.telemetry.report_id }}</span>
+                <span class="stamp-code">IITM-BOQ-{{ assessment.telemetry.report_id.replace('HL-CR-', '').replace('IITM-STAR-', '') }}</span>
                 <span class="stamp-stat">HPSOR &bull; 2024-25</span>
               </div>
             </div>
@@ -666,8 +666,8 @@
         <!-- Master Telemetry Table -->
         <table class="grid-table">
           <tr>
-            <td class="col-lbl" style="width: 14%;">Report ID:</td>
-            <td class="col-val font-mono" style="width: 21%; font-weight: 700; color: var(--primary-forest);">{{ assessment.telemetry.report_id }}</td>
+            <td class="col-lbl" style="width: 14%;">Report Reference:</td>
+            <td class="col-val font-mono" style="width: 21%; font-weight: 700; color: var(--primary-forest);">{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-STAR-') if assessment.telemetry.report_id else 'IITM-STAR-RECORD') }}</td>
             <td class="col-lbl" style="width: 14%;">District / Division:</td>
             <td class="col-val" style="width: 21%;"><strong>{{ assessment.telemetry.district }}</strong> Division (HP)</td>
             <td class="col-lbl" style="width: 14%;">Inspection Date:</td>
@@ -783,7 +783,7 @@
 
         <!-- Page 1 Footer -->
         <div class="page-footer">
-          <span>IIT Mandi Slope Technical Assessment Report &bull; HPPWD Hill Roads Schedule of Rates BOQ</span>
+          <span>IIT Mandi Slope Technical Assessment Report &bull; Ref: <strong>{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-STAR-') if assessment.telemetry.report_id else 'IITM-STAR-RECORD') }}</strong> &bull; HPPWD Hill Roads BOQ</span>
           <span>Page 1 of 2</span>
         </div>
       </div>
@@ -799,7 +799,7 @@
               <img src="{{ url_for('static', filename='img/iit_mandi_logo.svg') }}" alt="IIT Mandi Logo" class="inst-logo-img" style="width: 38px; height: 38px;">
             </div>
             <div class="master-text-col">
-              <div class="inst-name" style="font-size: 9.5px;">INDIAN INSTITUTE OF TECHNOLOGY MANDI &bull; SCENE</div>
+              <div class="inst-name" style="font-size: 9.5px;">INDIAN INSTITUTE OF TECHNOLOGY MANDI</div>
               <div class="master-title" style="font-size: 11.5px;">IIT MANDI SLOPE TECHNICAL ASSESSMENT REPORT &bull; LOSS AUDIT</div>
               <div class="master-standards">Disaster Management Act 2005 &bull; IRC:SP:48 Hill Road Guidelines &bull; HPPWD Technical Code</div>
             </div>
@@ -929,7 +929,7 @@
 
         <!-- Page 2 Footer -->
         <div class="page-footer">
-          <span>IIT Mandi Slope Technical Assessment Report &bull; Comprehensive Loss Audit &amp; Technical Sanction</span>
+          <span>IIT Mandi Slope Technical Assessment Report &bull; Ref: <strong>{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-STAR-') if assessment.telemetry.report_id else 'IITM-STAR-RECORD') }}</strong> &bull; Comprehensive Loss Audit</span>
           <span>Page 2 of 2</span>
         </div>
       </div>

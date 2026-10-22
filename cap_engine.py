@@ -60,7 +60,7 @@ def _get_expiration_iso(hours: int = 12) -> str:
 def generate_cap_xml(alert: dict[str, Any]) -> str:
     """Generates an OASIS CAP v1.2 compliant XML document from alert parameters."""
     identifier = alert.get("identifier") or f"IN-HP-HIMALENS-{int(time.time())}-{uuid.uuid4().hex[:6].upper()}"
-    sender = alert.get("sender") or "scene.iitmandi@himalens.gov.in"
+    sender = alert.get("sender") or "iitmandi@himalens.gov.in"
     sent = alert.get("sent") or _get_utc_now_iso()
     status = alert.get("status") or "Actual"  # Actual, Draft, Test
     msg_type = alert.get("msg_type") or "Alert"  # Alert, Update, Cancel
@@ -74,7 +74,7 @@ def generate_cap_xml(alert: dict[str, Any]) -> str:
     ET.SubElement(root, "sent").text = sent
     ET.SubElement(root, "status").text = status
     ET.SubElement(root, "msgType").text = msg_type
-    ET.SubElement(root, "source").text = "HIMA-LENS Landslide & Mountain Hazard Observatory, SCENE IIT Mandi"
+    ET.SubElement(root, "source").text = "HIMA-LENS Landslide & Mountain Hazard Observatory, IIT Mandi"
     ET.SubElement(root, "scope").text = scope
     ET.SubElement(root, "code").text = "CAP-SACHET-1.2"
     ET.SubElement(root, "code").text = "NDMA-CELL-BROADCAST"
@@ -133,7 +133,7 @@ def get_default_cap_alert() -> dict[str, Any]:
     """Returns a realistic active CAP sample alert for initial state."""
     return {
         "identifier": "IN-HP-HIMALENS-20261022-NIGUL01",
-        "sender": "scene.iitmandi@himalens.gov.in",
+        "sender": "iitmandi@himalens.gov.in",
         "sent": _get_utc_now_iso(),
         "status": "Actual",
         "msg_type": "Alert",
@@ -181,7 +181,7 @@ def dispatch_cap_alert(payload: dict[str, Any]) -> dict[str, Any]:
     
     alert_record = {
         "identifier": identifier,
-        "sender": "scene.iitmandi@himalens.gov.in",
+        "sender": "iitmandi@himalens.gov.in",
         "sent": _get_utc_now_iso(),
         "status": payload.get("status") or "Actual",
         "msg_type": "Alert",

@@ -228,6 +228,12 @@ def get_cached_assessment(report_id: str) -> dict[str, Any] | None:
     clean_id = str(report_id).strip()
     cache = _load_cache()
     cached = cache.get(clean_id)
+    if not cached:
+        alt_id = clean_id.replace("IITM-STAR-", "HL-CR-") if clean_id.startswith("IITM-STAR-") else (
+            clean_id.replace("HL-CR-", "IITM-STAR-") if clean_id.startswith("HL-CR-") else None
+        )
+        if alt_id:
+            cached = cache.get(alt_id)
     if cached:
         return cached
 
@@ -252,6 +258,11 @@ def save_assessment_to_cache(report_id: str, assessment: dict[str, Any]) -> None
     clean_id = str(report_id).strip()
     cache = _load_cache()
     cache[clean_id] = assessment
+    # Also save under alternate prefix
+    if clean_id.startswith("IITM-STAR-"):
+        cache["HL-CR-" + clean_id[10:]] = assessment
+    elif clean_id.startswith("HL-CR-"):
+        cache["IITM-STAR-" + clean_id[6:]] = assessment
     _save_cache(cache)
 
     # Persist directly into Supabase JSONB column so assessments survive serverless restarts
@@ -677,6 +688,11 @@ def compute_deterministic_engineering_dossier(
         "generated_at": datetime.utcnow().strftime("%d %b %Y, %H:%M UTC"),
         "telemetry": {
             "report_id": report_id,
+            "report_reference": (
+                report_id.replace("HL-CR-", "IITM-STAR-")
+                if report_id.startswith("HL-CR-")
+                else (report_id if report_id.startswith("IITM-STAR-") else f"IITM-STAR-{report_id}")
+            ),
             "district": district,
             "site_road_name": site_road_name,
             "location_chainage": f"RD {int(lat * 10) % 20}+{(int(lng * 1000) % 900):03d} (Km {int(lat * 10) % 20}/{(int(lng * 1000) % 900):03d})",
@@ -935,6 +951,11 @@ def build_rejected_assessment_dossier(
         "generated_at": datetime.utcnow().strftime("%d %b %Y, %H:%M UTC"),
         "telemetry": {
             "report_id": report_id,
+            "report_reference": (
+                report_id.replace("HL-CR-", "IITM-STAR-")
+                if report_id.startswith("HL-CR-")
+                else (report_id if report_id.startswith("IITM-STAR-") else f"IITM-STAR-{report_id}")
+            ),
             "district": district,
             "site_road_name": f"{district} Sector — Verification Rejected",
             "location_chainage": "N/A — Verification Rejected",
@@ -1307,6 +1328,16 @@ def normalize_assessment_structure(assessment: dict[str, Any] | None, report: di
 
         # Ensure cost_estimate_boq is present and up-to-date
         merged["cost_estimate_boq"] = geotech_engine.calculate_comprehensive_cost_and_loss_estimate(merged, report)
+
+    # Harmonize official report reference (IITM-STAR)
+    rep_id = str(report.get("id") or (merged.get("telemetry") or {}).get("report_id") or "IITM-STAR-RECORD").strip()
+    ref_name = rep_id.replace("HL-CR-", "IITM-STAR-") if rep_id.startswith("HL-CR-") else (
+        rep_id if rep_id.startswith("IITM-STAR-") else f"IITM-STAR-{rep_id}"
+    )
+    if "telemetry" not in merged:
+        merged["telemetry"] = {}
+    merged["telemetry"]["report_id"] = rep_id
+    merged["telemetry"]["report_reference"] = ref_name
 
     return merged
 

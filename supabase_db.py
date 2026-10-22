@@ -179,33 +179,48 @@ def fetch_report_by_id(report_id: str) -> dict[str, Any] | None:
 
     Queries Supabase directly with `?id=eq.<id>` to avoid full-table scans.
     Falls back to scanning local reports if unconfigured or offline.
+    Seamlessly resolves both 'IITM-STAR-' and 'HL-CR-' report prefixes.
     """
     clean_id = (report_id or "").strip()
     if not clean_id:
         return None
 
-    if is_supabase_configured():
-        url = f"{SUPABASE_URL}/rest/v1/community_reports?id=eq.{clean_id}&limit=1"
-        try:
-            resp = _get_session().get(url, headers=_supabase_headers(), timeout=5)
-            if resp.status_code == 200:
-                rows = resp.json()
-                if isinstance(rows, list) and len(rows) > 0:
-                    return rows[0]
-            else:
-                logger.warning(
-                    "Supabase single report lookup returned status %s: %s",
-                    resp.status_code,
-                    resp.text[:200],
-                )
-        except Exception as exc:
-            logger.warning("Supabase single report lookup exception: %s. Falling back to local data.", exc)
+    def _lookup(target_id: str) -> dict[str, Any] | None:
+        if is_supabase_configured():
+            url = f"{SUPABASE_URL}/rest/v1/community_reports?id=eq.{target_id}&limit=1"
+            try:
+                resp = _get_session().get(url, headers=_supabase_headers(), timeout=5)
+                if resp.status_code == 200:
+                    rows = resp.json()
+                    if isinstance(rows, list) and len(rows) > 0:
+                        return rows[0]
+                else:
+                    logger.warning(
+                        "Supabase single report lookup returned status %s: %s",
+                        resp.status_code,
+                        resp.text[:200],
+                    )
+            except Exception as exc:
+                logger.warning("Supabase single report lookup exception: %s. Falling back to local data.", exc)
 
-    # Local fallback
-    clean_id_lower = clean_id.casefold()
-    for r in load_local_reports():
-        if str(r.get("id", "")).strip().casefold() == clean_id_lower:
-            return r
+        clean_lower = target_id.casefold()
+        for r in load_local_reports():
+            if str(r.get("id", "")).strip().casefold() == clean_lower:
+                return r
+        return None
+
+    result = _lookup(clean_id)
+    if result:
+        return result
+
+    # Transparent fallback between new and legacy prefixes
+    if clean_id.startswith("IITM-STAR-"):
+        alt_id = "HL-CR-" + clean_id[10:]
+        return _lookup(alt_id)
+    elif clean_id.startswith("HL-CR-"):
+        alt_id = "IITM-STAR-" + clean_id[6:]
+        return _lookup(alt_id)
+
     return None
 
 
