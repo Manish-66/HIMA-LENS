@@ -100,14 +100,21 @@ function initMap() {
     keepBuffer: 4
   };
 
+  const WAYBACK_2023_URL = "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/1034/{z}/{y}/{x}";
+
   layers.standard = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
     attribution: "© OpenStreetMap contributors",
     ...tileOpts
   });
+  layers["satellite-2023"] = L.tileLayer(WAYBACK_2023_URL, {
+    maxZoom: 18,
+    attribution: "Tiles © Esri Wayback (October 2023)",
+    ...tileOpts
+  });
   layers.satellite = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
     maxZoom: 18,
-    attribution: "Tiles © Esri",
+    attribution: "Tiles © Esri (Latest)",
     ...tileOpts
   });
   layers.terrain = L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
@@ -649,36 +656,43 @@ async function initCesium() {
   focusCesiumOnMap(false);
 
   if(token) {
-    showLoading("STREAMING 3D SATELLITE & ELEVATION", "Downloading digital elevation model & aerial photography…", "3D TERRAIN ENGINE");
+    showLoading("STREAMING 3D SATELLITE & ELEVATION (2023)", "Downloading digital elevation model & 2023 aerial photography…", "3D TERRAIN ENGINE");
     try {
-      const [satelliteRes, terrainRes] = await Promise.allSettled([
-        Cesium.createWorldImageryAsync({style:Cesium.IonWorldImageryStyle.AERIAL}),
-        Cesium.createWorldTerrainAsync({requestVertexNormals:true})
-      ]);
-      if(satelliteRes.status === "fulfilled" && satelliteRes.value) {
-        viewer.imageryLayers.removeAll();
-        const sat = satelliteRes.value;
-        if(sat instanceof Cesium.ImageryLayer) viewer.imageryLayers.add(sat);
-        else viewer.imageryLayers.addImageryProvider(sat);
-      }
-      if(terrainRes.status === "fulfilled" && terrainRes.value) {
-        terrainProvider = terrainRes.value;
+      const terrainRes = await Cesium.createWorldTerrainAsync({requestVertexNormals:true}).catch(() => null);
+      if(terrainRes) {
+        terrainProvider = terrainRes;
         try {
-          viewer.terrainProvider = terrainRes.value;
+          viewer.terrainProvider = terrainRes;
         } catch(e) {
-          try { viewer.scene.terrainProvider = terrainRes.value; } catch(e2) {}
+          try { viewer.scene.terrainProvider = terrainRes; } catch(e2) {}
         }
         viewer.scene.globe.depthTestAgainstTerrain = true;
         viewer.scene.globe.terrainExaggeration = 1.35;
-        // Re-focus camera with 3D elevation loaded for optimal perspective
         focusCesiumOnMap(true);
       }
     } catch(error) {
-      console.warn("Cesium Ion imagery/terrain could not load; retaining ESRI satellite fallback.",error);
+      console.warn("Cesium Ion terrain could not load; retaining standard globe.", error);
     }
   } else {
-    console.log("Using ESRI satellite basemap for 3D view.");
+    console.log("Using standard globe for 3D view.");
     viewer.scene.globe.depthTestAgainstTerrain = false;
+  }
+
+  // Drape 2023 Post-Monsoon Satellite Imagery onto 3D Globe
+  try {
+    viewer.imageryLayers.removeAll();
+    const wayback2023Provider = new Cesium.UrlTemplateImageryProvider({
+      url: WAYBACK_2023_URL,
+      maximumLevel: 18,
+      credit: "Esri Wayback Imagery (October 2023)"
+    });
+    viewer.imageryLayers.addImageryProvider(wayback2023Provider);
+  } catch(imgErr) {
+    console.warn("Wayback 2023 imagery could not load; fallback to Cesium Ion imagery.", imgErr);
+    try {
+      const sat = await Cesium.createWorldImageryAsync({style:Cesium.IonWorldImageryStyle.AERIAL});
+      viewer.imageryLayers.add(sat);
+    } catch(e) {}
   }
 
   showLoading("PROJECTING 3D LANDSLIDE FEATURES", "Sampling surface terrain elevations for records…", "3D TERRAIN ENGINE");
