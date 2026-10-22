@@ -100,21 +100,27 @@ function initMap() {
     keepBuffer: 4
   };
 
-  const WAYBACK_2023_URL = "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/1034/{z}/{y}/{x}";
+  const SATELLITE_WAYBACK_YEARS = {
+    "2023": "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/56102/{z}/{y}/{x}",
+    "2022": "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/45134/{z}/{y}/{x}",
+    "2021": "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/26120/{z}/{y}/{x}",
+    "2020": "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/29260/{z}/{y}/{x}",
+    "2019": "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/4756/{z}/{y}/{x}",
+    "2018": "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/239/{z}/{y}/{x}",
+    "2017": "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/239/{z}/{y}/{x}",
+    "2016": "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/239/{z}/{y}/{x}",
+    "2015": "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/239/{z}/{y}/{x}"
+  };
+  const SATELLITE_LATEST_URL = "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}";
 
   layers.standard = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
     attribution: "© OpenStreetMap contributors",
     ...tileOpts
   });
-  layers["satellite-2023"] = L.tileLayer(WAYBACK_2023_URL, {
+  layers.satellite = L.tileLayer(SATELLITE_LATEST_URL, {
     maxZoom: 18,
-    attribution: "Tiles © Esri Wayback (October 2023)",
-    ...tileOpts
-  });
-  layers.satellite = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
-    maxZoom: 18,
-    attribution: "Tiles © Esri (Latest)",
+    attribution: "Tiles © Esri",
     ...tileOpts
   });
   layers.terrain = L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
@@ -140,9 +146,44 @@ function initMap() {
   map.on("mousemove", event => document.getElementById("cursor-coords").innerHTML = `${event.latlng.lat.toFixed(4)}° N, ${event.latlng.lng.toFixed(4)}° E &bull; EPSG:4326 &bull; HP-GRID`);
 }
 
+function getSatelliteUrlForYear(selectedYear) {
+  return SATELLITE_WAYBACK_YEARS[selectedYear] || SATELLITE_LATEST_URL;
+}
+
+function updateTemporalSatellite(selectedYear) {
+  const targetUrl = getSatelliteUrlForYear(selectedYear);
+  const isWayback = Boolean(SATELLITE_WAYBACK_YEARS[selectedYear]);
+  const yearBadge = isWayback ? `${selectedYear} Satellite Archive` : "Latest High-Resolution Satellite";
+
+  if (layers.satellite) {
+    layers.satellite.setUrl(targetUrl);
+  }
+
+  if (viewer) {
+    try {
+      viewer.imageryLayers.removeAll();
+      const imageryProvider = new Cesium.UrlTemplateImageryProvider({
+        url: targetUrl,
+        maximumLevel: 18,
+        credit: `Esri World Imagery (${yearBadge})`
+      });
+      viewer.imageryLayers.addImageryProvider(imageryProvider);
+      syncCesiumAllOverlays();
+    } catch (e) {
+      console.warn("Could not update 3D imagery for year", selectedYear, e);
+    }
+  }
+
+  const activeBtn = document.querySelector(".layer-choice-btn.active")?.dataset?.layerChoice;
+  if (activeBtn === "satellite" || activeBtn === "3d") {
+    showLoading("SATELLITE SYNCHRONIZED", `Displaying ${yearBadge}.`, "TIMELINE SATELLITE");
+    hideLoading(350);
+  }
+}
+
 function validFeature(f) { return f?.geometry?.type === "Point" && Array.isArray(f.geometry.coordinates) && f.geometry.coordinates.length >= 2; }
 function property(props, names, fallback="Not available") { for (const name of names) { const value=props?.[name]; if(value !== undefined && value !== null && String(value).trim()) return String(value).trim(); } return fallback; }
-function p(f, field, fallback="Not recorded in source") { const keys={district:["district","District","DISTRICT"],activity:["activity","Activity","ACTIVITY","activity_status","activityStatus","status"],movement:["movement_type","movementType","movement","MOVEMENT_T","MOVEMENT_","MOVEMENT","movement_t"],material:["material_type","materialType","material","MATERIAL_T","MATERIAL","material_t"],year:["year","Year","period","Period","recorded_year","recordedYear"]}; return property(f.properties,keys[field],fallback); }
+function p(f, field, fallback="Not recorded in source") { const keys={district:["district","District","DISTRICT"],activity:["activity","Activity","ACTIVITY","activity_status","activityStatus","status"],movement:["movement_type","movementType","movement","MOVEMENT_T","MOVEMENT_","MOVEMENT","movement_t"],material:["material_type","materialType","material","MATERIAL_T","MATERIAL","material_t"],year:["year","Year","recorded_year","recordedYear"],period:["period","Period","time","Time","season","Season"]}; return property(f.properties,keys[field],fallback); }
 
 function renderFeatures(fit=false, focus3d=false) {
   markerLayer.clearLayers(); selectedMarker=null; const markers=[], positions=[];
@@ -225,7 +266,12 @@ function roadDrawer(feature, lat, lng) {
 }
 
 function districtName(feature) { return property(feature?.properties,["district","name","lgd_districtname"],""); }
-function populateFilters() { const districts=[...new Set((boundaryData?.features||[]).map(districtName).filter(Boolean))].sort((a,b)=>a.localeCompare(b)); populate("district",districts); populate("year",unique("year").sort().reverse()); populate("activity",unique("activity")); populate("movement",unique("movement")); document.getElementById("district-count").textContent=districts.length.toLocaleString("en-IN"); }
+function populateFilters() { const districts=[...new Set((boundaryData?.features||[]).map(districtName).filter(Boolean))].sort((a,b)=>a.localeCompare(b)); populate("district",districts); const yearOptions = unique("year").sort((a,b) => b.localeCompare(a, undefined, {numeric: true}));
+  const yearSelect = document.getElementById("year");
+  yearOptions.forEach(y => {
+    const lbl = y === "2023" ? "2023 (Disaster Survey)" : (y === "Historical" ? "Historical Archive" : y);
+    yearSelect.add(new Option(lbl, y));
+  }); populate("activity",unique("activity")); populate("movement",unique("movement")); document.getElementById("district-count").textContent=districts.length.toLocaleString("en-IN"); }
 function unique(field) { return [...new Set(allFeatures.map(f=>p(f,field,"")).filter(Boolean))].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true})); }
 function populate(id, values) { const el=document.getElementById(id); values.forEach(value=>el.add(new Option(value,value))); }
 
@@ -283,6 +329,7 @@ function applyFilters() {
   isolateDistrict(district);
   renderFeatures(district === "all", true);
   renderCommunityReports(district);
+  updateTemporalSatellite(year);
   const polyToggle = document.getElementById("toggle-polygons");
   if (polyToggle && polyToggle.checked) togglePolygons(true);
 }
@@ -655,8 +702,13 @@ async function initCesium() {
   if(selectedDistrict!=="all") updateCesiumDistrictBoundary(boundaryData?.features?.find(feature=>districtName(feature).toLowerCase()===selectedDistrict.toLowerCase()));
   focusCesiumOnMap(false);
 
+  const selectedYear = document.getElementById("year")?.value || "all";
+  const targetSatUrl = getSatelliteUrlForYear(selectedYear);
+  const isWayback = Boolean(SATELLITE_WAYBACK_YEARS[selectedYear]);
+  const yearBadge = isWayback ? `${selectedYear} Aerial Photography` : "Latest Aerial Photography";
+
   if(token) {
-    showLoading("STREAMING 3D SATELLITE & ELEVATION (2023)", "Downloading digital elevation model & 2023 aerial photography…", "3D TERRAIN ENGINE");
+    showLoading("STREAMING 3D SATELLITE & ELEVATION", `Downloading elevation & ${yearBadge}…`, "3D TERRAIN ENGINE");
     try {
       const terrainRes = await Cesium.createWorldTerrainAsync({requestVertexNormals:true}).catch(() => null);
       if(terrainRes) {
@@ -671,24 +723,23 @@ async function initCesium() {
         focusCesiumOnMap(true);
       }
     } catch(error) {
-      console.warn("Cesium Ion terrain could not load; retaining standard globe.", error);
+      console.warn("Cesium Ion terrain could not load:", error);
     }
   } else {
-    console.log("Using standard globe for 3D view.");
     viewer.scene.globe.depthTestAgainstTerrain = false;
   }
 
-  // Drape 2023 Post-Monsoon Satellite Imagery onto 3D Globe
+  // Drape temporal satellite imagery onto 3D Globe matching selected year
   try {
     viewer.imageryLayers.removeAll();
-    const wayback2023Provider = new Cesium.UrlTemplateImageryProvider({
-      url: WAYBACK_2023_URL,
+    const temporalProvider = new Cesium.UrlTemplateImageryProvider({
+      url: targetSatUrl,
       maximumLevel: 18,
-      credit: "Esri Wayback Imagery (October 2023)"
+      credit: `Esri World Imagery (${yearBadge})`
     });
-    viewer.imageryLayers.addImageryProvider(wayback2023Provider);
+    viewer.imageryLayers.addImageryProvider(temporalProvider);
   } catch(imgErr) {
-    console.warn("Wayback 2023 imagery could not load; fallback to Cesium Ion imagery.", imgErr);
+    console.warn("Could not load temporal imagery in Cesium:", imgErr);
     try {
       const sat = await Cesium.createWorldImageryAsync({style:Cesium.IonWorldImageryStyle.AERIAL});
       viewer.imageryLayers.add(sat);

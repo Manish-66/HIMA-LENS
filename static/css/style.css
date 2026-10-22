@@ -12914,10 +12914,6 @@ body:has(.gis-console-layout) {
     transition: all 0.2s ease !important;
 }
 
-.layer-choice-btn[data-layer-choice="3d"] {
-    grid-column: span 2 !important;
-}
-
 .layer-choice-btn:hover {
     color: #0c261e !important;
     background: #ffffff !important;

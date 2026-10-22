@@ -50,7 +50,7 @@ ALIASES = {
     "movement": ("movement_type", "movementType", "movement", "MOVEMENT_T", "MOVEMENT_", "MOVEMENT", "movement_t"),
     "material": ("material_type", "materialType", "material", "MATERIAL_T", "MATERIAL", "material_t"),
     "period": ("period", "Period", "time", "Time", "season", "Season"),
-    "year": ("year", "Year", "recorded_year", "recordedYear", "period", "Period"),
+    "year": ("year", "Year", "recorded_year", "recordedYear"),
 }
 
 def prop(feature: dict[str, Any], name: str, default: str = "") -> str:

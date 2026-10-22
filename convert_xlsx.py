@@ -94,10 +94,19 @@ def legacy_features(boundaries: list[dict[str, Any]]) -> list[dict[str, Any]]:
         period = normalize_period(props.get("time") or props.get("period"))
 
         year_val = props.get("year")
-        if year_val is not None and str(year_val).strip() and str(year_val).strip().isdigit():
-            year_str = str(int(float(year_val)))
-        else:
-            year_str = period
+        year_str = None
+        if year_val is not None:
+            try:
+                y_int = int(float(year_val))
+                if 1950 <= y_int <= 2030:
+                    year_str = str(y_int)
+            except (ValueError, TypeError):
+                pass
+        if not year_str:
+            if period in ("Pre-monsoon", "Post-monsoon"):
+                year_str = "2023"
+            else:
+                year_str = "Historical"
 
         dist_road = None
         if props.get("dist_road") is not None:
@@ -162,6 +171,12 @@ def mandi_features() -> list[dict[str, Any]]:
 
         obj_id = int(row["OBJECTID_1"]) if pd.notna(row.get("OBJECTID_1")) else idx + 1
 
+        # Mandi survey: Pre-monsoon and Post-monsoon represent the 2023 disaster event survey
+        if period in ("Pre-monsoon", "Post-monsoon"):
+            year_str = "2023"
+        else:
+            year_str = "Historical"
+
         props = {
             "id": obj_id,
             "district": district,
@@ -171,7 +186,7 @@ def mandi_features() -> list[dict[str, Any]]:
             "movement_type": movement,
             "material_type": material,
             "period": period,
-            "year": period,
+            "year": year_str,
             "distance_to_road_m": road_dist,
             "source": "Mandi Detailed Field Inventory",
         }
