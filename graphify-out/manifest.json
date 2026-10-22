@@ -850,5 +850,11 @@
     "seen": 1792689742.6462667,
     "ast_hash": "1d32f0b7326a22bdefc3646e298bbafb",
     "semantic_hash": ""
+  },
+  ".agents/skills/technical-writing/SKILL.md": {
+    "mtime": 1792690134.1972327,
+    "seen": 1792690149.6314938,
+    "ast_hash": "708d34a18cdf15ec48cb6bf9c88456ed",
+    "semantic_hash": ""
   }
 }
