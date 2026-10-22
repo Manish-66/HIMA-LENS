@@ -984,10 +984,11 @@ def view_pwd_sheet(report_id: str):
     boq = assessment.get("cost_estimate_boq") or geotech_engine.calculate_comprehensive_cost_and_loss_estimate(assessment, report)
     return render_template("pwd_sheet.html", report=report, assessment=assessment, boq=boq)
 
+@app.get("/report/solution-sheet/<report_id>")
 @app.get("/report/pwd-sheet-v1/<report_id>")
 @app.get("/report/legacy-sheet/<report_id>")
 def view_legacy_pwd_sheet(report_id: str):
-    """Preserved classic v1.0 3-page PWD engineering assessment format."""
+    """Preserved classic v1.0 3-page PWD engineering assessment format (Mitigation & Solution Report)."""
     report = find_report_by_id(report_id)
     if not report:
         return f"Report with ID {report_id} was not found.", 404
@@ -995,7 +996,8 @@ def view_legacy_pwd_sheet(report_id: str):
     force = request.args.get("force", "").lower() in ("1", "true", "yes")
     assessment = ai_assessment.generate_ai_assessment(report, force_refresh=force)
     assessment = ai_assessment.normalize_assessment_structure(assessment, report)
-    return render_template("archive/pwd_sheet_v1.html", report=report, assessment=assessment)
+    boq = assessment.get("cost_estimate_boq") or geotech_engine.calculate_comprehensive_cost_and_loss_estimate(assessment, report)
+    return render_template("archive/pwd_sheet_v1.html", report=report, assessment=assessment, boq=boq)
 
 @app.get("/report/cost-estimate/<report_id>")
 def get_cost_estimate(report_id: str):
