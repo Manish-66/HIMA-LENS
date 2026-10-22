@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import csv
 import email.utils
+import gzip
 import html
 import io
 import json
@@ -132,6 +133,10 @@ def inventory() -> dict[str, Any]:
 @lru_cache(maxsize=1)
 def serialized_boundaries() -> str:
     return json.dumps(administrative_boundaries())
+
+@lru_cache(maxsize=1)
+def gzipped_boundaries() -> bytes:
+    return gzip.compress(serialized_boundaries().encode("utf-8"), compresslevel=6)
 
 @lru_cache(maxsize=1)
 def cached_roads() -> str:
@@ -576,6 +581,10 @@ def serialized_default_landslides() -> str:
     return json.dumps({"type": "FeatureCollection", "features": inventory()["features"]})
 
 @lru_cache(maxsize=1)
+def gzipped_default_landslides() -> bytes:
+    return gzip.compress(serialized_default_landslides().encode("utf-8"), compresslevel=6)
+
+@lru_cache(maxsize=1)
 def cached_default_summary() -> dict[str, Any]:
     features = inventory()["features"]
     districts = {prop(f, "district") for f in features if prop(f, "district")}
@@ -595,8 +604,12 @@ def cached_default_summary() -> dict[str, Any]:
 @app.get("/api/landslides")
 def landslides():
     if not request.args:
-        response = Response(serialized_default_landslides(), status=200, mimetype="application/json")
-        response.headers["Cache-Control"] = "public, max-age=3600"
+        if "gzip" in request.headers.get("Accept-Encoding", ""):
+            response = Response(gzipped_default_landslides(), status=200, mimetype="application/json")
+            response.headers["Content-Encoding"] = "gzip"
+        else:
+            response = Response(serialized_default_landslides(), status=200, mimetype="application/json")
+        response.headers["Cache-Control"] = "public, max-age=86400, stale-while-revalidate=604800"
         return response
     return jsonify(type="FeatureCollection", features=matching_features())
 
@@ -682,8 +695,12 @@ def categories():
 
 @app.get("/api/district-boundaries")
 def district_boundaries():
-    response = Response(serialized_boundaries(), status=200, mimetype="application/json")
-    response.headers["Cache-Control"] = "public, max-age=3600"
+    if "gzip" in request.headers.get("Accept-Encoding", ""):
+        response = Response(gzipped_boundaries(), status=200, mimetype="application/json")
+        response.headers["Content-Encoding"] = "gzip"
+    else:
+        response = Response(serialized_boundaries(), status=200, mimetype="application/json")
+    response.headers["Cache-Control"] = "public, max-age=86400, stale-while-revalidate=604800"
     return response
 
 @app.get("/api/roads")
