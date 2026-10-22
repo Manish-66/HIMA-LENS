@@ -823,17 +823,17 @@
       }
     }
 
-    /* PRINT STYLES - PHYSICAL A4 STRICT ENGINE (ZERO WHITE SPACE • EXACT 3 PAGES) */
+    /* PRINT STYLES - CALIBRATED NATURAL NON-SQUEEZING MULTI-PAGE ENGINE */
     @page {
       size: A4 portrait;
-      margin: 0mm;
+      margin: 5mm 6mm;
     }
     @media print {
       html, body {
-        width: 210mm !important;
-        height: 297mm !important;
-        min-width: 210mm !important;
-        max-width: 210mm !important;
+        width: 100% !important;
+        height: auto !important;
+        min-width: 0 !important;
+        max-width: none !important;
         margin: 0 !important;
         padding: 0 !important;
         background: #ffffff !important;
@@ -848,23 +848,23 @@
       }
       .report-canvas-wrapper,
       .report-canvas {
-        width: 210mm !important;
-        min-width: 210mm !important;
-        max-width: 210mm !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
         margin: 0 !important;
         padding: 0 !important;
         overflow: visible !important;
         transform: none !important;
       }
       .report-page {
-        width: 210mm !important;
-        min-width: 210mm !important;
-        max-width: 210mm !important;
-        height: 296.5mm !important;
-        min-height: 296.5mm !important;
-        max-height: 296.5mm !important;
-        margin: 0 !important;
-        padding: 6mm 8mm !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        margin: 0 0 8mm 0 !important;
+        padding: 5mm 6mm !important;
         box-shadow: none !important;
         border: 1.5px solid var(--border-dark) !important;
         box-sizing: border-box !important;
@@ -874,10 +874,8 @@
         break-after: page !important;
         page-break-inside: avoid !important;
         break-inside: avoid !important;
-        overflow: hidden !important;
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: space-between !important;
+        overflow: visible !important;
+        display: block !important;
       }
       .report-page:first-child {
         page-break-before: avoid !important;
@@ -886,6 +884,7 @@
       .report-page:last-child {
         page-break-after: avoid !important;
         break-after: avoid !important;
+        margin-bottom: 0 !important;
       }
       .grid-table th, .grid-table td {
         padding: 2px 4px !important;
@@ -969,13 +968,11 @@
       .remarks-card {
         padding: 3px 6px !important;
         margin-bottom: 3px !important;
-        font-size: 6.8pt !important;
-        line-height: 1.15 !important;
-        max-height: 48px !important;
-        overflow: hidden !important;
-        display: -webkit-box !important;
-        -webkit-line-clamp: 4 !important;
-        -webkit-box-orient: vertical !important;
+        font-size: 7.2pt !important;
+        line-height: 1.25 !important;
+        max-height: none !important;
+        overflow: visible !important;
+        display: block !important;
       }
       .sign-table {
         margin-top: 4px !important;
@@ -992,22 +989,18 @@
         font-size: 6.8pt !important;
       }
       #f-mitigation {
-        max-height: 48px !important;
-        overflow: hidden !important;
-        font-size: 6.8pt !important;
-        line-height: 1.15 !important;
-        display: -webkit-box !important;
-        -webkit-line-clamp: 4 !important;
-        -webkit-box-orient: vertical !important;
+        max-height: none !important;
+        overflow: visible !important;
+        font-size: 7.2pt !important;
+        line-height: 1.25 !important;
+        display: block !important;
       }
       #f-observation {
-        max-height: 32px !important;
-        overflow: hidden !important;
-        font-size: 6.8pt !important;
-        line-height: 1.15 !important;
-        display: -webkit-box !important;
-        -webkit-line-clamp: 2 !important;
-        -webkit-box-orient: vertical !important;
+        max-height: none !important;
+        overflow: visible !important;
+        font-size: 7.2pt !important;
+        line-height: 1.25 !important;
+        display: block !important;
       }
       .page-footer {
         margin-top: 3px !important;
