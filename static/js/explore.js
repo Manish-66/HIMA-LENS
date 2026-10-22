@@ -128,7 +128,7 @@ function initMap() {
     attribution: "© OpenTopoMap © OpenStreetMap contributors",
     ...tileOpts
   });
-  layers.standard.addTo(map);
+  layers.satellite.addTo(map);
   markerLayer = L.markerClusterGroup({
     chunkedLoading: true,
     chunkInterval: 150,
@@ -150,35 +150,74 @@ function getSatelliteUrlForYear(selectedYear) {
   return SATELLITE_WAYBACK_YEARS[selectedYear] || SATELLITE_LATEST_URL;
 }
 
-function updateTemporalSatellite(selectedYear) {
+async function updateTemporalSatellite(selectedYear) {
   const targetUrl = getSatelliteUrlForYear(selectedYear);
   const isWayback = Boolean(SATELLITE_WAYBACK_YEARS[selectedYear]);
-  const yearBadge = isWayback ? `${selectedYear} Satellite Archive` : "Latest High-Resolution Satellite";
+  const yearBadge = isWayback ? `${selectedYear} Post-Monsoon Wayback` : "Latest High-Resolution";
 
-  if (layers.satellite) {
-    layers.satellite.setUrl(targetUrl);
+  // Update persistent bottom telemetry badge
+  const statusEl = document.getElementById("temporal-status-text");
+  if (statusEl) {
+    statusEl.innerHTML = isWayback ? `SATELLITE &bull; <strong>${selectedYear} POST-MONSOON</strong>` : `SATELLITE &bull; <strong>LATEST HIGH-RES</strong>`;
   }
 
+  // 1. Leaflet 2D: ensure Satellite layer is on map & force fresh tile reload
+  if (map) {
+    const isSatelliteActive = map.hasLayer(layers.satellite);
+    const isStandardActive = map.hasLayer(layers.standard);
+    const isTerrainActive = map.hasLayer(layers.terrain);
+
+    // If on vector or 2D terrain, switch to satellite so user immediately sees temporal change
+    if (isStandardActive || isTerrainActive || !isSatelliteActive) {
+      Object.values(layers).forEach(layer => map.removeLayer(layer));
+      document.querySelectorAll("[data-layer-choice]").forEach(b => {
+        b.classList.toggle("active", b.dataset.layerChoice === "satellite");
+      });
+      const toggleBtn = document.getElementById("layers-toggle");
+      if (toggleBtn) {
+        const span = toggleBtn.querySelector("span:nth-child(2)");
+        if (span) span.textContent = "Satellite";
+      }
+    } else if (layers.satellite && map.hasLayer(layers.satellite)) {
+      map.removeLayer(layers.satellite);
+    }
+
+    // Recreate fresh TileLayer with the target year URL to ensure immediate tile fetch
+    layers.satellite = L.tileLayer(targetUrl, {
+      maxZoom: 18,
+      attribution: `Tiles © Esri (${yearBadge})`,
+      ...tileOpts
+    });
+    layers.satellite.addTo(map);
+  }
+
+  // 2. Cesium 3D: update draped imagery provider and request render
   if (viewer) {
     try {
       viewer.imageryLayers.removeAll();
-      const imageryProvider = new Cesium.UrlTemplateImageryProvider({
-        url: targetUrl,
-        maximumLevel: 18,
-        credit: `Esri World Imagery (${yearBadge})`
-      });
+      let imageryProvider;
+      if (typeof Cesium.UrlTemplateImageryProvider.fromUrl === "function") {
+        imageryProvider = await Cesium.UrlTemplateImageryProvider.fromUrl(targetUrl, {
+          maximumLevel: 18,
+          credit: `Esri World Imagery (${yearBadge})`
+        });
+      } else {
+        imageryProvider = new Cesium.UrlTemplateImageryProvider({
+          url: targetUrl,
+          maximumLevel: 18,
+          credit: `Esri World Imagery (${yearBadge})`
+        });
+      }
       viewer.imageryLayers.addImageryProvider(imageryProvider);
       syncCesiumAllOverlays();
+      viewer.scene.requestRender();
     } catch (e) {
       console.warn("Could not update 3D imagery for year", selectedYear, e);
     }
   }
 
-  const activeBtn = document.querySelector(".layer-choice-btn.active")?.dataset?.layerChoice;
-  if (activeBtn === "satellite" || activeBtn === "3d") {
-    showLoading("SATELLITE SYNCHRONIZED", `Displaying ${yearBadge}.`, "TIMELINE SATELLITE");
-    hideLoading(350);
-  }
+  showLoading("SATELLITE SYNCHRONIZED", `Displaying ${yearBadge} aerial imagery.`, "TIMELINE SATELLITE");
+  hideLoading(350);
 }
 
 function validFeature(f) { return f?.geometry?.type === "Point" && Array.isArray(f.geometry.coordinates) && f.geometry.coordinates.length >= 2; }
@@ -366,6 +405,17 @@ function switchBase(name) {
   Object.values(layers).forEach(layer=>map.removeLayer(layer));
   if (layers[name]) layers[name].addTo(map);
   hideLoading(300);
+
+  const statusEl = document.getElementById("temporal-status-text");
+  if (statusEl) {
+    if (name === "standard") statusEl.innerHTML = "BASEMAP &bull; <strong>STANDARD VECTOR</strong>";
+    else if (name === "terrain") statusEl.innerHTML = "BASEMAP &bull; <strong>TERRAIN TOPO (2D)</strong>";
+    else if (name === "satellite") {
+      const selectedYear = document.getElementById("year")?.value || "all";
+      const isWayback = Boolean(SATELLITE_WAYBACK_YEARS[selectedYear]);
+      statusEl.innerHTML = isWayback ? `SATELLITE &bull; <strong>${selectedYear} POST-MONSOON</strong>` : `SATELLITE &bull; <strong>LATEST HIGH-RES</strong>`;
+    }
+  }
 }
 
 // --- ARCGIS OVERLAY MANAGEMENT ---
@@ -745,12 +795,21 @@ async function initCesium() {
   // Drape temporal satellite imagery onto 3D Globe matching selected year
   try {
     viewer.imageryLayers.removeAll();
-    const temporalProvider = new Cesium.UrlTemplateImageryProvider({
-      url: targetSatUrl,
-      maximumLevel: 18,
-      credit: `Esri World Imagery (${yearBadge})`
-    });
+    let temporalProvider;
+    if (typeof Cesium.UrlTemplateImageryProvider.fromUrl === "function") {
+      temporalProvider = await Cesium.UrlTemplateImageryProvider.fromUrl(targetSatUrl, {
+        maximumLevel: 18,
+        credit: `Esri World Imagery (${yearBadge})`
+      });
+    } else {
+      temporalProvider = new Cesium.UrlTemplateImageryProvider({
+        url: targetSatUrl,
+        maximumLevel: 18,
+        credit: `Esri World Imagery (${yearBadge})`
+      });
+    }
     viewer.imageryLayers.addImageryProvider(temporalProvider);
+    viewer.scene.requestRender();
   } catch(imgErr) {
     console.warn("Could not load temporal imagery in Cesium:", imgErr);
     try {

@@ -119,10 +119,10 @@ HIMA-LENS | Interactive Geospatial Landslide Explorer
             <div id="layers-menu" class="layers-menu" hidden>
                 <div class="layers-menu-header">BASE MAP</div>
                 <div class="layers-btn-group">
-                    <button type="button" class="layer-choice-btn active" data-layer-choice="standard">
+                    <button type="button" class="layer-choice-btn" data-layer-choice="standard">
                         <span class="layer-btn-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg></span><span>Standard</span>
                     </button>
-                    <button type="button" class="layer-choice-btn" data-layer-choice="satellite">
+                    <button type="button" class="layer-choice-btn active" data-layer-choice="satellite">
                         <span class="layer-btn-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10a7.5 7.5 0 0 0 10 10"></path><path d="M4 15a2.5 2.5 0 0 0 5 5"></path><path d="M4 4a13.5 13.5 0 0 0 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></span><span>Satellite</span>
                     </button>
                     <button type="button" class="layer-choice-btn" data-layer-choice="terrain">
@@ -235,6 +235,10 @@ HIMA-LENS | Interactive Geospatial Landslide Explorer
                 <div class="env-legend-grid" id="env-legend-items"></div>
             </div>
 
+            <div class="gis-temporal-banner" id="gis-temporal-banner">
+                <span class="temporal-pulse-dot"></span>
+                <span id="temporal-status-text">SATELLITE &bull; LATEST HIGH-RES</span>
+            </div>
             <div class="gis-cursor-coords" id="cursor-coords">
                 31.7500° N, 77.1000° E &bull; EPSG:4326 &bull; HP-GRID
             </div>

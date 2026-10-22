@@ -13521,6 +13521,37 @@ body:has(.gis-console-layout) {
     box-shadow: 0 4px 14px rgba(12, 38, 30, 0.06) !important;
 }
 
+.gis-temporal-banner {
+    pointer-events: auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    padding: 6px 14px !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 1px solid #17624d !important;
+    border-radius: 999px !important;
+    color: #17624d !important;
+    font: 750 10.5px/1.2 'Manrope', sans-serif !important;
+    letter-spacing: 0.03em !important;
+    box-shadow: 0 4px 12px rgba(23, 98, 77, 0.12) !important;
+    transition: all 0.25s ease !important;
+}
+
+.temporal-pulse-dot {
+    width: 7px !important;
+    height: 7px !important;
+    border-radius: 50% !important;
+    background: #10b981 !important;
+    box-shadow: 0 0 6px #10b981 !important;
+    animation: temporalPulse 2s infinite !important;
+}
+
+@keyframes temporalPulse {
+    0% { transform: scale(0.9); opacity: 0.7; }
+    50% { transform: scale(1.25); opacity: 1; }
+    100% { transform: scale(0.9); opacity: 0.7; }
+}
+
 /* =========================================================
    DARK THEME SYSTEM (COMPREHENSIVE EDITORIAL DARK MODE)
    ========================================================= */
@@ -13820,6 +13851,12 @@ html[data-theme="dark"] .gis-cursor-coords {
     background: rgba(8, 22, 17, 0.94) !important;
     border-color: rgba(255, 255, 255, 0.12) !important;
     color: #8fa69d !important;
+}
+
+html[data-theme="dark"] .gis-temporal-banner {
+    background: rgba(8, 22, 17, 0.94) !important;
+    border-color: rgba(52, 211, 153, 0.35) !important;
+    color: #74f0b7 !important;
 }
 
 /* Drawer in Dark Mode */
