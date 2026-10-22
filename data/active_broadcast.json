@@ -1,8 +1,8 @@
 {
-  "is_active": true,
-  "title": "CRITICAL ROCKFALL WARNING & HIGHWAY CLOSURE &BULL; NH-05 KINNAUR",
-  "message": "Massive wedge failure and ongoing loose scree detachments between Nigulsari and Taranda. Highway carriageway completely blocked. Porewater saturation critical.",
-  "severity": "critical",
-  "link": "/feed",
-  "updated_at": "2026-10-22T06:37:10Z"
+  "is_active": false,
+  "title": "",
+  "message": "",
+  "severity": "info",
+  "link": "",
+  "updated_at": ""
 }

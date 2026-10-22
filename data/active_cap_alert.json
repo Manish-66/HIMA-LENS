@@ -17,7 +17,7 @@
   "latitude": 31.5421,
   "longitude": 77.9214,
   "radius_km": 20.0,
-  "is_active": true,
+  "is_active": false,
   "web": "/feed",
   "expires": "2026-10-23T00:36:54+00:00"
 }

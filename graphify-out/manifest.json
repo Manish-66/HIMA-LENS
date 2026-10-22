@@ -570,9 +570,9 @@
     "semantic_hash": ""
   },
   "templates/base.html": {
-    "mtime": 1792652051.6858492,
-    "seen": 1792652061.648299,
-    "ast_hash": "073fcf736eca61f94a11fcd16d6c9792",
+    "mtime": 1792654053.7661169,
+    "seen": 1792654126.678573,
+    "ast_hash": "07a14dfb8e7c4d9889acdce81c92c429",
     "semantic_hash": ""
   },
   "templates/boq_sheet.html": {
@@ -761,12 +761,6 @@
     "ast_hash": "1d141b003884208e6e904bb5bc44a07b",
     "semantic_hash": ""
   },
-  "SKILL_TEST_SANDBOX.md": {
-    "mtime": 1792648371.8086798,
-    "seen": 1792648675.0135396,
-    "ast_hash": "018e895381f9f13a58704a8e92d1623c",
-    "semantic_hash": ""
-  },
   "templates/admin_analytics.html": {
     "mtime": 1792649339.4921138,
     "seen": 1792649366.2827616,
@@ -774,9 +768,9 @@
     "semantic_hash": ""
   },
   "data/active_broadcast.json": {
-    "mtime": 1792651030.6713343,
-    "seen": 1792651039.7671814,
-    "ast_hash": "d1de865962504ee1223890ac5271b506",
+    "mtime": 1792654053.7661169,
+    "seen": 1792654126.6608691,
+    "ast_hash": "90cbb3e32d8b75601a245ba2adb024b7",
     "semantic_hash": ""
   },
   "templates/admin.html": {
@@ -792,9 +786,9 @@
     "semantic_hash": ""
   },
   "data/active_cap_alert.json": {
-    "mtime": 1792651014.497461,
-    "seen": 1792651039.767183,
-    "ast_hash": "d62ebbdbbc7e5022c63ee509adb2fe94",
+    "mtime": 1792654053.7661169,
+    "seen": 1792654126.6608737,
+    "ast_hash": "107e1169b59a1c2feb2754376513f93e",
     "semantic_hash": ""
   },
   ".agents/rules/skill_protocol.md": {
