@@ -695,11 +695,11 @@ def submit_report():
     except (TypeError, ValueError):
         return jsonify(success=False, error="INVALID_COORDINATES", message="Valid decimal latitude and longitude are required."), 400
 
-    if not (30.0 <= lat <= 34.0 and 75.0 <= lng <= 80.0):
+    if not (30.25 <= lat <= 33.35 and 75.45 <= lng <= 79.20):
         return jsonify(
             success=False, 
             error="OUT_OF_BOUNDS", 
-            message="Coordinates must be located within Himachal Pradesh bounds (30.0°N–34.0°N, 75.0°E–80.0°E)."
+            message=f"Coordinates ({lat:.4f}, {lng:.4f}) lie outside Himachal Pradesh boundaries (30.25°N–33.35°N, 75.45°E–79.20°E). Reporting is strictly limited to Himachal Pradesh terrain."
         ), 400
 
     district = request.form.get("district", "Mandi").strip()
@@ -733,6 +733,14 @@ def submit_report():
     }
 
     supabase_db.save_community_report(new_report)
+
+    supabase_db.record_analytics_event(
+        event_type="report_submitted",
+        district=district,
+        severity=severity,
+        movement_type=movement_type,
+        metadata={"report_id": report_id, "has_photo": bool(photo_url)}
+    )
 
     return jsonify(success=True, report=new_report), 201
 
@@ -842,6 +850,13 @@ def generate_report_ai_assessment(report_id: str):
 
     force = request.args.get("force", "").lower() in ("1", "true", "yes")
     assessment = ai_assessment.generate_ai_assessment(report, force_refresh=force)
+    supabase_db.record_analytics_event(
+        event_type="ai_assessment_run",
+        district=report.get("district", "Unknown"),
+        severity=report.get("severity", "Moderate"),
+        movement_type=report.get("movement_type", "Unknown"),
+        metadata={"report_id": report_id}
+    )
     return jsonify(success=True, report_id=report_id, assessment=assessment)
 
 @app.post("/api/reports/<report_id>/ai-assessment/save")
@@ -891,6 +906,27 @@ def view_boq_sheet(report_id: str):
     assessment = ai_assessment.generate_ai_assessment(report, force_refresh=force)
     assessment = ai_assessment.normalize_assessment_structure(assessment, report)
     return render_template("boq_sheet.html", report=report, assessment=assessment)
+
+@app.get("/admin/analytics")
+def admin_analytics_dashboard():
+    """Admin Analytics Command Center for HIMA-LENS."""
+    district = request.args.get("district", "all").strip()
+    time_range = request.args.get("time_range", "7d").strip()
+    summary = supabase_db.fetch_analytics_summary(district=district, time_range=time_range)
+    return render_template(
+        "admin_analytics.html",
+        summary=summary,
+        current_district=district,
+        current_range=time_range
+    )
+
+@app.get("/api/admin/metrics")
+def api_admin_metrics():
+    """API endpoint providing real-time telemetry metrics and district distribution."""
+    district = request.args.get("district", "all").strip()
+    time_range = request.args.get("time_range", "7d").strip()
+    summary = supabase_db.fetch_analytics_summary(district=district, time_range=time_range)
+    return jsonify(success=True, summary=summary)
 
 @app.errorhandler(FileNotFoundError)
 def missing_dataset(error):
