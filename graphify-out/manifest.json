@@ -852,9 +852,9 @@
     "semantic_hash": ""
   },
   ".agents/skills/technical-writing/SKILL.md": {
-    "mtime": 1792690751.812273,
-    "seen": 1792690772.2647731,
-    "ast_hash": "f17f739b598dc01a4b09c954663e3a1e",
+    "mtime": 1792691156.9451861,
+    "seen": 1792691177.0556169,
+    "ast_hash": "d4dab83a48547ae5afc950eb6b28f902",
     "semantic_hash": ""
   },
   ".agents/skills/technical-writing/references/cedd_geo_standards.md": {
@@ -885,6 +885,36 @@
     "mtime": 1792690723.2973146,
     "seen": 1792690772.2647822,
     "ast_hash": "aa30125cdc88ce31ef62766e3d9d611a",
+    "semantic_hash": ""
+  },
+  ".agents/skills/technical-writing/references/asce_ieee_technical_reporting.md": {
+    "mtime": 1792691125.3482964,
+    "seen": 1792691177.0556202,
+    "ast_hash": "5a9eceb64893095bc8fcf76aebdec8ae",
+    "semantic_hash": ""
+  },
+  ".agents/skills/technical-writing/references/ciria_c551_conceptual_ground_models.md": {
+    "mtime": 1792691107.3311067,
+    "seen": 1792691177.0556912,
+    "ast_hash": "ee52746389a4a525e31bbb4609f91461",
+    "semantic_hash": ""
+  },
+  ".agents/skills/technical-writing/references/eurocode7_gir_gdr_standards.md": {
+    "mtime": 1792691092.3591635,
+    "seen": 1792691177.055755,
+    "ast_hash": "4f645b2bf1c2c06ca5d4abd343394ecf",
+    "semantic_hash": ""
+  },
+  ".agents/skills/technical-writing/references/fhwa_gec7_highway_slopes.md": {
+    "mtime": 1792691076.5347831,
+    "seen": 1792691177.0557566,
+    "ast_hash": "5272defde2197f89855848f5debaaa09",
+    "semantic_hash": ""
+  },
+  ".agents/skills/technical-writing/references/usace_em1110_slope_stability.md": {
+    "mtime": 1792691056.99157,
+    "seen": 1792691177.0559454,
+    "ast_hash": "fe14416fecb47cc8a868506868da026b",
     "semantic_hash": ""
   }
 }
