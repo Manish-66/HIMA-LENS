@@ -165,6 +165,9 @@ def matching_features() -> list[dict[str, Any]]:
     except ValueError:
         west = south = east = north = None
     criteria = {key: request.args.get(key, "").strip().casefold() for key in ALIASES}
+    active_criteria = {k: v for k, v in criteria.items() if v and v != "all"}
+    if not active_criteria and west is None:
+        return inventory()["features"]
     output = []
     for feature in inventory()["features"]:
         geometry = feature.get("geometry") or {}
@@ -177,7 +180,7 @@ def matching_features() -> list[dict[str, Any]]:
             continue
         if west is not None and not (west <= lng <= east and south <= lat <= north):
             continue
-        if any(value and value != "all" and prop(feature, key).casefold() != value for key, value in criteria.items()):
+        if any(prop(feature, key).casefold() != value for key, value in active_criteria.items()):
             continue
         output.append(feature)
     return output
@@ -568,12 +571,41 @@ def terrain_lab():
     return render_template("terrain_lab.html")
 
 
+@lru_cache(maxsize=1)
+def serialized_default_landslides() -> str:
+    return json.dumps({"type": "FeatureCollection", "features": inventory()["features"]})
+
+@lru_cache(maxsize=1)
+def cached_default_summary() -> dict[str, Any]:
+    features = inventory()["features"]
+    districts = {prop(f, "district") for f in features if prop(f, "district")}
+    numeric_years = [int(prop(f, "year")) for f in features if prop(f, "year").isdigit()]
+    periods = {prop(f, "period") for f in features if prop(f, "period")}
+    return {
+        "success": True,
+        "total_records": len(features),
+        "districts": len(districts),
+        "district_names": sorted(districts),
+        "periods": sorted(periods),
+        "numeric_year_count": len(numeric_years),
+        "earliest_year": min(numeric_years, default=None),
+        "latest_year": max(numeric_years, default=None),
+    }
+
 @app.get("/api/landslides")
 def landslides():
+    if not request.args:
+        response = Response(serialized_default_landslides(), status=200, mimetype="application/json")
+        response.headers["Cache-Control"] = "public, max-age=3600"
+        return response
     return jsonify(type="FeatureCollection", features=matching_features())
 
 @app.get("/api/summary")
 def summary():
+    if not request.args:
+        resp = jsonify(cached_default_summary())
+        resp.headers["Cache-Control"] = "public, max-age=3600"
+        return resp
     features = matching_features()
     districts = {prop(f, "district") for f in features if prop(f, "district")}
     numeric_years = [int(prop(f, "year")) for f in features if prop(f, "year").isdigit()]
@@ -589,27 +621,27 @@ def summary():
         latest_year=max(numeric_years, default=None),
     )
 
-@app.get("/api/districts")
-def districts():
+@lru_cache(maxsize=1)
+def cached_districts_data() -> list[dict[str, Any]]:
     canonical = {feature["properties"]["district"].casefold(): feature["properties"]["district"] for feature in administrative_boundaries()["features"]}
     counts = {name: 0 for name in canonical.values()}
     for feature in inventory()["features"]:
         name = prop(feature, "district", "Unknown")
         canonical_name = canonical.get(name.casefold(), name)
         counts[canonical_name] = counts.get(canonical_name, 0) + 1
-    return jsonify(success=True, districts=[{"district": k, "count": v} for k, v in sorted(counts.items())])
+    return [{"district": k, "count": v} for k, v in sorted(counts.items())]
 
-@app.get("/api/years")
-def years():
+@lru_cache(maxsize=1)
+def cached_years_data() -> list[dict[str, Any]]:
     counts = {}
     for feature in inventory()["features"]:
         value = prop(feature, "year")
         if value:
             counts[value] = counts.get(value, 0) + 1
-    return jsonify(success=True, years=[{"year": k, "count": v} for k, v in sorted(counts.items(), reverse=True)])
+    return [{"year": k, "count": v} for k, v in sorted(counts.items(), reverse=True)]
 
-@app.get("/api/categories")
-def categories():
+@lru_cache(maxsize=1)
+def cached_categories_data() -> dict[str, Any]:
     result = {}
     for category in ("activity", "movement", "material"):
         counts = {}
@@ -617,7 +649,36 @@ def categories():
             value = prop(feature, category, "Unknown")
             counts[value] = counts.get(value, 0) + 1
         result[category] = [{"value": k, "count": v} for k, v in sorted(counts.items(), key=lambda x: (-x[1], x[0]))]
-    return jsonify(success=True, categories=result)
+    return result
+
+@lru_cache(maxsize=32)
+def cached_district_polygons(district: str) -> str:
+    district_clean = district.strip().lower()
+    if district_clean == "mandi":
+        return cached_mandi_polygons()
+    if district_clean and district_clean != "all":
+        all_data = json.loads(cached_hp_polygons())
+        filtered = [f for f in all_data.get("features", []) if (f.get("properties") or {}).get("district", "").lower() == district_clean]
+        return json.dumps({"type": "FeatureCollection", "features": filtered})
+    return cached_hp_polygons()
+
+@app.get("/api/districts")
+def districts():
+    resp = jsonify(success=True, districts=cached_districts_data())
+    resp.headers["Cache-Control"] = "public, max-age=86400"
+    return resp
+
+@app.get("/api/years")
+def years():
+    resp = jsonify(success=True, years=cached_years_data())
+    resp.headers["Cache-Control"] = "public, max-age=86400"
+    return resp
+
+@app.get("/api/categories")
+def categories():
+    resp = jsonify(success=True, categories=cached_categories_data())
+    resp.headers["Cache-Control"] = "public, max-age=86400"
+    return resp
 
 @app.get("/api/district-boundaries")
 def district_boundaries():
@@ -634,21 +695,16 @@ def roads():
 @app.get("/api/landslide-polygons")
 def landslide_polygons():
     district = request.args.get("district", "").strip().lower()
-    if district == "mandi":
-        content = cached_mandi_polygons()
-    elif district and district != "all":
-        all_data = json.loads(cached_hp_polygons())
-        filtered = [f for f in all_data.get("features", []) if (f.get("properties") or {}).get("district", "").lower() == district]
-        content = json.dumps({"type": "FeatureCollection", "features": filtered})
-    else:
-        content = cached_hp_polygons()
+    content = cached_district_polygons(district)
     response = Response(content, status=200, mimetype="application/json")
     response.headers["Cache-Control"] = "public, max-age=3600"
     return response
 
 @app.get("/api/environmental-layers")
 def environmental_layers():
-    return jsonify(success=True, layers=cached_environmental_meta())
+    resp = jsonify(success=True, layers=cached_environmental_meta())
+    resp.headers["Cache-Control"] = "public, max-age=86400"
+    return resp
 
 def load_community_reports() -> list[dict[str, Any]]:
     return supabase_db.load_local_reports()

@@ -48,15 +48,15 @@
     "semantic_hash": ""
   },
   "ai_assessment.py": {
-    "mtime": 1792647724.0806437,
-    "seen": 1792647757.4667642,
-    "ast_hash": "d40890413ddcfc2074762ad465850eba",
+    "mtime": 1792654944.7950208,
+    "seen": 1792654967.7982616,
+    "ast_hash": "5d978743caca8d32018872057a9e12df",
     "semantic_hash": ""
   },
   "app.py": {
-    "mtime": 1792650802.0980709,
-    "seen": 1792651039.7669961,
-    "ast_hash": "d263b76468199c82a98fa25231fa8d1b",
+    "mtime": 1792654892.2744093,
+    "seen": 1792654967.7982643,
+    "ast_hash": "e393fa63b6e0342e2319148a196b973b",
     "semantic_hash": ""
   },
   "config.py": {
@@ -132,9 +132,9 @@
     "semantic_hash": ""
   },
   "scripts/process_arcgis_layers.py": {
-    "mtime": 1789642015.5191286,
-    "seen": 1792646101.330394,
-    "ast_hash": "6a55bd015c940683edc65ca5587cd681",
+    "mtime": 1792654811.6376567,
+    "seen": 1792654967.800367,
+    "ast_hash": "54fd2b3fed5d2eb32c4d6a908e2ce0a6",
     "semantic_hash": ""
   },
   "skills-lock.json": {
@@ -710,24 +710,6 @@
   "static/overlays/lulc.png": {
     "mtime": 1789640089.5210276,
     "seen": 1792646101.3304706,
-    "ast_hash": "6fa0fcb7d5166f3fe6add42dede41fe9",
-    "semantic_hash": ""
-  },
-  "static/overlays/mandi_geomorphology.png": {
-    "mtime": 1789640092.2787907,
-    "seen": 1792646101.3304718,
-    "ast_hash": "c2cabb0363d110f73c9954d50f75f4f5",
-    "semantic_hash": ""
-  },
-  "static/overlays/mandi_lithology.png": {
-    "mtime": 1789640094.826441,
-    "seen": 1792646101.3304725,
-    "ast_hash": "e7e1200e75ad9b065da752befc9ccc34",
-    "semantic_hash": ""
-  },
-  "static/overlays/mandi_lulc.png": {
-    "mtime": 1789640089.5210276,
-    "seen": 1792646101.3304732,
     "ast_hash": "6fa0fcb7d5166f3fe6add42dede41fe9",
     "semantic_hash": ""
   },

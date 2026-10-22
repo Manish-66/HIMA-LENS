@@ -273,7 +273,7 @@ def process_rasters():
             "name": "lulc",
             "title": "Land Use / Land Cover (2023)",
             "path": SCRATCH_DIR / "Mandi_LULC" / "p20" / "chapter.gdb",
-            "out_png": STATIC_OVERLAYS_DIR / "mandi_lulc.png",
+            "out_png": STATIC_OVERLAYS_DIR / "lulc.png",
             "colormap": {
                 0: (0, 0, 0, 0),         # NoData
                 1: (65, 155, 223, 210),   # Water
@@ -299,7 +299,7 @@ def process_rasters():
             "name": "geomorphology",
             "title": "Geomorphology",
             "path": SCRATCH_DIR / "Mandi_geomorphology" / "p20" / "chapter.gdb",
-            "out_png": STATIC_OVERLAYS_DIR / "mandi_geomorphology.png",
+            "out_png": STATIC_OVERLAYS_DIR / "geomorphology.png",
             "colormap": {
                 0: (0, 0, 0, 0),
                 1: (180, 80, 50, 200),    # Highly Dissected Hills
@@ -328,7 +328,7 @@ def process_rasters():
             "name": "lithology",
             "title": "Lithology (Bedrock Geology)",
             "path": SCRATCH_DIR / "Mandi_lithology" / "p20" / "chapter.gdb",
-            "out_png": STATIC_OVERLAYS_DIR / "mandi_lithology.png",
+            "out_png": STATIC_OVERLAYS_DIR / "lithology.png",
             "colormap": {
                 0: (0, 0, 0, 0),
                 1: (120, 110, 100, 200), 2: (130, 140, 120, 200), 3: (140, 160, 190, 200),
@@ -393,10 +393,7 @@ def process_rasters():
 
             img = Image.fromarray(rgba, "RGBA")
             img.save(ds["out_png"], format="PNG", optimize=True)
-            alt_png = STATIC_OVERLAYS_DIR / f"{ds['name']}.png"
-            if alt_png != ds["out_png"]:
-                img.save(alt_png, format="PNG", optimize=True)
-            print(f"  Saved {ds['out_png']} and {alt_png} ({ds['out_png'].stat().st_size / 1024:.1f} KB), Bounds: {bounds}")
+            print(f"  Saved {ds['out_png']} ({ds['out_png'].stat().st_size / 1024:.1f} KB), Bounds: {bounds}")
 
             overlay_meta[ds["name"]] = {
                 "title": ds["title"],

@@ -26,6 +26,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 import requests
+from requests.adapters import HTTPAdapter
 
 import geotech_engine
 from config import (
@@ -37,6 +38,17 @@ from config import (
 logger = logging.getLogger(__name__)
 
 CACHE_FILE = BASE_DIR / "data" / "ai_assessments_cache.json"
+
+_http_session: requests.Session | None = None
+
+def _get_http_session() -> requests.Session:
+    global _http_session
+    if _http_session is None:
+        _http_session = requests.Session()
+        adapter = HTTPAdapter(pool_connections=10, pool_maxsize=20, max_retries=2)
+        _http_session.mount("https://", adapter)
+        _http_session.mount("http://", adapter)
+    return _http_session
 
 GEMINI_MODELS = [
     "gemini-3.5-flash-lite",
@@ -257,7 +269,7 @@ def _get_image_base64_and_mime(photo_url: str) -> tuple[str, str] | tuple[None, 
 
     try:
         if photo_url.startswith("http://") or photo_url.startswith("https://"):
-            resp = requests.get(photo_url, timeout=14)
+            resp = _get_http_session().get(photo_url, timeout=14)
             if resp.status_code == 200 and resp.content:
                 ext = photo_url.split("?")[0].rsplit(".", 1)[-1].lower()
                 mime = mimetypes.types_map.get(f".{ext}", "image/jpeg")
@@ -1557,7 +1569,7 @@ RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
     for model_name in GEMINI_MODELS:
         try:
             url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={GEMINI_API_KEY}"
-            resp = requests.post(url, json=payload, timeout=12)
+            resp = _get_http_session().post(url, json=payload, timeout=12)
             if resp.status_code == 200:
                 result_json = resp.json()
                 candidates = result_json.get("candidates", [])

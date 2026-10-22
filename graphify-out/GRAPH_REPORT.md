@@ -1,17 +1,17 @@
 # Graph Report - MTP-main - Copy  (2026-10-22)
 
 ## Corpus Check
-- 95 files · ~504,521 words
+- 95 files · ~488,080 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 29 file(s) not represented in the graph (top: .lpkx 6, .geojson 6, .toml 4)
 
 ## Summary
-- 1707 nodes · 3766 edges · 90 communities (84 shown, 6 thin omitted)
+- 1715 nodes · 3782 edges · 98 communities (92 shown, 6 thin omitted)
 - Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 86 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `e5bb83af`
+- Built from commit: `1df81a82`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -78,7 +78,7 @@
 - iOS platform
 - Operate mode depth (and Read notes)
 - Shape
-- bolder.md
+- startVariantObserver
 - Impeccable Documenter
 - Android platform
 - colorize.md
@@ -92,17 +92,25 @@
 - Impeccable Manual Edit Applier
 - live-browser-ignores.js
 - Diagnostic Scan
-- scopeCssBlock
+- New visual work
 - Visualize: Direction Comps & Asset Production
 - onAnnotDown
-- Persuade and Experience
+- showBar
 - MANDATORY PRE-RESPONSE SKILL RESOLUTION PROTOCOL (HARD INVARIANT)
 - Ponytail
 - Heuristics Scoring Guide
 - Operate
+- refreshParamsPanel
 - vercel.json
 - show-me/SKILL.md
+- cleanup
+- handleGo
 - supabase_setup.sql
+- convert_xlsx.py
+- adapt.native.md
+- $impeccable hooks
+- Region map
+- Read
 
 ## God Nodes (most connected - your core abstractions)
 1. `connectSSE()` - 34 edges
@@ -125,17 +133,17 @@
   .agents/skills/impeccable/reference/region-map.md → convert_xlsx.py
 - `$impeccable hooks` --references--> `text()`  [INFERRED]
   .agents/skills/impeccable/reference/hooks.md → convert_xlsx.py
-- `enableInlineEdit()` --indirect_call--> `own()`  [INFERRED]
+- `layoutFlowChildren()` --indirect_call--> `pickable()`  [INFERRED]
   .agents/skills/impeccable/scripts/live-browser.js → .agents/skills/impeccable/scripts/live-browser-dom.js
 
 ## Import Cycles
 - None detected.
 
-## Communities (90 total, 6 thin omitted)
+## Communities (98 total, 6 thin omitted)
 
 ### Community 0 - "setLiveState"
-Cohesion: 0.14
-Nodes (41): beginNewLiveConfiguration(), buildInsertPlaceholderSnapshotFromDom(), buildPickedAnchorSnapshot(), cancelEditing(), cancelEditingToPicking(), cancelInsertConfigure(), captureAndEmit(), clearAnnotations() (+33 more)
+Cohesion: 0.18
+Nodes (33): applyEditing(), beginNewLiveConfiguration(), cancelEditing(), cancelEditingToPicking(), cancelInsertConfigure(), cleanupAcceptedSession(), clearAnnotations(), clearInsertPicking() (+25 more)
 
 ### Community 1 - "modern-screenshot.umd.js"
 Cohesion: 0.09
@@ -146,68 +154,68 @@ Cohesion: 0.10
 Nodes (55): allFeatures, applyFilters(), cartesianPositionCache, districtName(), districtStyle(), drawer(), fetchJSON(), filteredFeatures (+47 more)
 
 ### Community 3 - "connectSSE"
-Cohesion: 0.09
-Nodes (46): abandonForeignSession(), abandonSupersededGo(), abortSvelteComponentInjection(), cleanup(), cleanupAcceptedSession(), clearHandled(), clearScrollY(), clearSession() (+38 more)
+Cohesion: 0.20
+Nodes (26): abortSvelteComponentInjection(), completeParameterGenerationIfReady(), completeParameterPublication(), completeSourceInjection(), connectSSE(), handleAccept(), handleServerLost(), hideShaderOverlay() (+18 more)
 
 ### Community 4 - "districts.py"
-Cohesion: 0.06
-Nodes (42): Constraints, Failure modes, Flow, $impeccable hooks, Routing, Triage findings, 1. Decide what is already true, 2. Ask what will change the work (+34 more)
+Cohesion: 0.20
+Nodes (11): classify_features(), district_name(), geometry_bounds(), collect(), point_in_geometry(), point_in_polygon(), point_in_prepared_geometry(), point_in_prepared_ring() (+3 more)
 
 ### Community 5 - "app.py"
 Cohesion: 0.07
-Nodes (44): about(), administrative_boundaries(), allowed_image_file(), api_admin_metrics(), api_historical_events(), api_news(), cached_environmental_meta(), cached_hp_polygons() (+36 more)
+Nodes (46): about(), administrative_boundaries(), api_admin_metrics(), api_historical_events(), api_news(), cached_categories_data(), cached_default_summary(), cached_district_polygons() (+38 more)
 
 ### Community 6 - "syncPageChatFocus"
-Cohesion: 0.08
-Nodes (52): agentHasWorkInFlight(), armPageChatForTyping(), attachSteerFocusDebug(), attachSteerFocusGuard(), buildSteerProcessingDots(), buildSteerQueueHint(), clearSteerAwaitTimer(), clearSteerFocusRecoverTimer() (+44 more)
+Cohesion: 0.10
+Nodes (46): armPageChatForTyping(), attachSteerFocusDebug(), attachSteerFocusGuard(), buildSteerProcessingDots(), clearSteerAwaitTimer(), clearSteerFocusRecoverTimer(), collapsePageChat(), expandPageChat() (+38 more)
 
 ### Community 7 - "el"
-Cohesion: 0.07
-Nodes (56): actionLabel(), applyConfigureBarChrome(), bindConfigureCountPillTooltip(), bindConfigureInlineControlHover(), bindConfigureModifierPillHover(), buildConfigureActionControl(), buildConfigureCountControl(), buildConfigureRow() (+48 more)
+Cohesion: 0.09
+Nodes (43): actionLabel(), bindConfigureCountPillTooltip(), bindConfigureInlineControlHover(), bindConfigureModifierPillHover(), buildConfigureActionControl(), buildConfigureCountControl(), buildConfigureRow(), buildConfigureSubmitButton() (+35 more)
 
 ### Community 8 - "initGlobalBar"
-Cohesion: 0.13
-Nodes (27): agentStatusText(), barPaletteForTheme(), brandMarkSvg(), detectPageTheme(), ensureAgentPollTooltip(), fetchAgentPollingStatus(), hideAgentPollTooltip(), init() (+19 more)
+Cohesion: 0.08
+Nodes (41): agentHasWorkInFlight(), agentStatusText(), barPaletteForTheme(), brandMarkSvg(), buildSteerQueueHint(), cursorForInsertAxis(), detectPageTheme(), ensureAgentPollTooltip() (+33 more)
 
 ### Community 9 - "actOnAgentTarget"
-Cohesion: 0.29
-Nodes (17): actOnAgentTarget(), agentTargetBusyReason(), agentTargetOverlayGone(), agentTargetTaken(), claimAgentTarget(), claimAndActOnAgentTarget(), declineAgentTargetBusy(), declineAgentTargetUnresolvable() (+9 more)
+Cohesion: 0.26
+Nodes (18): actOnAgentTarget(), agentTargetBusyReason(), agentTargetOverlayGone(), agentTargetTaken(), claimAgentTarget(), claimAndActOnAgentTarget(), declineAgentTargetBusy(), declineAgentTargetUnresolvable() (+10 more)
 
 ### Community 10 - "cap_engine.py"
-Cohesion: 0.19
-Nodes (8): cancel_active_cap_alert(), dispatch_cap_alert(), generate_cap_xml(), get_active_cap_alert(), get_active_cap_xml(), get_default_cap_alert(), _get_expiration_iso(), _get_utc_now_iso()
+Cohesion: 0.12
+Nodes (10): admin_command_console(), cancel_active_cap_alert(), dispatch_cap_alert(), generate_cap_xml(), get_active_cap_alert(), get_active_cap_xml(), get_default_cap_alert(), _get_expiration_iso() (+2 more)
 
 ### Community 11 - "renderDesignVisual"
-Cohesion: 0.07
-Nodes (43): buildCollapsible(), buildColorModels(), buildDesignHeader(), buildListHtml(), buildRadiiModels(), buildTypographyModels(), copyToClipboard(), cssSafe() (+35 more)
+Cohesion: 0.08
+Nodes (37): buildCollapsible(), buildDesignHeader(), buildListHtml(), buildRadiiModels(), copyToClipboard(), cssSafe(), designEmptyMessage(), designPanelCss() (+29 more)
 
 ### Community 12 - "supabase_db.py"
-Cohesion: 0.09
-Nodes (21): admin_command_console(), inject_global_data(), submit_report(), delete_report(), dismiss_active_broadcast(), fetch_analytics_summary(), fetch_community_reports(), fetch_report_by_id() (+13 more)
+Cohesion: 0.10
+Nodes (21): allowed_image_file(), get_reports(), load_community_reports(), save_community_reports(), submit_report(), delete_report(), fetch_analytics_summary(), fetch_community_reports() (+13 more)
 
 ### Community 13 - "mountSvelteComponentVariant"
-Cohesion: 0.14
-Nodes (20): applyOriginalAttrsToSvelteAnchor(), clearMountErrorCard(), commitAcceptedSvelteComponentToDom(), componentModuleCandidates(), describeMountFailure(), detectDevServerBase(), getMountedSvelteComponentAnchor(), importFirstReachable() (+12 more)
+Cohesion: 0.19
+Nodes (15): applyOriginalAttrsToSvelteAnchor(), commitAcceptedSvelteComponentToDom(), componentModuleCandidates(), describeMountFailure(), detectDevServerBase(), findInsertAnchorInDom(), findLiveElementForSvelteManifest(), importFirstReachable() (+7 more)
 
 ### Community 14 - "ai_assessment.py"
 Cohesion: 0.11
-Nodes (16): calculate_comprehensive_cost_and_loss_estimate(), derive_flexible_barrier_specs(), derive_prescribed_soil_nailing(), derive_subsurface_drainage_specs(), evaluate_cedd_consequence(), evaluate_larimit_mitigations(), evaluate_usgs_classification(), format_inr() (+8 more)
+Nodes (19): _clean_hazard_prefix(), compute_deterministic_engineering_dossier(), _get_hash_seed(), calculate_comprehensive_cost_and_loss_estimate(), derive_flexible_barrier_specs(), derive_prescribed_soil_nailing(), derive_subsurface_drainage_specs(), evaluate_cedd_consequence() (+11 more)
 
 ### Community 15 - "documentRefForElement"
-Cohesion: 0.13
-Nodes (20): addManualContextText(), canRestoreManualEditElement(), collectManualContextPieces(), walk(), contextElementForManualEdit(), directMixedTextRestoreNodes(), documentRefClassSuffix(), documentRefIdSuffix() (+12 more)
+Cohesion: 0.08
+Nodes (31): addManualContextText(), canRestoreManualEditElement(), collectManualContextPieces(), walk(), contextElementForManualEdit(), copyEditContainerContext(), copyEditLeafContext(), cssIdent() (+23 more)
 
 ### Community 16 - "new-work.md"
 Cohesion: 0.10
 Nodes (18): Recommended Actions, Craft (deprecated alias), Apply, Live-mode signature params, Set the spatial thesis, Two isolated assessments, Verify, Visitor mode (+10 more)
 
 ### Community 17 - "Responsive Design"
-Cohesion: 0.06
-Nodes (32): Assess Adaptation Challenge, Breakpoints: Content-Driven, Content Adaptation, Desktop Adaptation (Mobile → Desktop), Detect Input Method, Not Just Screen Size, Email Adaptation (Web → Email), Implement Adaptations, Layout Adaptation Patterns (+24 more)
+Cohesion: 0.08
+Nodes (25): Assess Adaptation Challenge, Breakpoints: Content-Driven, Content Adaptation, Desktop Adaptation (Mobile → Desktop), Detect Input Method, Not Just Screen Size, Email Adaptation (Web → Email), Implement Adaptations, Layout Adaptation Patterns (+17 more)
 
 ### Community 18 - "createLiveBrowserDomHelpers"
-Cohesion: 0.13
-Nodes (19): createLiveBrowserDomHelpers(), activeElementDeep(), cloneWithoutChrome(), copyTextViaSelection(), cssId(), liveUiRoot(), makeFrozenAnchor(), own() (+11 more)
+Cohesion: 0.11
+Nodes (23): collectEditableTextRows(), visit(), createLiveBrowserDomHelpers(), activeElementDeep(), cloneWithoutChrome(), copyTextViaSelection(), cssId(), liveUiRoot() (+15 more)
 
 ### Community 19 - "HIMA-LENS: Himachal Landslide Inventory & Spatial Intelligence System"
 Cohesion: 0.08
@@ -238,12 +246,12 @@ Cohesion: 0.10
 Nodes (20): Animate complex properties, Assess What "Extraordinary" Means Here, For data-heavy interfaces, For functional UI, For performance-critical UI, For visual/marketing surfaces, Implement with Discipline, Interact with the device (+12 more)
 
 ### Community 26 - "captureElementToBlob"
-Cohesion: 0.11
-Nodes (23): averageRgb01(), bufferToBase64(), captureChromeNodes(), captureElementFromRenderedAncestor(), captureElementToBlob(), collectFontCssText(), compileShader(), cssColorToRgb01() (+15 more)
+Cohesion: 0.12
+Nodes (20): averageRgb01(), captureChromeNodes(), captureElementFromRenderedAncestor(), captureElementToBlob(), compileShader(), cssColorToRgb01(), dominantRgb01(), findBackdropAncestor() (+12 more)
 
 ### Community 27 - "ai_assessment.py"
 Cohesion: 0.11
-Nodes (20): build_rejected_assessment_dossier(), _clean_hazard_prefix(), compute_deterministic_engineering_dossier(), deep_merge(), fallback_visual_assessment(), _format_coordinates_dms(), generate_ai_assessment(), get_cached_assessment() (+12 more)
+Nodes (17): build_rejected_assessment_dossier(), deep_merge(), fallback_visual_assessment(), _format_coordinates_dms(), generate_ai_assessment(), get_cached_assessment(), _get_http_session(), _get_image_base64_and_mime() (+9 more)
 
 ### Community 28 - "createLiveBrowserSessionState"
 Cohesion: 0.19
@@ -254,12 +262,12 @@ Cohesion: 0.16
 Nodes (19): buildSvelteExpressionTextMap(), buildSveltePropValuesFromLiveElement(), buildSveltePropValuesV2(), cloneWithoutElements(), collectTextNodes(), collectVisibleTexts(), cssEscapeIdent(), elementMatchesOriginalMarkup() (+11 more)
 
 ### Community 30 - "process_arcgis_layers.py"
-Cohesion: 0.12
-Nodes (5): load_local_env(), process_points_dedup(), process_polygons(), process_rasters(), process_roads()
+Cohesion: 0.17
+Nodes (4): process_points_dedup(), process_polygons(), process_rasters(), process_roads()
 
 ### Community 31 - "post"
-Cohesion: 0.13
-Nodes (7): admin_cancel_cap(), admin_delete_report(), admin_dismiss_broadcast(), admin_dispatch_cap(), admin_set_broadcast(), admin_trigger_ai(), admin_update_report_status()
+Cohesion: 0.10
+Nodes (11): admin_cancel_cap(), admin_delete_report(), admin_dismiss_broadcast(), admin_dispatch_cap(), admin_set_broadcast(), admin_trigger_ai(), admin_update_report_status(), inject_global_data() (+3 more)
 
 ### Community 33 - "animate.md"
 Cohesion: 0.12
@@ -274,16 +282,16 @@ Cohesion: 0.12
 Nodes (16): 1. Read the screenshot (if present), 2. Wrap the element, 3. Load the action's reference, 4. Plan three variants: identity first, then mode, then axes, 5. Apply the freeform prompt (if present), 6. Deliver variants, 7. Parameters (composition-sized, 0-4 per variant), 8. Signal done (+8 more)
 
 ### Community 36 - "resumeSession"
-Cohesion: 0.07
-Nodes (71): applyParamDefaults(), applyParamValue(), applySavedSessionMeta(), buildParamsPanel(), checkpointPayload(), clampVariantIndex(), closedClipPath(), commitAcceptedVariantToDom() (+63 more)
+Cohesion: 0.18
+Nodes (20): applySavedSessionMeta(), clearHandled(), clearSession(), enterRecoveryWaitingForAnchor(), findActiveSessionSummary(), findAdoptableServerSession(), findAnyVariantsWrapper(), isSessionHandled() (+12 more)
 
 ### Community 38 - "Generate Report"
 Cohesion: 0.13
 Nodes (14): 1. Accessibility (A11y), 2. Performance, 3. Theming, 4. Responsive Design, 5. Implementation Integrity (CRITICAL), Audit Health Score, Detailed Findings by Severity, Diagnostic Scan (+6 more)
 
 ### Community 39 - "impeccable/SKILL.md"
-Cohesion: 0.15
-Nodes (10): Craft floor, Refuse, Verify, Command guidance, No-argument routing: the context-aware menu, Workflow questions, Commands, How to design (+2 more)
+Cohesion: 0.10
+Nodes (15): Before you finish, Scope is sovereign, The amplification, The skeleton test, Why it reads flat, Craft floor, Refuse, Verify (+7 more)
 
 ### Community 40 - "optimize.md"
 Cohesion: 0.14
@@ -323,7 +331,7 @@ Nodes (11): compilerOptions, lib, module, noEmitOnError, outDir, rootDir, skipLi
 
 ### Community 49 - "handleManualEditActivity"
 Cohesion: 0.18
-Nodes (25): clearStoredManualApplyState(), fetchPendingCount(), handleManualEditActivity(), hidePendingApplyDock(), manualApplyLoadingText(), manualApplyStateKey(), manualEditEventForCurrentPage(), numberOrNull() (+17 more)
+Nodes (26): clearStoredManualApplyState(), fetchPendingCount(), handleManualEditActivity(), hidePendingApplyDock(), manualApplyLoadingText(), manualApplyStateKey(), manualEditEventForCurrentPage(), numberOrNull() (+18 more)
 
 ### Community 50 - "Nielsen's 10 Heuristics"
 Cohesion: 0.18
@@ -373,9 +381,9 @@ Nodes (9): Color, Components, Layout, Motion, Operate mode depth (and Read notes
 Cohesion: 0.22
 Nodes (8): Cadence, Confirm and stop, Phase 1: Discovery interview, Phase 2: Resolve the design direction, Phase 3: Write the brief, Round 1: purpose, people, and outcome, Round 2: material, behavior, and boundaries, Shape
 
-### Community 62 - "bolder.md"
-Cohesion: 0.33
-Nodes (5): Before you finish, Scope is sovereign, The amplification, The skeleton test, Why it reads flat
+### Community 62 - "startVariantObserver"
+Cohesion: 0.18
+Nodes (23): applyPlaceholderDimensions(), ensureInsertPlaceholder(), finalizeInsertSession(), findVariantsWrapper(), getMountedSvelteComponentAnchor(), getVisibleVariantEl(), isInsertGeneratingSession(), pickVariantContent() (+15 more)
 
 ### Community 63 - "Impeccable Documenter"
 Cohesion: 0.40
@@ -398,8 +406,8 @@ Cohesion: 0.25
 Nodes (7): Extract Flow, Step 1: Discover the Design System, Step 2: Identify Patterns, Step 3: Plan Extraction, Step 4: Extract & Enrich, Step 5: Migrate, Step 6: Document
 
 ### Community 68 - "live-browser.js"
-Cohesion: 0.06
-Nodes (62): applyEditing(), applyGlobalBarLabelState(), applyLiveBarPreference(), applyPlaceholderDimensions(), applyPlaceholderSizingStyles(), buildLocatorForLeaf(), buildPlaceholderResizeHandles(), collectEditableTextRows() (+54 more)
+Cohesion: 0.04
+Nodes (80): applyGlobalBarLabelState(), applyLiveBarPreference(), applyParamValue(), applyPlaceholderSizingStyles(), bufferToBase64(), buildColorModels(), buildInsertPlaceholderSnapshotFromDom(), buildLocatorForLeaf() (+72 more)
 
 ### Community 69 - "doctor.md"
 Cohesion: 0.25
@@ -429,21 +437,21 @@ Nodes (6): globToRegex(), matchesScope(), normalizeIgnoreRule(), normalizeIgnore
 Cohesion: 0.33
 Nodes (6): 1. Accessibility (VoiceOver / TalkBack), 2. Performance, 3. Appearance & Theming, 4. Platform Conformance (CRITICAL), 5. Adaptivity, Diagnostic Scan
 
-### Community 77 - "scopeCssBlock"
-Cohesion: 0.33
-Nodes (6): findMatchingCssBrace(), prefixCssSelectors(), scopeCssBlock(), shouldScopeNestedCssAtRule(), splitCssSelectorList(), unwrapSvelteGlobalSelector()
+### Community 77 - "New visual work"
+Cohesion: 0.14
+Nodes (14): 1. Decide what is already true, 2. Ask what will change the work, 3. Choose the right amount of invention, 4. Commit the world, 5. Record the decision, 6. Build with full commitment, 7. Inspect and finish, Both paths (+6 more)
 
 ### Community 78 - "Visualize: Direction Comps & Asset Production"
 Cohesion: 0.33
 Nodes (5): After approval: the comp becomes a spec, Generate three compositional options, One approval point, Plates and provenance, Visualize: Direction Comps & Asset Production
 
 ### Community 79 - "onAnnotDown"
-Cohesion: 0.16
-Nodes (20): beginEditPin(), buildAnnotationsForCapture(), buildPinElement(), cancelEditingPin(), clampPlaceholderSize(), finalizeEditingPin(), initAnnotOverlay(), localCoords() (+12 more)
+Cohesion: 0.20
+Nodes (17): beginEditPin(), buildAnnotationsForCapture(), buildPinElement(), cancelEditingPin(), clampPlaceholderSize(), finalizeEditingPin(), initAnnotOverlay(), localCoords() (+9 more)
 
-### Community 80 - "Persuade and Experience"
-Cohesion: 0.50
-Nodes (3): Comps, Directions, Persuade and Experience
+### Community 80 - "showBar"
+Cohesion: 0.26
+Nodes (13): applyConfigureBarChrome(), buildCyclingRow(), buildDots(), buildGeneratingRow(), cycleVariant(), cyclingCounterText(), cyclingShownVariant(), dismissToast() (+5 more)
 
 ### Community 81 - "MANDATORY PRE-RESPONSE SKILL RESOLUTION PROTOCOL (HARD INVARIANT)"
 Cohesion: 0.33
@@ -461,13 +469,45 @@ Nodes (4): Heuristics Scoring Guide, Issue Severity (P0–P3), Reference Materia
 Cohesion: 0.50
 Nodes (3): Comps, Directions, Operate
 
+### Community 85 - "refreshParamsPanel"
+Cohesion: 0.24
+Nodes (13): applyParamDefaults(), closedClipPath(), closeTunePopover(), hideParamsPanel(), mountedParameterCount(), openTunePopover(), parseVariantParams(), popoverDirection() (+5 more)
+
 ### Community 86 - "vercel.json"
 Cohesion: 0.50
 Nodes (3): builds, routes, version
 
+### Community 90 - "cleanup"
+Cohesion: 0.26
+Nodes (11): abandonForeignSession(), abandonSupersededGo(), cleanup(), clearScrollY(), discardOrphanedSession(), handleDiscard(), markSessionHandled(), maybePrefetchPage() (+3 more)
+
+### Community 91 - "handleGo"
+Cohesion: 0.29
+Nodes (12): captureAndEmit(), clearMountErrorCard(), extractContext(), handleGo(), handleInsertCreate(), hideAnnotOverlay(), renderMountErrorCard(), resetSessionFileMeta() (+4 more)
+
 ### Community 92 - "supabase_setup.sql"
 Cohesion: 0.29
 Nodes (11): idx_analytics_created, idx_analytics_type_district, idx_community_reports_created_at, idx_community_reports_geom, idx_community_reports_status, idx_rollups_date, public.analytics_daily_rollups, public.analytics_events (+3 more)
+
+### Community 93 - "convert_xlsx.py"
+Cohesion: 0.42
+Nodes (7): legacy_features(), mandi_features(), normalize_activity(), normalize_material(), normalize_movement(), normalize_period(), text()
+
+### Community 94 - "adapt.native.md"
+Cohesion: 0.25
+Nodes (7): Adaptation Strategies, Assess Adaptation Challenge, Implement & Verify, Orientation & foldables, Phone → Tablet (iPad / large screens), Platform → platform (iOS ↔ Android), Web → native (porting a website or web app)
+
+### Community 95 - "$impeccable hooks"
+Cohesion: 0.33
+Nodes (6): Constraints, Failure modes, Flow, $impeccable hooks, Routing, Triage findings
+
+### Community 96 - "Region map"
+Cohesion: 0.40
+Nodes (4): Containment, Painted material, Region map, What varies independently
+
+### Community 97 - "Read"
+Cohesion: 0.50
+Nodes (3): Comps, Directions, Read
 
 ## Knowledge Gaps
 - **6 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
@@ -476,16 +516,16 @@ Nodes (11): idx_analytics_created, idx_analytics_type_district, idx_community_re
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `Step 1: Run the pass` connect `doctor.md` to `app.py`?**
-  _High betweenness centrality (0.074) - this node is a cross-community bridge._
+  _High betweenness centrality (0.080) - this node is a cross-community bridge._
 - **Are the 7 inferred relationships involving `initGlobalBar()` (e.g. with `hideAgentPollTooltip()` and `onDetectMessage()`) actually correct?**
   _`initGlobalBar()` has 7 INFERRED edges - model-reasoned connections that need verification._
-- **Should `setLiveState` be split into smaller, more focused modules?**
-  _Cohesion score 0.14268292682926828 - nodes in this community are weakly interconnected._
-- **Why does `summary()` connect `app.py` to `doctor.md`?**
-  _High betweenness centrality (0.074) - this node is a cross-community bridge._
 - **Should `modern-screenshot.umd.js` be split into smaller, more focused modules?**
   _Cohesion score 0.08897243107769423 - nodes in this community are weakly interconnected._
+- **Why does `summary()` connect `app.py` to `doctor.md`?**
+  _High betweenness centrality (0.080) - this node is a cross-community bridge._
 - **Should `explore.js` be split into smaller, more focused modules?**
   _Cohesion score 0.09774436090225563 - nodes in this community are weakly interconnected._
-- **Should `connectSSE` be split into smaller, more focused modules?**
-  _Cohesion score 0.09158186864014801 - nodes in this community are weakly interconnected._
+- **Why does `text()` connect `convert_xlsx.py` to `Region map`, `New visual work`, `$impeccable hooks`?**
+  _High betweenness centrality (0.021) - this node is a cross-community bridge._
+- **Should `app.py` be split into smaller, more focused modules?**
+  _Cohesion score 0.06682692307692308 - nodes in this community are weakly interconnected._
