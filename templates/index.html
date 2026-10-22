@@ -5,22 +5,19 @@ HIMA-LENS | Himalayan Landslide Intelligence Platform
 {% endblock %}
 
 {% block content %}
-<div class="home-page">
+<div class="home-page" id="main-content">
 
     <!-- =====================================================
-         01. HERO: DYNAMIC AMBIENT TOPOLOGICAL CANVAS
-    ====================================================== -->
-    <!-- =====================================================
-         HERO: DYNAMIC MOUNTAIN CONTOUR TOPOGRAPHY
+         01. HERO: AUTHENTIC TOPOGRAPHIC ELEVATION CANVAS
     ====================================================== -->
     <section class="home-hero">
-        <!-- Interactive 3D Terrain & Flow Line Mesh -->
-        <canvas id="hero-canvas" class="hero-canvas"></canvas>
+        <!-- Interactive Mountain Elevation Contour Isolines -->
+        <canvas id="hero-canvas" class="hero-canvas" role="presentation" aria-hidden="true"></canvas>
 
         <div class="home-hero-content">
             <div class="hero-badge">
-                <span class="live-ping"></span>
-                <span>HIMACHAL PRADESH &bull; 30°22′N &mdash; 33°12′N</span>
+                <span class="live-ping" aria-hidden="true"></span>
+                <span>IIT MANDI &bull; SCHOOL OF CIVIL & ENVIRONMENTAL ENGINEERING &bull; HP OBSERVATORY</span>
             </div>
 
             <h1 class="hero-title">
@@ -43,6 +40,13 @@ HIMA-LENS | Himalayan Landslide Intelligence Platform
                     <span>Explore Dataset Insights</span>
                 </a>
             </div>
+
+            <!-- Live Disaster & Highway Advisory Ribbon -->
+            <a href="{{ url_for('feed') }}" class="hero-hazard-ticker" aria-label="View live landslide and highway hazard alerts">
+                <span class="ticker-pill">LIVE ADVISORY</span>
+                <span class="ticker-text">Statewide Landslide & Highway Status Wire &bull; NH-05, NH-21 & Hill Corridors</span>
+                <span class="ticker-arrow">&rarr;</span>
+            </a>
         </div>
 
         <!-- Floating Live Telemetry Badge -->
@@ -71,10 +75,8 @@ HIMA-LENS | Himalayan Landslide Intelligence Platform
     <section class="home-section platform-section" id="platform">
         <div class="section-container">
             <div class="section-heading-row">
-                <div class="section-number">01</div>
                 <div class="section-heading-content">
-                    <div class="section-label">THE PLATFORM</div>
-                    <h2 class="section-title">From scattered <span>records</span> to a spatial story.</h2>
+                    <h2 class="section-title">From scattered records to a <span>spatial story.</span></h2>
                     <p class="section-introduction">
                         HIMA-LENS brings landslide records together in a single interactive environment &mdash; allowing you to move from regional patterns to individual mapped events.
                     </p>
@@ -82,130 +84,135 @@ HIMA-LENS | Himalayan Landslide Intelligence Platform
             </div>
 
             <div class="feature-grid">
-                <!-- FEATURE 01 -->
-                <article class="feature-card">
+                <!-- FEATURE 01: 2D/3D GIS -->
+                <a href="{{ url_for('explore') }}" class="feature-card" aria-label="Launch 2D and 3D Web-GIS Spatial Explorer">
                     <div class="feature-card-top">
-                        <span class="feature-number">01</span>
-                        <span class="feature-icon">&target;</span>
+                        <span class="feature-badge">2D / 3D WEB-GIS</span>
+                        <span class="feature-icon" aria-hidden="true">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
+                        </span>
                     </div>
                     <div class="feature-card-body">
                         <h3>Explore <br>the terrain.</h3>
-                        <p>Navigate the spatial inventory and investigate where recorded landslides occur across the Himalayan landscape.</p>
+                        <p>Navigate the statewide inventory across all 12 districts with interactive cluster analysis, historical Wayback satellite timelines, and 3D elevation models.</p>
                     </div>
                     <div class="feature-card-footer">
-                        <span>SPATIAL EXPLORATION</span>
-                        <span class="feature-arrow">&nearr;</span>
+                        <span>LAUNCH SPATIAL EXPLORER</span>
+                        <span class="feature-arrow" aria-hidden="true">&nearr;</span>
                     </div>
-                </article>
+                </a>
 
-                <!-- FEATURE 02 -->
-                <article class="feature-card feature-card-dark">
+                <!-- FEATURE 02: Geotechnical AI -->
+                <a href="{{ url_for('report') }}" class="feature-card feature-card-dark" aria-label="Inspect landslide records and generate geotechnical AI assessments">
                     <div class="feature-card-top">
-                        <span class="feature-number">02</span>
-                        <span class="feature-icon">&#9672;</span>
+                        <span class="feature-badge">GEOTECHNICAL AI</span>
+                        <span class="feature-icon" aria-hidden="true">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        </span>
                     </div>
                     <div class="feature-card-body">
                         <h3>Inspect <br>every record.</h3>
-                        <p>Open individual mapped locations to examine available information including year, activity, material, and movement.</p>
+                        <p>Open individual mapped slope failures to examine Cruden & Varnes kinematics, lithology, and auto-generated HPPWD civil engineering repair estimates.</p>
                     </div>
                     <div class="feature-card-footer">
-                        <span>RECORD INTELLIGENCE</span>
-                        <span class="feature-arrow">&nearr;</span>
+                        <span>VIEW FIELD DOSSIERS</span>
+                        <span class="feature-arrow" aria-hidden="true">&nearr;</span>
                     </div>
-                </article>
+                </a>
 
-                <!-- FEATURE 03 -->
-                <article class="feature-card">
+                <!-- FEATURE 03: Early Warning Feed -->
+                <a href="{{ url_for('feed') }}" class="feature-card" aria-label="Monitor real-time disaster feed and emergency alerts">
                     <div class="feature-card-top">
-                        <span class="feature-number">03</span>
-                        <span class="feature-icon">&#8767;</span>
+                        <span class="feature-badge">EARLY WARNING WIRE</span>
+                        <span class="feature-icon" aria-hidden="true">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                        </span>
                     </div>
                     <div class="feature-card-body">
-                        <h3>Discover <br>the patterns.</h3>
-                        <p>Filter, compare, and investigate the spatial and temporal patterns contained within the regional inventory.</p>
+                        <h3>Discover <br>live patterns.</h3>
+                        <p>Filter real-time emergency news, highway closures (NH-05, NH-21), and official CAP v1.2 cell-broadcast alerts synchronized with state disaster management.</p>
                     </div>
                     <div class="feature-card-footer">
-                        <span>DATA DISCOVERY</span>
-                        <span class="feature-arrow">&nearr;</span>
+                        <span>OPEN HAZARD FEED</span>
+                        <span class="feature-arrow" aria-hidden="true">&nearr;</span>
                     </div>
-                </article>
+                </a>
             </div>
         </div>
     </section>
 
     <!-- =====================================================
-         03. LIVE INVENTORY SNAPSHOT (DYNAMIC COUNTERS)
+         03. LIVE INVENTORY SNAPSHOT (INTERACTIVE METRICS)
     ====================================================== -->
     <section class="home-section inventory-section" id="inventory-snapshot">
         <div class="section-container">
             <div class="inventory-header">
                 <div>
-                    <div class="section-label">DATASET METRICS</div>
                     <h2 class="section-title">What the <span>inventory</span> holds today.</h2>
                 </div>
-                <a href="{{ url_for('explore') }}" class="text-link">
+                <a href="{{ url_for('explore') }}" class="text-link" aria-label="Open full spatial explorer">
                     <span>Open full spatial explorer</span>
-                    <span>&nearr;</span>
+                    <span aria-hidden="true">&nearr;</span>
                 </a>
             </div>
 
             <div class="statistics-grid">
                 <!-- TOTAL -->
-                <div class="stat-card stat-card-primary">
+                <a href="{{ url_for('explore') }}" class="stat-card stat-card-primary" title="Explore all cataloged landslide records">
                     <div class="stat-card-label">
-                        <span class="stat-dot"></span>
+                        <span class="stat-dot" aria-hidden="true"></span>
                         TOTAL MAPPED RECORDS
                     </div>
                     <div class="stat-value counter-val" id="stat-total" data-target="14190">0</div>
                     <div class="stat-description">
-                        Verified spatial points cataloged across the 12 districts of Himachal Pradesh.
+                        Verified spatial points cataloged across all 12 districts of Himachal Pradesh.
                     </div>
-                    <div class="stat-card-index">01 / 04</div>
-                </div>
+                    <div class="stat-card-index" aria-hidden="true">01 / 04 &nearr;</div>
+                </a>
 
                 <!-- DISTRICTS -->
-                <div class="stat-card">
+                <a href="{{ url_for('explore') }}" class="stat-card" title="Explore district boundary coverages">
                     <div class="stat-card-label">
-                        <span class="stat-icon">&bull;</span>
+                        <span class="stat-icon" aria-hidden="true">&bull;</span>
                         DISTRICT COVERAGE
                     </div>
                     <div class="stat-value counter-val" id="stat-districts" data-target="12">0</div>
                     <div class="stat-description">
-                        All 12 administrative divisions mapped with slope failure events.
+                        All 12 administrative divisions mapped with geocoded slope failure events.
                     </div>
-                    <div class="stat-card-index">02 / 04</div>
-                </div>
+                    <div class="stat-card-index" aria-hidden="true">02 / 04 &nearr;</div>
+                </a>
 
                 <!-- MANDI DETAILED FIELD SURVEY -->
-                <div class="stat-card">
+                <a href="{{ url_for('explore') }}?district=Mandi" class="stat-card" title="Filter Mandi high-resolution 10m survey records">
                     <div class="stat-card-label">
-                        <span class="stat-icon">&#x23F1;</span>
+                        <span class="stat-icon" aria-hidden="true">&bull;</span>
                         MANDI FIELD INVENTORY
                     </div>
                     <div class="stat-value counter-val" id="stat-mandi" data-target="9399">0</div>
                     <div class="stat-description">
-                        High-resolution 10m field survey records in Mandi district.
+                        High-resolution 10m field survey records across Mandi highway corridors.
                     </div>
-                    <div class="stat-card-index">03 / 04</div>
-                </div>
+                    <div class="stat-card-index" aria-hidden="true">03 / 04 &nearr;</div>
+                </a>
 
                 <!-- STATEWIDE GSI SURVEY -->
-                <div class="stat-card">
+                <a href="{{ url_for('explore') }}?district=all" class="stat-card" title="Filter Statewide GSI inventory">
                     <div class="stat-card-label">
-                        <span class="stat-icon">&#9670;</span>
+                        <span class="stat-icon" aria-hidden="true">&bull;</span>
                         STATEWIDE GSI SURVEY
                     </div>
                     <div class="stat-value counter-val" id="stat-detailed" data-target="4791">0</div>
                     <div class="stat-description">
-                        Deduplicated regional geological survey landslide locations.
+                        Deduplicated regional geological survey slope failure locations.
                     </div>
-                    <div class="stat-card-index">04 / 04</div>
-                </div>
+                    <div class="stat-card-index" aria-hidden="true">04 / 04 &nearr;</div>
+                </a>
             </div>
 
             <div class="inventory-status">
                 <div class="inventory-status-left">
-                    <span class="status-dot"></span>
+                    <span class="status-dot" aria-hidden="true"></span>
                     <span>SPATIAL DATABASE STREAM ACTIVE &bull; GEOJSON V2.4</span>
                 </div>
                 <div class="inventory-status-right">
@@ -222,64 +229,89 @@ HIMA-LENS | Himalayan Landslide Intelligence Platform
     <section class="home-section story-section">
         <div class="section-container">
             <div class="story-grid">
-                <!-- LEFT VISUAL -->
+                <!-- LEFT VISUAL: GEOTECHNICAL ELEVATION CARD -->
                 <div class="story-visual">
-                    <div class="story-map-placeholder">
-                        <div class="map-grid"></div>
-                        <div class="mountain-profile">
-                            <span></span><span></span><span></span><span></span><span></span>
-                        </div>
-                        <div class="map-point point-1"><span></span></div>
-                        <div class="map-point point-2"><span></span></div>
-                        <div class="map-point point-3"><span></span></div>
-                        <div class="map-point point-4"><span></span></div>
-                        <div class="map-point point-5"><span></span></div>
+                    <div class="story-map-placeholder" role="img" aria-label="Geological slope profile and catchment cross-section in Mandi district, Himachal Pradesh">
+                        <svg class="story-cross-section-svg" viewBox="0 0 460 320" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <defs>
+                                <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#edf5f0" />
+                                    <stop offset="100%" stop-color="#d6e8de" />
+                                </linearGradient>
+                                <linearGradient id="ridgeBack" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#7ca795" />
+                                    <stop offset="100%" stop-color="#4e7969" />
+                                </linearGradient>
+                                <linearGradient id="ridgeFront" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#2a5f4e" />
+                                    <stop offset="100%" stop-color="#143e32" />
+                                </linearGradient>
+                                <linearGradient id="valleyBase" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#143e32" />
+                                    <stop offset="100%" stop-color="#0b261e" />
+                                </linearGradient>
+                            </defs>
+                            
+                            <rect width="460" height="320" rx="16" fill="url(#skyGrad)" />
+                            <path d="M 0 160 Q 120 120, 230 150 T 460 110" stroke="#b0cfc1" stroke-width="1.2" stroke-dasharray="4 4" fill="none" />
+                            <path d="M 0 190 Q 150 160, 270 200 T 460 150" stroke="#b0cfc1" stroke-width="1.2" stroke-dasharray="4 4" fill="none" />
+                            <path d="M 0 170 Q 70 120, 140 135 T 280 85 T 390 115 T 460 70 L 460 320 L 0 320 Z" fill="url(#ridgeBack)" opacity="0.6" />
+                            <path d="M 0 210 Q 80 170, 160 195 T 300 130 T 410 165 T 460 120 L 460 320 L 0 320 Z" fill="url(#ridgeFront)" />
+                            <path d="M 0 265 Q 110 240, 230 255 T 460 235 L 460 320 L 0 320 Z" fill="url(#valleyBase)" />
+                            <path d="M 160 195 Q 210 220, 255 258" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="5 3" fill="none" />
+                            
+                            <circle cx="160" cy="195" r="5" fill="#ef4444" stroke="#ffffff" stroke-width="2" />
+                            <circle cx="255" cy="258" r="5" fill="#10b981" stroke="#ffffff" stroke-width="2" />
+                            <circle cx="340" cy="180" r="4.5" fill="#3b82f6" stroke="#ffffff" stroke-width="2" />
+                            
+                            <text x="80" y="192" fill="#ffffff" font-size="11" font-weight="800">CROWN SCARP (2,450m)</text>
+                            <text x="268" y="262" fill="#a7f3d0" font-size="11" font-weight="800">TOE ACCUMULATION</text>
+                            <text x="352" y="184" fill="#dbeafe" font-size="11" font-weight="800">PIEZOMETER</text>
+                        </svg>
 
-                        <div class="map-label map-label-one">31.76° N</div>
-                        <div class="map-label map-label-two">77.19° E</div>
+                        <div class="map-label map-label-one" aria-hidden="true">31.76° N • 2,450m ASL</div>
+                        <div class="map-label map-label-two" aria-hidden="true">77.19° E • BEAS BASIN</div>
 
                         <div class="map-caption">
-                            <span>SPATIAL INVENTORY</span>
-                            <strong>HIMACHAL PRADESH</strong>
+                            <span>GEOTECHNICAL MONITORING</span>
+                            <strong>MANDI CATCHMENT SECTOR</strong>
                         </div>
                     </div>
                 </div>
 
                 <!-- RIGHT CONTENT -->
                 <div class="story-content">
-                    <div class="section-number">02</div>
-                    <div class="section-label">WHY SPATIAL DATA MATTERS</div>
                     <h2 class="story-title">A landslide is <span>more than a point.</span></h2>
-                    <p>Every mapped location exists within a larger landscape. Its position connects it to terrain, geology, hydrology, land use, infrastructure, rainfall, and human activity.</p>
-                    <p>HIMA-LENS makes those spatial relationships easier to explore &mdash; starting with the inventory and opening a path toward deeper risk analysis.</p>
+                    <p>Every mapped location exists within a dynamic mountain catchment. Its position connects directly to terrain slope, bedrock lithology, structural drainage, transportation corridors, and monsoon deluge.</p>
+                    <p>HIMA-LENS enables multi-layer geospatial synthesis &mdash; moving from raw incident coordinates to predictive geotechnical stability assessments.</p>
 
                     <div class="story-list">
                         <div class="story-list-item">
-                            <span>01</span>
+                            <span class="story-num">01</span>
                             <div>
                                 <strong>WHERE</strong>
-                                <p>Spatial distribution and concentration across mountain slopes.</p>
+                                <p>Spatial distribution and slope-angle clustering across mountain&nbsp;valleys.</p>
                             </div>
                         </div>
                         <div class="story-list-item">
-                            <span>02</span>
+                            <span class="story-num">02</span>
                             <div>
                                 <strong>WHEN</strong>
-                                <p>Temporal patterns and seasonal clustering within available records.</p>
+                                <p>Temporal patterns and seasonal clustering within historical monsoon&nbsp;records.</p>
                             </div>
                         </div>
                         <div class="story-list-item">
-                            <span>03</span>
+                            <span class="story-num">03</span>
                             <div>
                                 <strong>WHAT</strong>
-                                <p>Material, movement classification, and geological triggering mechanisms.</p>
+                                <p>Material, Varnes movement classification, and triggering&nbsp;mechanisms.</p>
                             </div>
                         </div>
                     </div>
 
                     <a href="{{ url_for('explore') }}" class="story-link">
                         <span>Enter the spatial explorer</span>
-                        <span>&nearr;</span>
+                        <span aria-hidden="true">&nearr;</span>
                     </a>
                 </div>
             </div>
@@ -287,49 +319,48 @@ HIMA-LENS | Himalayan Landslide Intelligence Platform
     </section>
 
     <!-- =====================================================
-         05. INVENTORY DIMENSIONS
+         05. INVENTORY DIMENSIONS (INTERACTIVE QUERY TILES)
     ====================================================== -->
     <section class="home-section dimensions-section">
         <div class="section-container">
             <div class="dimensions-header">
                 <div>
-                    <div class="section-label">INVENTORY DIMENSIONS</div>
                     <h2 class="section-title">Look at the <span>same landscape</span> differently.</h2>
                 </div>
-                <p>The inventory can be approached through multiple lenses, allowing different questions to emerge from the same dataset.</p>
+                <p>The inventory can be approached through multiple analytical lenses, unlocking geotechnical insights from the same spatial dataset.</p>
             </div>
 
             <div class="dimension-grid">
-                <div class="dimension-item">
-                    <span class="dimension-number">01</span>
+                <a href="{{ url_for('explore') }}" class="dimension-item" title="Filter by district and location">
+                    <span class="dimension-number" aria-hidden="true">01</span>
                     <strong>LOCATION</strong>
-                    <span>District & spatial distribution</span>
-                </div>
-                <div class="dimension-item">
-                    <span class="dimension-number">02</span>
+                    <span>District & spatial distribution across slopes &nearr;</span>
+                </a>
+                <a href="{{ url_for('explore') }}" class="dimension-item" title="Filter by historical recording year">
+                    <span class="dimension-number" aria-hidden="true">02</span>
                     <strong>TIME</strong>
-                    <span>Year & temporal coverage</span>
-                </div>
-                <div class="dimension-item">
-                    <span class="dimension-number">03</span>
+                    <span>Historical recording year (2015–2023) &nearr;</span>
+                </a>
+                <a href="{{ url_for('explore') }}" class="dimension-item" title="Filter by trigger factors">
+                    <span class="dimension-number" aria-hidden="true">03</span>
                     <strong>TRIGGER</strong>
-                    <span>Recorded rainfall & seismic factors</span>
-                </div>
-                <div class="dimension-item">
-                    <span class="dimension-number">04</span>
+                    <span>Monsoon precipitation & seismic slope destabilization &nearr;</span>
+                </a>
+                <a href="{{ url_for('explore') }}" class="dimension-item" title="Filter by Varnes movement types">
+                    <span class="dimension-number" aria-hidden="true">04</span>
                     <strong>MOVEMENT</strong>
-                    <span>Landslide movement & failure modes</span>
-                </div>
-                <div class="dimension-item">
-                    <span class="dimension-number">05</span>
+                    <span>Varnes failure modes (fall, flow, slide, slump) &nearr;</span>
+                </a>
+                <a href="{{ url_for('explore') }}" class="dimension-item" title="Filter by geology and lithology">
+                    <span class="dimension-number" aria-hidden="true">05</span>
                     <strong>GEOLOGY</strong>
-                    <span>Geological and lithological context</span>
-                </div>
-                <div class="dimension-item">
-                    <span class="dimension-number">06</span>
-                    <strong>LAND USE</strong>
-                    <span>Recorded anthropogenic and land-use factors</span>
-                </div>
+                    <span>Bedrock lithology, stratigraphy & rock classification &nearr;</span>
+                </a>
+                <a href="{{ url_for('explore') }}" class="dimension-item" title="Filter by infrastructure corridors">
+                    <span class="dimension-number" aria-hidden="true">06</span>
+                    <strong>INFRASTRUCTURE</strong>
+                    <span>Proximity to National Highways & Mandi PWD roads &nearr;</span>
+                </a>
             </div>
         </div>
     </section>
@@ -340,23 +371,21 @@ HIMA-LENS | Himalayan Landslide Intelligence Platform
     <section class="home-section final-cta-section">
         <div class="section-container">
             <div class="final-cta">
-                <div class="final-cta-background">
-                    <div class="cta-grid"></div>
+                <div class="final-cta-background" aria-hidden="true">
                     <div class="cta-glow"></div>
                 </div>
 
                 <div class="final-cta-content">
-                    <div class="section-label">HIMA-LENS / EXPLORE</div>
                     <h2>The map is <span>waiting.</span></h2>
-                    <p>Move beyond flat tables. Explore where landslides occur, examine what is known about them, and let the Himalayan landscape tell the story.</p>
+                    <p>Move beyond flat tables. Explore where slope failures occur, examine geotechnical field evidence, and analyze the Himalayan landscape in real time.</p>
 
                     <a href="{{ url_for('explore') }}" class="hero-primary-button">
                         <span>Open the interactive map</span>
-                        <span class="button-arrow">&nearr;</span>
+                        <span class="button-arrow" aria-hidden="true">&nearr;</span>
                     </a>
                 </div>
 
-                <div class="final-cta-coordinate">
+                <div class="final-cta-coordinate" aria-hidden="true">
                     31°45′N<br>77°10′E
                 </div>
             </div>
@@ -369,102 +398,101 @@ HIMA-LENS | Himalayan Landslide Intelligence Platform
 {% block scripts %}
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Fluid Topological Mesh & Particle Background Canvas
+    // 1. Authentic Topographic Mountain Contour Elevation Generator
     const canvas = document.getElementById("hero-canvas");
     if (canvas) {
         const ctx = canvas.getContext("2d");
         let width = (canvas.width = window.innerWidth);
         let height = (canvas.height = window.innerHeight);
 
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
         window.addEventListener("resize", () => {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
+            if (prefersReducedMotion) drawStaticContours();
         });
 
-        // Generate Node Points
-        const points = [];
-        const numPoints = Math.floor((width * height) / 18000);
-        const mouse = { x: width / 2, y: height / 2, radius: 180 };
-
-        for (let i = 0; i < numPoints; i++) {
-            points.push({
-                x: Math.random() * width,
-                y: Math.random() * height,
-                vx: (Math.random() - 0.5) * 0.45,
-                vy: (Math.random() - 0.5) * 0.45,
-                radius: Math.random() * 2 + 1.2,
-                baseAlpha: Math.random() * 0.35 + 0.15
-            });
-        }
+        // Topographic Mountain Ridges & Contour Lines
+        const numContours = 9;
+        const mouse = { x: width * 0.7, y: height * 0.4 };
 
         window.addEventListener("mousemove", (e) => {
             mouse.x = e.clientX;
             mouse.y = e.clientY;
         });
 
-        function animateCanvas() {
-            ctx.clearRect(0, 0, width, height);
+        function drawContourWave(time, index) {
+            const yBase = height * 0.22 + (index * (height * 0.085));
+            const amp = 32 + (index * 6);
+            const freq = 0.0018 + (index * 0.0004);
+            const alpha = 0.08 + (index * 0.022);
 
-            // Subtle moving elevation gradient wave
-            const time = Date.now() * 0.0008;
-            const grad = ctx.createRadialGradient(
-                width * 0.75 + Math.sin(time) * 60,
-                height * 0.35 + Math.cos(time) * 40,
-                50,
-                width * 0.75,
-                height * 0.35,
-                width * 0.55
-            );
-            grad.addColorStop(0, "rgba(23, 98, 77, 0.12)");
-            grad.addColorStop(0.5, "rgba(23, 98, 77, 0.04)");
-            grad.addColorStop(1, "rgba(247, 250, 248, 0)");
+            ctx.beginPath();
+            for (let x = 0; x <= width; x += 6) {
+                // Harmonic elevation waves resembling high-altitude ridge contours
+                const wave1 = Math.sin(x * freq + time * 0.6 + index) * amp;
+                const wave2 = Math.cos(x * freq * 2.1 - time * 0.4 + index * 1.5) * (amp * 0.45);
+                
+                // Subtle cursor elevation distortion (radar probe effect)
+                const dMouse = Math.hypot(x - mouse.x, yBase - mouse.y);
+                const mouseForce = Math.max(0, (260 - dMouse) / 260) * 20;
 
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, width, height);
-
-            // Draw Topological Constellation Lines
-            for (let i = 0; i < points.length; i++) {
-                const p = points[i];
-                p.x += p.vx;
-                p.y += p.vy;
-
-                if (p.x < 0 || p.x > width) p.vx *= -1;
-                if (p.y < 0 || p.y > height) p.vy *= -1;
-
-                // Mouse interaction
-                const dx = mouse.x - p.x;
-                const dy = mouse.y - p.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < mouse.radius) {
-                    const force = (mouse.radius - dist) / mouse.radius;
-                    p.x -= (dx / dist) * force * 1.5;
-                    p.y -= (dy / dist) * force * 1.5;
-                }
-
-                // Render Point
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(23, 98, 77, ${p.baseAlpha})`;
-                ctx.fill();
-
-                // Connect adjacent nodes with contour lines
-                for (let j = i + 1; j < points.length; j++) {
-                    const p2 = points[j];
-                    const dist2 = Math.hypot(p.x - p2.x, p.y - p2.y);
-                    if (dist2 < 120) {
-                        ctx.beginPath();
-                        ctx.moveTo(p.x, p.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.strokeStyle = `rgba(23, 98, 77, ${0.12 * (1 - dist2 / 120)})`;
-                        ctx.lineWidth = 0.75;
-                        ctx.stroke();
-                    }
-                }
+                const y = yBase + wave1 + wave2 - mouseForce;
+                if (x === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
             }
 
-            requestAnimationFrame(animateCanvas);
+            ctx.strokeStyle = `rgba(23, 98, 77, ${alpha})`;
+            ctx.lineWidth = index % 3 === 0 ? 1.5 : 0.85;
+            ctx.stroke();
+
+            // Elevation contour labels on primary isolines
+            if (index % 3 === 0 && width > 768) {
+                const labelX = width * 0.82;
+                const waveAtLabel = Math.sin(labelX * freq + time * 0.6 + index) * amp;
+                const labelY = yBase + waveAtLabel;
+                ctx.fillStyle = `rgba(23, 98, 77, ${alpha * 1.6})`;
+                ctx.font = "600 10px 'DM Sans', sans-serif";
+                ctx.fillText(`${1200 + index * 350}m`, labelX, labelY - 5);
+            }
         }
-        animateCanvas();
+
+        function drawStaticContours() {
+            ctx.clearRect(0, 0, width, height);
+            for (let i = 0; i < numContours; i++) {
+                drawContourWave(0, i);
+            }
+        }
+
+        if (prefersReducedMotion) {
+            drawStaticContours();
+        } else {
+            let animId;
+            function animateContours() {
+                ctx.clearRect(0, 0, width, height);
+
+                // Subtle ambient topographic hillshade wash
+                const ambientGrad = ctx.createRadialGradient(
+                    width * 0.8, height * 0.35, 60,
+                    width * 0.75, height * 0.4, width * 0.65
+                );
+                ambientGrad.addColorStop(0, "rgba(23, 98, 77, 0.12)");
+                ambientGrad.addColorStop(0.6, "rgba(23, 98, 77, 0.03)");
+                ambientGrad.addColorStop(1, "rgba(247, 250, 248, 0)");
+
+                ctx.fillStyle = ambientGrad;
+                ctx.fillRect(0, 0, width, height);
+
+                const time = Date.now() * 0.0006;
+                for (let i = 0; i < numContours; i++) {
+                    drawContourWave(time, i);
+                }
+
+                animId = requestAnimationFrame(animateContours);
+            }
+            animateContours();
+        }
     }
 
     // 2. Animated Counter Numbers
@@ -473,7 +501,7 @@ document.addEventListener("DOMContentLoaded", () => {
         counters.forEach(counter => {
             const target = +counter.getAttribute("data-target");
             let count = 0;
-            const speed = target / 60;
+            const speed = Math.max(1, Math.floor(target / 50));
 
             const updateCount = () => {
                 count += speed;
@@ -504,7 +532,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function animateHero(target) {
         if (!heroCounter) return;
         let heroCount = 0;
-        const step = Math.max(1, Math.floor(target / 60));
+        const step = Math.max(1, Math.floor(target / 50));
         const heroInterval = setInterval(() => {
             heroCount += step;
             if (heroCount >= target) {

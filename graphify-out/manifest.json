@@ -570,9 +570,9 @@
     "semantic_hash": ""
   },
   "templates/base.html": {
-    "mtime": 1792654053.7661169,
-    "seen": 1792654126.678573,
-    "ast_hash": "07a14dfb8e7c4d9889acdce81c92c429",
+    "mtime": 1792678333.1377728,
+    "seen": 1792679291.5137372,
+    "ast_hash": "4072cad720dc3579ac82f030ce333ef6",
     "semantic_hash": ""
   },
   "templates/boq_sheet.html": {
@@ -594,9 +594,9 @@
     "semantic_hash": ""
   },
   "templates/index.html": {
-    "mtime": 1792499502.4414515,
-    "seen": 1792646101.3304558,
-    "ast_hash": "a1e0a46bfe75ebd6e6bb5b1ee2507187",
+    "mtime": 1792679236.0579975,
+    "seen": 1792679291.5139265,
+    "ast_hash": "0570336612d57f18ed208b34187419dd",
     "semantic_hash": ""
   },
   "templates/pwd_sheet.html": {
