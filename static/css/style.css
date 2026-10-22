@@ -5606,38 +5606,47 @@ button:disabled {
 .section-heading-row {
 
     display:
-        grid;
+        flex;
 
-    grid-template-columns:
-        65px 1fr;
+    align-items:
+        flex-end;
+
+    justify-content:
+        space-between;
 
     gap:
-        35px;
+        48px;
+
+    margin-bottom:
+        36px;
 
 }
 
 
-.section-number {
-
-    color:
-        var(--home-green);
-
-    font-size:
-        10px;
-
-    font-weight:
-        850;
-
-    letter-spacing:
-        .13em;
-
-}
-
-
-.section-heading-content {
+.section-heading-left {
 
     max-width:
-        850px;
+        600px;
+
+}
+
+
+.section-heading-right {
+
+    max-width:
+        520px;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        flex-start;
+
+    gap:
+        14px;
 
 }
 
@@ -5694,16 +5703,19 @@ button:disabled {
 .section-introduction {
 
     max-width:
-        620px;
+        520px;
 
     margin-top:
-        20px;
+        0;
 
     font-size:
-        14px;
+        15px;
 
     line-height:
-        1.85;
+        1.7;
+
+    color:
+        #234c3f;
 
 }
 
@@ -7785,11 +7797,14 @@ button:disabled {
 
     .section-heading-row {
 
-        grid-template-columns:
-            1fr;
+        flex-direction:
+            column;
+
+        align-items:
+            flex-start;
 
         gap:
-            12px;
+            16px;
 
     }
 

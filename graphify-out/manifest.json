@@ -594,9 +594,9 @@
     "semantic_hash": ""
   },
   "templates/index.html": {
-    "mtime": 1792679236.0579975,
-    "seen": 1792679291.5139265,
-    "ast_hash": "0570336612d57f18ed208b34187419dd",
+    "mtime": 1792680010.1565342,
+    "seen": 1792680096.4900057,
+    "ast_hash": "a89b8cea8e4b2c08daa868b4123d1943",
     "semantic_hash": ""
   },
   "templates/pwd_sheet.html": {
