@@ -138,9 +138,9 @@
     "semantic_hash": ""
   },
   "skills-lock.json": {
-    "mtime": 1792645714.2472894,
-    "seen": 1792646101.330395,
-    "ast_hash": "2af16543ce5acb9a3ba394fa17e193f2",
+    "mtime": 1792683412.6927626,
+    "seen": 1792683665.3172858,
+    "ast_hash": "614fcc6113feaa1011c245018d4f66eb",
     "semantic_hash": ""
   },
   "src/ts/terrain_lab.ts": {
@@ -777,6 +777,60 @@
     "mtime": 1792653327.5074432,
     "seen": 1792653336.3373196,
     "ast_hash": "487c0ae026fa0805b289d7272ffa6deb",
+    "semantic_hash": ""
+  },
+  ".agents/mcp_config.json": {
+    "mtime": 1792683648.5579808,
+    "seen": 1792683665.3146207,
+    "ast_hash": "89bc92709cb2cee68a8b1c81dbb0d305",
+    "semantic_hash": ""
+  },
+  ".agents/skills/data-diet/scripts/slice_data.py": {
+    "mtime": 1792683367.4033356,
+    "seen": 1792683665.3146312,
+    "ast_hash": "e4f8145558f90c4e74573e93e84e18e6",
+    "semantic_hash": ""
+  },
+  ".agents/skills/spatial-discipline/scripts/validate_spatial.py": {
+    "mtime": 1792683334.188706,
+    "seen": 1792683665.3159177,
+    "ast_hash": "60202cdedd4b76d4c8d3f4925e103782",
+    "semantic_hash": ""
+  },
+  "scripts/mcp_geospatial_server.py": {
+    "mtime": 1792683622.3881125,
+    "seen": 1792683665.3172083,
+    "ast_hash": "7754e2fc14ca219fe02b930aa99c6093",
+    "semantic_hash": ""
+  },
+  "tests/__init__.py": {
+    "mtime": 1792683479.5622666,
+    "seen": 1792683665.3178833,
+    "ast_hash": "1231da8d7776e548364d6637aa9b260a",
+    "semantic_hash": ""
+  },
+  "tests/test_spatial_integrity.py": {
+    "mtime": 1792683565.2656791,
+    "seen": 1792683665.317885,
+    "ast_hash": "a1fc8998a4193501af5fbe34cce1486f",
+    "semantic_hash": ""
+  },
+  ".agents/skills/data-diet/SKILL.md": {
+    "mtime": 1792683354.8311725,
+    "seen": 1792683665.3182707,
+    "ast_hash": "65df2db37a6c3d6cdcb89c1806b4e57e",
+    "semantic_hash": ""
+  },
+  ".agents/skills/geotech-validator/SKILL.md": {
+    "mtime": 1792683392.6811378,
+    "seen": 1792683665.3185873,
+    "ast_hash": "e6a14ce78bdc254c5b41646065a1d126",
+    "semantic_hash": ""
+  },
+  ".agents/skills/spatial-discipline/SKILL.md": {
+    "mtime": 1792683319.0229273,
+    "seen": 1792683665.3229792,
+    "ast_hash": "800dadbf83488dfe425ddf45372070cf",
     "semantic_hash": ""
   }
 }

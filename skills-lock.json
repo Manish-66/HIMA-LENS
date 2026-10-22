@@ -42,6 +42,21 @@
       "sourceType": "github",
       "skillPath": "plugins/show-me/skills/show-me/SKILL.md",
       "computedHash": "57ebd85cbff1bf53c74de911af93aa071b6353ffe6f887322541cb02c3128542"
+    },
+    "spatial-discipline": {
+      "source": "local/spatial-discipline",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/spatial-discipline/SKILL.md"
+    },
+    "data-diet": {
+      "source": "local/data-diet",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/data-diet/SKILL.md"
+    },
+    "geotech-validator": {
+      "source": "local/geotech-validator",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/geotech-validator/SKILL.md"
     }
   }
 }
