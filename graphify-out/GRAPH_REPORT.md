@@ -1,17 +1,17 @@
 # Graph Report - MTP-main - Copy  (2026-10-22)
 
 ## Corpus Check
-- 95 files · ~488,641 words
+- 95 files · ~488,497 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 29 file(s) not represented in the graph (top: .lpkx 6, .geojson 6, .toml 4)
 
 ## Summary
-- 1717 nodes · 3790 edges · 91 communities (85 shown, 6 thin omitted)
+- 1717 nodes · 3792 edges · 91 communities (85 shown, 6 thin omitted)
 - Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 85 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `899f2f18`
+- Built from commit: `250b2979`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -144,7 +144,7 @@ Nodes (55): ae(), be(), bt(), Ce(), s(), Ct(), de(), dt() (+47 more)
 
 ### Community 2 - "explore.js"
 Cohesion: 0.10
-Nodes (57): allFeatures, applyFilters(), cartesianPositionCache, districtName(), districtStyle(), drawer(), fetchJSON(), filteredFeatures (+49 more)
+Nodes (57): allFeatures, applyFilters(), districtName(), districtStyle(), drawer(), fetchJSON(), filteredFeatures, focusCesiumOnMap() (+49 more)
 
 ### Community 3 - "connectSSE"
 Cohesion: 0.17
@@ -489,7 +489,7 @@ _Questions this graph is uniquely positioned to answer:_
 - **Why does `summary()` connect `Any` to `app.py`, `doctor.md`?**
   _High betweenness centrality (0.079) - this node is a cross-community bridge._
 - **Should `explore.js` be split into smaller, more focused modules?**
-  _Cohesion score 0.09585037989479836 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.09701928696668614 - nodes in this community are weakly interconnected._
 - **Why does `Reference Material` connect `Heuristics Scoring Guide` to `Persona-Based Design Testing`, `critique.md`, `Cognitive Load Assessment`?**
   _High betweenness centrality (0.023) - this node is a cross-community bridge._
 - **Should `districts.py` be split into smaller, more focused modules?**

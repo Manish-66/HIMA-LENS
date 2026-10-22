@@ -6,6 +6,27 @@ let cachedRoadsGeoJSON = null;
 let currentEnvChoice = "none", currentEnvOpacity = 0.8;
 const MAP_CONFIG = { center:[31.75,77.1], zoom:8, minZoom:6, maxZoom:18 };
 const layers = {};
+
+const tileOpts = {
+  updateWhenZooming: false,
+  updateWhenIdle: true,
+  keepBuffer: 4
+};
+
+const SATELLITE_WAYBACK_YEARS = {
+  "2023": "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/56102/{z}/{y}/{x}",
+  "2022": "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/45134/{z}/{y}/{x}",
+  "2021": "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/26120/{z}/{y}/{x}",
+  "2020": "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/29260/{z}/{y}/{x}",
+  "2019": "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/4756/{z}/{y}/{x}",
+  "2018": "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/239/{z}/{y}/{x}",
+  "2017": "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/239/{z}/{y}/{x}",
+  "2016": "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/239/{z}/{y}/{x}",
+  "2015": "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/239/{z}/{y}/{x}",
+  "Historical": "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/239/{z}/{y}/{x}"
+};
+const SATELLITE_LATEST_URL = "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}";
+
 document.addEventListener("DOMContentLoaded", init);
 
 let loadingTimeoutId = null;
@@ -94,25 +115,6 @@ function initMap() {
   });
   L.control.zoom({position:"bottomright"}).addTo(map);
 
-  const tileOpts = {
-    updateWhenZooming: false,
-    updateWhenIdle: true,
-    keepBuffer: 4
-  };
-
-  const SATELLITE_WAYBACK_YEARS = {
-    "2023": "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/56102/{z}/{y}/{x}",
-    "2022": "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/45134/{z}/{y}/{x}",
-    "2021": "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/26120/{z}/{y}/{x}",
-    "2020": "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/29260/{z}/{y}/{x}",
-    "2019": "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/4756/{z}/{y}/{x}",
-    "2018": "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/239/{z}/{y}/{x}",
-    "2017": "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/239/{z}/{y}/{x}",
-    "2016": "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/239/{z}/{y}/{x}",
-    "2015": "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/239/{z}/{y}/{x}"
-  };
-  const SATELLITE_LATEST_URL = "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}";
-
   layers.standard = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
     attribution: "© OpenStreetMap contributors",
@@ -194,21 +196,16 @@ async function updateTemporalSatellite(selectedYear) {
   // 2. Cesium 3D: update draped imagery provider and request render
   if (viewer) {
     try {
-      viewer.imageryLayers.removeAll();
-      let imageryProvider;
-      if (typeof Cesium.UrlTemplateImageryProvider.fromUrl === "function") {
-        imageryProvider = await Cesium.UrlTemplateImageryProvider.fromUrl(targetUrl, {
-          maximumLevel: 18,
-          credit: `Esri World Imagery (${yearBadge})`
-        });
-      } else {
-        imageryProvider = new Cesium.UrlTemplateImageryProvider({
-          url: targetUrl,
-          maximumLevel: 18,
-          credit: `Esri World Imagery (${yearBadge})`
-        });
+      const newProvider = new Cesium.UrlTemplateImageryProvider({
+        url: targetUrl,
+        maximumLevel: 18,
+        credit: `Tiles © Esri (${yearBadge})`
+      });
+      const newLayer = new Cesium.ImageryLayer(newProvider);
+      viewer.imageryLayers.add(newLayer);
+      while (viewer.imageryLayers.length > 1) {
+        viewer.imageryLayers.remove(viewer.imageryLayers.get(0));
       }
-      viewer.imageryLayers.addImageryProvider(imageryProvider);
       syncCesiumAllOverlays();
       viewer.scene.requestRender();
     } catch (e) {
@@ -216,8 +213,12 @@ async function updateTemporalSatellite(selectedYear) {
     }
   }
 
-  showLoading("SATELLITE SYNCHRONIZED", `Displaying ${yearBadge} aerial imagery.`, "TIMELINE SATELLITE");
-  hideLoading(350);
+  const currentZoom = map ? map.getZoom() : 8;
+  const subMsg = currentZoom < 11
+    ? `Synchronized ${yearBadge}. Zoom in (level 11+) to view detailed slope scars.`
+    : `Synchronized ${yearBadge} aerial imagery at high resolution.`;
+  showLoading("SATELLITE SYNCHRONIZED", subMsg, "TIMELINE SATELLITE");
+  hideLoading(400);
 }
 
 function validFeature(f) { return f?.geometry?.type === "Point" && Array.isArray(f.geometry.coordinates) && f.geometry.coordinates.length >= 2; }
@@ -403,7 +404,20 @@ async function updateCesiumDistrictBoundary(feature) { if(!viewer)return; const 
 function switchBase(name) {
   showLoading("SWITCHING BASEMAP", `Rendering ${name.toUpperCase()} layer tiles…`, "BASEMAP SELECTOR");
   Object.values(layers).forEach(layer=>map.removeLayer(layer));
-  if (layers[name]) layers[name].addTo(map);
+  if (name === "satellite") {
+    const selectedYear = document.getElementById("year")?.value || "all";
+    const targetUrl = getSatelliteUrlForYear(selectedYear);
+    const isWayback = Boolean(SATELLITE_WAYBACK_YEARS[selectedYear]);
+    const yearBadge = isWayback ? `${selectedYear} Post-Monsoon Wayback` : "Latest High-Resolution";
+    layers.satellite = L.tileLayer(targetUrl, {
+      maxZoom: 18,
+      attribution: `Tiles © Esri (${yearBadge})`,
+      ...tileOpts
+    });
+    layers.satellite.addTo(map);
+  } else if (layers[name]) {
+    layers[name].addTo(map);
+  }
   hideLoading(300);
 
   const statusEl = document.getElementById("temporal-status-text");
@@ -731,6 +745,15 @@ async function initCesium() {
     document.getElementById("cesium-map").classList.add("active");
     document.getElementById("map").classList.add("hidden");
     viewer.resize();
+    const selectedDistrict = document.getElementById("district")?.value || "all";
+    if (selectedDistrict !== "all") {
+      updateCesiumDistrictBoundary(boundaryData?.features?.find(feature => districtName(feature).toLowerCase() === selectedDistrict.toLowerCase()));
+    } else {
+      updateCesiumDistrictBoundary(null);
+    }
+    const selectedYear = document.getElementById("year")?.value || "all";
+    await updateTemporalSatellite(selectedYear);
+    renderCesiumPoints(false);
     focusCesiumOnMap(true);
     await syncCesiumAllOverlays();
     hideLoading(300);
@@ -742,22 +765,27 @@ async function initCesium() {
   const token = (window.HIMA_CONFIG && window.HIMA_CONFIG.cesiumIonToken) ? window.HIMA_CONFIG.cesiumIonToken : DEFAULT_CESIUM_TOKEN;
   if(token) Cesium.Ion.defaultAccessToken=token;
 
-  // High-resolution satellite imagery fallback (ESRI World Imagery, needs no API key)
-  const esriSatellite=new Cesium.UrlTemplateImageryProvider({
-    url:"https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-    credit:"Tiles © Esri"
+  const selectedYear = document.getElementById("year")?.value || "all";
+  const targetSatUrl = getSatelliteUrlForYear(selectedYear);
+  const isWayback = Boolean(SATELLITE_WAYBACK_YEARS[selectedYear]);
+  const yearBadge = isWayback ? `${selectedYear} Post-Monsoon Wayback` : "Latest High-Resolution";
+
+  const initialImageryProvider = new Cesium.UrlTemplateImageryProvider({
+    url: targetSatUrl,
+    maximumLevel: 18,
+    credit: `Tiles © Esri (${yearBadge})`
   });
 
-  viewer=new Cesium.Viewer("cesium-map",{
-    baseLayer:new Cesium.ImageryLayer(esriSatellite),
-    baseLayerPicker:false,
-    geocoder:false,
-    animation:false,
-    timeline:false,
-    homeButton:false,
-    sceneModePicker:false,
-    navigationHelpButton:false,
-    requestRenderMode:false
+  viewer = new Cesium.Viewer("cesium-map", {
+    baseLayer: new Cesium.ImageryLayer(initialImageryProvider),
+    baseLayerPicker: false,
+    geocoder: false,
+    animation: false,
+    timeline: false,
+    homeButton: false,
+    sceneModePicker: false,
+    navigationHelpButton: false,
+    requestRenderMode: false
   });
   viewer.resize();
 
@@ -765,15 +793,13 @@ async function initCesium() {
   if(selectedDistrict!=="all") updateCesiumDistrictBoundary(boundaryData?.features?.find(feature=>districtName(feature).toLowerCase()===selectedDistrict.toLowerCase()));
   focusCesiumOnMap(false);
 
-  const selectedYear = document.getElementById("year")?.value || "all";
-  const targetSatUrl = getSatelliteUrlForYear(selectedYear);
-  const isWayback = Boolean(SATELLITE_WAYBACK_YEARS[selectedYear]);
-  const yearBadge = isWayback ? `${selectedYear} Aerial Photography` : "Latest Aerial Photography";
-
   if(token) {
-    showLoading("STREAMING 3D SATELLITE & ELEVATION", `Downloading elevation & ${yearBadge}…`, "3D TERRAIN ENGINE");
+    showLoading("STREAMING 3D SATELLITE & ELEVATION", `Loading 3D elevation terrain…`, "3D TERRAIN ENGINE");
     try {
-      const terrainRes = await Cesium.createWorldTerrainAsync({requestVertexNormals:true}).catch(() => null);
+      const terrainRes = await Promise.race([
+        Cesium.createWorldTerrainAsync({requestVertexNormals: true}),
+        new Promise(res => setTimeout(() => res(null), 4000))
+      ]).catch(() => null);
       if(terrainRes) {
         terrainProvider = terrainRes;
         try {
@@ -792,34 +818,8 @@ async function initCesium() {
     viewer.scene.globe.depthTestAgainstTerrain = false;
   }
 
-  // Drape temporal satellite imagery onto 3D Globe matching selected year
-  try {
-    viewer.imageryLayers.removeAll();
-    let temporalProvider;
-    if (typeof Cesium.UrlTemplateImageryProvider.fromUrl === "function") {
-      temporalProvider = await Cesium.UrlTemplateImageryProvider.fromUrl(targetSatUrl, {
-        maximumLevel: 18,
-        credit: `Esri World Imagery (${yearBadge})`
-      });
-    } else {
-      temporalProvider = new Cesium.UrlTemplateImageryProvider({
-        url: targetSatUrl,
-        maximumLevel: 18,
-        credit: `Esri World Imagery (${yearBadge})`
-      });
-    }
-    viewer.imageryLayers.addImageryProvider(temporalProvider);
-    viewer.scene.requestRender();
-  } catch(imgErr) {
-    console.warn("Could not load temporal imagery in Cesium:", imgErr);
-    try {
-      const sat = await Cesium.createWorldImageryAsync({style:Cesium.IonWorldImageryStyle.AERIAL});
-      viewer.imageryLayers.add(sat);
-    } catch(e) {}
-  }
-
-  showLoading("PROJECTING 3D LANDSLIDE FEATURES", "Sampling surface terrain elevations for records…", "3D TERRAIN ENGINE");
-  await renderCesiumPoints(false);
+  showLoading("PROJECTING 3D LANDSLIDE FEATURES", "Rendering points & hazard overlays…", "3D TERRAIN ENGINE");
+  renderCesiumPoints(false);
   await syncCesiumAllOverlays();
   hideLoading(350);
 
@@ -874,8 +874,6 @@ async function initCesium() {
 }
 
 // --- OPTIMIZED 3D TERRAIN RENDERING ENGINE ---
-const terrainHeightCache = new Map();
-const cartesianPositionCache = new Map();
 let sharedNearFarScalar = null;
 
 async function renderCesiumPoints(focus = false) {
@@ -896,70 +894,27 @@ async function renderCesiumPoints(focus = false) {
   const showPoints = document.getElementById("toggle-points") ? document.getElementById("toggle-points").checked : true;
   billboardCollection.show = showPoints;
 
-  const records = [];
-  const uncachedIndices = [];
-  const uncachedPositions = [];
-
   for (let i = 0; i < filteredFeatures.length; i++) {
     const feature = filteredFeatures[i];
-    const coords = feature.geometry.coordinates;
+    const coords = feature.geometry?.coordinates;
+    if (!coords) continue;
     const lng = Number(coords[0]);
     const lat = Number(coords[1]);
     if (!Number.isFinite(lat) || !Number.isFinite(lng)) continue;
 
-    // Fast coordinate key (5 decimals = ~1m precision)
-    const key = (feature.id || `${lat.toFixed(5)}_${lng.toFixed(5)}`);
-    const record = { feature, lng, lat, key, height: 0 };
-    records.push(record);
-
-    if (terrainHeightCache.has(key)) {
-      record.height = terrainHeightCache.get(key);
-    } else {
-      uncachedIndices.push(records.length - 1);
-      uncachedPositions.push(Cesium.Cartographic.fromDegrees(lng, lat));
-    }
-  }
-
-  // Only sample terrain heights for points NOT yet in the cache
-  if (terrainProvider && uncachedPositions.length > 0) {
-    set3dStatus(`STREAMING 3D TERRAIN ELEVATION (${uncachedPositions.length.toLocaleString("en-IN")} uncached)…`, true);
-    try {
-      await Cesium.sampleTerrainMostDetailed(terrainProvider, uncachedPositions);
-      for (let j = 0; j < uncachedPositions.length; j++) {
-        const h = Number.isFinite(uncachedPositions[j].height) ? uncachedPositions[j].height : 0;
-        const recIdx = uncachedIndices[j];
-        records[recIdx].height = h;
-        terrainHeightCache.set(records[recIdx].key, h);
-      }
-    } catch (error) {
-      console.warn("Terrain height sampling failed; using cached/ellipsoid height fallback.", error);
-    }
-  }
-
-  if (version !== terrainRenderVersion) return;
-
-  // Batch-add billboards using cached Cartesian3 positions
-  for (let i = 0; i < records.length; i++) {
-    const rec = records[i];
-    let pos = cartesianPositionCache.get(rec.key);
-    if (!pos) {
-      pos = Cesium.Cartesian3.fromDegrees(rec.lng, rec.lat, rec.height + 7);
-      if (rec.height !== 0 || !terrainProvider) {
-        cartesianPositionCache.set(rec.key, pos);
-      }
-    }
-
-    const visual = markerVisual(rec.feature);
+    const visual = markerVisual(feature);
     billboardCollection.add({
-      position: pos,
+      position: Cesium.Cartesian3.fromDegrees(lng, lat, 0),
       image: landslideIcon(visual.kind, visual.color),
-      verticalOrigin: Cesium.VerticalOrigin.CENTER,
+      verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+      heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
       scale: 0.95,
       scaleByDistance: sharedNearFarScalar,
-      id: rec.feature
+      id: feature
     });
   }
 
+  if (version !== terrainRenderVersion) return;
   if (focus) focusCesiumOnMap(true);
   viewer.scene.requestRender();
   set3dStatus("", false);
