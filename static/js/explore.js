@@ -1,5 +1,5 @@
 "use strict";
-let map, markerLayer, allFeatures = [], filteredFeatures = [], selectedMarker, boundaryData, districtLayer, maskLayer, viewer, terrainProvider, billboardCollection, terrainRenderVersion = 0, last2DView, cesiumDistrictDataSource, cesiumBoundaryVersion = 0;
+let map, markerLayer, allFeatures = [], filteredFeatures = [], selectedMarker, boundaryData, districtLayer, maskLayer, viewer, terrainProvider, billboardCollection, terrainRenderVersion = 0, last2DView, cesiumDistrictDataSource, cesiumBoundaryVersion = 0, lastSelectedDistrict = "all";
 let roadLayer = null, polygonLayer = null, environmentalLayer = null, environmentalMeta = null;
 let cesiumRoadsDataSource = null, cesiumPolygonsDataSource = null, cesiumEnvLayer = null;
 let cachedRoadsGeoJSON = null;
@@ -301,7 +301,7 @@ function isPointInDistrict(lat, lng, distFeature, distBounds) {
   return true;
 }
 
-function applyFilters() {
+function applyFilters(forceFit = false) {
   const query = id => document.getElementById(id).value;
   const district = query("district"), year = query("year"), activity = query("activity"), movement = query("movement");
 
@@ -326,8 +326,21 @@ function applyFilters() {
     return true;
   });
 
-  isolateDistrict(district);
-  renderFeatures(district === "all", true);
+  const districtChanged = (district !== lastSelectedDistrict);
+  lastSelectedDistrict = district;
+
+  if (districtChanged || forceFit) {
+    isolateDistrict(district);
+    renderFeatures(district === "all", true);
+  } else {
+    // District didn't change (e.g. Year / Activity / Movement changed) -> PRESERVE VIEW & ZOOM!
+    renderFeatures(false, false);
+    const banner = document.getElementById("active-district-banner");
+    if (banner && district !== "all") {
+      banner.textContent = `ACTIVE DISTRICT · ${district.toUpperCase()} · ${filteredFeatures.length.toLocaleString("en-IN")} RECORDS`;
+    }
+  }
+
   renderCommunityReports(district);
   updateTemporalSatellite(year);
   const polyToggle = document.getElementById("toggle-polygons");
@@ -918,10 +931,10 @@ function leaveCesium() {
 }
 
 function initControls() {
-  document.querySelectorAll(".hud-select-wrap select").forEach(el=>el.addEventListener("change",applyFilters));
+  document.querySelectorAll(".hud-select-wrap select").forEach(el=>el.addEventListener("change",()=>applyFilters(false)));
   document.getElementById("reset-filters").addEventListener("click",()=>{
     ["district","year","activity","movement"].forEach(id=>document.getElementById(id).value="all");
-    applyFilters();
+    applyFilters(true);
   });
   document.getElementById("drawer-close").addEventListener("click",()=>document.getElementById("feature-drawer").classList.remove("open"));
   document.getElementById("cesium-zoom-in").addEventListener("click",()=>zoomCesium(1));
