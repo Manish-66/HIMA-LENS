@@ -71,6 +71,76 @@
         document.documentElement.setAttribute('data-theme', 'light');
     </script>
 
+    <style>
+        .site-emergency-bar {
+            background: rgba(189, 81, 81, 0.12);
+            border-bottom: 1px solid rgba(189, 81, 81, 0.25);
+            color: #bd5151;
+            padding: 10px 24px;
+            font-size: 13px;
+            position: relative;
+            z-index: 99;
+        }
+        .site-emergency-bar.warning {
+            background: rgba(178, 122, 41, 0.12);
+            border-bottom: 1px solid rgba(178, 122, 41, 0.25);
+            color: #b27a29;
+        }
+        .site-emergency-bar.info {
+            background: rgba(23, 98, 77, 0.1);
+            border-bottom: 1px solid rgba(23, 98, 77, 0.2);
+            color: var(--forest);
+        }
+        .emergency-bar-inner {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+        }
+        .emergency-pulse {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            box-shadow: 0 0 8px currentColor;
+            flex-shrink: 0;
+            animation: pulseAlert 1.5s infinite;
+        }
+        @keyframes pulseAlert {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+        .emergency-text {
+            flex: 1;
+            line-height: 1.4;
+        }
+        .emergency-link {
+            color: currentColor;
+            font-weight: 700;
+            text-decoration: underline;
+            font-size: 12px;
+            margin-left: 8px;
+            white-space: nowrap;
+        }
+        html[data-theme="dark"] .site-emergency-bar {
+            background: rgba(244, 63, 94, 0.15);
+            border-bottom-color: rgba(244, 63, 94, 0.3);
+            color: #fda4af;
+        }
+        html[data-theme="dark"] .site-emergency-bar.warning {
+            background: rgba(245, 158, 11, 0.15);
+            border-bottom-color: rgba(245, 158, 11, 0.3);
+            color: #fde68a;
+        }
+        html[data-theme="dark"] .site-emergency-bar.info {
+            background: rgba(16, 185, 129, 0.15);
+            border-bottom-color: rgba(16, 185, 129, 0.3);
+            color: #a7f3d0;
+        }
+    </style>
+
     {% block head %}{% endblock %}
 </head>
 
@@ -175,6 +245,20 @@
     </div>
 </header>
 
+{% if active_broadcast and active_broadcast.is_active %}
+<div class="site-emergency-bar {{ active_broadcast.severity }}" role="alert">
+    <div class="emergency-bar-inner">
+        <span class="emergency-pulse"></span>
+        <span class="emergency-text">
+            <strong>{{ active_broadcast.title or 'STATE HIGHWAY ADVISORY' }}:</strong> 
+            {{ active_broadcast.message }}
+        </span>
+        {% if active_broadcast.link %}
+        <a href="{{ active_broadcast.link }}" class="emergency-link">Inspect &rarr;</a>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
 
 <!-- =========================================================
      MAIN

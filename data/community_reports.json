@@ -1,5 +1,20 @@
 [
   {
+    "id": "HL-CR-6A9B327E",
+    "latitude": 31.708,
+    "longitude": 76.932,
+    "district": "Mandi",
+    "incident_date": "2026-10-12T15:32",
+    "movement_type": "Slide",
+    "severity": "Moderate",
+    "description": "",
+    "reporter_name": "",
+    "photo_url": "https://lsjnontlkffkneiuxmwx.supabase.co/storage/v1/object/public/report-images/report_551bd487fdb4_1791799355.jpg",
+    "created_at": "2026-10-12T10:02:36.757575+00:00",
+    "is_hidden": false,
+    "status": "verified"
+  },
+  {
     "id": "HL-CR-6C5DBB52",
     "latitude": 31.77271,
     "longitude": 76.98416,

@@ -1,0 +1,1159 @@
+{% extends "base.html" %}
+
+{% block title %}
+HIMA-LENS | Administrative Command Console
+{% endblock %}
+
+{% block head %}
+<style>
+  /* =========================================================
+     ADMIN COMMAND CONSOLE DESIGN SYSTEM
+     ========================================================= */
+
+  .admin-page-wrapper {
+    background: var(--paper);
+    min-height: calc(100vh - 80px);
+  }
+
+  /* Admin Header & Tabs */
+  .admin-tab-nav {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px;
+    background: var(--paper-dark);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+
+  .admin-nav-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 999px;
+    border: none;
+    background: transparent;
+    color: var(--ink-soft);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    white-space: nowrap;
+    text-decoration: none;
+  }
+
+  .admin-nav-tab:hover {
+    color: var(--ink-strong);
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  .admin-nav-tab.active {
+    background: var(--white);
+    color: var(--forest);
+    box-shadow: var(--shadow-xs);
+  }
+
+  html[data-theme="dark"] .admin-nav-tab.active {
+    background: var(--forest);
+    color: #ffffff;
+  }
+
+  .admin-tab-panel {
+    display: none;
+  }
+
+  .admin-tab-panel.active {
+    display: block;
+    animation: fadeIn 0.25s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Toolbar */
+  .admin-controls-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 16px 20px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-xs);
+    margin-bottom: 24px;
+  }
+
+  .admin-search-wrap {
+    position: relative;
+    flex: 1;
+    min-width: 260px;
+    max-width: 440px;
+  }
+
+  .admin-search-wrap svg {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--ink-muted);
+  }
+
+  .admin-search-input {
+    width: 100%;
+    padding: 10px 14px 10px 38px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line);
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 13px;
+    font-family: inherit;
+    outline: none;
+  }
+
+  .admin-search-input:focus {
+    border-color: var(--forest);
+    background: var(--white);
+  }
+
+  .triage-pills {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .triage-pill-btn {
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .triage-pill-btn:hover {
+    background: var(--forest-pale);
+    color: var(--forest);
+    border-color: var(--forest);
+  }
+
+  .triage-pill-btn.active {
+    background: var(--forest);
+    color: #ffffff;
+    border-color: var(--forest);
+  }
+
+  /* Table */
+  .admin-table-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow-xs);
+    overflow-x: auto;
+  }
+
+  .admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    text-align: left;
+  }
+
+  .admin-table th {
+    padding: 12px 14px;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid var(--line);
+    background: var(--paper);
+  }
+
+  .admin-table td {
+    padding: 14px;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+    vertical-align: middle;
+  }
+
+  .admin-table tr:hover td {
+    background: rgba(23, 98, 77, 0.02);
+  }
+
+  .admin-table tr.row-hidden {
+    opacity: 0.6;
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  .report-thumb {
+    width: 44px;
+    height: 44px;
+    border-radius: 6px;
+    object-fit: cover;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    cursor: pointer;
+    transition: transform var(--transition-fast);
+  }
+
+  .report-thumb:hover {
+    transform: scale(1.1);
+  }
+
+  .report-thumb-placeholder {
+    width: 44px;
+    height: 44px;
+    border-radius: 6px;
+    background: var(--paper);
+    border: 1px dashed var(--line);
+    display: grid;
+    place-items: center;
+    color: var(--ink-muted);
+    font-size: 10px;
+    font-weight: 700;
+  }
+
+  /* Badges */
+  .badge-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 800;
+  }
+
+  .badge-verified { background: rgba(23, 98, 77, 0.12); color: var(--forest); }
+  .badge-pending { background: rgba(178, 122, 41, 0.12); color: #b27a29; }
+  .badge-hidden { background: rgba(100, 116, 139, 0.15); color: #64748b; }
+
+  .badge-severity {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 800;
+  }
+
+  .badge-critical { background: rgba(189, 81, 81, 0.12); color: #bd5151; }
+  .badge-high { background: rgba(178, 122, 41, 0.12); color: #b27a29; }
+  .badge-moderate { background: rgba(82, 125, 153, 0.12); color: #527d99; }
+  .badge-low { background: rgba(60, 139, 104, 0.12); color: #3c8b68; }
+
+  /* Buttons & Action Bar */
+  .admin-action-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .btn-admin {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 10px;
+    border-radius: var(--radius-xs);
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    color: var(--ink-soft);
+    transition: all var(--transition-fast);
+    text-decoration: none;
+  }
+
+  .btn-admin:hover {
+    background: var(--white);
+    color: var(--ink-strong);
+    border-color: var(--ink-muted);
+  }
+
+  .btn-admin-verify {
+    background: rgba(23, 98, 77, 0.08);
+    color: var(--forest);
+    border-color: rgba(23, 98, 77, 0.3);
+  }
+  .btn-admin-verify:hover {
+    background: var(--forest);
+    color: #ffffff;
+  }
+
+  .btn-admin-hide {
+    color: #b27a29;
+    border-color: rgba(178, 122, 41, 0.3);
+  }
+  .btn-admin-hide:hover {
+    background: #b27a29;
+    color: #ffffff;
+  }
+
+  .btn-admin-delete {
+    color: #bd5151;
+    border-color: rgba(189, 81, 81, 0.3);
+  }
+  .btn-admin-delete:hover {
+    background: #bd5151;
+    color: #ffffff;
+  }
+
+  .btn-admin-ai {
+    background: rgba(6, 182, 212, 0.1);
+    color: #0284c7;
+    border-color: rgba(6, 182, 212, 0.3);
+  }
+  .btn-admin-ai:hover {
+    background: #0284c7;
+    color: #ffffff;
+  }
+
+  /* Broadcast Card */
+  .broadcast-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  @media (max-width: 900px) {
+    .broadcast-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .broadcast-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow-xs);
+  }
+
+  .broadcast-preview-banner {
+    padding: 16px;
+    border-radius: var(--radius-sm);
+    margin: 16px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  .form-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .form-input, .form-textarea, .form-select {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line);
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 13px;
+    font-family: inherit;
+    outline: none;
+    box-sizing: border-box;
+  }
+
+  .form-input:focus, .form-textarea:focus, .form-select:focus {
+    border-color: var(--forest);
+    background: var(--white);
+  }
+
+  .btn-publish {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: var(--forest);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 14px;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    box-shadow: var(--shadow-xs);
+    transition: all var(--transition-fast);
+  }
+
+  .btn-publish:hover {
+    background: var(--forest-dark);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* Toast Notification */
+  .admin-toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--ink-strong);
+    color: #ffffff;
+    padding: 12px 20px;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-floating);
+    font-size: 13px;
+    font-weight: 600;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.25s ease;
+    pointer-events: none;
+  }
+
+  .admin-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="admin-page-wrapper">
+
+  <!-- =====================================================
+       01. HERO COMMAND HEADER
+  ====================================================== -->
+  <header class="feed-hero">
+    <div class="feed-hero-inner">
+      <div class="section-label">
+        <span class="live-ping"></span>
+        STATE MONITORING CELL &bull; CENTRAL ADMINISTRATIVE COMMAND
+      </div>
+      <h1 class="feed-title">
+        Administrative <span>Command Console.</span>
+      </h1>
+      <p class="feed-description">
+        Direct report triage, field verification, live emergency road advisories, and on-demand geotechnical AI engineering assessments across Himachal Pradesh.
+      </p>
+
+      <!-- TABBED COMMAND SELECTOR -->
+      <nav class="admin-tab-nav" role="tablist" aria-label="Command console tabs">
+        <button type="button" class="admin-nav-tab {% if active_tab == 'triage' %}active{% endif %}" onclick="switchAdminTab('triage', this);" role="tab">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          <span>Incident Triage &amp; Moderation</span>
+          <span class="tab-badge" id="reports-counter-badge">{{ reports|length }} Reports</span>
+        </button>
+
+        <button type="button" class="admin-nav-tab {% if active_tab == 'broadcast' %}active{% endif %}" onclick="switchAdminTab('broadcast', this);" role="tab">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span>Emergency Road Advisory</span>
+          {% if broadcast and broadcast.is_active %}
+          <span class="tab-badge live-wire-badge">Live Broadcast Active</span>
+          {% endif %}
+        </button>
+
+        <button type="button" class="admin-nav-tab {% if active_tab == 'analytics' %}active{% endif %}" onclick="switchAdminTab('analytics', this);" role="tab">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+          <span>Statewide Telemetry &amp; Budget</span>
+        </button>
+
+        <button type="button" class="admin-nav-tab {% if active_tab == 'system' %}active{% endif %}" onclick="switchAdminTab('system', this);" role="tab">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span>System &amp; Data Operations</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- =====================================================
+       02. MAIN CONTAINER
+  ====================================================== -->
+  <div class="feed-container" style="padding-top: 32px; padding-bottom: 60px;">
+
+    <!-- =====================================================
+         PANEL 1: INCIDENT TRIAGE & MODERATION
+    ====================================================== -->
+    <div id="panel-triage" class="admin-tab-panel {% if active_tab == 'triage' %}active{% endif %}">
+      
+      <!-- Toolbar -->
+      <div class="admin-controls-card">
+        <div class="admin-search-wrap">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="report-search-input" placeholder="Search reports (ID, district, description...)" class="admin-search-input" oninput="filterReportsTable();">
+        </div>
+
+        <div class="triage-pills">
+          <button type="button" class="triage-pill-btn active" onclick="filterByStatus('all', this);">All ({{ reports|length }})</button>
+          <button type="button" class="triage-pill-btn" onclick="filterByStatus('pending', this);">Pending Review</button>
+          <button type="button" class="triage-pill-btn" onclick="filterByStatus('verified', this);">Verified</button>
+          <button type="button" class="triage-pill-btn" onclick="filterByStatus('hidden', this);">Hidden / Spam</button>
+        </div>
+      </div>
+
+      <!-- Actionable Report Table -->
+      <div class="admin-table-card">
+        <table class="admin-table" role="table">
+          <thead>
+            <tr role="row">
+              <th scope="col">Evidence</th>
+              <th scope="col">Incident ID</th>
+              <th scope="col">District &amp; Location</th>
+              <th scope="col">Movement &amp; Severity</th>
+              <th scope="col">Moderation Status</th>
+              <th scope="col">AI Geotech BOQ</th>
+              <th scope="col">Reported Date</th>
+              <th scope="col" style="text-align: right;">Administrative Actions</th>
+            </tr>
+          </thead>
+          <tbody id="triage-table-body">
+            {% for rep in reports %}
+            <tr role="row" id="row-{{ rep.id }}" class="report-row {% if rep.is_hidden or rep.status == 'hidden' %}row-hidden{% endif %}" data-status="{{ rep.status or 'active' }}" data-hidden="{{ 'true' if rep.is_hidden else 'false' }}" data-search="{{ (rep.id ~ ' ' ~ rep.district ~ ' ' ~ rep.description ~ ' ' ~ rep.reporter_name)|lower }}">
+              
+              <!-- Evidence Photo -->
+              <td>
+                {% if rep.photo_url %}
+                <a href="{{ rep.photo_url }}" target="_blank" rel="noopener" title="Click to view full photo">
+                  <img src="{{ rep.photo_url }}" alt="Evidence" class="report-thumb" loading="lazy">
+                </a>
+                {% else %}
+                <div class="report-thumb-placeholder">NO PIC</div>
+                {% endif %}
+              </td>
+
+              <!-- Incident ID -->
+              <td>
+                <div style="font-family: var(--font-mono, monospace); font-weight: 800; color: var(--forest);">
+                  {{ rep.id }}
+                </div>
+                <div style="font-size: 11px; color: var(--ink-muted);">By {{ rep.reporter_name or 'Anonymous' }}</div>
+              </td>
+
+              <!-- Location Details -->
+              <td>
+                <div style="font-weight: 700;">{{ rep.district }}</div>
+                <div style="font-size: 12px; color: var(--ink-soft); max-width: 220px;" title="{{ rep.description }}">
+                  {{ rep.description[:55] ~ '...' if rep.description and rep.description|length > 55 else (rep.description or 'Field observation') }}
+                </div>
+                <div style="font-family: var(--font-mono, monospace); font-size: 11px; color: var(--ink-muted); margin-top: 2px;">
+                  {{ rep.latitude }}°N, {{ rep.longitude }}°E
+                </div>
+              </td>
+
+              <!-- Movement & Severity -->
+              <td>
+                <div style="font-weight: 600;">{{ rep.movement_type or 'Unknown' }}</div>
+                <span class="badge-severity {% if rep.severity|lower == 'critical' %}badge-critical{% elif rep.severity|lower == 'high' %}badge-high{% elif rep.severity|lower == 'low' %}badge-low{% else %}badge-moderate{% endif %}">
+                  {{ rep.severity or 'Moderate' }}
+                </span>
+              </td>
+
+              <!-- Status Badge -->
+              <td id="status-badge-{{ rep.id }}">
+                {% if rep.is_hidden or rep.status == 'hidden' %}
+                <span class="badge-status badge-hidden">Hidden</span>
+                {% elif rep.status == 'verified' %}
+                <span class="badge-status badge-verified">✓ Verified</span>
+                {% else %}
+                <span class="badge-status badge-pending">Pending Review</span>
+                {% endif %}
+              </td>
+
+              <!-- AI BOQ Dossier Status -->
+              <td id="ai-status-{{ rep.id }}">
+                {% if rep.ai_assessment %}
+                <span class="badge-status badge-verified">Generated</span>
+                {% else %}
+                <span class="badge-status badge-pending">Not Generated</span>
+                {% endif %}
+              </td>
+
+              <!-- Date -->
+              <td style="font-size: 12px; color: var(--ink-muted); white-space: nowrap;">
+                {{ rep.created_at[:16]|replace('T', ' ') if rep.created_at else 'Recent' }}
+              </td>
+
+              <!-- Actions -->
+              <td style="text-align: right;">
+                <div class="admin-action-group" style="justify-content: flex-end;">
+                  
+                  <!-- Verify Button -->
+                  <button type="button" class="btn-admin btn-admin-verify" onclick="setReportStatus('{{ rep.id }}', 'verified', false);" title="Approve and verify report on public map">
+                    ✓ Verify
+                  </button>
+
+                  <!-- Hide Button -->
+                  {% if rep.is_hidden or rep.status == 'hidden' %}
+                  <button type="button" class="btn-admin btn-admin-hide" onclick="setReportStatus('{{ rep.id }}', 'active', false);" title="Restore report to public view">
+                    Unhide
+                  </button>
+                  {% else %}
+                  <button type="button" class="btn-admin btn-admin-hide" onclick="setReportStatus('{{ rep.id }}', 'hidden', true);" title="Hide report from public view">
+                    Hide
+                  </button>
+                  {% endif %}
+
+                  <!-- Run AI Button -->
+                  <button type="button" class="btn-admin btn-admin-ai" id="ai-btn-{{ rep.id }}" onclick="triggerAIAssessment('{{ rep.id }}');" title="Generate or recalculate AI engineering dossier & BOQ sheet">
+                    ⚡ AI
+                  </button>
+
+                  <!-- Inspect Links -->
+                  <a href="/report/pwd-sheet/{{ rep.id }}" class="btn-admin" title="Inspect PWD Sheet">PWD</a>
+                  <a href="/explore?lat={{ rep.latitude }}&lng={{ rep.longitude }}" class="btn-admin" title="Fly to 3D Globe location">3D</a>
+
+                  <!-- Delete Button -->
+                  <button type="button" class="btn-admin btn-admin-delete" onclick="deleteReport('{{ rep.id }}');" title="Permanently delete test or spam submission">
+                    🗑
+                  </button>
+
+                </div>
+              </td>
+
+            </tr>
+            {% else %}
+            <tr>
+              <td colspan="8" style="text-align: center; color: var(--ink-muted); padding: 32px;">No community reports registered in database.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <!-- =====================================================
+         PANEL 2: EMERGENCY HIGHWAY ADVISORY & BROADCAST
+    ====================================================== -->
+    <div id="panel-broadcast" class="admin-tab-panel {% if active_tab == 'broadcast' %}active{% endif %}">
+      
+      <div class="broadcast-grid">
+        
+        <!-- Broadcast Composer Form -->
+        <div class="broadcast-card">
+          <div class="analytics-card-header" style="margin-bottom: 16px;">
+            <div>
+              <h2 class="analytics-card-title">Compose State Highway Advisory</h2>
+              <p class="analytics-card-sub">Publishes an emergency warning banner displayed across every page of HIMA-LENS</p>
+            </div>
+          </div>
+
+          <form id="broadcast-form" onsubmit="publishBroadcast(event);">
+            <div class="form-group">
+              <label for="broadcast-title" class="form-label">Advisory Headline / Highway Target:</label>
+              <input type="text" id="broadcast-title" class="form-input" placeholder="e.g. NH-05 KINNAUR HIGHWAY CLOSURE &bull; NIGULSARI" value="{{ broadcast.title if broadcast else 'STATE HIGHWAY ADVISORY' }}" required>
+            </div>
+
+            <div class="form-group">
+              <label for="broadcast-severity" class="form-label">Severity Level:</label>
+              <select id="broadcast-severity" class="form-select">
+                <option value="critical" {% if broadcast and broadcast.severity == 'critical' %}selected{% endif %}>Critical (Red Emergency Warning)</option>
+                <option value="warning" {% if broadcast and broadcast.severity == 'warning' %}selected{% endif %}>Warning (Amber Road Advisory)</option>
+                <option value="info" {% if broadcast and broadcast.severity == 'info' %}selected{% endif %}>Informational (Green Operations Bulletin)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="broadcast-message" class="form-label">Advisory Message &amp; Traffic Diversion Details:</label>
+              <textarea id="broadcast-message" class="form-textarea" rows="4" placeholder="e.g. Major rockfall triggered at Nigulsari (NH-05). Road closed for all vehicular traffic. Light vehicles diverted via Karcham-Sangla link. Heavy machinery mobilized." required>{{ broadcast.message if broadcast else '' }}</textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="broadcast-link" class="form-label">Action Link (Optional):</label>
+              <input type="text" id="broadcast-link" class="form-input" placeholder="/feed or /explore" value="{{ broadcast.link if broadcast else '/feed' }}">
+            </div>
+
+            <button type="submit" class="btn-publish">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              <span>Broadcast Live Alert Across Website</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Current Live Status Card -->
+        <div class="broadcast-card">
+          <div class="analytics-card-header" style="margin-bottom: 16px;">
+            <div>
+              <h2 class="analytics-card-title">Active Live Advisory Status</h2>
+              <p class="analytics-card-sub">What visitors are currently seeing at the top of the platform</p>
+            </div>
+            {% if broadcast and broadcast.is_active %}
+            <span class="badge-status badge-verified">Active on Live Site</span>
+            {% else %}
+            <span class="badge-status badge-hidden">Deactivated</span>
+            {% endif %}
+          </div>
+
+          <div id="live-broadcast-preview">
+            {% if broadcast and broadcast.is_active %}
+            <div class="site-emergency-bar {{ broadcast.severity }}" style="border-radius: var(--radius-sm); margin: 16px 0;">
+              <div class="emergency-bar-inner">
+                <span class="emergency-pulse"></span>
+                <span class="emergency-text">
+                  <strong>{{ broadcast.title }}:</strong> {{ broadcast.message }}
+                </span>
+                {% if broadcast.link %}
+                <a href="{{ broadcast.link }}" class="emergency-link">Inspect &rarr;</a>
+                {% endif %}
+              </div>
+            </div>
+
+            <div style="font-size: 12px; color: var(--ink-muted); margin-bottom: 20px;">
+              Last Updated: {{ broadcast.updated_at[:16]|replace('T', ' ') if broadcast.updated_at else 'Recent' }} UTC
+            </div>
+
+            <button type="button" class="btn-admin btn-admin-hide" style="padding: 10px 18px; font-size: 13px;" onclick="dismissBroadcast();">
+              ✕ Dismiss / Expire Live Alert
+            </button>
+            {% else %}
+            <div style="padding: 32px; text-align: center; color: var(--ink-muted); border: 1px dashed var(--line); border-radius: var(--radius-sm);">
+              No active emergency alert is currently broadcasting to visitors.
+            </div>
+            {% endif %}
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- =====================================================
+         PANEL 3: STATEWIDE TELEMETRY & BUDGET (ANALYTICS)
+    ====================================================== -->
+    <div id="panel-analytics" class="admin-tab-panel {% if active_tab == 'analytics' %}active{% endif %}">
+      
+      <!-- KPI Metric Cards Grid -->
+      <div class="analytics-kpi-grid">
+        <div class="kpi-card">
+          <div>
+            <div class="kpi-header">
+              <span class="kpi-kicker">01 / INCIDENT TELEMETRY</span>
+              <span class="kpi-pill kpi-pill-emerald">HP Boundary Verified</span>
+            </div>
+            <div class="kpi-value">{{ summary.kpis.total_reports }}</div>
+          </div>
+          <div class="kpi-caption">Active field incidents registered across Himachal terrain</div>
+        </div>
+
+        <div class="kpi-card">
+          <div>
+            <div class="kpi-header">
+              <span class="kpi-kicker">02 / HIGH RISK SLOPES</span>
+              <span class="kpi-pill kpi-pill-rose">High Severity</span>
+            </div>
+            <div class="kpi-value" style="color: #bd5151;">{{ summary.kpis.critical_hazards }}</div>
+          </div>
+          <div class="kpi-caption">High &amp; critical severity slope failures requiring intervention</div>
+        </div>
+
+        <div class="kpi-card">
+          <div>
+            <div class="kpi-header">
+              <span class="kpi-kicker">03 / GEOTECHNICAL DOSSIERS</span>
+              <span class="kpi-pill kpi-pill-emerald">{{ summary.kpis.ai_coverage_pct }}% Coverage</span>
+            </div>
+            <div class="kpi-value" style="color: var(--forest);">{{ summary.kpis.ai_dossiers_count }}</div>
+          </div>
+          <div class="kpi-caption">Deterministic geotechnical parameters &amp; PWD sheets generated</div>
+        </div>
+
+        <div class="kpi-card">
+          <div>
+            <div class="kpi-header">
+              <span class="kpi-kicker">04 / MITIGATION ESTIMATE</span>
+              <span class="kpi-pill kpi-pill-amber">HPPWD Schedule</span>
+            </div>
+            <div class="kpi-value" style="color: var(--clay);">₹{{ summary.kpis.estimated_cost_cr }} Cr</div>
+          </div>
+          <div class="kpi-caption">Cumulative slope protection and clearance expenditure</div>
+        </div>
+      </div>
+
+      <!-- Visual Split -->
+      <div class="analytics-split">
+        
+        <div class="analytics-card">
+          <div class="analytics-card-header">
+            <div>
+              <h2 class="analytics-card-title">Slope Hazard Density by District</h2>
+              <p class="analytics-card-sub">Distribution of verified landslides across Himachal watersheds</p>
+            </div>
+            <span class="tab-badge">{{ summary.kpis.total_reports }} Total Events</span>
+          </div>
+
+          <div class="district-bars">
+            {% for item in summary.district_distribution %}
+            <div class="bar-item">
+              <span class="bar-district-name" title="{{ item.district }}">{{ item.district }}</span>
+              <div class="bar-rail" aria-hidden="true">
+                <div class="bar-fill {% if loop.index == 1 %}bar-hot{% elif loop.index == 2 %}bar-warm{% endif %}" style="width: {{ item.percentage }}%;"></div>
+              </div>
+              <span class="bar-count">{{ item.count }}</span>
+            </div>
+            {% else %}
+            <div style="padding: 16px 0; color: var(--ink-muted); font-size: 13px;">No hazard distribution recorded.</div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="analytics-card">
+          <div class="analytics-card-header">
+            <div>
+              <h2 class="analytics-card-title">Movement Mechanics</h2>
+              <p class="analytics-card-sub">Classified geological failure modes</p>
+            </div>
+          </div>
+
+          <div class="movement-group">
+            {% for item in summary.movement_distribution %}
+            <div class="movement-row">
+              <div>
+                <div class="movement-title">{{ item.movement }}</div>
+                <div class="movement-desc">Geological mode classification</div>
+              </div>
+              <span class="badge-severity {% if item.movement in ['Slide', 'Debris Slide'] %}badge-critical{% elif item.movement in ['Rockfall', 'Topple'] %}badge-high{% else %}badge-moderate{% endif %}">
+                {{ item.percentage }}% ({{ item.count }})
+              </span>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- =====================================================
+         PANEL 4: SYSTEM CONTROLS & DATA OPERATIONS
+    ====================================================== -->
+    <div id="panel-system" class="admin-tab-panel {% if active_tab == 'system' %}active{% endif %}">
+      
+      <div class="broadcast-grid">
+        
+        <!-- Forensic Export Card -->
+        <div class="broadcast-card">
+          <div class="analytics-card-header">
+            <div>
+              <h2 class="analytics-card-title">Forensic Data Export</h2>
+              <p class="analytics-card-sub">Download raw unredacted dataset for GIS or PWD planning</p>
+            </div>
+          </div>
+          <p style="font-size: 13px; color: var(--ink-soft); line-height: 1.6; margin-bottom: 20px;">
+            Export the complete dataset including geocoordinates, reporter identities, photo URLs, geotechnical parameters, and BOQ mitigation estimates.
+          </p>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <a href="/api/export?format=csv" class="btn-publish" download>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+              <span>Export Raw CSV</span>
+            </a>
+            <a href="/api/export?format=geojson" class="btn-admin" style="padding: 12px 18px; font-size: 13px; font-weight: 700;" download>
+              Export Full GeoJSON
+            </a>
+          </div>
+        </div>
+
+        <!-- Database Health Probe Card -->
+        <div class="broadcast-card">
+          <div class="analytics-card-header">
+            <div>
+              <h2 class="analytics-card-title">Database &amp; Storage Health</h2>
+              <p class="analytics-card-sub">Check live connection latency to Supabase PostgREST and Storage</p>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
+            <div class="movement-row">
+              <div>
+                <div class="movement-title">Supabase PostgREST Connection</div>
+                <div class="movement-desc">Database adapter &amp; connection pool status</div>
+              </div>
+              <span class="badge-status badge-verified" id="probe-db-status">Healthy</span>
+            </div>
+
+            <div class="movement-row">
+              <div>
+                <div class="movement-title">Photo Cloud Storage Bucket</div>
+                <div class="movement-desc">Supabase storage bucket (report-images)</div>
+              </div>
+              <span class="badge-status badge-verified" id="probe-storage-status">Active</span>
+            </div>
+          </div>
+
+          <button type="button" class="btn-admin" style="padding: 10px 18px; font-size: 13px; font-weight: 700;" onclick="testHealthProbe();">
+            Run Diagnostics Probe
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="admin-toast" class="admin-toast" role="status">
+    <span id="toast-icon">✓</span>
+    <span id="toast-message">Action executed successfully.</span>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  function showToast(message, isError = false) {
+    const toast = document.getElementById("admin-toast");
+    const msg = document.getElementById("toast-message");
+    const icon = document.getElementById("toast-icon");
+    if (!toast || !msg) return;
+
+    msg.textContent = message;
+    icon.textContent = isError ? "✕" : "✓";
+    toast.style.background = isError ? "#bd5151" : "var(--ink-strong)";
+    toast.classList.add("show");
+
+    setTimeout(() => {
+      toast.classList.remove("show");
+    }, 3200);
+  }
+
+  function switchAdminTab(tabName, btnElement) {
+    document.querySelectorAll(".admin-tab-panel").forEach(p => p.classList.remove("active"));
+    document.querySelectorAll(".admin-nav-tab").forEach(b => b.classList.remove("active"));
+
+    const panel = document.getElementById(`panel-${tabName}`);
+    if (panel) panel.classList.add("active");
+    if (btnElement) btnElement.classList.add("active");
+
+    const url = new URL(window.location);
+    url.searchParams.set("tab", tabName);
+    window.history.replaceState({}, "", url);
+  }
+
+  // Filter Table
+  function filterReportsTable() {
+    const query = (document.getElementById("report-search-input").value || "").toLowerCase().trim();
+    const rows = document.querySelectorAll("#triage-table-body .report-row");
+
+    rows.forEach(row => {
+      const text = row.getAttribute("data-search") || "";
+      if (!query || text.includes(query)) {
+        row.style.display = "";
+      } else {
+        row.style.display = "none";
+      }
+    });
+  }
+
+  function filterByStatus(status, btnElement) {
+    document.querySelectorAll(".triage-pill-btn").forEach(b => b.classList.remove("active"));
+    if (btnElement) btnElement.classList.add("active");
+
+    const rows = document.querySelectorAll("#triage-table-body .report-row");
+    rows.forEach(row => {
+      const rowStatus = row.getAttribute("data-status");
+      const isHidden = row.getAttribute("data-hidden") === "true";
+
+      if (status === "all") {
+        row.style.display = "";
+      } else if (status === "hidden") {
+        row.style.display = (isHidden || rowStatus === "hidden") ? "" : "none";
+      } else if (status === "verified") {
+        row.style.display = (!isHidden && rowStatus === "verified") ? "" : "none";
+      } else if (status === "pending") {
+        row.style.display = (!isHidden && rowStatus !== "verified") ? "" : "none";
+      }
+    });
+  }
+
+  // 1. Set Report Status (Verify / Hide / Unhide)
+  async function setReportStatus(reportId, newStatus, isHidden) {
+    try {
+      const resp = await fetch(`/api/admin/reports/${encodeURIComponent(reportId)}/status`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: newStatus, is_hidden: isHidden })
+      });
+      const data = await resp.json();
+
+      if (data.success) {
+        const row = document.getElementById(`row-${reportId}`);
+        const badgeCell = document.getElementById(`status-badge-${reportId}`);
+
+        if (row) {
+          row.setAttribute("data-status", newStatus);
+          row.setAttribute("data-hidden", isHidden ? "true" : "false");
+          if (isHidden) {
+            row.classList.add("row-hidden");
+          } else {
+            row.classList.remove("row-hidden");
+          }
+        }
+
+        if (badgeCell) {
+          if (isHidden || newStatus === "hidden") {
+            badgeCell.innerHTML = `<span class="badge-status badge-hidden">Hidden</span>`;
+          } else if (newStatus === "verified") {
+            badgeCell.innerHTML = `<span class="badge-status badge-verified">✓ Verified</span>`;
+          } else {
+            badgeCell.innerHTML = `<span class="badge-status badge-pending">Pending Review</span>`;
+          }
+        }
+
+        showToast(`Report ${reportId} marked as ${newStatus}.`);
+      } else {
+        showToast(data.message || "Failed to update status", true);
+      }
+    } catch (err) {
+      showToast("Network error executing action", true);
+    }
+  }
+
+  // 2. Delete Report
+  async function deleteReport(reportId) {
+    if (!confirm(`Are you sure you want to permanently delete report ${reportId}? This cannot be undone.`)) {
+      return;
+    }
+
+    try {
+      const resp = await fetch(`/api/admin/reports/${encodeURIComponent(reportId)}/delete`, {
+        method: "POST"
+      });
+      const data = await resp.json();
+
+      if (data.success) {
+        const row = document.getElementById(`row-${reportId}`);
+        if (row) {
+          row.style.transition = "all 0.3s ease";
+          row.style.opacity = "0";
+          row.style.transform = "translateX(20px)";
+          setTimeout(() => row.remove(), 300);
+        }
+        showToast(`Report ${reportId} permanently deleted.`);
+      } else {
+        showToast(data.message || "Failed to delete report", true);
+      }
+    } catch (err) {
+      showToast("Network error deleting report", true);
+    }
+  }
+
+  // 3. Trigger AI Assessment
+  async function triggerAIAssessment(reportId) {
+    const btn = document.getElementById(`ai-btn-${reportId}`);
+    if (btn) {
+      btn.textContent = "⏳ Running...";
+      btn.disabled = true;
+    }
+
+    try {
+      const resp = await fetch(`/api/admin/reports/${encodeURIComponent(reportId)}/trigger-ai`, {
+        method: "POST"
+      });
+      const data = await resp.json();
+
+      if (data.success) {
+        const aiCell = document.getElementById(`ai-status-${reportId}`);
+        if (aiCell) {
+          aiCell.innerHTML = `<span class="badge-status badge-verified">Generated</span>`;
+        }
+        showToast(`AI Geotechnical assessment generated for ${reportId}.`);
+      } else {
+        showToast(data.message || "AI calculation failed", true);
+      }
+    } catch (err) {
+      showToast("Network error running assessment", true);
+    } finally {
+      if (btn) {
+        btn.textContent = "⚡ AI";
+        btn.disabled = false;
+      }
+    }
+  }
+
+  // 4. Publish Live Emergency Advisory
+  async function publishBroadcast(e) {
+    e.preventDefault();
+    const title = document.getElementById("broadcast-title").value;
+    const severity = document.getElementById("broadcast-severity").value;
+    const message = document.getElementById("broadcast-message").value;
+    const link = document.getElementById("broadcast-link").value;
+
+    try {
+      const resp = await fetch("/api/admin/broadcast", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, severity, message, link, is_active: true })
+      });
+      const data = await resp.json();
+
+      if (data.success) {
+        showToast("Live emergency advisory broadcast across HIMA-LENS!");
+        setTimeout(() => window.location.reload(), 900);
+      } else {
+        showToast(data.message || "Failed to publish broadcast", true);
+      }
+    } catch (err) {
+      showToast("Network error publishing broadcast", true);
+    }
+  }
+
+  // 5. Dismiss Live Advisory
+  async function dismissBroadcast() {
+    try {
+      const resp = await fetch("/api/admin/broadcast/dismiss", { method: "POST" });
+      const data = await resp.json();
+      if (data.success) {
+        showToast("Live advisory dismissed.");
+        setTimeout(() => window.location.reload(), 700);
+      }
+    } catch (err) {
+      showToast("Network error dismissing broadcast", true);
+    }
+  }
+
+  // 6. Test Health Probe
+  async function testHealthProbe() {
+    const dbPill = document.getElementById("probe-db-status");
+    const stPill = document.getElementById("probe-storage-status");
+
+    dbPill.textContent = "Testing...";
+    stPill.textContent = "Testing...";
+
+    try {
+      const start = performance.now();
+      const resp = await fetch("/api/reports");
+      const latency = Math.round(performance.now() - start);
+
+      if (resp.status === 200) {
+        dbPill.textContent = `Online (${latency}ms)`;
+        dbPill.className = "badge-status badge-verified";
+        stPill.textContent = "Operational";
+        stPill.className = "badge-status badge-verified";
+        showToast("Database & Storage health check passed.");
+      } else {
+        dbPill.textContent = "Degraded";
+        dbPill.className = "badge-status badge-pending";
+      }
+    } catch (err) {
+      dbPill.textContent = "Offline";
+      dbPill.className = "badge-status badge-hidden";
+    }
+  }
+</script>
+{% endblock %}

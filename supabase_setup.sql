@@ -81,7 +81,7 @@ FOR INSERT
 TO public, anon, authenticated
 WITH CHECK (true);
 
--- 7. Allow report updates (for persisting AI assessment dossiers & BOQ estimates)
+-- 7. Allow report updates (for persisting AI assessment dossiers, status changes & BOQ estimates)
 DROP POLICY IF EXISTS "Allow public update access" ON public.community_reports;
 CREATE POLICY "Allow public update access"
 ON public.community_reports
@@ -89,6 +89,14 @@ FOR UPDATE
 TO public, anon, authenticated
 USING (true)
 WITH CHECK (true);
+
+-- 7b. Allow report deletion (for administrative triage & spam removal)
+DROP POLICY IF EXISTS "Allow public delete access" ON public.community_reports;
+CREATE POLICY "Allow public delete access"
+ON public.community_reports
+FOR DELETE
+TO public, anon, authenticated
+USING (true);
 
 -- 8. Create the public Storage Bucket for landslide photos
 INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)

@@ -34,6 +34,12 @@ from config import (
 )
 
 app = Flask(__name__)
+
+@app.context_processor
+def inject_global_data():
+    return {
+        "active_broadcast": supabase_db.get_active_broadcast()
+    }
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 app.json.sort_keys = False
 
@@ -907,17 +913,26 @@ def view_boq_sheet(report_id: str):
     assessment = ai_assessment.normalize_assessment_structure(assessment, report)
     return render_template("boq_sheet.html", report=report, assessment=assessment)
 
+@app.get("/admin")
 @app.get("/admin/analytics")
-def admin_analytics_dashboard():
-    """Admin Analytics Command Center for HIMA-LENS."""
+def admin_command_console():
+    """Central Administrative Command Center for HIMA-LENS."""
     district = request.args.get("district", "all").strip()
     time_range = request.args.get("time_range", "7d").strip()
+    active_tab = request.args.get("tab", "triage").strip()
+
     summary = supabase_db.fetch_analytics_summary(district=district, time_range=time_range)
+    all_reports = supabase_db.fetch_community_reports(include_hidden=True)
+    broadcast = supabase_db.get_active_broadcast()
+
     return render_template(
-        "admin_analytics.html",
+        "admin.html",
         summary=summary,
+        reports=all_reports,
+        broadcast=broadcast,
         current_district=district,
-        current_range=time_range
+        current_range=time_range,
+        active_tab=active_tab
     )
 
 @app.get("/api/admin/metrics")
@@ -927,6 +942,63 @@ def api_admin_metrics():
     time_range = request.args.get("time_range", "7d").strip()
     summary = supabase_db.fetch_analytics_summary(district=district, time_range=time_range)
     return jsonify(success=True, summary=summary)
+
+@app.post("/api/admin/reports/<report_id>/status")
+def admin_update_report_status(report_id: str):
+    """Admin endpoint to verify, hide, or restore a community report."""
+    data = request.get_json(silent=True) or request.form
+    new_status = (data.get("status") or "active").strip().lower()
+    is_hidden_param = data.get("is_hidden")
+    is_hidden = None
+    if is_hidden_param is not None:
+        is_hidden = bool(str(is_hidden_param).lower() in ("true", "1"))
+
+    success = supabase_db.update_report_status(report_id, new_status, is_hidden=is_hidden)
+    if success:
+        return jsonify(success=True, report_id=report_id, status=new_status, is_hidden=is_hidden)
+    return jsonify(success=False, error="UPDATE_FAILED", message="Failed to update report status."), 500
+
+@app.post("/api/admin/reports/<report_id>/delete")
+def admin_delete_report(report_id: str):
+    """Admin endpoint to permanently delete a spam or invalid report."""
+    success = supabase_db.delete_report(report_id)
+    if success:
+        return jsonify(success=True, deleted_id=report_id)
+    return jsonify(success=False, error="DELETE_FAILED", message="Failed to delete report."), 500
+
+@app.post("/api/admin/reports/<report_id>/trigger-ai")
+def admin_trigger_ai(report_id: str):
+    """Admin endpoint to force-run Gemini AI geotechnical assessment and generate PWD/BOQ sheet."""
+    report = supabase_db.fetch_report_by_id(report_id)
+    if not report:
+        return jsonify(success=False, error="NOT_FOUND", message=f"Report '{report_id}' not found."), 404
+
+    assessment = ai_assessment.generate_ai_assessment(report, force_refresh=True)
+    return jsonify(success=True, report_id=report_id, assessment=assessment)
+
+@app.post("/api/admin/broadcast")
+def admin_set_broadcast():
+    """Admin endpoint to set and publish a live state highway emergency advisory."""
+    data = request.get_json(silent=True) or request.form
+    title = data.get("title", "STATE HIGHWAY ADVISORY")
+    message = data.get("message", "")
+    severity = data.get("severity", "critical")
+    link = data.get("link", "/feed")
+    is_active = str(data.get("is_active", "true")).lower() in ("true", "1")
+
+    if not message.strip():
+        return jsonify(success=False, error="EMPTY_MESSAGE", message="Advisory message cannot be blank."), 400
+
+    result = supabase_db.set_active_broadcast(
+        title=title, message=message, severity=severity, link=link, is_active=is_active
+    )
+    return jsonify(success=True, broadcast=result)
+
+@app.post("/api/admin/broadcast/dismiss")
+def admin_dismiss_broadcast():
+    """Admin endpoint to dismiss/clear the live emergency advisory."""
+    supabase_db.dismiss_active_broadcast()
+    return jsonify(success=True, message="Broadcast dismissed.")
 
 @app.errorhandler(FileNotFoundError)
 def missing_dataset(error):

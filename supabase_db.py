@@ -281,6 +281,157 @@ def save_report_assessment(report_id: str, assessment: dict[str, Any]) -> bool:
     return supabase_success if is_supabase_configured() else True
 
 
+def update_report_status(report_id: str, status: str, is_hidden: bool | None = None) -> bool:
+    """Updates the moderation status ('verified', 'active', 'hidden', 'rejected') of a report."""
+    clean_id = (report_id or "").strip()
+    if not clean_id:
+        return False
+
+    clean_status = (status or "active").strip().lower()
+    if is_hidden is None:
+        is_hidden = (clean_status in ("hidden", "rejected", "deleted"))
+
+    update_payload: dict[str, Any] = {
+        "status": clean_status,
+        "is_hidden": is_hidden,
+    }
+
+    supabase_ok = False
+    if is_supabase_configured():
+        url = f"{SUPABASE_URL}/rest/v1/community_reports?id=eq.{clean_id}"
+        headers = _supabase_headers()
+        headers["Prefer"] = "return=minimal"
+        try:
+            resp = _get_session().patch(url, headers=headers, json=update_payload, timeout=8)
+            if resp.status_code in (200, 204):
+                supabase_ok = True
+            elif "status" in resp.text and "Could not find" in resp.text:
+                # If remote Supabase schema hasn't run the migration adding 'status', patch with 'is_hidden'
+                fallback_resp = _get_session().patch(url, headers=headers, json={"is_hidden": is_hidden}, timeout=8)
+                if fallback_resp.status_code in (200, 204):
+                    supabase_ok = True
+            else:
+                logger.warning("Supabase report status update returned %s: %s", resp.status_code, resp.text[:200])
+        except Exception as exc:
+            logger.warning("Supabase report status update exception: %s", exc)
+
+    # Local fallback update
+    local_reports = load_local_reports()
+    updated = False
+    clean_id_lower = clean_id.casefold()
+    for r in local_reports:
+        if str(r.get("id", "")).strip().casefold() == clean_id_lower:
+            r["status"] = clean_status
+            r["is_hidden"] = is_hidden
+            updated = True
+            break
+    if not updated and supabase_ok:
+        rep = fetch_report_by_id(clean_id)
+        if rep:
+            rep["status"] = clean_status
+            rep["is_hidden"] = is_hidden
+            local_reports.insert(0, rep)
+            updated = True
+    if updated:
+        save_local_reports(local_reports)
+
+    return True if (supabase_ok or updated) else False
+
+
+def delete_report(report_id: str) -> bool:
+    """Permanently deletes a community report by ID."""
+    clean_id = (report_id or "").strip()
+    if not clean_id:
+        return False
+
+    supabase_ok = False
+    if is_supabase_configured():
+        url = f"{SUPABASE_URL}/rest/v1/community_reports?id=eq.{clean_id}"
+        headers = _supabase_headers()
+        try:
+            resp = _get_session().delete(url, headers=headers, timeout=8)
+            if resp.status_code in (200, 204):
+                supabase_ok = True
+            else:
+                logger.warning("Supabase report delete returned %s: %s", resp.status_code, resp.text[:200])
+        except Exception as exc:
+            logger.warning("Supabase report delete exception: %s", exc)
+
+    # Local fallback delete
+    local_reports = load_local_reports()
+    clean_id_lower = clean_id.casefold()
+    initial_len = len(local_reports)
+    filtered = [r for r in local_reports if str(r.get("id", "")).strip().casefold() != clean_id_lower]
+    deleted_local = (len(filtered) < initial_len)
+    if deleted_local:
+        save_local_reports(filtered)
+
+    return True if (supabase_ok or deleted_local) else False
+
+
+BROADCAST_FILE = COMMUNITY_REPORTS_PATH.parent / "active_broadcast.json"
+
+DEFAULT_BROADCAST = {
+    "is_active": True,
+    "title": "REGIONAL PRECIPITATION ADVISORY",
+    "message": "High porewater saturation active along Mandi & Kinnaur highway corridors. PWD rapid clearance teams dispatched.",
+    "severity": "warning",
+    "link": "/feed",
+    "updated_at": "2026-10-22T06:00:00Z"
+}
+
+
+def get_active_broadcast() -> dict[str, Any]:
+    """Retrieves the active highway/geotechnical emergency broadcast bulletin."""
+    if BROADCAST_FILE.exists():
+        try:
+            with BROADCAST_FILE.open(encoding="utf-8") as f:
+                data = json.load(f)
+                if isinstance(data, dict):
+                    return data
+        except Exception as exc:
+            logger.debug("Failed reading broadcast file: %s", exc)
+    return DEFAULT_BROADCAST
+
+
+def set_active_broadcast(
+    title: str,
+    message: str,
+    severity: str = "critical",
+    link: str = "",
+    is_active: bool = True
+) -> dict[str, Any]:
+    """Sets or broadcasts a statewide emergency hazard alert."""
+    broadcast_data = {
+        "is_active": bool(is_active),
+        "title": (title or "EMERGENCY HAZARD NOTICE").strip().upper(),
+        "message": (message or "").strip(),
+        "severity": (severity or "critical").strip().lower(),
+        "link": (link or "").strip(),
+        "updated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+    }
+    try:
+        BROADCAST_FILE.parent.mkdir(parents=True, exist_ok=True)
+        with BROADCAST_FILE.open("w", encoding="utf-8") as f:
+            json.dump(broadcast_data, f, indent=2)
+    except OSError as exc:
+        logger.warning("Failed writing broadcast file: %s", exc)
+    return broadcast_data
+
+
+def dismiss_active_broadcast() -> bool:
+    """Dismisses/deactivates the live emergency broadcast."""
+    current = get_active_broadcast()
+    current["is_active"] = False
+    try:
+        with BROADCAST_FILE.open("w", encoding="utf-8") as f:
+            json.dump(current, f, indent=2)
+        return True
+    except OSError as exc:
+        logger.warning("Failed dismissing broadcast: %s", exc)
+        return False
+
+
 def upload_report_image(file: FileStorage, filename: str) -> str:
     """Uploads report image to Supabase Cloud Storage or local static folder.
 
