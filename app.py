@@ -981,7 +981,8 @@ def view_pwd_sheet(report_id: str):
     # Read from cache or run deterministic calculation
     assessment = ai_assessment.generate_ai_assessment(report, force_refresh=force)
     assessment = ai_assessment.normalize_assessment_structure(assessment, report)
-    return render_template("pwd_sheet.html", report=report, assessment=assessment)
+    boq = assessment.get("cost_estimate_boq") or geotech_engine.calculate_comprehensive_cost_and_loss_estimate(assessment, report)
+    return render_template("pwd_sheet.html", report=report, assessment=assessment, boq=boq)
 
 @app.get("/report/pwd-sheet-v1/<report_id>")
 @app.get("/report/legacy-sheet/<report_id>")
