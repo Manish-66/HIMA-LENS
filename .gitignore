@@ -35,3 +35,8 @@ static/css/preview_hero.css
 static/js/preview_hero.js
 src/ts/preview_hero.ts
 src/ts/globals.d.ts
+
+# Graphify cache
+graphify-out/cache/
+graphify-out/2026-*/
+

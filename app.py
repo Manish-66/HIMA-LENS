@@ -19,6 +19,7 @@ from typing import Any
 from flask import Flask, jsonify, render_template, request, Response
 import supabase_db
 import ai_assessment
+import cap_engine
 from config import (
     APP_DESCRIPTION,
     APP_NAME,
@@ -924,12 +925,16 @@ def admin_command_console():
     summary = supabase_db.fetch_analytics_summary(district=district, time_range=time_range)
     all_reports = supabase_db.fetch_community_reports(include_hidden=True)
     broadcast = supabase_db.get_active_broadcast()
+    cap_alert = cap_engine.get_active_cap_alert()
+    cap_xml = cap_engine.get_active_cap_xml()
 
     return render_template(
         "admin.html",
         summary=summary,
         reports=all_reports,
         broadcast=broadcast,
+        cap_alert=cap_alert,
+        cap_xml=cap_xml,
         current_district=district,
         current_range=time_range,
         active_tab=active_tab
@@ -999,6 +1004,63 @@ def admin_dismiss_broadcast():
     """Admin endpoint to dismiss/clear the live emergency advisory."""
     supabase_db.dismiss_active_broadcast()
     return jsonify(success=True, message="Broadcast dismissed.")
+
+# ====================================================================
+# COMMON ALERTING PROTOCOL (CAP v1.2) GOVERNMENT CELL BROADCAST APIs
+# ====================================================================
+
+@app.get("/api/alerts/cap.xml")
+def get_cap_xml_feed():
+    """Official OASIS CAP v1.2 XML Syndication Feed for NDMA / C-DOT / State Emergency Cells."""
+    xml_data = cap_engine.get_active_cap_xml()
+    resp = Response(xml_data, mimetype="application/xml")
+    resp.headers["Content-Type"] = "application/xml; charset=utf-8"
+    resp.headers["Cache-Control"] = "public, max-age=60"
+    return resp
+
+@app.get("/api/alerts/cap.json")
+def get_cap_json():
+    """JSON representation of the active Common Alerting Protocol emergency advisory."""
+    return jsonify(success=True, alert=cap_engine.get_active_cap_alert())
+
+@app.get("/api/alerts/cap/<alert_id>.xml")
+def get_archived_cap_xml(alert_id: str):
+    """Retrieves an archived CAP v1.2 XML alert document by ID."""
+    xml_file = cap_engine.CAP_DIR / f"{alert_id}.xml"
+    if xml_file.exists():
+        resp = Response(xml_file.read_text(encoding="utf-8"), mimetype="application/xml")
+        resp.headers["Content-Type"] = "application/xml; charset=utf-8"
+        return resp
+    return Response("<error>CAP alert document not found</error>", status=404, mimetype="application/xml")
+
+@app.post("/api/admin/cap/dispatch")
+def admin_dispatch_cap():
+    """Admin endpoint to format, sign, and dispatch an official CAP-SACHET Cell Broadcast alert."""
+    payload = request.get_json(silent=True) or request.form.to_dict()
+    if not payload.get("headline"):
+        return jsonify(success=False, error="EMPTY_HEADLINE", message="Headline cannot be empty."), 400
+
+    alert_record = cap_engine.dispatch_cap_alert(payload)
+
+    # Automatically synchronize with the website top emergency banner
+    supabase_db.set_active_broadcast(
+        title=alert_record.get("headline", ""),
+        message=alert_record.get("description", ""),
+        severity="critical" if alert_record.get("severity_cap") in ("Extreme", "Severe") else "warning",
+        link=alert_record.get("web", "/feed"),
+        is_active=True
+    )
+
+    return jsonify(success=True, alert=alert_record, xml_feed_url="/api/alerts/cap.xml")
+
+@app.post("/api/admin/cap/cancel")
+def admin_cancel_cap():
+    """Admin endpoint to issue an official CAP 1.2 Cancel notice and deactivate cell broadcast."""
+    data = request.get_json(silent=True) or request.form
+    reason = data.get("reason", "Hazard cleared by district authorities.")
+    cancelled = cap_engine.cancel_active_cap_alert(reason=reason)
+    supabase_db.dismiss_active_broadcast()
+    return jsonify(success=True, alert=cancelled, message="CAP Cell Broadcast alert cancelled.")
 
 @app.errorhandler(FileNotFoundError)
 def missing_dataset(error):

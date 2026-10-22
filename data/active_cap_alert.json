@@ -1,0 +1,23 @@
+{
+  "identifier": "IN-HP-HIMALENS-20261022-NIGUL01",
+  "sender": "scene.iitmandi@himalens.gov.in",
+  "sent": "2026-10-22T06:36:54+00:00",
+  "status": "Actual",
+  "msg_type": "Alert",
+  "scope": "Public",
+  "event": "Rockfall & Highway Breach",
+  "urgency": "Immediate",
+  "severity_cap": "Extreme",
+  "certainty": "Observed",
+  "headline": "CRITICAL ROCKFALL WARNING & HIGHWAY CLOSURE &bull; NH-05 KINNAUR",
+  "description": "Massive wedge failure and ongoing loose scree detachments between Nigulsari and Taranda. Highway carriageway completely blocked. Porewater saturation critical.",
+  "instruction": "All vehicular movement halted at Bhaba Nagar and Pooh checkposts. Travelers must not approach rockfall overhangs. Emergency PWD machinery deployed.",
+  "district": "Kinnaur",
+  "corridor": "NH-05 (Hindustan-Tibet Highway)",
+  "latitude": 31.5421,
+  "longitude": 77.9214,
+  "radius_km": 20.0,
+  "is_active": true,
+  "web": "/feed",
+  "expires": "2026-10-23T00:36:54+00:00"
+}

@@ -1,8 +1,8 @@
 {
   "is_active": true,
-  "title": "REGIONAL PRECIPITATION ADVISORY",
-  "message": "High porewater saturation active along Mandi & Kinnaur highway corridors. PWD rapid clearance teams dispatched.",
-  "severity": "warning",
+  "title": "CRITICAL ROCKFALL WARNING & HIGHWAY CLOSURE &BULL; NH-05 KINNAUR",
+  "message": "Massive wedge failure and ongoing loose scree detachments between Nigulsari and Taranda. Highway carriageway completely blocked. Porewater saturation critical.",
+  "severity": "critical",
   "link": "/feed",
-  "updated_at": "2026-10-22T06:00:00Z"
+  "updated_at": "2026-10-22T06:37:10Z"
 }

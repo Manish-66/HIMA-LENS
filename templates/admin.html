@@ -404,6 +404,125 @@ HIMA-LENS | Administrative Command Console
     box-shadow: var(--shadow-sm);
   }
 
+  /* CAP 1.2 Dispatcher UI Enhancements */
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  .form-row-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  @media (max-width: 768px) {
+    .form-row, .form-row-3 {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+  }
+
+  .cap-meta-box {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    font-size: 13px;
+  }
+
+  .cap-meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .cap-meta-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .cap-meta-label {
+    font-weight: 700;
+    color: var(--ink-soft);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .cap-meta-val {
+    font-weight: 600;
+    color: var(--ink);
+    font-family: monospace;
+    font-size: 12px;
+  }
+
+  .cap-feeds-container {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 16px 0;
+  }
+
+  .feed-pill-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    background: var(--paper);
+    border: 1px solid var(--line);
+    color: var(--forest);
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all var(--transition-fast);
+  }
+
+  .feed-pill-link:hover {
+    background: var(--forest-pale);
+    border-color: var(--forest);
+  }
+
+  .xml-inspector-pre {
+    max-height: 260px;
+    overflow: auto;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 11px;
+    line-height: 1.45;
+    color: var(--forest-dark);
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+
+  .slider-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .slider-val-badge {
+    min-width: 70px;
+    text-align: center;
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    background: var(--forest-pale);
+    color: var(--forest-dark);
+    font-weight: 800;
+    font-size: 12px;
+    border: 1px solid var(--line);
+  }
+
   /* Toast Notification */
   .admin-toast {
     position: fixed;
@@ -462,9 +581,11 @@ HIMA-LENS | Administrative Command Console
 
         <button type="button" class="admin-nav-tab {% if active_tab == 'broadcast' %}active{% endif %}" onclick="switchAdminTab('broadcast', this);" role="tab">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-          <span>Emergency Road Advisory</span>
-          {% if broadcast and broadcast.is_active %}
-          <span class="tab-badge live-wire-badge">Live Broadcast Active</span>
+          <span>Cell Broadcast &amp; Alerts (CAP 1.2)</span>
+          {% if cap_alert and cap_alert.is_active %}
+          <span class="tab-badge live-wire-badge">CAP Cell Alert Active</span>
+          {% elif broadcast and broadcast.is_active %}
+          <span class="tab-badge live-wire-badge">Advisory Active</span>
           {% endif %}
         </button>
 
@@ -638,70 +759,231 @@ HIMA-LENS | Administrative Command Console
     </div>
 
     <!-- =====================================================
-         PANEL 2: EMERGENCY HIGHWAY ADVISORY & BROADCAST
+         PANEL 2: EMERGENCY CELL BROADCAST (CAP 1.2) & HIGHWAY ADVISORY
     ====================================================== -->
     <div id="panel-broadcast" class="admin-tab-panel {% if active_tab == 'broadcast' %}active{% endif %}">
       
       <div class="broadcast-grid">
         
-        <!-- Broadcast Composer Form -->
+        <!-- Column 1: CAP 1.2 / NDMA Cell Broadcast Dispatcher Form -->
         <div class="broadcast-card">
           <div class="analytics-card-header" style="margin-bottom: 16px;">
             <div>
-              <h2 class="analytics-card-title">Compose State Highway Advisory</h2>
-              <p class="analytics-card-sub">Publishes an emergency warning banner displayed across every page of HIMA-LENS</p>
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                <h2 class="analytics-card-title">OASIS CAP v1.2 Cell Broadcast Dispatcher</h2>
+                <span class="badge-status badge-verified" style="font-size: 10px; padding: 2px 8px;">NDMA / C-DOT BTS Engine</span>
+              </div>
+              <p class="analytics-card-sub">Originates ITU-T X.1303 / OASIS CAP v1.2 alerts consumed by telecom cell-towers to broadcast push warnings directly to nearby mobile devices.</p>
             </div>
           </div>
 
-          <form id="broadcast-form" onsubmit="publishBroadcast(event);">
-            <div class="form-group">
-              <label for="broadcast-title" class="form-label">Advisory Headline / Highway Target:</label>
-              <input type="text" id="broadcast-title" class="form-input" placeholder="e.g. NH-05 KINNAUR HIGHWAY CLOSURE &bull; NIGULSARI" value="{{ broadcast.title if broadcast else 'STATE HIGHWAY ADVISORY' }}" required>
+          <form id="cap-dispatch-form" onsubmit="dispatchCapAlert(event);">
+            
+            <div class="form-row">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="cap-event" class="form-label">Hazard Event Type:</label>
+                <select id="cap-event" class="form-select">
+                  <option value="Landslide / Slope Instability Hazard" {% if cap_alert and cap_alert.event == 'Landslide / Slope Instability Hazard' %}selected{% endif %}>Landslide / Slope Failure</option>
+                  <option value="Rockfall & Highway Breach" {% if cap_alert and cap_alert.event == 'Rockfall & Highway Breach' %}selected{% endif %}>Rockfall &amp; Highway Breach</option>
+                  <option value="Debris Flow / Torrent Surge" {% if cap_alert and cap_alert.event == 'Debris Flow / Torrent Surge' %}selected{% endif %}>Debris Flow / Torrent Surge</option>
+                  <option value="Glacial Lake Outburst (GLOF)" {% if cap_alert and cap_alert.event == 'Glacial Lake Outburst (GLOF)' %}selected{% endif %}>Glacial Lake Outburst (GLOF)</option>
+                  <option value="Avalanche Warning" {% if cap_alert and cap_alert.event == 'Avalanche Warning' %}selected{% endif %}>Avalanche Warning</option>
+                  <option value="Road Subsidence & Slump" {% if cap_alert and cap_alert.event == 'Road Subsidence & Slump' %}selected{% endif %}>Road Subsidence &amp; Slump</option>
+                </select>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="cap-urgency" class="form-label">Urgency (OASIS):</label>
+                <select id="cap-urgency" class="form-select">
+                  <option value="Immediate" {% if cap_alert and cap_alert.urgency == 'Immediate' %}selected{% endif %}>Immediate (Take action immediately)</option>
+                  <option value="Expected" {% if cap_alert and cap_alert.urgency == 'Expected' %}selected{% endif %}>Expected (Action within 1 hour)</option>
+                  <option value="Future" {% if cap_alert and cap_alert.urgency == 'Future' %}selected{% endif %}>Future (Action in next 24 hours)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="cap-severity" class="form-label">CAP Severity Level:</label>
+                <select id="cap-severity" class="form-select">
+                  <option value="Extreme" {% if cap_alert and cap_alert.severity_cap == 'Extreme' %}selected{% endif %}>Extreme (Extraordinary threat to life)</option>
+                  <option value="Severe" {% if cap_alert and cap_alert.severity_cap == 'Severe' %}selected{% endif %}>Severe (Significant threat to life/property)</option>
+                  <option value="Moderate" {% if cap_alert and cap_alert.severity_cap == 'Moderate' %}selected{% endif %}>Moderate (Possible threat / caution)</option>
+                </select>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="cap-certainty" class="form-label">Certainty:</label>
+                <select id="cap-certainty" class="form-select">
+                  <option value="Observed" {% if cap_alert and cap_alert.certainty == 'Observed' %}selected{% endif %}>Observed (Determined to have occurred)</option>
+                  <option value="Likely" {% if cap_alert and cap_alert.certainty == 'Likely' %}selected{% endif %}>Likely (Probability &gt; 50%)</option>
+                  <option value="Possible" {% if cap_alert and cap_alert.certainty == 'Possible' %}selected{% endif %}>Possible (Low probability)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="cap-district" class="form-label">Target District (Auto-Coords):</label>
+                <select id="cap-district" class="form-select" onchange="onDistrictPresetChange(this.value);">
+                  {% for dist in ['Kinnaur', 'Mandi', 'Shimla', 'Kullu', 'Chamba', 'Kangra', 'Lahaul & Spiti', 'Bilaspur', 'Solan', 'Sirmaur', 'Una', 'Hamirpur'] %}
+                  <option value="{{ dist }}" {% if cap_alert and cap_alert.district == dist %}selected{% endif %}>{{ dist }} District</option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="cap-corridor" class="form-label">Target Highway Corridor:</label>
+                <input type="text" id="cap-corridor" class="form-input" placeholder="e.g. NH-05 (Hindustan-Tibet Highway)" value="{{ cap_alert.corridor if cap_alert else 'NH-05 (Hindustan-Tibet Highway)' }}" required>
+              </div>
+            </div>
+
+            <!-- Geofencing Circle Coordinates & Cell Tower Radius -->
+            <div style="background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 14px; margin-bottom: 16px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--forest);">
+                  📡 Cell-Tower Geofencing Circle (&lt;circle&gt;lat,lon rad&lt;/circle&gt;)
+                </span>
+                <button type="button" class="btn-admin" style="padding: 4px 10px; font-size: 11px;" onclick="useUserGPS();">
+                  📍 Acquire Device GPS
+                </button>
+              </div>
+
+              <div class="form-row-3" style="margin-bottom: 12px;">
+                <div>
+                  <label for="cap-lat" class="form-label" style="font-size: 11px;">Center Latitude:</label>
+                  <input type="number" step="0.0001" id="cap-lat" class="form-input" style="font-family: monospace; font-size: 12px;" value="{{ cap_alert.latitude if cap_alert else 31.5421 }}" required>
+                </div>
+                <div>
+                  <label for="cap-lng" class="form-label" style="font-size: 11px;">Center Longitude:</label>
+                  <input type="number" step="0.0001" id="cap-lng" class="form-input" style="font-family: monospace; font-size: 12px;" value="{{ cap_alert.longitude if cap_alert else 77.9214 }}" required>
+                </div>
+                <div>
+                  <label for="cap-expires" class="form-label" style="font-size: 11px;">Alert Expiration:</label>
+                  <select id="cap-expires" class="form-select" style="font-size: 12px;">
+                    <option value="6">6 Hours</option>
+                    <option value="12" selected>12 Hours</option>
+                    <option value="24">24 Hours</option>
+                    <option value="48">48 Hours</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label for="cap-radius" class="form-label" style="font-size: 11px;">Cell-Tower Broadcast Radius (5 km &mdash; 50 km):</label>
+                <div class="slider-row">
+                  <input type="range" id="cap-radius" min="5" max="50" step="1" value="{{ cap_alert.radius_km|int if cap_alert else 20 }}" class="form-input" style="padding: 0; height: 8px; cursor: pointer;" oninput="updateRadiusDisplay(this.value);">
+                  <span id="radius-val-display" class="slider-val-badge">{{ cap_alert.radius_km|int if cap_alert else 20 }} km</span>
+                </div>
+              </div>
             </div>
 
             <div class="form-group">
-              <label for="broadcast-severity" class="form-label">Severity Level:</label>
-              <select id="broadcast-severity" class="form-select">
-                <option value="critical" {% if broadcast and broadcast.severity == 'critical' %}selected{% endif %}>Critical (Red Emergency Warning)</option>
-                <option value="warning" {% if broadcast and broadcast.severity == 'warning' %}selected{% endif %}>Warning (Amber Road Advisory)</option>
-                <option value="info" {% if broadcast and broadcast.severity == 'info' %}selected{% endif %}>Informational (Green Operations Bulletin)</option>
-              </select>
+              <label for="cap-headline" class="form-label">Alert Headline (Push Warning Text, max 160 chars):</label>
+              <input type="text" id="cap-headline" class="form-input" maxlength="160" placeholder="e.g. CRITICAL ROCKFALL WARNING & HIGHWAY CLOSURE &bull; NH-05 KINNAUR" value="{{ cap_alert.headline if cap_alert else 'CRITICAL ROCKFALL WARNING & HIGHWAY CLOSURE • NH-05 KINNAUR' }}" required>
             </div>
 
             <div class="form-group">
-              <label for="broadcast-message" class="form-label">Advisory Message &amp; Traffic Diversion Details:</label>
-              <textarea id="broadcast-message" class="form-textarea" rows="4" placeholder="e.g. Major rockfall triggered at Nigulsari (NH-05). Road closed for all vehicular traffic. Light vehicles diverted via Karcham-Sangla link. Heavy machinery mobilized." required>{{ broadcast.message if broadcast else '' }}</textarea>
+              <label for="cap-description" class="form-label">Hazard Description &amp; Technical Scope:</label>
+              <textarea id="cap-description" class="form-textarea" rows="3" placeholder="Describe the geotechnical situation, blockage location, and impact on transportation..." required>{{ cap_alert.description if cap_alert else '' }}</textarea>
             </div>
 
             <div class="form-group">
-              <label for="broadcast-link" class="form-label">Action Link (Optional):</label>
-              <input type="text" id="broadcast-link" class="form-input" placeholder="/feed or /explore" value="{{ broadcast.link if broadcast else '/feed' }}">
+              <label for="cap-instruction" class="form-label">Public Directive &amp; Safety Instructions:</label>
+              <textarea id="cap-instruction" class="form-textarea" rows="2" placeholder="Actionable safety directives for travelers, drivers, and local residents..." required>{{ cap_alert.instruction if cap_alert else 'Halt all vehicular traffic at nearest safe shelters. Do not approach slope overhangs. Follow highway police directives.' }}</textarea>
             </div>
 
-            <button type="submit" class="btn-publish">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-              <span>Broadcast Live Alert Across Website</span>
-            </button>
+            <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+              <button type="submit" id="cap-dispatch-btn" class="btn-publish">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/></svg>
+                <span>Dispatch Official CAP-SACHET Cell Broadcast</span>
+              </button>
+
+              <button type="button" class="btn-admin btn-admin-hide" style="padding: 11px 18px; font-size: 13px;" onclick="cancelCapAlert();">
+                ✕ Cancel Active Broadcast
+              </button>
+            </div>
+
           </form>
         </div>
 
-        <!-- Current Live Status Card -->
-        <div class="broadcast-card">
-          <div class="analytics-card-header" style="margin-bottom: 16px;">
-            <div>
-              <h2 class="analytics-card-title">Active Live Advisory Status</h2>
-              <p class="analytics-card-sub">What visitors are currently seeing at the top of the platform</p>
+        <!-- Column 2: Live Status, Feed Syndication & XML Inspector -->
+        <div>
+          
+          <!-- Live Active Status Card -->
+          <div class="broadcast-card" style="margin-bottom: 24px;">
+            <div class="analytics-card-header" style="margin-bottom: 14px;">
+              <div>
+                <h2 class="analytics-card-title">Cell Broadcast Status</h2>
+                <p class="analytics-card-sub">Real-time state of the OASIS CAP 1.2 cell-tower broadcast engine</p>
+              </div>
+              {% if cap_alert and cap_alert.is_active %}
+              <span class="badge-status badge-verified">
+                <span class="emergency-pulse" style="width: 8px; height: 8px; margin-right: 4px;"></span>
+                Active Broadcast
+              </span>
+              {% else %}
+              <span class="badge-status badge-hidden">Deactivated / Cleared</span>
+              {% endif %}
             </div>
-            {% if broadcast and broadcast.is_active %}
-            <span class="badge-status badge-verified">Active on Live Site</span>
-            {% else %}
-            <span class="badge-status badge-hidden">Deactivated</span>
-            {% endif %}
+
+            <div class="cap-meta-box">
+              <div class="cap-meta-row">
+                <span class="cap-meta-label">CAP Identifier:</span>
+                <span class="cap-meta-val">{{ cap_alert.identifier if cap_alert else 'N/A' }}</span>
+              </div>
+              <div class="cap-meta-row">
+                <span class="cap-meta-label">Target Geofence Circle:</span>
+                <span class="cap-meta-val" style="color: var(--forest-dark);">
+                  {{ cap_alert.latitude if cap_alert else '31.5421' }}, {{ cap_alert.longitude if cap_alert else '77.9214' }} (Radius {{ cap_alert.radius_km|int if cap_alert else 20 }} km)
+                </span>
+              </div>
+              <div class="cap-meta-row">
+                <span class="cap-meta-label">District LGD Code:</span>
+                <span class="cap-meta-val">{{ cap_alert.district if cap_alert else 'Kinnaur' }}</span>
+              </div>
+              <div class="cap-meta-row">
+                <span class="cap-meta-label">Urgency &bull; Severity:</span>
+                <span class="cap-meta-val" style="color: {% if cap_alert and cap_alert.severity_cap == 'Extreme' %}var(--coral){% else %}var(--amber){% endif %}; font-weight: 800;">
+                  {{ cap_alert.urgency if cap_alert else 'Immediate' }} &bull; {{ cap_alert.severity_cap if cap_alert else 'Extreme' }}
+                </span>
+              </div>
+              <div class="cap-meta-row">
+                <span class="cap-meta-label">Valid Until:</span>
+                <span class="cap-meta-val">{{ cap_alert.expires[:16]|replace('T', ' ') if cap_alert and cap_alert.expires else 'Active' }} UTC</span>
+              </div>
+            </div>
+
+            <!-- Public Feed Endpoints -->
+            <div style="margin-top: 16px;">
+              <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-soft); display: block; margin-bottom: 8px;">
+                Official CAP 1.2 Syndication Feeds (NDMA Ingestion):
+              </span>
+              <div class="cap-feeds-container">
+                <a href="/api/alerts/cap.xml" target="_blank" class="feed-pill-link" title="Open Official OASIS CAP v1.2 XML Feed">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+                  <span>/api/alerts/cap.xml (XML)</span>
+                </a>
+                <a href="/api/alerts/cap.json" target="_blank" class="feed-pill-link" title="Open CAP JSON Feed">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                  <span>/api/alerts/cap.json (JSON)</span>
+                </a>
+              </div>
+            </div>
+
           </div>
 
-          <div id="live-broadcast-preview">
+          <!-- Website Top Banner Preview Card -->
+          <div class="broadcast-card" style="margin-bottom: 24px;">
+            <div class="analytics-card-header" style="margin-bottom: 12px;">
+              <div>
+                <h2 class="analytics-card-title">Live Website Emergency Banner Preview</h2>
+                <p class="analytics-card-sub">Synchronized automatically with CAP cell broadcast updates</p>
+              </div>
+            </div>
+
             {% if broadcast and broadcast.is_active %}
-            <div class="site-emergency-bar {{ broadcast.severity }}" style="border-radius: var(--radius-sm); margin: 16px 0;">
+            <div class="site-emergency-bar {{ broadcast.severity }}" style="border-radius: var(--radius-sm); margin: 8px 0 14px 0;">
               <div class="emergency-bar-inner">
                 <span class="emergency-pulse"></span>
                 <span class="emergency-text">
@@ -712,20 +994,32 @@ HIMA-LENS | Administrative Command Console
                 {% endif %}
               </div>
             </div>
-
-            <div style="font-size: 12px; color: var(--ink-muted); margin-bottom: 20px;">
-              Last Updated: {{ broadcast.updated_at[:16]|replace('T', ' ') if broadcast.updated_at else 'Recent' }} UTC
-            </div>
-
-            <button type="button" class="btn-admin btn-admin-hide" style="padding: 10px 18px; font-size: 13px;" onclick="dismissBroadcast();">
-              ✕ Dismiss / Expire Live Alert
-            </button>
             {% else %}
-            <div style="padding: 32px; text-align: center; color: var(--ink-muted); border: 1px dashed var(--line); border-radius: var(--radius-sm);">
-              No active emergency alert is currently broadcasting to visitors.
+            <div style="padding: 24px; text-align: center; color: var(--ink-muted); border: 1px dashed var(--line); border-radius: var(--radius-sm); font-size: 13px;">
+              No website banner advisory is currently broadcasting.
             </div>
             {% endif %}
           </div>
+
+          <!-- OASIS CAP v1.2 XML Document Inspector -->
+          <div class="broadcast-card">
+            <div class="analytics-card-header" style="margin-bottom: 12px;">
+              <div>
+                <h2 class="analytics-card-title">CAP v1.2 XML Document Inspector</h2>
+                <p class="analytics-card-sub">Validated against ITU-T Rec. X.1303 / OASIS CAP v1.2 standard</p>
+              </div>
+              <button type="button" class="btn-admin" style="padding: 4px 10px; font-size: 11px;" onclick="copyCapXml();">
+                📋 Copy XML
+              </button>
+            </div>
+
+            <pre id="cap-xml-source" class="xml-inspector-pre">{{ cap_xml|e }}</pre>
+            <div style="margin-top: 8px; font-size: 11px; color: var(--ink-muted); display: flex; justify-content: space-between;">
+              <span>Namespace: <code>urn:oasis:names:tc:emergency:cap:1.2</code></span>
+              <a href="/api/alerts/cap.xml" target="_blank" style="color: var(--forest); font-weight: 700; text-decoration: none;">Raw XML &rarr;</a>
+            </div>
+          </div>
+
         </div>
 
       </div>
@@ -1124,6 +1418,153 @@ HIMA-LENS | Administrative Command Console
       }
     } catch (err) {
       showToast("Network error dismissing broadcast", true);
+    }
+  }
+
+  // ====================================================================
+  // COMMON ALERTING PROTOCOL (CAP v1.2) CELL BROADCAST JAVASCRIPT
+  // ====================================================================
+
+  const HP_DISTRICT_COORDS = {
+    "Kinnaur": { lat: 31.5421, lng: 77.9214, corridor: "NH-05 (Hindustan-Tibet Highway)" },
+    "Mandi": { lat: 31.7087, lng: 76.9320, corridor: "NH-21 (Chandigarh-Manali Highway)" },
+    "Shimla": { lat: 31.1048, lng: 77.1734, corridor: "NH-05 (Shimla-Theog Corridor)" },
+    "Kullu": { lat: 31.9579, lng: 77.1095, corridor: "NH-21 (Aut-Larji-Kullu Highway)" },
+    "Chamba": { lat: 32.5534, lng: 76.1258, corridor: "SH-33 (Chamba-Bharmour Highway)" },
+    "Kangra": { lat: 32.0998, lng: 76.2691, corridor: "NH-154 (Pathankot-Mandi Highway)" },
+    "Lahaul & Spiti": { lat: 32.5710, lng: 77.0331, corridor: "NH-03 (Atal Tunnel-Keylong Highway)" },
+    "Bilaspur": { lat: 31.3325, lng: 76.7570, corridor: "NH-205 (Kiratpur-Bilaspur Expressway)" },
+    "Solan": { lat: 30.9045, lng: 77.0967, corridor: "NH-05 (Kalka-Shimla Corridor)" },
+    "Sirmaur": { lat: 30.5599, lng: 77.2955, corridor: "NH-07 (Paonta Sahib-Nahan Highway)" },
+    "Una": { lat: 31.4685, lng: 76.2708, corridor: "NH-503 (Una-Amb Corridor)" },
+    "Hamirpur": { lat: 31.6862, lng: 76.5213, corridor: "NH-03 (Hamirpur-Awah Devi Road)" }
+  };
+
+  function onDistrictPresetChange(district) {
+    const preset = HP_DISTRICT_COORDS[district];
+    if (preset) {
+      const latEl = document.getElementById("cap-lat");
+      const lngEl = document.getElementById("cap-lng");
+      const corEl = document.getElementById("cap-corridor");
+      if (latEl) latEl.value = preset.lat.toFixed(4);
+      if (lngEl) lngEl.value = preset.lng.toFixed(4);
+      if (corEl) corEl.value = preset.corridor;
+      showToast(`Target updated to ${district} Corridor (${preset.lat.toFixed(4)}, ${preset.lng.toFixed(4)})`);
+    }
+  }
+
+  function updateRadiusDisplay(val) {
+    const el = document.getElementById("radius-val-display");
+    if (el) el.textContent = `${val} km`;
+  }
+
+  function useUserGPS() {
+    if (!navigator.geolocation) {
+      showToast("Geolocation is not supported by your browser.", true);
+      return;
+    }
+    showToast("Acquiring GPS fix from device...");
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        document.getElementById("cap-lat").value = pos.coords.latitude.toFixed(4);
+        document.getElementById("cap-lng").value = pos.coords.longitude.toFixed(4);
+        showToast(`Acquired GPS coordinates: ${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)}`);
+      },
+      (err) => {
+        showToast("GPS access unavailable or permission denied.", true);
+      },
+      { timeout: 10000, enableHighAccuracy: true }
+    );
+  }
+
+  function copyCapXml() {
+    const xmlEl = document.getElementById("cap-xml-source");
+    if (xmlEl) {
+      navigator.clipboard.writeText(xmlEl.innerText).then(() => {
+        showToast("OASIS CAP 1.2 XML payload copied to clipboard.");
+      }).catch(() => {
+        showToast("Could not copy XML automatically.", true);
+      });
+    }
+  }
+
+  async function dispatchCapAlert(e) {
+    e.preventDefault();
+    const eventType = document.getElementById("cap-event").value;
+    const urgency = document.getElementById("cap-urgency").value;
+    const severity_cap = document.getElementById("cap-severity").value;
+    const certainty = document.getElementById("cap-certainty").value;
+    const district = document.getElementById("cap-district").value;
+    const corridor = document.getElementById("cap-corridor").value;
+    const latitude = parseFloat(document.getElementById("cap-lat").value) || 31.5421;
+    const longitude = parseFloat(document.getElementById("cap-lng").value) || 77.9214;
+    const radius_km = parseFloat(document.getElementById("cap-radius").value) || 20.0;
+    const headline = document.getElementById("cap-headline").value;
+    const description = document.getElementById("cap-description").value;
+    const instruction = document.getElementById("cap-instruction").value;
+    const expires_hours = parseInt(document.getElementById("cap-expires").value) || 12;
+
+    const btn = document.getElementById("cap-dispatch-btn");
+    const originalText = btn.innerHTML;
+    btn.innerHTML = "<span>Transmitting to BTS &amp; Feeds...</span>";
+    btn.disabled = true;
+
+    try {
+      const resp = await fetch("/api/admin/cap/dispatch", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          event: eventType,
+          urgency,
+          severity_cap,
+          certainty,
+          district,
+          corridor,
+          latitude,
+          longitude,
+          radius_km,
+          headline,
+          description,
+          instruction,
+          expires_hours,
+          web: "/feed"
+        })
+      });
+      const data = await resp.json();
+      if (data.success) {
+        showToast("OASIS CAP 1.2 Cell Broadcast transmitted and active!");
+        setTimeout(() => window.location.reload(), 900);
+      } else {
+        showToast(data.message || "Failed to dispatch CAP broadcast", true);
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+      }
+    } catch (err) {
+      showToast("Network error transmitting CAP broadcast", true);
+      btn.innerHTML = originalText;
+      btn.disabled = false;
+    }
+  }
+
+  async function cancelCapAlert() {
+    const reason = prompt("Enter clearance reason for telecom BTS towers & disaster cells:", "Hazard cleared and slope stabilized by district administration.");
+    if (reason === null) return;
+
+    try {
+      const resp = await fetch("/api/admin/cap/cancel", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reason })
+      });
+      const data = await resp.json();
+      if (data.success) {
+        showToast("CAP Cell Broadcast cancelled and feeds updated.");
+        setTimeout(() => window.location.reload(), 800);
+      } else {
+        showToast(data.message || "Failed to cancel CAP alert", true);
+      }
+    } catch (err) {
+      showToast("Network error cancelling CAP alert", true);
     }
   }
 
