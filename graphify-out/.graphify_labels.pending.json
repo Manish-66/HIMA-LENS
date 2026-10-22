@@ -1,7 +1,7 @@
 {
   "0": "setLiveState",
   "3": "mountSvelteComponentVariant",
-  "4": "connectSSE",
+  "4": "restoreSessionWithoutWrapper",
   "6": "initPageChat",
   "8": "Civil Engineering Quantity Takeoff & Cost Estimation Guardrails",
   "9": "districts.py",
@@ -12,7 +12,7 @@
   "16": "process_arcgis_layers.py",
   "21": "clarify.md",
   "26": "showToast",
-  "27": "handleGo",
+  "27": "cleanup",
   "29": "CEDD Geotechnical Engineering Office (GEO) Standards",
   "30": "initGlobalBar",
   "31": "post",
@@ -41,7 +41,7 @@
   "94": "adapt.native.md",
   "95": "Indian Statutory Codes: BIS, IRC, MoRTH & HPPWD",
   "96": "Technical Writing & Engineering Dossier Guardrails",
-  "97": "scheduleAcceptCleanup",
+  "97": "syncEditBadgeHitProxies",
   "98": "2. Permitted Extraction Patterns",
   "99": "Geotechnical Physics & Kinematics Validation Guardrails",
   "100": "Spatial Discipline & Coordinate Integrity Guardrails",
@@ -55,11 +55,12 @@
   "108": "LaRiMiT (Landslide Risk Mitigation Toolbox)",
   "109": "CIRIA C551 & C765: Conceptual Ground Models & Risk Registers",
   "110": "Eurocode 7 (EN 1997-1 & EN 1997-2): GIR & GDR Architecture",
-  "111": "config.py",
-  "112": "applyEditing",
+  "111": "test_page_heights.py",
+  "112": "enableInlineEdit",
   "113": "startVoice",
   "114": "syncSteerQueueHint",
   "115": "Read",
   "116": "Command guidance",
-  "117": "Craft floor"
+  "117": "Craft floor",
+  "118": "missing_dataset"
 }
