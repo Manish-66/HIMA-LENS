@@ -213,16 +213,41 @@ def deep_merge(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]
 def get_cached_assessment(report_id: str) -> dict[str, Any] | None:
     if not report_id:
         return None
+    clean_id = str(report_id).strip()
     cache = _load_cache()
-    return cache.get(str(report_id).strip())
+    cached = cache.get(clean_id)
+    if cached:
+        return cached
+
+    # If missing from local file cache (e.g. serverless cold start), check Supabase database
+    try:
+        import supabase_db
+        rep = supabase_db.fetch_report_by_id(clean_id)
+        if rep and isinstance(rep.get("ai_assessment"), dict) and rep["ai_assessment"]:
+            assessment = rep["ai_assessment"]
+            cache[clean_id] = assessment
+            _save_cache(cache)
+            return assessment
+    except Exception as exc:
+        logger.debug("Could not lookup report assessment from Supabase: %s", exc)
+
+    return None
 
 
 def save_assessment_to_cache(report_id: str, assessment: dict[str, Any]) -> None:
     if not report_id or not assessment:
         return
+    clean_id = str(report_id).strip()
     cache = _load_cache()
-    cache[str(report_id).strip()] = assessment
+    cache[clean_id] = assessment
     _save_cache(cache)
+
+    # Persist directly into Supabase JSONB column so assessments survive serverless restarts
+    try:
+        import supabase_db
+        supabase_db.save_report_assessment(clean_id, assessment)
+    except Exception as exc:
+        logger.warning("Could not persist assessment to Supabase for %s: %s", clean_id, exc)
 
 
 def _get_image_base64_and_mime(photo_url: str) -> tuple[str, str] | tuple[None, None]:
@@ -1284,6 +1309,10 @@ def generate_ai_assessment(report: dict[str, Any], force_refresh: bool = False) 
 
     # 1. Check persistent cache unless force_refresh is requested
     if not force_refresh:
+        if isinstance(report.get("ai_assessment"), dict) and report["ai_assessment"]:
+            logger.info("Serving assessment for %s from report database payload.", report_id)
+            return normalize_assessment_structure(report["ai_assessment"], report)
+
         cached = get_cached_assessment(report_id)
         if cached:
             logger.info("Serving assessment for %s from persistent cache.", report_id)
