@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  <title>HPPWD Official BOQ &amp; Loss Estimate - {{ report.id }}</title>
+  <title>IIT Mandi Slope Technical Assessment &amp; BOQ - {{ report.id }}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Manrope:wght@600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
@@ -151,37 +151,105 @@
       break-after: avoid;
     }
 
-    /* Official Master Header */
+    /* Official Master Header with IIT Mandi Logo */
     .master-header {
       border: 2px solid var(--border-dark);
-      padding: 8px 12px;
-      text-align: center;
-      margin-bottom: 8px;
+      padding: 6px 10px;
+      margin-bottom: 6px;
       background: #ffffff;
     }
-    .master-title {
+    .master-header-grid {
+      display: grid;
+      grid-template-columns: 52px 1fr 115px;
+      align-items: center;
+      gap: 12px;
+      text-align: left;
+    }
+    .master-logo-col {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .inst-logo-img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      display: block;
+    }
+    .master-text-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .inst-name {
       font-family: 'Manrope', sans-serif;
-      font-size: 13.5pt;
-      font-weight: 800;
-      letter-spacing: 0.8px;
+      font-size: 10px;
+      font-weight: 850;
+      letter-spacing: 0.5px;
       color: var(--primary-dark);
       text-transform: uppercase;
       line-height: 1.2;
     }
+    .master-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: 12.5px;
+      font-weight: 850;
+      letter-spacing: 0.5px;
+      color: var(--primary-forest);
+      text-transform: uppercase;
+      line-height: 1.15;
+    }
     .master-subtitle {
       font-family: 'Manrope', sans-serif;
-      font-size: 10.5pt;
+      font-size: 9px;
       font-weight: 700;
       color: #0284c7;
-      letter-spacing: 0.5px;
-      margin-top: 3px;
+      letter-spacing: 0.4px;
+      margin-top: 1px;
       text-transform: uppercase;
     }
     .master-standards {
-      font-size: 8pt;
+      font-size: 7.5px;
+      font-weight: 600;
       color: #475569;
-      margin-top: 3px;
-      font-weight: 500;
+      letter-spacing: 0.25px;
+      margin-top: 1px;
+      text-transform: uppercase;
+    }
+    .master-badge-col {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    .report-stamp {
+      border: 1.5px solid var(--primary-forest);
+      background: #f0fdf4;
+      padding: 4px 6px;
+      border-radius: 4px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      width: 100%;
+    }
+    .stamp-lbl {
+      font-size: 6.5px;
+      font-weight: 800;
+      color: #065f46;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+    .stamp-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8px;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+    .stamp-stat {
+      font-size: 6.5px;
+      font-weight: 800;
+      color: #0284c7;
+      letter-spacing: 0.5px;
     }
 
     /* Header & Telemetry Grid */
@@ -542,7 +610,7 @@
     <div class="brand">
       <span class="hl-tag">HIMA-LENS</span>
       <span class="hl-tag" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);">{{ assessment.telemetry.report_id }}</span>
-      <span>HPPWD Official BOQ &amp; Loss Estimate Sheet</span>
+      <span>IIT Mandi Slope Technical Assessment &bull; BOQ &amp; Loss Estimate</span>
     </div>
     <div class="action-btn-cluster">
       <button type="button" class="screen-btn btn-print" onclick="window.print()">
@@ -575,9 +643,24 @@
       <div class="report-page">
         <!-- Master Header -->
         <div class="master-header">
-          <div class="master-title">GOVERNMENT OF HIMACHAL PRADESH &bull; PUBLIC WORKS DEPARTMENT</div>
-          <div class="master-subtitle">STANDARD SCHEDULE OF RATES (HPSOR) BILL OF QUANTITIES &amp; TECHNICAL ESTIMATE</div>
-          <div class="master-standards">Reference Standards: MoRTH Specifications for Road &amp; Bridge Works (5th Rev) &bull; IRC:SP:48 &bull; Disaster Management Act 2005</div>
+          <div class="master-header-grid">
+            <div class="master-logo-col">
+              <img src="{{ url_for('static', filename='img/iit_mandi_logo.svg') }}" alt="IIT Mandi Emblem" class="inst-logo-img">
+            </div>
+            <div class="master-text-col">
+              <div class="inst-name">INDIAN INSTITUTE OF TECHNOLOGY MANDI &bull; SCENE</div>
+              <div class="master-title">IIT MANDI SLOPE TECHNICAL ASSESSMENT REPORT</div>
+              <div class="master-subtitle">HPPWD SCHEDULE OF RATES (HPSOR) BILL OF QUANTITIES &amp; REMEDIATION ESTIMATE</div>
+              <div class="master-standards">Reference Standards: MoRTH (5th Rev) &bull; IRC:SP:48 &bull; IS:14458 &bull; Disaster Management Act 2005</div>
+            </div>
+            <div class="master-badge-col">
+              <div class="report-stamp">
+                <span class="stamp-lbl">STATUTORY BOQ</span>
+                <span class="stamp-code">IITM-BOQ-{{ assessment.telemetry.report_id }}</span>
+                <span class="stamp-stat">HPSOR &bull; 2024-25</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Master Telemetry Table -->
@@ -700,7 +783,7 @@
 
         <!-- Page 1 Footer -->
         <div class="page-footer">
-          <span>HIMA-LENS Disaster Spatial Observatory &bull; HPPWD Hill Roads Schedule of Rates BOQ</span>
+          <span>IIT Mandi Slope Technical Assessment Report &bull; HPPWD Hill Roads Schedule of Rates BOQ</span>
           <span>Page 1 of 2</span>
         </div>
       </div>
@@ -711,9 +794,19 @@
       <div class="report-page">
         <!-- Master Header Page 2 -->
         <div class="master-header">
-          <div class="master-title">HIMA-LENS &bull; DISASTER LOSS AUDIT &amp; STATUTORY SANCTION DOSSIER</div>
-          <div class="master-subtitle">COMPREHENSIVE DAMAGE VALUATION &bull; INFRASTRUCTURE LOSS &bull; REGIONAL ECONOMIC DISRUPTION</div>
-          <div class="master-standards">Disaster Management Act 2005 &bull; IRC:SP:48 Hill Road Guidelines &bull; HPPWD Technical Code</div>
+          <div class="master-header-grid">
+            <div class="master-logo-col">
+              <img src="{{ url_for('static', filename='img/iit_mandi_logo.svg') }}" alt="IIT Mandi Logo" class="inst-logo-img" style="width: 38px; height: 38px;">
+            </div>
+            <div class="master-text-col">
+              <div class="inst-name" style="font-size: 9.5px;">INDIAN INSTITUTE OF TECHNOLOGY MANDI &bull; SCENE</div>
+              <div class="master-title" style="font-size: 11.5px;">IIT MANDI SLOPE TECHNICAL ASSESSMENT REPORT &bull; LOSS AUDIT</div>
+              <div class="master-standards">Disaster Management Act 2005 &bull; IRC:SP:48 Hill Road Guidelines &bull; HPPWD Technical Code</div>
+            </div>
+            <div class="master-badge-col">
+              <span style="font-family:'JetBrains Mono',monospace; font-size: 8px; font-weight:700; color:var(--primary-forest);">PAGE 02 / 02</span>
+            </div>
+          </div>
         </div>
 
         <!-- Section 2: Disaster Damage Assessment Table -->
@@ -836,7 +929,7 @@
 
         <!-- Page 2 Footer -->
         <div class="page-footer">
-          <span>HIMA-LENS Disaster Spatial Observatory &bull; Comprehensive Loss Audit &amp; Technical Sanction</span>
+          <span>IIT Mandi Slope Technical Assessment Report &bull; Comprehensive Loss Audit &amp; Technical Sanction</span>
           <span>Page 2 of 2</span>
         </div>
       </div>

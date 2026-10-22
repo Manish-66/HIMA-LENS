@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  <title>HIMA-LENS Landslide Technical Assessment - {{ report.id }}</title>
+  <title>IIT Mandi Slope Technical Assessment Report - {{ report.id }}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Manrope:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
@@ -402,38 +402,113 @@
       break-after: avoid;
     }
 
-    /* Official Master Header */
+    /* Official Master Header with IIT Mandi Logo */
     .master-header {
       border: 2px solid var(--border-dark);
       padding: 6px 10px;
-      text-align: center;
       margin-bottom: 6px;
       background: #ffffff;
+    }
+    .master-header-grid {
+      display: grid;
+      grid-template-columns: 52px 1fr 115px;
+      align-items: center;
+      gap: 12px;
+      text-align: left;
+    }
+    .master-logo-col {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .inst-logo-img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      display: block;
+    }
+    .master-text-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .inst-name {
+      font-family: 'Manrope', sans-serif;
+      font-size: 10.5px;
+      font-weight: 850;
+      letter-spacing: 0.5px;
+      color: var(--primary-dark);
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+    .inst-dept {
+      font-size: 8px;
+      font-weight: 700;
+      color: var(--accent-teal);
+      letter-spacing: 0.3px;
+      margin-bottom: 2px;
+      text-transform: uppercase;
     }
     .master-title {
       font-family: 'Manrope', sans-serif;
       font-size: 13px;
-      font-weight: 800;
-      letter-spacing: 0.8px;
-      color: var(--primary-dark);
+      font-weight: 850;
+      letter-spacing: 0.5px;
+      color: var(--primary-forest);
       text-transform: uppercase;
+      line-height: 1.15;
     }
     .master-subtitle {
       font-family: 'Manrope', sans-serif;
-      font-size: 10.5px;
+      font-size: 9.5px;
       font-weight: 700;
       color: #0284c7;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.4px;
       margin-top: 1px;
       text-transform: uppercase;
     }
     .master-standards {
-      font-size: 8px;
+      font-size: 7.5px;
       font-weight: 600;
       color: var(--ink-soft);
-      letter-spacing: 0.3px;
-      margin-top: 2px;
+      letter-spacing: 0.25px;
+      margin-top: 1px;
       text-transform: uppercase;
+    }
+    .master-badge-col {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    .report-stamp {
+      border: 1.5px solid var(--primary-forest);
+      background: #f0fdf4;
+      padding: 4px 6px;
+      border-radius: 4px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      width: 100%;
+    }
+    .stamp-lbl {
+      font-size: 6.5px;
+      font-weight: 800;
+      color: #065f46;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+    .stamp-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8px;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+    .stamp-stat {
+      font-size: 6.5px;
+      font-weight: 800;
+      color: #0284c7;
+      letter-spacing: 0.5px;
     }
 
     /* Section Header Bars */
@@ -1017,7 +1092,7 @@
     <div class="brand">
       <span class="hl-tag">HIMA-LENS</span>
       <span class="hl-tag" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);">{{ assessment.telemetry.report_id }}</span>
-      <span>PWD Field Assessment Sheet &bull; Data Collection Dossier</span>
+      <span>IIT Mandi Slope Technical Assessment Report</span>
     </div>
     <div class="action-btn-cluster">
       <button type="button" class="screen-btn btn-estimate" id="btn-cost-estimate" onclick="openCostEstimateModal()">
@@ -1052,9 +1127,24 @@
   <!-- ======================================================== -->
   <div class="report-page">
     <div class="master-header">
-      <div class="master-title">FIELD VISIT SHEET &bull; HIMA-LENS SPATIAL OBSERVATORY</div>
-      <div class="master-subtitle">Landslide Disaster &amp; Slope Stability Technical Assessment Report</div>
-      <div class="master-standards">Technical Evaluation Form &bull; IRC:SP:48 Hill Road Guidelines &bull; IS:14458 Landslide Stabilization Standards</div>
+      <div class="master-header-grid">
+        <div class="master-logo-col">
+          <img src="{{ url_for('static', filename='img/iit_mandi_logo.svg') }}" alt="IIT Mandi Emblem" class="inst-logo-img">
+        </div>
+        <div class="master-text-col">
+          <div class="inst-name">INDIAN INSTITUTE OF TECHNOLOGY MANDI</div>
+          <div class="inst-dept">SCHOOL OF CIVIL &amp; ENVIRONMENTAL ENGINEERING (SCENE) &bull; HIMA-LENS OBSERVATORY</div>
+          <div class="master-title">IIT MANDI SLOPE TECHNICAL ASSESSMENT REPORT</div>
+          <div class="master-standards">Statutory Geotechnical Assessment &bull; IRC:SP:48 Hill Road Guidelines &bull; IS:14458 Landslide Stabilization Standards</div>
+        </div>
+        <div class="master-badge-col">
+          <div class="report-stamp">
+            <span class="stamp-lbl">OFFICIAL REPORT</span>
+            <span class="stamp-code">IITM-SCENE-{{ assessment.telemetry.report_id }}</span>
+            <span class="stamp-stat">AI &bull; VERIFIED</span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Master Identification Table (Data Collection Sheet Header Format) -->
@@ -1259,7 +1349,7 @@
     </table>
 
     <div class="page-footer">
-      <span>HIMA-LENS Spatial Intelligence &bull; Field Visit Sheet &bull; Ref: <strong>{{ assessment.telemetry.report_id }}</strong></span>
+      <span>IIT Mandi Slope Technical Assessment Report &bull; Ref: <strong>{{ assessment.telemetry.report_id }}</strong></span>
       <span>Page 1 of 3</span>
     </div>
   </div>
@@ -1269,9 +1359,19 @@
   <!-- ======================================================== -->
   <div class="report-page">
     <div class="master-header">
-      <div class="master-title">HIMA-LENS &bull; Field Visit Sheet (Page 2)</div>
-      <div class="master-subtitle">Defects Observed, Retaining Wall Specifications &amp; Earthworks Quantification</div>
-      <div class="master-standards">IS:14458 (Design of Retaining Structures) &bull; IRC:SP:48 Hill Road Drainage Specifications</div>
+      <div class="master-header-grid">
+        <div class="master-logo-col">
+          <img src="{{ url_for('static', filename='img/iit_mandi_logo.svg') }}" alt="IIT Mandi Logo" class="inst-logo-img" style="width: 38px; height: 38px;">
+        </div>
+        <div class="master-text-col">
+          <div class="inst-name" style="font-size: 9.5px;">INDIAN INSTITUTE OF TECHNOLOGY MANDI &bull; SCENE</div>
+          <div class="master-title" style="font-size: 11.5px;">IIT MANDI SLOPE TECHNICAL ASSESSMENT REPORT (Page 2)</div>
+          <div class="master-standards">IS:14458 (Design of Retaining Structures) &bull; IRC:SP:48 Hill Road Drainage Specifications</div>
+        </div>
+        <div class="master-badge-col">
+          <span style="font-family:'JetBrains Mono',monospace; font-size: 8px; font-weight:700; color:var(--primary-forest);">PAGE 02 / 03</span>
+        </div>
+      </div>
     </div>
 
     <!-- 5. Defects & Distress Observed Around Works (Table 2 of Data Collection Sheet) -->
@@ -1517,7 +1617,7 @@
     </table>
 
     <div class="page-footer">
-      <span>HIMA-LENS Structural &amp; Quantification Module &bull; Ref: <strong>{{ assessment.telemetry.report_id }}</strong></span>
+      <span>IIT Mandi Slope Technical Assessment Report &bull; Structural &amp; Quantification Module &bull; Ref: <strong>{{ assessment.telemetry.report_id }}</strong></span>
       <span>Page 2 of 3</span>
     </div>
   </div>
@@ -1527,9 +1627,19 @@
   <!-- ======================================================== -->
   <div class="report-page">
     <div class="master-header">
-      <div class="master-title">HIMA-LENS &bull; Field Visit Sheet (Page 3)</div>
-      <div class="master-subtitle">Ground Evidence, Mitigation Measures, Safety Directives &amp; Official Sign-Off</div>
-      <div class="master-standards">Optical Verification &bull; Multi-tier Statutory Engineering Sign-Off</div>
+      <div class="master-header-grid">
+        <div class="master-logo-col">
+          <img src="{{ url_for('static', filename='img/iit_mandi_logo.svg') }}" alt="IIT Mandi Logo" class="inst-logo-img" style="width: 38px; height: 38px;">
+        </div>
+        <div class="master-text-col">
+          <div class="inst-name" style="font-size: 9.5px;">INDIAN INSTITUTE OF TECHNOLOGY MANDI &bull; SCENE</div>
+          <div class="master-title" style="font-size: 11.5px;">IIT MANDI SLOPE TECHNICAL ASSESSMENT REPORT (Page 3)</div>
+          <div class="master-standards">Optical Verification &bull; Multi-tier Statutory Engineering Sign-Off</div>
+        </div>
+        <div class="master-badge-col">
+          <span style="font-family:'JetBrains Mono',monospace; font-size: 8px; font-weight:700; color:var(--primary-forest);">PAGE 03 / 03</span>
+        </div>
+      </div>
     </div>
 
     <!-- 10. Site Photograph & Plain-Language Public Briefing -->
@@ -1779,7 +1889,7 @@
     </table>
 
     <div class="page-footer">
-      <span>HIMA-LENS Automated Scientific Evaluation Dossier &bull; Official Statutory Copy &bull; Ref: <strong>{{ assessment.telemetry.report_id }}</strong></span>
+      <span>IIT Mandi Slope Technical Assessment Report &bull; Statutory Engineering Sign-Off &bull; Ref: <strong>{{ assessment.telemetry.report_id }}</strong></span>
       <span>Page 3 of 3</span>
     </div>
   </div>

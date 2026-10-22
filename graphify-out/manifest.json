@@ -156,9 +156,9 @@
     "semantic_hash": ""
   },
   "static/js/pwd_modal.js": {
-    "mtime": 1792490826.747418,
-    "seen": 1792646101.3303971,
-    "ast_hash": "eb1a69b4c36a8ee42dffddea92f0d2f6",
+    "mtime": 1792686310.2410138,
+    "seen": 1792686403.1997573,
+    "ast_hash": "10adb370ccc32cb4acf09c61cfb1b932",
     "semantic_hash": ""
   },
   "static/js/report.js": {
@@ -576,9 +576,9 @@
     "semantic_hash": ""
   },
   "templates/boq_sheet.html": {
-    "mtime": 1792492394.2542796,
-    "seen": 1792646101.3304534,
-    "ast_hash": "2adf4b9e222faf78129cf5df21ea21b4",
+    "mtime": 1792686310.2410138,
+    "seen": 1792686403.2058282,
+    "ast_hash": "d5d2fddb576300248716c5572e40147a",
     "semantic_hash": ""
   },
   "templates/explore.html": {
@@ -600,15 +600,15 @@
     "semantic_hash": ""
   },
   "templates/pwd_sheet.html": {
-    "mtime": 1792653139.0273986,
-    "seen": 1792653169.9713757,
-    "ast_hash": "306d0e679e5ad9b1d0ddf915ef145714",
+    "mtime": 1792686249.5288472,
+    "seen": 1792686403.2060473,
+    "ast_hash": "babbb50f45b873cd0590e63fe82020c3",
     "semantic_hash": ""
   },
   "templates/report.html": {
-    "mtime": 1792652030.0797036,
-    "seen": 1792652061.6485436,
-    "ast_hash": "9b58c476ad86c1b7a96686d952e3a7e3",
+    "mtime": 1792686310.2410138,
+    "seen": 1792686403.2060487,
+    "ast_hash": "4a8141192eb74b5d64364b11d2391523",
     "semantic_hash": ""
   },
   "templates/terrain_lab.html": {
@@ -831,6 +831,12 @@
     "mtime": 1792683319.0229273,
     "seen": 1792683665.3229792,
     "ast_hash": "800dadbf83488dfe425ddf45372070cf",
+    "semantic_hash": ""
+  },
+  "static/img/iit_mandi_logo.svg": {
+    "mtime": 1792685581.2997816,
+    "seen": 1792686403.2069101,
+    "ast_hash": "a3af4d8e248dbd67b6b8679f688a70b8",
     "semantic_hash": ""
   }
 }

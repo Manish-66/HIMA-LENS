@@ -14,14 +14,15 @@ function ensurePwdModalInDOM() {
     <div id="pwd-assessment-modal" class="pwd-modal-overlay" style="display: none;">
       <div class="pwd-modal-card">
         <div class="pwd-modal-header">
-          <div class="title-wrap">
-            <div class="pwd-brand-logo-badge">HL</div>
+          <div class="title-wrap" style="align-items: center; gap: 12px;">
+            <img src="/static/img/iit_mandi_logo.svg" alt="IIT Mandi Emblem" style="width: 36px; height: 36px; object-fit: contain; background: #ffffff; padding: 2px; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.25);">
             <div>
-              <h3 class="pwd-modal-title">
-                HIMA&middot;LENS Assessment
+              <div style="font-size: 9.5px; font-weight: 800; color: #5eead4; letter-spacing: 0.5px; text-transform: uppercase;">IIT MANDI &bull; SCENE</div>
+              <h3 class="pwd-modal-title" style="font-size: 15px; margin: 0; line-height: 1.2;">
+                IIT Mandi Slope Technical Assessment
                 <span class="pwd-modal-badge">AI Reviewed</span>
               </h3>
-              <div class="pwd-modal-subtitle" id="pwd-modal-sub">REF: --</div>
+              <div class="pwd-modal-subtitle" id="pwd-modal-sub" style="font-size: 11px; opacity: 0.85;">REF: --</div>
             </div>
           </div>
           <button type="button" class="pwd-close-btn" onclick="closePwdAssessmentModal()" aria-label="Close dialog">&times;</button>
@@ -152,7 +153,7 @@ function ensurePwdModalInDOM() {
             </button>
             <button type="button" class="pwd-btn pwd-btn-primary" id="btn-print-official" onclick="submitAndOpenOfficialSheet()">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-              <span>View &amp; Print Report</span>
+              <span>View IIT Mandi Assessment Report</span>
             </button>
           </div>
         </div>
