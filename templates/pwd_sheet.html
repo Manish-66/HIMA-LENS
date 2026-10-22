@@ -680,14 +680,14 @@
           <div class="master-text-col">
             <div class="inst-name">INDIAN INSTITUTE OF TECHNOLOGY MANDI</div>
             <div class="inst-dept">SCHOOL OF CIVIL &amp; ENVIRONMENTAL ENGINEERING &bull; HIMA-LENS OBSERVATORY</div>
-            <div class="master-title">PRELIMINARY PROJECT REPORT (PPR) &bull; GLOBAL GEOTECHNICAL DOSSIER</div>
-            <div class="master-standards">Statutory Geotechnical Assessment &bull; IRC:SP:48 Hill Road Guidelines &bull; IS:14458 Landslide Stabilization Standards</div>
+            <div class="master-title">PRELIMINARY PROJECT REPORT (PPR) &bull; HPPWD FIELD ASSESSMENT DOSSIER</div>
+            <div class="master-standards">Statutory Geotechnical Assessment &bull; IRC:SP:48:2023 Hill Road Manual &bull; IS:14458 Landslide Stabilization Standards</div>
           </div>
           <div class="master-badge-col">
             <div class="report-stamp">
               <span class="stamp-lbl">STATUTORY PPR</span>
               <span class="stamp-code">{{ assessment.telemetry.report_reference or 'IITM-CR-' + report.id }}</span>
-              <span class="stamp-stat">GLOBAL STANDARDS</span>
+              <span class="stamp-stat">HPPWD &bull; AA &amp; ES</span>
             </div>
           </div>
         </div>
@@ -729,14 +729,14 @@
         <tr>
           <td class="col-lbl">4. Mitigation Methodology:</td>
           <td class="col-val" colspan="3">
-            Force &amp; moment equilibrium limit-equilibrium stability analysis (Spencer &amp; Morgenstern-Price methods per <strong>USACE EM 1110-2-1902</strong>), field kinematic discontinuity survey, and GSI Bhukosh regional geological audit.
+            Force &amp; moment equilibrium limit-equilibrium stability analysis (Spencer &amp; Morgenstern-Price methods per <strong>IRC:SP:48:2023 &amp; IS:14458</strong>), field kinematic discontinuity survey, and GSI Bhukosh regional geological audit.
           </td>
         </tr>
         <tr>
           <td class="col-lbl">5. Mitigation Scope:</td>
           <td class="col-val" colspan="3">
-            <strong>Structural:</strong> Plum Concrete Breast Wall (IS:14458), Weep Holes, Sub-horizontal PVC Relief Drains (CEDD GEO Pub 1/2009). &nbsp;|&nbsp; 
-            <strong>Non-Structural:</strong> Lined Crest Interceptor Drain (IRC:SP:48), Stepped Chute Cascade, Bio-Engineering Vetiver Hydroseeding.
+            <strong>Structural:</strong> Plum Concrete Breast Wall (IS:14458), Weep Holes, Sub-horizontal Perforated PVC Relief Drains (IRC:SP:48 Clause 7.4). &nbsp;|&nbsp; 
+            <strong>Non-Structural:</strong> Lined Crest Interceptor Drain (IRC:SP:48), Stepped Chute Cascade, Bio-Engineering Vetiver Hydroseeding (MoRTH Section 1400).
           </td>
         </tr>
       </table>
@@ -1346,32 +1346,32 @@
         </div>
       </div>
 
-      <!-- 11. Global Geotechnical & Hazard Classification (USGS, CEDD & USACE) -->
+      <!-- 11. Geotechnical Slope Stability & Safety Factor Benchmark -->
       <div class="sec-bar">
-        <span>11. Global Geotechnical Classification &amp; Stability Benchmark</span>
-        <span class="sec-bar-sub">USGS Circular 1325 &bull; USACE EM 1110-2-1902</span>
+        <span>11. Geotechnical Slope Stability &amp; Safety Factor Benchmark</span>
+        <span class="sec-bar-sub">IS:14458 &bull; IRC:SP:48:2023 Hill Road Standards</span>
       </div>
       <table class="grid-table" style="font-size: 7.5px; margin-bottom: 4px;">
         <tr>
-          <td class="col-lbl" style="width: 22%;">USGS / Cruden-Varnes:</td>
-          <td class="col-val" style="width: 28%;">
-            <strong style="color: #0369a1;">Translational Rock Slide</strong><br>
-            <span style="font-size: 7px; color: #64748b;">(Class 5: Rapid [1.8 m/h to 3 m/min])</span>
+          <td class="col-lbl" style="width: 24%;">Failure Classification:</td>
+          <td class="col-val" style="width: 26%;">
+            <strong style="color: #0369a1;">Translational Rock / Debris Slide</strong><br>
+            <span style="font-size: 7px; color: #64748b;">(Cruden &amp; Varnes / GSI Kinematic Taxonomy)</span>
           </td>
-          <td class="col-lbl" style="width: 22%;">CEDD Consequence:</td>
-          <td class="col-val" style="width: 28%;">
-            <strong>Category 2 (Moderate)</strong><br>
-            <span style="font-size: 7px; color: #64748b;">Target FOS &ge; 1.25 (10-Yr Storm)</span>
+          <td class="col-lbl" style="width: 24%;">NDMA Corridor Risk Level:</td>
+          <td class="col-val" style="width: 26%;">
+            <strong>Category II (Moderate Consequence)</strong><br>
+            <span style="font-size: 7px; color: #64748b;">Lifeline Route Target FOS &ge; 1.30</span>
           </td>
         </tr>
       </table>
 
-      <!-- USACE Factor of Safety Benchmark Table -->
+      <!-- Factor of Safety Benchmark Table (IS:14458 & IRC:SP:48) -->
       <table class="grid-table" style="font-size: 7.5px; margin-bottom: 4px;">
         <thead>
           <tr style="background: #f1f5f9;">
             <th style="text-align: left;">Hydraulic &amp; Loading Stage</th>
-            <th style="width: 100px; text-align: center;">USACE Statutory Min.</th>
+            <th style="width: 110px; text-align: center;">Statutory IS / IRC Min.</th>
             <th style="width: 90px; text-align: center;">Calculated FOS</th>
             <th style="width: 120px; text-align: center;">Stability Diagnosis</th>
           </tr>
@@ -1393,7 +1393,7 @@
             <td><strong>Post-Stabilization Target (Plum Breast Wall + Sub-surface Drains)</strong></td>
             <td style="text-align: center;" class="font-mono">1.50</td>
             <td style="text-align: center; color: #15803d; font-weight: 800;" class="font-mono">1.56</td>
-            <td style="text-align: center; color: #15803d; font-weight: 800;">Fully Compliant</td>
+            <td style="text-align: center; color: #15803d; font-weight: 800;">Fully Code Compliant</td>
           </tr>
         </tbody>
       </table>
