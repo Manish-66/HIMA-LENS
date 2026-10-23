@@ -906,10 +906,13 @@
         <!-- Engineered Geotechnical Failure Cross-Section Schematic -->
         <div class="schematic-frame-box">
           <div class="schematic-top-bar">
-            <span>ENGINEERED FAILURE CROSS-SECTION &bull; KINEMATIC MODEL</span>
-            <span style="color: #ffffff;">SLIP PLANE: 57&deg; DAYLIGHTING</span>
+            <span>ENGINEERED FAILURE CROSS-SECTION &bull; ML KINEMATIC MODEL</span>
+            <span style="color: #ffffff;">{{ assessment.schematic_top_badge or 'SLIP PLANE: 57° DAYLIGHTING' }}</span>
           </div>
           <div class="schematic-svg-wrap">
+            {% if assessment.schematic_svg %}
+              {{ assessment.schematic_svg | safe }}
+            {% else %}
             <svg viewBox="0 0 520 226" xmlns="http://www.w3.org/2000/svg">
               <defs>
                 <pattern id="rockHatch2P" width="10" height="10" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
@@ -976,10 +979,11 @@
               <rect x="210" y="102" width="110" height="15" rx="2" fill="#fef3c7" stroke="#fcd34d" stroke-width="1" />
               <text x="215" y="113" font-family="'Manrope', sans-serif" font-size="7" font-weight="800" fill="#92400e">SLIDING COLLUVIUM</text>
             </svg>
+            {% endif %}
           </div>
           <div class="schematic-caption-bar">
-            <span>FIGURE 1: GEOTECHNICAL FAILURE SCHEMATIC</span>
-            <span class="font-mono">DATUM: WGS84 &bull; HILL ROAD CUT SECTION</span>
+            <span>FIGURE 1: GEOTECHNICAL FAILURE SCHEMATIC (AI/ML DERIVED)</span>
+            <span class="font-mono">DATUM: WGS84 &bull; {{ (assessment.movement_type or 'SLIDE') | upper }} CUT SECTION</span>
           </div>
         </div>
       </div>

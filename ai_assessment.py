@@ -29,6 +29,7 @@ import requests
 from requests.adapters import HTTPAdapter
 
 import geotech_engine
+import geotech_schematic
 from config import (
     BASE_DIR,
     COMMUNITY_REPORTS_UPLOAD_DIR,
@@ -51,10 +52,11 @@ def _get_http_session() -> requests.Session:
     return _http_session
 
 GEMINI_MODELS = [
-    "gemini-3.5-flash-lite",
+    "gemini-flash-latest",
+    "gemini-flash-lite-latest",
     "gemini-3.1-flash-lite",
-    "gemini-3.8-flash",
-    "gemini-3.7-flash",
+    "gemini-3-flash-preview",
+    "gemini-pro-latest",
 ]
 
 # Comprehensive Geological Knowledge Base for all 12 Himachal Pradesh Districts
@@ -281,17 +283,21 @@ def save_assessment_to_cache(report_id: str, assessment: dict[str, Any]) -> None
 
 
 def _get_image_base64_and_mime(photo_url: str) -> tuple[str, str] | tuple[None, None]:
-    """Retrieves image bytes from URL or local disk and returns (base64_str, mime_type)."""
+    """Retrieves image bytes from URL or local disk and returns (base64_str, mime_type).
+    Optimizes payload size to max 1024px to prevent network timeouts during Gemini Vision calls.
+    """
     if not photo_url:
         return None, None
 
     try:
+        raw_bytes = None
+        mime = "image/jpeg"
         if photo_url.startswith("http://") or photo_url.startswith("https://"):
             resp = _get_http_session().get(photo_url, timeout=14)
             if resp.status_code == 200 and resp.content:
+                raw_bytes = resp.content
                 ext = photo_url.split("?")[0].rsplit(".", 1)[-1].lower()
                 mime = mimetypes.types_map.get(f".{ext}", "image/jpeg")
-                return base64.b64encode(resp.content).decode("utf-8"), mime
         else:
             cleaned = photo_url.lstrip("/").replace("/", "\\")
             candidate_paths = [
@@ -300,10 +306,26 @@ def _get_image_base64_and_mime(photo_url: str) -> tuple[str, str] | tuple[None, 
             ]
             for p in candidate_paths:
                 if p.exists() and p.is_file():
-                    data = p.read_bytes()
+                    raw_bytes = p.read_bytes()
                     ext = p.suffix.lower()
                     mime = mimetypes.types_map.get(ext, "image/jpeg")
-                    return base64.b64encode(data).decode("utf-8"), mime
+                    break
+
+        if raw_bytes:
+            # Compress / resize large images to under 1024px for fast API transit
+            try:
+                import io
+                from PIL import Image
+                img = Image.open(io.BytesIO(raw_bytes))
+                if max(img.width, img.height) > 1024:
+                    img.thumbnail((1024, 1024))
+                    buf = io.BytesIO()
+                    img.convert("RGB").save(buf, format="JPEG", quality=82)
+                    raw_bytes = buf.getvalue()
+                    mime = "image/jpeg"
+            except Exception:
+                pass
+            return base64.b64encode(raw_bytes).decode("utf-8"), mime
     except Exception as exc:
         logger.warning("Could not fetch image for AI assessment from %s: %s", photo_url, exc)
 
@@ -917,6 +939,8 @@ def compute_deterministic_engineering_dossier(
         "bhukosh_rock_audit": bhukosh_rock_audit,
     }
     dossier_dict["cost_estimate_boq"] = geotech_engine.calculate_comprehensive_cost_and_loss_estimate(dossier_dict, report)
+    dossier_dict["schematic_svg"] = geotech_schematic.generate_schematic_svg(dossier_dict, report, unique_suffix=report_id)
+    dossier_dict["schematic_top_badge"] = geotech_schematic.extract_ml_kinematic_parameters(dossier_dict, report)["top_badge"]
     return dossier_dict
 
 
@@ -1336,6 +1360,13 @@ def normalize_assessment_structure(assessment: dict[str, Any] | None, report: di
         # Ensure cost_estimate_boq is present and up-to-date
         merged["cost_estimate_boq"] = geotech_engine.calculate_comprehensive_cost_and_loss_estimate(merged, report)
 
+        # Ensure ML geotechnical schematic cross-section SVG & badge
+        rep_clean_id = str(report.get("id") or "SCHEM").replace("-", "_")
+        if not merged.get("schematic_svg"):
+            merged["schematic_svg"] = geotech_schematic.generate_schematic_svg(merged, report, unique_suffix=rep_clean_id)
+        if not merged.get("schematic_top_badge"):
+            merged["schematic_top_badge"] = geotech_schematic.extract_ml_kinematic_parameters(merged, report)["top_badge"]
+
     # Harmonize official report reference (IITM-STAR)
     rep_id = str(report.get("id") or (merged.get("telemetry") or {}).get("report_id") or "IITM-CR-RECORD").strip()
     ref_name = rep_id.replace("HL-CR-", "IITM-CR-").replace("IITM-STAR-", "IITM-CR-") if (rep_id.startswith("HL-CR-") or rep_id.startswith("IITM-STAR-")) else (
@@ -1576,7 +1607,18 @@ RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
     "wall_distress_crack": true,
     "wall_distress_bulging": true,
     "wall_distress_collapse": true,
-    "wall_distress_joint": true
+    "wall_distress_joint": true,
+    "optical_geometry": {
+      "kinematic_failure_mode": "Translational Planar Slide or Rotational Slump or Rockfall / Topple or Debris Flow or Wedge Failure",
+      "cut_slope_angle_deg": 65,
+      "slip_surface_dip_deg": 57,
+      "scarp_height_m": 7.5,
+      "tension_cracks_visible": true,
+      "carriageway_formation_m": 5.25,
+      "carriageway_open_m": 2.30,
+      "road_blocked_percent": 55,
+      "drain_status": "Choked with debris"
+    }
   }},
   "plain_language_explanation": {{
     "summary_title": "String",

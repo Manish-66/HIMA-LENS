@@ -1011,6 +1011,32 @@ def get_cost_estimate(report_id: str):
     cost_data = assessment.get("cost_estimate_boq") or geotech_engine.calculate_comprehensive_cost_and_loss_estimate(assessment, report)
     return jsonify(success=True, report_id=report_id, cost_estimate_boq=cost_data)
 
+@app.get("/report/schematic/<report_id>")
+@app.get("/api/report/<report_id>/schematic")
+def get_report_schematic(report_id: str):
+    """Returns the ML-derived kinematic geotechnical cross-section schematic SVG and parameters."""
+    report = find_report_by_id(report_id)
+    if not report:
+        return jsonify(success=False, error="REPORT_NOT_FOUND", message=f"Report {report_id} not found."), 404
+
+    force = request.args.get("force", "").lower() in ("1", "true", "yes")
+    assessment = ai_assessment.generate_ai_assessment(report, force_refresh=force)
+    assessment = ai_assessment.normalize_assessment_structure(assessment, report)
+    import geotech_schematic
+    params = geotech_schematic.extract_ml_kinematic_parameters(assessment, report)
+    svg = assessment.get("schematic_svg") or geotech_schematic.generate_schematic_svg(assessment, report)
+
+    if request.args.get("raw") == "svg":
+        return Response(svg, mimetype="image/svg+xml")
+
+    return jsonify(
+        success=True,
+        report_id=report_id,
+        top_badge=assessment.get("schematic_top_badge") or params.get("top_badge"),
+        kinematic_parameters=params,
+        schematic_svg=svg,
+    )
+
 @app.get("/report/boq-sheet/<report_id>")
 def view_boq_sheet(report_id: str):
     report = find_report_by_id(report_id)
