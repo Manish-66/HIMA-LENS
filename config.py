@@ -46,3 +46,10 @@ SUPABASE_BUCKET = os.environ.get("SUPABASE_BUCKET", "report-images").strip()
 # Google Gemini Vision API for Geotechnical AI Assessment
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
 
+# Roboflow Foundation Vision & SAM-3 Segmentation API
+ROBOFLOW_API_KEY = os.environ.get("ROBOFLOW_API_KEY", "X4vlwjpo7ijAmB70GCnL").strip()
+ROBOFLOW_WORKSPACE = os.environ.get("ROBOFLOW_WORKSPACE", "manish-kumar-s-workspace").strip()
+ROBOFLOW_INFER_URL = os.environ.get("ROBOFLOW_INFER_URL", "https://infer.roboflow.com").strip().rstrip("/")
+ANNOTATED_PLATES_DIR = BASE_DIR / "static" / "uploads" / "annotated"
+
+

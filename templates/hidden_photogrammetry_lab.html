@@ -1,0 +1,494 @@
+{% extends "base.html" %}
+
+{% block title %}
+HIMA-LENS | Experimental Geotechnical Photogrammetry &amp; Vision Lab
+{% endblock %}
+
+{% block head %}
+<style>
+  /* Standalone Hidden Lab Design System */
+  .lab-wrapper {
+    background: var(--paper);
+    min-height: calc(100vh - 80px);
+    padding: 32px 0 64px 0;
+  }
+
+  .lab-hero-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--forest);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-xs);
+  }
+
+  .lab-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  @media (max-width: 992px) {
+    .lab-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .lab-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow-xs);
+  }
+
+  .canvas-container {
+    position: relative;
+    width: 100%;
+    min-height: 380px;
+    background: #0f172a;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--line);
+  }
+
+  #interactive-canvas {
+    max-width: 100%;
+    max-height: 520px;
+    cursor: crosshair;
+  }
+
+  .view-tab-btn {
+    padding: 8px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--line);
+    background: var(--paper);
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .view-tab-btn.active {
+    background: var(--forest);
+    color: #ffffff;
+    border-color: var(--forest);
+  }
+
+  .metric-box {
+    padding: 12px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xs);
+    text-align: center;
+  }
+
+  .metric-label {
+    font-size: 9.5px;
+    font-weight: 800;
+    color: var(--ink-muted);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .metric-val {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--forest);
+    margin-top: 3px;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="lab-wrapper">
+  <div class="feed-container">
+
+    <!-- Top Architecture Card -->
+    <div class="lab-hero-card">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px;">
+        <div style="flex: 1; min-width: 300px;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+            <span class="badge-status badge-pending" style="background: rgba(217, 119, 6, 0.12); color: #d97706;">EXPERIMENTAL LAB</span>
+            <span class="badge-status badge-verified">UNLISTED URL &bull; DEVELOPER DIRECT</span>
+            <span style="font-size: 11px; color: var(--ink-muted); font-weight: 700;">ISOLATED FROM PRODUCTION REPOSITORIES</span>
+          </div>
+          <h1 style="font-size: 22px; font-weight: 800; color: var(--ink-strong); margin: 0 0 8px 0;">
+            Precision Geotechnical Photogrammetry Engine <span style="color: var(--forest);">v3.0</span>
+          </h1>
+          <p style="font-size: 13px; color: var(--ink-soft); margin: 0; line-height: 1.5; max-width: 860px;">
+            Three-modality hybrid photogrammetry combining <strong>Optical Camera EXIF Geometry</strong>, <strong>Depth Anything V2 3D Metric Depth</strong>, and an interactive <strong>User Ground Control Caliper</strong> with <strong>Roboflow SAM-3 Zero-Shot Segmentation</strong>.
+          </p>
+        </div>
+
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <a href="/admin" class="btn-admin" style="padding: 9px 14px; text-decoration: none;">&larr; Admin Console</a>
+          <a href="/explore" class="btn-admin" style="padding: 9px 14px; text-decoration: none;">&larr; Map View</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Working Grid -->
+    <div class="lab-grid">
+
+      <!-- LEFT: Image Canvas & Interactive Caliper Controls -->
+      <div class="lab-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <div>
+            <h2 style="font-size: 15px; font-weight: 800; color: var(--ink-strong); margin: 0;">Interactive Caliper Canvas</h2>
+            <p style="font-size: 11.5px; color: var(--ink-muted); margin: 2px 0 0 0;">Click Point A and Point B to pin exact real-world scale</p>
+          </div>
+          <button type="button" class="btn-admin" onclick="resetCaliperPoints();" style="font-size: 11px;">Clear Caliper Points</button>
+        </div>
+
+        <!-- Canvas Viewport -->
+        <div class="canvas-container">
+          <canvas id="interactive-canvas"></canvas>
+          <div id="canvas-placeholder" style="color: #94a3b8; font-size: 12px; font-weight: 600; text-align: center; padding: 20px;">
+            Load a photograph below or select a benchmark sample to begin.
+          </div>
+        </div>
+
+        <!-- Caliper Status Bar -->
+        <div style="display: flex; justify-content: space-between; align-items: center; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-xs); padding: 10px 14px; margin-top: 12px;">
+          <div style="display: flex; align-items: center; gap: 8px; font-size: 11.5px; color: var(--ink-soft);">
+            <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #a855f7;" id="caliper-indicator"></span>
+            <span id="caliper-status-text">Caliper inactive &bull; Click two points on any known object (road, car, barrier)</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <label for="caliper-distance-input" style="font-size: 11px; font-weight: 700; color: var(--ink-muted);">KNOWN DISTANCE:</label>
+            <input type="number" id="caliper-distance-input" value="5.25" step="0.1" min="0.1" max="100.0" style="width: 70px; padding: 4px 6px; font-size: 12px; border: 1px solid var(--line); border-radius: 4px; text-align: center;">
+            <span style="font-size: 11px; font-weight: 700; color: var(--ink-muted);">m</span>
+          </div>
+        </div>
+
+        <!-- Image Input & Benchmark Selector -->
+        <div style="margin-top: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-size: 11px; font-weight: 800; color: var(--ink-muted); letter-spacing: 0.5px;">SELECT SOURCE PHOTOGRAPH:</span>
+            <input type="file" id="lab-file-input" accept="image/*" style="display: none;" onchange="handleLabFileUpload(event);">
+            <button type="button" class="btn-admin" onclick="document.getElementById('lab-file-input').click();">Browse Local Photo...</button>
+          </div>
+
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button type="button" class="btn-admin" onclick="loadLabSample('https://lsjnontlkffkneiuxmwx.supabase.co/storage/v1/object/public/report-images/report_551bd487fdb4_1791799355.jpg', 'Highway Cut (IITM-CR-6A9B327E)');">Sample: Highway Cut</button>
+            <button type="button" class="btn-admin" onclick="loadLabSample('/static/uploads/reports/report_69700c8a2420_1789645560.jpg', 'Chute Collapse (IITM-CR-6C5DBB52)');">Sample: Chute Collapse</button>
+            <button type="button" class="btn-admin" onclick="loadLabSample('/static/uploads/reports/report_74ba78941fbe_1789645480.png', 'Scree Slope (IITM-CR-B0B0D035)');">Sample: Scree Slope</button>
+          </div>
+        </div>
+
+        <!-- Parameters & Execution Button -->
+        <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+          <div style="display: flex; align-items: center; gap: 14px;">
+            <label style="display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--ink-soft); cursor: pointer;">
+              <input type="checkbox" id="chk-run-depth" checked>
+              <span>Dense 3D Depth Map (Depth Anything V2)</span>
+            </label>
+          </div>
+
+          <button type="button" class="btn-admin btn-admin-verify" id="btn-run-precision" onclick="executePrecisionPipeline();" style="padding: 10px 22px; font-size: 13px; font-weight: 800;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <span>Run Precision Photogrammetry</span>
+          </button>
+        </div>
+
+        <div id="lab-loading-bar" style="display: none; margin-top: 16px; padding: 12px; background: var(--paper-dark); border-radius: var(--radius-xs); text-align: center;">
+          <div style="display: inline-block; width: 18px; height: 18px; border: 2px solid var(--forest-pale); border-top-color: var(--forest); border-radius: 50%; animation: spin 0.8s linear infinite;"></div>
+          <span style="font-size: 12px; font-weight: 700; color: var(--forest); margin-left: 8px;" id="loading-msg">Processing SAM-3 + Depth V2 + Optical Geometry...</span>
+        </div>
+      </div>
+
+      <!-- RIGHT: Visual Modality Tabs & Precision Telemetry -->
+      <div class="lab-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
+          <div>
+            <h2 style="font-size: 15px; font-weight: 800; color: var(--ink-strong); margin: 0;">Photogrammetry Multi-Plate</h2>
+            <p style="font-size: 11.5px; color: var(--ink-muted); margin: 2px 0 0 0;">Inspect vector survey, depth relief, and normal vector plates</p>
+          </div>
+
+          <!-- Modality View Tabs -->
+          <div style="display: flex; gap: 6px;">
+            <button type="button" class="view-tab-btn active" onclick="switchVisualPlate('plate', this);">Survey Plate</button>
+            <button type="button" class="view-tab-btn" onclick="switchVisualPlate('inferno', this);">Depth Inferno</button>
+            <button type="button" class="view-tab-btn" onclick="switchVisualPlate('normals', this);">Normals RGB</button>
+          </div>
+        </div>
+
+        <!-- Plate Viewport -->
+        <div style="position: relative; width: 100%; height: 320px; background: #0f172a; border-radius: var(--radius-sm); overflow: hidden; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; border: 1px solid var(--line);">
+          <img id="plate-img-view" src="/static/uploads/annotated/sam3_annotated_v2_production_eval.png" alt="Plate View" style="max-width: 100%; max-height: 100%; object-fit: contain; cursor: zoom-in;" onclick="window.open(this.src, '_blank');">
+          <div style="position: absolute; bottom: 8px; right: 8px; background: rgba(15, 23, 42, 0.85); color: #fff; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 700;">
+            Click to view in New Tab
+          </div>
+        </div>
+
+        <!-- Telemetry HUD Grid -->
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px;">
+          <div class="metric-box">
+            <div class="metric-label">SCARP HEIGHT (H)</div>
+            <div class="metric-val" id="metric-h">11.8m</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label">COLLUVIUM WIDTH (W)</div>
+            <div class="metric-val" id="metric-w">15.4m</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label">3D SURFACE AREA</div>
+            <div class="metric-val" id="metric-area">113.1 m²</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label">DIP ANGLE (β)</div>
+            <div class="metric-val" id="metric-dip" style="color: var(--ink-strong);">42.0°</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label">DEBRIS VOLUME</div>
+            <div class="metric-val" id="metric-debris" style="color: #b27a29;">183 m³</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label">BOULDER (D50)</div>
+            <div class="metric-val" id="metric-d50" style="color: #bd5151;">1.10m</div>
+          </div>
+        </div>
+
+        <!-- Optical Metadata & Calibration Audit Strip -->
+        <div style="background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-xs); padding: 12px 14px; font-size: 11.5px; line-height: 1.5; color: var(--ink-soft);">
+          <div style="display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 4px;">
+            <span>OPTICAL CALIBRATION:</span>
+            <span id="optics-status-badge" style="color: var(--forest);">SMARTPHONE_26MM_BASELINE</span>
+          </div>
+          <div><strong>Camera Optics:</strong> <span id="optics-camera-desc">Unknown (35mm equiv: 26.0mm &bull; HFOV: 69.4&deg;)</span></div>
+          <div><strong>Scale Derivation:</strong> <span id="optics-scale-desc">EMPIRICAL_DATUM_BASELINE (5.25m over 358px)</span></div>
+          <div><strong>Depth Engine:</strong> <span id="optics-depth-desc">Depth Anything V2 Active &bull; Differential Normal Gradients</span></div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  let activeImage = new Image();
+  let activeImageSource = "https://lsjnontlkffkneiuxmwx.supabase.co/storage/v1/object/public/report-images/report_551bd487fdb4_1791799355.jpg";
+  let activeFile = null;
+
+  // Caliper state
+  let caliperPoints = [];
+  const canvas = document.getElementById("interactive-canvas");
+  const ctx = canvas.getContext("2d");
+
+  // Output plates cache
+  let currentPlates = {
+    plate: "/static/uploads/annotated/sam3_annotated_v2_production_eval.png",
+    inferno: "/static/uploads/annotated/depth_inferno_v3_test.png",
+    normals: "/static/uploads/annotated/normals_rgb_v3_test.png"
+  };
+
+  function initCanvas() {
+    activeImage.crossOrigin = "anonymous";
+    activeImage.onload = function() {
+      document.getElementById("canvas-placeholder").style.display = "none";
+      canvas.width = activeImage.naturalWidth;
+      canvas.height = activeImage.naturalHeight;
+      drawCanvas();
+    };
+    activeImage.src = activeImageSource;
+  }
+
+  function drawCanvas() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (activeImage.complete) {
+      ctx.drawImage(activeImage, 0, 0, canvas.width, canvas.height);
+    }
+
+    // Draw caliper points and line
+    if (caliperPoints.length > 0) {
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = "#a855f7";
+      ctx.fillStyle = "#a855f7";
+
+      caliperPoints.forEach((pt, idx) => {
+        ctx.beginPath();
+        ctx.arc(pt.x, pt.y, 6, 0, 2 * Math.PI);
+        ctx.fill();
+
+        // Label
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "bold 14px sans-serif";
+        ctx.fillText(idx === 0 ? "A" : "B", pt.x + 10, pt.y - 10);
+        ctx.fillStyle = "#a855f7";
+      });
+
+      if (caliperPoints.length === 2) {
+        ctx.beginPath();
+        ctx.moveTo(caliperPoints[0].x, caliperPoints[0].y);
+        ctx.lineTo(caliperPoints[1].x, caliperPoints[1].y);
+        ctx.stroke();
+
+        // Midpoint badge
+        const midX = (caliperPoints[0].x + caliperPoints[1].x) / 2;
+        const midY = (caliperPoints[0].y + caliperPoints[1].y) / 2;
+        const distPx = Math.hypot(caliperPoints[1].x - caliperPoints[0].x, caliperPoints[1].y - caliperPoints[0].y);
+        const distM = document.getElementById("caliper-distance-input").value;
+
+        ctx.fillStyle = "rgba(15, 23, 42, 0.85)";
+        ctx.fillRect(midX - 50, midY - 24, 100, 22);
+        ctx.fillStyle = "#fdba74";
+        ctx.font = "bold 12px sans-serif";
+        ctx.fillText(`${distM}m (${Math.round(distPx)}px)`, midX - 44, midY - 9);
+      }
+    }
+  }
+
+  canvas.addEventListener("click", function(e) {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+
+    const clickX = Math.round((e.clientX - rect.left) * scaleX);
+    const clickY = Math.round((e.clientY - rect.top) * scaleY);
+
+    if (caliperPoints.length >= 2) {
+      caliperPoints = [];
+    }
+
+    caliperPoints.push({ x: clickX, y: clickY });
+    drawCanvas();
+
+    const indicator = document.getElementById("caliper-indicator");
+    const statusText = document.getElementById("caliper-status-text");
+
+    if (caliperPoints.length === 1) {
+      indicator.style.background = "#eab308";
+      statusText.textContent = `Point A pinned at (${clickX}, ${clickY}) &bull; Now click Point B`;
+    } else if (caliperPoints.length === 2) {
+      indicator.style.background = "#22c55e";
+      const distPx = Math.round(Math.hypot(caliperPoints[1].x - caliperPoints[0].x, caliperPoints[1].y - caliperPoints[0].y));
+      statusText.innerHTML = `<strong>Ground Control Locked:</strong> 2 points pinned (${distPx}px). Scale factor will be pinned to this datum.`;
+    }
+  });
+
+  function resetCaliperPoints() {
+    caliperPoints = [];
+    drawCanvas();
+    document.getElementById("caliper-indicator").style.background = "#a855f7";
+    document.getElementById("caliper-status-text").textContent = "Caliper inactive • Click two points on any known object";
+  }
+
+  function loadLabSample(url, name) {
+    activeImageSource = url;
+    activeFile = null;
+    caliperPoints = [];
+    activeImage.src = url;
+  }
+
+  function handleLabFileUpload(e) {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    activeFile = file;
+    activeImageSource = null;
+    caliperPoints = [];
+
+    const reader = new FileReader();
+    reader.onload = function(evt) {
+      activeImage.src = evt.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function switchVisualPlate(type, btn) {
+    document.querySelectorAll(".view-tab-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    const imgView = document.getElementById("plate-img-view");
+    if (currentPlates[type]) {
+      imgView.src = currentPlates[type];
+    }
+  }
+
+  async function executePrecisionPipeline() {
+    const loading = document.getElementById("lab-loading-bar");
+    const btn = document.getElementById("btn-run-precision");
+    const runDepth = document.getElementById("chk-run-depth").checked;
+    const knownM = parseFloat(document.getElementById("caliper-distance-input").value) || 5.25;
+
+    if (loading) loading.style.display = "block";
+    if (btn) btn.disabled = true;
+
+    const payloadGCP = caliperPoints.length === 2 ? {
+      p1: [caliperPoints[0].x, caliperPoints[0].y],
+      p2: [caliperPoints[1].x, caliperPoints[1].y],
+      real_distance_m: knownM
+    } : null;
+
+    try {
+      let resp;
+      if (activeFile) {
+        const formData = new FormData();
+        formData.append("image", activeFile);
+        formData.append("run_depth_v2", runDepth ? "true" : "false");
+        formData.append("road_formation_w", knownM);
+        if (payloadGCP) formData.append("gcp_json", JSON.stringify(payloadGCP));
+
+        resp = await fetch("/api/experimental/photogrammetry/analyze", {
+          method: "POST",
+          body: formData
+        });
+      } else {
+        resp = await fetch("/api/experimental/photogrammetry/analyze", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            photo_url: activeImageSource,
+            run_depth_v2: runDepth,
+            road_formation_w: knownM,
+            ground_control_points: payloadGCP
+          })
+        });
+      }
+
+      const data = await resp.json();
+      if (data.success) {
+        currentPlates.plate = data.annotated_plate_url + "?t=" + Date.now();
+        currentPlates.inferno = data.depth_inferno_url + "?t=" + Date.now();
+        currentPlates.normals = data.normals_rgb_url + "?t=" + Date.now();
+
+        document.getElementById("plate-img-view").src = currentPlates.plate;
+
+        // Metrics
+        const m = data.geotechnical_metrics || {};
+        document.getElementById("metric-h").textContent = (m.scarp_height_m || "--") + "m";
+        document.getElementById("metric-w").textContent = (m.colluvium_width_m || "--") + "m";
+        document.getElementById("metric-area").textContent = (m.surface_area_3d_m2 || "--") + " m²";
+        document.getElementById("metric-dip").textContent = (m.slope_dip_angle_deg || "--") + "°";
+        document.getElementById("metric-debris").textContent = (Math.round(m.debris_volume_m3 || 0)) + " m³";
+        document.getElementById("metric-d50").textContent = (m.boulder_d50_m || "--") + "m";
+
+        // Optics
+        const opt = data.camera_optics || {};
+        document.getElementById("optics-status-badge").textContent = opt.status || "CALIBRATED";
+        document.getElementById("optics-camera-desc").textContent = `${opt.camera_make || 'Unknown'} ${opt.camera_model || ''} (${opt.focal_length_35mm || 26}mm &bull; HFOV: ${opt.hfov_deg || 69.4}&deg;)`;
+        document.getElementById("optics-scale-desc").textContent = data.scale_calibration.calibration_source;
+        document.getElementById("optics-depth-desc").textContent = data.depth_engine_status;
+      } else {
+        alert("Photogrammetry failed: " + (data.message || data.error));
+      }
+    } catch (err) {
+      alert("Error: " + err.message);
+    } finally {
+      if (loading) loading.style.display = "none";
+      if (btn) btn.disabled = false;
+    }
+  }
+
+  window.addEventListener("DOMContentLoaded", initCanvas);
+</script>
+{% endblock %}

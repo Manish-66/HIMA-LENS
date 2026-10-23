@@ -21,9 +21,13 @@ from flask import Flask, jsonify, render_template, request, Response
 import supabase_db
 import ai_assessment
 import cap_engine
+import geotech_vision
+import photogrammetry_engine
 from config import (
+    ANNOTATED_PLATES_DIR,
     APP_DESCRIPTION,
     APP_NAME,
+    BASE_DIR,
     CESIUM_ION_TOKEN,
     DATASET_PATH,
     DISTRICT_BOUNDARIES_PATH,
@@ -971,6 +975,57 @@ def save_custom_ai_assessment(report_id: str):
     ai_assessment.save_assessment_to_cache(report_id, payload)
     return jsonify(success=True, report_id=report_id, message="Custom assessment persisted.")
 
+
+@app.route("/api/reports/<report_id>/vision-annotate", methods=["GET", "POST"])
+def get_or_create_vision_annotation(report_id: str):
+    """Generates or retrieves SAM-3 publication plate and metric photogrammetry for a report photo."""
+    report = find_report_by_id(report_id)
+    if not report:
+        return jsonify(success=False, error="REPORT_NOT_FOUND", message=f"Report '{report_id}' not found."), 404
+
+    photo_url = report.get("photo_url", "")
+    if not photo_url:
+        return jsonify(success=False, error="NO_PHOTO", message="Report does not have an attached photograph."), 400
+
+    try:
+        result = geotech_vision.segment_and_annotate(photo_url, identifier=report_id)
+        return jsonify(success=True, report_id=report_id, **result)
+    except Exception as exc:
+        return jsonify(success=False, error="VISION_FAILED", message=str(exc)), 500
+
+
+@app.post("/api/vision/segment-annotate")
+def vision_segment_and_annotate_upload():
+    """Direct testing and field photogrammetry API for uploaded images via Roboflow SAM-3."""
+    if "image" in request.files:
+        f = request.files["image"]
+        raw_input = f.read()
+    elif "file" in request.files:
+        f = request.files["file"]
+        raw_input = f.read()
+    else:
+        payload = request.get_json(silent=True) or {}
+        photo_url = payload.get("photo_url") or payload.get("image_url")
+        if photo_url:
+            raw_input = photo_url
+        elif payload.get("image_base64"):
+            import base64
+            raw_input = base64.b64decode(payload["image_base64"])
+        else:
+            return jsonify(
+                success=False,
+                error="MISSING_IMAGE",
+                message="Upload an image file ('image' or 'file') or provide 'photo_url' in JSON.",
+            ), 400
+
+    try:
+        custom_id = request.args.get("identifier")
+        result = geotech_vision.segment_and_annotate(raw_input, identifier=custom_id)
+        return jsonify(success=True, **result)
+    except Exception as exc:
+        return jsonify(success=False, error="VISION_FAILED", message=str(exc)), 500
+
+
 @app.get("/report/pwd-sheet/<report_id>")
 def view_pwd_sheet(report_id: str):
     report = find_report_by_id(report_id)
@@ -978,11 +1033,26 @@ def view_pwd_sheet(report_id: str):
         return f"Report with ID {report_id} was not found.", 404
 
     force = request.args.get("force", "").lower() in ("1", "true", "yes")
+    annotated = request.args.get("annotated", "").lower() in ("1", "true", "yes")
+
+    # If experimental annotated plate is requested (Admin only evaluation)
+    display_report = dict(report)
+    if annotated:
+        annotated_file = BASE_DIR / "static" / "uploads" / "annotated" / f"sam3_annotated_{report_id}.png"
+        if annotated_file.exists():
+            display_report["photo_url"] = f"/static/uploads/annotated/sam3_annotated_{report_id}.png"
+        elif report.get("photo_url"):
+            try:
+                res = geotech_vision.segment_and_annotate(report["photo_url"], identifier=report_id)
+                display_report["photo_url"] = res.get("annotated_plate_url", report["photo_url"])
+            except Exception:
+                pass
+
     # Read from cache or run deterministic calculation
     assessment = ai_assessment.generate_ai_assessment(report, force_refresh=force)
     assessment = ai_assessment.normalize_assessment_structure(assessment, report)
     boq = assessment.get("cost_estimate_boq") or geotech_engine.calculate_comprehensive_cost_and_loss_estimate(assessment, report)
-    return render_template("pwd_sheet.html", report=report, assessment=assessment, boq=boq)
+    return render_template("pwd_sheet.html", report=display_report, assessment=assessment, boq=boq)
 
 @app.get("/report/solution-sheet/<report_id>")
 @app.get("/report/pwd-sheet-v1/<report_id>")
@@ -1084,8 +1154,85 @@ def admin_command_console():
         cap_xml=cap_xml,
         current_district=district,
         current_range=time_range,
-        active_tab=active_tab
+        active_tab=active_tab,
     )
+
+
+# =============================================================================
+# STANDALONE HIDDEN EXPERIMENTAL PHOTOGRAMMETRY & VISION LAB
+# =============================================================================
+
+@app.get("/experimental/photogrammetry-lab")
+def experimental_photogrammetry_lab():
+    """Completely unlisted, standalone experimental photogrammetry lab (hidden from main site and admin page)."""
+    return render_template("hidden_photogrammetry_lab.html")
+
+
+@app.post("/api/experimental/photogrammetry/analyze")
+def api_experimental_photogrammetry_analyze():
+    """Runs the 3-modality precision photogrammetry pipeline (EXIF + Depth V2 + Ground Control + SAM-3)."""
+    raw_input = None
+    ground_control_points = None
+    run_depth_v2 = True
+    focal_override = None
+    road_formation_w = 5.25
+
+    if "image" in request.files:
+        f = request.files["image"]
+        raw_input = f.read()
+        run_depth_v2 = request.form.get("run_depth_v2", "true").lower() in ("1", "true", "yes")
+        road_formation_w = float(request.form.get("road_formation_w", 5.25))
+        gcp_str = request.form.get("gcp_json")
+        if gcp_str:
+            try:
+                ground_control_points = json.loads(gcp_str)
+            except Exception:
+                pass
+    else:
+        payload = request.get_json(silent=True) or {}
+        raw_input = payload.get("photo_url") or payload.get("image_url")
+        run_depth_v2 = bool(payload.get("run_depth_v2", True))
+        road_formation_w = float(payload.get("road_formation_w", 5.25))
+        focal_override = payload.get("focal_length_mm")
+        ground_control_points = payload.get("ground_control_points")
+
+    if not raw_input:
+        return jsonify(success=False, error="NO_IMAGE", message="Provide an image file or 'photo_url' in request."), 400
+
+    try:
+        result = photogrammetry_engine.execute_precision_photogrammetry(
+            raw_input,
+            ground_control_points=ground_control_points,
+            focal_length_override_mm=focal_override,
+            road_formation_w=road_formation_w,
+            run_depth_v2=run_depth_v2,
+        )
+        return jsonify(success=True, **result)
+    except Exception as exc:
+        return jsonify(success=False, error="PHOTOGRAMMETRY_FAILED", message=str(exc)), 500
+
+
+@app.post("/api/admin/vision/batch-annotate")
+def admin_batch_vision_annotate():
+    """Admin endpoint to batch-run SAM-3 photogrammetry across all community reports with photos."""
+    reports = supabase_db.fetch_community_reports(include_hidden=True)
+    results = []
+    for r in reports:
+        photo_url = r.get("photo_url")
+        if not photo_url:
+            continue
+        rid = r.get("id")
+        try:
+            res = geotech_vision.segment_and_annotate(photo_url, identifier=rid)
+            results.append({
+                "report_id": rid,
+                "status": "SUCCESS",
+                "plate_url": res["annotated_plate_url"],
+                "metrics": res["metrics"],
+            })
+        except Exception as exc:
+            results.append({"report_id": rid, "status": "ERROR", "error": str(exc)})
+    return jsonify(success=True, results=results)
 
 @app.get("/api/admin/metrics")
 def api_admin_metrics():
