@@ -111,22 +111,22 @@ def extract_ml_kinematic_parameters(
     rock_name = geol.get("prominent_soil_rock") or obs.get("prominent_rock_type") or "Sandstone"
 
     # 4. Badges & Callouts
-    top_badge = f"SLIP PLANE: {dip_deg}° DAYLIGHTING"
+    top_badge = f"SLIP PLANE: {dip_deg}&deg; DAYLIGHTING"
     if mode == "rotational_slump":
-        top_badge = f"CIRCULAR SLIP ARC &bull; DIP: {dip_deg}°"
+        top_badge = f"CIRCULAR SLIP ARC &bull; DIP: {dip_deg}&deg;"
     elif mode == "rockfall":
-        top_badge = f"SUB-VERTICAL CLIFF &bull; CUT: {cut_deg}°"
+        top_badge = f"SUB-VERTICAL CLIFF &bull; CUT: {cut_deg}&deg;"
     elif mode == "debris_flow":
-        top_badge = f"DEBRIS RUNOUT &bull; SLOPE: {cut_deg}°"
+        top_badge = f"DEBRIS RUNOUT &bull; SLOPE: {cut_deg}&deg;"
     elif mode == "wedge":
-        top_badge = f"INTERSECTING JOINTS &bull; PLUNGE: {dip_deg}°"
+        top_badge = f"INTERSECTING JOINTS &bull; PLUNGE: {dip_deg}&deg;"
 
     return {
         "mode": mode,
         "mode_label": mode_label,
         "dip_deg": dip_deg,
         "cut_deg": cut_deg,
-        "cut_angle_str": f"{cut_deg}°–{min(85, cut_deg + 2)}°",
+        "cut_angle_str": f"{cut_deg}&#176;&ndash;{min(85, cut_deg + 2)}&#176;",
         "formation_w": formation_w,
         "open_w": open_w,
         "rock_name": rock_name,

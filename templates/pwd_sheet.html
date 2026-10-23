@@ -907,7 +907,7 @@
         <div class="schematic-frame-box">
           <div class="schematic-top-bar">
             <span>ENGINEERED FAILURE CROSS-SECTION &bull; ML KINEMATIC MODEL</span>
-            <span style="color: #ffffff;">{{ assessment.schematic_top_badge or 'SLIP PLANE: 57° DAYLIGHTING' }}</span>
+            <span style="color: #ffffff;">{{ (assessment.schematic_top_badge or 'SLIP PLANE: 57&deg; DAYLIGHTING') | safe }}</span>
           </div>
           <div class="schematic-svg-wrap">
             {% if assessment.schematic_svg %}
