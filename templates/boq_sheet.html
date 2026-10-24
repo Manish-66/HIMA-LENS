@@ -39,7 +39,8 @@
 
     /* Screen Top Action Bar (Hidden on Print) */
     .screen-action-bar {
-      max-width: 920px;
+      width: 210mm;
+      max-width: 100%;
       margin: 0 auto 14px auto;
       display: flex;
       flex-wrap: wrap;
@@ -111,16 +112,21 @@
       width: 100%;
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
+      padding: 0 4px 30px 4px;
+      display: flex;
+      justify-content: center;
     }
     .report-canvas {
-      width: 920px;
-      min-width: 920px;
+      width: 210mm;
+      min-width: 210mm;
+      max-width: 210mm;
       margin: 0 auto;
     }
 
     .mobile-hint-banner {
       display: none;
-      max-width: 920px;
+      width: 210mm;
+      max-width: 100%;
       margin: 0 auto 10px auto;
       background: #eff6ff;
       border: 1px solid #bfdbfe;
@@ -134,16 +140,25 @@
 
     /* Standard A4 Printable Page Frame (Fills Sheet with zero white waste) */
     .report-page {
-      width: 920px;
+      width: 210mm;
+      min-width: 210mm;
+      max-width: 210mm;
+      height: 297mm;
+      min-height: 297mm;
+      max-height: 297mm;
       margin: 0 auto 20px auto;
       background: #ffffff;
-      padding: 20px 26px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
-      border: 2px solid var(--border-dark);
+      padding: 6mm 8mm;
+      box-shadow: 0 6px 25px rgba(15, 23, 42, 0.22);
+      border: 1.5px solid var(--border-dark);
       page-break-after: always;
       break-after: page;
       box-sizing: border-box;
       position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
     }
     .report-page:last-child {
       margin-bottom: 0;
@@ -610,6 +625,7 @@
     <div class="brand">
       <span class="hl-tag">HIMA-LENS</span>
       <span class="hl-tag" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);">{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-CR-') if assessment.telemetry.report_id else 'IITM-CR-RECORD') }}</span>
+      <span class="hl-tag" style="background: #0284c7; border: 1px solid rgba(255,255,255,0.35); font-weight: 800;">ISO A4 &bull; 210 &times; 297 mm</span>
       <span>IIT Mandi Slope Technical Assessment &bull; BOQ &amp; Loss Estimate</span>
     </div>
     <div class="action-btn-cluster">
