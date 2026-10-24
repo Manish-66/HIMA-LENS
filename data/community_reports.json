@@ -25,7 +25,739 @@
     "description": "",
     "reporter_name": "",
     "photo_url": "/static/uploads/reports/report_69700c8a2420_1789645560.jpg",
-    "created_at": "2026-09-17T11:46:00.020093Z"
+    "created_at": "2026-09-17T11:46:00.020093Z",
+    "ai_assessment": {
+      "is_landslide_or_terrain": true,
+      "validation_status": "VALID_TERRAIN_IMAGE",
+      "detected_content": "Authentic geological terrain failure (Phyllite)",
+      "rejection_reason": null,
+      "source": "HIMA-LENS Senior Engineering Vision (gemini-3.1-flash-lite)",
+      "generated_at": "23 Oct 2026, 15:49 UTC",
+      "telemetry": {
+        "report_id": "IITM-CR-6C5DBB52",
+        "report_reference": "IITM-CR-6C5DBB52",
+        "district": "Mandi",
+        "site_road_name": "Mandi Sector \u2014 Highway / Transport Corridor",
+        "location_chainage": "RD 17+484 (Km 17/484)",
+        "road_type": "Mountain Highway",
+        "inspection_date": "2026-09-17",
+        "elevation": "1,090 m AMSL",
+        "coordinates_dms": "Lat: 31\u00b046'21\" N | Long: 76\u00b059'02\" E",
+        "coordinates_dec": "31.77271\u00b0 N, 76.98416\u00b0 E",
+        "reported_movement": "Translational slide transitioning into debris flow",
+        "reported_severity": "High",
+        "reporter_name": "Community Field Observer",
+        "user_notes": "Field observation recorded via HIMA-LENS spatial observatory."
+      },
+      "site_context": {
+        "environment_type": "Highway / Transport Corridor",
+        "impacted_assets": "Major mountain highway (NH/SH category) with significant loss of road shoulder and embankment integrity.",
+        "structural_damage": "Partial collapse of the retaining wall system and undermining of the road pavement structure."
+      },
+      "slope_characteristics": {
+        "presence_above": true,
+        "presence_below": true,
+        "presence_both": true,
+        "in_situ_rock": true,
+        "in_situ_soil": "Highly weathered, sheared phyllitic colluvium",
+        "debris_accumulation": "Chaotic mass of fine-grained soil and angular rock fragments",
+        "slope_type_cut": true,
+        "slope_type_fill": false,
+        "slope_type_natural": "Steep, unstable mountain slope with active erosion",
+        "slope_height_above": "45m",
+        "cut_slope_angle": "55 degrees",
+        "slope_geometry_below": "Valley drop ~ 19 m",
+        "slope_geometry_profile": "Concave-convex"
+      },
+      "road_impact": {
+        "road_alignment": "Curvilinear",
+        "fencing_type": "Metal crash barriers",
+        "width_before": "5.75 m (Carriageway + Berm)",
+        "width_after": "0.00 m (Fully Blocked Carriageway)",
+        "pavement_type": "Flexible Bituminous Pavement (BT)",
+        "shoulder_width": "1.25 m",
+        "number_of_lanes": "Two-Lane Carriageway (7.0m)",
+        "way": "Two-way Traffic Flow",
+        "width_of_median": "None (Hill Road Formation)",
+        "bridge_present": "No",
+        "culvert_present": "Yes (Box culvert inlet choked with boulder debris upstream)",
+        "carriageway_status": "Blocked"
+      },
+      "protection_works": [
+        {
+          "structure": "Retaining wall",
+          "above": true,
+          "below": false,
+          "prev_cut": false,
+          "prev_nat": false,
+          "rem_cut": true,
+          "rem_nat": false
+        },
+        {
+          "structure": "Gabion",
+          "above": true,
+          "below": true,
+          "prev_cut": false,
+          "prev_nat": false,
+          "rem_cut": true,
+          "rem_nat": true
+        },
+        {
+          "structure": "Drainage",
+          "above": true,
+          "below": true,
+          "prev_cut": true,
+          "prev_nat": false,
+          "rem_cut": true,
+          "rem_nat": false
+        },
+        {
+          "structure": "Bioengineering",
+          "above": true,
+          "below": false,
+          "prev_cut": true,
+          "prev_nat": true,
+          "rem_cut": false,
+          "rem_nat": false
+        },
+        {
+          "structure": "Earthworks",
+          "above": true,
+          "below": false,
+          "prev_cut": false,
+          "prev_nat": false,
+          "rem_cut": true,
+          "rem_nat": false
+        },
+        {
+          "structure": "Anchor (soil/rock)",
+          "above": true,
+          "below": false,
+          "prev_cut": true,
+          "prev_nat": false,
+          "rem_cut": true,
+          "rem_nat": false
+        },
+        {
+          "structure": "Netting",
+          "above": true,
+          "below": false,
+          "prev_cut": true,
+          "prev_nat": false,
+          "rem_cut": true,
+          "rem_nat": false
+        }
+      ],
+      "geology": {
+        "prominent_soil_rock": "Phyllite",
+        "prominent_rock_desc": "Phyllite with interbedded structural jointing",
+        "colour": "Greyish-brown",
+        "jointing_spacing": "Close (20-60mm)",
+        "strength": "R2 (Weak)",
+        "dip_joints": "Yes, daylighting joints",
+        "minerals_present": "Micaceous matrix",
+        "joint_orientation": "Strike N21\u00b0W, Dip 53\u00b0 SW",
+        "dip_strike_relation": "Dipping towards valley and road carriage (Kinematic Daylighting)",
+        "weathering_grade": "Grade IV",
+        "material_type": "Coarse Colluvial Overburden with Jointed Dolomite and Sandstone Clasts",
+        "fracture_pattern": "Highly fractured and foliated"
+      },
+      "defects_and_distress": {
+        "defects_on_slope": {
+          "gully": true,
+          "crack": true,
+          "unstable_rock": true,
+          "seepage": true,
+          "erosion": true,
+          "landslide": true
+        },
+        "road_surface": {
+          "crack": true,
+          "heaving": false,
+          "settlement": true,
+          "recent_repair": false
+        },
+        "roadside_drain": {
+          "overflow": true,
+          "clogged_100": true,
+          "deformation": true,
+          "crack": true,
+          "width": "0.84 m",
+          "depth": "0.61 m"
+        },
+        "slope_drainage": {
+          "overflow": true,
+          "clogged_100": true,
+          "deformation": true,
+          "crack": true,
+          "width": "1.01 m",
+          "depth": "0.79 m"
+        },
+        "distress_remarks": "Detached boulder mass (365 m\u00b3) settled directly across the carriageway. Hillside drainage compromised under heavy surcharge thrust."
+      },
+      "pavement_dimensions": {
+        "potholes": "Width: 1.25 m | Depth: 0.16 m",
+        "subsidence": "Width: 3.70 m | Depth: 0.35 m",
+        "rutting": "Observed along outer wheel track due to subgrade moisture saturation"
+      },
+      "retaining_wall_specs": {
+        "shape_front": "Sloping / Battered (1:4.5)",
+        "shape_back": "Vertical Face with Backdrain",
+        "shape_base": "Horizontal Keyed Base (1:5)",
+        "material": "Stone masonry and concrete",
+        "height_m": 3.7,
+        "length_m": 19.6,
+        "embedded_depth_m": 1.0,
+        "top_width_m": 0.6,
+        "base_width_m": 1.85,
+        "length_affected_m": 17.8,
+        "distress_crack": true,
+        "distress_bulging": true,
+        "distress_collapse": true,
+        "distress_joint": true,
+        "signs_of_distress": "Toe Bulging, Shear Cracking & Overtopping",
+        "distress_behind": "Unconsolidated rock scree accumulation against wall back",
+        "distress_in_front": "Toe scour, pavement deformation, and boulder debris encroachment",
+        "weep_holes": "100 mm dia PVC pipes @ 1.20 m c/c staggered with non-woven geotextile gravel envelope"
+      },
+      "drainage_and_bioengineering": {
+        "roadside_drain": "Destroyed / Silt-choked (20 m section)",
+        "lined_channel": "Proposed Lined Chute (22 m run to natural ravine)",
+        "lined_cutoff": "Choked with debris; immediate desilting required",
+        "french_drain": "Required along slope toe to alleviate foundation pore pressure",
+        "check_dam": "3 Nos. Gabion check dams proposed in uphill feeder gully",
+        "catch_drain": "Required at slope crest to divert catchment runoff away from structures",
+        "bioengineering_desc": "Hydro-seeding with native grass mixes, coir geotextile netting (700 GSM), and brush layering along upper cut bench (IRC:SP:48)."
+      },
+      "drainage": {
+        "roadside_stone": true,
+        "roadside_concrete": false,
+        "lined_channel": true,
+        "lined_cutoff": true,
+        "counterfort": true,
+        "branched": false,
+        "unlined_cutoff": false,
+        "horizontal": false,
+        "sub_surface": true,
+        "herringbone": true,
+        "check_dam": true,
+        "slope_surface": true,
+        "material": "Stone Masonry (1:4 cement mortar) with 100mm M15 Concrete Bedding",
+        "signs_of_distress": "Inlet choked by boulder colluvium; longitudinal cracking and deformation along slope-side wall"
+      },
+      "bioengineering": {
+        "description": "Hydro-seeding with native grass mixes, coir geotextile netting (700 GSM), and brush layering along upper cut bench (IRC:SP:48).",
+        "signs_of_distress": "Surface root shear along active slip scarp; rill erosion bypassing vegetative strips"
+      },
+      "gabion_and_earthworks": {
+        "gabion_wall": {
+          "wire_dia": "3.00 mm (Heavy Galvanized GI to IS:280 / IS:4826)",
+          "mesh_dia": "100 mm x 120 mm (Hexagonal double-twisted to IS:16014)",
+          "base_width": "2.60 m",
+          "top_width": "1.00 m",
+          "total_height": "3.50 m",
+          "embedded_depth": "0.80 m",
+          "packing": "Tight hand-packed sound river/quarry stone boulders (density >= 18 kN/m3)",
+          "signs_of_distress": "Wire bulging, mesh deformation, and differential settlement under surcharge",
+          "distress_behind": "Active backfill settlement and lateral earth pressure surcharge",
+          "distress_in_front": "Toe scour and channel erosion along stream bed"
+        },
+        "excavation": {
+          "material": "Saturated Colluvium & Soil Debris (Hydraulic Breaker Required)",
+          "dimensions": "3.00 m (H) x 19.60 m (L) x 6.20 m (W)",
+          "volume_m3": 364.6,
+          "h_m": 3.0,
+          "l_m": 19.6,
+          "w_m": 6.2
+        },
+        "fill": {
+          "material": "Granular Backfill with non-woven geotextile filter separator (IRC:SP:48)",
+          "dimensions": "0.35 m (H) x 19.60 m (L) x 2.22 m (W)",
+          "volume_m3": 15.23,
+          "h_m": 0.35,
+          "l_m": 19.6,
+          "w_m": 2.22
+        }
+      },
+      "mitigation_measures": "1. Primary Toe Retention & Arrest (LaRiMiT Cluster 4 / IS:14458 / CEDD Geoguide 1):\n   Emergency hydraulic clearance of 365 m\u00b3 displaced debris followed by construction of a 20m long Plum Concrete Breast Wall (H=3.7m, Base=1.85m, Embedment=1.00m) with 100mm dia PVC weep holes @ 1.20m c/c staggered in non-woven geotextile envelopes.\n2. Internal Ground Reinforcement (LaRiMiT Cluster 5 / CEDD Geoguide 7):\n   Prescribed Soil Nailing Array (Dia. 28 mm (Fe500 High-Yield Deformed Steel)) installed in 125 mm drillholes at 15\u00b0 to 20\u00b0 downward rake, 1.75 m (H) x 1.75 m (V) Staggered Pattern, length 10.0 m to 14.0 m, neat cementitious grout (f_cu >= 30 MPa) with 2% sacrificial pullout verification testing.\n3. Hydrogeological Pore-Pressure Depression (LaRiMiT Cluster 3 / CEDD TGN 24):\n   Subsurface Directional Drainage Array: 15.0 m per borehole (Total 5 Nos. array) slotted PVC pipes (O90 geotextile filter sock) installed at 5\u00b0 to 10\u00b0 upward rake for gravity self-cleansing flow to discharge perched groundwater, supplemented by lined crest interceptor catch drains (0.84 m x 0.61 m) and hillside saucer channels.\n4. Dynamic Rockfall / Debris Barrier (LaRiMiT Cluster 6 / CEDD GEO Report 138):\n   Installation of 3000 kJ Rating flexible ring net barrier (H=5.0 m, HEB 220 Structural Steel Section) with energy dissipators along active fall chutes.\n5. Nature-Based Solutions & Bioengineering (LaRiMiT Cluster 8):\n   Deep-Rooting Vetiver Grass Contour Hedges (Chrysopogon zizanioides) and coir geotextile bio-turfing (700 GSM) across reprofiled slope faces to restore matric suction and prevent shallow surficial raveling.",
+      "other_observations": "Sub-surface groundwater seepage daylighting along the colluvial mantle and Phyllite bedrock interface, confirming elevated perched phreatic levels during rainfall. Active extensional tension fissures (apertures 15-45 mm) trace 8-15 m uphill of the detachment crown. Relict discontinuity set J1 (53\u00b0 dip daylighting adversely into the slope face) exhibits planar persistent slickensides with iron-oxide staining, confirming kinematic daylighting and high susceptibility to progressive retrogressive failure during prolonged monsoon precipitation.",
+      "safety_directives": {
+        "utility_hazard": "Potential damage to buried optical fiber cables and roadside drainage conduits.",
+        "electrical_hazard": "Potential damage to buried optical fiber cables and roadside drainage conduits.",
+        "machinery_deployment": "Heavy hydraulic excavators (JCB/Hitachi) and rock breakers required for debris clearance and slope benching.",
+        "traffic_restoration": "Immediate restriction to single-lane traffic; full closure recommended during active precipitation.",
+        "permanent_restoration": "Construction of a reinforced concrete breast wall with deep-seated soil nailing and systematic drainage improvement."
+      },
+      "visual_analysis": {
+        "material_composition": "Phyllite (Greyish-brown)",
+        "slope_condition": "Cut angle 71\u00b0 to 75\u00b0 (Steep Unstable Hill Cut), Convex Escarpment",
+        "infrastructure_impact": "Major mountain highway (NH/SH category) with significant loss of road shoulder and embankment integrity.: Partial collapse of the retaining wall system and undermining of the road pavement structure.",
+        "drainage_and_seepage": "Seepage: Active, Drainage: Clogged / Lacking"
+      },
+      "synthesis_remarks": "1. GEOTECHNICAL & USGS CLASSIFICATION (USGS Circular 1325 / Cruden & Varnes 1996):\nForensic field reconnaissance of the Mandi sector confirms an active mass wasting event conforming strictly to the USGS standard definition of a landslide: \"A landslide is a general term used to describe the downslope movement of soil, rock, and organic materials under the effects of gravity and also the landform that results from such movement.\"\nUnder the Cruden & Varnes (1996) two-term taxonomy, the failure is formally designated as: Translational Rock Slide (Rock Block Slide) (Kinematic Movement: Translational Slide, Substrate: Rock, Velocity Rating: Rapid [Class 5, 1.8 m/h to 3 m/min]).\n\n2. CONSEQUENCE RATING & TARGET FACTOR OF SAFETY (CEDD Geoguide 1):\nDirectly impacting mandi sub-divisional hill road corridor. Under Hong Kong CEDD Geoguide 1 criteria, the slope is classified as Category 2 (Moderate Consequence), requiring a statutory minimum target Factor of Safety FOS >= 1.25 under 10-year return period rainfall (FOS >= 1.15 under extreme storm conditions).\n\n3. KINEMATIC FAILURE MECHANICS, ANATOMY & HYDROGEOLOGY:\nInstability is characterized by A landslide mass that moves out, or down and outward, along a relatively planar surface with little rotational movement or backward tilting; frequently controlled by structural discontinuities (bedding, joints, faults). within Phyllite strata under steep cut geometry (55\u00b0 to 59\u00b0 (Moderately Stable Cut)). Diagnostic landslide anatomical features (USGS Circular 1325) include an exposed detachment main scarp and depletion mass, open tension crown fissures, and an accumulation toe encroaching upon the corridor. Failure was triggered by antecedent rainfall infiltration inducing transient perched groundwater tables, loss of matric suction in the upper colluvium, and hydrostatic cleft-water pressure along daylighting relict joints (dipping 53\u00b0 into the cut face).\n\n4. MULTI-BARRIER MITIGATION STRATEGY (LaRiMiT / CEDD GEO Standards):\n- Primary Toe Retention (LaRiMiT Cluster 4): Construction of a 13m long Plum Concrete Breast Wall (H=2.0m, Base B=1.00m) founded on competent bedrock with 100mm PVC weep holes @ 1.2m c/c.\n- Internal Ground Reinforcement (LaRiMiT Cluster 5 / CEDD Geoguide 7): Prescribed Soil Nailing Array (Dia. 25 mm (Fe500 High-Yield Deformed Steel), 2.25 m (H) x 2.25 m (V) Square Pattern, length 6.0 m to 9.0 m) with sacrificial pullout verification testing.\n- Pore Pressure Relief (LaRiMiT Cluster 3 / CEDD TGN 24): Installation of 15.0 m per borehole (Total 4 Nos. array) sub-horizontal slotted PVC relief drains inclined at 5\u00b0 to 10\u00b0 upward rake for gravity self-cleansing flow to intercept perched seepage, paired with lined crest interceptor drains (0.84 m x 0.61 m).\n- Dynamic Impact & NBS Protection: 500 kJ Rating flexible ring net barrier (CEDD GEO Report No. 138 / EOTA EAD 340059-00-0106) in fall zones, combined with Live Vegetated Crib Wall / Timber Cribbing.\n\n5. STATUTORY MAINTENANCE REGIME:\nMandatory Engineer Inspection for Maintenance (EIM) at Every 2 years for Category 1 slopes; every 5 years for Category 2/3 slopes by a Qualified Geotechnical Engineer (Executive / Assistant Engineer) in strict accordance with CEDD Geoguide 5.",
+      "senior_engineer_remarks": "1. GEOTECHNICAL & USGS CLASSIFICATION (USGS Circular 1325 / Cruden & Varnes 1996):\nForensic field reconnaissance of the Mandi sector confirms an active mass wasting event conforming strictly to the USGS standard definition of a landslide: \"A landslide is a general term used to describe the downslope movement of soil, rock, and organic materials under the effects of gravity and also the landform that results from such movement.\"\nUnder the Cruden & Varnes (1996) two-term taxonomy, the failure is formally designated as: Translational Rock Slide (Rock Block Slide) (Kinematic Movement: Translational Slide, Substrate: Rock, Velocity Rating: Rapid [Class 5, 1.8 m/h to 3 m/min]).\n\n2. CONSEQUENCE RATING & TARGET FACTOR OF SAFETY (CEDD Geoguide 1):\nDirectly impacting mandi sub-divisional hill road corridor. Under Hong Kong CEDD Geoguide 1 criteria, the slope is classified as Category 2 (Moderate Consequence), requiring a statutory minimum target Factor of Safety FOS >= 1.25 under 10-year return period rainfall (FOS >= 1.15 under extreme storm conditions).\n\n3. KINEMATIC FAILURE MECHANICS, ANATOMY & HYDROGEOLOGY:\nInstability is characterized by A landslide mass that moves out, or down and outward, along a relatively planar surface with little rotational movement or backward tilting; frequently controlled by structural discontinuities (bedding, joints, faults). within Phyllite strata under steep cut geometry (55\u00b0 to 59\u00b0 (Moderately Stable Cut)). Diagnostic landslide anatomical features (USGS Circular 1325) include an exposed detachment main scarp and depletion mass, open tension crown fissures, and an accumulation toe encroaching upon the corridor. Failure was triggered by antecedent rainfall infiltration inducing transient perched groundwater tables, loss of matric suction in the upper colluvium, and hydrostatic cleft-water pressure along daylighting relict joints (dipping 53\u00b0 into the cut face).\n\n4. MULTI-BARRIER MITIGATION STRATEGY (LaRiMiT / CEDD GEO Standards):\n- Primary Toe Retention (LaRiMiT Cluster 4): Construction of a 13m long Plum Concrete Breast Wall (H=2.0m, Base B=1.00m) founded on competent bedrock with 100mm PVC weep holes @ 1.2m c/c.\n- Internal Ground Reinforcement (LaRiMiT Cluster 5 / CEDD Geoguide 7): Prescribed Soil Nailing Array (Dia. 25 mm (Fe500 High-Yield Deformed Steel), 2.25 m (H) x 2.25 m (V) Square Pattern, length 6.0 m to 9.0 m) with sacrificial pullout verification testing.\n- Pore Pressure Relief (LaRiMiT Cluster 3 / CEDD TGN 24): Installation of 15.0 m per borehole (Total 4 Nos. array) sub-horizontal slotted PVC relief drains inclined at 5\u00b0 to 10\u00b0 upward rake for gravity self-cleansing flow to intercept perched seepage, paired with lined crest interceptor drains (0.84 m x 0.61 m).\n- Dynamic Impact & NBS Protection: 500 kJ Rating flexible ring net barrier (CEDD GEO Report No. 138 / EOTA EAD 340059-00-0106) in fall zones, combined with Live Vegetated Crib Wall / Timber Cribbing.\n\n5. STATUTORY MAINTENANCE REGIME:\nMandatory Engineer Inspection for Maintenance (EIM) at Every 2 years for Category 1 slopes; every 5 years for Category 2/3 slopes by a Qualified Geotechnical Engineer (Executive / Assistant Engineer) in strict accordance with CEDD Geoguide 5.",
+      "plain_language_explanation": {
+        "summary_title": "Active Slope Failure and Roadway Undermining",
+        "what_happened": "A significant portion of the hillside has detached, causing a landslide that has undermined the road structure.",
+        "why_it_happened": "The failure is driven by the weak, foliated nature of the local phyllite rock, exacerbated by water infiltration and poor drainage.",
+        "property_and_access_impact": "The road is partially blocked and structurally compromised, posing a risk of further collapse.",
+        "road_and_travel_impact": "Passage is obstructed (3.80 m (Single-Lane Traffic Operable)). Vehicles and pedestrians cannot safely transit this point.",
+        "ongoing_hazards": "Risk of secondary rockfalls and further subsidence of the road pavement.",
+        "what_needs_to_be_done": "Immediate debris removal, installation of temporary shoring, and long-term slope stabilization using soil nails and drainage.",
+        "citizen_safety_advice": "Avoid the area, do not park vehicles near the scarp, and follow all traffic diversions."
+      },
+      "advanced_geotechnical_stabilization": {
+        "usgs_classification": {
+          "usgs_general_definition": "A landslide is a general term used to describe the downslope movement of soil, rock, and organic materials under the effects of gravity and also the landform that results from such movement.",
+          "usgs_kinematic_definition": "A downslope movement of rock or soil, or both, occurring on the surface of rupture\u2014either curved (rotational slide) or planar (translational slide) rupture\u2014in which much of the material often moves as a coherent or semicoherent mass with little internal deformation.",
+          "two_term_classification": "Rock Flow (Deep-Seated Creep)",
+          "primary_movement": "Flow",
+          "material_class": "Rock",
+          "material_definition": "A hard or firm mass that was intact and in its natural place before the initiation of movement.",
+          "movement_definition": "Spatially continuous movement in which shear surfaces are short-lived, closely spaced, and usually not preserved; component velocities resemble those in a viscous fluid.",
+          "velocity_class": {
+            "class_code": "Class 6",
+            "rate_name": "Very Rapid",
+            "velocity_range": "3 m/min to 5 m/s",
+            "consequences": "Loss of life expected; some temporary evacuation possible; structures destroyed."
+          },
+          "landslide_anatomy": {
+            "crown_and_scarp": "Undisplaced crown with open extensional crown cracks; distinct steep main scarp exposing rupture surface.",
+            "displaced_mass": "Depleted mass above planar/rotational surface of rupture, extending downslope into zone of accumulation.",
+            "toe_and_foot": "Displaced foot advancing beyond toe of rupture surface across roadway/property margin."
+          },
+          "causal_factors": {
+            "geological": [
+              "Weak, weathered, or fractured rock and soil materials",
+              "Adversely oriented structural discontinuities (faults, joints, bedding planes daylighting into cut face)"
+            ],
+            "morphological": [
+              "Fluvial or wave erosion undermining the slope toe",
+              "Tectonic or steep gravitational escarpment oversteepening"
+            ],
+            "physical_trigger": [
+              "Prolonged antecedent precipitation and high-intensity storm rainfall",
+              "Transient perched groundwater table development and loss of matric suction"
+            ],
+            "human_causes": [
+              "Anthropogenic excavation / toe undercutting for roadway benching or foundation cuts",
+              "Surcharge loading at the slope crest (unengineered spoil disposal or building construction)"
+            ]
+          },
+          "standard_reference": "USGS Circular 1325 (Highland & Bobrowsky, 2008) & Cruden & Varnes (1996) TRB Special Report 247"
+        },
+        "cedd_consequence": {
+          "consequence_category": "Category 2",
+          "consequence_level": "Moderate Consequence",
+          "consequence_criteria": "Secondary roads (State Highways, Major District Roads), bus stands, open commercial yards, rural bypasses where failure causes severe transit disruption but low direct risk to occupied buildings.",
+          "economic_consequence": "Moderate Economic Consequence",
+          "target_fos_10yr": 1.25,
+          "target_fos_extreme": 1.15,
+          "mandatory_investigation": "Engineer Inspection for Maintenance (EIM) & Preventive Upgrading",
+          "inspection_regime": {
+            "code": "EIM",
+            "name": "Engineer Inspection for Maintenance",
+            "frequency": "Every 2 years for Category 1 slopes; every 5 years for Category 2/3 slopes",
+            "personnel": "Qualified Geotechnical Engineer (Executive / Assistant Engineer)",
+            "key_checks": "Structural integrity of retaining walls, soil nail head pad displacement, crack gauge monitoring, drainage gradient verification"
+          }
+        },
+        "larimit_mitigations": {
+          "analyzed_mechanism": "Debris Flow",
+          "primary_structural": {
+            "id": "M19",
+            "name": "Flexible Debris-Flow Ring Barrier (GEO Report 138 VX/UX Class)",
+            "cluster": "Runout & Debris Impact Barriers",
+            "description": "Multi-level ring nets anchored across mountain torrents with bottom clearance to retain boulder fronts while passing slurry.",
+            "suitability_score": 0.98,
+            "cost_tier": "Very High",
+            "construction_time": "14-25 Days"
+          },
+          "hydrogeological_drainage": {
+            "id": "M05",
+            "name": "Stepped Concrete Cascade / Chute Drain",
+            "cluster": "Surface Water Drainage",
+            "description": "Energy-dissipating stepped RC flume conveying concentrated water down steep slope faces into valley culverts.",
+            "suitability_score": 0.92,
+            "cost_tier": "Medium",
+            "construction_time": "5-10 Days"
+          },
+          "nature_based_solution": {
+            "id": "M21",
+            "name": "Deep-Rooting Vetiver Grass Contour Hedges (Chrysopogon zizanioides)",
+            "cluster": "Nature-Based Solutions: Soil Bioengineering",
+            "description": "Dense linear vegetative hedges with 2-3m deep massive fibrous root systems (tensile strength ~75 MPa) providing mechanical soil binding and hydraulic shear enhancement.",
+            "suitability_score": 0.75,
+            "cost_tier": "Low",
+            "construction_time": "3-7 Days"
+          }
+        },
+        "prescribed_soil_nailing": {
+          "design_code": "CEDD Geoguide 7 / BS EN 14490",
+          "bar_diameter": "Dia. 28 mm (Fe500 High-Yield Deformed Steel)",
+          "drillhole_diameter": "125 mm",
+          "drillhole_inclination": "15\u00b0 to 20\u00b0 downward rake",
+          "grid_spacing": "1.75 m (H) x 1.75 m (V) Staggered Pattern",
+          "nail_length": "10.0 m to 14.0 m",
+          "grout_strength": "Non-shrink neat cementitious grout (f_cu >= 30 MPa @ 28 days, W/C = 0.42)",
+          "head_assembly": "Cast-in-situ RC Pad (400x400x200mm Grade C30/37) with galvanized bearing plate (200x200x20mm)",
+          "testing_protocol": "2% sacrificial pullout verification up to 1.5x design working pullout capacity"
+        },
+        "flexible_barrier": {
+          "design_code": "CEDD GEO Report No. 138 / EOTA EAD 340059-00-0106",
+          "energy_absorption_capacity": "3000 kJ Rating",
+          "barrier_height": "5.0 m",
+          "steel_posts": "HEB 220 Structural Steel Section",
+          "net_specification": "Ultra-high-tensile steel ring net (ROCCO 22-ring, 4mm wire)",
+          "energy_dissipators": "Triple-stage hydraulic/friction energy dissipators",
+          "application_field": "High-velocity debris flow gullies and major escarpments (boulder dia <= 1.8m)",
+          "debris_clearance": "0.5m to 0.8m bottom clearance for water and fluid slurry passage while retaining coarse boulder fronts"
+        },
+        "subsurface_drainage": {
+          "design_code": "CEDD GEO TGN 24 / Geoguide 1",
+          "pipe_specification": "50mm to 75mm dia heavy-duty slotted PVC pipe (Schedule 80)",
+          "slot_aperture": "1.0mm to 1.5mm transverse slots @ 10mm c/c with 15% open drainage area",
+          "filter_sock": "Non-woven needle-punched polypropylene geotextile sock (O90 < 0.15mm) to prevent silt piping",
+          "upward_inclination": "5\u00b0 to 10\u00b0 upward rake for gravity self-cleansing flow",
+          "array_spacing": "3.0 m to 6.0 m c/c staggered across slope face or wall base",
+          "drain_length": "15.0 m per borehole (Total 5 Nos. array)"
+        }
+      },
+      "bhukosh_rock_audit": {
+        "bhukosh_formation": "Phyllite",
+        "toposheet": "53A13",
+        "distance_km": 0.32,
+        "ai_detected_rock": "Phyllite",
+        "is_discrepancy": false,
+        "status": "BHUKOSH_VERIFIED",
+        "status_label": "GSI Bhukosh Ground Truth Verified",
+        "calibrated_rock": "Phyllite (AI: Phyllite)",
+        "reconciliation_note": "Optical analysis ('Phyllite') is consistent with official GSI Bhukosh ground truth (0.3 km away)."
+      },
+      "cost_estimate_boq": {
+        "status": "CALCULATED_OK",
+        "is_applicable": true,
+        "rejection_notice": null,
+        "schedule_metadata": {
+          "title": "Himachal Pradesh Public Works Department (HPPWD) & MoRTH Schedule of Rates for Hill Roads",
+          "primary_references": [
+            "HPPWD Schedule of Rates (HPSOR), Government of Himachal Pradesh",
+            "Ministry of Road Transport and Highways (MoRTH) Specifications for Road and Bridge Works (5th Revision)",
+            "Standard Data Book for Analysis of Rates for Road and Bridge Works, IRC / MoRTH"
+          ],
+          "applicable_terrain": "Himalayan Hill Roads & High Altitude Sectors",
+          "currency": "INR (\u20b9)",
+          "tax_regime": {
+            "gst_percentage": 18.0,
+            "contingencies_percentage": 3.0,
+            "quality_control_percentage": 1.5
+          }
+        },
+        "parameters_used": {
+          "severity": "High",
+          "environment_type": "highway / transport corridor",
+          "wall_height_m": 3.7,
+          "wall_length_m": 19.6,
+          "wall_embed_m": 1.0,
+          "base_width_m": 1.85,
+          "top_width_m": 0.6,
+          "plum_concrete_vol_m3": 112.85,
+          "excavation_vol_m3": 364.6,
+          "slope_trim_area_m2": 76.44,
+          "fill_vol_m3": 15.23,
+          "soil_nails_count": 19,
+          "soil_nail_len_m": 10.0,
+          "relief_drains_count": 5,
+          "relief_drain_len_m": 15.0
+        },
+        "financial_summary": {
+          "civil_subtotal_raw": 1465336.5000000002,
+          "civil_subtotal_fmt": "\u20b9 14,65,337",
+          "contingencies_raw": 43960.1,
+          "contingencies_fmt": "\u20b9 43,960",
+          "qc_testing_raw": 21980.05,
+          "qc_testing_fmt": "\u20b9 21,980",
+          "subtotal_before_tax_raw": 1531276.6500000004,
+          "subtotal_before_tax_fmt": "\u20b9 15,31,277",
+          "gst_raw": 275629.8,
+          "gst_fmt": "\u20b9 2,75,630",
+          "total_remediation_raw": 1806906.45,
+          "total_remediation_fmt": "\u20b9 18,06,906",
+          "total_remediation_badge": "\u20b9 18.07 Lakh",
+          "direct_asset_loss_raw": 425210.0,
+          "direct_asset_loss_fmt": "\u20b9 4,25,210",
+          "direct_asset_loss_badge": "\u20b9 4.25 Lakh",
+          "indirect_economic_loss_raw": 250000.0,
+          "indirect_economic_loss_fmt": "\u20b9 2,50,000",
+          "indirect_economic_loss_badge": "\u20b9 2.50 Lakh",
+          "total_disaster_loss_raw": 675210.0,
+          "total_disaster_loss_fmt": "\u20b9 6,75,210",
+          "total_disaster_loss_badge": "\u20b9 6.75 Lakh",
+          "grand_total_disaster_impact_raw": 2482116.45,
+          "grand_total_disaster_impact_fmt": "\u20b9 24,82,116",
+          "grand_total_disaster_impact_badge": "\u20b9 24.82 Lakh"
+        },
+        "boq_items": [
+          {
+            "sl_no": 1,
+            "item_code": "MoRTH 301.1",
+            "work_package": "Earthwork & Clearance",
+            "description": "Hydraulic excavation of saturated landslide debris, loose soil, and boulders up to 3 m\u00b3 using heavy hydraulic breaker excavator, including loading into tippers and disposal with lead up to 1000m.",
+            "short_description": "Hydraulic excavation of debris, soil & boulders with tipper haulage (lead 1000m)",
+            "quantity": 364.6,
+            "unit": "m\u00b3",
+            "rate": 220.0,
+            "rate_fmt": "\u20b9 220",
+            "amount": 80212.0,
+            "amount_fmt": "\u20b9 80,212"
+          },
+          {
+            "sl_no": 2,
+            "item_code": "MoRTH 305.2",
+            "work_package": "Earthwork & Clearance",
+            "description": "Slope trimming, scarp reprofiling, and dressing of unstable overburden cut face to stable bench profile in all kinds of soil and soft rock.",
+            "short_description": "Slope trimming, scarp reprofiling & bench dressing in overburden cut face",
+            "quantity": 76.44,
+            "unit": "m\u00b2",
+            "rate": 115.0,
+            "rate_fmt": "\u20b9 115",
+            "amount": 8790.6,
+            "amount_fmt": "\u20b9 8,791"
+          },
+          {
+            "sl_no": 3,
+            "item_code": "MoRTH 304.3",
+            "work_package": "Earthwork & Clearance",
+            "description": "Foundation trench excavation in hard rock / compact boulder strata with pneumatic breaker tools, including necessary shoring, strutting, and dewatering for breast wall footing.",
+            "short_description": "Foundation trench rock excavation with pneumatic breaker tools for wall footing",
+            "quantity": 36.26,
+            "unit": "m\u00b3",
+            "rate": 580.0,
+            "rate_fmt": "\u20b9 580",
+            "amount": 21030.8,
+            "amount_fmt": "\u20b9 21,031"
+          },
+          {
+            "sl_no": 4,
+            "item_code": "HPSOR 4.2 / MoRTH 1402",
+            "work_package": "Structural Retention",
+            "description": "Construction of Plum Concrete Retaining / Breast Wall (H=3.7m, B=1.85m, b=0.60m) in M15 grade concrete (1:2:4) with 30% to 40% clean sound quarry plum boulders (density >= 18 kN/m\u00b3), including steel shuttering, scaffolding, compaction, and 14 days water curing.",
+            "short_description": "Plum Concrete Breast Wall (H=3.7m, B=1.85m) in M15 with 40% plums",
+            "quantity": 112.85,
+            "unit": "m\u00b3",
+            "rate": 4250.0,
+            "rate_fmt": "\u20b9 4,250",
+            "amount": 479612.5,
+            "amount_fmt": "\u20b9 4,79,612"
+          },
+          {
+            "sl_no": 5,
+            "item_code": "MoRTH 702.1",
+            "work_package": "Structural Retention",
+            "description": "Supplying and laying non-woven needle-punched polypropylene geotextile filter fabric (weight >= 250 GSM, O90 < 0.15 mm) behind retaining wall backface.",
+            "short_description": "Non-woven needle-punched polypropylene geotextile filter fabric (250 GSM)",
+            "quantity": 92.12,
+            "unit": "m\u00b2",
+            "rate": 145.0,
+            "rate_fmt": "\u20b9 145",
+            "amount": 13357.4,
+            "amount_fmt": "\u20b9 13,357"
+          },
+          {
+            "sl_no": 6,
+            "item_code": "HPSOR 4.8 / MoRTH 305",
+            "work_package": "Structural Retention",
+            "description": "Providing and laying free-draining granular backfill filter material (crushed stone gravel 20-40mm) behind retaining wall in layers not exceeding 150mm compacted thickness.",
+            "short_description": "Free-draining granular filter backfill material (20-40mm crushed gravel)",
+            "quantity": 15.23,
+            "unit": "m\u00b3",
+            "rate": 980.0,
+            "rate_fmt": "\u20b9 980",
+            "amount": 14925.4,
+            "amount_fmt": "\u20b9 14,925"
+          },
+          {
+            "sl_no": 7,
+            "item_code": "HPSOR 4.9",
+            "work_package": "Structural Retention",
+            "description": "Providing and installing 100mm dia heavy-duty PVC weep hole pipes (Class 3) placed at 1.20m c/c staggered with 1:20 outward slope and gravel filter envelope at inlet (Total 50 Nos.).",
+            "short_description": "100mm dia PVC weep hole pipes @ 1.2m c/c staggered with gravel filter inlet",
+            "quantity": 69.4,
+            "unit": "meter",
+            "rate": 260.0,
+            "rate_fmt": "\u20b9 260",
+            "amount": 18044.0,
+            "amount_fmt": "\u20b9 18,044"
+          },
+          {
+            "sl_no": 8,
+            "item_code": "MoRTH 1302 / Geoguide 7",
+            "work_package": "Internal Ground Reinforcement",
+            "description": "Rotary / percussive drilling of 100mm to 110mm dia boreholes in soil/colluvium/fractured rock for soil nails at 15\u00b0 to 20\u00b0 downward rake to specified design length (19 Nos. x 10.0m).",
+            "short_description": "Drilling 100-110mm dia boreholes for soil nails at 15\u00b0-20\u00b0 rake (19 Nos. x 10.0m)",
+            "quantity": 190.0,
+            "unit": "meter",
+            "rate": 880.0,
+            "rate_fmt": "\u20b9 880",
+            "amount": 167200.0,
+            "amount_fmt": "\u20b9 1,67,200"
+          },
+          {
+            "sl_no": 9,
+            "item_code": "MoRTH 1002.1",
+            "work_package": "Internal Ground Reinforcement",
+            "description": "Supplying, cutting, threading, and inserting Dia. 28mm Fe500 high-yield deformed steel soil nail bars with polypropylene centralizers @ 2m c/c.",
+            "short_description": "Dia 28mm Fe500 high-yield steel soil nail bars with centralizers @ 2m c/c",
+            "quantity": 190.0,
+            "unit": "meter",
+            "rate": 420.0,
+            "rate_fmt": "\u20b9 420",
+            "amount": 79800.0,
+            "amount_fmt": "\u20b9 79,800"
+          },
+          {
+            "sl_no": 10,
+            "item_code": "MoRTH 1304.2",
+            "work_package": "Internal Ground Reinforcement",
+            "description": "Pressure grouting of soil nail boreholes with non-shrink neat cementitious grout (f_cu >= 30 MPa @ 28 days, W/C = 0.42, injection pressure 0.3-0.5 MPa).",
+            "short_description": "Pressure grouting of boreholes with non-shrink cementitious grout (>=30 MPa)",
+            "quantity": 190.0,
+            "unit": "meter",
+            "rate": 520.0,
+            "rate_fmt": "\u20b9 520",
+            "amount": 98800.0,
+            "amount_fmt": "\u20b9 98,800"
+          },
+          {
+            "sl_no": 11,
+            "item_code": "MoRTH 1306.1",
+            "work_package": "Internal Ground Reinforcement",
+            "description": "Cast-in-situ reinforced concrete bearing pad (400x400x200mm Grade C30/37) with galvanized steel bearing plate (200x200x20mm) and high-tensile spherical hex nut assembly (19 sets).",
+            "short_description": "Cast-in-situ RC bearing pads (400x400mm C30) & galvanized plate assembly (19 sets)",
+            "quantity": 19.0,
+            "unit": "unit",
+            "rate": 2150.0,
+            "rate_fmt": "\u20b9 2,150",
+            "amount": 40850.0,
+            "amount_fmt": "\u20b9 40,850"
+          },
+          {
+            "sl_no": 12,
+            "item_code": "CEDD Geoguide 7",
+            "work_package": "Internal Ground Reinforcement",
+            "description": "Sacrificial pullout verification proof testing of soil nails using hydraulic hollow-plunger jack up to 1.5x design working load with dial gauge creep recording (2% statutory testing).",
+            "short_description": "Sacrificial pullout verification proof testing of soil nails up to 1.5x load",
+            "quantity": 2.0,
+            "unit": "test",
+            "rate": 5000.0,
+            "rate_fmt": "\u20b9 5,000",
+            "amount": 10000.0,
+            "amount_fmt": "\u20b9 10,000"
+          },
+          {
+            "sl_no": 13,
+            "item_code": "MoRTH 1704 / TGN 24",
+            "work_package": "Subsurface & Surface Drainage",
+            "description": "Directional drilling and installation of 65mm dia heavy-duty slotted PVC sub-horizontal relief drains (Schedule 80) jacketed with non-woven geotextile filter sock at 5\u00b0 to 10\u00b0 upward rake (5 Nos. array).",
+            "short_description": "Slotted PVC sub-horizontal relief drains with geotextile sock (5 Nos. array)",
+            "quantity": 75.0,
+            "unit": "meter",
+            "rate": 1150.0,
+            "rate_fmt": "\u20b9 1,150",
+            "amount": 86250.0,
+            "amount_fmt": "\u20b9 86,250"
+          },
+          {
+            "sl_no": 14,
+            "item_code": "HPSOR 5.3 / MoRTH 1702",
+            "work_package": "Subsurface & Surface Drainage",
+            "description": "Construction of Stone Masonry Hillside Saucer Catch Drain (0.60m wide x 0.60m deep) in cement mortar 1:4 with 100mm M15 concrete bedding and pointing.",
+            "short_description": "Stone masonry hillside saucer catch drain (0.60x0.60m) in 1:4 cement mortar",
+            "quantity": 27.6,
+            "unit": "meter",
+            "rate": 780.0,
+            "rate_fmt": "\u20b9 780",
+            "amount": 21528.0,
+            "amount_fmt": "\u20b9 21,528"
+          },
+          {
+            "sl_no": 15,
+            "item_code": "MoRTH 1703.1",
+            "work_package": "Subsurface & Surface Drainage",
+            "description": "Construction of stepped cascade drainage chute lined with stone pitching and concrete cross-weirs discharging into natural ravine.",
+            "short_description": "Stepped cascade drainage chute lined with stone pitching into natural ravine",
+            "quantity": 24.6,
+            "unit": "meter",
+            "rate": 1050.0,
+            "rate_fmt": "\u20b9 1,050",
+            "amount": 25830.0,
+            "amount_fmt": "\u20b9 25,830"
+          },
+          {
+            "sl_no": 16,
+            "item_code": "GEO 138 (500 kJ)",
+            "work_package": "Dynamic Defense & Bioengineering",
+            "description": "Supply and erection of 500 kJ certified flexible wire-rope ring net rockfall barrier (HEB 140 posts, friction brake rings) along active slide / rockfall chute.",
+            "short_description": "500 kJ certified flexible wire-rope ring net rockfall barrier",
+            "quantity": 19.6,
+            "unit": "meter",
+            "rate": 14500.0,
+            "rate_fmt": "\u20b9 14,500",
+            "amount": 284200.0,
+            "amount_fmt": "\u20b9 2,84,200"
+          },
+          {
+            "sl_no": 17,
+            "item_code": "MoRTH 1802 / IRC:SP:48",
+            "work_package": "Dynamic Defense & Bioengineering",
+            "description": "Soil bioengineering: Supplying and laying open-weave coir geotextile netting (700 GSM) anchored with bamboo pins, hydroseeding with native grass mixes, and planting deep-rooting Vetiver grass (Chrysopogon zizanioides) contour hedges.",
+            "short_description": "Coir geotextile netting (700 GSM), hydroseeding & Vetiver grass contour hedges",
+            "quantity": 76.44,
+            "unit": "m\u00b2",
+            "rate": 195.0,
+            "rate_fmt": "\u20b9 195",
+            "amount": 14905.8,
+            "amount_fmt": "\u20b9 14,906"
+          }
+        ],
+        "loss_items": [
+          {
+            "sl_no": 1,
+            "category": "Direct Asset Loss",
+            "asset": "Highway Carriageway & Formation",
+            "criteria": "Full pavement reconstruction (127.4 m\u00b2): Scarification of damaged bitumen, subgrade re-compaction, 150mm WMM and 50mm Bituminous Concrete overlay @ \u20b91,650/m\u00b2",
+            "amount": 210210.0,
+            "amount_fmt": "\u20b9 2,10,210"
+          },
+          {
+            "sl_no": 2,
+            "category": "Direct Asset Loss",
+            "asset": "Roadside Culvert & Drainage Appurtenances",
+            "criteria": "Choked box culvert barrel hydraulic flushing, wingwall crack injection, and headwall masonry repair",
+            "amount": 180000.0,
+            "amount_fmt": "\u20b9 1,80,000"
+          },
+          {
+            "sl_no": 3,
+            "category": "Direct Asset Loss",
+            "asset": "Emergency Highway Corridor Staging & Traffic Diversion",
+            "criteria": "Deployment of temporary steel crash barricades, solar LED hazard flashers, warning signage, and 24/7 flagger spotters",
+            "amount": 35000.0,
+            "amount_fmt": "\u20b9 35,000"
+          },
+          {
+            "sl_no": 4,
+            "category": "Indirect Economic Loss",
+            "asset": "Regional Corridor Transit Disruption",
+            "criteria": "2.0 days estimated corridor severance / restricted passage: Commercial freight detours (extra 45 km via alternate link), passenger idle hours, and fuel consumption surcharge @ \u20b91,25,000/day",
+            "amount": 250000.0,
+            "amount_fmt": "\u20b9 2,50,000"
+          }
+        ]
+      },
+      "schematic_svg": "<svg viewBox=\"0 0 520 236\" xmlns=\"http://www.w3.org/2000/svg\" style=\"background:#090d16; font-family:'Manrope', -apple-system, sans-serif; shape-rendering:geometricPrecision;\">\n  <defs>\n    \n    <pattern id=\"rockHatch_IITM-CR-6C5DBB52\" width=\"14\" height=\"8\" patternTransform=\"rotate(28 0 0)\" patternUnits=\"userSpaceOnUse\">\n      <rect width=\"14\" height=\"8\" fill=\"#f8fafc\" />\n      <path d=\"M 0 4 Q 3.5 1, 7 4 T 14 4\" fill=\"none\" stroke=\"#94a3b8\" stroke-width=\"1.0\" />\n    </pattern>\n    <!-- Colluvial Overburden Pattern -->\n    <pattern id=\"colluviumPat_IITM-CR-6C5DBB52\" width=\"14\" height=\"14\" patternUnits=\"userSpaceOnUse\">\n      <circle cx=\"3\" cy=\"3\" r=\"1.2\" fill=\"#78350f\" opacity=\"0.3\" />\n      <polygon points=\"9,2 12,4 10,6\" fill=\"#92400e\" opacity=\"0.25\" />\n      <circle cx=\"5\" cy=\"11\" r=\"1\" fill=\"#78350f\" opacity=\"0.3\" />\n      <polygon points=\"11,10 13,12 11,13\" fill=\"#b45309\" opacity=\"0.25\" />\n    </pattern>\n    <!-- Debris Runout Clasts -->\n    <pattern id=\"debrisPat_IITM-CR-6C5DBB52\" width=\"10\" height=\"10\" patternUnits=\"userSpaceOnUse\">\n      <circle cx=\"2\" cy=\"2\" r=\"1.2\" fill=\"#d97706\" opacity=\"0.75\" />\n      <circle cx=\"7\" cy=\"6\" r=\"1.5\" fill=\"#b45309\" opacity=\"0.85\" />\n      <polygon points=\"3,7 5,9 2,9\" fill=\"#92400e\" opacity=\"0.7\" />\n    </pattern>\n    <!-- Marker Arrow for Seepage & Kinematics -->\n    <marker id=\"arrowRed_IITM-CR-6C5DBB52\" viewBox=\"0 0 10 10\" refX=\"5\" refY=\"5\" markerWidth=\"4\" markerHeight=\"4\" orient=\"auto-start-reverse\">\n      <path d=\"M 0 1 L 9 5 L 0 9 z\" fill=\"#ef4444\" />\n    </marker>\n    <marker id=\"arrowBlue_IITM-CR-6C5DBB52\" viewBox=\"0 0 10 10\" refX=\"5\" refY=\"5\" markerWidth=\"4\" markerHeight=\"4\" orient=\"auto-start-reverse\">\n      <path d=\"M 0 1 L 9 5 L 0 9 z\" fill=\"#38bdf8\" />\n    </marker>\n  </defs>\n\n  <!-- Dark Engineering Grid Base -->\n  <rect width=\"520\" height=\"236\" fill=\"#090d16\" />\n  <g stroke=\"#1e293b\" stroke-width=\"0.5\" stroke-dasharray=\"2,4\" opacity=\"0.4\">\n    <line x1=\"0\" y1=\"50\" x2=\"520\" y2=\"50\" />\n    <line x1=\"0\" y1=\"100\" x2=\"520\" y2=\"100\" />\n    <line x1=\"0\" y1=\"150\" x2=\"520\" y2=\"150\" />\n    <line x1=\"0\" y1=\"200\" x2=\"520\" y2=\"200\" />\n    <line x1=\"100\" y1=\"0\" x2=\"100\" y2=\"236\" />\n    <line x1=\"200\" y1=\"0\" x2=\"200\" y2=\"236\" />\n    <line x1=\"300\" y1=\"0\" x2=\"300\" y2=\"236\" />\n    <line x1=\"400\" y1=\"0\" x2=\"400\" y2=\"236\" />\n  </g>\n\n  <!-- Mountain Bedrock Slope (Phyllite) -->\n  <path d=\"M 15 25 L 110 20 L 100 30 Q 195 131 290 166 L 425 166 L 505 215 L 505 236 L 15 236 Z\" fill=\"url(#rockHatch_IITM-CR-6C5DBB52)\" stroke=\"#334155\" stroke-width=\"1.2\" />\n\n  <!-- Scoured Erosion Gully Chute (Torrent Runout Bed) -->\n  <path d=\"M 100 30 Q 195 124 290 166\" fill=\"none\" stroke=\"#0284c7\" stroke-width=\"3.2\" stroke-dasharray=\"6,2\" />\n\n  <!-- High-Velocity Slurry Surge Wave (Mud + Boulders + Organic Debris) -->\n  <path d=\"M 115 42 Q 205 136 408 166 L 305 166 Q 185 116 115 42 Z\" fill=\"#9a3412\" fill-opacity=\"0.38\" stroke=\"#ea580c\" stroke-width=\"1.4\" />\n  <path d=\"M 115 42 Q 205 136 408 166 L 305 166 Q 185 116 115 42 Z\" fill=\"url(#debrisPat_IITM-CR-6C5DBB52)\" />\n\n  <!-- Entrained Riparian Boulders and Uprooted Timber -->\n  <line x1=\"145\" y1=\"65\" x2=\"165\" y2=\"72\" stroke=\"#78350f\" stroke-width=\"2.5\" stroke-linecap=\"round\" />\n  <circle cx=\"155\" cy=\"66\" r=\"3.2\" fill=\"#451a03\" stroke=\"#d97706\" stroke-width=\"0.8\" />\n  <circle cx=\"255\" cy=\"141\" r=\"4.2\" fill=\"#451a03\" stroke=\"#d97706\" stroke-width=\"0.8\" />\n  <circle cx=\"280\" cy=\"154\" r=\"3.5\" fill=\"#451a03\" stroke=\"#d97706\" stroke-width=\"0.8\" />\n\n  <!-- Hyperconcentrated Flow Hydrodynamic Vectors -->\n  <path d=\"M 130 52 Q 195 121 265 146\" fill=\"none\" stroke=\"#38bdf8\" stroke-width=\"1.4\" marker-end=\"url(#arrowBlue)\" />\n\n  <!-- Spreading Debris Lobe Overtopping Roadway -->\n  <path d=\"M 285 166 Q 349 151 408 166 Z\" fill=\"#c2410c\" opacity=\"0.9\" stroke=\"#7c2d12\" stroke-width=\"1\" />\n\n  <!-- Choked Culvert Box Inlet -->\n  <rect x=\"288\" y=\"166\" width=\"14\" height=\"9\" fill=\"#1e293b\" stroke=\"#64748b\" stroke-width=\"0.8\" />\n  <rect x=\"290\" y=\"168\" width=\"10\" height=\"5\" fill=\"#ef4444\" />\n  <text x=\"265\" y=\"182\" font-size=\"6\" font-weight=\"800\" fill=\"#f87171\">CULVERT CHOKED</text>\n\n  <!-- Road Carriageway Pavement -->\n  <rect x=\"290\" y=\"165\" width=\"135\" height=\"5\" fill=\"#1e293b\" stroke=\"#334155\" stroke-width=\"0.8\" />\n  <line x1=\"408\" y1=\"167\" x2=\"408\" y2=\"170\" stroke=\"#fbbf24\" stroke-width=\"1.8\" stroke-dasharray=\"2,2\" />\n\n  <!-- Valley Shoulder & Crash Barrier -->\n  <line x1=\"419\" y1=\"156\" x2=\"419\" y2=\"166\" stroke=\"#94a3b8\" stroke-width=\"2\" />\n  <circle cx=\"419\" cy=\"156\" r=\"2\" fill=\"#e2e8f0\" />\n\n  <!-- Proposed Remediation: Flexible Debris Ring Net Barrier with Brake Rings -->\n  <line x1=\"150\" y1=\"85\" x2=\"170\" y2=\"65\" stroke=\"#14b8a6\" stroke-width=\"2.2\" />\n  <circle cx=\"150\" cy=\"85\" r=\"2\" fill=\"#2dd4bf\" />\n  <circle cx=\"170\" cy=\"65\" r=\"2\" fill=\"#2dd4bf\" />\n\n  <!-- Cut Slope Angle Arc Indicator -->\n  <path d=\"M 266 166 A 24 24 0 0 1 280 144\" fill=\"none\" stroke=\"#22c55e\" stroke-width=\"1.3\" />\n  <text x=\"225\" y=\"140\" font-size=\"7.5\" font-weight=\"800\" fill=\"#4ade80\">&beta; = 55&#176;&ndash;58&#176;</text>\n\n  <!-- Engineering Dimensions -->\n  <line x1=\"290\" y1=\"184\" x2=\"425\" y2=\"184\" stroke=\"#94a3b8\" stroke-width=\"0.9\" />\n  <line x1=\"290\" y1=\"180\" x2=\"290\" y2=\"188\" stroke=\"#94a3b8\" stroke-width=\"0.9\" />\n  <line x1=\"425\" y1=\"180\" x2=\"425\" y2=\"188\" stroke=\"#94a3b8\" stroke-width=\"0.9\" />\n  <text x=\"310\" y=\"194\" font-family=\"'JetBrains Mono', monospace\" font-size=\"7\" font-weight=\"700\" fill=\"#cbd5e1\">Formation: 5.75m</text>\n\n  <line x1=\"408\" y1=\"206\" x2=\"425\" y2=\"206\" stroke=\"#22c55e\" stroke-width=\"1.2\" />\n  <line x1=\"408\" y1=\"202\" x2=\"408\" y2=\"210\" stroke=\"#22c55e\" stroke-width=\"1.2\" />\n  <line x1=\"425\" y1=\"202\" x2=\"425\" y2=\"210\" stroke=\"#22c55e\" stroke-width=\"1.2\" />\n  <text x=\"416\" y=\"216\" font-family=\"'JetBrains Mono', monospace\" font-size=\"7.5\" font-weight=\"800\" fill=\"#4ade80\">Operable: 0.00m</text>\n\n  <!-- Anatomical Callout Badges -->\n  <rect x=\"18\" y=\"10\" width=\"130\" height=\"14\" rx=\"2\" fill=\"#082f49\" stroke=\"#0284c7\" stroke-width=\"0.8\" />\n  <text x=\"23\" y=\"20\" font-size=\"6.5\" font-weight=\"800\" fill=\"#7dd3fc\">SCOURED EROSION GULLY CHUTE</text>\n\n  <rect x=\"125\" y=\"18\" width=\"140\" height=\"14\" rx=\"2\" fill=\"#450a0a\" stroke=\"#dc2626\" stroke-width=\"0.8\" />\n  <text x=\"130\" y=\"28\" font-size=\"6.5\" font-weight=\"800\" fill=\"#fca5a5\">BOULDER &amp; SLURRY SURGE FRONT</text>\n\n  <rect x=\"265\" y=\"124\" width=\"135\" height=\"14\" rx=\"2\" fill=\"#451a03\" stroke=\"#f59e0b\" stroke-width=\"0.8\" />\n  <text x=\"270\" y=\"134\" font-size=\"6.5\" font-weight=\"800\" fill=\"#fde68a\">HIGH-VELOCITY DEBRIS FAN LOBE</text>\n\n  <!-- Stability Evaluation Pill -->\n  <rect x=\"365\" y=\"10\" width=\"140\" height=\"16\" rx=\"3\" fill=\"#1e1b4b\" stroke=\"#6366f1\" stroke-width=\"0.8\" />\n  <text x=\"372\" y=\"21\" font-size=\"6.5\" font-weight=\"800\" fill=\"#c7d2fe\">RAPID VISCOUS MASS FLOW (CLASS 5)</text>\n</svg>",
+      "schematic_top_badge": "DEBRIS RUNOUT FAN &bull; CHUTE: 55&deg; &bull; H=45.0m"
+    }
   },
   {
     "id": "IITM-CR-B0B0D035",

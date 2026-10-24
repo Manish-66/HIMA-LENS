@@ -1,0 +1,19 @@
+.git
+.venv
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache
+.vscode
+.idea
+.agents
+graphify-out
+scratch
+
+# Large binary ML models & datasets not needed for web app
+*.pt
+*.lpkx
+*.pdf
+Mandi_data
+old_data.geojson

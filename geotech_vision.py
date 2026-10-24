@@ -19,9 +19,6 @@ import os
 from pathlib import Path
 from typing import Any
 
-import cv2
-import numpy as np
-from PIL import Image, ImageDraw, ImageFont
 import requests
 
 from config import (
@@ -32,29 +29,83 @@ from config import (
 )
 
 logger = logging.getLogger("geotech_vision")
-ANNOTATED_PLATES_DIR.mkdir(parents=True, exist_ok=True)
+try:
+    ANNOTATED_PLATES_DIR.mkdir(parents=True, exist_ok=True)
+except Exception:
+    pass  # Read-only filesystem in serverless environments (e.g. Vercel)
+
+# Lazy-loaded heavy ML deps (unavailable on Vercel serverless / slim containers)
+_cv2 = None
+_np = None
+_PIL = None
 
 
-def _get_font(size: int, bold: bool = True) -> ImageFont.FreeTypeFont | ImageFont.ImageFont:
-    """Loads system Segoe UI or Arial TrueType font, with graceful default fallback."""
-    font_file = "segoeuib.ttf" if bold else "segoeui.ttf"
-    font_path = os.path.join(r"C:\Windows\Fonts", font_file)
-    if os.path.exists(font_path):
+def _get_cv2():
+    global _cv2
+    if _cv2 is None:
         try:
-            return ImageFont.truetype(font_path, size)
-        except Exception:
-            pass
-    fallback_path = os.path.join(r"C:\Windows\Fonts", "arialbd.ttf" if bold else "arial.ttf")
-    if os.path.exists(fallback_path):
+            import cv2 as _cv2_mod  # noqa: PLC0415
+            _cv2 = _cv2_mod
+        except ImportError:
+            logger.warning("cv2 not available in this environment.")
+    return _cv2
+
+
+def _get_np():
+    global _np
+    if _np is None:
         try:
-            return ImageFont.truetype(fallback_path, size)
-        except Exception:
-            pass
+            import numpy as _np_mod  # noqa: PLC0415
+            _np = _np_mod
+        except ImportError:
+            logger.warning("numpy not available in this environment.")
+    return _np
+
+
+def _get_PIL():
+    global _PIL
+    if _PIL is None:
+        try:
+            from PIL import Image, ImageDraw, ImageFont  # noqa: PLC0415
+            _PIL = (Image, ImageDraw, ImageFont)
+        except ImportError:
+            logger.warning("Pillow not available in this environment.")
+    return _PIL
+
+
+def _get_font(size: int, bold: bool = True):
+    """Loads system font, with graceful default fallback. Works on Linux (Vercel) too."""
+    pil_stuff = _get_PIL()
+    if pil_stuff is None:
+        return None
+    _, _, ImageFont = pil_stuff
+    # Try Windows fonts first, then Linux/Vercel
+    candidates = []
+    if bold:
+        candidates += [
+            r"C:\Windows\Fonts\segoeuib.ttf",
+            r"C:\Windows\Fonts\arialbd.ttf",
+            "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+            "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
+        ]
+    else:
+        candidates += [
+            r"C:\Windows\Fonts\segoeui.ttf",
+            r"C:\Windows\Fonts\arial.ttf",
+            "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+            "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf",
+        ]
+    for font_path in candidates:
+        if os.path.exists(font_path):
+            try:
+                return ImageFont.truetype(font_path, size)
+            except Exception:
+                continue
     return ImageFont.load_default()
 
 
 def _draw_arrow(
-    draw: ImageDraw.ImageDraw,
+    draw: "Any",
     p1: tuple[int, int],
     p2: tuple[int, int],
     color: tuple[int, int, int, int] = (255, 255, 255, 255),
@@ -77,7 +128,7 @@ def _draw_arrow(
 
 
 def _draw_badge(
-    draw: ImageDraw.ImageDraw,
+    draw: "Any",
     xy: tuple[int, int],
     text: str,
     subtext: str | None = None,
@@ -113,8 +164,15 @@ def _draw_badge(
     return (x, y, x + bw, y + bh)
 
 
-def load_image_bytes(image_input: str | Path | bytes) -> tuple[bytes, Image.Image, np.ndarray]:
+def load_image_bytes(image_input: str | Path | bytes) -> tuple[bytes, Any, Any]:
     """Loads image bytes, PIL Image, and BGR numpy array from path, URL, or raw bytes."""
+    pil_stuff = _get_PIL()
+    cv2 = _get_cv2()
+    np = _get_np()
+    if pil_stuff is None:
+        raise RuntimeError("Pillow (PIL) is not available in this environment.")
+    Image, ImageDraw, ImageFont = pil_stuff
+
     if isinstance(image_input, bytes):
         raw_bytes = image_input
         pil_img = Image.open(io.BytesIO(raw_bytes)).convert("RGB")
@@ -142,7 +200,7 @@ def load_image_bytes(image_input: str | Path | bytes) -> tuple[bytes, Image.Imag
         pil_img.save(buf, format="JPEG", quality=92)
         raw_bytes = buf.getvalue()
 
-    np_bgr = cv2.cvtColor(np.array(pil_img), cv2.COLOR_RGB2BGR)
+    np_bgr = cv2.cvtColor(np.array(pil_img), cv2.COLOR_RGB2BGR) if cv2 and np else None
     return raw_bytes, pil_img, np_bgr
 
 

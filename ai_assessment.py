@@ -1360,12 +1360,10 @@ def normalize_assessment_structure(assessment: dict[str, Any] | None, report: di
         # Ensure cost_estimate_boq is present and up-to-date
         merged["cost_estimate_boq"] = geotech_engine.calculate_comprehensive_cost_and_loss_estimate(merged, report)
 
-        # Ensure ML geotechnical schematic cross-section SVG & badge
+        # Ensure ML geotechnical schematic cross-section SVG & badge dynamically updated
         rep_clean_id = str(report.get("id") or "SCHEM").replace("-", "_")
-        if not merged.get("schematic_svg"):
-            merged["schematic_svg"] = geotech_schematic.generate_schematic_svg(merged, report, unique_suffix=rep_clean_id)
-        if not merged.get("schematic_top_badge"):
-            merged["schematic_top_badge"] = geotech_schematic.extract_ml_kinematic_parameters(merged, report)["top_badge"]
+        merged["schematic_svg"] = geotech_schematic.generate_schematic_svg(merged, report, unique_suffix=rep_clean_id)
+        merged["schematic_top_badge"] = geotech_schematic.extract_ml_kinematic_parameters(merged, report)["top_badge"]
 
     # Harmonize official report reference (IITM-STAR)
     rep_id = str(report.get("id") or (merged.get("telemetry") or {}).get("report_id") or "IITM-CR-RECORD").strip()
@@ -1608,7 +1606,7 @@ RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
     "wall_distress_bulging": true,
     "wall_distress_collapse": true,
     "wall_distress_joint": true,
-    "optical_geometry": {
+    "optical_geometry": {{
       "kinematic_failure_mode": "Translational Planar Slide or Rotational Slump or Rockfall / Topple or Debris Flow or Wedge Failure",
       "cut_slope_angle_deg": 65,
       "slip_surface_dip_deg": 57,
@@ -1618,7 +1616,7 @@ RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
       "carriageway_open_m": 2.30,
       "road_blocked_percent": 55,
       "drain_status": "Choked with debris"
-    }
+    }}
   }},
   "plain_language_explanation": {{
     "summary_title": "String",

@@ -6,6 +6,10 @@ Integrates three complementary scientific measurement modalities:
 3. User-Guided Ground Control Scale (Interactive 2-point ground truth caliper calibration).
 
 Coupled with Roboflow SAM-3 zero-shot boundary segmentation and civil engineering CAD/GIS drafting.
+
+NOTE: Heavy ML dependencies (cv2, numpy, torch, transformers, PIL) are loaded lazily inside
+functions only when called, so this module is safe to import in Vercel serverless environments
+even when those packages are not installed.
 """
 from __future__ import annotations
 
@@ -19,12 +23,7 @@ import os
 from pathlib import Path
 from typing import Any
 
-import cv2
-import numpy as np
-from PIL import Image, ImageDraw, ImageFont, ExifTags
 import requests
-import torch
-import transformers
 
 import config
 from geotech_vision import (
@@ -34,11 +33,17 @@ from geotech_vision import (
     _get_font,
     _draw_arrow,
     _draw_badge,
+    _get_cv2,
+    _get_np,
+    _get_PIL,
 )
 
 logger = logging.getLogger("photogrammetry_engine")
 OUT_DIR = Path("static/uploads/annotated")
-OUT_DIR.mkdir(parents=True, exist_ok=True)
+try:
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+except Exception:
+    pass  # Read-only filesystem on Vercel
 
 # Lazy singleton for Depth Anything V2 pipeline
 _depth_pipeline = None
@@ -47,12 +52,16 @@ _depth_pipeline = None
 def get_depth_pipeline():
     global _depth_pipeline
     if _depth_pipeline is None:
-        logger.info("Initializing Depth Anything V2 Small pipeline on CPU...")
-        _depth_pipeline = transformers.pipeline(
-            "depth-estimation",
-            model="depth-anything/Depth-Anything-V2-Small-hf",
-            device="cpu",
-        )
+        try:
+            import transformers as _transformers  # noqa: PLC0415
+            logger.info("Initializing Depth Anything V2 Small pipeline on CPU...")
+            _depth_pipeline = _transformers.pipeline(
+                "depth-estimation",
+                model="depth-anything/Depth-Anything-V2-Small-hf",
+                device="cpu",
+            )
+        except ImportError:
+            logger.warning("transformers not available; depth estimation disabled.")
     return _depth_pipeline
 
 
@@ -60,21 +69,26 @@ def get_depth_pipeline():
 # MODALITY 1: CAMERA EXIF METADATA & OPTICAL PINHOLE GEOMETRY
 # =============================================================================
 
-def extract_camera_optics(pil_img: Image.Image) -> dict[str, Any]:
+def extract_camera_optics(pil_img: "Any") -> dict[str, Any]:
     """Extracts optical camera parameters from JPEG/TIFF EXIF tags.
 
     Computes focal length in pixels (f_px), horizontal/vertical field of view (HFOV/VFOV),
     and optical principal center (cx, cy).
     """
+    try:
+        from PIL import ExifTags as _ExifTags  # noqa: PLC0415
+    except ImportError:
+        _ExifTags = None
+
     w, h = pil_img.size
     cx = w / 2.0
     cy = h / 2.0
 
     exif_data = {}
     raw_exif = pil_img.getexif()
-    if raw_exif:
+    if raw_exif and _ExifTags:
         for tag_id, value in raw_exif.items():
-            tag_name = ExifTags.TAGS.get(tag_id, str(tag_id))
+            tag_name = _ExifTags.TAGS.get(tag_id, str(tag_id))
             exif_data[tag_name] = value
 
     focal_length_mm = None
