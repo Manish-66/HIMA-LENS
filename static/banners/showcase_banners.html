@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HIMA-LENS Showcase Banners (1920x1080 - 16:9)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..900;1,9..40,300..900&family=JetBrains+Mono:wght@400;600;700;800&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-heading: 'Manrope', -apple-system, sans-serif;
+      --font-body: 'DM Sans', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #06090e;
+      color: #e2e8f0;
+      font-family: var(--font-body);
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 60px;
+    }
+    .page-title {
+      text-align: center;
+      max-width: 800px;
+    }
+    .page-title h1 {
+      font-family: var(--font-heading);
+      font-size: 32px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+    .page-title p {
+      color: #94a3b8;
+      font-size: 15px;
+    }
+    .banner-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      width: 100%;
+      max-width: 1200px;
+    }
+    .banner-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0 4px;
+    }
+    .banner-tag {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      color: #10b981;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .banner-meta {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: #64748b;
+    }
+    .banner-frame {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.08);
+      transform: translateZ(0);
+    }
+    .banner-canvas {
+      width: 1920px;
+      height: 1080px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform-origin: top left;
+    }
+
+    /* ========================================================
+       BANNER 1: HIMALAYAN ALPINE CLEAN / FOREST (PRIMARY)
+       ======================================================== */
+    .b1-canvas {
+      background: radial-gradient(circle at 85% 20%, #1d4638 0%, #0d271f 45%, #071510 100%);
+      color: #f8fafc;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 90px 110px;
+    }
+    .b1-bg-mountains {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.85;
+    }
+    .b1-top-bar {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .b1-brand {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .b1-logo-badge {
+      width: 68px;
+      height: 68px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #10b981, #047857);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .b1-logo-badge svg {
+      width: 40px;
+      height: 40px;
+      fill: none;
+      stroke: #ffffff;
+      stroke-width: 2.2;
+    }
+    .b1-brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+    .b1-brand-name {
+      font-family: var(--font-heading);
+      font-size: 38px;
+      font-weight: 850;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      line-height: 1;
+    }
+    .b1-brand-sub {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 700;
+      color: #6ee7b7;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+    .b1-telemetry-pill {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(6, 78, 59, 0.45);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      padding: 12px 24px;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 700;
+      color: #a7f3d0;
+    }
+    .b1-telemetry-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 12px #10b981;
+    }
+    .b1-hero-body {
+      position: relative;
+      z-index: 10;
+      max-width: 1100px;
+      margin-top: 40px;
+    }
+    .b1-eyebrow-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 700;
+      color: #d1fae5;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 24px;
+    }
+    .b1-headline {
+      font-family: var(--font-heading);
+      font-size: 78px;
+      font-weight: 850;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+      color: #ffffff;
+      margin-bottom: 26px;
+    }
+    .b1-headline span {
+      background: linear-gradient(135deg, #a7f3d0 0%, #34d399 50%, #6ee7b7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .b1-lead {
+      font-size: 26px;
+      line-height: 1.45;
+      color: #cbd5e1;
+      max-width: 950px;
+      font-weight: 400;
+    }
+    .b1-bottom-bar {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      padding-top: 34px;
+    }
+    .b1-stats-row {
+      display: flex;
+      gap: 48px;
+    }
+    .b1-stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+    .b1-stat-num {
+      font-family: var(--font-heading);
+      font-size: 38px;
+      font-weight: 850;
+      color: #ffffff;
+      line-height: 1;
+    }
+    .b1-stat-label {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 600;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 6px;
+    }
+    .b1-citation-box {
+      text-align: right;
+      font-family: var(--font-mono);
+      font-size: 13.5px;
+      color: #94a3b8;
+      line-height: 1.6;
+    }
+    .b1-citation-box strong {
+      color: #f1f5f9;
+      font-weight: 700;
+    }
+
+    /* ========================================================
+       BANNER 2: MODERN DARK CAD / GEOTECHNICAL TELEMETRY
+       ======================================================== */
+    .b2-canvas {
+      background: #080d17;
+      color: #f8fafc;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 80px 100px;
+    }
+    .b2-cad-grid {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.35;
+    }
+    .b2-schematic-bg {
+      position: absolute;
+      right: 40px;
+      top: 100px;
+      width: 780px;
+      height: 520px;
+      pointer-events: none;
+      opacity: 0.95;
+    }
+
+    /* ========================================================
+       BANNER 3: SCIENTIFIC / INSTITUTIONAL RESEARCH POSTER
+       ======================================================== */
+    .b3-canvas {
+      background: radial-gradient(circle at 10% 20%, #1e293b 0%, #0f172a 60%, #020617 100%);
+      color: #f8fafc;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 85px 110px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="page-title">
+    <h1>HIMA-LENS Creative Showcase Banners</h1>
+    <p>1920 &times; 1080 (16:9 Presentation / Academic Showcase / Project Hero)</p>
+  </header>
+
+  <!-- ========================================================
+       OPTION 1: HIMALAYAN ALPINE CLEAN / FOREST (RECOMMENDED)
+       ======================================================== -->
+  <div class="banner-container">
+    <div class="banner-header">
+      <span class="banner-tag">Option 01 &bull; Himalayan Forest / Alpine Clean (Primary Selection)</span>
+      <span class="banner-meta">1920 &times; 1080 &bull; Pine Green (#1B493B) &bull; Mountain Silhouettes &bull; Emerald Accents</span>
+    </div>
+    <div class="banner-frame" id="frame-1">
+      <div class="banner-canvas b1-canvas" id="banner-1">
+        <!-- SVG Mountain Silhouette Backdrop -->
+        <svg class="b1-bg-mountains" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Sky Graticule Lines -->
+          <line x1="120" y1="0" x2="120" y2="1080" stroke="#16382c" stroke-width="1" stroke-dasharray="4 8" opacity="0.4" />
+          <line x1="960" y1="0" x2="960" y2="1080" stroke="#16382c" stroke-width="1" stroke-dasharray="4 8" opacity="0.4" />
+          <line x1="1800" y1="0" x2="1800" y2="1080" stroke="#16382c" stroke-width="1" stroke-dasharray="4 8" opacity="0.4" />
+          <line x1="0" y1="360" x2="1920" y2="360" stroke="#16382c" stroke-width="1" stroke-dasharray="4 8" opacity="0.4" />
+          <line x1="0" y1="720" x2="1920" y2="720" stroke="#16382c" stroke-width="1" stroke-dasharray="4 8" opacity="0.4" />
+
+          <!-- Distant Snow Ranges -->
+          <polygon points="680,240 890,480 520,530" fill="#143b2e" opacity="0.3" />
+          <polygon points="1050,190 1280,510 890,480" fill="#194838" opacity="0.4" />
+          <polygon points="1420,260 1680,540 1220,530" fill="#143b2e" opacity="0.35" />
+
+          <!-- Mid-ground Ridge Layers -->
+          <path d="M 400 420 Q 750 340 1100 460 T 1920 480 L 1920 1080 L 400 1080 Z" fill="#0d2c22" opacity="0.75" />
+          <path d="M 650 510 Q 1020 410 1480 560 T 1920 620 L 1920 1080 L 650 1080 Z" fill="#0a221a" opacity="0.9" />
+
+          <!-- Geological Contour Elevation Curves -->
+          <path d="M 700 480 C 1050 420, 1250 560, 1920 540" stroke="#34d399" stroke-width="1.2" stroke-dasharray="6 6" fill="none" opacity="0.25" />
+          <path d="M 750 550 C 1100 490, 1300 630, 1920 610" stroke="#34d399" stroke-width="1.5" stroke-dasharray="8 6" fill="none" opacity="0.3" />
+          <path d="M 800 620 C 1150 560, 1350 700, 1920 680" stroke="#10b981" stroke-width="2" fill="none" opacity="0.35" />
+
+          <!-- Beas River Valley Corridor -->
+          <path d="M 1920 880 C 1650 870, 1480 910, 1350 960 Q 1200 1010 1100 1080 L 1920 1080 Z" fill="#0284c7" opacity="0.3" />
+        </svg>
+
+        <!-- Top Header Bar -->
+        <div class="b1-top-bar">
+          <div class="b1-brand">
+            <div class="b1-logo-badge">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+              </svg>
+            </div>
+            <div class="b1-brand-text">
+              <span class="b1-brand-name">HIMA-LENS</span>
+              <span class="b1-brand-sub">Himalayan Landslide Geospatial Intelligence System</span>
+            </div>
+          </div>
+          <div class="b1-telemetry-pill">
+            <span class="b1-telemetry-dot"></span>
+            <span>HIMACHAL PRADESH &bull; 12 DISTRICTS &bull; 14,190 SLOPE FAILURES</span>
+          </div>
+        </div>
+
+        <!-- Hero Content Body -->
+        <div class="b1-hero-body">
+          <div class="b1-eyebrow-chip">
+            <span>&bull; Cruden &amp; Varnes (1996) &bull; USGS 1325 &bull; HPPWD / IRC:SP:48:2023 &bull;</span>
+          </div>
+          <h2 class="b1-headline">
+            A landslide is<br><span>more than a point.</span>
+          </h2>
+          <p class="b1-lead">
+            Synthesizing 14,190 geological incidents across Himachal Pradesh into deterministic Limit Equilibrium kinematics, 72-hour monsoon saturation thresholds, and publication-grade engineering DPR dossiers.
+          </p>
+        </div>
+
+        <!-- Bottom Telemetry & Citation Bar -->
+        <div class="b1-bottom-bar">
+          <div class="b1-stats-row">
+            <div class="b1-stat-item">
+              <span class="b1-stat-num">14,190</span>
+              <span class="b1-stat-label">Mapped Landslides</span>
+            </div>
+            <div class="b1-stat-item">
+              <span class="b1-stat-num">12 / 12</span>
+              <span class="b1-stat-label">HP Districts Mapped</span>
+            </div>
+            <div class="b1-stat-item">
+              <span class="b1-stat-num">WGS 84</span>
+              <span class="b1-stat-label">EPSG:4326 PostGIS Stream</span>
+            </div>
+            <div class="b1-stat-item">
+              <span class="b1-stat-num">&lt; 850m</span>
+              <span class="b1-stat-label">Highway Toe Proximity</span>
+            </div>
+          </div>
+          <div class="b1-citation-box">
+            <span>INDIAN INSTITUTE OF TECHNOLOGY MANDI</span><br>
+            <strong>School of Civil &amp; Environmental Engineering</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       OPTION 2: MODERN DARK CAD / GEOTECHNICAL TELEMETRY
+       ======================================================== -->
+  <div class="banner-container">
+    <div class="banner-header">
+      <span class="banner-tag" style="color: #38bdf8;">Option 02 &bull; Modern Dark CAD / Geotechnical Telemetry</span>
+      <span class="banner-meta">1920 &times; 1080 &bull; Dark Navy (#080D17) &bull; Technical Vector Cross-Section &bull; Cyan Accents</span>
+    </div>
+    <div class="banner-frame" id="frame-2">
+      <div class="banner-canvas b2-canvas" id="banner-2">
+        <!-- SVG CAD Background Grid -->
+        <svg class="b2-cad-grid" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="b2Grid" width="60" height="60" patternUnits="userSpaceOnUse">
+              <line x1="0" y1="0" x2="60" y2="0" stroke="#1e293b" stroke-width="1" />
+              <line x1="0" y1="0" x2="0" y2="60" stroke="#1e293b" stroke-width="1" />
+            </pattern>
+          </defs>
+          <rect width="1920" height="1080" fill="url(#b2Grid)" />
+        </svg>
+
+        <!-- Technical Cross-Section SVG Diagram Overlay -->
+        <svg class="b2-schematic-bg" viewBox="0 0 780 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="780" height="520" rx="16" fill="#0d1526" stroke="#1e293b" stroke-width="1.5" />
+          <!-- Slope Profile -->
+          <path d="M 40 80 L 220 90 L 480 340 L 640 340 L 740 400 L 740 480 L 40 480 Z" fill="#131e33" stroke="#334155" stroke-width="2" />
+          <!-- Shear Rupture Arc -->
+          <path d="M 250 95 Q 360 230 480 340" stroke="#ef4444" stroke-width="4" stroke-dasharray="8 4" fill="none" />
+          <!-- Phreatic Seepage Line -->
+          <path d="M 60 250 Q 320 270 470 340" stroke="#0284c7" stroke-width="2.5" stroke-dasharray="6 3" fill="none" />
+          <!-- Soil Nails -->
+          <line x1="300" y1="160" x2="380" y2="250" stroke="#10b981" stroke-width="3.5" />
+          <line x1="360" y1="210" x2="440" y2="300" stroke="#10b981" stroke-width="3.5" />
+          <!-- Highway -->
+          <rect x="480" y="336" width="160" height="10" fill="#1e293b" stroke="#475569" stroke-width="1.5" />
+          <!-- Engineering Badges -->
+          <rect x="60" y="35" width="230" height="30" rx="6" fill="#450a0a" stroke="#dc2626" stroke-width="1" />
+          <text x="75" y="55" fill="#fca5a5" font-family="'JetBrains Mono'" font-size="13" font-weight="800">MAIN SCARP (2,450m)</text>
+          <rect x="520" y="35" width="210" height="30" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1" />
+          <text x="535" y="55" fill="#6ee7b7" font-family="'JetBrains Mono'" font-size="13" font-weight="800">FoS = 1.38 (REINFORCED)</text>
+        </svg>
+
+        <!-- Top Bar -->
+        <div class="b1-top-bar">
+          <div class="b1-brand">
+            <div class="b1-logo-badge" style="background: linear-gradient(135deg, #0284c7, #0369a1); box-shadow: 0 10px 25px rgba(2, 132, 199, 0.35);">
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="9" />
+                <path d="M12 3v18M3 12h18" />
+              </svg>
+            </div>
+            <div class="b1-brand-text">
+              <span class="b1-brand-name">HIMA-LENS</span>
+              <span class="b1-brand-sub" style="color: #38bdf8;">Geotechnical ML Telemetry &amp; Slope Dynamics</span>
+            </div>
+          </div>
+          <div class="b1-telemetry-pill" style="background: rgba(2, 132, 199, 0.25); border-color: rgba(56, 189, 248, 0.4); color: #bae6fd;">
+            <span class="b1-telemetry-dot" style="background: #38bdf8; box-shadow: 0 0 12px #38bdf8;"></span>
+            <span>LIMIT EQUILIBRIUM &bull; KINEMATIC RESOLVER</span>
+          </div>
+        </div>
+
+        <!-- Hero Content -->
+        <div class="b1-hero-body" style="max-width: 900px;">
+          <div class="b1-eyebrow-chip" style="background: rgba(2, 132, 199, 0.15); border-color: rgba(56, 189, 248, 0.3); color: #7dd3fc;">
+            <span>&bull; Automated Photogrammetry &bull; Vision SAM-3 &bull; PostGIS &bull;</span>
+          </div>
+          <h2 class="b1-headline">
+            Precision Mountain<br><span style="background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Disaster Intelligence.</span>
+          </h2>
+          <p class="b1-lead" style="color: #94a3b8;">
+            Bridging empirical field data, satellite LiDAR topography, and zero-shot computer vision into real-time geotechnical slope risk scores for the Himalayan corridor.
+          </p>
+        </div>
+
+        <!-- Bottom Row -->
+        <div class="b1-bottom-bar">
+          <div class="b1-stats-row">
+            <div class="b1-stat-item">
+              <span class="b1-stat-num" style="color: #38bdf8;">14,190</span>
+              <span class="b1-stat-label">Inventory Failures</span>
+            </div>
+            <div class="b1-stat-item">
+              <span class="b1-stat-num">500 kJ</span>
+              <span class="b1-stat-label">Rockfall Ring Nets</span>
+            </div>
+            <div class="b1-stat-item">
+              <span class="b1-stat-num">1.25</span>
+              <span class="b1-stat-label">CEDD FoS Target</span>
+            </div>
+          </div>
+          <div class="b1-citation-box">
+            <span>IIT MANDI &bull; CIVIL &amp; ENVIRONMENTAL ENGINEERING</span><br>
+            <strong>Comprehensive Geotechnical Asset Management Platform</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       OPTION 3: SCIENTIFIC / ACADEMIC RESEARCH POSTER
+       ======================================================== -->
+  <div class="banner-container">
+    <div class="banner-header">
+      <span class="banner-tag" style="color: #cbd5e1;">Option 03 &bull; Scientific / Academic Research Poster</span>
+      <span class="banner-meta">1920 &times; 1080 &bull; Editorial Slate &bull; Formal Typography &bull; Gold / Bronze Accents</span>
+    </div>
+    <div class="banner-frame" id="frame-3">
+      <div class="banner-canvas b3-canvas" id="banner-3">
+        <!-- Top Bar -->
+        <div class="b1-top-bar">
+          <div class="b1-brand">
+            <div class="b1-logo-badge" style="background: #1e293b; border-color: #475569; box-shadow: none;">
+              <svg viewBox="0 0 24 24" style="stroke: #f8fafc;">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+              </svg>
+            </div>
+            <div class="b1-brand-text">
+              <span class="b1-brand-name" style="letter-spacing: 0.04em;">HIMA-LENS</span>
+              <span class="b1-brand-sub" style="color: #94a3b8;">Decision-Support System for Himalayan Landslides</span>
+            </div>
+          </div>
+          <div class="b1-telemetry-pill" style="background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.15); color: #f1f5f9;">
+            <span>RESEARCH INVENTORY &bull; HIMACHAL PRADESH</span>
+          </div>
+        </div>
+
+        <!-- Hero Content -->
+        <div class="b1-hero-body">
+          <div class="b1-eyebrow-chip" style="color: #cbd5e1; border-color: #475569;">
+            <span>&bull; STATUTORY PWD PROFORMA &bull; SPATIAL RISK MODELING &bull;</span>
+          </div>
+          <h2 class="b1-headline" style="font-size: 72px;">
+            Geotechnical &amp; Spatial Analysis of<br><span style="background: linear-gradient(135deg, #f8fafc 0%, #cbd5e1 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Slope Instabilities in Himachal Pradesh.</span>
+          </h2>
+          <p class="b1-lead" style="color: #94a3b8; font-size: 24px;">
+            Integrating multi-temporal landslide inventories, geological joint fabric data, and automated preliminary engineering estimates for disaster mitigation along vulnerable highway corridors.
+          </p>
+        </div>
+
+        <!-- Bottom Row -->
+        <div class="b1-bottom-bar">
+          <div class="b1-stats-row">
+            <div class="b1-stat-item">
+              <span class="b1-stat-num">14,190</span>
+              <span class="b1-stat-label">Verified Data Points</span>
+            </div>
+            <div class="b1-stat-item">
+              <span class="b1-stat-num">IS:14458</span>
+              <span class="b1-stat-label">Retaining Wall Codes</span>
+            </div>
+            <div class="b1-stat-item">
+              <span class="b1-stat-num">IRC:SP:48</span>
+              <span class="b1-stat-label">Hill Road Standard</span>
+            </div>
+          </div>
+          <div class="b1-citation-box">
+            <span>INDIAN INSTITUTE OF TECHNOLOGY MANDI</span><br>
+            <strong>Kamand Campus, Mandi 175005, Himachal Pradesh, India</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Responsive scale handler to ensure 1920x1080 canvas scales perfectly into responsive container
+    function scaleBanners() {
+      const frames = document.querySelectorAll('.banner-frame');
+      frames.forEach(frame => {
+        const width = frame.offsetWidth;
+        const scale = width / 1920;
+        const canvas = frame.querySelector('.banner-canvas');
+        if (canvas) {
+          canvas.style.transform = `scale(${scale})`;
+        }
+      });
+    }
+    window.addEventListener('resize', scaleBanners);
+    window.addEventListener('DOMContentLoaded', scaleBanners);
+    scaleBanners();
+  </script>
+</body>
+</html>
