@@ -34,8 +34,8 @@
 
     body {
       font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      font-size: 8.6px;
-      line-height: 1.38;
+      font-size: 8.8px;
+      line-height: 1.4;
       color: var(--ink);
       background: #cbd5e1;
       padding: 16px 8px;
@@ -103,12 +103,20 @@
       background: #5eead4;
       transform: translateY(-1px);
     }
-    .btn-estimate {
+    .btn-sheet2 {
+      background: #0284c7;
+      color: #ffffff;
+      border: 1px solid #0369a1;
+    }
+    .btn-sheet2:hover {
+      background: #0369a1;
+    }
+    .btn-sheet3 {
       background: #f59e0b;
       color: #092f25;
       border: 1px solid #d97706;
     }
-    .btn-estimate:hover {
+    .btn-sheet3:hover {
       background: #fbbf24;
     }
     .btn-ghost {
@@ -120,62 +128,7 @@
       background: rgba(255, 255, 255, 0.22);
     }
 
-    /* Modal Backdrop & Container for BOQ */
-    .cost-modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.80);
-      backdrop-filter: blur(4px);
-      z-index: 9999;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-    }
-    .cost-modal-window {
-      background: #ffffff;
-      border-radius: 8px;
-      max-width: 960px;
-      width: 100%;
-      max-height: 92vh;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
-      border: 1.5px solid #1e293b;
-      overflow: hidden;
-    }
-    .cost-modal-header {
-      background: var(--primary-dark);
-      color: #ffffff;
-      padding: 10px 18px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 2px solid var(--accent-highlight);
-    }
-    .cost-modal-header h3 {
-      font-family: 'Manrope', sans-serif;
-      font-size: 12px;
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .cost-modal-close {
-      background: transparent;
-      border: none;
-      color: #ffffff;
-      font-size: 18px;
-      cursor: pointer;
-      line-height: 1;
-    }
-    .cost-modal-body {
-      padding: 14px;
-      overflow-y: auto;
-      font-size: 9px;
-    }
-
-    /* Screen Canvas Wrapper (Enforces ISO 216 A4 Dimensions 210mm x 297mm) */
+    /* Screen Canvas Wrapper */
     .report-canvas-wrapper {
       width: 100%;
       overflow-x: auto;
@@ -211,7 +164,7 @@
       }
     }
 
-    /* Standard ISO 216 A4 Physical Sheet Container (Exact 210mm x 297mm) */
+    /* Standard ISO 216 A4 Sheet (Exact 210mm x 297mm) */
     .report-page {
       background: #ffffff;
       width: 210mm;
@@ -221,7 +174,7 @@
       min-height: 297mm;
       max-height: 297mm;
       margin: 0 auto 24px auto;
-      padding: 7.5mm 9.5mm 6.5mm 9.5mm;
+      padding: 8mm 10mm 7mm 10mm;
       border: 1.5px solid var(--border-dark);
       box-shadow: 0 6px 25px rgba(15, 23, 42, 0.22);
       position: relative;
@@ -243,7 +196,7 @@
     .master-header {
       border-bottom: 2px solid var(--primary-dark);
       padding-bottom: 4px;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
     }
     .master-header-grid {
       display: grid;
@@ -274,14 +227,14 @@
     }
     .master-title {
       font-family: 'Manrope', sans-serif;
-      font-size: 11.5px;
+      font-size: 12px;
       font-weight: 850;
       color: var(--ink);
       letter-spacing: 0.3px;
       line-height: 1.15;
     }
     .master-standards {
-      font-size: 7.4px;
+      font-size: 7.5px;
       font-weight: 600;
       color: var(--ink-soft);
     }
@@ -298,7 +251,7 @@
       border-radius: 3px;
     }
     .stamp-lbl {
-      font-size: 6.8px;
+      font-size: 7px;
       font-weight: 800;
       color: var(--ink-soft);
       letter-spacing: 0.5px;
@@ -306,12 +259,12 @@
     }
     .stamp-code {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 9px;
+      font-size: 9.5px;
       font-weight: 800;
       color: var(--primary-dark);
     }
     .stamp-stat {
-      font-size: 6.8px;
+      font-size: 7px;
       font-weight: 800;
       background: var(--primary-dark);
       color: #ffffff;
@@ -321,11 +274,11 @@
       letter-spacing: 0.3px;
     }
 
-    /* Mini Institutional Header for Pages 2 & 3 */
+    /* Mini Header for Page 2 */
     .mini-header {
       border-bottom: 1.5px solid var(--primary-dark);
-      padding-bottom: 3.5px;
-      margin-bottom: 5px;
+      padding-bottom: 4px;
+      margin-bottom: 6px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -347,11 +300,10 @@
       color: var(--primary-dark);
       letter-spacing: 0.4px;
       text-transform: uppercase;
-      line-height: 1.1;
     }
     .mini-report-title {
       font-family: 'Manrope', sans-serif;
-      font-size: 9.8px;
+      font-size: 10px;
       font-weight: 800;
       color: var(--primary-forest);
       letter-spacing: 0.2px;
@@ -363,7 +315,7 @@
       color: var(--primary-forest);
       background: #f1f5f9;
       border: 1px solid #cbd5e1;
-      padding: 2px 7px;
+      padding: 2.5px 8px;
       border-radius: 3px;
     }
 
@@ -372,10 +324,10 @@
       background: var(--primary-dark);
       color: #ffffff;
       font-family: 'Manrope', sans-serif;
-      font-size: 8.4px;
+      font-size: 8.6px;
       font-weight: 800;
-      padding: 3.5px 8px;
-      margin: 4.5px 0 3px 0;
+      padding: 4px 9px;
+      margin: 5px 0 3.5px 0;
       letter-spacing: 0.35px;
       text-transform: uppercase;
       display: flex;
@@ -396,24 +348,24 @@
       width: 100%;
       border-collapse: collapse;
       border: 1px solid var(--border-dark);
-      font-size: 8.2px;
-      line-height: 1.35;
-      margin-bottom: 4px;
+      font-size: 8.4px;
+      line-height: 1.38;
+      margin-bottom: 5px;
     }
     .grid-table th {
       background: var(--bg-table-head);
       color: var(--ink);
       font-weight: 700;
       text-align: left;
-      padding: 3.5px 6.5px;
+      padding: 4px 7px;
       border: 1px solid var(--border-dark);
       font-family: 'Manrope', sans-serif;
-      font-size: 8px;
+      font-size: 8.2px;
     }
     .grid-table td {
       border: 1px solid var(--border-dark);
-      padding: 3.2px 6.5px;
-      vertical-align: top;
+      padding: 4px 7.5px;
+      vertical-align: middle;
       color: var(--ink);
     }
     .grid-table .col-lbl {
@@ -437,7 +389,7 @@
       border: 1px solid #cbd5e1;
       display: inline-block;
       color: var(--primary-dark);
-      font-size: 8px;
+      font-size: 8.2px;
     }
     .math-eq i {
       font-style: italic;
@@ -448,40 +400,12 @@
       line-height: 0;
     }
 
-    /* Checkbox Components */
-    .chk-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 3.5px;
-      margin-right: 7px;
-      white-space: nowrap;
-      font-size: 7.2px;
-    }
-    .chk-box {
-      display: inline-block;
-      width: 9.5px;
-      height: 9.5px;
-      border: 1px solid var(--border-dark);
-      background: #ffffff;
-      text-align: center;
-      line-height: 8.5px;
-      font-size: 7.5px;
-      font-weight: 800;
-      vertical-align: middle;
-      color: transparent;
-    }
-    .chk-box.active {
-      background: var(--primary-dark);
-      color: #ffffff;
-      border-color: var(--primary-dark);
-    }
-
     /* Visual Diagnostic Plate (Dual Column: Photo + Schematic) */
     .visual-diagnostic-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
-      margin: 4px 0 5px 0;
+      margin: 5px 0;
       align-items: stretch;
     }
     .photo-frame-box {
@@ -490,7 +414,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      height: 330px;
+      height: 270px;
       position: relative;
       overflow: hidden;
       border-radius: 3px;
@@ -499,7 +423,7 @@
       background: rgba(9, 47, 37, 0.95);
       color: #5eead4;
       padding: 4px 8px;
-      font-size: 7px;
+      font-size: 7.2px;
       font-weight: 700;
       letter-spacing: 0.4px;
       display: flex;
@@ -529,7 +453,7 @@
     .photo-caption-bar {
       background: rgba(9, 47, 37, 0.95);
       color: #ffffff;
-      padding: 4px 8px;
+      padding: 3.5px 8px;
       font-size: 7.2px;
       display: flex;
       justify-content: space-between;
@@ -544,7 +468,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      height: 330px;
+      height: 270px;
       position: relative;
       overflow: hidden;
       border-radius: 3px;
@@ -553,7 +477,7 @@
       background: #0f172a;
       color: #94a3b8;
       padding: 4px 8px;
-      font-size: 7px;
+      font-size: 7.2px;
       font-weight: 700;
       letter-spacing: 0.4px;
       display: flex;
@@ -579,7 +503,7 @@
     .schematic-caption-bar {
       background: #0f172a;
       color: #ffffff;
-      padding: 4px 8px;
+      padding: 3.5px 8px;
       font-size: 7.2px;
       font-family: 'Manrope', sans-serif;
       font-weight: 700;
@@ -589,102 +513,74 @@
       border-top: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    /* 3-Tier Epistemic Synthesis System (ASCE GSP 180 / CIRIA C551 & C765) */
-    .epistemic-grid {
+    /* Tri-Sheet Ecosystem Cards */
+    .ecosystem-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 7px;
-      margin-bottom: 4px;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 6px 0 8px 0;
     }
-    .epistemic-card {
-      border: 1px solid var(--border-dark);
+    .ecosystem-card {
+      border: 1.5px solid #cbd5e1;
+      border-radius: 4px;
+      padding: 8px 10px;
       background: #ffffff;
-      padding: 5px 7px;
-      border-radius: 3px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      min-height: 96px;
     }
-    .epistemic-card.tier-1 {
-      border-left: 3.5px solid #0369a1;
+    .ecosystem-card.analysis {
+      border-color: #0284c7;
       background: #f0f9ff;
     }
-    .epistemic-card.tier-2 {
-      border-left: 3.5px solid #b45309;
+    .ecosystem-card.cost {
+      border-color: #d97706;
       background: #fffbeb;
     }
-    .epistemic-card.tier-3 {
-      border-left: 3.5px solid #15803d;
-      background: #f0fdf4;
-    }
-    .epistemic-header {
+    .ecosystem-title {
       font-family: 'Manrope', sans-serif;
-      font-size: 7.5px;
+      font-size: 8.8px;
       font-weight: 800;
-      letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
       text-transform: uppercase;
-      margin-bottom: 2.5px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
+      letter-spacing: 0.3px;
     }
-    .epistemic-body {
-      font-size: 7.1px;
-      line-height: 1.33;
-      color: var(--ink-soft);
-      flex: 1;
-    }
-    .epistemic-badge-row {
-      margin-top: 4px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 3px;
-    }
-    .epistemic-pill {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 6.5px;
-      font-weight: 700;
-      padding: 1.5px 4px;
-      border-radius: 2px;
-      background: rgba(0, 0, 0, 0.05);
-      border: 1px solid rgba(0, 0, 0, 0.1);
-    }
-
-    /* Solution Direct Action Callout */
-    .solution-action-box {
-      border: 1.5px solid #166534;
-      background: #f0fdf4;
-      padding: 5px 9px;
-      margin: 4px 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      border-radius: 3px;
-    }
-    .solution-action-text {
-      font-size: 7.5px;
-      color: #14532d;
+    .ecosystem-card.analysis .ecosystem-title { color: #0369a1; }
+    .ecosystem-card.cost .ecosystem-title { color: #b45309; }
+    .ecosystem-desc {
+      font-size: 7.6px;
       line-height: 1.35;
+      color: var(--ink-soft);
+      margin-bottom: 8px;
     }
-    .btn-action-pill {
-      background: #15803d;
-      color: #ffffff;
-      padding: 4.5px 11px;
-      border-radius: 4px;
-      font-weight: 700;
-      font-size: 8px;
-      text-decoration: none;
-      white-space: nowrap;
+    .btn-ecosystem {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
-      flex-shrink: 0;
+      justify-content: center;
+      gap: 5px;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 8.2px;
+      text-decoration: none;
       transition: all 0.15s ease;
     }
-    .btn-action-pill:hover {
-      background: #166534;
+    .btn-ecosystem-blue {
+      background: #0284c7;
+      color: #ffffff;
+    }
+    .btn-ecosystem-blue:hover {
+      background: #0369a1;
+    }
+    .btn-ecosystem-amber {
+      background: #d97706;
+      color: #ffffff;
+    }
+    .btn-ecosystem-amber:hover {
+      background: #b45309;
     }
 
     /* 4-Tier Sign-Off Matrix */
@@ -692,36 +588,36 @@
       width: 100%;
       border-collapse: collapse;
       border: 1px solid var(--border-dark);
-      font-size: 7.4px;
-      margin-top: 3px;
+      font-size: 7.5px;
+      margin-top: 5px;
     }
     .sign-table th {
       background: var(--bg-table-head);
       border: 1px solid var(--border-dark);
-      padding: 3.5px 6.5px;
+      padding: 4px 7px;
       font-family: 'Manrope', sans-serif;
       font-weight: 700;
       text-align: left;
-      font-size: 7.4px;
+      font-size: 7.5px;
       line-height: 1.25;
     }
     .sign-table td {
       border: 1px solid var(--border-dark);
-      padding: 4px 6.5px;
+      padding: 4px 7px;
       height: 44px;
       vertical-align: bottom;
-      font-size: 7.4px;
+      font-size: 7.5px;
     }
 
     /* Page Footer */
     .page-footer {
       border-top: 1.5px solid var(--border-dark);
-      margin-top: 5px;
-      padding-top: 2.5px;
+      margin-top: 6px;
+      padding-top: 3px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 7.4px;
+      font-size: 7.5px;
       color: #64748b;
       font-family: 'JetBrains Mono', monospace;
     }
@@ -744,7 +640,6 @@
         print-color-adjust: exact !important;
       }
       .screen-action-bar,
-      .cost-modal-overlay,
       .mobile-hint-banner {
         display: none !important;
       }
@@ -799,25 +694,24 @@
     <div class="brand">
       <span class="hl-tag">HIMA-LENS</span>
       <span class="hl-tag" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);">{{ assessment.telemetry.report_reference or 'IITM-CR-' + report.id }}</span>
-      <span class="hl-tag" style="background: #0284c7; border: 1px solid rgba(255,255,255,0.35); font-weight: 800;">ISO A4 &bull; 3-PAGE DOSSIER</span>
-      <span>Preliminary Project Report (PPR) &bull; Inception &amp; Geotechnical Diagnostic Docket</span>
+      <span class="hl-tag" style="background: #0284c7; border: 1px solid rgba(255,255,255,0.35); font-weight: 800;">SHEET 1: PPR</span>
+      <span>Preliminary Project Report (PPR) &bull; Problem Identification Docket</span>
     </div>
     <div class="action-btn-cluster">
       <button type="button" class="screen-btn btn-print" onclick="window.print()">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-        <span>Print Statutory A4 Dossier (3 Pages)</span>
+        <span>Print 2-Page PPR (A4)</span>
       </button>
-      <button type="button" class="screen-btn btn-estimate" onclick="openCostEstimateModal()">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-        <span>Cost Estimate (BOQ)</span>
-      </button>
+      <a href="/report/solution-sheet/{{ report.id }}" class="screen-btn btn-sheet2">
+        <span>Sheet 2: Detailed Analysis &rarr;</span>
+      </a>
+      <a href="/report/boq-sheet/{{ report.id }}" class="screen-btn btn-sheet3">
+        <span>Sheet 3: Cost &amp; BOQ &rarr;</span>
+      </a>
       <button type="button" class="screen-btn btn-ghost" id="btn-toggle-edit" onclick="toggleEditMode()">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
         <span>Edit Fields</span>
       </button>
-      <a href="/report/solution-sheet/{{ report.id }}" class="screen-btn btn-ghost" style="border-color: #38bdf8; color: #38bdf8;">
-        <span>Mitigation &amp; Solution Report &rarr;</span>
-      </a>
       <a href="/" class="screen-btn btn-ghost">
         <span>Exit to Map</span>
       </a>
@@ -826,7 +720,7 @@
 
   <!-- Mobile Pan/Zoom Hint Banner -->
   <div class="mobile-hint-banner">
-    <span>&#x1F4C4; Standard ISO A4 Physical Sheet (210 &times; 297 mm) &bull; Pan horizontally to view or click "Print Statutory A4 Dossier" to export</span>
+    <span>&#x1F4C4; Standard ISO A4 Physical Sheet (210 &times; 297 mm) &bull; Pan horizontally to view or click "Print 2-Page PPR" to export</span>
   </div>
 
   <!-- A4 Canvas Scroll Wrapper -->
@@ -834,7 +728,7 @@
     <div class="report-canvas">
 
       <!-- ======================================================== -->
-      <!-- PAGE 1: SITE FORENSIC IDENTIFICATION, DAMAGE & GEOLOGY    -->
+      <!-- PAGE 1: FIELD RECONNAISSANCE & VISUAL EVIDENCE           -->
       <!-- ======================================================== -->
       <div class="report-page">
         <div>
@@ -847,8 +741,8 @@
               <div class="master-text-col">
                 <div class="inst-name">INDIAN INSTITUTE OF TECHNOLOGY MANDI</div>
                 <div class="inst-dept">SCHOOL OF CIVIL &amp; ENVIRONMENTAL ENGINEERING &bull; HIMA-LENS OBSERVATORY</div>
-                <div class="master-title">PRELIMINARY PROJECT REPORT (PPR) &bull; INCEPTION &amp; FEASIBILITY DOSSIER</div>
-                <div class="master-standards">Statutory Geotechnical Assessment &bull; IRC:SP:48:2023 Hill Road Manual &bull; IS:14458 Landslide Stabilization Standards &bull; Eurocode 7 (EN 1997-1)</div>
+                <div class="master-title">PRELIMINARY PROJECT REPORT (PPR) &bull; INCEPTION &amp; FIELD ASSESSMENT</div>
+                <div class="master-standards">Statutory Geotechnical Inception &bull; IRC:SP:48:2023 Hill Road Manual &bull; IS:14458 Landslide Hazard Management</div>
               </div>
               <div class="master-badge-col">
                 <div class="report-stamp">
@@ -860,23 +754,23 @@
             </div>
           </div>
 
-          <!-- Table 0: Salient Features of the Project (The 6 Statutory PPR Parameters) -->
+          <!-- Section 1: Salient Project Identification -->
           <div class="sec-bar">
-            <span>Salient Features of the Project (Problem Identification Matrix)</span>
-            <span class="sec-bar-sub">HPPWD Standard Inception Framework</span>
+            <span>1. Salient Incident Identification (Problem Identification Matrix)</span>
+            <span class="sec-bar-sub">Administrative Telemetry</span>
           </div>
           <table class="grid-table">
             <tr>
-              <td class="col-lbl" style="width: 19%;">1. Project Title:</td>
-              <td class="col-val editable" id="ppr-f-title" style="width: 41%;"><strong>Remediation &amp; Slope Stabilization along {{ assessment.telemetry.site_road_name }} ({{ assessment.telemetry.chainage }})</strong></td>
+              <td class="col-lbl" style="width: 18%;">Project Corridor:</td>
+              <td class="col-val editable" id="ppr-f-title" style="width: 42%;"><strong>Remediation &amp; Slope Stabilization along {{ assessment.telemetry.site_road_name }} ({{ assessment.telemetry.chainage }})</strong></td>
               <td class="col-lbl" style="width: 18%;">Report Reference:</td>
               <td class="col-val font-mono" style="width: 22%; color: var(--primary-forest);"><strong>{{ assessment.telemetry.report_reference or 'IITM-CR-' + report.id }}</strong></td>
             </tr>
             <tr>
-              <td class="col-lbl">2. Location Details:</td>
+              <td class="col-lbl">Location Details:</td>
               <td class="col-val" colspan="3">
-                <strong>Village/City:</strong> <span class="editable" id="ppr-f-village">{{ assessment.telemetry.site_road_name }}</span> &bull; 
-                <strong>Block/Division:</strong> <span class="editable" id="ppr-f-block">{{ assessment.telemetry.district }} Division</span> &bull; 
+                <strong>Village/Station:</strong> <span class="editable" id="ppr-f-village">{{ assessment.telemetry.site_road_name }}</span> &bull; 
+                <strong>Division:</strong> <span class="editable" id="ppr-f-block">{{ assessment.telemetry.district }} Division (HPPWD)</span> &bull; 
                 <strong>District:</strong> <span class="editable" id="ppr-f-dist">{{ assessment.telemetry.district }}</span> &bull; 
                 <strong>State:</strong> Himachal Pradesh<br>
                 <strong>GPS Coordinates:</strong> <span class="font-mono" style="color: var(--primary-forest); font-weight: 700;">{{ assessment.telemetry.coordinates_dec }} ({{ assessment.telemetry.coordinates_dms }})</span> &bull; 
@@ -884,237 +778,35 @@
               </td>
             </tr>
             <tr>
-              <td class="col-lbl">3. Project Duration:</td>
-              <td class="col-val"><strong>6 Months</strong> (Fast-Track Pre-Monsoon Implementation Schedule)</td>
               <td class="col-lbl">Date of Inspection:</td>
               <td class="col-val font-mono">{{ assessment.telemetry.inspection_date }}</td>
-            </tr>
-            <tr>
-              <td class="col-lbl">4. Hazard to be Mitigated:</td>
-              <td class="col-val" style="color: var(--danger-red); font-weight: 700;">
-                {{ assessment.telemetry.reported_movement }} &bull; Cruden &amp; Varnes: {{ (assessment.advanced_geotechnical_stabilization.usgs_classification.two_term_classification if assessment.advanced_geotechnical_stabilization and assessment.advanced_geotechnical_stabilization.usgs_classification else assessment.slope_characteristics.cruden_varnes_type) or 'Translational Debris Slide' }}<br>
-                <span style="font-size: 7px; color: #475569; font-weight: 600;">Eurocode 7: GEO/STR Limit States &bull; CEDD Consequence: {{ (assessment.advanced_geotechnical_stabilization.cedd_consequence.consequence_category if assessment.advanced_geotechnical_stabilization and assessment.advanced_geotechnical_stabilization.cedd_consequence else 'Category 1 (High Consequence)') }} &bull; Target FoS &ge; {{ '%.2f' % (assessment.advanced_geotechnical_stabilization.cedd_consequence.target_fos_10yr if assessment.advanced_geotechnical_stabilization and assessment.advanced_geotechnical_stabilization.cedd_consequence else 1.30) }} (Monsoon)</span>
-              </td>
-              <td class="col-lbl">Type of Road:</td>
+              <td class="col-lbl">Road Classification:</td>
               <td class="col-val"><strong>{{ assessment.telemetry.road_type }}</strong></td>
             </tr>
             <tr>
-              <td class="col-lbl">5. Mitigation Methodology:</td>
-              <td class="col-val" colspan="3">
-                Force &amp; moment limit-equilibrium stability analysis (Spencer &amp; Morgenstern-Price methods per <strong>USACE EM 1110-2-1902 &amp; Eurocode 7 DA1/C2</strong>; <strong>IRC:SP:48:2023 &amp; IS:14458</strong>), kinematic stereonet discontinuity survey, and GSI Bhukosh regional geological audit.
-              </td>
-            </tr>
-            <tr>
-              <td class="col-lbl">6. Preliminary Mitigation Scope:</td>
-              <td class="col-val" colspan="3">
-                <strong>Recommended Concept:</strong> Gravity Plum Concrete Breast Wall (IS:14458 / MoRTH 1400: H={{ (assessment.retaining_wall or assessment.retaining_wall_specs or {}).height_m or 4.5 }}m, L={{ (assessment.retaining_wall or assessment.retaining_wall_specs or {}).length_affected_m or 32 }}m) with perforated PVC weep holes &bull; High-Yield Fe500D Soil Nailing (FHWA GEC 7) &bull; Sub-horizontal PVC Relief Drains (IRC:SP:48) &bull; Bio-turfing &bull; Simpson's Prismoidal excavation ({{ assessment.slope_characteristics.excavation_vol_m3 or 145 }} m&sup3;).<br>
-                <span style="font-size: 7.2px; color: #0369a1; font-weight: 600;">&bull; Cross-Reference Directive: Comprehensive structural drawings, bar bending schedules, and itemized HPSOR 2024-25 BOQ are detailed in the accompanying Mitigation &amp; Solution Report.</span>
+              <td class="col-lbl">Hazard Description:</td>
+              <td class="col-val" colspan="3" style="color: var(--danger-red); font-weight: 700;">
+                {{ assessment.telemetry.reported_movement }} &bull; Cruden &amp; Varnes Classification: {{ (assessment.advanced_geotechnical_stabilization.usgs_classification.two_term_classification if assessment.advanced_geotechnical_stabilization and assessment.advanced_geotechnical_stabilization.usgs_classification else assessment.slope_characteristics.cruden_varnes_type) or 'Translational Debris Slide' }}<br>
+                <span style="font-size: 7.2px; color: #475569; font-weight: 600;">CEDD Consequence: {{ (assessment.advanced_geotechnical_stabilization.cedd_consequence.consequence_category if assessment.advanced_geotechnical_stabilization and assessment.advanced_geotechnical_stabilization.cedd_consequence else 'Category 1 (High Risk)') }} &bull; Target Minimum FoS &ge; {{ '%.2f' % (assessment.advanced_geotechnical_stabilization.cedd_consequence.target_fos_10yr if assessment.advanced_geotechnical_stabilization and assessment.advanced_geotechnical_stabilization.cedd_consequence else 1.30) }} (Monsoon)</span>
               </td>
             </tr>
           </table>
 
-          <!-- 1. Slope & Material Characteristics -->
+          <!-- Section 2: Optical Evidence & Cross-Section Schematic -->
           <div class="sec-bar">
-            <span>1. Slope &amp; Material Characteristics</span>
-            <span class="sec-bar-sub">Field Geometry &amp; Volumetric Audit</span>
+            <span>2. Optical Field Evidence &amp; Kinematic Cross-Section</span>
+            <span class="sec-bar-sub">Photogrammetry &bull; ML Failure Anatomy</span>
           </div>
-          <table class="grid-table">
-            <thead>
-              <tr>
-                <th style="width: 33%;">Presence of slope</th>
-                <th style="width: 34%;">Earth material</th>
-                <th style="width: 33%;">Slope type</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <div class="chk-item {{ 'checked' if assessment.slope_characteristics.presence_above }}"><span class="chk-box {{ 'active' if assessment.slope_characteristics.presence_above }}">✔</span> Above road: {{ 'Yes' if assessment.slope_characteristics.presence_above else 'No' }}</div><br>
-                  <div class="chk-item {{ 'checked' if assessment.slope_characteristics.presence_below }}"><span class="chk-box {{ 'active' if assessment.slope_characteristics.presence_below }}">✔</span> Below road: {{ 'Yes' if assessment.slope_characteristics.presence_below else 'No' }}</div><br>
-                  <div class="chk-item {{ 'checked' if assessment.slope_characteristics.presence_both }}"><span class="chk-box {{ 'active' if assessment.slope_characteristics.presence_both }}">✔</span> Both: {{ 'Yes' if assessment.slope_characteristics.presence_both else 'No' }}</div>
-                </td>
-                <td>
-                  <div class="chk-item {{ 'checked' if assessment.slope_characteristics.in_situ_rock }}"><span class="chk-box {{ 'active' if assessment.slope_characteristics.in_situ_rock }}">✔</span> In-situ rock: {{ 'Yes' if assessment.slope_characteristics.in_situ_rock else 'No' }}</div><br>
-                  <div class="chk-item {{ 'checked' if assessment.slope_characteristics.in_situ_soil and not assessment.slope_characteristics.in_situ_soil.startswith('N/A') and assessment.slope_characteristics.in_situ_soil != 'None' }}"><span class="chk-box {{ 'active' if assessment.slope_characteristics.in_situ_soil and not assessment.slope_characteristics.in_situ_soil.startswith('N/A') and assessment.slope_characteristics.in_situ_soil != 'None' }}">✔</span> In-situ soil: {{ assessment.slope_characteristics.in_situ_soil }}</div><br>
-                  <div class="chk-item {{ 'checked' if assessment.slope_characteristics.debris }}"><span class="chk-box {{ 'active' if assessment.slope_characteristics.debris }}">✔</span> Debris: {{ assessment.slope_characteristics.debris_desc or 'Colluvial Overburden Mass' }}</div>
-                </td>
-                <td>
-                  <div class="chk-item {{ 'checked' if assessment.slope_characteristics.slope_type_cut }}"><span class="chk-box {{ 'active' if assessment.slope_characteristics.slope_type_cut }}">✔</span> Cut: {{ 'Yes' if assessment.slope_characteristics.slope_type_cut else 'No' }}</div> &nbsp;
-                  <div class="chk-item {{ 'checked' if assessment.slope_characteristics.slope_type_fill }}"><span class="chk-box {{ 'active' if assessment.slope_characteristics.slope_type_fill }}">✔</span> Fill: {{ 'Yes' if assessment.slope_characteristics.slope_type_fill else 'No' }}</div><br>
-                  <div class="chk-item {{ 'checked' if assessment.slope_characteristics.slope_type_natural }}"><span class="chk-box {{ 'active' if assessment.slope_characteristics.slope_type_natural }}">✔</span> Natural: {{ assessment.slope_characteristics.slope_type_natural }}</div>
-                </td>
-              </tr>
-              <tr>
-                <td><strong>Slope geometry (above road):</strong> Height = <span class="editable font-mono" id="f-slope-h">{{ assessment.slope_characteristics.slope_height_above }}</span></td>
-                <td><strong>Cut slope angle:</strong> <span class="editable font-mono" id="f-slope-angle" style="color: var(--danger-red); font-weight: 700;">{{ assessment.slope_characteristics.cut_slope_angle }}</span></td>
-                <td><strong>Slope profile:</strong> <span class="editable" id="f-slope-profile">{{ assessment.slope_characteristics.slope_geometry_profile }}</span></td>
-              </tr>
-              <tr>
-                <td colspan="2"><strong>Earthwork Volumetrics (IS:1200 / MoRTH Sec 300):</strong> Simpson's Prismoidal <span class="math-eq"><i>V</i> = <sup><i>L</i></sup>&frasl;<sub>6</sub> (<i>A</i><sub>1</sub> + 4<i>A</i><sub>m</sub> + <i>A</i><sub>2</sub>)</span> = <strong class="font-mono" style="color: var(--primary-forest);">{{ assessment.slope_characteristics.excavation_vol_m3 or 145 }} m&sup3;</strong> <span style="color: #64748b; font-size: 7.5px;">(Loose Bulking 1.25&times;: {{ ((assessment.slope_characteristics.excavation_vol_m3 or 145) * 1.25) | round(1) }} m&sup3;)</span></td>
-                <td><strong>Slope (below road):</strong> <span class="editable" id="f-slope-below">{{ assessment.slope_characteristics.slope_geometry_below }}</span></td>
-              </tr>
-            </tbody>
-          </table>
-
-          <!-- 2. Road Characteristics & Impact -->
-          <div class="sec-bar">
-            <span>2. Road Characteristics &amp; Corridor Infrastructure Impact</span>
-            <span class="sec-bar-sub">Damage &amp; Traffic Status</span>
-          </div>
-          <table class="grid-table">
-            <tr>
-              <td class="col-lbl">Road Alignment:</td>
-              <td class="col-val editable" id="f-road-align">{{ assessment.road_impact.road_alignment }}</td>
-              <td class="col-lbl">Type of fencing:</td>
-              <td class="col-val editable" id="f-road-fence">{{ assessment.road_impact.type_of_fencing }}</td>
-            </tr>
-            <tr>
-              <td class="col-lbl">Width before disaster:</td>
-              <td class="col-val editable font-mono" id="f-w-before">{{ assessment.road_impact.width_before }}</td>
-              <td class="col-lbl">Width after disaster:</td>
-              <td class="col-val editable font-mono" id="f-w-after" style="color: var(--danger-red); font-weight: 700;">{{ assessment.road_impact.width_after }} (Single-lane choke)</td>
-            </tr>
-            <tr>
-              <td class="col-lbl">Type of pavement:</td>
-              <td class="col-val editable" id="f-pave-type">{{ assessment.road_impact.pavement_type }}</td>
-              <td class="col-lbl">Shoulder width:</td>
-              <td class="col-val editable font-mono" id="f-shldr-w">{{ assessment.road_impact.shoulder_width }}</td>
-            </tr>
-            <tr>
-              <td class="col-lbl">Number of lanes:</td>
-              <td class="col-val editable font-mono" id="f-lanes">{{ assessment.road_impact.number_of_lanes }}</td>
-              <td class="col-lbl">Traffic Flow / Status:</td>
-              <td class="col-val editable" id="f-traffic-flow" style="font-weight: 700; color: #b45309;">{{ assessment.road_impact.traffic_status }}</td>
-            </tr>
-          </table>
-
-          <!-- 3. Geology of In-Situ Rock Around Works -->
-          <div class="sec-bar">
-            <span>3. Geology of In-Situ Rock Around Works</span>
-            <span class="sec-bar-sub">Lithological &amp; Discontinuity Audit</span>
-          </div>
-          <table class="grid-table">
-            <tr>
-              <td class="col-lbl">Prominent soil/rock:</td>
-              <td class="col-val editable" id="f-soil-desc"><strong>{{ assessment.geology.prominent_soil_rock }}</strong> ({{ assessment.geology.material_type or 'Metamorphic Substrate' }})</td>
-              <td class="col-lbl">Prominent rock desc:</td>
-              <td class="col-val editable" id="f-rock-desc">{{ assessment.geology.prominent_rock_desc }}</td>
-            </tr>
-            <tr>
-              <td class="col-lbl">Colour &amp; Minerals:</td>
-              <td class="col-val editable" id="f-rock-color">{{ assessment.geology.colour }} &bull; {{ assessment.geology.minerals_present }}</td>
-              <td class="col-lbl">Jointing spacing:</td>
-              <td class="col-val editable" id="f-joint-space">{{ assessment.geology.jointing_spacing }}</td>
-            </tr>
-            <tr>
-              <td class="col-lbl">Strength &amp; UCS:</td>
-              <td class="col-val editable" id="f-rock-strength">{{ assessment.geology.strength }} &bull; UCS &asymp; {{ assessment.geology.ucs_rock_mpa or 35.0 }} MPa (IS:13365 Class R3)</td>
-              <td class="col-lbl">Dip joints &amp; Strike:</td>
-              <td class="col-val editable font-mono" id="f-dip-joints" style="color: var(--danger-red); font-weight: 700;">{{ assessment.geology.dip_joints }} &bull; {{ assessment.geology.joint_orientation }}</td>
-            </tr>
-            <tr>
-              <td class="col-lbl">Geotech Params (IS/EC7):</td>
-              <td class="col-val font-mono" style="color: var(--primary-forest);"><strong>&phi;' = {{ assessment.geology.phi_prime_deg or 28.0 }}&deg;</strong> &bull; <strong>c' = {{ assessment.geology.c_prime_kpa or 14.0 }} kPa</strong> &bull; &gamma; = {{ assessment.geology.gamma_kn_m3 or 19.5 }} kN/m&sup3;</td>
-              <td class="col-lbl">Weathering Grade:</td>
-              <td class="col-val editable font-mono" id="f-weather-grade" style="color: #b45309; font-weight: 700;">{{ assessment.geology.weathering_grade }} &bull; {{ assessment.geology.fracture_pattern }}</td>
-            </tr>
-          </table>
-
-          <!-- 4. Defects & Distress Observed Around Works -->
-          <div class="sec-bar">
-            <span>4. Defects &amp; Distress Observed Around Works</span>
-            <span class="sec-bar-sub">Observed Failures</span>
-          </div>
-          <div style="border: 1px solid var(--border-dark); border-bottom: none; padding: 3px 7px; font-size: 7.5px; background: #f8fafc;">
-            <strong>Defect on slope:</strong>
-            <span class="chk-item {{ 'checked' if assessment.defects_and_distress and assessment.defects_and_distress.defects_on_slope and assessment.defects_and_distress.defects_on_slope.gully }}"><span class="chk-box {{ 'active' if assessment.defects_and_distress and assessment.defects_and_distress.defects_on_slope and assessment.defects_and_distress.defects_on_slope.gully }}">✔</span> 1. Gully</span>
-            <span class="chk-item {{ 'checked' if assessment.defects_and_distress and assessment.defects_and_distress.defects_on_slope and assessment.defects_and_distress.defects_on_slope.crack }}"><span class="chk-box {{ 'active' if assessment.defects_and_distress and assessment.defects_and_distress.defects_on_slope and assessment.defects_and_distress.defects_on_slope.crack }}">✔</span> 2. Crack</span>
-            <span class="chk-item {{ 'checked' if assessment.defects_and_distress and assessment.defects_and_distress.defects_on_slope and assessment.defects_and_distress.defects_on_slope.unstable_rock }}"><span class="chk-box {{ 'active' if assessment.defects_and_distress and assessment.defects_and_distress.defects_on_slope and assessment.defects_and_distress.defects_on_slope.unstable_rock }}">✔</span> 3. Unstable rock</span>
-            <span class="chk-item {{ 'checked' if assessment.defects_and_distress and assessment.defects_and_distress.defects_on_slope and assessment.defects_and_distress.defects_on_slope.seepage }}"><span class="chk-box {{ 'active' if assessment.defects_and_distress and assessment.defects_and_distress.defects_on_slope and assessment.defects_and_distress.defects_on_slope.seepage }}">✔</span> 4. Seepage</span>
-            <span class="chk-item {{ 'checked' if assessment.defects_and_distress and assessment.defects_and_distress.defects_on_slope and assessment.defects_and_distress.defects_on_slope.erosion }}"><span class="chk-box {{ 'active' if assessment.defects_and_distress and assessment.defects_and_distress.defects_on_slope and assessment.defects_and_distress.defects_on_slope.erosion }}">✔</span> 5. Erosion</span>
-            <span class="chk-item {{ 'checked' if assessment.defects_and_distress and assessment.defects_and_distress.defects_on_slope and assessment.defects_and_distress.defects_on_slope.landslide }}"><span class="chk-box {{ 'active' if assessment.defects_and_distress and assessment.defects_and_distress.defects_on_slope and assessment.defects_and_distress.defects_on_slope.landslide }}">✔</span> 6. Landslide</span>
-          </div>
-          <table class="grid-table">
-            <thead>
-              <tr>
-                <th style="width: 25%;">Road Distress</th>
-                <th style="width: 25%;">Roadside Drain</th>
-                <th style="width: 25%;">Slope Drainage</th>
-                <th style="width: 25%;">Defects Remarks</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  Crack: [ ✔ ] Yes<br>
-                  Heaving: [   ] No<br>
-                  Settlement: [ ✔ ] Yes<br>
-                  Potholes: Width: 0.95 m | Depth: 0.16 m<br>
-                  Subsidence: Width: 3.10 m | Depth: 0.25 m
-                </td>
-                <td>
-                  Overflow: [ ✔ ] Yes<br>
-                  Clogging: [ ✔ ] 100% Blocked<br>
-                  Deformation: [ ✔ ] Yes<br>
-                  Crack: [ ✔ ] Yes
-                </td>
-                <td>
-                  Overflow: [ ✔ ] Yes<br>
-                  Clogging: [ ✔ ] 100% Blocked<br>
-                  Deformation: [ ✔ ] Yes<br>
-                  Crack: [ ✔ ] Yes
-                </td>
-                <td>
-                  <div class="editable" id="f-def-remarks" style="font-size: 7.8px; line-height: 1.35; color: var(--ink-soft);">
-                    Active slope instability with significant colluvial encroachment over carriageway and roadside drain obstruction. Road choked to single-lane transit.
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Page 1 Footer -->
-        <div class="page-footer">
-          <span>IIT Mandi &bull; Preliminary Project Report (PPR) &bull; Ref: <strong>{{ assessment.telemetry.report_reference or 'IITM-CR-' + report.id }}</strong></span>
-          <span>Page 1 of 3</span>
-        </div>
-      </div>
-
-      <!-- ======================================================== -->
-      <!-- PAGE 2: DIAGNOSTIC EVIDENCE, SCHEMATIC & KINEMATICS      -->
-      <!-- ======================================================== -->
-      <div class="report-page">
-        <div>
-          <!-- Mini Institutional Header -->
-          <div class="mini-header">
-            <div class="mini-header-left">
-              <img src="{{ url_for('static', filename='img/iit_mandi_logo.svg') }}" alt="Emblem" class="mini-logo-img">
-              <div>
-                <div class="mini-inst-name">Indian Institute of Technology Mandi &bull; HIMA-LENS Observatory</div>
-                <div class="mini-report-title">PRELIMINARY PROJECT REPORT (PPR) &bull; FORENSIC EVIDENCE &amp; KINEMATICS</div>
-              </div>
-            </div>
-            <div class="mini-stamp-box">PAGE 02 / 03</div>
-          </div>
-
-          <!-- 5. Optical Photogrammetry & ML Failure Cross-Section Plates -->
-          <div class="sec-bar">
-            <span>5. Ground Photogrammetric Evidence &amp; Geotechnical Cross-Section</span>
-            <span class="sec-bar-sub">Optical Verification &bull; ML Failure Kinematics</span>
-          </div>
-
-          <!-- Dual Visual Plate: Generous 330px Height, Image Fully Visible (contain) -->
           <div class="visual-diagnostic-grid">
-            <!-- Authentic Site Photo Plate -->
+            <!-- Left: Site Photo -->
             <div class="photo-frame-box">
               <div class="photo-top-bar">
                 <span>OPTICAL FIELD EVIDENCE &bull; SITE PHOTOGRAMMETRY</span>
-                <span style="color: #ffffff;">100% FULL IMAGE (UNCROPPED)</span>
+                <span style="color: #ffffff;">FULL VIEW</span>
               </div>
               <div class="photo-img-wrap">
                 {% if report.photo_url %}
-                <a href="{{ report.photo_url }}" target="_blank" rel="noopener noreferrer" title="Click to open original high-resolution photo" style="display:flex; width:100%; height:100%; align-items:center; justify-content:center; text-decoration:none;">
+                <a href="{{ report.photo_url }}" target="_blank" rel="noopener noreferrer" title="Click to view full image" style="display:flex; width:100%; height:100%; align-items:center; justify-content:center; text-decoration:none;">
                   <img src="{{ report.photo_url }}" alt="Site Evidence Plate">
                 </a>
                 {% else %}
@@ -1127,10 +819,10 @@
               </div>
             </div>
 
-            <!-- Engineered Geotechnical Failure Cross-Section Schematic -->
+            <!-- Right: Failure Schematic SVG -->
             <div class="schematic-frame-box">
               <div class="schematic-top-bar">
-                <span>ENGINEERED FAILURE CROSS-SECTION &bull; ML KINEMATIC MODEL</span>
+                <span>FAILURE CROSS-SECTION &bull; ML KINEMATIC MODEL</span>
                 <span style="color: #ffffff;">{{ (assessment.schematic_top_badge or 'SLIP PLANE: 57&deg; DAYLIGHTING') | safe }}</span>
               </div>
               <div class="schematic-svg-wrap">
@@ -1159,11 +851,10 @@
                   <path d="M 150 50 Q 220 110 295 170 L 355 170 L 340 150 Q 230 90 150 50 Z" fill="url(#debrisPattern2P)" />
                   <path d="M 150 38 L 150 50 L 146 56" fill="none" stroke="#b91c1c" stroke-width="2.5" />
                   <rect x="290" y="168" width="130" height="5" fill="#334155" />
+                  <line x1="355" y1="170" x2="355" y2="173" stroke="#facc15" stroke-width="1.5" stroke-dasharray="3,2" />
                   <polygon points="290,170 297,177 304,177 304,170" fill="#94a3b8" stroke="#1e293b" stroke-width="1" />
                   <circle cx="297" cy="173" r="3" fill="#ef4444" opacity="0.9" />
                   <path d="M 290 170 Q 325 155 355 170 Z" fill="#d97706" opacity="0.8" />
-                  <path d="M 268 170 A 25 25 0 0 1 278 145" fill="none" stroke="#092f25" stroke-width="1.3" />
-                  <text x="238" y="147" font-family="'Manrope', sans-serif" font-size="8.5" font-weight="800" fill="#092f25">65&#176;&ndash;67&#176;</text>
                   <line x1="290" y1="185" x2="420" y2="185" stroke="#0f172a" stroke-width="1" />
                   <text x="325" y="195" font-family="'JetBrains Mono', monospace" font-size="7" font-weight="700" fill="#0f172a">Formation: 5.25m</text>
                   <line x1="355" y1="203" x2="420" y2="203" stroke="#16a34a" stroke-width="1.3" />
@@ -1184,86 +875,43 @@
             </div>
           </div>
 
-          <!-- 6. Kinematic Slope Mechanics & Discontinuity Analysis -->
+          <!-- Section 3: Slope Geometry & Roadway Damage Audit -->
           <div class="sec-bar">
-            <span>6. Kinematic Slope Mechanics &amp; Discontinuity Analysis</span>
-            <span class="sec-bar-sub">Hoek &amp; Bray (1981) Stereonet &bull; Cruden &amp; Varnes (1996)</span>
+            <span>3. Slope Geometry &amp; Roadway Damage Audit</span>
+            <span class="sec-bar-sub">Field Dimensions &bull; Corridor Encroachment</span>
           </div>
           <table class="grid-table">
             <tr>
-              <td class="col-lbl" style="width: 22%;">Failure Kinematics:</td>
-              <td class="col-val" style="width: 28%;">
-                <strong style="color: #0369a1;">{{ (assessment.advanced_geotechnical_stabilization.usgs_classification.two_term_classification if assessment.advanced_geotechnical_stabilization and assessment.advanced_geotechnical_stabilization.usgs_classification else 'Translational Debris Slide') }}</strong><br>
-                <span style="font-size: 7.2px; color: #64748b;">Primary Movement: {{ (assessment.advanced_geotechnical_stabilization.usgs_classification.primary_movement if assessment.advanced_geotechnical_stabilization and assessment.advanced_geotechnical_stabilization.usgs_classification else 'Translational Slide') }} &bull; Velocity: Rapid (Class 5)</span>
-              </td>
-              <td class="col-lbl" style="width: 22%;">Kinematic Daylighting:</td>
-              <td class="col-val" style="width: 28%;">
-                <strong style="color: var(--danger-red);">Daylighting Condition Satisfied</strong><br>
-                <span style="font-size: 7.2px; color: #64748b;">Dip angle (&psi;<sub>p</sub> = {{ assessment.geology.dip_joints or '57°' }}) &lt; Cut angle (&psi;<sub>f</sub> = {{ assessment.slope_characteristics.cut_slope_angle or '66°' }}). Daylights into roadway.</span>
-              </td>
+              <td class="col-lbl">Slope Height &amp; Angle:</td>
+              <td class="col-val">Height: <strong>{{ assessment.slope_characteristics.slope_height_above }}</strong> &bull; Cut Angle: <strong style="color: var(--danger-red);">{{ assessment.slope_characteristics.cut_slope_angle }}</strong></td>
+              <td class="col-lbl">Carriageway Status:</td>
+              <td class="col-val">Before: {{ assessment.road_impact.width_before }} &rarr; <strong>After: {{ assessment.road_impact.width_after }}</strong> <span style="color: var(--danger-red); font-weight: 700;">(Single-Lane Choke)</span></td>
             </tr>
             <tr>
-              <td class="col-lbl">Discontinuity Sets:</td>
-              <td class="col-val">
-                <strong>Joint Set J<sub>1</sub>:</strong> {{ assessment.geology.dip_joints }} &bull; Strike: {{ assessment.geology.joint_orientation }}<br>
-                <strong>Joint Set J<sub>2</sub>:</strong> 72&deg; &rarr; 045&deg; (Release joints, spacing 0.2&ndash;0.5m)
-              </td>
-              <td class="col-lbl">Crown Detachment Depth:</td>
-              <td class="col-val font-mono">
-                <span class="math-eq"><i>z</i><sub>c</sub> = <sup>2<i>c'</i></sup>&frasl;<sub>&gamma;</sub> &radic;<i>K</i><sub>p</sub></span> &asymp; <strong>1.85 m</strong><br>
-                <span style="font-size: 7.2px; color: #64748b;">Sub-vertical tension crack surveyed at detachment scarp.</span>
-              </td>
+              <td class="col-lbl">Pavement &amp; Drain:</td>
+              <td class="col-val">{{ assessment.road_impact.pavement_type }} &bull; Longitudinal side drain <strong>100% blocked</strong> by debris</td>
+              <td class="col-lbl">Traffic Restriction:</td>
+              <td class="col-val" style="color: #b45309; font-weight: 700;">{{ assessment.road_impact.traffic_status }}</td>
             </tr>
             <tr>
-              <td class="col-lbl">Failure Mode Synthesis:</td>
+              <td class="col-lbl">Prismoidal Earthwork:</td>
               <td class="col-val" colspan="3">
-                Planar sliding along daylighting foliation planes with progressive retrogressive failure into the weathered colluvial mantle. Lateral release provided by near-vertical stress-relief joints J<sub>2</sub>, with toe passive resistance completely undermined by road cut excavation.
-              </td>
-            </tr>
-          </table>
-
-          <!-- 7. Hydrogeological Trigger & Rainfall Infiltration Thresholds -->
-          <div class="sec-bar">
-            <span>7. Hydrogeological Trigger &amp; Rainfall Infiltration Thresholds</span>
-            <span class="sec-bar-sub">Caine (1980) / Guzzetti et al. (2007) Empirical Criteria</span>
-          </div>
-          <table class="grid-table">
-            <tr>
-              <td class="col-lbl" style="width: 22%;">Antecedent Precipitation:</td>
-              <td class="col-val" style="width: 28%;">
-                <strong><i>P</i><sub>24</sub>: 88.5 mm &bull; <i>P</i><sub>72</sub>: 164.2 mm</strong><br>
-                <span style="font-size: 7.2px; color: #64748b;">Prolonged monsoon infiltration pre-saturated overburden.</span>
-              </td>
-              <td class="col-lbl" style="width: 22%;">Empirical Rainfall Threshold:</td>
-              <td class="col-val" style="width: 28%;">
-                <span class="math-eq"><i>I</i> = 14.82 &middot; <i>D</i><sup>&minus;0.39</sup> mm/h</span><br>
-                <strong style="color: var(--danger-red);">Exceeded 95% Confidence Limit</strong>
-              </td>
-            </tr>
-            <tr>
-              <td class="col-lbl">Pore Pressure Ratio (<i>r</i><sub>u</sub>):</td>
-              <td class="col-val font-mono">
-                <span class="math-eq"><i>r</i><sub>u</sub> = <sup><i>u</i></sup>&frasl;<sub>(&gamma; &middot; <i>z</i>)</sub></span> = <strong>0.35</strong> (Transient perched table)<br>
-                <span style="font-size: 7.2px; color: #64748b;">Matric suction lost (&psi;<sub>m</sub> &rarr; 0 kPa), cleft water active.</span>
-              </td>
-              <td class="col-lbl">Surface Runoff Regime:</td>
-              <td class="col-val">
-                <strong>Roadside drain 100% choked by colluvium</strong><br>
-                <span style="font-size: 7.2px; color: #64748b;">Stormwater redirected across road, eroding toe berm.</span>
+                Simpson's Prismoidal Volume: <span class="math-eq"><i>V</i> = <sup><i>L</i></sup>&frasl;<sub>6</sub> (<i>A</i><sub>1</sub> + 4<i>A</i><sub>m</sub> + <i>A</i><sub>2</sub>)</span> = <strong class="font-mono" style="color: var(--primary-forest);">{{ assessment.slope_characteristics.excavation_vol_m3 or 145 }} m&sup3;</strong> &nbsp;|&nbsp; 
+                Loose Bulking (1.25&times;): <strong class="font-mono">{{ ((assessment.slope_characteristics.excavation_vol_m3 or 145) * 1.25) | round(1) }} m&sup3;</strong>
               </td>
             </tr>
           </table>
         </div>
 
-        <!-- Page 2 Footer -->
+        <!-- Page 1 Footer -->
         <div class="page-footer">
           <span>IIT Mandi &bull; Preliminary Project Report (PPR) &bull; Ref: <strong>{{ assessment.telemetry.report_reference or 'IITM-CR-' + report.id }}</strong></span>
-          <span>Page 2 of 3</span>
+          <span>Page 1 of 2</span>
         </div>
       </div>
 
       <!-- ======================================================== -->
-      <!-- PAGE 3: QUANTITATIVE FoS STABILITY & STATUTORY SANCTION  -->
+      <!-- PAGE 2: FORENSIC DIAGNOSIS, STABILITY & DIRECTIVES       -->
       <!-- ======================================================== -->
       <div class="report-page">
         <div>
@@ -1273,63 +921,67 @@
               <img src="{{ url_for('static', filename='img/iit_mandi_logo.svg') }}" alt="Emblem" class="mini-logo-img">
               <div>
                 <div class="mini-inst-name">Indian Institute of Technology Mandi &bull; HIMA-LENS Observatory</div>
-                <div class="mini-report-title">PRELIMINARY PROJECT REPORT (PPR) &bull; STABILITY BENCHMARK &amp; SANCTION</div>
+                <div class="mini-report-title">PRELIMINARY PROJECT REPORT (PPR) &bull; DIAGNOSIS &amp; INCEPTION DIRECTIVES</div>
               </div>
             </div>
-            <div class="mini-stamp-box">PAGE 03 / 03</div>
+            <div class="mini-stamp-box">PAGE 02 / 02</div>
           </div>
 
-          <!-- 8. Quantitative Limit Equilibrium Stability & FoS Benchmark -->
+          <!-- Section 4: Forensic Failure Diagnosis -->
           <div class="sec-bar">
-            <span>8. Geotechnical Limit Equilibrium Stability &amp; FoS Benchmark</span>
-            <span class="sec-bar-sub">USACE EM 1110-2-1902 &bull; Eurocode 7 (EN 1997-1) &bull; CEDD Geoguide 1 &bull; IS:14458</span>
+            <span>4. Forensic Failure Diagnosis &amp; Ground Mechanics</span>
+            <span class="sec-bar-sub">Geotechnical Problem Statement</span>
           </div>
-          <table class="grid-table" style="margin-bottom: 3.5px;">
+          <table class="grid-table">
             <tr>
-              <td class="col-lbl" style="width: 20%;">Governing Shear Law:</td>
+              <td class="col-lbl" style="width: 20%;">Failure Classification:</td>
               <td class="col-val" style="width: 30%;">
-                Mohr-Coulomb: <span class="math-eq">&tau; = <i>c'</i> + (&sigma;<sub>n</sub> &minus; <i>u</i>) tan <i>&phi;'</i></span><br>
-                <span style="font-size: 7.2px; color: #64748b;">Effective Stress Principle (Terzaghi / Eurocode 7)</span>
+                <strong style="color: #0369a1;">{{ (assessment.advanced_geotechnical_stabilization.usgs_classification.two_term_classification if assessment.advanced_geotechnical_stabilization and assessment.advanced_geotechnical_stabilization.usgs_classification else 'Translational Debris Slide') }}</strong><br>
+                <span style="font-size: 7.2px; color: #64748b;">Cruden &amp; Varnes (1996) / USGS Taxonomy</span>
               </td>
-              <td class="col-lbl" style="width: 20%;">Governing Parameters:</td>
-              <td class="col-val font-mono" style="font-size: 7.5px; width: 30%;">
-                &phi;' = {{ assessment.geology.phi_prime_deg or 28.0 }}&deg; &bull; c' = {{ assessment.geology.c_prime_kpa or 14.0 }} kPa &bull; &gamma; = {{ assessment.geology.gamma_kn_m3 or 19.5 }} kN/m&sup3;<br>
-                UCS = {{ assessment.geology.ucs_rock_mpa or 36.0 }} MPa (IS:13365 Class R3) &bull; <i>r</i><sub>u</sub> = 0.35
+              <td class="col-lbl" style="width: 20%;">Lithological Substrate:</td>
+              <td class="col-val" style="width: 30%;">
+                <strong>{{ assessment.geology.prominent_soil_rock }}</strong><br>
+                <span style="font-size: 7.2px; color: #64748b;">Weathering: {{ assessment.geology.weathering_grade }} &bull; UCS &asymp; {{ assessment.geology.ucs_rock_mpa or 35.0 }} MPa</span>
               </td>
             </tr>
             <tr>
-              <td class="col-lbl">Limit State Framework:</td>
-              <td class="col-val" colspan="3">
-                <strong>Eurocode 7 EN 1997-1 Design Approach 1 Combination 2 (A2 + M2 + R2 partial factors) &amp; USACE EM 1110-2-1902</strong>. Two-dimensional inter-slice force and moment equilibrium satisfied via Spencer (1967) and Morgenstern-Price (1965) formulations.
+              <td class="col-lbl">Forensic Cause:</td>
+              <td class="col-val" colspan="3" style="line-height: 1.4;">
+                Heavy rainfall infiltration saturated the weathered colluvial overburden, creating a transient perched water table. This elevated hydrostatic cleft-water pressure along daylighting joint sets (dipping {{ assessment.geology.dip_joints or '57°' }} towards the roadway), causing effective friction loss and initiating mass detachment into the formation width.
               </td>
             </tr>
           </table>
 
-          <!-- Factor of Safety Benchmark Table -->
-          <table class="grid-table" style="margin-bottom: 4px;">
+          <!-- Section 5: Stability Diagnostic & Factor of Safety (FoS) -->
+          <div class="sec-bar">
+            <span>5. Geotechnical Stability Diagnostic &amp; Safety Factor Benchmark</span>
+            <span class="sec-bar-sub">USACE EM 1110-2-1902 &bull; Eurocode 7 &bull; IS:14458</span>
+          </div>
+          <table class="grid-table" style="margin-bottom: 5px;">
             <thead>
               <tr style="background: #f1f5f9;">
-                <th style="text-align: left;">Hydraulic &amp; Loading Stage (USACE / Eurocode 7 / IS:14458)</th>
-                <th style="width: 105px; text-align: center;">Statutory Min. FoS</th>
-                <th style="width: 80px; text-align: center;">Calculated FoS</th>
-                <th style="width: 115px; text-align: center;">Stability Diagnosis</th>
+                <th>Hydraulic &amp; Loading Condition</th>
+                <th style="width: 110px; text-align: center;">Statutory Min. FoS</th>
+                <th style="width: 90px; text-align: center;">Calculated FoS</th>
+                <th style="width: 140px; text-align: center;">Stability Diagnosis</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>Dry Natural Baseline (Zero Pore-Water Pressure, <i>r</i><sub>u</sub> = 0.0, Peak Shear)</td>
+                <td>Dry Baseline (Zero Pore-Water Pressure, <i>r</i><sub>u</sub> = 0.0)</td>
                 <td style="text-align: center;" class="font-mono">1.50 (USACE / IS)</td>
                 <td style="text-align: center; font-weight: 700;" class="font-mono">1.48</td>
                 <td style="text-align: center; color: #b45309; font-weight: 700;">Marginal Stability</td>
               </tr>
               <tr style="background: #fef2f2;">
-                <td><strong>Monsoon Steady Seepage (<i>r</i><sub>u</sub> = 0.35 &ndash; Extreme Monsoon Inundation)</strong></td>
+                <td><strong>Monsoon Steady Saturated State (<i>r</i><sub>u</sub> = 0.35 &ndash; Critical Failure Trigger)</strong></td>
                 <td style="text-align: center;" class="font-mono">1.30 (CEDD / USACE)</td>
                 <td style="text-align: center; color: var(--danger-red); font-weight: 800;" class="font-mono">0.92</td>
-                <td style="text-align: center; color: var(--danger-red); font-weight: 800;">Active Shear Failure (GEO Limit State)</td>
+                <td style="text-align: center; color: var(--danger-red); font-weight: 800;">Active Shear Failure (Limit State Exceeded)</td>
               </tr>
               <tr style="background: #f0fdf4;">
-                <td><strong>Post-Remediation (Plum Wall IS:14458 + Fe500D Nails + Sub-horizontal Drains)</strong></td>
+                <td><strong>Design Stabilized State (With Breast Wall, Soil Nails &amp; Relief Drains)</strong></td>
                 <td style="text-align: center;" class="font-mono">1.50 (Permanent State)</td>
                 <td style="text-align: center; color: #15803d; font-weight: 800;" class="font-mono">1.56</td>
                 <td style="text-align: center; color: #15803d; font-weight: 800;">Fully Code Compliant (&gt; Min. 1.50)</td>
@@ -1337,143 +989,56 @@
             </tbody>
           </table>
 
-          <!-- 9. 3-Tier Geotechnical Epistemic Synthesis (ASCE GSP 180 / CIRIA C551 & C765) -->
-          <div class="sec-bar" style="margin-top: 3px;">
-            <span>9. 3-Tier Geotechnical Epistemic Synthesis</span>
-            <span class="sec-bar-sub">ASCE GSP 180 &bull; CIRIA C551 / C765 Standard Framework</span>
+          <!-- Section 6: Inception Mitigation Directives & Tri-Sheet Ecosystem -->
+          <div class="sec-bar">
+            <span>6. Inception Remediation Strategy &amp; Detailed Report Ecosystem</span>
+            <span class="sec-bar-sub">Preliminary Scope &bull; Specialized Engineering Dockets</span>
           </div>
-          <div class="epistemic-grid">
-            <!-- Tier 1: Factual Field Evidence -->
-            <div class="epistemic-card tier-1">
-              <div>
-                <div class="epistemic-header" style="color: #0369a1;">
-                  <span style="font-weight: 900;">TIER 1</span> &bull; <span>FACTUAL EVIDENCE (GROUND TRUTH)</span>
-                </div>
-                <div class="epistemic-body">
-                  Detachment scarp surveyed at H = {{ assessment.slope_characteristics.slope_height_above }} with {{ assessment.slope_characteristics.cut_slope_angle }} inclination. Saturated colluvial mass ({{ assessment.slope_characteristics.excavation_vol_m3 or 145 }} m&sup3; Simpson's prismoidal debris) encroached over carriageway, restricting width to {{ assessment.road_impact.width_after }}. Roadside longitudinal drain 100% clogged under hydrostatic surcharge.
-                </div>
-              </div>
-              <div class="epistemic-badge-row">
-                <span class="epistemic-pill" style="color: #0369a1;">Prismoidal: {{ assessment.slope_characteristics.excavation_vol_m3 or 145 }} m&sup3;</span>
-                <span class="epistemic-pill" style="color: #0369a1;">Dip: {{ assessment.geology.dip_joints }}</span>
-                <span class="epistemic-pill" style="color: #0369a1;">Drain: Blocked</span>
-              </div>
-            </div>
-
-            <!-- Tier 2: Analytical Geotechnical Mechanics -->
-            <div class="epistemic-card tier-2">
-              <div>
-                <div class="epistemic-header" style="color: #b45309;">
-                  <span style="font-weight: 900;">TIER 2</span> &bull; <span>ANALYTICAL MECHANICS &amp; FoS</span>
-                </div>
-                <div class="epistemic-body">
-                  Cruden &amp; Varnes / USGS: {{ (assessment.advanced_geotechnical_stabilization.usgs_classification.two_term_classification if assessment.advanced_geotechnical_stabilization and assessment.advanced_geotechnical_stabilization.usgs_classification else 'Translational Debris Slide') }}. Spencer LEQ stability (USACE EM 1110-2-1902): Dry FoS = 1.48 (marginal). Transient monsoon perched water table (<i>r</i><sub>u</sub> = 0.35) drops FoS = 0.92, triggering shear failure along daylighting joint set J1. Exceeds Eurocode 7 GEO limit state.
-                </div>
-              </div>
-              <div class="epistemic-badge-row">
-                <span class="epistemic-pill" style="color: #b45309;">FoS Dry: 1.48</span>
-                <span class="epistemic-pill" style="color: #b91c1c; font-weight:800;">FoS Wet: 0.92</span>
-                <span class="epistemic-pill" style="color: #b45309;">Target: &ge;{{ '%.2f' % (assessment.advanced_geotechnical_stabilization.cedd_consequence.target_fos_10yr if assessment.advanced_geotechnical_stabilization and assessment.advanced_geotechnical_stabilization.cedd_consequence else 1.30) }}</span>
-              </div>
-            </div>
-
-            <!-- Tier 3: Statutory Remediation Directives -->
-            <div class="epistemic-card tier-3">
-              <div>
-                <div class="epistemic-header" style="color: #15803d;">
-                  <span style="font-weight: 900;">TIER 3</span> &bull; <span>PRELIMINARY REMEDIATION DIRECTIVES</span>
-                </div>
-                <div class="epistemic-body">
-                  1. <strong>Emergency (0&ndash;24h):</strong> Clear carriageway to restore single-lane corridor (<i>W</i> &ge; 3.5m) and cut temporary crest interceptor ditch.<br>
-                  2. <strong>Permanent Works:</strong> Construct {{ (assessment.retaining_wall or assessment.retaining_wall_specs or {}).length_affected_m or 32 }}m Gravity Plum Breast Wall (IS:14458) with staggered weep holes, Fe500D soil nails (FHWA GEC 7), and sub-horizontal PVC relief drains (IRC:SP:48).<br>
-                  3. <strong>Full Details:</strong> Exhaustive structural design calculations and itemized BOQ are in the Mitigation Report.
-                </div>
-              </div>
-              <div class="epistemic-badge-row">
-                <span class="epistemic-pill" style="color: #15803d;">IS:14458 Wall</span>
-                <span class="epistemic-pill" style="color: #15803d;">FHWA GEC 7</span>
-                <span class="epistemic-pill" style="color: #15803d;">See Mitigation Sheet</span>
-              </div>
-            </div>
+          <div style="border: 1px solid var(--border-dark); padding: 5px 8px; font-size: 8px; background: #ffffff; line-height: 1.4; margin-bottom: 5px;">
+            <strong>Immediate Inception Recommendation:</strong><br>
+            1. <strong>Emergency Clearance (0&ndash;24h):</strong> Clear carriageway colluvium to restore single-lane corridor (width &ge; 3.5m) and cut temporary crest runoff ditch.<br>
+            2. <strong>Permanent Remediation:</strong> Construct a {{ (assessment.retaining_wall or assessment.retaining_wall_specs or {}).length_affected_m or 32 }}m Gravity Plum Breast Wall (IS:14458) at the toe, supplemented with high-yield Fe500D soil nails and sub-horizontal PVC relief drains to permanently depress the phreatic surface.<br>
+            3. <strong>Workflow Directive:</strong> This PPR establishes preliminary feasibility and emergency problem identification. All deep structural designs and financial estimates are segregated into the two dedicated companion reports below:
           </div>
 
-          <!-- 10. Indicative Remediation Scope & Rough Order of Magnitude (ROM) Budget -->
-          <div class="sec-bar" style="margin-top: 3px;">
-            <span>10. Indicative Remediation Scope &amp; Rough Order of Magnitude (ROM) Budget</span>
-            <span class="sec-bar-sub">Administrative Approval &amp; Expenditure Sanction (AA &amp; ES) Allocation Envelope</span>
-          </div>
-          <table class="grid-table" style="margin-bottom: 3.5px;">
-            <thead>
-              <tr style="background: #f1f5f9;">
-                <th style="width: 35px;">Item</th>
-                <th>Remediation Component &amp; Governing Standard</th>
-                <th style="width: 70px; text-align: center;">Indicative Qty</th>
-                <th style="width: 50px; text-align: center;">Unit</th>
-                <th style="width: 100px; text-align: right;">Approx. ROM (INR)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td style="text-align: center;" class="font-mono">1</td>
-                <td>Prismoidal Earthwork Clearance &amp; Disposal (MoRTH Sec 301 / IS:1200) &bull; Lead 2 km</td>
-                <td style="text-align: center;" class="font-mono">{{ ((assessment.slope_characteristics.excavation_vol_m3 or 145) * 1.25) | round(1) }}</td>
-                <td style="text-align: center;">m&sup3;</td>
-                <td style="text-align: right;" class="font-mono">&asymp; &#x20B9; 48,000</td>
-              </tr>
-              <tr>
-                <td style="text-align: center;" class="font-mono">2</td>
-                <td>Plum Concrete M25 Gravity Breast Wall (IS:14458 Part 1 / MoRTH 1400) &bull; H={{ (assessment.retaining_wall or assessment.retaining_wall_specs or {}).height_m or 4.5 }}m, L={{ (assessment.retaining_wall or assessment.retaining_wall_specs or {}).length_affected_m or 32 }}m</td>
-                <td style="text-align: center;" class="font-mono">&asymp; 216.0</td>
-                <td style="text-align: center;">m&sup3;</td>
-                <td style="text-align: right;" class="font-mono">&asymp; &#x20B9; 10,80,000</td>
-              </tr>
-              <tr>
-                <td style="text-align: center;" class="font-mono">3</td>
-                <td>Passive Soil Nailing Array Fe500D (CEDD Geoguide 7 / FHWA GEC 7) &bull; 25mm rebar @ 1.5m grid</td>
-                <td style="text-align: center;" class="font-mono">&asymp; 180.0</td>
-                <td style="text-align: center;">m</td>
-                <td style="text-align: right;" class="font-mono">&asymp; &#x20B9; 3,60,000</td>
-              </tr>
-              <tr>
-                <td style="text-align: center;" class="font-mono">4</td>
-                <td>Sub-horizontal Directional PVC Drains (IRC:SP:48) &amp; Vetiver Bio-turfing (IS:14458 Pt 10)</td>
-                <td style="text-align: center;" class="font-mono">&asymp; 90.0</td>
-                <td style="text-align: center;">m / m&sup2;</td>
-                <td style="text-align: right;" class="font-mono">&asymp; &#x20B9; 1,12,000</td>
-              </tr>
-              <tr style="background: #f8fafc; font-weight: 700;">
-                <td colspan="4" style="text-align: right;">Sub-Total (Direct Civil Works ROM Estimate):</td>
-                <td style="text-align: right;" class="font-mono">&asymp; &#x20B9; 16,00,000</td>
-              </tr>
-              <tr>
-                <td colspan="4" style="text-align: right; color: #475569;">Statutory Contingencies (3%) + Quality Control &amp; Testing Audit (1.5%) + GST (18%):</td>
-                <td style="text-align: right;" class="font-mono">&asymp; &#x20B9; 3,60,000</td>
-              </tr>
-              <tr style="background: #092f25; color: #ffffff; font-weight: 850;">
-                <td colspan="4" style="text-align: right; text-transform: uppercase;">Total Indicative Disaster Sanction Envelope (A&amp;ES):</td>
-                <td style="text-align: right; color: #5eead4;" class="font-mono">&asymp; &#x20B9; 19,60,000</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <!-- Action Cluster Bar -->
-          <div class="solution-action-box">
-            <div class="solution-action-text">
-              <strong>FORENSIC INCEPTION DOSSIER COMPLETE:</strong> This PPR establishes preliminary feasibility, failure kinematics, and rough budget allocation. For tender-level structural reinforcement schedules, soil nail pullout capacities, and line-item HPSOR 2024-25 bill of quantities, proceed to the detailed Mitigation &amp; Solution Report:
+          <!-- Tri-Sheet Ecosystem Navigation Cards -->
+          <div class="ecosystem-grid">
+            <!-- Card 1: Sheet 2 - Detailed Analysis -->
+            <div class="ecosystem-card analysis">
+              <div>
+                <div class="ecosystem-title">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                  <span>Sheet 2: Detailed Geotechnical Analysis</span>
+                </div>
+                <div class="ecosystem-desc">
+                  Exhaustive 13-section technical report containing retaining wall structural drawings, Geoguide 7 soil nail arrays, rock joint stereonets, LaRiMiT multi-criteria scoring, and bio-engineering schedules.
+                </div>
+              </div>
+              <a href="/report/solution-sheet/{{ report.id }}" class="btn-ecosystem btn-ecosystem-blue">
+                Open Detailed Analysis Report &rarr;
+              </a>
             </div>
-            <div style="display: flex; gap: 6px; align-items: center; flex-shrink: 0;">
-              <button type="button" class="btn-action-pill" onclick="openCostEstimateModal()" style="background: #0f766e; cursor: pointer; border: none;">
-                Quick Cost BOQ &rarr;
-              </button>
-              <a href="/report/solution-sheet/{{ report.id }}" class="btn-action-pill">
-                Full Mitigation &amp; Solution Report &rarr;
+
+            <!-- Card 2: Sheet 3 - Cost Estimation & BOQ -->
+            <div class="ecosystem-card cost">
+              <div>
+                <div class="ecosystem-title">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                  <span>Sheet 3: Cost Estimation &amp; BOQ</span>
+                </div>
+                <div class="ecosystem-desc">
+                  Statutory financial docket containing line-item HPSOR 2024-25 bill of quantities, 3% contingency, 18% GST, direct asset infrastructure loss valuation, and indirect socio-economic transit loss.
+                </div>
+              </div>
+              <a href="/report/boq-sheet/{{ report.id }}" class="btn-ecosystem btn-ecosystem-amber">
+                Open Cost Estimation &amp; BOQ &rarr;
               </a>
             </div>
           </div>
 
-          <!-- 11. Statutory Multi-Tier Engineering Sign-Off Block -->
-          <div class="sec-bar" style="margin-top: 3px;">
-            <span>11. Statutory Authority Verification &amp; Engineering Sign-Off</span>
+          <!-- Section 7: Statutory Administrative Sign-Off Block -->
+          <div class="sec-bar">
+            <span>7. Statutory Authority Verification &amp; Engineering Sign-Off</span>
             <span class="sec-bar-sub">Administrative Approval &amp; Expenditure Sanction Docket</span>
           </div>
           <table class="sign-table">
@@ -1508,31 +1073,15 @@
           </table>
         </div>
 
-        <!-- Page 3 Footer -->
+        <!-- Page 2 Footer -->
         <div class="page-footer">
           <span>IIT Mandi &bull; Preliminary Project Report (PPR) &bull; Ref: <strong>{{ assessment.telemetry.report_reference or 'IITM-CR-' + report.id }}</strong></span>
-          <span>Page 3 of 3</span>
+          <span>Page 2 of 2</span>
         </div>
       </div>
 
     </div> <!-- /.report-canvas -->
   </div> <!-- /.report-canvas-wrapper -->
-
-  <!-- Interactive BOQ Cost Estimate Modal -->
-  <div id="cost-modal" class="cost-modal-overlay" onclick="if(event.target===this) closeCostEstimateModal()">
-    <div class="cost-modal-window">
-      <div class="cost-modal-header">
-        <h3>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-          <span>HPPWD HPSOR 2024-25 &bull; Remediation Abstract of Cost &amp; Loss Analysis</span>
-        </h3>
-        <button type="button" class="cost-modal-close" onclick="closeCostEstimateModal()">&times;</button>
-      </div>
-      <div class="cost-modal-body" id="cost-modal-content">
-        <p style="text-align: center; color: #64748b; padding: 20px;">Loading schedule of rates &amp; civil quantities...</p>
-      </div>
-    </div>
-  </div>
 
   <script>
     let isEditMode = false;
@@ -1554,93 +1103,6 @@
         btn.querySelector('span').textContent = isEditMode ? 'Finish Editing' : 'Edit Fields';
         btn.style.background = isEditMode ? '#0284c7' : 'rgba(255, 255, 255, 0.12)';
       }
-    }
-
-    async function openCostEstimateModal() {
-      const modal = document.getElementById('cost-modal');
-      const body = document.getElementById('cost-modal-content');
-      modal.style.display = 'flex';
-      
-      try {
-        const res = await fetch('/report/cost-estimate/{{ report.id }}');
-        const data = await res.json();
-        
-        let html = `
-          <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: flex-end;">
-            <div>
-              <div style="font-size: 8px; color: #64748b; text-transform: uppercase;">Statutory Cost Abstract</div>
-              <div style="font-size: 11px; font-weight: 800; color: #092f25;">${data.corridor} &bull; ${data.chainage}</div>
-            </div>
-            <div style="text-align: right;">
-              <span style="font-size: 8px; background: #e0f2fe; color: #0369a1; padding: 2px 6px; border-radius: 4px; font-weight: 700;">HPSOR 2024-25 RATES</span>
-            </div>
-          </div>
-          <table class="grid-table" style="font-size: 8px;">
-            <thead>
-              <tr style="background: #092f25; color: #ffffff;">
-                <th style="width: 55px; color:#fff;">Item No.</th>
-                <th style="color:#fff;">Description of Work</th>
-                <th style="width: 55px; text-align: right; color:#fff;">Qty</th>
-                <th style="width: 45px; text-align: center; color:#fff;">Unit</th>
-                <th style="width: 65px; text-align: right; color:#fff;">Rate</th>
-                <th style="width: 75px; text-align: right; color:#fff;">Amount</th>
-                <th style="width: 80px; color:#fff;">Code</th>
-              </tr>
-            </thead>
-            <tbody>
-        `;
-        
-        data.boq_items.forEach(item => {
-          html += `
-            <tr>
-              <td class="font-mono">${item.item_no}</td>
-              <td>${item.description}</td>
-              <td class="font-mono" style="text-align: right;">${item.quantity.toFixed(2)}</td>
-              <td style="text-align: center;">${item.unit}</td>
-              <td class="font-mono" style="text-align: right;">${item.rate_inr_fmt}</td>
-              <td class="font-mono" style="text-align: right; font-weight: 700;">${item.total_cost_inr_fmt}</td>
-              <td style="font-size: 7px; color: #64748b;">${item.specification_clause}</td>
-            </tr>
-          `;
-        });
-        
-        html += `
-              <tr style="background: #f8fafc; font-weight: 700;">
-                <td colspan="5" style="text-align: right;">Sub-Total (A - Civil Works):</td>
-                <td class="font-mono" style="text-align: right;">${data.financial_summary.subtotal_direct_fmt}</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td colspan="5" style="text-align: right;">Contingency (${data.financial_summary.contingency_pct}% of A):</td>
-                <td class="font-mono" style="text-align: right;">${data.financial_summary.contingency_cost_fmt}</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td colspan="5" style="text-align: right;">GST (${data.financial_summary.gst_pct}%):</td>
-                <td class="font-mono" style="text-align: right;">${data.financial_summary.gst_fmt}</td>
-                <td></td>
-              </tr>
-              <tr style="background: #092f25; color: #ffffff; font-weight: 850;">
-                <td colspan="5" style="text-align: right; text-transform: uppercase;">Total Remediation Sanction:</td>
-                <td class="font-mono" style="text-align: right; color: #5eead4;">${data.financial_summary.total_remediation_fmt}</td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table>
-          <div style="margin-top: 10px; text-align: right;">
-            <a href="/report/solution-sheet/{{ report.id }}" style="display: inline-block; background: #0284c7; color: #fff; padding: 5px 10px; border-radius: 4px; text-decoration: none; font-weight: 700; font-size: 8.5px;">
-              Open Full Mitigation &amp; Solution Report &rarr;
-            </a>
-          </div>
-        `;
-        body.innerHTML = html;
-      } catch (err) {
-        body.innerHTML = '<p style="color:red; text-align:center;">Network error loading BOQ data.</p>';
-      }
-    }
-
-    function closeCostEstimateModal() {
-      document.getElementById('cost-modal').style.display = 'none';
     }
   </script>
 </body>
