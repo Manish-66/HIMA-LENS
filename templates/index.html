@@ -400,89 +400,164 @@ HIMA-LENS | Himalayan Landslide Intelligence Platform
     <section class="home-section story-section" aria-labelledby="story-title">
         <div class="section-container">
             <div class="story-grid">
-                <!-- LEFT VISUAL: SCIENTIFIC GEOTECHNICAL SLOPE SCHEMATIC -->
+                <!-- LEFT VISUAL: SCIENTIFIC INTERACTIVE GEOTECHNICAL SLOPE STABILITY SIMULATOR -->
                 <div class="story-visual">
-                    <div class="story-map-placeholder" role="region" aria-label="Geological slope cross-section and kinematic profile in Mandi district, Himachal Pradesh">
-                        <svg class="story-cross-section-svg" viewBox="0 0 520 360" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Himalayan slope profile showing crown scarp, failure plane, and Beas highway gorge">
-                            <defs>
-                                <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0%" stop-color="#edf5f0" />
-                                    <stop offset="100%" stop-color="#d6e8de" />
-                                </linearGradient>
-                                <linearGradient id="bedrockGrad" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0%" stop-color="#1b493b" />
-                                    <stop offset="100%" stop-color="#0b241c" />
-                                </linearGradient>
-                                <linearGradient id="overburdenGrad" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0%" stop-color="#4a7c6b" />
-                                    <stop offset="100%" stop-color="#2a5747" />
-                                </linearGradient>
-                                <linearGradient id="riverGrad" x1="0" y1="0" x2="1" y2="0">
-                                    <stop offset="0%" stop-color="#0284c7" />
-                                    <stop offset="100%" stop-color="#0369a1" />
-                                </linearGradient>
-                            </defs>
-                            
-                            <!-- Sky backdrop -->
-                            <rect width="520" height="360" rx="16" fill="url(#skyGrad)" />
-                            
-                            <!-- Elevation grid lines -->
-                            <line x1="40" y1="90" x2="480" y2="90" stroke="#b0cfc1" stroke-width="1" stroke-dasharray="3 3" opacity="0.7" />
-                            <line x1="40" y1="160" x2="480" y2="160" stroke="#b0cfc1" stroke-width="1" stroke-dasharray="3 3" opacity="0.7" />
-                            <line x1="40" y1="230" x2="480" y2="230" stroke="#b0cfc1" stroke-width="1" stroke-dasharray="3 3" opacity="0.7" />
-                            <line x1="40" y1="300" x2="480" y2="300" stroke="#b0cfc1" stroke-width="1" stroke-dasharray="3 3" opacity="0.7" />
+                    <div class="geotech-sim-card" role="region" aria-label="Interactive Geotechnical Slope Stability & Factor of Safety Simulator">
+                        <!-- Top Header & Live FoS Metric -->
+                        <div class="sim-header">
+                            <div class="sim-header-title">
+                                <span class="sim-eyebrow">LIMIT EQUILIBRIUM &bull; KINEMATIC SIMULATOR</span>
+                                <h3>Mandi Valley Slope Profile</h3>
+                            </div>
+                            <div class="sim-fos-pill" id="sim-fos-pill" data-status="stable">
+                                <span class="fos-label">FACTOR OF SAFETY</span>
+                                <div class="fos-number-row">
+                                    <span class="fos-val" id="sim-fos-val">1.62</span>
+                                    <span class="fos-badge" id="sim-fos-badge">STABLE</span>
+                                </div>
+                            </div>
+                        </div>
 
-                            <text x="46" y="86" fill="#1b493b" font-size="11" font-weight="700">2,450m ASL</text>
-                            <text x="46" y="156" fill="#1b493b" font-size="11" font-weight="700">1,900m ASL</text>
-                            <text x="46" y="226" fill="#1b493b" font-size="11" font-weight="700">1,350m ASL</text>
-                            <text x="46" y="296" fill="#1b493b" font-size="11" font-weight="700">750m ASL (Beas River)</text>
+                        <!-- 3 Quick Geotechnical Story Presets -->
+                        <div class="sim-presets" role="toolbar" aria-label="Geotechnical Case Presets">
+                            <button type="button" class="sim-preset-btn active" data-preset="dry" id="preset-dry">
+                                <span class="preset-dot green"></span>
+                                <span>Dry Natural Hill (FoS 1.62)</span>
+                            </button>
+                            <button type="button" class="sim-preset-btn" data-preset="monsoon" id="preset-monsoon">
+                                <span class="preset-dot red"></span>
+                                <span>Monsoon Saturated Cut (FoS 0.94)</span>
+                            </button>
+                            <button type="button" class="sim-preset-btn" data-preset="remediated" id="preset-remediated">
+                                <span class="preset-dot cyan"></span>
+                                <span>Nailed &amp; Drained (FoS 1.38)</span>
+                            </button>
+                        </div>
 
-                            <!-- Stable Bedrock Formation (Chail Phyllite / Gneiss) -->
-                            <path d="M 0 170 Q 110 160, 200 195 T 370 270 T 520 290 L 520 360 L 0 360 Z" fill="url(#bedrockGrad)" />
-                            
-                            <!-- Weathered Colluvium / Overburden Strata -->
-                            <path d="M 0 130 Q 120 115, 210 155 T 380 240 T 520 270 L 520 290 Q 370 270, 200 195 T 0 170 Z" fill="url(#overburdenGrad)" />
+                        <!-- Dynamic SVG Slope Drawing -->
+                        <div class="sim-canvas-wrap">
+                            <svg id="sim-slope-svg" class="sim-svg" viewBox="0 0 520 280" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Interactive slope cross-section responding to slope angle and saturation">
+                                <defs>
+                                    <pattern id="simRockHatch" width="10" height="10" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+                                        <line x1="0" y1="0" x2="0" y2="10" stroke="#334155" stroke-width="0.9" />
+                                        <circle cx="5" cy="5" r="0.7" fill="#475569" />
+                                    </pattern>
+                                    <pattern id="simDebrisHatch" width="8" height="8" patternUnits="userSpaceOnUse">
+                                        <circle cx="2" cy="2" r="1.1" fill="#d97706" opacity="0.8" />
+                                        <circle cx="6" cy="5" r="1.2" fill="#b45309" opacity="0.9" />
+                                    </pattern>
+                                    <marker id="simArrowBlue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse">
+                                        <path d="M 0 1 L 9 5 L 0 9 z" fill="#38bdf8" />
+                                    </marker>
+                                    <marker id="simArrowRed" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse">
+                                        <path d="M 0 1 L 9 5 L 0 9 z" fill="#ef4444" />
+                                    </marker>
+                                </defs>
 
-                            <!-- Active Shear Failure Surface (Curved Slip Plane) -->
-                            <path d="M 170 142 Q 220 200, 290 235 T 390 275" stroke="#ef4444" stroke-width="3" stroke-dasharray="6 3" fill="none" />
+                                <!-- Dark Engineering Grid Backdrop -->
+                                <rect width="520" height="280" rx="12" fill="#090d16" />
+                                <g stroke="#1e293b" stroke-width="0.5" stroke-dasharray="2 4" opacity="0.5">
+                                    <line x1="40" y1="60" x2="480" y2="60" />
+                                    <line x1="40" y1="120" x2="480" y2="120" />
+                                    <line x1="40" y1="180" x2="480" y2="180" />
+                                    <line x1="40" y1="240" x2="480" y2="240" />
+                                    <line x1="120" y1="20" x2="120" y2="260" />
+                                    <line x1="240" y1="20" x2="240" y2="260" />
+                                    <line x1="360" y1="20" x2="360" y2="260" />
+                                </g>
 
-                            <!-- Soil Nail / Rock Anchor Remediation Grid -->
-                            <line x1="195" y1="165" x2="225" y2="215" stroke="#10b981" stroke-width="2.5" />
-                            <line x1="225" y1="178" x2="255" y2="228" stroke="#10b981" stroke-width="2.5" />
-                            <line x1="255" y1="195" x2="285" y2="245" stroke="#10b981" stroke-width="2.5" />
+                                <!-- Stable Bedrock Formation -->
+                                <path id="sim-bedrock-path" d="M 20 40 L 160 50 L 320 205 L 430 205 L 505 240 L 505 280 L 20 280 Z" fill="url(#simRockHatch)" stroke="#334155" stroke-width="1.2" />
 
-                            <!-- Piezometer Sensor Borehole -->
-                            <line x1="330" y1="150" x2="330" y2="250" stroke="#3b82f6" stroke-width="2" stroke-dasharray="4 2" />
-                            <circle cx="330" cy="150" r="5" fill="#3b82f6" stroke="#ffffff" stroke-width="2" />
-                            <text x="342" y="154" fill="#1e3a8a" font-size="11" font-weight="800">PIEZOMETER</text>
+                                <!-- Phreatic Surface / Seepage Saturation Line -->
+                                <path id="sim-water-path" d="M 25 150 Q 200 170 310 205" fill="none" stroke="#0284c7" stroke-width="2" stroke-dasharray="5 3" />
+                                <g id="sim-seepage-arrows">
+                                    <line x1="260" y1="185" x2="280" y2="195" stroke="#38bdf8" stroke-width="1.6" marker-end="url(#simArrowBlue)" />
+                                </g>
+                                <text id="sim-water-text" x="40" y="145" fill="#38bdf8" font-size="8.5" font-weight="700">PHREATIC SURFACE (m = 0.00)</text>
 
-                            <!-- Highway Corridor (NH-21 Roadway along valley floor) -->
-                            <rect x="390" y="278" width="55" height="12" rx="3" fill="#334155" />
-                            <line x1="392" y1="284" x2="443" y2="284" stroke="#facc15" stroke-width="1.5" stroke-dasharray="4 3" />
-                            <text x="390" y="306" fill="#0f172a" font-size="11" font-weight="800">NH-21 CORRIDOR</text>
+                                <!-- Slip Surface / Shear Rupture Arc -->
+                                <path id="sim-slip-path" d="M 180 52 Q 240 135 320 205" fill="none" stroke="#ef4444" stroke-width="2.6" stroke-dasharray="6 3" />
 
-                            <!-- Beas River Flow Surface -->
-                            <rect x="455" y="282" width="65" height="78" fill="url(#riverGrad)" opacity="0.9" />
-                            <text x="460" y="318" fill="#ffffff" font-size="11" font-weight="800">BEAS RIVER</text>
+                                <!-- Detached / Sliding Colluvium Mass -->
+                                <path id="sim-colluvium-path" d="M 180 52 Q 240 135 320 205 L 360 205 L 345 185 Q 255 125 180 52 Z" fill="#78350f" fill-opacity="0.3" stroke="#f59e0b" stroke-width="1.2" />
+                                <path id="sim-debris-pattern-path" d="M 180 52 Q 240 135 320 205 L 360 205 L 345 185 Q 255 125 180 52 Z" fill="url(#simDebrisHatch)" />
 
-                            <!-- Geological Annotation Pins -->
-                            <circle cx="170" cy="142" r="5.5" fill="#dc2626" stroke="#ffffff" stroke-width="2" />
-                            <text x="80" y="136" fill="#991b1b" font-size="11.5" font-weight="800">CROWN SCARP (2,450m)</text>
+                                <!-- Tension Cracks at Crown Scarp -->
+                                <path id="sim-crack-path" d="M 180 40 L 180 52 L 176 58" fill="none" stroke="#ef4444" stroke-width="2" />
 
-                            <circle cx="290" cy="235" r="5" fill="#f59e0b" stroke="#ffffff" stroke-width="2" />
-                            <text x="210" y="270" fill="#b45309" font-size="11" font-weight="800">SHEAR PLANE</text>
+                                <!-- Engineered Remediation Overlays (Soil Nails & Breast Wall) -->
+                                <g id="sim-remediation-group" opacity="0">
+                                    <!-- Soil Nail Array -->
+                                    <line x1="210" y1="85" x2="250" y2="140" stroke="#10b981" stroke-width="2.5" />
+                                    <line x1="240" y1="120" x2="280" y2="175" stroke="#10b981" stroke-width="2.5" />
+                                    <line x1="270" y1="155" x2="310" y2="210" stroke="#10b981" stroke-width="2.5" />
+                                    <!-- Soil nail head bearing plates -->
+                                    <rect x="207" y="82" width="6" height="6" fill="#34d399" />
+                                    <rect x="237" y="117" width="6" height="6" fill="#34d399" />
+                                    <rect x="267" y="152" width="6" height="6" fill="#34d399" />
+                                    <!-- Plum Concrete Breast Wall at Toe -->
+                                    <polygon points="320,205 334,205 330,175 322,175" fill="#0f766e" stroke="#2dd4bf" stroke-width="1.2" />
+                                    <circle cx="326" cy="192" r="1.3" fill="#2dd4bf" />
+                                    <text x="340" y="180" fill="#34d399" font-size="8" font-weight="800">REINFORCED</text>
+                                </g>
 
-                            <circle cx="390" cy="275" r="5" fill="#10b981" stroke="#ffffff" stroke-width="2" />
-                            <text x="270" y="316" fill="#065f46" font-size="11" font-weight="800">TOE HEAVE / REMEDIATION</text>
-                        </svg>
+                                <!-- Highway Corridor (Carriageway) -->
+                                <rect x="320" y="203" width="110" height="5" fill="#1e293b" stroke="#475569" stroke-width="0.8" />
+                                <line x1="320" y1="205" x2="430" y2="205" stroke="#facc15" stroke-width="1.2" stroke-dasharray="3 3" />
+                                <text x="345" y="222" fill="#94a3b8" font-size="8" font-weight="700">NH-21 HIGHWAY (MANDI)</text>
 
-                        <!-- Inset Metadata Labels -->
-                        <div class="map-label map-label-one" aria-hidden="true">31.76°N &bull; 2,450m ASL</div>
-                        <div class="map-label map-label-two" aria-hidden="true">77.19°E &bull; MANDI SECTOR</div>
+                                <!-- Valley Drop & Beas River -->
+                                <path d="M 430 205 L 505 240 L 505 280 L 430 280 Z" fill="#0c4a6e" opacity="0.6" />
+                                <text x="445" y="255" fill="#38bdf8" font-size="8.5" font-weight="800">BEAS GORGE</text>
 
-                        <div class="map-caption">
-                            <span>GEOTECHNICAL CROSS-SECTION</span>
-                            <strong>MANDI CATCHMENT KINEMATIC PROFILE</strong>
+                                <!-- Dynamic Angle Callout Arc -->
+                                <path id="sim-angle-arc" d="M 296 205 A 24 24 0 0 1 306 183" fill="none" stroke="#22c55e" stroke-width="1.5" />
+                                <text id="sim-angle-text" x="250" y="190" fill="#4ade80" font-size="8.5" font-weight="800">&beta; = 42&deg;</text>
+
+                                <!-- Active Driving vs Resisting Forces Annotation -->
+                                <g id="sim-force-arrows">
+                                    <line x1="250" y1="125" x2="275" y2="150" stroke="#ef4444" stroke-width="2" marker-end="url(#simArrowRed)" />
+                                    <text id="sim-shear-text" x="270" y="130" fill="#fca5a5" font-size="7.5" font-weight="800">&tau; (Shear Drive)</text>
+                                </g>
+                            </svg>
+                        </div>
+
+                        <!-- Interactive Geotechnical Sliders -->
+                        <div class="sim-controls">
+                            <!-- Slider 1: Slope Cut Angle (beta) -->
+                            <div class="sim-control-group">
+                                <div class="sim-label-row">
+                                    <label for="slider-angle">Hill Cut Angle (&beta;)</label>
+                                    <span class="sim-val-display" id="val-angle">42&deg;</span>
+                                </div>
+                                <input type="range" id="slider-angle" min="30" max="75" step="1" value="42" class="sim-slider" aria-label="Hill Cut Angle in degrees">
+                                <div class="slider-ticks">
+                                    <span>30&deg; (Gentle)</span>
+                                    <span>50&deg; (Critical)</span>
+                                    <span>75&deg; (Cliff)</span>
+                                </div>
+                            </div>
+
+                            <!-- Slider 2: Monsoon Saturation (m) -->
+                            <div class="sim-control-group">
+                                <div class="sim-label-row">
+                                    <label for="slider-water">Monsoon Saturation (m)</label>
+                                    <span class="sim-val-display" id="val-water">0% (Dry)</span>
+                                </div>
+                                <input type="range" id="slider-water" min="0" max="100" step="5" value="0" class="sim-slider" aria-label="Monsoon Saturation percentage">
+                                <div class="slider-ticks">
+                                    <span>0% (Pre-Monsoon)</span>
+                                    <span>50% (Active Rain)</span>
+                                    <span>100% (Cloudburst)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Geotechnical Equation & Status Sub-Bar -->
+                        <div class="sim-formula-bar">
+                            <span class="formula-code">FoS = [ c' + (&gamma;&bull;z&bull;cos&sup2;&beta; &minus; u)&bull;tan&phi;' ] / [ &gamma;&bull;z&bull;sin&beta;&bull;cos&beta; ]</span>
+                            <span class="sim-engine-tag">&bull; IRC:SP:48 / BISHOP LEQ</span>
                         </div>
                     </div>
                 </div>
@@ -814,6 +889,185 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch(() => {
             animateHero(parseInt(heroCounter?.getAttribute("data-target") || "14190", 10));
         });
+
+    // 4. Interactive Geotechnical Slope Stability & FoS Simulator
+    const sliderAngle = document.getElementById("slider-angle");
+    const sliderWater = document.getElementById("slider-water");
+    const valAngle = document.getElementById("val-angle");
+    const valWater = document.getElementById("val-water");
+    const fosVal = document.getElementById("sim-fos-val");
+    const fosBadge = document.getElementById("sim-fos-badge");
+    const fosPill = document.getElementById("sim-fos-pill");
+    const presetBtns = document.querySelectorAll(".sim-preset-btn");
+
+    // SVG elements to transform
+    const bedrockPath = document.getElementById("sim-bedrock-path");
+    const waterPath = document.getElementById("sim-water-path");
+    const waterText = document.getElementById("sim-water-text");
+    const slipPath = document.getElementById("sim-slip-path");
+    const colluviumPath = document.getElementById("sim-colluvium-path");
+    const debrisPatPath = document.getElementById("sim-debris-pattern-path");
+    const crackPath = document.getElementById("sim-crack-path");
+    const remediationGroup = document.getElementById("sim-remediation-group");
+    const angleArc = document.getElementById("sim-angle-arc");
+    const angleText = document.getElementById("sim-angle-text");
+    const shearText = document.getElementById("sim-shear-text");
+
+    let isRemediated = false;
+
+    // Limit Equilibrium Infinite Slope / Planar Model parameters
+    // c' = 14 kPa (effective cohesion of weathered phyllite)
+    // phi' = 32 deg (internal friction angle)
+    // gamma = 19.5 kN/m^3 (unit weight of colluvium)
+    // z = 4.2 m (depth of potential failure surface)
+    // gamma_w = 9.81 kN/m^3 (unit weight of water)
+    const C_PRIME = 14.0;
+    const PHI_RAD = (32.0 * Math.PI) / 180.0;
+    const GAMMA = 19.5;
+    const Z_DEPTH = 4.2;
+    const GAMMA_W = 9.81;
+
+    function computeFoS(angleDeg, satPercent, remediated) {
+        const betaRad = (angleDeg * Math.PI) / 180.0;
+        const m = satPercent / 100.0; // Saturation ratio of thickness
+
+        // Effective normal stress: sigma'_n = gamma * z * cos^2(beta) - u
+        // where u = m * gamma_w * z * cos^2(beta)
+        const cosBeta = Math.cos(betaRad);
+        const sinBeta = Math.sin(betaRad);
+        const cos2 = cosBeta * cosBeta;
+
+        const u = m * GAMMA_W * Z_DEPTH * cos2;
+        const sigmaN = GAMMA * Z_DEPTH * cos2;
+        const effectiveSigmaN = Math.max(0.1, sigmaN - u);
+
+        // Resisting shear strength tau_f = c' + sigma'_n * tan(phi')
+        let tauResisting = C_PRIME + effectiveSigmaN * Math.tan(PHI_RAD);
+
+        // Driving shear stress tau_d = gamma * z * sin(beta) * cos(beta)
+        const tauDriving = GAMMA * Z_DEPTH * sinBeta * cosBeta;
+
+        // Remediation structural bonus (soil nails + keyed breast wall provide ~28 kPa passive resistance)
+        if (remediated) {
+            tauResisting += 28.0;
+        }
+
+        const fos = tauResisting / Math.max(0.5, tauDriving);
+        return Math.max(0.40, Math.min(3.50, fos));
+    }
+
+    function updateSimulation() {
+        const angle = parseInt(sliderAngle.value, 10);
+        const sat = parseInt(sliderWater.value, 10);
+
+        valAngle.textContent = `${angle}°`;
+        valWater.textContent = sat === 0 ? "0% (Dry)" : `${sat}% (${sat >= 75 ? 'Cloudburst' : sat >= 40 ? 'Heavy Rain' : 'Seepage'})`;
+
+        const fos = computeFoS(angle, sat, isRemediated);
+        fosVal.textContent = fos.toFixed(2);
+
+        // Status update
+        if (fos >= 1.30) {
+            fosBadge.textContent = isRemediated ? "REINFORCED" : "STABLE";
+            fosPill.setAttribute("data-status", "stable");
+        } else if (fos >= 1.00) {
+            fosBadge.textContent = "MARGINAL";
+            fosPill.setAttribute("data-status", "marginal");
+        } else {
+            fosBadge.textContent = "FAILURE";
+            fosPill.setAttribute("data-status", "failure");
+        }
+
+        // Geometric adjustments in SVG based on angle
+        // As angle increases from 30 to 75, crown scarp shifts closer to toe X=320
+        const dx = Math.round(180 - (angle - 30) * 2.8);
+        const crownX = Math.max(120, 320 - dx);
+        const scarpY = Math.round(50 + (angle - 30) * 0.4);
+
+        // Update Bedrock geometry
+        bedrockPath.setAttribute("d", `M 20 40 L ${crownX} ${scarpY} L 320 205 L 430 205 L 505 240 L 505 280 L 20 280 Z`);
+
+        // Update Slip surface
+        const arcMidX = Math.round((crownX + 320) / 2 + 10);
+        const arcMidY = Math.round((scarpY + 205) / 2 + (fos < 1.0 ? 15 : 5));
+        const slipD = `M ${crownX + 15} ${scarpY + 6} Q ${arcMidX} ${arcMidY} 320 205`;
+        slipPath.setAttribute("d", slipD);
+
+        // Update Colluvium & Debris mass
+        // If failure (fos < 1.0), debris encroaches onto road (toe expands to X=360..395)
+        const roadEnc = fos < 1.0 ? Math.round(345 + (1.0 - fos) * 55) : (isRemediated ? 325 : 340);
+        const collD = `M ${crownX + 15} ${scarpY + 6} Q ${arcMidX} ${arcMidY} 320 205 L ${roadEnc} 205 L ${roadEnc - 15} 185 Q ${arcMidX + 15} ${arcMidY - 10} ${crownX + 15} ${scarpY + 6} Z`;
+        colluviumPath.setAttribute("d", collD);
+        debrisPatPath.setAttribute("d", collD);
+
+        // Tension cracks at crown
+        crackPath.setAttribute("d", `M ${crownX + 15} ${scarpY - 6} L ${crownX + 15} ${scarpY + 6} L ${crownX + 11} ${scarpY + 12}`);
+        crackPath.setAttribute("stroke", fos < 1.0 ? "#ef4444" : "#f59e0b");
+        crackPath.setAttribute("stroke-width", fos < 1.0 ? "2.5" : "1.5");
+
+        // Phreatic line elevation (governed by saturation slider)
+        if (sat > 0) {
+            const waterElevY = Math.round(205 - (sat / 100.0) * (205 - scarpY) * 0.65);
+            waterPath.setAttribute("d", `M 25 ${waterElevY + 10} Q ${(crownX + 320) / 2} ${waterElevY} 310 205`);
+            waterPath.setAttribute("opacity", "1");
+            waterText.textContent = `PHREATIC SURFACE (m = ${(sat / 100).toFixed(2)})`;
+            waterText.setAttribute("y", `${waterElevY - 4}`);
+            waterText.setAttribute("opacity", "1");
+        } else {
+            waterPath.setAttribute("opacity", "0.15");
+            waterText.textContent = `PHREATIC SURFACE (DRY m = 0.00)`;
+            waterText.setAttribute("y", `175`);
+        }
+
+        // Angle indicator
+        angleText.textContent = `β = ${angle}°`;
+        angleText.setAttribute("x", `${crownX + 50}`);
+        angleText.setAttribute("y", `${Math.round((scarpY + 205) / 2)}`);
+
+        // Shear drive callout
+        shearText.textContent = `τ_drive = ${(GAMMA * Z_DEPTH * Math.sin(angle*Math.PI/180) * Math.cos(angle*Math.PI/180)).toFixed(1)} kPa`;
+
+        // Remediation overlay toggle
+        remediationGroup.setAttribute("opacity", isRemediated ? "1" : "0");
+    }
+
+    sliderAngle.addEventListener("input", () => {
+        // Clear preset highlight when manually sliding
+        presetBtns.forEach(b => b.classList.remove("active"));
+        updateSimulation();
+    });
+
+    sliderWater.addEventListener("input", () => {
+        presetBtns.forEach(b => b.classList.remove("active"));
+        updateSimulation();
+    });
+
+    // Preset button event listeners
+    presetBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            presetBtns.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            const preset = btn.getAttribute("data-preset");
+
+            if (preset === "dry") {
+                isRemediated = false;
+                sliderAngle.value = 42;
+                sliderWater.value = 0;
+            } else if (preset === "monsoon") {
+                isRemediated = false;
+                sliderAngle.value = 52;
+                sliderWater.value = 85;
+            } else if (preset === "remediated") {
+                isRemediated = true;
+                sliderAngle.value = 52;
+                sliderWater.value = 45;
+            }
+            updateSimulation();
+        });
+    });
+
+    // Initialize simulation
+    updateSimulation();
 });
 </script>
 {% endblock %}
