@@ -873,7 +873,7 @@
             <td><strong>Slope profile:</strong> <span class="editable" id="f-slope-profile">{{ assessment.slope_characteristics.slope_geometry_profile }}</span></td>
           </tr>
           <tr>
-            <td colspan="2"><strong>Earthwork Volumetrics (IS:1200 / MoRTH Sec 300):</strong> Simpson's Prismoidal $V = \frac{L}{6}(A_1 + 4A_m + A_2) =$ <strong class="font-mono" style="color: var(--primary-forest);">{{ assessment.slope_characteristics.excavation_vol_m3 or 145 }} m&sup3;</strong> (Loose Bulking 1.25&times;: {{ ((assessment.slope_characteristics.excavation_vol_m3 or 145) * 1.25) | round(1) }} m&sup3;)</td>
+            <td colspan="2"><strong>Earthwork Volumetrics (IS:1200 / MoRTH Sec 300):</strong> Simpson's Prismoidal <span class="font-mono" style="font-size: 8px; background: #f1f5f9; padding: 1.5px 5px; border-radius: 3px; border: 1px solid #cbd5e1; margin: 0 3px;"><i>V</i> = <sup><i>L</i></sup>&frasl;<sub>6</sub> (<i>A</i><sub>1</sub> + 4<i>A</i><sub>m</sub> + <i>A</i><sub>2</sub>)</span> = <strong class="font-mono" style="color: var(--primary-forest);">{{ assessment.slope_characteristics.excavation_vol_m3 or 145 }} m&sup3;</strong> <span style="color: #64748b; font-size: 7.5px;">(Loose Bulking 1.25&times;: {{ ((assessment.slope_characteristics.excavation_vol_m3 or 145) * 1.25) | round(1) }} m&sup3;)</span></td>
             <td><strong>Slope (below road):</strong> <span class="editable" id="f-slope-below">{{ assessment.slope_characteristics.slope_geometry_below }}</span></td>
           </tr>
         </tbody>
