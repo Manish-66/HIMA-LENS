@@ -103,6 +103,25 @@
       background: #5eead4;
       transform: translateY(-1px);
     }
+    .btn-sheet2 {
+      background: #0284c7;
+      color: #ffffff;
+      border: 1px solid #0369a1;
+    }
+    .btn-sheet2:hover {
+      background: #0369a1;
+      transform: translateY(-1px);
+    }
+    .btn-sheet3 {
+      background: #f59e0b;
+      color: #092f25;
+      border: 1px solid #d97706;
+      font-weight: 800;
+    }
+    .btn-sheet3:hover {
+      background: #fbbf24;
+      transform: translateY(-1px);
+    }
     .btn-ghost {
       background: rgba(255, 255, 255, 0.12);
       color: #ffffff;
@@ -554,6 +573,12 @@
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
         <span>Print 1-Page PPR (A4)</span>
       </button>
+      <a href="/report/solution-sheet/{{ report.id }}" class="screen-btn btn-sheet2">
+        <span>Sheet 2: Detailed Analysis &rarr;</span>
+      </a>
+      <a href="/report/boq-sheet/{{ report.id }}" class="screen-btn btn-sheet3">
+        <span>Sheet 3: Cost &amp; BOQ &rarr;</span>
+      </a>
       <button type="button" class="screen-btn btn-ghost" id="btn-toggle-edit" onclick="toggleEditMode()">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
         <span>Edit Fields</span>
