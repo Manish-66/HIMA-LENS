@@ -34,8 +34,8 @@
 
     body {
       font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      font-size: 8.5px;
-      line-height: 1.35;
+      font-size: 9px;
+      line-height: 1.4;
       color: var(--ink);
       background: #cbd5e1;
       padding: 16px 8px;
@@ -217,11 +217,9 @@
       width: 210mm;
       min-width: 210mm;
       max-width: 210mm;
-      height: 297mm;
       min-height: 297mm;
-      max-height: 297mm;
       margin: 0 auto 20px auto;
-      padding: 7mm 9mm 6mm 9mm;
+      padding: 8mm 10mm 7mm 10mm;
       border: 1.5px solid var(--border-dark);
       box-shadow: 0 6px 25px rgba(15, 23, 42, 0.22);
       position: relative;
@@ -229,52 +227,51 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      overflow: hidden;
     }
 
     /* Master Institutional Header */
     .master-header {
       border-bottom: 2px solid var(--primary-dark);
-      padding-bottom: 4px;
-      margin-bottom: 5px;
+      padding-bottom: 5px;
+      margin-bottom: 6px;
     }
     .master-header-grid {
       display: grid;
-      grid-template-columns: 46px 1fr auto;
-      gap: 10px;
+      grid-template-columns: 48px 1fr auto;
+      gap: 12px;
       align-items: center;
     }
     .inst-logo-img {
-      width: 44px;
-      height: 44px;
+      width: 46px;
+      height: 46px;
       object-fit: contain;
       display: block;
     }
     .inst-name {
       font-family: 'Manrope', sans-serif;
-      font-size: 10px;
+      font-size: 10.5px;
       font-weight: 850;
       color: var(--primary-dark);
       letter-spacing: 0.6px;
       line-height: 1.15;
     }
     .inst-dept {
-      font-size: 7.5px;
+      font-size: 8px;
       font-weight: 700;
       color: var(--accent-teal);
       letter-spacing: 0.4px;
-      margin-bottom: 1px;
+      margin-bottom: 1.5px;
     }
     .master-title {
       font-family: 'Manrope', sans-serif;
-      font-size: 11.5px;
+      font-size: 12px;
       font-weight: 800;
       color: var(--ink);
       letter-spacing: 0.3px;
       line-height: 1.15;
     }
     .master-standards {
-      font-size: 7px;
+      font-size: 7.5px;
       font-weight: 600;
       color: var(--ink-soft);
     }
@@ -286,12 +283,12 @@
       flex-direction: column;
       border: 1.5px solid var(--primary-dark);
       background: #f8fafc;
-      padding: 2.5px 8px;
+      padding: 3px 9px;
       text-align: center;
       border-radius: 3px;
     }
     .stamp-lbl {
-      font-size: 6.5px;
+      font-size: 7px;
       font-weight: 800;
       color: var(--ink-soft);
       letter-spacing: 0.5px;
@@ -299,18 +296,18 @@
     }
     .stamp-code {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 9px;
+      font-size: 9.5px;
       font-weight: 800;
       color: var(--primary-dark);
     }
     .stamp-stat {
-      font-size: 6.5px;
+      font-size: 7px;
       font-weight: 800;
       background: var(--primary-dark);
       color: #ffffff;
-      padding: 1px 4px;
+      padding: 1.5px 4px;
       border-radius: 2px;
-      margin-top: 1px;
+      margin-top: 1.5px;
       letter-spacing: 0.3px;
     }
 
@@ -319,10 +316,10 @@
       background: var(--primary-dark);
       color: #ffffff;
       font-family: 'Manrope', sans-serif;
-      font-size: 8px;
+      font-size: 8.5px;
       font-weight: 800;
-      padding: 3px 8px;
-      margin: 4px 0 3px 0;
+      padding: 4px 9px;
+      margin: 5px 0 3.5px 0;
       letter-spacing: 0.4px;
       text-transform: uppercase;
       display: flex;
@@ -331,7 +328,7 @@
       border-left: 3.5px solid var(--accent-highlight);
     }
     .sec-bar-sub {
-      font-size: 7px;
+      font-size: 7.2px;
       font-weight: 600;
       color: #cbd5e1;
       text-transform: none;
@@ -343,23 +340,23 @@
       width: 100%;
       border-collapse: collapse;
       border: 1px solid var(--border-dark);
-      font-size: 7.5px;
-      line-height: 1.35;
-      margin-bottom: 4px;
+      font-size: 8.2px;
+      line-height: 1.38;
+      margin-bottom: 5px;
     }
     .grid-table th {
       background: var(--bg-table-head);
       color: var(--ink);
       font-weight: 700;
       text-align: left;
-      padding: 3px 6px;
+      padding: 4px 7px;
       border: 1px solid var(--border-dark);
       font-family: 'Manrope', sans-serif;
-      font-size: 7.5px;
+      font-size: 8.2px;
     }
     .grid-table td {
       border: 1px solid var(--border-dark);
-      padding: 3px 6px;
+      padding: 4px 7px;
       vertical-align: top;
       color: var(--ink);
     }
@@ -368,7 +365,7 @@
       font-weight: 700;
       color: #334155;
       white-space: nowrap;
-      width: 18%;
+      width: 18.5%;
     }
     .grid-table .col-val {
       background: #ffffff;
@@ -416,7 +413,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      height: 236px;
+      height: 310px;
       position: relative;
       overflow: hidden;
       border-radius: 3px;
@@ -424,8 +421,8 @@
     .photo-top-bar {
       background: rgba(9, 47, 37, 0.95);
       color: #5eead4;
-      padding: 3px 8px;
-      font-size: 6.5px;
+      padding: 4px 8px;
+      font-size: 7px;
       font-weight: 700;
       letter-spacing: 0.4px;
       display: flex;
@@ -455,8 +452,8 @@
     .photo-caption-bar {
       background: rgba(9, 47, 37, 0.95);
       color: #ffffff;
-      padding: 3px 8px;
-      font-size: 7px;
+      padding: 4px 8px;
+      font-size: 7.5px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -470,7 +467,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      height: 236px;
+      height: 310px;
       position: relative;
       overflow: hidden;
       border-radius: 3px;
@@ -478,8 +475,8 @@
     .schematic-top-bar {
       background: #0f172a;
       color: #94a3b8;
-      padding: 3px 8px;
-      font-size: 6.5px;
+      padding: 4px 8px;
+      font-size: 7px;
       font-weight: 700;
       letter-spacing: 0.4px;
       display: flex;
@@ -505,8 +502,8 @@
     .schematic-caption-bar {
       background: #0f172a;
       color: #ffffff;
-      padding: 3px 8px;
-      font-size: 7px;
+      padding: 4px 8px;
+      font-size: 7.5px;
       font-family: 'Manrope', sans-serif;
       font-weight: 700;
       display: flex;
@@ -519,17 +516,18 @@
     .epistemic-grid {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
-      gap: 6px;
-      margin-bottom: 4px;
+      gap: 7px;
+      margin-bottom: 5px;
     }
     .epistemic-card {
       border: 1px solid var(--border-dark);
       background: #ffffff;
-      padding: 4px 6px;
-      border-radius: 2px;
+      padding: 6px 8px;
+      border-radius: 3px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      min-height: 100px;
     }
     .epistemic-card.tier-1 {
       border-left: 3px solid #0369a1;
@@ -545,32 +543,32 @@
     }
     .epistemic-header {
       font-family: 'Manrope', sans-serif;
-      font-size: 7px;
+      font-size: 7.6px;
       font-weight: 800;
       letter-spacing: 0.3px;
       text-transform: uppercase;
-      margin-bottom: 2px;
+      margin-bottom: 3px;
       display: flex;
       align-items: center;
       gap: 4px;
     }
     .epistemic-body {
-      font-size: 6.8px;
-      line-height: 1.3;
+      font-size: 7.2px;
+      line-height: 1.35;
       color: var(--ink-soft);
       flex: 1;
     }
     .epistemic-badge-row {
-      margin-top: 3px;
+      margin-top: 4px;
       display: flex;
       flex-wrap: wrap;
       gap: 3px;
     }
     .epistemic-pill {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 6px;
+      font-size: 6.6px;
       font-weight: 700;
-      padding: 1px 3px;
+      padding: 1.5px 4px;
       border-radius: 2px;
       background: rgba(0, 0, 0, 0.05);
       border: 1px solid rgba(0, 0, 0, 0.1);
@@ -580,8 +578,8 @@
     .solution-action-box {
       border: 1.5px solid #166534;
       background: #f0fdf4;
-      padding: 5px 8px;
-      margin: 3px 0 4px 0;
+      padding: 6px 10px;
+      margin: 4px 0 5px 0;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -589,9 +587,9 @@
       border-radius: 3px;
     }
     .solution-action-text {
-      font-size: 7px;
+      font-size: 7.6px;
       color: #14532d;
-      line-height: 1.3;
+      line-height: 1.35;
     }
     .btn-action-pill {
       background: #15803d;
@@ -617,25 +615,25 @@
       width: 100%;
       border-collapse: collapse;
       border: 1px solid var(--border-dark);
-      font-size: 7px;
-      margin-top: 3px;
+      font-size: 7.5px;
+      margin-top: 4px;
     }
     .sign-table th {
       background: var(--bg-table-head);
       border: 1px solid var(--border-dark);
-      padding: 3px 6px;
+      padding: 4px 7px;
       font-family: 'Manrope', sans-serif;
       font-weight: 700;
       text-align: left;
-      font-size: 7px;
+      font-size: 7.5px;
       line-height: 1.25;
     }
     .sign-table td {
       border: 1px solid var(--border-dark);
-      padding: 4px 6px;
-      height: 38px;
+      padding: 5px 7px;
+      height: 48px;
       vertical-align: bottom;
-      font-size: 7px;
+      font-size: 7.5px;
     }
 
     /* Page Footer */
@@ -646,7 +644,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 7px;
+      font-size: 7.5px;
       color: #64748b;
       font-family: 'JetBrains Mono', monospace;
     }
@@ -950,7 +948,7 @@
         <span>4. Defects &amp; Distress Observed Around Works</span>
         <span class="sec-bar-sub">Observed Failures</span>
       </div>
-      <div style="border: 1px solid var(--border-dark); border-bottom: none; padding: 3px 6px; font-size: 7.5px; background: #f8fafc;">
+      <div style="border: 1px solid var(--border-dark); border-bottom: none; padding: 4px 8px; font-size: 8px; background: #f8fafc;">
         <strong>Defect on slope:</strong>
         <span class="chk-item {{ 'checked' if assessment.defects_and_distress and assessment.defects_and_distress.defects_on_slope and assessment.defects_and_distress.defects_on_slope.gully }}"><span class="chk-box {{ 'active' if assessment.defects_and_distress and assessment.defects_and_distress.defects_on_slope and assessment.defects_and_distress.defects_on_slope.gully }}">✔</span> 1. Gully</span>
         <span class="chk-item {{ 'checked' if assessment.defects_and_distress and assessment.defects_and_distress.defects_on_slope and assessment.defects_and_distress.defects_on_slope.crack }}"><span class="chk-box {{ 'active' if assessment.defects_and_distress and assessment.defects_and_distress.defects_on_slope and assessment.defects_and_distress.defects_on_slope.crack }}">✔</span> 2. Crack</span>
@@ -990,7 +988,7 @@
               Crack: [ ✔ ] Yes
             </td>
             <td>
-              <div class="editable" id="f-def-remarks" style="font-size: 7.5px; line-height: 1.35; color: var(--ink-soft);">
+              <div class="editable" id="f-def-remarks" style="font-size: 8px; line-height: 1.4; color: var(--ink-soft);">
                 Active slope instability with significant colluvial encroachment over carriageway and roadside drain obstruction.
               </div>
             </td>
@@ -1147,27 +1145,27 @@
         <span>6. Geotechnical Slope Stability &amp; Safety Factor Benchmark</span>
         <span class="sec-bar-sub">USACE EM 1110-2-1902 &bull; Eurocode 7 (EN 1997-1) &bull; CEDD Geoguide 1 &bull; IS:14458</span>
       </div>
-      <table class="grid-table" style="font-size: 7px; margin-bottom: 3px;">
+      <table class="grid-table" style="margin-bottom: 4px;">
         <tr>
           <td class="col-lbl" style="width: 22%;">Failure Classification:</td>
           <td class="col-val" style="width: 28%;">
             <strong style="color: #0369a1;">{{ (assessment.advanced_geotechnical_stabilization.usgs_classification.two_term_classification if assessment.advanced_geotechnical_stabilization and assessment.advanced_geotechnical_stabilization.usgs_classification else 'Translational Debris Slide') }}</strong><br>
-            <span style="font-size: 6.5px; color: #64748b;">Cruden &amp; Varnes (1996) / USGS Circular 1325</span>
+            <span style="font-size: 7.2px; color: #64748b;">Cruden &amp; Varnes (1996) / USGS Circular 1325</span>
           </td>
           <td class="col-lbl" style="width: 22%;">CEDD Consequence / Risk:</td>
           <td class="col-val" style="width: 28%;">
             <strong>{{ (assessment.advanced_geotechnical_stabilization.cedd_consequence.consequence_category if assessment.advanced_geotechnical_stabilization and assessment.advanced_geotechnical_stabilization.cedd_consequence else 'Category 1 (High Consequence)') }}</strong><br>
-            <span style="font-size: 6.5px; color: #64748b;">ALARP Principle &bull; Target FoS &ge; {{ '%.2f' % (assessment.advanced_geotechnical_stabilization.cedd_consequence.target_fos_10yr if assessment.advanced_geotechnical_stabilization and assessment.advanced_geotechnical_stabilization.cedd_consequence else 1.30) }} (10-Yr Monsoon Event)</span>
+            <span style="font-size: 7.2px; color: #64748b;">ALARP Principle &bull; Target FoS &ge; {{ '%.2f' % (assessment.advanced_geotechnical_stabilization.cedd_consequence.target_fos_10yr if assessment.advanced_geotechnical_stabilization and assessment.advanced_geotechnical_stabilization.cedd_consequence else 1.30) }} (10-Yr Monsoon Event)</span>
           </td>
         </tr>
         <tr>
           <td class="col-lbl">Limit State Framework:</td>
           <td class="col-val">
             <strong>Eurocode 7 EN 1997-1: GEO &amp; STR Limit States</strong><br>
-            <span style="font-size: 6.5px; color: #64748b;">Design Approach 1, Comb. 2 (A2+M2+R2 partial factors)</span>
+            <span style="font-size: 7.2px; color: #64748b;">Design Approach 1, Comb. 2 (A2+M2+R2 partial factors)</span>
           </td>
           <td class="col-lbl">Governing Parameters:</td>
-          <td class="col-val font-mono" style="font-size: 6.5px;">
+          <td class="col-val font-mono" style="font-size: 7.5px;">
             &phi;' = {{ assessment.geology.phi_prime_deg or 28.0 }}&deg; &bull; c' = {{ assessment.geology.c_prime_kpa or 14.0 }} kPa &bull; &gamma; = {{ assessment.geology.gamma_kn_m3 or 19.5 }} kN/m&sup3;<br>
             UCS = {{ assessment.geology.ucs_rock_mpa or 36.0 }} MPa (IS:13365 R3) &bull; Seepage r<sub>u</sub> = 0.35
           </td>
@@ -1175,7 +1173,7 @@
       </table>
 
       <!-- Factor of Safety Benchmark Table (USACE EM 1110-2-1902 & Eurocode 7 / IS:14458) -->
-      <table class="grid-table" style="font-size: 7px; margin-bottom: 3px;">
+      <table class="grid-table" style="margin-bottom: 4px;">
         <thead>
           <tr style="background: #f1f5f9;">
             <th style="text-align: left;">Hydraulic &amp; Loading Stage (USACE EM 1110-2-1902 / Eurocode 7)</th>
