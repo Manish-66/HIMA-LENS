@@ -828,10 +828,10 @@
           </td>
         </tr>
         <tr>
-          <td class="col-lbl">6. Mitigation Scope:</td>
+          <td class="col-lbl">6. Preliminary Mitigation Scope:</td>
           <td class="col-val" colspan="3">
-            <strong>Structural Takeoff:</strong> Plum Concrete Breast Wall (IS:14458: {{ (assessment.retaining_wall or assessment.retaining_wall_specs or {}).plum_concrete_vol_m3 or '128.5' }} m&sup3; M15 concrete + {{ (assessment.retaining_wall or assessment.retaining_wall_specs or {}).stone_plums_tonnes or '154.2' }} T plums), {{ (assessment.retaining_wall or assessment.retaining_wall_specs or {}).n_weep_holes or 12 }} Nos. Weep Holes (100mm PVC), Sub-horizontal Relief Drains (IRC:SP:48 Cl 7.4), Fe500D Soil Nails (FHWA-NHI-14-007).<br>
-            <strong>Earthwork &amp; Non-Structural:</strong> Simpson's Prismoidal Excavation ({{ assessment.slope_characteristics.excavation_vol_m3 or 145 }} m&sup3; per IS:1200 / MoRTH Sec 300), Lined Crest Drain, Vetiver Hydroseeding &amp; Coir Geotextile (MoRTH Sec 1400).
+            <strong>Recommended Scheme:</strong> Gravity Plum Concrete Breast Wall (IS:14458 / MoRTH 1400: H={{ (assessment.retaining_wall or assessment.retaining_wall_specs or {}).height_m or 4.5 }}m, L={{ (assessment.retaining_wall or assessment.retaining_wall_specs or {}).length_affected_m or 32 }}m) with perforated PVC weep holes &bull; High-Yield Fe500D Soil Nailing (FHWA GEC 7) &bull; Sub-horizontal PVC Relief Drains (IRC:SP:48 Cl 7.4) &bull; Bio-turfing &bull; Simpson's Prismoidal excavation ({{ assessment.slope_characteristics.excavation_vol_m3 or 145 }} m&sup3;).<br>
+            <span style="font-size: 7.2px; color: #0369a1; font-weight: 600;">&bull; Note: Comprehensive structural design calculations, load combinations, and itemized HPSOR 2024-25 BOQ are detailed in the accompanying Mitigation &amp; Solution Report.</span>
           </td>
         </tr>
       </table>
@@ -1248,18 +1248,18 @@
         <div class="epistemic-card tier-3">
           <div>
             <div class="epistemic-header" style="color: #15803d;">
-              <span style="font-weight: 900;">TIER 3</span> &bull; <span>STATUTORY REMEDIATION SCHEDULE</span>
+              <span style="font-weight: 900;">TIER 3</span> &bull; <span>PRELIMINARY REMEDIATION DIRECTIVES</span>
             </div>
             <div class="epistemic-body">
-              1. Construct {{ (assessment.retaining_wall or assessment.retaining_wall_specs or {}).length_affected_m or 32 }}m Plum Breast Wall (IS:14458 / MoRTH 1400: H={{ (assessment.retaining_wall or assessment.retaining_wall_specs or {}).height_m or 4.5 }}m, B={{ (assessment.retaining_wall or assessment.retaining_wall_specs or {}).base_width_m or 2.25 }}m) with {{ (assessment.retaining_wall or assessment.retaining_wall_specs or {}).n_weep_holes or 12 }} weep holes.<br>
-              2. Install Fe500D soil nails (FHWA-NHI-14-007) and sub-horizontal slotted PVC relief drains (IRC:SP:48 Cl 7.4).<br>
-              3. Reprofile cut face with vetiver hydroseeding (MoRTH Sec 1400).
+              1. <strong>Emergency (0&ndash;24h):</strong> Clear carriageway to restore single-lane corridor ($W \ge 3.5\text{m}$) and cut temporary crest interceptor ditch.<br>
+              2. <strong>Permanent Works:</strong> Construct {{ (assessment.retaining_wall or assessment.retaining_wall_specs or {}).length_affected_m or 32 }}m Gravity Plum Breast Wall (IS:14458) with staggered weep holes, Fe500D soil nails (FHWA GEC 7), and sub-horizontal PVC relief drains (IRC:SP:48).<br>
+              3. <strong>Full Details:</strong> Exhaustive structural design calculations and itemized BOQ are in the Mitigation Report.
             </div>
           </div>
           <div class="epistemic-badge-row">
             <span class="epistemic-pill" style="color: #15803d;">IS:14458 Wall</span>
             <span class="epistemic-pill" style="color: #15803d;">FHWA GEC 7</span>
-            <span class="epistemic-pill" style="color: #15803d;">HPSOR 2024-25</span>
+            <span class="epistemic-pill" style="color: #15803d;">See Mitigation Sheet</span>
           </div>
         </div>
       </div>
@@ -1267,14 +1267,14 @@
       <!-- Action Cluster Bar -->
       <div class="solution-action-box">
         <div class="solution-action-text">
-          <strong>STATUTORY REMEDIATION DOSSIER:</strong> Comprehensive engineering design, structural calculations, and HPSOR 2024-25 rate analysis are prepared for Administrative Approval (A&amp;ES).
+          <strong>PRELIMINARY DIAGNOSTIC DOSSIER:</strong> Forensic problem identification complete. For tender-level structural sizing, cross-sections, and HPSOR 2024-25 rate analysis, proceed to the detailed report:
         </div>
         <div style="display: flex; gap: 6px; align-items: center; flex-shrink: 0;">
           <button type="button" class="btn-action-pill" onclick="openCostEstimateModal()" style="background: #0f766e; cursor: pointer; border: none;">
-            HPSOR Cost BOQ &rarr;
+            Quick Cost BOQ &rarr;
           </button>
           <a href="/report/solution-sheet/{{ report.id }}" class="btn-action-pill">
-            Mitigation Solution Sheet &rarr;
+            Full Mitigation &amp; Solution Report &rarr;
           </a>
         </div>
       </div>
