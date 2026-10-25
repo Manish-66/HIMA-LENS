@@ -779,7 +779,7 @@ def submit_report():
     except (TypeError, ValueError):
         return jsonify(success=False, error="INVALID_COORDINATES", message="Valid decimal latitude and longitude are required."), 400
 
-    if not (30.25 <= lat <= 33.35 and 75.45 <= lng <= 79.20):
+    if not (30.0 <= lat <= 34.0 and 75.0 <= lng <= 80.0):
         return jsonify(
             success=False, 
             error="OUT_OF_BOUNDS", 

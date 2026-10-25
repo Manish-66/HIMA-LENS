@@ -1,7 +1,7 @@
 # Graph Report - MTP-main - Copy  (2026-10-25)
 
 ## Corpus Check
-- 159 files · ~999,789 words
+- 159 files · ~999,910 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 31 file(s) not represented in the graph (top: .lpkx 6, .geojson 6, (none) 5)
 
@@ -11,7 +11,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `cb8fdb53`
+- Built from commit: `a7230059`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 

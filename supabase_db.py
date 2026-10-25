@@ -156,6 +156,21 @@ def fetch_community_reports(include_hidden: bool = False) -> list[dict[str, Any]
             logger.warning("Supabase reports query exception: %s. Falling back to local data.", exc)
             reports = load_local_reports()
 
+    # Merge Supabase reports with local reports so neither is dropped
+    seen_ids = set()
+    merged_reports = []
+    for r in (reports if isinstance(reports, list) else []):
+        rid = r.get("id")
+        if rid and rid not in seen_ids:
+            seen_ids.add(rid)
+            merged_reports.append(r)
+    for lr in load_local_reports():
+        lid = lr.get("id")
+        if lid and lid not in seen_ids:
+            seen_ids.add(lid)
+            merged_reports.append(lr)
+    reports = merged_reports
+
     if include_hidden:
         return reports
 
@@ -233,6 +248,13 @@ def fetch_report_by_id(report_id: str) -> dict[str, Any] | None:
     return None
 
 
+VALID_COMMUNITY_REPORT_COLUMNS = {
+    "id", "latitude", "longitude", "district", "incident_date",
+    "movement_type", "severity", "description", "reporter_name",
+    "photo_url", "created_at", "is_hidden"
+}
+
+
 def save_community_report(report_data: dict[str, Any]) -> bool:
     """Saves a community report to Supabase DB and local JSON backup."""
     supabase_success = False
@@ -240,9 +262,12 @@ def save_community_report(report_data: dict[str, Any]) -> bool:
     if is_supabase_configured():
         url = f"{SUPABASE_URL}/rest/v1/community_reports"
         headers = _supabase_headers()
-        headers["Prefer"] = "return=minimal"
+        headers["Prefer"] = "return=representation"
+        
+        # PostgREST schema whitelist: only send columns that exist in the Supabase community_reports table
+        supabase_payload = {k: v for k, v in report_data.items() if k in VALID_COMMUNITY_REPORT_COLUMNS}
         try:
-            resp = _get_session().post(url, headers=headers, json=report_data, timeout=8)
+            resp = _get_session().post(url, headers=headers, json=supabase_payload, timeout=8)
             if resp.status_code in (200, 201):
                 supabase_success = True
             else:
@@ -256,7 +281,11 @@ def save_community_report(report_data: dict[str, Any]) -> bool:
 
     # Always attempt local backup (works during local dev; safely handled on serverless)
     local_reports = load_local_reports()
-    local_reports.insert(0, report_data)
+    idx = next((i for i, r in enumerate(local_reports) if r.get("id") == report_data.get("id")), -1)
+    if idx >= 0:
+        local_reports[idx] = report_data
+    else:
+        local_reports.insert(0, report_data)
     save_local_reports(local_reports)
 
     return supabase_success if is_supabase_configured() else True
