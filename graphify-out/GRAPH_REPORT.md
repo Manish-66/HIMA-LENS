@@ -1,26 +1,26 @@
-# Graph Report - MTP-main - Copy  (2026-10-24)
+# Graph Report - MTP-main - Copy  (2026-10-25)
 
 ## Corpus Check
-- 154 files · ~696,739 words
+- 159 files · ~999,789 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 31 file(s) not represented in the graph (top: .lpkx 6, .geojson 6, (none) 5)
 
 ## Summary
-- 2614 nodes · 4840 edges · 159 communities (147 shown, 12 thin omitted)
+- 2661 nodes · 4969 edges · 160 communities (149 shown, 11 thin omitted)
 - Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 94 edges (avg confidence: 0.86)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `d5621ebc`
+- Built from commit: `cb8fdb53`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
-- handleKeyDown
+- setLiveState
 - modern-screenshot.umd.js
 - explore.js
 - Design
-- barPaletteForTheme
+- initGlobalBar
 - app.py
 - initPageChat
 - el
@@ -32,7 +32,7 @@
 - React View Transitions
 - geotech_engine.py
 - json
-- syncEditBadgeHitProxies
+- connectSSE
 - Responsive Design
 - createLiveBrowserDomHelpers
 - HIMA-LENS: Himachal Landslide Inventory & Spatial Intelligence System
@@ -42,7 +42,7 @@
 - During the session
 - Capabilities
 - The Toolkit
-- showToast
+- onAnnotDown
 - segment_and_annotate
 - createLiveBrowserSessionState
 - CEDD Geotechnical Engineering Office (GEO) Standards
@@ -59,13 +59,13 @@
 - optimize.md
 - Impeccable Asset Producer
 - Scan mode (approach C: auto-extract, then confirm descriptive language)
-- typeset.md
+- resolveLiveInjectionAnchor
 - Vercel CLI with Tokens
 - critique.md
 - Simplify the Design
 - Hardening Dimensions
 - compilerOptions
-- convert_xlsx.py
+- verify_phase4_templates.py
 - Nielsen's 10 Heuristics
 - Generate Combined Critique Report
 - document.md
@@ -78,14 +78,14 @@
 - iOS platform
 - Operate mode depth (and Read notes)
 - Shape
-- mcp_duckdb_spatial_server.py
+- resumeSession
 - UI Styling Skill
 - Android platform
 - colorize.md
 - Persona-Based Design Testing
 - doctor.md
 - Design System
-- Region map
+- mcp_duckdb_spatial_server.py
 - Write Swift
 - Cognitive Load Assessment
 - Impeccable Finish Reviewer
@@ -99,12 +99,12 @@
 - MANDATORY PRE-RESPONSE SKILL RESOLUTION PROTOCOL (HARD INVARIANT)
 - Ponytail
 - Heuristics Scoring Guide
-- execute_precision_photogrammetry
+- Operate
 - 2. FHWA Soil Nail Wall Design Documentation (GEC 7)
 - vercel.json
 - show-me/SKILL.md
 - Statutory Cartographic Standards for Engineering Reports
-- Operate
+- config.py
 - supabase_setup.sql
 - Klima 2050 (Norway) Hydro-Meteorological Mechanics
 - adapt.native.md
@@ -131,10 +131,10 @@
 - L
 - Glossary
 - LandslideVisionEvaluator
-- onAnnotDown
+- get_or_create_vision_annotation
 - geotech_vision.py
 - Pipeline
-- TestSpatialIntegrity
+- convert_xlsx.py
 - Animation Performance
 - UI/UX Pro Max - Design Intelligence
 - Building Animations
@@ -152,15 +152,15 @@
 - qt
 - Working With Sonner
 - Component Building Principles
-- test_spatial_integrity.py
+- typeset.md
 - x
 - Slides
-- calculate_comprehensive_cost_and_loss_estimate
+- scheduleAcceptCleanup
 - The Animation Decision Framework
 - clip-path for Animation
 - Performance Rules
 - Gesture and Drag Interactions
-- Persuade and Experience
+- Region map
 - CSS Transform Mastery
 - The Sonner Principles (Building Loved Components)
 - Spring Animations
@@ -169,8 +169,9 @@
 - Writing Guidelines
 - Core Philosophy
 - Debugging Animations
-- get_or_create_vision_annotation
-- load_local_env
+- Persuade and Experience
+- refresh_all_reports_cache.py
+- enableInlineEdit
 
 ## God Nodes (most connected - your core abstractions)
 1. `connectSSE()` - 34 edges
@@ -199,11 +200,11 @@
 ## Import Cycles
 - None detected.
 
-## Communities (159 total, 12 thin omitted)
+## Communities (160 total, 11 thin omitted)
 
-### Community 0 - "handleKeyDown"
+### Community 0 - "setLiveState"
 Cohesion: 0.11
-Nodes (58): applyEditing(), beginNewLiveConfiguration(), cancelEditing(), cancelEditingToPicking(), cancelInsertConfigure(), cleanup(), cleanupAcceptedSession(), clearAnnotations() (+50 more)
+Nodes (52): applyEditing(), beginNewLiveConfiguration(), buildInsertPlaceholderSnapshotFromDom(), buildLocatorForLeaf(), cancelEditing(), cancelEditingToPicking(), cancelInsertConfigure(), clearAnnotations() (+44 more)
 
 ### Community 1 - "modern-screenshot.umd.js"
 Cohesion: 0.19
@@ -217,17 +218,17 @@ Nodes (57): allFeatures, applyFilters(), districtName(), districtStyle(), drawer
 Cohesion: 0.05
 Nodes (36): Banner Design (Built-in), Banner: Design Rules, Banner: Quick Size Reference, Banner: Top Art Styles, Banner: Workflow, CIP Design (Built-in), CIP: Generate Brief, CIP: Generate Mockups (+28 more)
 
-### Community 4 - "barPaletteForTheme"
-Cohesion: 0.14
-Nodes (21): agentHasWorkInFlight(), agentStatusText(), barPaletteForTheme(), brandMarkSvg(), buildParamsPanel(), clearMountErrorCard(), detectPageTheme(), ensureAgentPollTooltip() (+13 more)
+### Community 4 - "initGlobalBar"
+Cohesion: 0.08
+Nodes (40): agentHasWorkInFlight(), agentStatusText(), barPaletteForTheme(), brandMarkSvg(), buildParamsPanel(), cursorForInsertAxis(), designPanelCss(), detectPageTheme() (+32 more)
 
 ### Community 5 - "app.py"
-Cohesion: 0.07
+Cohesion: 0.08
 Nodes (47): about(), administrative_boundaries(), api_admin_metrics(), api_historical_events(), api_news(), cached_categories_data(), cached_default_summary(), cached_district_polygons() (+39 more)
 
 ### Community 6 - "initPageChat"
 Cohesion: 0.08
-Nodes (53): armPageChatForTyping(), attachSteerFocusDebug(), attachSteerFocusGuard(), buildSteerProcessingDots(), buildSteerQueueHint(), clearSteerAwaitTimer(), clearSteerFocusRecoverTimer(), collapsePageChat() (+45 more)
+Nodes (50): armPageChatForTyping(), attachSteerFocusDebug(), attachSteerFocusGuard(), buildSteerProcessingDots(), buildSteerQueueHint(), clearSteerAwaitTimer(), clearSteerFocusRecoverTimer(), collapsePageChat() (+42 more)
 
 ### Community 7 - "el"
 Cohesion: 0.07
@@ -246,8 +247,8 @@ Cohesion: 0.13
 Nodes (11): admin_command_console(), get_cap_json(), get_cap_xml_feed(), cancel_active_cap_alert(), dispatch_cap_alert(), generate_cap_xml(), get_active_cap_alert(), get_active_cap_xml() (+3 more)
 
 ### Community 11 - "renderDesignVisual"
-Cohesion: 0.07
-Nodes (43): buildCollapsible(), buildColorModels(), buildDesignHeader(), buildListHtml(), buildRadiiModels(), buildTypographyModels(), copyToClipboard(), cssSafe() (+35 more)
+Cohesion: 0.08
+Nodes (39): buildCollapsible(), buildColorModels(), buildDesignHeader(), buildListHtml(), buildRadiiModels(), buildTypographyModels(), cssSafe(), designEmptyMessage() (+31 more)
 
 ### Community 12 - "supabase_db.py"
 Cohesion: 0.09
@@ -258,16 +259,16 @@ Cohesion: 0.06
 Nodes (32): Accessibility, Animation Triggers, Availability, Choosing Animation Style, Common Patterns, Composing Shared Elements with List Identity, Core Concepts, Critical Placement Rule (+24 more)
 
 ### Community 14 - "geotech_engine.py"
-Cohesion: 0.18
-Nodes (10): derive_flexible_barrier_specs(), derive_prescribed_soil_nailing(), derive_subsurface_drainage_specs(), evaluate_cedd_consequence(), evaluate_larimit_mitigations(), load_bhukosh_dataset(), load_cedd_standards(), load_larimit_catalog() (+2 more)
+Cohesion: 0.06
+Nodes (26): _build_cliff_rockfall_model(), _build_disqualified_non_terrain_model(), _build_habitation_slump_model(), _build_macro_catastrophe_model(), build_project_data_model(), _build_uphill_cut_slope_model(), _build_valley_subsidence_model(), calculate_comprehensive_cost_and_loss_estimate() (+18 more)
 
 ### Community 15 - "json"
 Cohesion: 0.18
 Nodes (8): slice_geojson(), validate_geojson(), handle_calculate_fos(), handle_fetch_precipitation(), handle_query_inventory(), handle_validate_coordinates(), main(), process_request()
 
-### Community 16 - "syncEditBadgeHitProxies"
-Cohesion: 0.31
-Nodes (9): bindEditBadgeProxy(), editBadgeProxyTargets(), initEditBadge(), initEditBadgeHitProxies(), proxyMouseEvent(), setImportantStyle(), styleEditBadgeProxy(), syncEditBadgeHitProxies() (+1 more)
+### Community 16 - "connectSSE"
+Cohesion: 0.09
+Nodes (53): abandonForeignSession(), abandonSupersededGo(), abortSvelteComponentInjection(), cleanup(), cleanupAcceptedSession(), clearMountErrorCard(), clearScrollY(), clearSession() (+45 more)
 
 ### Community 17 - "Responsive Design"
 Cohesion: 0.08
@@ -305,13 +306,13 @@ Nodes (21): Application Security Testing, Behavioral Traits, Capabilities, Cloud
 Cohesion: 0.10
 Nodes (20): Animate complex properties, Assess What "Extraordinary" Means Here, For data-heavy interfaces, For functional UI, For performance-critical UI, For visual/marketing surfaces, Implement with Discipline, Interact with the device (+12 more)
 
-### Community 26 - "showToast"
-Cohesion: 0.12
-Nodes (26): abandonForeignSession(), abandonSupersededGo(), captureAndEmit(), checkpointPayload(), clearHandled(), discardOrphanedSession(), dismissToast(), enterRecoveryWaitingForAnchor() (+18 more)
+### Community 26 - "onAnnotDown"
+Cohesion: 0.20
+Nodes (17): beginEditPin(), buildAnnotationsForCapture(), buildPinElement(), cancelEditingPin(), clampPlaceholderSize(), finalizeEditingPin(), initAnnotOverlay(), localCoords() (+9 more)
 
 ### Community 27 - "segment_and_annotate"
-Cohesion: 0.12
-Nodes (11): call_sam3_api(), _clean_primary_landslide_poly(), _draw_arrow(), _draw_badge(), _filter_boulders(), _get_cv2(), _get_font(), _get_np() (+3 more)
+Cohesion: 0.09
+Nodes (16): call_sam3_api(), _clean_primary_landslide_poly(), _draw_arrow(), _draw_badge(), _filter_boulders(), _get_cv2(), _get_font(), _get_np() (+8 more)
 
 ### Community 28 - "createLiveBrowserSessionState"
 Cohesion: 0.19
@@ -322,8 +323,8 @@ Cohesion: 0.15
 Nodes (12): 1. Landslip Prevention and Mitigation Programme (LPMitP) Principles, 2. GEO Publication No. 1/2009: Prescriptive Measures for Slopes & Retaining Walls, 3. GEO Report No. 299 / Kwan (2012): Flexible Debris-Resisting Barriers, 4. Geoguide 5: Guide to Slope Practice (Quality Assurance & Inspections), A. Kinetic Energy & Impact Load Sizing, A. Soil Nailing Criteria (Section 4), A. The ALARP Risk Criterion, B. Retention Capacity & Overtopping (+4 more)
 
 ### Community 30 - "geotech_schematic.py"
-Cohesion: 0.11
-Nodes (12): _extract_angle(), _extract_height(), extract_ml_kinematic_parameters(), _extract_width(), generate_schematic_svg(), _get_lithology_hatch_defs(), _render_creep_subsidence_svg(), _render_debris_flow_svg() (+4 more)
+Cohesion: 0.09
+Nodes (17): _extract_angle(), _extract_height(), extract_ml_kinematic_parameters(), _extract_width(), generate_schematic_svg(), _get_lithology_hatch_defs(), _render_creep_subsidence_svg(), _render_debris_flow_svg() (+9 more)
 
 ### Community 31 - "post"
 Cohesion: 0.08
@@ -365,9 +366,9 @@ Nodes (11): Act on the receipt, Assemble and review, Plan and asset review, Plan
 Cohesion: 0.15
 Nodes (13): Component translation rules, Narrative mapping, Scan mode (approach C: auto-extract, then confirm descriptive language), Schema, Step 1: Find the design assets, Step 2: Auto-extract what can be auto-extracted, Step 2b: Stage the frontmatter, Step 3: Ask the user for qualitative language (+5 more)
 
-### Community 43 - "typeset.md"
-Cohesion: 0.25
-Nodes (7): Apply, Line breaks, Live-mode signature params, Set the system, Two isolated assessments, Verify, Visitor mode
+### Community 43 - "resolveLiveInjectionAnchor"
+Cohesion: 0.16
+Nodes (19): buildSvelteExpressionTextMap(), buildSveltePropValuesFromLiveElement(), buildSveltePropValuesV2(), cloneWithoutElements(), collectTextNodes(), collectVisibleTexts(), cssEscapeIdent(), elementMatchesOriginalMarkup() (+11 more)
 
 ### Community 44 - "Vercel CLI with Tokens"
 Cohesion: 0.07
@@ -388,10 +389,6 @@ Nodes (11): Accessibility Resilience, Assess Hardening Needs, Edge Cases & Bound
 ### Community 48 - "compilerOptions"
 Cohesion: 0.17
 Nodes (11): compilerOptions, lib, module, noEmitOnError, outDir, rootDir, skipLibCheck, sourceMap (+3 more)
-
-### Community 49 - "convert_xlsx.py"
-Cohesion: 0.42
-Nodes (7): legacy_features(), mandi_features(), normalize_activity(), normalize_material(), normalize_movement(), normalize_period(), text()
 
 ### Community 50 - "Nielsen's 10 Heuristics"
 Cohesion: 0.18
@@ -441,9 +438,9 @@ Nodes (18): Craft floor, Refuse, Verify, Constraints, Failure modes, Flow, $impe
 Cohesion: 0.22
 Nodes (8): Cadence, Confirm and stop, Phase 1: Discovery interview, Phase 2: Resolve the design direction, Phase 3: Write the brief, Round 1: purpose, people, and outcome, Round 2: material, behavior, and boundaries, Shape
 
-### Community 62 - "mcp_duckdb_spatial_server.py"
-Cohesion: 0.52
-Nodes (4): handle_duckdb_proximity(), handle_duckdb_query_geojson(), handle_duckdb_spatial_sql(), main()
+### Community 62 - "resumeSession"
+Cohesion: 0.11
+Nodes (27): applySavedSessionMeta(), captureAndEmit(), checkpointPayload(), clampVariantIndex(), clearHandled(), compileShader(), enterRecoveryWaitingForAnchor(), findActiveSessionSummary() (+19 more)
 
 ### Community 63 - "UI Styling Skill"
 Cohesion: 0.08
@@ -469,9 +466,9 @@ Nodes (15): Before you finish, Scope is sovereign, The amplification, The skelet
 Cohesion: 0.08
 Nodes (23): Best Practices, Chart.js Integration, Command, Component Spec Pattern, Contextual Decision Flow, Decision System CSVs, Design System, Integration (+15 more)
 
-### Community 69 - "Region map"
-Cohesion: 0.40
-Nodes (4): Containment, Painted material, Region map, What varies independently
+### Community 69 - "mcp_duckdb_spatial_server.py"
+Cohesion: 0.52
+Nodes (4): handle_duckdb_proximity(), handle_duckdb_query_geojson(), handle_duckdb_spatial_sql(), main()
 
 ### Community 70 - "Write Swift"
 Cohesion: 0.09
@@ -494,23 +491,23 @@ Cohesion: 0.52
 Nodes (6): globToRegex(), matchesScope(), normalizeIgnoreRule(), normalizeIgnoreValue(), pageCandidates(), resolveDetectIgnores()
 
 ### Community 76 - "mountSvelteComponentVariant"
-Cohesion: 0.12
-Nodes (26): acceptedDomAlreadyClean(), applyOriginalAttrsToSvelteAnchor(), clearHandledWrapperReloadStamp(), commitAcceptedSvelteComponentToDom(), componentModuleCandidates(), deferredRecoverySuperseded(), describeMountFailure(), detectDevServerBase() (+18 more)
+Cohesion: 0.19
+Nodes (15): applyOriginalAttrsToSvelteAnchor(), commitAcceptedSvelteComponentToDom(), componentModuleCandidates(), describeMountFailure(), detectDevServerBase(), findInsertAnchorInDom(), findLiveElementForSvelteManifest(), importFirstReachable() (+7 more)
 
 ### Community 77 - "handleManualEditActivity"
-Cohesion: 0.11
-Nodes (43): actOnAgentTarget(), agentTargetBusyReason(), agentTargetOverlayGone(), agentTargetTaken(), claimAgentTarget(), claimAndActOnAgentTarget(), clearStoredManualApplyState(), declineAgentTargetBusy() (+35 more)
+Cohesion: 0.12
+Nodes (40): actOnAgentTarget(), agentTargetBusyReason(), agentTargetOverlayGone(), agentTargetTaken(), claimAgentTarget(), claimAndActOnAgentTarget(), clearStoredManualApplyState(), declineAgentTargetBusy() (+32 more)
 
 ### Community 78 - "Visualize: Direction Comps & Asset Production"
 Cohesion: 0.33
 Nodes (5): After approval: the comp becomes a spec, Generate three compositional options, One approval point, Plates and provenance, Visualize: Direction Comps & Asset Production
 
 ### Community 79 - "live-browser.js"
-Cohesion: 0.03
-Nodes (139): addManualContextText(), applyGlobalBarLabelState(), applyLiveBarPreference(), applyParamValue(), applyPlaceholderDimensions(), applyPlaceholderSizingStyles(), averageRgb01(), bufferToBase64() (+131 more)
+Cohesion: 0.04
+Nodes (100): addManualContextText(), applyGlobalBarLabelState(), applyLiveBarPreference(), averageRgb01(), bindEditBadgeProxy(), bufferToBase64(), buildPickedAnchorSnapshot(), canRestoreManualEditElement() (+92 more)
 
 ### Community 80 - "process_arcgis_layers.py"
-Cohesion: 0.21
+Cohesion: 0.20
 Nodes (4): process_points_dedup(), process_polygons(), process_rasters(), process_roads()
 
 ### Community 81 - "MANDATORY PRE-RESPONSE SKILL RESOLUTION PROTOCOL (HARD INVARIANT)"
@@ -525,9 +522,9 @@ Nodes (4): Before you write, Levels, Ponytail, The smallest complete change
 Cohesion: 0.50
 Nodes (4): Heuristics Scoring Guide, Issue Severity (P0–P3), Reference Material, Score Summary
 
-### Community 84 - "execute_precision_photogrammetry"
-Cohesion: 0.19
-Nodes (5): calculate_ground_control_scale(), compute_dense_depth_and_normals(), execute_precision_photogrammetry(), extract_camera_optics(), get_depth_pipeline()
+### Community 84 - "Operate"
+Cohesion: 0.50
+Nodes (3): Comps, Directions, Operate
 
 ### Community 85 - "2. FHWA Soil Nail Wall Design Documentation (GEC 7)"
 Cohesion: 0.17
@@ -541,9 +538,9 @@ Nodes (3): builds, routes, version
 Cohesion: 0.33
 Nodes (5): 1. The 7 Mandatory Elements of an Engineering Map Plate, 2. Standardized Geotechnical Symbology (GSI / SoI), 3. High-Contrast Baseplate & Print Legibility, Statutory Cartographic Standards for Engineering Reports, Survey of India (SoI) & Geological Survey of India (GSI) Alignment
 
-### Community 91 - "Operate"
-Cohesion: 0.50
-Nodes (3): Comps, Directions, Operate
+### Community 91 - "config.py"
+Cohesion: 0.18
+Nodes (4): load_local_env(), main(), print_header(), verify_phase2()
 
 ### Community 92 - "supabase_setup.sql"
 Cohesion: 0.29
@@ -594,8 +591,8 @@ Cohesion: 0.09
 Nodes (21): 10. Status bar color doesn't match, 11. Right in Chrome, wrong on phone, 1. Hover state stuck after tap, 2. Gray/blue flash on tap, 3. Layout has the wrong height, 4. Page zooms into the input, 5. Tap feels laggy, 6. Pull-to-refresh hijacks scroll (+13 more)
 
 ### Community 105 - "startVariantObserver"
-Cohesion: 0.06
-Nodes (78): abortSvelteComponentInjection(), applyParamDefaults(), applySavedSessionMeta(), clampVariantIndex(), clearSession(), closedClipPath(), commitAcceptedVariantToDom(), completeParameterGenerationIfReady() (+70 more)
+Cohesion: 0.08
+Nodes (45): applyParamDefaults(), applyParamValue(), applyPlaceholderDimensions(), applyPlaceholderSizingStyles(), buildPlaceholderResizeHandles(), closedClipPath(), commitAcceptedVariantToDom(), createInsertPlaceholder() (+37 more)
 
 ### Community 106 - "USACE EM 1110-2-1902: Slope Stability & Geotechnical Investigation"
 Cohesion: 0.25
@@ -635,7 +632,7 @@ Nodes (19): Agent-Specific Notes, Claude Code / terminal-based agents, CLI Auth 
 
 ### Community 115 - "ai_assessment.py"
 Cohesion: 0.10
-Nodes (24): build_rejected_assessment_dossier(), _clean_hazard_prefix(), compute_deterministic_engineering_dossier(), deep_merge(), fallback_visual_assessment(), _format_coordinates_dms(), generate_ai_assessment(), get_cached_assessment() (+16 more)
+Nodes (24): build_rejected_assessment_dossier(), compute_deterministic_engineering_dossier(), deep_merge(), fallback_visual_assessment(), _format_coordinates_dms(), generate_ai_assessment(), get_cached_assessment(), _get_hash_seed() (+16 more)
 
 ### Community 116 - "L"
 Cohesion: 0.13
@@ -645,10 +642,6 @@ Nodes (20): be(), bt(), Ce(), s(), _e(), Ee(), Gt(), ht() (+12 more)
 Cohesion: 0.11
 Nodes (18): Animation Vocabulary, Easing — how speed changes over an animation, Entrances & Exits — how elements appear and disappear, Examples, Feedback & Interaction — responding to the user's actions, Glossary, Initial Response, Instructions (+10 more)
 
-### Community 119 - "onAnnotDown"
-Cohesion: 0.20
-Nodes (17): beginEditPin(), buildAnnotationsForCapture(), buildPinElement(), cancelEditingPin(), clampPlaceholderSize(), finalizeEditingPin(), initAnnotOverlay(), localCoords() (+9 more)
-
 ### Community 120 - "geotech_vision.py"
 Cohesion: 0.14
 Nodes (4): annotate_landslide_image(), _draw_arrow(), _draw_badge(), _get_font()
@@ -656,6 +649,10 @@ Nodes (4): annotate_landslide_image(), _draw_arrow(), _draw_badge(), _get_font()
 ### Community 121 - "Pipeline"
 Cohesion: 0.11
 Nodes (18): 1.1 Stop on blockers, 1. Collect, scan, and merge signals, 2.1 Ask about audit scope when needed, 2.2 Deep-dive and reconcile, 2.3 Generate briefs and investigate, 2.4 Collect outputs, 2. Gate candidates, 3. Verify recommendations (+10 more)
+
+### Community 122 - "convert_xlsx.py"
+Cohesion: 0.42
+Nodes (7): legacy_features(), mandi_features(), normalize_activity(), normalize_material(), normalize_movement(), normalize_period(), text()
 
 ### Community 123 - "Animation Performance"
 Cohesion: 0.11
@@ -725,6 +722,10 @@ Nodes (7): Initial Response, Picking the right call, Recipes, Setup, Styling —
 Cohesion: 0.25
 Nodes (8): Animate enter states with @starting-style, Buttons must feel responsive, Component Building Principles, Make popovers origin-aware, Never animate from scale(0), Tooltips: skip delay on subsequent hovers, Use blur to mask imperfect transitions, Use CSS transitions over keyframes for interruptible UI
 
+### Community 140 - "typeset.md"
+Cohesion: 0.25
+Nodes (7): Apply, Line breaks, Live-mode signature params, Set the system, Two isolated assessments, Verify, Visitor mode
+
 ### Community 141 - "x"
 Cohesion: 0.48
 Nodes (7): er(), fe(), k(), Kt(), tr(), x(), Zt()
@@ -733,9 +734,9 @@ Nodes (7): er(), fe(), k(), Kt(), tr(), x(), Zt()
 Cohesion: 0.29
 Nodes (6): References (Knowledge Base), Routing, Script Paths, Slides, Subcommands, When to Use
 
-### Community 143 - "calculate_comprehensive_cost_and_loss_estimate"
-Cohesion: 0.33
-Nodes (4): calculate_comprehensive_cost_and_loss_estimate(), format_inr(), format_lakhs_crores(), load_sor_standards()
+### Community 143 - "scheduleAcceptCleanup"
+Cohesion: 0.31
+Nodes (11): acceptedDomAlreadyClean(), clearHandledWrapperReloadStamp(), deferredRecoverySuperseded(), ensureAcceptedDomClean(), findAcceptedRuntimeWrappers(), handledWrapperReloadKey(), reloadAfterMissingAcceptedDom(), restoreAcceptedDomFromSnapshot() (+3 more)
 
 ### Community 144 - "The Animation Decision Framework"
 Cohesion: 0.33
@@ -753,9 +754,9 @@ Nodes (6): CSS animations beat JS under load, CSS variables are inheritable, Fra
 Cohesion: 0.33
 Nodes (6): Damping at boundaries, Friction instead of hard stops, Gesture and Drag Interactions, Momentum-based dismissal, Multi-touch protection, Pointer capture for drag
 
-### Community 148 - "Persuade and Experience"
-Cohesion: 0.50
-Nodes (3): Comps, Directions, Persuade and Experience
+### Community 148 - "Region map"
+Cohesion: 0.40
+Nodes (4): Containment, Painted material, Region map, What varies independently
 
 ### Community 149 - "CSS Transform Mastery"
 Cohesion: 0.40
@@ -789,23 +790,31 @@ Nodes (4): Beauty is leverage, Core Philosophy, Taste is trained, not innate, Un
 Cohesion: 0.50
 Nodes (4): Debugging Animations, Frame-by-frame inspection, Slow motion testing, Test on real devices
 
+### Community 157 - "Persuade and Experience"
+Cohesion: 0.50
+Nodes (3): Comps, Directions, Persuade and Experience
+
+### Community 159 - "enableInlineEdit"
+Cohesion: 0.40
+Nodes (5): collectEditableTextRows(), visit(), enableInlineEdit(), onInlineInput(), wrapMixedContentTextNodes()
+
 ## Knowledge Gaps
-- **12 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **11 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `summary()` connect `app.py` to `doctor.md`?**
-  _High betweenness centrality (0.044) - this node is a cross-community bridge._
-- **Should `handleKeyDown` be split into smaller, more focused modules?**
-  _Cohesion score 0.11104617182933957 - nodes in this community are weakly interconnected._
+  _High betweenness centrality (0.042) - this node is a cross-community bridge._
+- **Should `setLiveState` be split into smaller, more focused modules?**
+  _Cohesion score 0.1138763197586727 - nodes in this community are weakly interconnected._
 - **Why does `Step 1: Run the pass` connect `doctor.md` to `app.py`?**
-  _High betweenness centrality (0.044) - this node is a cross-community bridge._
+  _High betweenness centrality (0.042) - this node is a cross-community bridge._
 - **Should `explore.js` be split into smaller, more focused modules?**
   _Cohesion score 0.09701928696668614 - nodes in this community are weakly interconnected._
-- **Why does `text()` connect `convert_xlsx.py` to `Operate mode depth (and Read notes)`, `Region map`, `New visual work`?**
-  _High betweenness centrality (0.015) - this node is a cross-community bridge._
+- **Why does `text()` connect `convert_xlsx.py` to `Region map`, `Operate mode depth (and Read notes)`, `New visual work`?**
+  _High betweenness centrality (0.018) - this node is a cross-community bridge._
 - **Should `Design` be split into smaller, more focused modules?**
   _Cohesion score 0.05405405405405406 - nodes in this community are weakly interconnected._
-- **Should `barPaletteForTheme` be split into smaller, more focused modules?**
-  _Cohesion score 0.13852813852813853 - nodes in this community are weakly interconnected._
+- **Should `initGlobalBar` be split into smaller, more focused modules?**
+  _Cohesion score 0.08246225319396051 - nodes in this community are weakly interconnected._

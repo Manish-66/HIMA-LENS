@@ -1027,6 +1027,7 @@ def vision_segment_and_annotate_upload():
 
 
 @app.get("/report/pwd-sheet/<report_id>")
+@app.get("/print/pwd-sheet/<report_id>")
 def view_pwd_sheet(report_id: str):
     report = find_report_by_id(report_id)
     if not report:

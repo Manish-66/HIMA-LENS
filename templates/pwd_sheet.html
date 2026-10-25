@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  <title>Preliminary Project Report (PPR) &bull; {{ assessment.telemetry.report_reference or 'IITM-CR-' + report.id }} &bull; IIT Mandi</title>
+  <title>Preliminary Project Report (PPR) &bull; {{ (assessment.telemetry.report_reference if (assessment.telemetry is defined and assessment.telemetry) else None) or ('IITM-CR-' + report.id) }} &bull; IIT Mandi</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Manrope:wght@500;600;700;800;850&family=JetBrains+Mono:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -301,23 +301,23 @@
       width: 100%;
       border-collapse: collapse;
       border: 1px solid var(--border-dark);
-      font-size: 8px;
-      line-height: 1.32;
-      margin-bottom: 4px;
+      font-size: 7.7px;
+      line-height: 1.28;
+      margin-bottom: 3px;
     }
     .grid-table th {
       background: var(--bg-table-head);
       color: var(--ink);
       font-weight: 700;
       text-align: left;
-      padding: 3px 6px;
+      padding: 2.2px 5px;
       border: 1px solid var(--border-dark);
       font-family: 'Manrope', sans-serif;
-      font-size: 7.8px;
+      font-size: 7.5px;
     }
     .grid-table td {
       border: 1px solid var(--border-dark);
-      padding: 3px 6px;
+      padding: 2.2px 5px;
       vertical-align: middle;
       color: var(--ink);
     }
@@ -337,12 +337,12 @@
       font-family: 'JetBrains Mono', 'Cambria Math', 'Times New Roman', serif;
       font-style: normal;
       background: #f1f5f9;
-      padding: 1px 4.5px;
-      border-radius: 3px;
+      padding: 0.5px 4px;
+      border-radius: 2px;
       border: 1px solid #cbd5e1;
       display: inline-block;
       color: var(--primary-dark);
-      font-size: 7.8px;
+      font-size: 7.5px;
     }
     .math-eq i {
       font-style: italic;
@@ -357,8 +357,8 @@
     .visual-diagnostic-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin: 4px 0;
+      gap: 7px;
+      margin: 3px 0;
       align-items: stretch;
     }
     .photo-frame-box {
@@ -367,7 +367,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      height: 236px;
+      height: 200px;
       position: relative;
       overflow: hidden;
       border-radius: 3px;
@@ -375,8 +375,8 @@
     .photo-top-bar {
       background: rgba(9, 47, 37, 0.95);
       color: #5eead4;
-      padding: 3px 7px;
-      font-size: 7px;
+      padding: 2.5px 6px;
+      font-size: 6.8px;
       font-weight: 700;
       letter-spacing: 0.4px;
       display: flex;
@@ -393,7 +393,7 @@
       justify-content: center;
       overflow: hidden;
       background: #09131f;
-      padding: 3px;
+      padding: 2px;
     }
     .photo-img-wrap img {
       max-width: 100%;
@@ -406,8 +406,8 @@
     .photo-caption-bar {
       background: rgba(9, 47, 37, 0.95);
       color: #ffffff;
-      padding: 2.5px 7px;
-      font-size: 7px;
+      padding: 2px 6px;
+      font-size: 6.8px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -421,7 +421,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      height: 236px;
+      height: 200px;
       position: relative;
       overflow: hidden;
       border-radius: 3px;
@@ -429,8 +429,8 @@
     .schematic-top-bar {
       background: #0f172a;
       color: #94a3b8;
-      padding: 3px 7px;
-      font-size: 7px;
+      padding: 2.5px 6px;
+      font-size: 6.8px;
       font-weight: 700;
       letter-spacing: 0.4px;
       display: flex;
@@ -456,8 +456,8 @@
     .schematic-caption-bar {
       background: #0f172a;
       color: #ffffff;
-      padding: 2.5px 7px;
-      font-size: 7px;
+      padding: 2px 6px;
+      font-size: 6.8px;
       font-family: 'Manrope', sans-serif;
       font-weight: 700;
       display: flex;
@@ -471,25 +471,25 @@
       width: 100%;
       border-collapse: collapse;
       border: 1px solid var(--border-dark);
-      font-size: 7.2px;
-      margin-top: 4px;
+      font-size: 7px;
+      margin-top: 3px;
     }
     .sign-table th {
       background: var(--bg-table-head);
       border: 1px solid var(--border-dark);
-      padding: 3px 6px;
+      padding: 2.5px 5px;
       font-family: 'Manrope', sans-serif;
       font-weight: 700;
       text-align: left;
-      font-size: 7.2px;
-      line-height: 1.2;
+      font-size: 7px;
+      line-height: 1.18;
     }
     .sign-table td {
       border: 1px solid var(--border-dark);
-      padding: 3.5px 6px;
-      height: 38px;
+      padding: 2.5px 5px;
+      height: 28px;
       vertical-align: bottom;
-      font-size: 7.2px;
+      font-size: 7px;
     }
 
     /* Page Footer */
@@ -564,7 +564,7 @@
   <div class="screen-action-bar">
     <div class="brand">
       <span class="hl-tag">HIMA-LENS</span>
-      <span class="hl-tag" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);">{{ assessment.telemetry.report_reference or 'IITM-CR-' + report.id }}</span>
+      <span class="hl-tag" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);">{{ (assessment.telemetry.report_reference if (assessment.telemetry is defined and assessment.telemetry) else None) or ('IITM-CR-' + report.id) }}</span>
       <span class="hl-tag" style="background: #0284c7; border: 1px solid rgba(255,255,255,0.35); font-weight: 800;">1-PAGE PPR (A4)</span>
       <span>Preliminary Project Report &bull; Inception &amp; Field Assessment Docket</span>
     </div>
@@ -602,6 +602,25 @@
       <!-- SINGLE A4 SHEET: COMPLETE PRELIMINARY PROJECT REPORT    -->
       <!-- ======================================================== -->
       <div class="report-page">
+        {% set pdm = assessment.project_data_model or boq or {} %}
+        {% set geom = pdm.unified_geometry or assessment.unified_geometry or {} %}
+        {% set stab = pdm.stability_analysis or assessment.stability_analysis or {} %}
+        {% set fin = pdm.financial_summary or assessment.financial_summary or {} %}
+        {% set telem = assessment.telemetry or {} %}
+        {% set bw = geom.breast_wall or {} %}
+        {% set flt = geom.filter_and_drainage or {} %}
+        {% set un = geom.upper_slope_and_nails or {} %}
+        {% set sn = geom.soil_nail_grid or {} %}
+        {% set geo_params = stab.geotechnical_parameters or {} %}
+        {% set scenarios = stab.scenarios or [] %}
+        {% set dry_fos = (scenarios[0].calculated_fos if (scenarios and scenarios|length > 0) else 1.48) %}
+        {% set crit_fos = (scenarios[1].calculated_fos if (scenarios and scenarios|length > 1) else 0.92) %}
+        {% set target_fos = (scenarios[2].calculated_fos if (scenarios and scenarios|length > 2) else 1.56) %}
+        {% set h_mean = geom.slope_height_mean_m | default(7.6) %}
+        {% set h_min = geom.slope_height_min_m | default(6.8) %}
+        {% set h_max = geom.slope_height_max_m | default(8.4) %}
+        {% set cut_ang = (geom.cut_angle_deg | default(66)) | round(0) | int %}
+        {% set dip_ang = (geom.joint_dip_deg | default(57)) | round(0) | int %}
         <div>
           <!-- Master Institutional Header -->
           <div class="master-header">
@@ -618,7 +637,7 @@
               <div class="master-badge-col">
                 <div class="report-stamp">
                   <span class="stamp-lbl">STATUTORY PPR</span>
-                  <span class="stamp-code">{{ assessment.telemetry.report_reference or 'IITM-CR-' + report.id }}</span>
+                  <span class="stamp-code">{{ telem.report_reference or 'IITM-CR-' + report.id }}</span>
                   <span class="stamp-stat">HPPWD &bull; AA &amp; ES</span>
                 </div>
               </div>
@@ -628,30 +647,31 @@
           <!-- Section 1: Salient Incident Identification -->
           <div class="sec-bar">
             <span>1. Salient Incident Identification</span>
-            <span class="sec-bar-sub">Administrative Telemetry</span>
+            <span class="sec-bar-sub">Administrative Telemetry &bull; Mandi Division</span>
           </div>
           <table class="grid-table">
             <tr>
               <td class="col-lbl" style="width: 17%;">Project Corridor:</td>
-              <td class="col-val editable" id="ppr-f-title" style="width: 43%;"><strong>Remediation along {{ assessment.telemetry.site_road_name }} ({{ assessment.telemetry.chainage }})</strong></td>
+              <td class="col-val editable" id="ppr-f-title" style="width: 43%;"><strong>Remediation along {{ telem.site_road_name or 'Mandi Sector — Major District Road (MDR), Chainage RD 17+432 (Km 17/432)' }}</strong></td>
               <td class="col-lbl" style="width: 18%;">Report Reference:</td>
-              <td class="col-val font-mono" style="width: 22%; color: var(--primary-forest);"><strong>{{ assessment.telemetry.report_reference or 'IITM-CR-' + report.id }}</strong></td>
+              <td class="col-val font-mono" style="width: 22%; color: var(--primary-forest);"><strong>{{ telem.report_reference or 'IITM-CR-' + report.id }}</strong></td>
             </tr>
             <tr>
               <td class="col-lbl">Location Details:</td>
               <td class="col-val" colspan="3">
-                <strong>Station:</strong> <span class="editable" id="ppr-f-village">{{ assessment.telemetry.site_road_name }}</span> &bull; 
-                <strong>Division:</strong> <span class="editable" id="ppr-f-block">{{ assessment.telemetry.district }} Division</span> &bull; 
-                <strong>District:</strong> <span class="editable" id="ppr-f-dist">{{ assessment.telemetry.district }} (HP)</span> &bull; 
-                <strong>GPS:</strong> <span class="font-mono" style="color: var(--primary-forest); font-weight: 700;">{{ assessment.telemetry.coordinates_dec }}</span> &bull; 
-                <strong>Elevation:</strong> <span class="font-mono">{{ assessment.telemetry.elevation }} m</span>
+                <strong>Chainage:</strong> <span class="font-mono" style="color: var(--primary-forest); font-weight: 700;">{{ telem.location_chainage or 'RD 17+432 (Km 17/432)' }}</span> &bull; 
+                <strong>Station:</strong> <span class="editable" id="ppr-f-village">{{ telem.site_road_name or 'Mandi Sector MDR' }}</span> &bull; 
+                <strong>Division:</strong> <span class="editable" id="ppr-f-block">{{ telem.district or 'Mandi' }} Division</span> &bull; 
+                <strong>District:</strong> <span class="editable" id="ppr-f-dist">{{ telem.district or 'Mandi' }} (HP)</span> &bull; 
+                <strong>GPS:</strong> <span class="font-mono" style="color: var(--primary-forest); font-weight: 700;">{{ telem.coordinates_dec or '31.70800° N, 76.93200° E' }}</span> &bull; 
+                <strong>Elevation:</strong> <span class="font-mono">{{ telem.elevation or '950 m' }}</span>
               </td>
             </tr>
             <tr>
               <td class="col-lbl">Date &amp; Road Class:</td>
-              <td class="col-val"><strong>{{ assessment.telemetry.inspection_date }}</strong> &bull; Class: <strong>{{ assessment.telemetry.road_type }}</strong></td>
+              <td class="col-val"><strong>{{ telem.inspection_date or '2026-10-12' }}</strong> &bull; Class: <strong>{{ telem.road_type or 'Major District Road (MDR)' }}</strong></td>
               <td class="col-lbl">Traffic Impact:</td>
-              <td class="col-val" style="color: #b45309; font-weight: 700;">{{ assessment.road_impact.traffic_status }} ({{ assessment.road_impact.width_before }} &rarr; {{ assessment.road_impact.width_after }})</td>
+              <td class="col-val" style="color: #b45309; font-weight: 700;">{{ (assessment.road_impact.carriageway_status if (assessment.road_impact is defined and assessment.road_impact) else telem.traffic_impact) or ('Restricted Single-Lane (' ~ (geom.road_width_pre_disaster_m | default(5.25)) ~ 'm formation &rarr; ' ~ (geom.road_width_post_disaster_m | default(2.30)) ~ 'm operable)') }}</td>
             </tr>
           </table>
 
@@ -677,16 +697,16 @@
                 {% endif %}
               </div>
               <div class="photo-caption-bar">
-                <span>PLATE: {{ assessment.telemetry.report_reference or 'IITM-CR-' + report.id }}</span>
-                <span>{{ assessment.telemetry.coordinates_dec }}</span>
+                <span>PLATE: {{ telem.report_reference or 'IITM-CR-' + report.id }}</span>
+                <span>{{ telem.coordinates_dec or '31.70800° N, 76.93200° E' }}</span>
               </div>
             </div>
 
             <!-- Right: Failure Schematic SVG -->
             <div class="schematic-frame-box">
               <div class="schematic-top-bar">
-                <span>FAILURE CROSS-SECTION &bull; ML KINEMATIC MODEL</span>
-                <span style="color: #ffffff;">{{ (assessment.schematic_top_badge or 'SLIP PLANE: 57&deg; DAYLIGHTING') | safe }}</span>
+                <span>{{ assessment.schematic_top_badge or ('FAILURE CROSS-SECTION &bull; CRITICAL MONSOON FoS = ' ~ crit_fos ~ ' &bull; TARGET FoS &ge; ' ~ target_fos) }}</span>
+                <span style="color: #5eead4; font-weight: 800;">DIP: {{ dip_ang }}&deg; &bull; CUT: {{ cut_ang }}&deg; &bull; H = {{ h_mean }}m ({{ h_min }}–{{ h_max }}m)</span>
               </div>
               <div class="schematic-svg-wrap">
                 {% if assessment.schematic_svg %}
@@ -719,21 +739,23 @@
                   <circle cx="297" cy="173" r="3" fill="#ef4444" opacity="0.9" />
                   <path d="M 290 170 Q 325 155 355 170 Z" fill="#d97706" opacity="0.8" />
                   <line x1="290" y1="185" x2="420" y2="185" stroke="#0f172a" stroke-width="1" />
-                  <text x="325" y="195" font-family="'JetBrains Mono', monospace" font-size="7" font-weight="700" fill="#0f172a">Formation: 5.25m</text>
+                  <text x="325" y="195" font-family="'JetBrains Mono', monospace" font-size="7" font-weight="700" fill="#0f172a">Formation: {{ geom.road_width_pre_disaster_m | default(5.25) }}m</text>
                   <line x1="355" y1="203" x2="420" y2="203" stroke="#16a34a" stroke-width="1.3" />
-                  <text x="365" y="213" font-family="'JetBrains Mono', monospace" font-size="7" font-weight="800" fill="#15803d">Open: 2.30m</text>
-                  <rect x="25" y="10" width="105" height="15" rx="2" fill="#fee2e2" stroke="#f87171" stroke-width="1" />
-                  <text x="30" y="21" font-family="'Manrope', sans-serif" font-size="7" font-weight="800" fill="#991b1b">DETACHMENT SCARP</text>
-                  <rect x="110" y="65" width="115" height="15" rx="2" fill="#fee2e2" stroke="#f87171" stroke-width="1" />
-                  <text x="115" y="76" font-family="'Manrope', sans-serif" font-size="7" font-weight="800" fill="#991b1b">SLIP PLANE (DIP: 57&#176;)</text>
-                  <rect x="210" y="102" width="110" height="15" rx="2" fill="#fef3c7" stroke="#fcd34d" stroke-width="1" />
-                  <text x="215" y="113" font-family="'Manrope', sans-serif" font-size="7" font-weight="800" fill="#92400e">SLIDING COLLUVIUM</text>
+                  <text x="365" y="213" font-family="'JetBrains Mono', monospace" font-size="7" font-weight="800" fill="#15803d">Operable: {{ geom.road_width_post_disaster_m | default(2.30) }}m</text>
+                  <rect x="25" y="10" width="135" height="15" rx="2" fill="#fee2e2" stroke="#f87171" stroke-width="1" />
+                  <text x="30" y="21" font-family="'Manrope', sans-serif" font-size="7" font-weight="800" fill="#991b1b">DETACHMENT SCARP ({{ cut_ang }}&deg;)</text>
+                  <rect x="110" y="65" width="140" height="15" rx="2" fill="#fee2e2" stroke="#f87171" stroke-width="1" />
+                  <text x="115" y="76" font-family="'Manrope', sans-serif" font-size="7" font-weight="800" fill="#991b1b">SLIP PLANE (DIP: {{ dip_ang }}&deg; SW)</text>
+                  <rect x="210" y="102" width="130" height="15" rx="2" fill="#fef3c7" stroke="#fcd34d" stroke-width="1" />
+                  <text x="215" y="113" font-family="'Manrope', sans-serif" font-size="7" font-weight="800" fill="#92400e">SLIDING COLLUVIUM ({{ geom.debris_insitu_vol_m3 | default(145.0) }} m&sup3;)</text>
+                  <rect x="345" y="10" width="165" height="16" rx="3" fill="#1e1b4b" stroke="#6366f1" stroke-width="0.8" />
+                  <text x="350" y="21" font-size="6.5" font-weight="800" fill="#fca5a5">Monsoon FoS = {{ crit_fos }} | Stabilized FoS = {{ target_fos }}</text>
                 </svg>
                 {% endif %}
               </div>
               <div class="schematic-caption-bar">
-                <span>FIGURE 1: GEOTECHNICAL FAILURE SCHEMATIC (AI/ML DERIVED)</span>
-                <span class="font-mono">DATUM: WGS84 &bull; {{ (assessment.movement_type or 'SLIDE') | upper }} CUT SECTION</span>
+                <span>FIGURE 1: GEOTECHNICAL FAILURE CROSS-SECTION &bull; HOEK &amp; BRAY PLANAR LIMIT EQUILIBRIUM</span>
+                <span class="font-mono" style="color: #5eead4;">FoS: {{ crit_fos }} (ACTIVE FAILURE) &rarr; {{ target_fos }} (STABILIZED &ge; 1.50)</span>
               </div>
             </div>
           </div>
@@ -746,16 +768,30 @@
           <table class="grid-table">
             <tr>
               <td class="col-lbl">Slope Height &amp; Angle:</td>
-              <td class="col-val">Height: <strong>{{ assessment.slope_characteristics.slope_height_above }}</strong> &bull; Cut Angle: <strong style="color: var(--danger-red);">{{ assessment.slope_characteristics.cut_slope_angle }}</strong> (Profile: {{ assessment.slope_characteristics.slope_geometry_profile }})</td>
+              <td class="col-val">Height: <strong>H = {{ h_mean }} m</strong> (Range: {{ h_min }} m &ndash; {{ h_max }} m) &bull; Cut Angle: <strong style="color: var(--danger-red);">{{ cut_ang }}&deg;</strong> (Profile: {{ (assessment.slope_characteristics.slope_geometry_profile if (assessment.slope_characteristics is defined and assessment.slope_characteristics) else '') or 'Steep Cut Slope Scarp' }}) &bull; Slope Location: <strong>{{ 'Below road: Yes' if pdm.failure_vector == 'VALLEY_EMBANKMENT_SUBSIDENCE' else 'Above road: Yes' }}</strong></td>
               <td class="col-lbl">Lithology &amp; Jointing:</td>
-              <td class="col-val"><strong>{{ assessment.geology.prominent_soil_rock }}</strong> &bull; Joint Dip: <span class="font-mono" style="color: var(--danger-red); font-weight: 700;">{{ assessment.geology.dip_joints or '57°' }}</span> &bull; Weathering: {{ assessment.geology.weathering_grade }}</td>
+              <td class="col-val"><strong>{{ (assessment.geology.prominent_soil_rock if (assessment.geology is defined and assessment.geology) else '') or 'Shali Dolomite & Sundernagar Quartzite' }}</strong> &bull; Joint Dip: <span class="font-mono" style="color: var(--danger-red); font-weight: 700;">{{ dip_ang }}&deg; SW (Daylighting)</span> &bull; Weathering: {{ (assessment.geology.weathering_grade if (assessment.geology is defined and assessment.geology) else '') or 'Grade IV' }}</td>
             </tr>
             <tr>
-              <td class="col-lbl">Roadway Damage:</td>
-              <td class="col-val">Carriageway: {{ assessment.road_impact.width_before }} &rarr; <strong style="color: var(--danger-red);">{{ assessment.road_impact.width_after }}</strong> &bull; Side drain: <strong>100% blocked</strong></td>
+              <td class="col-lbl">Impacted Asset Damage:</td>
+              <td class="col-val">
+                {% if pdm.failure_vector == 'HABITATION_TERRACE_SLUMP' or assessment.environment_type == 'Residential Dwelling / Settlement' %}
+                  Residential Dwelling Settlement Zone (Inundation of Rear Flank &bull; SDRF Housing Norms: ₹ 3,15,000)
+                {% elif assessment.is_landslide_or_terrain is defined and not assessment.is_landslide_or_terrain %}
+                  N/A &bull; Disqualified / Non-Landslide Upload (Zero Roadway or Asset Damage)
+                {% else %}
+                  Formation: {{ geom.road_width_pre_disaster_m | default(5.25) }}m &rarr; Operable: <strong style="color: var(--danger-red);">{{ geom.road_width_post_disaster_m | default(2.30) }}m</strong> (Loss: {{ (geom.road_width_pre_disaster_m - geom.road_width_post_disaster_m) | round(2) if geom.road_width_pre_disaster_m else 2.95 }}m) &bull; Side Drain: <strong>100% blocked</strong>
+                {% endif %}
+              </td>
               <td class="col-lbl">Earthwork Volume:</td>
               <td class="col-val">
-                Simpson's Prismoidal: <span class="math-eq"><i>V</i> = <sup><i>L</i></sup>&frasl;<sub>6</sub> (<i>A</i><sub>1</sub> + 4<i>A</i><sub>m</sub> + <i>A</i><sub>2</sub>)</span> = <strong class="font-mono" style="color: var(--primary-forest);">{{ assessment.slope_characteristics.excavation_vol_m3 or 145 }} m&sup3;</strong> (Bulked 1.25&times;: <strong>{{ ((assessment.slope_characteristics.excavation_vol_m3 or 145) * 1.25) | round(1) }} m&sup3;</strong>)
+                {% if assessment.is_landslide_or_terrain is defined and not assessment.is_landslide_or_terrain %}
+                  N/A &bull; Zero Earthwork (Non-Terrain Media)
+                {% elif pdm.status == 'SUSPENDED_MACRO_SCALE_DPR_REQUIRED' %}
+                  Catastrophic Mountain Rupture: <strong>Volume &gt; 5,000 m&sup3;</strong> (Exceeds Standard PPR Limits)
+                {% else %}
+                  Simpson's Prismoidal: <span class="math-eq"><i>V</i> = <sup><i>L</i></sup>&frasl;<sub>6</sub> (<i>A</i><sub>1</sub> + 4<i>A</i><sub>m</sub> + <i>A</i><sub>2</sub>)</span> = <strong class="font-mono" style="color: var(--primary-forest);">{{ '%.1f'|format(geom.debris_insitu_vol_m3) if geom.debris_insitu_vol_m3 else '145.0' }} m&sup3; in-situ</strong> (<strong>{{ '%.2f'|format(geom.debris_bulked_vol_m3) if geom.debris_bulked_vol_m3 else '181.25' }} m&sup3; bulked at {{ geom.bulking_factor | default(1.25) }}&times;</strong>)
+                {% endif %}
               </td>
             </tr>
           </table>
@@ -763,17 +799,25 @@
           <!-- Section 4: Forensic Failure Diagnosis & FoS Benchmark -->
           <div class="sec-bar">
             <span>4. Forensic Failure Diagnosis &amp; Stability Benchmark</span>
-            <span class="sec-bar-sub">USACE EM 1110-2-1902 &bull; Eurocode 7 &bull; IS:14458</span>
+            <span class="sec-bar-sub">Hoek &amp; Bray Planar Cleft-Water &bull; Eurocode 7 &bull; IS:14458</span>
           </div>
-          <table class="grid-table" style="margin-bottom: 4px;">
+
+          <!-- Geotechnical Strength Properties Bar with [ASSUMED / PRELIMINARY] Badge -->
+          <div style="background: #fffbeb; border: 1px solid #fef3c7; border-left: 3px solid #f59e0b; padding: 2px 6px; font-size: 7.2px; margin-bottom: 2.5px; display: flex; justify-content: space-between; align-items: center;">
+            <span><strong>Geotechnical Strength Basis:</strong> <i>c'</i> = {{ geo_params.effective_cohesion_kpa | default(14.0) }} kPa &bull; &phi;' = {{ geo_params.effective_friction_deg | default(28.0) }}&deg; &bull; &gamma; = {{ geo_params.unit_weight_kn_m3 | default(20.5) }} kN/m&sup3; &bull; UCS = {{ geo_params.intact_rock_ucs_mpa or geo_params.ucs_rock_mpa or 35.0 }} MPa &bull; Joint Dip = {{ dip_ang }}&deg; SW &bull; <i>L</i><sub>slip</sub> = {{ geo_params.slip_plane_length_m | default(6.856) }}m</span>
+            <span style="background: #fef3c7; color: #92400e; border: 1px solid #f59e0b; padding: 1px 5px; border-radius: 2px; font-weight: 800; font-size: 6.8px; letter-spacing: 0.3px;">[ASSUMED / PRELIMINARY &bull; PENDING BOREHOLE VERIFICATION]</span>
+          </div>
+
+          <table class="grid-table" style="margin-bottom: 2.5px;">
             <tr>
               <td class="col-lbl" style="width: 17%;">Failure Mechanism:</td>
               <td class="col-val" colspan="3">
-                <strong>{{ (assessment.advanced_geotechnical_stabilization.usgs_classification.two_term_classification if assessment.advanced_geotechnical_stabilization and assessment.advanced_geotechnical_stabilization.usgs_classification else 'Translational Debris Slide') }}</strong> (Cruden &amp; Varnes, 1996). Heavy rainfall raised pore-water pressures along daylighting joint sets (dipping {{ assessment.geology.dip_joints or '57°' }} towards the roadway), causing loss of shear friction and driving progressive planar mass detachment into the formation width.
+                <strong style="color: var(--primary-dark);">{{ telem.movement_classification or 'Composite Translational Debris-Rock Slide (Cruden & Varnes, 1996)' }}</strong>. Monsoon rainfall infiltration generated hydrostatic cleft-water head (<i>z</i><sub>w</sub> &ge; 1.2m) in tension cracks, exceeding critical shear threshold along daylighting joint set J1 (inclined length <i>L</i><sub>slip</sub> = 6.856m).
               </td>
             </tr>
           </table>
-          <table class="grid-table" style="margin-bottom: 4px;">
+
+          <table class="grid-table" style="margin-bottom: 3px;">
             <thead>
               <tr style="background: #f1f5f9;">
                 <th>Hydraulic &amp; Loading Condition</th>
@@ -785,34 +829,108 @@
             <tbody>
               <tr>
                 <td>Dry Baseline (Zero Pore-Water Pressure, <i>r</i><sub>u</sub> = 0.0)</td>
-                <td style="text-align: center;" class="font-mono">1.50 (USACE / IS)</td>
-                <td style="text-align: center; font-weight: 700;" class="font-mono">1.48</td>
+                <td style="text-align: center;" class="font-mono">{{ scenarios[0].min_statutory_fos if (scenarios and scenarios|length > 0) else '1.50' }} (USACE / IS)</td>
+                <td style="text-align: center; font-weight: 700;" class="font-mono">{{ dry_fos }}</td>
                 <td style="text-align: center; color: #b45309; font-weight: 700;">Marginal Stability</td>
               </tr>
               <tr style="background: #fef2f2;">
-                <td><strong>Monsoon Steady Saturated State (<i>r</i><sub>u</sub> = 0.35 &ndash; Critical Failure Trigger)</strong></td>
-                <td style="text-align: center;" class="font-mono">1.30 (CEDD / USACE)</td>
-                <td style="text-align: center; color: var(--danger-red); font-weight: 800;" class="font-mono">0.92</td>
+                <td><strong>Monsoon Steady Saturated State (<i>r</i><sub>u</sub> = 0.35, <i>z</i><sub>w</sub> = 1.2m &ndash; Critical Failure Trigger)</strong></td>
+                <td style="text-align: center;" class="font-mono">{{ scenarios[1].min_statutory_fos if (scenarios and scenarios|length > 1) else '1.30' }} (CEDD / USACE)</td>
+                <td style="text-align: center; color: var(--danger-red); font-weight: 800;" class="font-mono">{{ crit_fos }}</td>
                 <td style="text-align: center; color: var(--danger-red); font-weight: 800;">Active Shear Failure (Limit State Exceeded)</td>
               </tr>
               <tr style="background: #f0fdf4;">
                 <td><strong>Design Stabilized State (With Breast Wall, Soil Nails &amp; Relief Drains)</strong></td>
-                <td style="text-align: center;" class="font-mono">1.50 (Permanent State)</td>
-                <td style="text-align: center; color: #15803d; font-weight: 800;" class="font-mono">1.56</td>
-                <td style="text-align: center; color: #15803d; font-weight: 800;">Fully Code Compliant (&gt; Min. 1.50)</td>
+                <td style="text-align: center;" class="font-mono">{{ scenarios[2].min_statutory_fos if (scenarios and scenarios|length > 2) else '1.50' }} (Permanent State)</td>
+                <td style="text-align: center; color: #15803d; font-weight: 800;" class="font-mono">{{ target_fos }}</td>
+                <td style="text-align: center; color: #15803d; font-weight: 800;">Fully Code Compliant (&gt; Min. 1.50 Target)</td>
               </tr>
             </tbody>
           </table>
 
-          <!-- Section 5: Inception Remediation Strategy -->
+          <!-- Section 5: Inception Remediation Strategy & Preliminary Cost Estimate for AA&ES -->
           <div class="sec-bar">
-            <span>5. Inception Remediation Strategy</span>
-            <span class="sec-bar-sub">Statutory Directives</span>
+            <span>5. Inception Remediation Strategy &amp; Preliminary AA&amp;ES Cost Estimate</span>
+            <span class="sec-bar-sub">HPSOR 2024-25 &bull; MoRTH &bull; IS:14458</span>
           </div>
-          <div style="border: 1px solid var(--border-dark); padding: 4px 8px; font-size: 7.8px; background: #ffffff; line-height: 1.35; margin-bottom: 4px;">
-            1. <strong>Immediate Emergency (0&ndash;24h):</strong> Clear carriageway colluvium to restore single-lane corridor (width &ge; 3.5m) and cut temporary crest runoff diversion trench.<br>
-            2. <strong>Permanent Protection Concept:</strong> Construct a {{ (assessment.retaining_wall or assessment.retaining_wall_specs or {}).length_affected_m or 32 }}m Gravity Plum Breast Wall (IS:14458) at the slope toe, reinforced with passive soil nails and sub-horizontal PVC weep drainage to permanently lower the phreatic surface.<br>
-            3. <strong>Administrative Sanction Scope:</strong> This PPR establishes forensic feasibility and problem identification for Administrative Approval &amp; Expenditure Sanction (AA&amp;ES).
+          <div style="border: 1px solid var(--border-dark); padding: 3px 6px; font-size: 7.3px; background: #ffffff; line-height: 1.3; margin-bottom: 2.5px;">
+            {% if assessment.is_landslide_or_terrain is defined and not assessment.is_landslide_or_terrain %}
+              <strong>OPTICAL AUDIT DISQUALIFICATION:</strong> N/A &bull; Disqualified / Non-Landslide Upload. Computer vision inspection detected no ground failure, active deformation scarp, or road obstruction. Remedial civil works suspended; zero capital outlay requisitioned.
+            {% elif pdm.status == 'SUSPENDED_MACRO_SCALE_DPR_REQUIRED' %}
+              <strong>LEVEL-1 MULTIDISCIPLINARY DPR RECONNAISSANCE MANDATE (H &gt; 45m / V &gt; 5,000 m&sup3;):</strong><br>
+              1. <strong>Airborne Remote Sensing:</strong> High-resolution UAV-LiDAR topographic terrain modeling and regional structural fault lineation mapping.<br>
+              2. <strong>Deep Subsurface Exploration:</strong> Rotary core drilling (&ge; 30m depth) to intercept deep basal shear zone; installation of vibrating wire piezometers.<br>
+              3. <strong>Numerical Kinematic Modeling:</strong> 3D Finite Element (FEM) and Limit Equilibrium mass continuum analysis to model deep mountain rupture.<br>
+              4. <strong>Comprehensive DPR Formulation:</strong> Multi-disciplinary mitigation project report submission under National Disaster Mitigation Fund (NDMF).
+            {% elif pdm.failure_vector == 'VALLEY_EMBANKMENT_SUBSIDENCE' %}
+              1. <strong>Valley Retention (MoRTH 2504 / IS:16014):</strong> Construct <strong>{{ geom.wall_length_m | default(25.0) }}m</strong> Stepped PVC-Coated Wire Gabion Retaining Wall (H={{ bw.stem_height_m | default(3.50) }}m, Base={{ bw.base_width_m | default(3.00) }}m, stepped front 1:0.5) founded on excavated valley bench with M15 concrete toe footing.<br>
+              2. <strong>Valley-Edge Shear Dowels (MoRTH 1200 / 811):</strong> Install <strong>{{ sn.working_nails_count | default(25) }} Nos.</strong> vertical RC Micropiles (&Oslash;150mm with &Oslash;32mm Fe500D rebar @ 1.0m c/c, 10m depth) with M30 RC capping beam (0.4m &times; 0.4m) and W-Beam steel crash barrier along outer carriageway.<br>
+              3. <strong>Reinforced Backfill (MoRTH 3100):</strong> Compacted granular roadway fill reinforced with high-strength biaxial polymeric geogrid layers and non-woven geotextile wrap.
+            {% elif pdm.failure_vector == 'CLIFF_ROCKFALL_TOPPLE' %}
+              1. <strong>Rock Mass Scaling (IS:13365 Part 1):</strong> Certified rope-access rock scaling to de-scale loose toppling blocks and open cleft overhangs along cliff crest.<br>
+              2. <strong>Crest Anchor Bolting (MoRTH 3100 / IS:14448):</strong> Install <strong>{{ sn.working_nails_count | default(24) }} Nos.</strong> pattern tensioned rock bolts (&Oslash;32mm high-tensile bar, 6.0m depth in 3m &times; 3m grid) with heavy-duty bearing plates locked to 80 kN post-tensioning and wire-rope drape netting.<br>
+              3. <strong>Dynamic Interception &amp; Cleft Drainage (CEDD GEO 138 / MoRTH 309):</strong> Erect <strong>{{ geom.wall_length_m | default(35.0) }}m</strong> Dynamic Flexible Ring-Net Rockfall Catch Barrier (500 kJ capacity, 3.5m height) along roadside ditch with deep bedrock cleft relief drains.
+            {% elif pdm.failure_vector == 'HABITATION_TERRACE_SLUMP' %}
+              1. <strong>Settlement Deflector Wall (IS:456 / IS:14458):</strong> Construct <strong>{{ geom.wall_length_m | default(20.0) }}m</strong> M25 RC Cantilever Debris Deflector Wall (H=3.5m, Df=1.0m, Base=2.2m) with granular filter pack protecting dwelling rear.<br>
+              2. <strong>Upper Terrace Doweling (MoRTH 3100):</strong> Install <strong>{{ sn.working_nails_count | default(15) }} Nos.</strong> portable-tripod grouted soil dowels (&Oslash;25mm Fe500D, 4.5m length) with bearing plates across upper terrace to arrest creeping colluvium.<br>
+              3. <strong>Interceptor Hydrology (MoRTH 309):</strong> Construct 25.0m lined stone-masonry garland catch drain (0.60m &times; 0.60m) with stepped cascade chute to divert slope runoff away from residential homes.
+            {% else %}
+              1. <strong>Toe Retention (IS:14458 Part 2):</strong> Construct <strong>{{ geom.wall_length_m | default(17.0) }}m</strong> Plum Concrete Breast Wall (Stem <i>H</i>={{ '%.2f'|format(bw.stem_height_m) if bw.stem_height_m else '2.70' }}m, Embedment <i>D</i><sub>f</sub>={{ '%.2f'|format(bw.embedment_depth_m) if bw.embedment_depth_m else '1.00' }}m, Base <i>B</i>={{ '%.2f'|format(bw.base_width_m) if bw.base_width_m else '1.35' }}m, Top <i>b</i>={{ '%.2f'|format(bw.top_width_m) if bw.top_width_m else '0.60' }}m, Concrete Vol = <strong>{{ '%.2f'|format(bw.total_concrete_vol_m3) if bw.total_concrete_vol_m3 else '67.70' }} m&sup3;</strong> M15 with 40% clean plums), backed by {{ flt.filter_vol_m3 | default(16.07) }} m&sup3; filter pack and {{ flt.weep_holes_count | default(26) }} Nos. PVC weep holes.<br>
+              2. <strong>Upper Slope Reinforcement (MoRTH 3100 / CEDD Geoguide 7):</strong> Install <strong>{{ sn.total_nails_count | default(20) }} Nos.</strong> &Oslash;25mm Fe500D soil nails ({{ sn.working_nails_count | default(18) }} working in 1.8m H &times; 2.0m V grid + {{ sn.sacrificial_test_nails_count | default(2) }} sacrificial test nails; {{ sn.total_drilling_length_m | default(180.0) }}m drilling, {{ sn.total_bar_length_m | default(190.0) }}m bar, {{ sn.bearing_pads_count | default(18) }} M30 RC pads) with <strong>{{ '%.2f'|format(sn.wire_mesh_facing_area_m2) if sn.wire_mesh_facing_area_m2 else '91.12' }} m&sup2;</strong> high-tensile diamond steel wire mesh (3mm, 65&times;65mm) and {{ un.coir_netting_area_m2 | default(100.23) }} m&sup2; 700 GSM coir bio-turfing facing (MoRTH 1802).<br>
+              3. <strong>Hydrogeological Relief Drainage (MoRTH 300 / CEDD TGN 24):</strong> Drill <strong>5 Nos. &times; 15m (75.0m total array)</strong> sub-horizontal slotted PVC relief drains (&Oslash;75mm Schedule 80 at 5&deg;&ndash;10&deg; upward rake), paired with 25.0m crest saucer catch drain (0.60m &times; 0.60m) and 17.0m roadside longitudinal drain (0.60m &times; 0.60m).
+            {% endif %}
+          </div>
+
+          <!-- Preliminary Cost Estimate Table for AA&ES -->
+          <table class="grid-table" style="margin-bottom: 2px;">
+            <thead>
+              <tr style="background: #f1f5f9;">
+                <th>Base Civil Subtotal (Items 1–18)</th>
+                <th style="text-align: center; width: 14%;">Contingency (3%)</th>
+                <th style="text-align: center; width: 14%;">QC &amp; Tests (1.5%)</th>
+                <th style="text-align: center; width: 16%;">GST (18% CGST+SGST)</th>
+                <th style="text-align: center; width: 28%; background: #e0f2fe; color: #0369a1;">Direct Civil Remediation Outlay (AA&amp;ES)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if assessment.is_landslide_or_terrain is defined and not assessment.is_landslide_or_terrain %}
+              <tr>
+                <td class="font-mono" style="font-weight: 700; color: #94a3b8;">₹ 0</td>
+                <td style="text-align: center; color: #94a3b8;" class="font-mono">₹ 0</td>
+                <td style="text-align: center; color: #94a3b8;" class="font-mono">₹ 0</td>
+                <td style="text-align: center; color: #94a3b8;" class="font-mono">₹ 0</td>
+                <td style="text-align: center; background: #fef2f2; color: #dc2626; font-weight: 850; font-size: 8px;" class="font-mono">
+                  ₹ 0 (ESTIMATION SUSPENDED)
+                  <span style="display: block; font-size: 6.6px; font-weight: 700; color: #991b1b;">[DISQUALIFIED NON-TERRAIN]</span>
+                </td>
+              </tr>
+              {% elif pdm.status == 'SUSPENDED_MACRO_SCALE_DPR_REQUIRED' %}
+              <tr>
+                <td class="font-mono" style="font-weight: 700; color: #94a3b8;">N/A</td>
+                <td style="text-align: center; color: #94a3b8;" class="font-mono">N/A</td>
+                <td style="text-align: center; color: #94a3b8;" class="font-mono">N/A</td>
+                <td style="text-align: center; color: #94a3b8;" class="font-mono">N/A</td>
+                <td style="text-align: center; background: #fff1f2; color: #e11d48; font-weight: 850; font-size: 7.8px;" class="font-mono">
+                  ESTIMATE SUSPENDED (Requires Full DPR)
+                  <span style="display: block; font-size: 6.6px; font-weight: 700; color: #be123c;">[MACRO SCALE CATASTROPHE]</span>
+                </td>
+              </tr>
+              {% else %}
+              <tr>
+                <td class="font-mono" style="font-weight: 700;">{{ fin.civil_subtotal_fmt or '₹ 9,60,305' }}</td>
+                <td style="text-align: center;" class="font-mono">{{ fin.contingencies_fmt or '₹ 28,809' }}</td>
+                <td style="text-align: center;" class="font-mono">{{ fin.qc_testing_fmt or '₹ 14,405' }}</td>
+                <td style="text-align: center;" class="font-mono">{{ fin.gst_fmt or '₹ 1,80,633' }}</td>
+                <td style="text-align: center; background: #f0fdf4; color: #15803d; font-weight: 850; font-size: 8.8px;" class="font-mono">
+                  {{ fin.total_remediation_fmt or '₹ 11,84,152' }}
+                  <span style="display: block; font-size: 6.6px; font-weight: 700; color: #047857;">[PRELIMINARY ESTIMATE &bull; HPSOR 2024-25]</span>
+                </td>
+              </tr>
+              {% endif %}
+            </tbody>
+          </table>
+          <div style="font-size: 6.8px; color: #64748b; line-height: 1.22; margin-bottom: 2.5px;">
+            * <strong>Statutory Accounting Note:</strong> Direct civil remediation outlay of <strong>{{ fin.total_remediation_fmt or '₹ 11,84,152' }}</strong> is a preliminary engineering estimate for AA&amp;ES subject to confirmatory borehole ground investigation. Direct asset damage ({{ fin.direct_asset_loss_fmt or '₹ 3,02,262' }}) and detour losses ({{ fin.indirect_economic_loss_fmt or '₹ 1,25,000' }}) are isolated under disaster loss accounting and excluded from the capital works requisition.
           </div>
 
           <!-- Section 6: Statutory Sign-Off Block -->
@@ -833,7 +951,7 @@
               <tr>
                 <td>
                   <strong>IIT Mandi Research Team</strong><br>
-                  Date: {{ assessment.telemetry.inspection_date }}
+                  Date: {{ telem.inspection_date or '2026-10-12' }}
                 </td>
                 <td>
                   <strong>Assistant Engineer</strong><br>
@@ -854,7 +972,7 @@
 
         <!-- Single Page Footer -->
         <div class="page-footer">
-          <span>IIT Mandi &bull; Preliminary Project Report (PPR) &bull; Ref: <strong>{{ assessment.telemetry.report_reference or 'IITM-CR-' + report.id }}</strong></span>
+          <span>IIT Mandi &bull; Preliminary Project Report (PPR) &bull; Ref: <strong>{{ telem.report_reference or 'IITM-CR-' + report.id }}</strong> &bull; {{ telem.location_chainage or telem.district }}</span>
           <span>1-Page Statutory Docket &bull; Page 1 of 1</span>
         </div>
       </div>
