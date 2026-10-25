@@ -225,7 +225,7 @@ def extract_ml_kinematic_parameters(
         mode = "habitation_mudslide"
         mode_label = "HABITATION RESIDENTIAL TERRACE SLUMP"
         top_badge = f"RESIDENTIAL TERRACE SLUMP • RC DEFLECTOR WALL • H={slope_height_m:.1f}m"
-    elif failure_vector == "CLIFF_ROCKFALL_TOPPLE" or any(k in mode_lower for k in ("topple", "fall", "rockfall")):
+    elif failure_vector in ("CLIFF_ROCKFALL_TOPPLE", "CLIFF_ROCKFALL") or any(k in mode_lower for k in ("topple", "fall", "rockfall")):
         mode = "rockfall"
         mode_label = "ROCKFALL / TOPPLING FAILURE"
         top_badge = f"SUB-VERTICAL CLIFF • CUT: {cut_deg}° • COLUMN TOPPLE"

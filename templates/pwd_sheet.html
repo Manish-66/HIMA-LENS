@@ -104,12 +104,12 @@
       transform: translateY(-1px);
     }
     .btn-sheet2 {
-      background: #0284c7;
+      background: #104c3b;
       color: #ffffff;
-      border: 1px solid #0369a1;
+      border: 1px solid #17624d;
     }
     .btn-sheet2:hover {
-      background: #0369a1;
+      background: #17624d;
       transform: translateY(-1px);
     }
     .btn-sheet3 {
@@ -131,26 +131,52 @@
       background: rgba(255, 255, 255, 0.22);
     }
     .btn-param-panel {
-      background: #0284c7;
+      background: #104c3b;
       color: #ffffff;
       border: 1px solid #38bdf8;
       font-weight: 800;
     }
     .btn-param-panel:hover {
-      background: #0369a1;
+      background: #17624d;
       transform: translateY(-1px);
     }
 
-    /* Slide-Over Parameter Control Panel Drawer */
+    /* Harmonized HIMA-LENS Action Buttons */
+    .btn-sheet2 {
+      background: #104c3b;
+      color: #f0fdf4;
+      border: 1px solid #17624d;
+      font-weight: 700;
+    }
+    .btn-sheet2:hover {
+      background: #17624d;
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+    .btn-param-panel {
+      background: #104c3b;
+      color: #5eead4;
+      border: 1.5px solid #2dd4bf;
+      font-weight: 800;
+      box-shadow: 0 2px 8px rgba(45, 212, 191, 0.15);
+    }
+    .btn-param-panel:hover {
+      background: #2dd4bf;
+      color: #092f25;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(45, 212, 191, 0.3);
+    }
+
+    /* Harmonized HIMA-LENS Slide-Over Parameter Control Panel Drawer */
     #parameter-panel-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.65);
-      backdrop-filter: blur(2px);
+      background: rgba(9, 47, 37, 0.72);
+      backdrop-filter: blur(4px);
       z-index: 9998;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.22s ease;
+      transition: opacity 0.25s ease;
     }
     #parameter-panel-backdrop.active {
       opacity: 1;
@@ -163,12 +189,13 @@
       width: 480px;
       max-width: 95vw;
       height: 100vh;
-      background: #0f172a;
-      color: #f1f5f9;
+      background: #07251d;
+      color: #f0fdf4;
       z-index: 9999;
-      box-shadow: -10px 0 35px rgba(0, 0, 0, 0.5);
+      border-left: 2px solid #17624d;
+      box-shadow: -12px 0 40px rgba(4, 25, 20, 0.75);
       transform: translateX(100%);
-      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
       display: flex;
       flex-direction: column;
       font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -178,8 +205,8 @@
     }
     .pcp-header {
       padding: 14px 18px;
-      background: #1e293b;
-      border-bottom: 1px solid #334155;
+      background: #092f25;
+      border-bottom: 1.5px solid #17624d;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -187,19 +214,20 @@
     .pcp-title {
       font-family: 'Manrope', sans-serif;
       font-size: 13px;
-      font-weight: 800;
+      font-weight: 850;
       color: #ffffff;
-      letter-spacing: 0.3px;
+      letter-spacing: 0.4px;
     }
     .pcp-subtitle {
       font-size: 9.5px;
-      color: #94a3b8;
+      color: #5eead4;
       margin-top: 2px;
+      font-weight: 600;
     }
     .pcp-close-btn {
-      background: transparent;
-      border: 1px solid #475569;
-      color: #cbd5e1;
+      background: #0e3d31;
+      border: 1px solid #17624d;
+      color: #a7f3d0;
       cursor: pointer;
       border-radius: 4px;
       width: 28px;
@@ -210,8 +238,9 @@
       transition: all 0.15s ease;
     }
     .pcp-close-btn:hover {
-      background: #334155;
-      color: #ffffff;
+      background: #2dd4bf;
+      color: #092f25;
+      border-color: #2dd4bf;
     }
     .pcp-body {
       padding: 14px 18px;
@@ -219,23 +248,25 @@
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 13px;
     }
     .pcp-info-banner {
-      background: #1e293b;
-      border-left: 3.5px solid #2dd4bf;
+      background: #092f25;
+      border: 1px solid #17624d;
+      border-left: 4px solid #2dd4bf;
       padding: 8px 12px;
       border-radius: 4px;
-      font-size: 10px;
-      line-height: 1.4;
-      color: #cbd5e1;
+      font-size: 9.8px;
+      line-height: 1.42;
+      color: #ccfbf1;
     }
     .pcp-info-banner strong {
       color: #5eead4;
+      font-weight: 800;
     }
     .pcp-group {
-      background: #1e293b;
-      border: 1px solid #334155;
+      background: #0c382e;
+      border: 1px solid #17624d;
       border-radius: 6px;
       padding: 12px;
       display: flex;
@@ -246,13 +277,13 @@
       font-family: 'Manrope', sans-serif;
       font-size: 11px;
       font-weight: 800;
-      color: #f8fafc;
+      color: #f0fdf4;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid #334155;
+      border-bottom: 1px solid #144e3f;
       padding-bottom: 6px;
     }
     .pcp-field {
@@ -266,7 +297,7 @@
       align-items: center;
       font-size: 10.5px;
       font-weight: 600;
-      color: #cbd5e1;
+      color: #ccfbf1;
     }
     .pcp-slider-row {
       display: flex;
@@ -277,45 +308,59 @@
       flex: 1;
       height: 6px;
       border-radius: 3px;
-      background: #334155;
+      background: #144e3f;
       outline: none;
       accent-color: #2dd4bf;
       cursor: pointer;
     }
     .pcp-num-input {
-      width: 72px;
+      width: 74px;
       padding: 4px 6px;
-      background: #0f172a;
-      border: 1px solid #475569;
+      background: #07251d;
+      border: 1.5px solid #1a5c4c;
       border-radius: 4px;
       color: #5eead4;
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
       font-weight: 700;
       text-align: right;
+      transition: border-color 0.15s ease;
+    }
+    .pcp-num-input:focus {
+      border-color: #2dd4bf;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(45, 212, 191, 0.2);
     }
     .pcp-select {
       width: 100%;
       padding: 6px 8px;
-      background: #0f172a;
-      border: 1px solid #475569;
+      background: #07251d;
+      border: 1.5px solid #1a5c4c;
       border-radius: 4px;
-      color: #f8fafc;
+      color: #f0fdf4;
       font-family: 'DM Sans', sans-serif;
       font-size: 11px;
       font-weight: 600;
     }
+    .pcp-select:focus {
+      border-color: #2dd4bf;
+      outline: none;
+    }
     .pcp-textarea {
       width: 100%;
-      min-height: 56px;
+      min-height: 54px;
       padding: 6px 8px;
-      background: #0f172a;
-      border: 1px solid #475569;
+      background: #07251d;
+      border: 1.5px solid #1a5c4c;
       border-radius: 4px;
-      color: #f8fafc;
+      color: #f0fdf4;
       font-family: 'DM Sans', sans-serif;
       font-size: 10.5px;
       resize: vertical;
+    }
+    .pcp-textarea:focus {
+      border-color: #2dd4bf;
+      outline: none;
     }
     .pcp-preview-grid {
       display: grid;
@@ -323,14 +368,14 @@
       gap: 8px;
     }
     .pcp-metric-card {
-      background: #0f172a;
-      border: 1px solid #334155;
+      background: #07251d;
+      border: 1px solid #17624d;
       border-radius: 4px;
       padding: 6px 8px;
     }
     .pcp-metric-lbl {
       font-size: 8.5px;
-      color: #94a3b8;
+      color: #86efac;
       text-transform: uppercase;
       font-weight: 700;
       letter-spacing: 0.3px;
@@ -339,36 +384,56 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 12px;
       font-weight: 800;
-      color: #38bdf8;
+      color: #5eead4;
       margin-top: 2px;
     }
     .pcp-metric-card.highlight {
-      border-color: #059669;
-      background: #022c22;
+      border-color: #2dd4bf;
+      background: #041d16;
       grid-column: span 2;
+      box-shadow: 0 0 12px rgba(45, 212, 191, 0.12);
+    }
+    .pcp-metric-card.highlight .pcp-metric-lbl {
+      color: #a7f3d0;
     }
     .pcp-metric-card.highlight .pcp-metric-val {
-      color: #34d399;
-      font-size: 13.5px;
+      color: #2dd4bf;
+      font-size: 14px;
+    }
+    .pcp-mini-schematic-box {
+      width: 100%;
+      height: 130px;
+      background: #090d16;
+      border: 1.5px solid #17624d;
+      border-radius: 4px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .pcp-mini-schematic-box svg {
+      width: 100%;
+      height: 100%;
+      display: block;
     }
     .pcp-footer {
       padding: 12px 18px;
-      background: #1e293b;
-      border-top: 1px solid #334155;
+      background: #092f25;
+      border-top: 1.5px solid #17624d;
       display: flex;
       align-items: center;
       gap: 10px;
     }
     .pcp-btn-save {
       flex: 1;
-      padding: 8px 14px;
-      background: #059669;
-      color: #ffffff;
-      border: 1px solid #10b981;
+      padding: 9px 14px;
+      background: #2dd4bf;
+      color: #092f25;
+      border: 1px solid #5eead4;
       border-radius: 4px;
       font-family: 'Manrope', sans-serif;
       font-size: 11.5px;
-      font-weight: 800;
+      font-weight: 850;
       cursor: pointer;
       transition: all 0.15s ease;
       display: flex;
@@ -377,14 +442,15 @@
       gap: 6px;
     }
     .pcp-btn-save:hover {
-      background: #047857;
+      background: #5eead4;
       transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(45, 212, 191, 0.3);
     }
     .pcp-btn-reset {
-      padding: 8px 12px;
-      background: #78350f;
-      color: #fef3c7;
-      border: 1px solid #d97706;
+      padding: 9px 12px;
+      background: #0e3d31;
+      color: #e2e8f0;
+      border: 1px solid #1c6b56;
       border-radius: 4px;
       font-family: 'Manrope', sans-serif;
       font-size: 11px;
@@ -393,27 +459,28 @@
       transition: all 0.15s ease;
     }
     .pcp-btn-reset:hover {
-      background: #92400e;
+      background: #17624d;
+      color: #ffffff;
+      border-color: #2dd4bf;
     }
     .field-toast {
       position: fixed;
       top: 18px;
       right: 18px;
-      background: #0f172a;
-      color: #f8fafc;
-      border: 1.5px solid #10b981;
+      background: #092f25;
+      color: #f0fdf4;
+      border: 1.5px solid #2dd4bf;
       border-radius: 6px;
       padding: 10px 16px;
       font-size: 11px;
       font-family: 'Manrope', sans-serif;
       font-weight: 700;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      box-shadow: 0 10px 30px rgba(4, 25, 20, 0.5);
       z-index: 10000;
       display: none;
       align-items: center;
       gap: 8px;
     }
-
 
     /* Screen Canvas Wrapper */
     .report-canvas-wrapper {
@@ -435,13 +502,13 @@
       width: 210mm;
       max-width: 100%;
       margin: 0 auto 10px auto;
-      background: #eff6ff;
-      border: 1px solid #bfdbfe;
-      border-left: 3.5px solid #0284c7;
+      background: #f0fdf4;
+      border: 1px solid #a7f3d0;
+      border-left: 3.5px solid #10b981;
       border-radius: 4px;
       padding: 6px 12px;
       font-size: 8.5px;
-      color: #0369a1;
+      color: #065f46;
       text-align: center;
       font-weight: 600;
     }
@@ -853,7 +920,7 @@
     <div class="brand">
       <span class="hl-tag">HIMA-LENS</span>
       <span class="hl-tag" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);">{{ (assessment.telemetry.report_reference if (assessment.telemetry is defined and assessment.telemetry) else None) or ('IITM-CR-' + report.id) }}</span>
-      <span class="hl-tag" style="background: #0284c7; border: 1px solid rgba(255,255,255,0.35); font-weight: 800;">1-PAGE PPR (A4)</span>
+      <span class="hl-tag" style="background: #104c3b; border: 1px solid rgba(255,255,255,0.35); font-weight: 800;">1-PAGE PPR (A4)</span>
       <span>Preliminary Project Report &bull; Inception &amp; Field Assessment Docket</span>
     </div>
     <div class="action-btn-cluster">
@@ -1033,10 +1100,10 @@
             <!-- Right: Failure Schematic SVG -->
             <div class="schematic-frame-box">
               <div class="schematic-top-bar">
-                <span>{{ (assessment.schematic_top_badge or ('FAILURE CROSS-SECTION &bull; CRITICAL MONSOON FoS = ' ~ crit_fos ~ ' &bull; TARGET FoS &ge; ' ~ target_fos)) | safe }}</span>
-                <span style="color: #5eead4; font-weight: 800;">DIP: {{ dip_ang }}&deg; &bull; CUT: {{ cut_ang }}&deg; &bull; H = {{ h_mean }}m ({{ h_min }}–{{ h_max }}m)</span>
+                <span id="schematic-top-badge">{{ (assessment.schematic_top_badge or ('FAILURE CROSS-SECTION &bull; CRITICAL MONSOON FoS = ' ~ crit_fos ~ ' &bull; TARGET FoS &ge; ' ~ target_fos)) | safe }}</span>
+                <span id="schematic-params-badge" style="color: #5eead4; font-weight: 800;">DIP: {{ dip_ang }}&deg; &bull; CUT: {{ cut_ang }}&deg; &bull; H = {{ h_mean }}m ({{ h_min }}–{{ h_max }}m)</span>
               </div>
-              <div class="schematic-svg-wrap">
+              <div class="schematic-svg-wrap" id="schematic-svg-container">
                 {% if assessment.schematic_svg %}
                   {{ assessment.schematic_svg | safe }}
                 {% else %}
@@ -1083,7 +1150,7 @@
               </div>
               <div class="schematic-caption-bar">
                 <span>FIGURE 1: GEOTECHNICAL FAILURE CROSS-SECTION &bull; HOEK &amp; BRAY PLANAR LIMIT EQUILIBRIUM</span>
-                <span class="font-mono" style="color: #5eead4;">FoS: {{ crit_fos }} (ACTIVE FAILURE) &rarr; {{ target_fos }} (STABILIZED &ge; 1.50)</span>
+                <span class="font-mono" id="schematic-fos-badge" style="color: #5eead4;">FoS: {{ crit_fos }} (ACTIVE FAILURE) &rarr; {{ target_fos }} (STABILIZED &ge; 1.50)</span>
               </div>
             </div>
           </div>
@@ -1217,7 +1284,7 @@
                 <th style="text-align: center; width: 14%;">Contingency (3%)</th>
                 <th style="text-align: center; width: 14%;">QC &amp; Tests (1.5%)</th>
                 <th style="text-align: center; width: 16%;">GST (18% CGST+SGST)</th>
-                <th style="text-align: center; width: 28%; background: #e0f2fe; color: #0369a1;">Direct Civil Remediation Outlay (AA&amp;ES)</th>
+                <th style="text-align: center; width: 28%; background: #ccfbf1; color: #065f46;">Direct Civil Remediation Outlay (AA&amp;ES)</th>
               </tr>
             </thead>
             <tbody>
@@ -1308,25 +1375,25 @@
     </div> <!-- /.report-canvas -->
   </div> <!-- /.report-canvas-wrapper -->
 
-  <!-- Slide-Over Backdrop -->
+    <!-- Slide-Over Backdrop -->
   <div id="parameter-panel-backdrop" onclick="closeControlPanel()"></div>
 
   <!-- Slide-Over Parameter Control Panel -->
   <aside id="parameter-control-panel"
          data-report-id="{{ report.id }}"
-         data-failure-vector="{{ pdm.failure_vector or 'UPHILL_CUT_SLOPE' }}"
-         data-h-scarp="{{ h_mean }}"
-         data-l-affected="{{ geom.wall_length_m or geom.affected_length_m or 17.0 }}"
-         data-w-debris="{{ geom.debris_width_m or 8.0 }}"
-         data-d-debris="{{ geom.debris_thickness_m or 1.5 }}"
-         data-cut-angle="{{ cut_ang }}"
-         data-dip-angle="{{ dip_ang }}"
-         data-w-pre="{{ geom.road_width_pre_disaster_m | default(5.25) }}"
-         data-w-post="{{ geom.road_width_post_disaster_m | default(2.30) }}">
+         data-failure-vector="{{ (assessment.project_data_model.failure_vector if assessment.project_data_model else None) or 'UPHILL_CUT_SLOPE' }}"
+         data-h-scarp="{{ (assessment.project_data_model.unified_geometry.slope_height_mean_m if assessment.project_data_model and assessment.project_data_model.unified_geometry else None) or (assessment.slope_characteristics.scarp_height_mean_m if assessment.slope_characteristics else 7.6) }}"
+         data-l-affected="{{ (assessment.project_data_model.unified_geometry.wall_length_m if assessment.project_data_model and assessment.project_data_model.unified_geometry else None) or 17.0 }}"
+         data-w-debris="{{ (assessment.project_data_model.unified_geometry.debris_width_m if assessment.project_data_model and assessment.project_data_model.unified_geometry else None) or 8.0 }}"
+         data-d-debris="{{ (assessment.project_data_model.unified_geometry.debris_thickness_m if assessment.project_data_model and assessment.project_data_model.unified_geometry else None) or 1.5 }}"
+         data-cut-angle="{{ (assessment.project_data_model.unified_geometry.cut_angle_deg if assessment.project_data_model and assessment.project_data_model.unified_geometry else None) or (assessment.slope_characteristics.estimated_slope_angle_deg if assessment.slope_characteristics else 66.0) }}"
+         data-dip-angle="{{ (assessment.project_data_model.unified_geometry.joint_dip_deg if assessment.project_data_model and assessment.project_data_model.unified_geometry else None) or (assessment.slope_characteristics.failure_plane_dip_deg if assessment.slope_characteristics else 57.0) }}"
+         data-w-pre="{{ (assessment.project_data_model.unified_geometry.road_width_pre_disaster_m if assessment.project_data_model and assessment.project_data_model.unified_geometry else None) or 5.25 }}"
+         data-w-post="{{ (assessment.project_data_model.unified_geometry.road_width_post_disaster_m if assessment.project_data_model and assessment.project_data_model.unified_geometry else None) or 2.30 }}">
     <div class="pcp-header">
       <div>
         <div class="pcp-title">FIELD PARAMETER VERIFICATION</div>
-        <div class="pcp-subtitle">Live Cruden &amp; Varnes Recalculation &bull; Ref: {{ telem.report_reference or 'IITM-CR-' + report.id }}</div>
+        <div class="pcp-subtitle">Live Cruden &amp; Varnes Recalculation &bull; Ref: {{ (assessment.telemetry.report_reference if assessment.telemetry else None) or ('IITM-CR-' + report.id) }}</div>
       </div>
       <button type="button" class="pcp-close-btn" onclick="closeControlPanel()" title="Close Control Panel">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -1347,11 +1414,26 @@
         </div>
         <div class="pcp-field">
           <select id="input-failure-vector" class="pcp-select" onchange="recalculateParametersLive()">
-            <option value="UPHILL_CUT_SLOPE" {% if pdm.failure_vector == 'UPHILL_CUT_SLOPE' or not pdm.failure_vector %}selected{% endif %}>Uphill Cut-Slope Debris Slide (IS:14458 Plum Wall + MoRTH 3100 Nails)</option>
-            <option value="VALLEY_EMBANKMENT_SUBSIDENCE" {% if pdm.failure_vector == 'VALLEY_EMBANKMENT_SUBSIDENCE' %}selected{% endif %}>Valley Embankment Subsidence (Stepped Gabion + Micropiles)</option>
-            <option value="CLIFF_ROCKFALL" {% if pdm.failure_vector == 'CLIFF_ROCKFALL' %}selected{% endif %}>Cliff Face Rockfall &amp; Daylighting Wedge (Rock Scaling + Netting)</option>
-            <option value="HABITATION_TERRACE_SLUMP" {% if pdm.failure_vector == 'HABITATION_TERRACE_SLUMP' %}selected{% endif %}>Habitation Terrace Slump (RC Deflector Wall + Soil Dowels)</option>
+            <option value="UPHILL_CUT_SLOPE">Uphill Cut-Slope Debris Slide (IS:14458 Plum Wall + MoRTH 3100 Nails)</option>
+            <option value="VALLEY_EMBANKMENT_SUBSIDENCE">Valley Embankment Subsidence (Stepped Gabion + Micropiles)</option>
+            <option value="CLIFF_ROCKFALL">Cliff Face Rockfall &amp; Daylighting Wedge (Rock Scaling + Netting)</option>
+            <option value="HABITATION_TERRACE_SLUMP">Habitation Terrace Slump (RC Deflector Wall + Soil Dowels)</option>
           </select>
+        </div>
+      </div>
+
+      <!-- Live Mini Schematic Preview Box -->
+      <div class="pcp-group">
+        <div class="pcp-group-title">
+          <span>Live Kinematic Cross-Section</span>
+          <span id="pcp-schem-mode-badge" style="font-size: 8.5px; color: #2dd4bf; text-transform: none;">UPHILL CUT-SLOPE</span>
+        </div>
+        <div class="pcp-mini-schematic-box" id="pcp-mini-schem-wrap">
+          {% if assessment.schematic_svg %}
+            {{ assessment.schematic_svg | safe }}
+          {% else %}
+            <span style="color: #64748b; font-size: 9px;">Loading schematic cross-section...</span>
+          {% endif %}
         </div>
       </div>
 
@@ -1369,8 +1451,8 @@
             <span class="font-mono" style="color: #5eead4;">m</span>
           </div>
           <div class="pcp-slider-row">
-            <input type="range" id="input-h-scarp" class="pcp-slider" min="2.0" max="30.0" step="0.1" value="{{ h_mean }}" oninput="syncInputs('h-scarp', this.value)">
-            <input type="number" id="input-h-scarp-num" class="pcp-num-input" min="2.0" max="30.0" step="0.1" value="{{ h_mean }}" oninput="syncInputs('h-scarp', this.value)">
+            <input type="range" id="input-h-scarp" class="pcp-slider" min="2.0" max="30.0" step="0.1" value="7.6" oninput="syncInputs('h-scarp', this.value)">
+            <input type="number" id="input-h-scarp-num" class="pcp-num-input" min="2.0" max="30.0" step="0.1" value="7.6" oninput="syncInputs('h-scarp', this.value)">
           </div>
         </div>
 
@@ -1381,8 +1463,8 @@
             <span class="font-mono" style="color: #5eead4;">m</span>
           </div>
           <div class="pcp-slider-row">
-            <input type="range" id="input-l-affected" class="pcp-slider" min="5.0" max="80.0" step="0.5" value="{{ geom.wall_length_m or geom.affected_length_m or 17.0 }}" oninput="syncInputs('l-affected', this.value)">
-            <input type="number" id="input-l-affected-num" class="pcp-num-input" min="5.0" max="80.0" step="0.5" value="{{ geom.wall_length_m or geom.affected_length_m or 17.0 }}" oninput="syncInputs('l-affected', this.value)">
+            <input type="range" id="input-l-affected" class="pcp-slider" min="5.0" max="80.0" step="0.5" value="17.0" oninput="syncInputs('l-affected', this.value)">
+            <input type="number" id="input-l-affected-num" class="pcp-num-input" min="5.0" max="80.0" step="0.5" value="17.0" oninput="syncInputs('l-affected', this.value)">
           </div>
         </div>
 
@@ -1393,8 +1475,8 @@
             <span class="font-mono" style="color: #5eead4;">m</span>
           </div>
           <div class="pcp-slider-row">
-            <input type="range" id="input-w-debris" class="pcp-slider" min="1.0" max="30.0" step="0.5" value="{{ geom.debris_width_m or 8.0 }}" oninput="syncInputs('w-debris', this.value)">
-            <input type="number" id="input-w-debris-num" class="pcp-num-input" min="1.0" max="30.0" step="0.5" value="{{ geom.debris_width_m or 8.0 }}" oninput="syncInputs('w-debris', this.value)">
+            <input type="range" id="input-w-debris" class="pcp-slider" min="1.0" max="30.0" step="0.5" value="8.0" oninput="syncInputs('w-debris', this.value)">
+            <input type="number" id="input-w-debris-num" class="pcp-num-input" min="1.0" max="30.0" step="0.5" value="8.0" oninput="syncInputs('w-debris', this.value)">
           </div>
         </div>
 
@@ -1405,8 +1487,8 @@
             <span class="font-mono" style="color: #5eead4;">m</span>
           </div>
           <div class="pcp-slider-row">
-            <input type="range" id="input-d-debris" class="pcp-slider" min="0.4" max="10.0" step="0.1" value="{{ geom.debris_thickness_m or 1.5 }}" oninput="syncInputs('d-debris', this.value)">
-            <input type="number" id="input-d-debris-num" class="pcp-num-input" min="0.4" max="10.0" step="0.1" value="{{ geom.debris_thickness_m or 1.5 }}" oninput="syncInputs('d-debris', this.value)">
+            <input type="range" id="input-d-debris" class="pcp-slider" min="0.4" max="10.0" step="0.1" value="1.5" oninput="syncInputs('d-debris', this.value)">
+            <input type="number" id="input-d-debris-num" class="pcp-num-input" min="0.4" max="10.0" step="0.1" value="1.5" oninput="syncInputs('d-debris', this.value)">
           </div>
         </div>
 
@@ -1417,8 +1499,8 @@
             <span class="font-mono" style="color: #5eead4;">deg (&deg;)</span>
           </div>
           <div class="pcp-slider-row">
-            <input type="range" id="input-cut-angle" class="pcp-slider" min="35" max="85" step="1" value="{{ cut_ang }}" oninput="syncInputs('cut-angle', this.value)">
-            <input type="number" id="input-cut-angle-num" class="pcp-num-input" min="35" max="85" step="1" value="{{ cut_ang }}" oninput="syncInputs('cut-angle', this.value)">
+            <input type="range" id="input-cut-angle" class="pcp-slider" min="35" max="85" step="1" value="66" oninput="syncInputs('cut-angle', this.value)">
+            <input type="number" id="input-cut-angle-num" class="pcp-num-input" min="35" max="85" step="1" value="66" oninput="syncInputs('cut-angle', this.value)">
           </div>
         </div>
 
@@ -1429,8 +1511,8 @@
             <span class="font-mono" style="color: #5eead4;">deg (&deg;)</span>
           </div>
           <div class="pcp-slider-row">
-            <input type="range" id="input-dip-angle" class="pcp-slider" min="25" max="75" step="1" value="{{ dip_ang }}" oninput="syncInputs('dip-angle', this.value)">
-            <input type="number" id="input-dip-angle-num" class="pcp-num-input" min="25" max="75" step="1" value="{{ dip_ang }}" oninput="syncInputs('dip-angle', this.value)">
+            <input type="range" id="input-dip-angle" class="pcp-slider" min="25" max="75" step="1" value="57" oninput="syncInputs('dip-angle', this.value)">
+            <input type="number" id="input-dip-angle-num" class="pcp-num-input" min="25" max="75" step="1" value="57" oninput="syncInputs('dip-angle', this.value)">
           </div>
         </div>
 
@@ -1441,8 +1523,8 @@
             <span class="font-mono" style="color: #5eead4;">m</span>
           </div>
           <div class="pcp-slider-row">
-            <input type="range" id="input-w-pre" class="pcp-slider" min="3.0" max="14.0" step="0.25" value="{{ geom.road_width_pre_disaster_m | default(5.25) }}" oninput="syncInputs('w-pre', this.value)">
-            <input type="number" id="input-w-pre-num" class="pcp-num-input" min="3.0" max="14.0" step="0.25" value="{{ geom.road_width_pre_disaster_m | default(5.25) }}" oninput="syncInputs('w-pre', this.value)">
+            <input type="range" id="input-w-pre" class="pcp-slider" min="3.0" max="14.0" step="0.25" value="5.25" oninput="syncInputs('w-pre', this.value)">
+            <input type="number" id="input-w-pre-num" class="pcp-num-input" min="3.0" max="14.0" step="0.25" value="5.25" oninput="syncInputs('w-pre', this.value)">
           </div>
         </div>
         <div class="pcp-field">
@@ -1451,8 +1533,8 @@
             <span class="font-mono" style="color: #5eead4;">m</span>
           </div>
           <div class="pcp-slider-row">
-            <input type="range" id="input-w-post" class="pcp-slider" min="0.0" max="12.0" step="0.25" value="{{ geom.road_width_post_disaster_m | default(2.30) }}" oninput="syncInputs('w-post', this.value)">
-            <input type="number" id="input-w-post-num" class="pcp-num-input" min="0.0" max="12.0" step="0.25" value="{{ geom.road_width_post_disaster_m | default(2.30) }}" oninput="syncInputs('w-post', this.value)">
+            <input type="range" id="input-w-post" class="pcp-slider" min="0.0" max="12.0" step="0.25" value="2.30" oninput="syncInputs('w-post', this.value)">
+            <input type="number" id="input-w-post-num" class="pcp-num-input" min="0.0" max="12.0" step="0.25" value="2.30" oninput="syncInputs('w-post', this.value)">
           </div>
         </div>
       </div>
@@ -1461,7 +1543,7 @@
       <div class="pcp-group">
         <div class="pcp-group-title">
           <span>3. Live Recalculated Engineering Impact</span>
-          <span style="font-size: 8.5px; color: #38bdf8; text-transform: none;">Instant Cascade</span>
+          <span style="font-size: 8.5px; color: #2dd4bf; text-transform: none;">Instant Cascade</span>
         </div>
         <div class="pcp-preview-grid">
           <div class="pcp-metric-card">
@@ -1493,7 +1575,7 @@
             <div class="pcp-metric-val" id="metric-subtotal">--</div>
           </div>
           <div class="pcp-metric-card highlight">
-            <div class="pcp-metric-lbl" style="color: #a7f3d0;">Total Statutory Outlay (HPSOR 2024-25)</div>
+            <div class="pcp-metric-lbl">Total Statutory Outlay (HPSOR 2024-25)</div>
             <div class="pcp-metric-val" id="metric-total-outlay">--</div>
           </div>
         </div>
@@ -1504,7 +1586,7 @@
         <div class="pcp-group-title">
           <span>4. Field Engineer Verification Notes</span>
         </div>
-        <textarea id="input-engineer-notes" class="pcp-textarea" placeholder="Enter on-site measurement notes, instrument calibration, or geological observations...">{{ assessment.engineer_verification_notes or '' }}</textarea>
+        <textarea id="input-engineer-notes" class="pcp-textarea" placeholder="Enter on-site measurement notes, instrument calibration, or geological observations...">{{ (assessment.engineer_verification_notes if assessment else None) or '' }}</textarea>
       </div>
     </div>
 
@@ -1522,12 +1604,12 @@
 
   <!-- Notification Toast -->
   <div id="field-toast" class="field-toast">
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
     <span id="field-toast-msg">Parameters verified and saved successfully.</span>
   </div>
 
   <script>
-    let isEditMode = false;
+let isEditMode = false;
     function toggleEditMode() {
       isEditMode = !isEditMode;
       const editables = document.querySelectorAll('.editable');
@@ -1535,8 +1617,8 @@
       editables.forEach(el => {
         el.contentEditable = isEditMode;
         if (isEditMode) {
-          el.style.outline = '1px dashed #0284c7';
-          el.style.backgroundColor = '#f0f9ff';
+          el.style.outline = '1.5px dashed #2dd4bf';
+          el.style.backgroundColor = 'rgba(45, 212, 191, 0.08)';
         } else {
           el.style.outline = 'none';
           el.style.backgroundColor = 'transparent';
@@ -1544,19 +1626,50 @@
       });
       if (btn) {
         btn.querySelector('span').textContent = isEditMode ? 'Finish Editing' : 'Edit Fields';
-        btn.style.background = isEditMode ? '#0284c7' : 'rgba(255, 255, 255, 0.12)';
+        btn.style.background = isEditMode ? '#17624d' : 'rgba(255, 255, 255, 0.12)';
       }
     }
 
     function openControlPanel() {
-      document.getElementById('parameter-panel-backdrop').classList.add('active');
-      document.getElementById('parameter-control-panel').classList.add('active');
-      recalculateParametersLive();
+      const panel = document.getElementById('parameter-control-panel');
+      const backdrop = document.getElementById('parameter-panel-backdrop');
+      if (panel && backdrop) {
+        backdrop.classList.add('active');
+        panel.classList.add('active');
+
+        // Init values from data attributes if available
+        const vec = panel.getAttribute('data-failure-vector');
+        if (vec && document.getElementById('input-failure-vector')) {
+          document.getElementById('input-failure-vector').value = vec;
+        }
+        const h = panel.getAttribute('data-h-scarp');
+        if (h) syncInputs('h-scarp', h);
+        const l = panel.getAttribute('data-l-affected');
+        if (l) syncInputs('l-affected', l);
+        const w = panel.getAttribute('data-w-debris');
+        if (w) syncInputs('w-debris', w);
+        const d = panel.getAttribute('data-d-debris');
+        if (d) syncInputs('d-debris', d);
+        const beta = panel.getAttribute('data-cut-angle');
+        if (beta) syncInputs('cut-angle', beta);
+        const theta = panel.getAttribute('data-dip-angle');
+        if (theta) syncInputs('dip-angle', theta);
+        const wPre = panel.getAttribute('data-w-pre');
+        if (wPre) syncInputs('w-pre', wPre);
+        const wPost = panel.getAttribute('data-w-post');
+        if (wPost) syncInputs('w-post', wPost);
+
+        recalculateParametersLive();
+      }
     }
 
     function closeControlPanel() {
-      document.getElementById('parameter-panel-backdrop').classList.remove('active');
-      document.getElementById('parameter-control-panel').classList.remove('active');
+      const panel = document.getElementById('parameter-control-panel');
+      const backdrop = document.getElementById('parameter-panel-backdrop');
+      if (panel && backdrop) {
+        backdrop.classList.remove('active');
+        panel.classList.remove('active');
+      }
     }
 
     function syncInputs(id, val) {
@@ -1581,6 +1694,61 @@
       }
     }
 
+    let schematicDebounceTimer = null;
+    function updateSchematicLive(payload) {
+      clearTimeout(schematicDebounceTimer);
+      schematicDebounceTimer = setTimeout(async () => {
+        try {
+          const panel = document.getElementById('parameter-control-panel');
+          const reportId = panel ? panel.getAttribute('data-report-id') : null;
+          if (!reportId) return;
+
+          const res = await fetch('/api/report/' + encodeURIComponent(reportId) + '/schematic', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          const data = await res.json();
+          if (data.success && data.schematic_svg) {
+            // 1. Update main docket cross-section SVG
+            const svgContainer = document.getElementById('schematic-svg-container');
+            if (svgContainer) {
+              svgContainer.innerHTML = data.schematic_svg;
+            }
+            // 2. Update mini schematic preview in drawer
+            const miniContainer = document.getElementById('pcp-mini-schem-wrap');
+            if (miniContainer) {
+              miniContainer.innerHTML = data.schematic_svg;
+            }
+            // 3. Update top badge
+            const topBadge = document.getElementById('schematic-top-badge');
+            if (topBadge && data.top_badge) {
+              topBadge.innerHTML = data.top_badge;
+            }
+            // 4. Update geometry badge
+            const paramsBadge = document.getElementById('schematic-params-badge');
+            if (paramsBadge && data.kinematic_parameters) {
+              const kp = data.kinematic_parameters;
+              paramsBadge.innerHTML = 'DIP: ' + Math.round(kp.dip_deg) + '&deg; &bull; CUT: ' + Math.round(kp.cut_deg) + '&deg; &bull; H = ' + kp.slope_height_m.toFixed(1) + 'm';
+            }
+            // 5. Update FoS badge
+            const fosBadge = document.getElementById('schematic-fos-badge');
+            if (fosBadge && data.kinematic_parameters) {
+              const kp = data.kinematic_parameters;
+              fosBadge.innerHTML = 'FoS: ' + kp.crit_fos + ' (ACTIVE FAILURE) &rarr; ' + kp.target_fos + ' (STABILIZED &ge; 1.50)';
+            }
+            // 6. Update mode badge in drawer
+            const modeBadge = document.getElementById('pcp-schem-mode-badge');
+            if (modeBadge && data.kinematic_parameters) {
+              modeBadge.textContent = data.kinematic_parameters.mode_label || data.kinematic_parameters.mode;
+            }
+          }
+        } catch (err) {
+          console.warn('Schematic dynamic update notice:', err);
+        }
+      }, 70);
+    }
+
     function recalculateParametersLive() {
       const vecEl = document.getElementById('input-failure-vector');
       if (!vecEl) return;
@@ -1594,7 +1762,7 @@
       const wPre = parseFloat(document.getElementById('input-w-pre').value) || 5.25;
       const wPost = parseFloat(document.getElementById('input-w-post').value) || 2.30;
 
-      // Cruden & Varnes (1996) / USGS Circular 1325 Half-Ellipsoid Debris Volume:
+      // 1. Cruden & Varnes (1996) / USGS Circular 1325 Half-Ellipsoid Debris Volume:
       // V = (pi / 6) * L * W * D
       const vInsitu = Math.round((Math.PI / 6.0) * L * W * D * 100) / 100;
       const vBulked = Math.round(vInsitu * 1.25 * 100) / 100;
@@ -1695,6 +1863,19 @@
       if (cellBoqTot) {
         cellBoqTot.innerHTML = '₹ ' + totalOutlay.toLocaleString('en-IN') + '<span style="display: block; font-size: 6.6px; font-weight: 700; color: #047857;">[FIELD ENGINEER VERIFIED &bull; HPSOR 2024-25]</span>';
       }
+
+      // Trigger debounced live schematic update!
+      updateSchematicLive({
+        failure_vector: failureVector,
+        scarp_height_m: H,
+        affected_length_m: L,
+        debris_width_m: W,
+        debris_thickness_m: D,
+        cut_slope_angle_deg: beta,
+        slip_surface_dip_deg: theta,
+        carriageway_formation_m: wPre,
+        carriageway_open_m: wPost
+      });
     }
 
     async function saveParameters() {

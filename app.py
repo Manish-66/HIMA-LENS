@@ -1084,18 +1084,99 @@ def get_cost_estimate(report_id: str):
     cost_data = assessment.get("cost_estimate_boq") or geotech_engine.calculate_comprehensive_cost_and_loss_estimate(assessment, report)
     return jsonify(success=True, report_id=report_id, cost_estimate_boq=cost_data)
 
-@app.get("/report/schematic/<report_id>")
-@app.get("/api/report/<report_id>/schematic")
+@app.route("/report/schematic/<report_id>", methods=["GET", "POST"])
+@app.route("/api/report/<report_id>/schematic", methods=["GET", "POST"])
 def get_report_schematic(report_id: str):
-    """Returns the ML-derived kinematic geotechnical cross-section schematic SVG and parameters."""
+    """Returns the ML-derived kinematic geotechnical cross-section schematic SVG and parameters.
+    Supports live dynamic parameter rendering via POST or query parameters."""
     report = find_report_by_id(report_id)
     if not report:
         return jsonify(success=False, error="REPORT_NOT_FOUND", message=f"Report {report_id} not found."), 404
 
+    import geotech_engine
+    import geotech_schematic
+
+    payload = request.get_json(silent=True) if request.method == "POST" else None
+    if not payload:
+        payload = request.args.to_dict()
+
+    dynamic_keys = ("failure_vector", "scarp_height_m", "affected_length_m", "debris_width_m", "debris_thickness_m", "cut_slope_angle_deg", "slip_surface_dip_deg", "carriageway_formation_m", "carriageway_open_m")
+    if any(k in payload for k in dynamic_keys):
+        failure_vec = str(payload.get("failure_vector") or "UPHILL_CUT_SLOPE").strip()
+        try:
+            h_scarp = float(payload.get("scarp_height_m") or 7.6)
+        except (TypeError, ValueError):
+            h_scarp = 7.6
+        try:
+            l_affected = float(payload.get("affected_length_m") or 17.0)
+        except (TypeError, ValueError):
+            l_affected = 17.0
+        try:
+            w_debris = float(payload.get("debris_width_m") or 8.0)
+        except (TypeError, ValueError):
+            w_debris = 8.0
+        try:
+            d_debris = float(payload.get("debris_thickness_m") or 1.5)
+        except (TypeError, ValueError):
+            d_debris = 1.5
+        try:
+            cut_ang = float(payload.get("cut_slope_angle_deg") or 66.0)
+        except (TypeError, ValueError):
+            cut_ang = 66.0
+        try:
+            slip_dip = float(payload.get("slip_surface_dip_deg") or 57.0)
+        except (TypeError, ValueError):
+            slip_dip = 57.0
+        try:
+            w_pre = float(payload.get("carriageway_formation_m") or 5.25)
+        except (TypeError, ValueError):
+            w_pre = 5.25
+        try:
+            w_post = float(payload.get("carriageway_open_m") or 2.30)
+        except (TypeError, ValueError):
+            w_post = 2.30
+
+        optical_geometry = {
+            "failure_vector": failure_vec,
+            "scarp_height_m": h_scarp,
+            "affected_length_m": l_affected,
+            "debris_width_m": w_debris,
+            "debris_thickness_m": d_debris,
+            "cut_slope_angle_deg": cut_ang,
+            "slip_surface_dip_deg": slip_dip,
+            "carriageway_formation_m": w_pre,
+            "carriageway_open_m": w_post,
+        }
+        partial_dossier = {
+            "observed_features": {"optical_geometry": optical_geometry},
+            "optical_geometry": optical_geometry,
+            "site_context": {"road_width_pre_disaster_m": w_pre, "road_width_post_disaster_m": w_post},
+            "district": report.get("district", "Mandi"),
+            "latitude": report.get("latitude", 31.708),
+            "longitude": report.get("longitude", 76.932),
+        }
+        pdm = geotech_engine.build_project_data_model(dossier=partial_dossier, report=report)
+        partial_dossier["project_data_model"] = pdm
+        partial_dossier["unified_geometry"] = pdm["unified_geometry"]
+        partial_dossier["stability_analysis"] = pdm["stability_analysis"]
+
+        svg = geotech_schematic.generate_schematic_svg(partial_dossier, report, unique_suffix=report_id)
+        params = geotech_schematic.extract_ml_kinematic_parameters(partial_dossier, report)
+
+        if request.args.get("raw") == "svg":
+            return Response(svg, mimetype="image/svg+xml")
+
+        return jsonify(
+            success=True,
+            report_id=report_id,
+            top_badge=params.get("top_badge"),
+            kinematic_parameters=params,
+            schematic_svg=svg,
+        )
+
     force = request.args.get("force", "").lower() in ("1", "true", "yes")
     assessment = ai_assessment.generate_ai_assessment(report, force_refresh=force)
     assessment = ai_assessment.normalize_assessment_structure(assessment, report)
-    import geotech_schematic
     params = geotech_schematic.extract_ml_kinematic_parameters(assessment, report)
     svg = assessment.get("schematic_svg") or geotech_schematic.generate_schematic_svg(assessment, report)
 

@@ -2988,7 +2988,7 @@ def build_project_data_model(
     l_opt = float(opt_geom.get("affected_length_m") or 0.0)
     cut_ang_opt = float(opt_geom.get("cut_slope_angle_deg") or 0.0)
 
-    if is_benchmark_6A9B:
+    if is_benchmark_6A9B and not raw_vec:
         failure_vector = "UPHILL_CUT_SLOPE"
     elif (
         raw_vec == "MACRO_MOUNTAIN_CATASTROPHE" or
