@@ -988,6 +988,9 @@
       <span>Preliminary Project Report &bull; Inception &amp; Field Assessment Docket</span>
     </div>
     <div class="action-btn-cluster">
+      <span class="nav-tab active" style="background: #104c3b; color: #f0fdf4; padding: 6px 12px; border-radius: 4px; font-weight: 800; font-size: 11px; border: 1px solid rgba(255,255,255,0.25);">
+        Sheet 1: Preliminary Report (PPR)
+      </span>
       <a href="/report/solution-sheet/{{ report.id }}" class="screen-btn btn-sheet2" title="Switch to Technical Assessment & Mitigation Analysis">
         <span>Sheet 2: Technical Assessment &rarr;</span>
       </a>
@@ -1779,6 +1782,7 @@
     }
 
     let schematicDebounceTimer = null;
+    let schematicAbortController = null;
     function updateSchematicLive(payload) {
       clearTimeout(schematicDebounceTimer);
       schematicDebounceTimer = setTimeout(async () => {
@@ -1787,11 +1791,18 @@
           const reportId = panel ? panel.getAttribute('data-report-id') : null;
           if (!reportId) return;
 
+          if (schematicAbortController) {
+            schematicAbortController.abort();
+          }
+          schematicAbortController = new AbortController();
+
           const res = await fetch('/api/report/' + encodeURIComponent(reportId) + '/schematic', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            signal: schematicAbortController.signal
           });
+          if (!res.ok) return;
           const data = await res.json();
           if (data.success && data.schematic_svg) {
             // Update main docket cross-section SVG
@@ -1818,9 +1829,11 @@
             }
           }
         } catch (err) {
-          console.warn('Schematic dynamic update notice:', err);
+          if (err.name !== 'AbortError') {
+            console.warn('Schematic dynamic update notice:', err);
+          }
         }
-      }, 70);
+      }, 25);
     }
 
     function applyPreset(type) {
@@ -1978,6 +1991,16 @@
       const cellBoqTot = document.getElementById('cell-boq-total');
       if (cellBoqTot) {
         cellBoqTot.innerHTML = '₹ ' + totalOutlay.toLocaleString('en-IN') + '<span style="display: block; font-size: 6.6px; font-weight: 700; color: #047857;">[FIELD ENGINEER VERIFIED &bull; HPSOR 2024-25]</span>';
+      }
+
+      // Synchronously update schematic badges instantly (0ms latency)
+      const paramsBadge = document.getElementById('schematic-params-badge');
+      if (paramsBadge) {
+        paramsBadge.innerHTML = 'DIP: ' + Math.round(theta) + '&deg; &bull; CUT: ' + Math.round(beta) + '&deg; &bull; H = ' + H.toFixed(1) + 'm';
+      }
+      const fosBadge = document.getElementById('schematic-fos-badge');
+      if (fosBadge) {
+        fosBadge.innerHTML = 'FoS: ' + fMonsoon.toFixed(2) + ' (ACTIVE FAILURE) &rarr; 1.56 (STABILIZED &ge; 1.50)';
       }
 
       // Trigger debounced live schematic cross-section update

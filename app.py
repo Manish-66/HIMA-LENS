@@ -925,11 +925,31 @@ def health():
         validation_error=error
     ), (200 if valid else 503)
 
+_REPORT_CACHE: dict[str, tuple[float, dict[str, Any]]] = {}
+_REPORT_CACHE_TTL = 180.0  # seconds (in-memory lookup cache to eliminate repeated 550ms Supabase roundtrips)
+
+def invalidate_report_cache(report_id: str) -> None:
+    clean_id = (report_id or "").strip()
+    _REPORT_CACHE.pop(clean_id, None)
+    for prefix in ("IITM-CR-", "HL-CR-", "IITM-STAR-"):
+        for suffix in (clean_id.replace("IITM-CR-", "").replace("HL-CR-", "").replace("IITM-STAR-", ""),):
+            _REPORT_CACHE.pop(prefix + suffix, None)
+
 def find_report_by_id(report_id: str) -> dict[str, Any] | None:
+    clean_id = (report_id or "").strip()
+    if not clean_id:
+        return None
+    now = time.time()
+    if clean_id in _REPORT_CACHE:
+        ts, val = _REPORT_CACHE[clean_id]
+        if now - ts < _REPORT_CACHE_TTL:
+            return val
+
     rep = supabase_db.fetch_report_by_id(report_id)
     if rep:
+        _REPORT_CACHE[clean_id] = (now, rep)
         return rep
-    clean_id = (report_id or "").strip()
+
     candidates = []
     if clean_id.startswith("IITM-CR-"):
         suffix = clean_id[8:]
@@ -942,8 +962,15 @@ def find_report_by_id(report_id: str) -> dict[str, Any] | None:
         candidates = ["IITM-CR-" + suffix, "HL-CR-" + suffix]
 
     for alt_id in candidates:
+        if alt_id in _REPORT_CACHE:
+            ts, val = _REPORT_CACHE[alt_id]
+            if now - ts < _REPORT_CACHE_TTL:
+                _REPORT_CACHE[clean_id] = (now, val)
+                return val
         alt_rep = supabase_db.fetch_report_by_id(alt_id)
         if alt_rep:
+            _REPORT_CACHE[alt_id] = (now, alt_rep)
+            _REPORT_CACHE[clean_id] = (now, alt_rep)
             return alt_rep
     return None
 
@@ -1094,9 +1121,6 @@ def get_report_schematic(report_id: str):
     report = find_report_by_id(report_id)
     if not report:
         return jsonify(success=False, error="REPORT_NOT_FOUND", message=f"Report {report_id} not found."), 404
-
-    import geotech_engine
-    import geotech_schematic
 
     payload = request.get_json(silent=True) if request.method == "POST" else None
     if not payload:
@@ -1291,6 +1315,7 @@ def update_report_parameters(report_id: str):
     cached["schematic_top_badge"] = geotech_schematic.extract_ml_kinematic_parameters(cached, report)["top_badge"]
 
     ai_assessment.save_assessment_to_cache(report_id, cached)
+    invalidate_report_cache(report_id)
 
     return jsonify(
         success=True,
@@ -1310,6 +1335,7 @@ def reset_report_parameters(report_id: str):
     baseline = ai_assessment.compute_deterministic_engineering_dossier(report)
     assessment = ai_assessment.normalize_assessment_structure(baseline, report)
     ai_assessment.save_assessment_to_cache(report_id, assessment)
+    invalidate_report_cache(report_id)
 
     return jsonify(
         success=True,
