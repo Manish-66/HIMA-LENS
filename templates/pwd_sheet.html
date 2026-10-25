@@ -832,7 +832,7 @@
 
     .schematic-frame-box {
       border: 1.5px solid var(--border-dark);
-      background: #0f172a;
+      background: #ffffff;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -840,10 +840,11 @@
       position: relative;
       overflow: hidden;
       border-radius: 3px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
     .schematic-top-bar {
-      background: rgba(9, 47, 37, 0.95);
-      color: #5eead4;
+      background: #092f25;
+      color: #ffffff;
       padding: 2.5px 6px;
       font-size: 6.8px;
       font-weight: 700;
@@ -860,7 +861,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #09131f;
+      background: #ffffff;
       padding: 2px;
     }
     .schematic-svg-wrap svg {
@@ -869,9 +870,9 @@
       display: block;
     }
     .schematic-caption-bar {
-      background: rgba(9, 47, 37, 0.95);
+      background: #092f25;
       color: #ffffff;
-      padding: 2px 6px;
+      padding: 2.5px 6px;
       font-size: 6.8px;
       font-family: 'Manrope', sans-serif;
       font-weight: 700;
@@ -1184,8 +1185,8 @@
                       <circle cx="6" cy="5" r="1.1" fill="#b45309" opacity="0.7" />
                     </pattern>
                   </defs>
-                  <rect width="520" height="226" fill="#f8fafc" />
-                  <path d="M 20 35 L 130 45 L 290 170 L 420 170 L 500 210 L 500 226 L 20 226 Z" fill="url(#rockHatch2P)" stroke="#475569" stroke-width="1.2" />
+                  <rect width="520" height="226" fill="#ffffff" />
+                  <path d="M 20 35 L 130 45 L 290 170 L 420 170 L 500 210 L 500 226 L 20 226 Z" fill="url(#rockHatch2P)" stroke="#64748b" stroke-width="1.2" />
                   <g stroke="#94a3b8" stroke-width="1" stroke-dasharray="3,3">
                     <line x1="110" y1="50" x2="190" y2="175" />
                     <line x1="160" y1="70" x2="240" y2="195" />
@@ -1210,8 +1211,8 @@
                   <text x="115" y="76" font-family="'Manrope', sans-serif" font-size="7" font-weight="800" fill="#991b1b">SLIP PLANE (DIP: {{ dip_ang }}&deg; SW)</text>
                   <rect x="210" y="102" width="130" height="15" rx="2" fill="#fef3c7" stroke="#fcd34d" stroke-width="1" />
                   <text x="215" y="113" font-family="'Manrope', sans-serif" font-size="7" font-weight="800" fill="#92400e">SLIDING COLLUVIUM ({{ geom.debris_insitu_vol_m3 | default(145.0) }} m&sup3;)</text>
-                  <rect x="345" y="10" width="165" height="16" rx="3" fill="#1e1b4b" stroke="#6366f1" stroke-width="0.8" />
-                  <text x="350" y="21" font-size="6.5" font-weight="800" fill="#fca5a5">Monsoon FoS = {{ crit_fos }} | Stabilized FoS = {{ target_fos }}</text>
+                  <rect x="340" y="10" width="170" height="16" rx="3" fill="#f0fdf4" stroke="#047857" stroke-width="1" />
+                  <text x="345" y="21" font-size="6.5" font-weight="800" fill="#064e3b">Monsoon FoS = {{ crit_fos }} | Stabilized FoS = {{ target_fos }}</text>
                 </svg>
                 {% endif %}
               </div>

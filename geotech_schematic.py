@@ -281,31 +281,31 @@ def _get_lithology_hatch_defs(hatch_id: str, rock_name: str) -> str:
     if any(k in rock_lower for k in ("limestone", "dolomite", "carbonate")):
         return f"""
     <pattern id="{hatch_id}" width="16" height="12" patternUnits="userSpaceOnUse">
-      <rect width="16" height="12" fill="#09131f" />
-      <line x1="0" y1="0" x2="16" y2="0" stroke="#334155" stroke-width="0.9" />
-      <line x1="8" y1="0" x2="8" y2="6" stroke="#334155" stroke-width="0.9" />
-      <line x1="0" y1="6" x2="16" y2="6" stroke="#334155" stroke-width="0.9" />
-      <line x1="0" y1="6" x2="0" y2="12" stroke="#334155" stroke-width="0.9" />
-      <line x1="16" y1="6" x2="16" y2="12" stroke="#334155" stroke-width="0.9" />
+      <rect width="16" height="12" fill="#f8fafc" />
+      <line x1="0" y1="0" x2="16" y2="0" stroke="#cbd5e1" stroke-width="0.9" />
+      <line x1="8" y1="0" x2="8" y2="6" stroke="#cbd5e1" stroke-width="0.9" />
+      <line x1="0" y1="6" x2="16" y2="6" stroke="#cbd5e1" stroke-width="0.9" />
+      <line x1="0" y1="6" x2="0" y2="12" stroke="#cbd5e1" stroke-width="0.9" />
+      <line x1="16" y1="6" x2="16" y2="12" stroke="#cbd5e1" stroke-width="0.9" />
     </pattern>"""
     elif any(k in rock_lower for k in ("phyllite", "schist", "slate", "shale")):
         return f"""
     <pattern id="{hatch_id}" width="14" height="8" patternTransform="rotate(28 0 0)" patternUnits="userSpaceOnUse">
-      <rect width="14" height="8" fill="#09131f" />
-      <path d="M 0 4 Q 3.5 1, 7 4 T 14 4" fill="none" stroke="#334155" stroke-width="1.0" />
+      <rect width="14" height="8" fill="#f8fafc" />
+      <path d="M 0 4 Q 3.5 1, 7 4 T 14 4" fill="none" stroke="#cbd5e1" stroke-width="1.0" />
     </pattern>"""
     elif any(k in rock_lower for k in ("granite", "gneiss", "diorite", "basalt")):
         return f"""
     <pattern id="{hatch_id}" width="12" height="12" patternUnits="userSpaceOnUse">
-      <rect width="12" height="12" fill="#09131f" />
-      <path d="M 3 3 L 9 9 M 9 3 L 3 9" stroke="#334155" stroke-width="0.9" stroke-linecap="round" />
+      <rect width="12" height="12" fill="#f8fafc" />
+      <path d="M 3 3 L 9 9 M 9 3 L 3 9" stroke="#cbd5e1" stroke-width="0.9" stroke-linecap="round" />
     </pattern>"""
     else:
         return f"""
     <pattern id="{hatch_id}" width="10" height="10" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
-      <rect width="10" height="10" fill="#09131f" />
-      <line x1="0" y1="0" x2="0" y2="10" stroke="#334155" stroke-width="1.0" />
-      <circle cx="5" cy="5" r="0.8" fill="#475569" />
+      <rect width="10" height="10" fill="#f8fafc" />
+      <line x1="0" y1="0" x2="0" y2="10" stroke="#cbd5e1" stroke-width="1.0" />
+      <circle cx="5" cy="5" r="0.8" fill="#94a3b8" />
     </pattern>"""
 
 
@@ -569,7 +569,7 @@ def generate_schematic_svg(
             sfx=sfx,
         )
 
-    svg = f"""<svg viewBox="0 0 520 236" xmlns="http://www.w3.org/2000/svg" style="background:#09131f; font-family:'Manrope', -apple-system, sans-serif; shape-rendering:geometricPrecision;">
+    svg = f"""<svg viewBox="0 0 520 236" xmlns="http://www.w3.org/2000/svg" style="background:#ffffff; font-family:'Manrope', -apple-system, sans-serif; shape-rendering:geometricPrecision;">
   <defs>
     {hatch_defs}
     <!-- Colluvial Overburden Pattern -->
@@ -593,15 +593,15 @@ def generate_schematic_svg(
       <path d="M 0 1 L 9 5 L 0 9 z" fill="#ef4444" />
     </marker>
     <marker id="arrowBlue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse">
-      <path d="M 0 1 L 9 5 L 0 9 z" fill="#38bdf8" />
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#0284c7" />
     </marker>
     <marker id="arrowBlue{sfx}" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse">
-      <path d="M 0 1 L 9 5 L 0 9 z" fill="#38bdf8" />
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#0284c7" />
     </marker>
   </defs>
 
   <!-- Clean Base Canvas -->
-  <rect width="520" height="236" fill="#09131f" />
+  <rect width="520" height="236" fill="#ffffff" />
 
 {svg_body}
 </svg>"""
@@ -660,7 +660,7 @@ def _render_translational_slide_svg(
     h_dim_x = max(14, crown_x - 22)
 
     return f"""  <!-- In-situ Bedrock Strata (Competent {rock_name}) -->
-  <path d="M 15 28 L {crown_x} {crown_y} L {scarp_x} {scarp_y} L {road_x_start} {road_y} L {road_x_end} {road_y} L 505 {valley_y} L 505 236 L 15 236 Z" fill="url(#{hatch_id})" stroke="#334155" stroke-width="1.2" />
+  <path d="M 15 28 L {crown_x} {crown_y} L {scarp_x} {scarp_y} L {road_x_start} {road_y} L {road_x_end} {road_y} L 505 {valley_y} L 505 236 L 15 236 Z" fill="url(#{hatch_id})" stroke="#64748b" stroke-width="1.2" />
 
   <!-- Relict Joint Set J1 (Persistent Discontinuities Dipping {dip_deg}&deg;) -->
   <g stroke="#475569" stroke-width="0.9" stroke-dasharray="3,3">
@@ -673,10 +673,10 @@ def _render_translational_slide_svg(
   <!-- Phreatic Seepage Line / Transient Water Table (Monsoon Saturation) -->
   <path d="M 22 {scarp_y + 18} Q {scarp_x + 25} {scarp_y + 30} {road_x_start - 12} {road_y - 8}" fill="none" stroke="#0284c7" stroke-width="1.4" stroke-dasharray="4,2" />
   <line x1="{road_x_start - 35}" y1="{road_y - 25}" x2="{road_x_start - 18}" y2="{road_y - 12}" stroke="#38bdf8" stroke-width="1.2" marker-end="url(#arrowBlue)" />
-  <text x="{max(24, scarp_x - 40)}" y="{scarp_y + 24}" font-size="5.5" font-weight="700" fill="#38bdf8">Phreatic Table (zw)</text>
+  <text x="{max(24, scarp_x - 40)}" y="{scarp_y + 24}" font-size="5.5" font-weight="800" fill="#0284c7">Phreatic Table (zw)</text>
 
   <!-- Sliding Wedge Colluvium Polygon -->
-  <path d="M {scarp_x} {scarp_y} L {road_x_start} {road_y} L {debris_road_x} {road_y} Q {road_x_start + 10} {road_y - 26} {scarp_x + 20} {scarp_y + 8} Z" fill="#451a03" fill-opacity="0.35" stroke="#f59e0b" stroke-width="1.2" />
+  <path d="M {scarp_x} {scarp_y} L {road_x_start} {road_y} L {debris_road_x} {road_y} Q {road_x_start + 10} {road_y - 26} {scarp_x + 20} {scarp_y + 8} Z" fill="#fef3c7" fill-opacity="0.75" stroke="#d97706" stroke-width="1.2" />
   <path d="M {scarp_x} {scarp_y} L {road_x_start} {road_y} L {debris_road_x} {road_y} Q {road_x_start + 10} {road_y - 26} {scarp_x + 20} {scarp_y + 8} Z" fill="url(#{debris_id})" />
 
   <!-- Tension Crack (USGS Taxonomy: Head Scarp) -->
@@ -694,12 +694,12 @@ def _render_translational_slide_svg(
   <line x1="{road_x_start}" y1="{road_y + 1}" x2="{road_x_end}" y2="{road_y + 1}" stroke="#facc15" stroke-width="0.9" stroke-dasharray="3,3" />
 
   <!-- Obstructed Debris Mound Covering Blocked Lane -->
-  <path d="M {road_x_start} {road_y} Q {(road_x_start + debris_road_x)//2} {road_y - 22} {debris_road_x} {road_y} Z" fill="#92400e" fill-opacity="0.8" stroke="#d97706" stroke-width="1" />
+  <path d="M {road_x_start} {road_y} Q {(road_x_start + debris_road_x)//2} {road_y - 22} {debris_road_x} {road_y} Z" fill="#fed7aa" fill-opacity="0.9" stroke="#ea580c" stroke-width="1" />
   <path d="M {road_x_start} {road_y} Q {(road_x_start + debris_road_x)//2} {road_y - 22} {debris_road_x} {road_y} Z" fill="url(#{debris_id})" />
 
   <!-- Proposed Remediation: Plum Concrete Breast Wall (IS:14458) -->
-  <polygon points="{road_x_start - 3},{road_y} {road_x_start + wall_b_px},{road_y} {road_x_start + round(wall_b_px * 0.65)},{road_y - wall_h_px} {road_x_start - 2},{road_y - wall_h_px}" fill="#475569" stroke="#64748b" stroke-width="1.2" stroke-dasharray="3,1" opacity="0.9" />
-  <text x="{road_x_start - 4}" y="{road_y - wall_h_px - 4}" font-size="5.5" font-weight="700" fill="#94a3b8">Plum Wall (H={wall_h:.1f}m)</text>
+  <polygon points="{road_x_start - 3},{road_y} {road_x_start + wall_b_px},{road_y} {road_x_start + round(wall_b_px * 0.65)},{road_y - wall_h_px} {road_x_start - 2},{road_y - wall_h_px}" fill="#f1f5f9" stroke="#092f25" stroke-width="1.4" stroke-dasharray="3,1" opacity="0.95" />
+  <text x="{road_x_start - 4}" y="{road_y - wall_h_px - 4}" font-size="5.5" font-weight="800" fill="#092f25">Plum Wall (H={wall_h:.1f}m)</text>
 
   <!-- Proposed Soil Nails Anchors (Fe500D TMT Grouted) -->
   <g stroke="#14b8a6" stroke-width="1.4" stroke-dasharray="3,2">
@@ -714,36 +714,36 @@ def _render_translational_slide_svg(
   <line x1="{road_x_start}" y1="{road_y + 18}" x2="{road_x_end}" y2="{road_y + 18}" stroke="#94a3b8" stroke-width="0.9" />
   <line x1="{road_x_start}" y1="{road_y + 14}" x2="{road_x_start}" y2="{road_y + 22}" stroke="#94a3b8" stroke-width="0.9" />
   <line x1="{road_x_end}" y1="{road_y + 14}" x2="{road_x_end}" y2="{road_y + 22}" stroke="#94a3b8" stroke-width="0.9" />
-  <rect x="{(road_x_start + road_x_end)//2 - 38}" y="{road_y + 12}" width="76" height="12" rx="2" fill="#09131f" opacity="0.95" stroke="#334155" stroke-width="0.6" />
-  <text x="{(road_x_start + road_x_end)//2}" y="{road_y + 21}" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="6.8" font-weight="700" fill="#cbd5e1">Formation: {formation_w:.2f}m</text>
+  <rect x="{(road_x_start + road_x_end)//2 - 38}" y="{road_y + 12}" width="76" height="12" rx="2" fill="#ffffff" opacity="0.95" stroke="#94a3b8" stroke-width="0.8" />
+  <text x="{(road_x_start + road_x_end)//2}" y="{road_y + 21}" text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-size="6.8" font-weight="700" fill="#0f172a">Formation: {formation_w:.2f}m</text>
 
   <!-- Open Width Dimension Line (Tier 2) -->
   <line x1="{debris_road_x}" y1="{road_y + 36}" x2="{road_x_end}" y2="{road_y + 36}" stroke="#22c55e" stroke-width="1.2" />
   <line x1="{debris_road_x}" y1="{road_y + 32}" x2="{debris_road_x}" y2="{road_y + 40}" stroke="#22c55e" stroke-width="1.2" />
   <line x1="{road_x_end}" y1="{road_y + 32}" x2="{road_x_end}" y2="{road_y + 40}" stroke="#22c55e" stroke-width="1.2" />
-  <rect x="{(debris_road_x + road_x_end)//2 - 36}" y="{road_y + 30}" width="72" height="12" rx="2" fill="#09131f" opacity="0.95" stroke="#15803d" stroke-width="0.6" />
-  <text x="{(debris_road_x + road_x_end)//2}" y="{road_y + 39}" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="7.2" font-weight="800" fill="#4ade80">Operable: {open_w:.2f}m</text>
+  <rect x="{(debris_road_x + road_x_end)//2 - 36}" y="{road_y + 30}" width="72" height="12" rx="2" fill="#f0fdf4" opacity="0.95" stroke="#16a34a" stroke-width="0.8" />
+  <text x="{(debris_road_x + road_x_end)//2}" y="{road_y + 39}" text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-size="7.2" font-weight="800" fill="#15803d">Operable: {open_w:.2f}m</text>
 
   <!-- Slope Height Vertical Dimension -->
   <line x1="{h_dim_x}" y1="{crown_y}" x2="{h_dim_x}" y2="{road_y}" stroke="#64748b" stroke-width="0.8" stroke-dasharray="2,2" />
   <line x1="{h_dim_x - 4}" y1="{crown_y}" x2="{h_dim_x + 4}" y2="{crown_y}" stroke="#64748b" stroke-width="0.8" />
   <line x1="{h_dim_x - 4}" y1="{road_y}" x2="{h_dim_x + 4}" y2="{road_y}" stroke="#64748b" stroke-width="0.8" />
-  <rect x="{max(4, h_dim_x - 38)}" y="{(crown_y + road_y)//2 - 6}" width="42" height="12" rx="2" fill="#09131f" opacity="0.95" stroke="#334155" stroke-width="0.6" />
-  <text x="{max(25, h_dim_x - 17)}" y="{(crown_y + road_y)//2 + 3}" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="6.8" font-weight="700" fill="#94a3b8">H = {slope_h:.1f}m</text>
+  <rect x="{max(4, h_dim_x - 38)}" y="{(crown_y + road_y)//2 - 6}" width="42" height="12" rx="2" fill="#ffffff" opacity="0.95" stroke="#94a3b8" stroke-width="0.8" />
+  <text x="{max(25, h_dim_x - 17)}" y="{(crown_y + road_y)//2 + 3}" text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-size="6.8" font-weight="700" fill="#334155">H = {slope_h:.1f}m</text>
 
   <!-- Anatomical Callout Badges (USGS 1325 Taxonomy) -->
-  <rect x="18" y="10" width="115" height="14" rx="2" fill="#450a0a" stroke="#dc2626" stroke-width="0.8" />
-  <text x="23" y="20" font-size="6.5" font-weight="800" fill="#fca5a5">CROWN &amp; MAIN SCARP</text>
+  <rect x="18" y="10" width="115" height="14" rx="2" fill="#fef2f2" stroke="#dc2626" stroke-width="0.9" />
+  <text x="23" y="20" font-size="6.5" font-weight="800" fill="#991b1b">CROWN &amp; MAIN SCARP</text>
 
-  <rect x="{scarp_x - 10}" y="{scarp_y - 20}" width="135" height="14" rx="2" fill="#450a0a" stroke="#dc2626" stroke-width="0.8" />
-  <text x="{scarp_x - 5}" y="{scarp_y - 10}" font-size="6.5" font-weight="800" fill="#fca5a5">RUPTURE PLANE: DIP {dip_deg}&deg; (DAYLIGHT)</text>
+  <rect x="{scarp_x - 10}" y="{scarp_y - 20}" width="135" height="14" rx="2" fill="#fef2f2" stroke="#dc2626" stroke-width="0.9" />
+  <text x="{scarp_x - 5}" y="{scarp_y - 10}" font-size="6.5" font-weight="800" fill="#991b1b">RUPTURE PLANE: DIP {dip_deg}&deg; (DAYLIGHT)</text>
 
-  <rect x="{min(340, scarp_x + 65)}" y="{scarp_y + 55}" width="118" height="14" rx="2" fill="#451a03" stroke="#f59e0b" stroke-width="0.8" />
-  <text x="{min(345, scarp_x + 70)}" y="{scarp_y + 65}" font-size="6.5" font-weight="800" fill="#fde68a">SLIDING COLLUVIUM</text>
+  <rect x="{min(340, scarp_x + 65)}" y="{scarp_y + 55}" width="118" height="14" rx="2" fill="#fffbeb" stroke="#d97706" stroke-width="0.9" />
+  <text x="{min(345, scarp_x + 70)}" y="{scarp_y + 65}" font-size="6.5" font-weight="800" fill="#92400e">SLIDING COLLUVIUM</text>
 
   <!-- Stability Evaluation Pill -->
-  <rect x="330" y="10" width="180" height="16" rx="3" fill="#1e1b4b" stroke="#6366f1" stroke-width="0.8" />
-  <text x="335" y="21" font-size="6.5" font-weight="800" fill="#c7d2fe">Monsoon FoS = {crit_fos:.2f} | Stabilized FoS = {target_fos:.2f}</text>"""
+  <rect x="325" y="10" width="185" height="16" rx="3" fill="#f0fdf4" stroke="#047857" stroke-width="1" />
+  <text x="330" y="21" font-size="6.5" font-weight="800" fill="#064e3b">Monsoon FoS = {crit_fos:.2f} | Stabilized FoS = {target_fos:.2f}</text>"""
 
 
 # ==============================================================================
@@ -783,10 +783,10 @@ def _render_rotational_slump_svg(
     wall_b_px = round(max(8.0, wall_h_px * 0.44))
 
     return f"""  <!-- In-situ Competent Bedrock Base ({rock_name}) -->
-  <path d="M 15 30 L {crown_x} {crown_y} Q {arc_cx} {arc_cy + 35} {road_x_start} {road_y} L {road_x_end} {road_y} L 505 {valley_y} L 505 236 L 15 236 Z" fill="url(#{hatch_id})" stroke="#334155" stroke-width="1.2" />
+  <path d="M 15 30 L {crown_x} {crown_y} Q {arc_cx} {arc_cy + 35} {road_x_start} {road_y} L {road_x_end} {road_y} L 505 {valley_y} L 505 236 L 15 236 Z" fill="url(#{hatch_id})" stroke="#64748b" stroke-width="1.2" />
 
   <!-- Colluvial Soil Overburden Mantle -->
-  <path d="M 15 20 L {crown_x} {crown_y} Q {arc_cx} {arc_cy + 35} {road_x_start} {road_y} L {road_x_start} {road_y - 20} L {crown_x - 10} {crown_y} Z" fill="#451a03" fill-opacity="0.32" stroke="#f59e0b" stroke-width="1" />
+  <path d="M 15 20 L {crown_x} {crown_y} Q {arc_cx} {arc_cy + 35} {road_x_start} {road_y} L {road_x_start} {road_y - 20} L {crown_x - 10} {crown_y} Z" fill="#fef3c7" fill-opacity="0.75" stroke="#d97706" stroke-width="1" />
   <path d="M 15 20 L {crown_x} {crown_y} Q {arc_cx} {arc_cy + 35} {road_x_start} {road_y} L {road_x_start} {road_y - 20} L {crown_x - 10} {crown_y} Z" fill="url(#{colluvium_id})" />
 
   <!-- Concentric Crown Tension Cracks -->
@@ -800,14 +800,14 @@ def _render_rotational_slump_svg(
   <path d="M {crown_x + 10} {crown_y + 18} Q {arc_cx} {arc_cy + 35} {road_x_start} {road_y}" fill="none" stroke="#ef4444" stroke-width="2.8" stroke-dasharray="5,3" />
 
   <!-- Rotational Sliding Block -->
-  <path d="M {crown_x + 10} {crown_y + 18} Q {arc_cx} {arc_cy + 30} {road_x_start} {road_y} L {debris_road_x} {road_y} Q {arc_cx + 25} {arc_cy + 5} {crown_x + 22} {crown_y + 28} Z" fill="#78350f" fill-opacity="0.5" stroke="#d97706" stroke-width="1.2" />
+  <path d="M {crown_x + 10} {crown_y + 18} Q {arc_cx} {arc_cy + 30} {road_x_start} {road_y} L {debris_road_x} {road_y} Q {arc_cx + 25} {arc_cy + 5} {crown_x + 22} {crown_y + 28} Z" fill="#fef3c7" fill-opacity="0.75" stroke="#d97706" stroke-width="1.2" />
   <path d="M {crown_x + 10} {crown_y + 18} Q {arc_cx} {arc_cy + 30} {road_x_start} {road_y} L {debris_road_x} {road_y} Q {arc_cx + 25} {arc_cy + 5} {crown_x + 22} {crown_y + 28} Z" fill="url(#{debris_id})" />
 
   <!-- Rotational Slip Vector -->
   <path d="M {arc_cx - 15} {arc_cy - 10} A 45 45 0 0 1 {arc_cx + 25} {arc_cy + 15}" fill="none" stroke="#dc2626" stroke-width="2.2" marker-end="url(#arrowRed)" />
 
   <!-- Heaved Toe Pressure Ridge Obstructing Highway -->
-  <path d="M {road_x_start - 8} {road_y} Q {(road_x_start + debris_road_x)//2} {road_y - 28} {debris_road_x} {road_y} Z" fill="#92400e" stroke="#ea580c" stroke-width="1.5" />
+  <path d="M {road_x_start - 8} {road_y} Q {(road_x_start + debris_road_x)//2} {road_y - 28} {debris_road_x} {road_y} Z" fill="#fed7aa" fill-opacity="0.9" stroke="#ea580c" stroke-width="1.5" />
   <path d="M {road_x_start - 8} {road_y} Q {(road_x_start + debris_road_x)//2} {road_y - 28} {debris_road_x} {road_y} Z" fill="url(#{debris_id})" />
 
   <!-- Pavement & Subgrade Layers -->
@@ -815,48 +815,48 @@ def _render_rotational_slump_svg(
   <line x1="{road_x_start}" y1="{road_y + 1}" x2="{road_x_end}" y2="{road_y + 1}" stroke="#facc15" stroke-width="0.9" stroke-dasharray="3,3" />
 
   <!-- Proposed Remediation: Gabion Toe Retaining Wall (IS:16014) -->
-  <rect x="{road_x_start - 2}" y="{road_y - wall_h_px}" width="{wall_b_px}" height="{wall_h_px}" fill="#334155" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="2,2" opacity="0.95" />
+  <rect x="{road_x_start - 2}" y="{road_y - wall_h_px}" width="{wall_b_px}" height="{wall_h_px}" fill="#e2e8f0" stroke="#475569" stroke-width="1.2" stroke-dasharray="2,2" opacity="0.95" />
   <line x1="{road_x_start - 2}" y1="{road_y - wall_h_px // 2}" x2="{road_x_start + wall_b_px - 2}" y2="{road_y - wall_h_px // 2}" stroke="#94a3b8" stroke-width="0.8" stroke-dasharray="2,2" />
-  <text x="{road_x_start - 4}" y="{road_y - wall_h_px - 4}" font-size="5.5" font-weight="700" fill="#94a3b8">Gabion Wall (H={wall_h:.1f}m)</text>
+  <text x="{road_x_start - 4}" y="{road_y - wall_h_px - 4}" font-size="5.5" font-weight="800" fill="#334155">Gabion Wall (H={wall_h:.1f}m)</text>
 
   <!-- Proposed Slotted Perforated Collector Drainage -->
   <circle cx="{road_x_start - 6}" cy="{road_y - 4}" r="3" fill="#0284c7" stroke="#38bdf8" stroke-width="0.8" />
-  <circle cx="{road_x_start - 6}" cy="{road_y - 4}" r="1" fill="#bae6fd" />
+  <circle cx="{road_x_start - 6}" cy="{road_y - 4}" r="1" fill="#0369a1" />
 
   <!-- Road Width Dimension Line (Tier 1) -->
   <line x1="{road_x_start}" y1="{road_y + 18}" x2="{road_x_end}" y2="{road_y + 18}" stroke="#94a3b8" stroke-width="0.9" />
   <line x1="{road_x_start}" y1="{road_y + 14}" x2="{road_x_start}" y2="{road_y + 22}" stroke="#94a3b8" stroke-width="0.9" />
   <line x1="{road_x_end}" y1="{road_y + 14}" x2="{road_x_end}" y2="{road_y + 22}" stroke="#94a3b8" stroke-width="0.9" />
-  <rect x="{(road_x_start + road_x_end)//2 - 38}" y="{road_y + 12}" width="76" height="12" rx="2" fill="#09131f" opacity="0.95" stroke="#334155" stroke-width="0.6" />
-  <text x="{(road_x_start + road_x_end)//2}" y="{road_y + 21}" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="6.8" font-weight="700" fill="#cbd5e1">Formation: {formation_w:.2f}m</text>
+  <rect x="{(road_x_start + road_x_end)//2 - 38}" y="{road_y + 12}" width="76" height="12" rx="2" fill="#ffffff" opacity="0.95" stroke="#94a3b8" stroke-width="0.8" />
+  <text x="{(road_x_start + road_x_end)//2}" y="{road_y + 21}" text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-size="6.8" font-weight="700" fill="#0f172a">Formation: {formation_w:.2f}m</text>
 
   <!-- Open Width Dimension Line (Tier 2) -->
   <line x1="{debris_road_x}" y1="{road_y + 36}" x2="{road_x_end}" y2="{road_y + 36}" stroke="#22c55e" stroke-width="1.2" />
   <line x1="{debris_road_x}" y1="{road_y + 32}" x2="{debris_road_x}" y2="{road_y + 40}" stroke="#22c55e" stroke-width="1.2" />
   <line x1="{road_x_end}" y1="{road_y + 32}" x2="{road_x_end}" y2="{road_y + 40}" stroke="#22c55e" stroke-width="1.2" />
-  <rect x="{(debris_road_x + road_x_end)//2 - 36}" y="{road_y + 30}" width="72" height="12" rx="2" fill="#09131f" opacity="0.95" stroke="#15803d" stroke-width="0.6" />
-  <text x="{(debris_road_x + road_x_end)//2}" y="{road_y + 39}" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="7.2" font-weight="800" fill="#4ade80">Operable: {open_w:.2f}m</text>
+  <rect x="{(debris_road_x + road_x_end)//2 - 36}" y="{road_y + 30}" width="72" height="12" rx="2" fill="#f0fdf4" opacity="0.95" stroke="#16a34a" stroke-width="0.8" />
+  <text x="{(debris_road_x + road_x_end)//2}" y="{road_y + 39}" text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-size="7.2" font-weight="800" fill="#15803d">Operable: {open_w:.2f}m</text>
 
   <!-- Slope Height Vertical Dimension -->
   <line x1="{h_dim_x}" y1="{crown_y}" x2="{h_dim_x}" y2="{road_y}" stroke="#64748b" stroke-width="0.8" stroke-dasharray="2,2" />
   <line x1="{h_dim_x - 4}" y1="{crown_y}" x2="{h_dim_x + 4}" y2="{crown_y}" stroke="#64748b" stroke-width="0.8" />
   <line x1="{h_dim_x - 4}" y1="{road_y}" x2="{h_dim_x + 4}" y2="{road_y}" stroke="#64748b" stroke-width="0.8" />
-  <rect x="{max(4, h_dim_x - 38)}" y="{(crown_y + road_y)//2 - 6}" width="42" height="12" rx="2" fill="#09131f" opacity="0.95" stroke="#334155" stroke-width="0.6" />
-  <text x="{max(25, h_dim_x - 17)}" y="{(crown_y + road_y)//2 + 3}" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="6.8" font-weight="700" fill="#94a3b8">H = {slope_h:.1f}m</text>
+  <rect x="{max(4, h_dim_x - 38)}" y="{(crown_y + road_y)//2 - 6}" width="42" height="12" rx="2" fill="#ffffff" opacity="0.95" stroke="#94a3b8" stroke-width="0.8" />
+  <text x="{max(25, h_dim_x - 17)}" y="{(crown_y + road_y)//2 + 3}" text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-size="6.8" font-weight="700" fill="#334155">H = {slope_h:.1f}m</text>
 
   <!-- Anatomical Callout Badges -->
-  <rect x="18" y="10" width="132" height="14" rx="2" fill="#450a0a" stroke="#dc2626" stroke-width="0.8" />
-  <text x="23" y="20" font-size="6.5" font-weight="800" fill="#fca5a5">MAIN SCARP &amp; CROWN CRACKS</text>
+  <rect x="18" y="10" width="132" height="14" rx="2" fill="#fef2f2" stroke="#dc2626" stroke-width="0.9" />
+  <text x="23" y="20" font-size="6.5" font-weight="800" fill="#991b1b">MAIN SCARP &amp; CROWN CRACKS</text>
 
-  <rect x="{arc_cx - 40}" y="{arc_cy + 8}" width="130" height="14" rx="2" fill="#450a0a" stroke="#dc2626" stroke-width="0.8" />
-  <text x="{arc_cx - 35}" y="{arc_cy + 18}" font-size="6.5" font-weight="800" fill="#fca5a5">CIRCULAR SHEAR ARC (RUPTURE)</text>
+  <rect x="{arc_cx - 40}" y="{arc_cy + 8}" width="130" height="14" rx="2" fill="#fef2f2" stroke="#dc2626" stroke-width="0.9" />
+  <text x="{arc_cx - 35}" y="{arc_cy + 18}" font-size="6.5" font-weight="800" fill="#991b1b">CIRCULAR SHEAR ARC (RUPTURE)</text>
 
-  <rect x="{road_x_start - 35}" y="{road_y - 36}" width="125" height="14" rx="2" fill="#451a03" stroke="#f59e0b" stroke-width="0.8" />
-  <text x="{road_x_start - 30}" y="{road_y - 26}" font-size="6.5" font-weight="800" fill="#fde68a">HEAVED TOE LOBE (PRESSURE RIDGE)</text>
+  <rect x="{road_x_start - 35}" y="{road_y - 36}" width="125" height="14" rx="2" fill="#fffbeb" stroke="#d97706" stroke-width="0.9" />
+  <text x="{road_x_start - 30}" y="{road_y - 26}" font-size="6.5" font-weight="800" fill="#92400e">HEAVED TOE LOBE (PRESSURE RIDGE)</text>
 
   <!-- Stability Evaluation Pill -->
-  <rect x="330" y="10" width="180" height="16" rx="3" fill="#1e1b4b" stroke="#6366f1" stroke-width="0.8" />
-  <text x="335" y="21" font-size="6.5" font-weight="800" fill="#c7d2fe">Monsoon FoS = {crit_fos:.2f} | Stabilized FoS = {target_fos:.2f}</text>"""
+  <rect x="325" y="10" width="185" height="16" rx="3" fill="#f0fdf4" stroke="#047857" stroke-width="1" />
+  <text x="330" y="21" font-size="6.5" font-weight="800" fill="#064e3b">Monsoon FoS = {crit_fos:.2f} | Stabilized FoS = {target_fos:.2f}</text>"""
 
 
 # ==============================================================================
@@ -893,7 +893,7 @@ def _render_rockfall_topple_svg(
     h_dim_x = max(14, cliff_x - 22)
 
     return f"""  <!-- In-situ Steep Rock Cliff Mass ({rock_name}) -->
-  <path d="M 15 20 L {crown_x} {crown_y} L {cliff_x} {crown_y} L {road_x_start - 8} {road_y} L {road_x_end} {road_y} L 505 {valley_y} L 505 236 L 15 236 Z" fill="url(#{hatch_id})" stroke="#334155" stroke-width="1.2" />
+  <path d="M 15 20 L {crown_x} {crown_y} L {cliff_x} {crown_y} L {road_x_start - 8} {road_y} L {road_x_end} {road_y} L 505 {valley_y} L 505 236 L 15 236 Z" fill="url(#{hatch_id})" stroke="#64748b" stroke-width="1.2" />
 
   <!-- Sub-Vertical Exfoliation & Columnar Joints (75-85 deg dip) -->
   <g stroke="#ef4444" stroke-width="1.4" stroke-dasharray="4,2">
@@ -903,7 +903,7 @@ def _render_rockfall_topple_svg(
   </g>
 
   <!-- Detached Toppling Rock Column (Pivoting at Base) -->
-  <polygon points="{cliff_x + 8},{crown_y + 6} {cliff_x + 22},{crown_y + 8} {road_x_start + 4},{road_y - 20} {road_x_start - 10},{road_y}" fill="#78350f" fill-opacity="0.45" stroke="#dc2626" stroke-width="1.5" />
+  <polygon points="{cliff_x + 8},{crown_y + 6} {cliff_x + 22},{crown_y + 8} {road_x_start + 4},{road_y - 20} {road_x_start - 10},{road_y}" fill="#fee2e2" fill-opacity="0.75" stroke="#dc2626" stroke-width="1.5" />
 
   <!-- Toppling Moment Rotation Vector -->
   <path d="M {cliff_x + 14} {crown_y + 20} A 28 28 0 0 1 {cliff_x + 36} {crown_y + 40}" fill="none" stroke="#dc2626" stroke-width="2.2" marker-end="url(#arrowRed)" />
@@ -914,7 +914,7 @@ def _render_rockfall_topple_svg(
   <circle cx="{road_x_start - 4}" cy="{road_y - 42}" r="5" fill="#b45309" stroke="#78350f" stroke-width="1" />
 
   <!-- Talus Scree & Boulder Impact Fan on Roadway -->
-  <ellipse cx="{(road_x_start + debris_road_x)//2}" cy="{road_y - 4}" rx="{max(12, (debris_road_x - road_x_start)//2 + 6)}" ry="8" fill="#92400e" stroke="#ea580c" stroke-width="1" />
+  <ellipse cx="{(road_x_start + debris_road_x)//2}" cy="{road_y - 4}" rx="{max(12, (debris_road_x - road_x_start)//2 + 6)}" ry="8" fill="#fed7aa" fill-opacity="0.9" stroke="#ea580c" stroke-width="1" />
   <circle cx="{road_x_start + 10}" cy="{road_y - 5}" r="4" fill="#b45309" stroke="#78350f" stroke-width="0.8" />
   <circle cx="{road_x_start + 22}" cy="{road_y - 4}" r="5.5" fill="#d97706" stroke="#78350f" stroke-width="0.8" />
 
@@ -924,7 +924,7 @@ def _render_rockfall_topple_svg(
   <!-- Flexible Ring Netting Mesh -->
   <line x1="{road_x_start - 2}" y1="{road_y - 38}" x2="{road_x_start + 14}" y2="{road_y - 2}" stroke="#0891b2" stroke-width="1.2" stroke-dasharray="2,2" />
   <line x1="{road_x_start - 2}" y1="{road_y - 24}" x2="{road_x_start + 8}" y2="{road_y - 2}" stroke="#0891b2" stroke-width="1.2" stroke-dasharray="2,2" />
-  <text x="{road_x_start - 10}" y="{road_y - 42}" font-size="5.5" font-weight="700" fill="#38bdf8">Dynamic Barrier (500 kJ)</text>
+  <text x="{road_x_start - 10}" y="{road_y - 42}" font-size="5.5" font-weight="800" fill="#0284c7">Dynamic Barrier (500 kJ)</text>
 
   <!-- Tensioned Rock Bolts Anchoring Intact Bedrock (IS:14448) -->
   <g stroke="#10b981" stroke-width="1.6">
@@ -938,36 +938,36 @@ def _render_rockfall_topple_svg(
   <line x1="{road_x_start}" y1="{road_y + 18}" x2="{road_x_end}" y2="{road_y + 18}" stroke="#94a3b8" stroke-width="0.9" />
   <line x1="{road_x_start}" y1="{road_y + 14}" x2="{road_x_start}" y2="{road_y + 22}" stroke="#94a3b8" stroke-width="0.9" />
   <line x1="{road_x_end}" y1="{road_y + 14}" x2="{road_x_end}" y2="{road_y + 22}" stroke="#94a3b8" stroke-width="0.9" />
-  <rect x="{(road_x_start + road_x_end)//2 - 38}" y="{road_y + 12}" width="76" height="12" rx="2" fill="#09131f" opacity="0.95" stroke="#334155" stroke-width="0.6" />
-  <text x="{(road_x_start + road_x_end)//2}" y="{road_y + 21}" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="6.8" font-weight="700" fill="#cbd5e1">Formation: {formation_w:.2f}m</text>
+  <rect x="{(road_x_start + road_x_end)//2 - 38}" y="{road_y + 12}" width="76" height="12" rx="2" fill="#ffffff" opacity="0.95" stroke="#94a3b8" stroke-width="0.8" />
+  <text x="{(road_x_start + road_x_end)//2}" y="{road_y + 21}" text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-size="6.8" font-weight="700" fill="#0f172a">Formation: {formation_w:.2f}m</text>
 
   <!-- Open Width Dimension Line (Tier 2) -->
   <line x1="{debris_road_x}" y1="{road_y + 36}" x2="{road_x_end}" y2="{road_y + 36}" stroke="#22c55e" stroke-width="1.2" />
   <line x1="{debris_road_x}" y1="{road_y + 32}" x2="{debris_road_x}" y2="{road_y + 40}" stroke="#22c55e" stroke-width="1.2" />
   <line x1="{road_x_end}" y1="{road_y + 32}" x2="{road_x_end}" y2="{road_y + 40}" stroke="#22c55e" stroke-width="1.2" />
-  <rect x="{(debris_road_x + road_x_end)//2 - 36}" y="{road_y + 30}" width="72" height="12" rx="2" fill="#09131f" opacity="0.95" stroke="#15803d" stroke-width="0.6" />
-  <text x="{(debris_road_x + road_x_end)//2}" y="{road_y + 39}" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="7.2" font-weight="800" fill="#4ade80">Operable: {open_w:.2f}m</text>
+  <rect x="{(debris_road_x + road_x_end)//2 - 36}" y="{road_y + 30}" width="72" height="12" rx="2" fill="#f0fdf4" opacity="0.95" stroke="#16a34a" stroke-width="0.8" />
+  <text x="{(debris_road_x + road_x_end)//2}" y="{road_y + 39}" text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-size="7.2" font-weight="800" fill="#15803d">Operable: {open_w:.2f}m</text>
 
   <!-- Slope Height Vertical Dimension -->
   <line x1="{h_dim_x}" y1="{crown_y}" x2="{h_dim_x}" y2="{road_y}" stroke="#64748b" stroke-width="0.8" stroke-dasharray="2,2" />
   <line x1="{h_dim_x - 4}" y1="{crown_y}" x2="{h_dim_x + 4}" y2="{crown_y}" stroke="#64748b" stroke-width="0.8" />
   <line x1="{h_dim_x - 4}" y1="{road_y}" x2="{h_dim_x + 4}" y2="{road_y}" stroke="#64748b" stroke-width="0.8" />
-  <rect x="{max(4, h_dim_x - 38)}" y="{(crown_y + road_y)//2 - 6}" width="42" height="12" rx="2" fill="#09131f" opacity="0.95" stroke="#334155" stroke-width="0.6" />
-  <text x="{max(25, h_dim_x - 17)}" y="{(crown_y + road_y)//2 + 3}" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="6.8" font-weight="700" fill="#94a3b8">H = {slope_h:.1f}m</text>
+  <rect x="{max(4, h_dim_x - 38)}" y="{(crown_y + road_y)//2 - 6}" width="42" height="12" rx="2" fill="#ffffff" opacity="0.95" stroke="#94a3b8" stroke-width="0.8" />
+  <text x="{max(25, h_dim_x - 17)}" y="{(crown_y + road_y)//2 + 3}" text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-size="6.8" font-weight="700" fill="#334155">H = {slope_h:.1f}m</text>
 
   <!-- Anatomical Callout Badges -->
-  <rect x="18" y="10" width="138" height="14" rx="2" fill="#450a0a" stroke="#dc2626" stroke-width="0.8" />
-  <text x="23" y="20" font-size="6.5" font-weight="800" fill="#fca5a5">SUB-VERTICAL TENSION FISSURE</text>
+  <rect x="18" y="10" width="138" height="14" rx="2" fill="#fef2f2" stroke="#dc2626" stroke-width="0.9" />
+  <text x="23" y="20" font-size="6.5" font-weight="800" fill="#991b1b">SUB-VERTICAL TENSION FISSURE</text>
 
-  <rect x="{max(24, cliff_x - 15)}" y="{crown_y + 50}" width="130" height="14" rx="2" fill="#450a0a" stroke="#dc2626" stroke-width="0.8" />
-  <text x="{max(29, cliff_x - 10)}" y="{crown_y + 60}" font-size="6.5" font-weight="800" fill="#fca5a5">TOPPLING ROCK COLUMN (UNSTABLE)</text>
+  <rect x="{max(24, cliff_x - 15)}" y="{crown_y + 50}" width="130" height="14" rx="2" fill="#fef2f2" stroke="#dc2626" stroke-width="0.9" />
+  <text x="{max(29, cliff_x - 10)}" y="{crown_y + 60}" font-size="6.5" font-weight="800" fill="#991b1b">TOPPLING ROCK COLUMN (UNSTABLE)</text>
 
-  <rect x="{road_x_start - 10}" y="{road_y - 32}" width="125" height="14" rx="2" fill="#451a03" stroke="#f59e0b" stroke-width="0.8" />
-  <text x="{road_x_start - 5}" y="{road_y - 22}" font-size="6.5" font-weight="800" fill="#fde68a">TALUS SCREE APRON (BOULDERS)</text>
+  <rect x="{road_x_start - 10}" y="{road_y - 32}" width="125" height="14" rx="2" fill="#fffbeb" stroke="#d97706" stroke-width="0.9" />
+  <text x="{road_x_start - 5}" y="{road_y - 22}" font-size="6.5" font-weight="800" fill="#92400e">TALUS SCREE APRON (BOULDERS)</text>
 
   <!-- Stability Evaluation Pill -->
-  <rect x="330" y="10" width="180" height="16" rx="3" fill="#1e1b4b" stroke="#6366f1" stroke-width="0.8" />
-  <text x="335" y="21" font-size="6.5" font-weight="800" fill="#c7d2fe">Monsoon FoS = {crit_fos:.2f} | Stabilized FoS = {target_fos:.2f}</text>"""
+  <rect x="325" y="10" width="185" height="16" rx="3" fill="#f0fdf4" stroke="#047857" stroke-width="1" />
+  <text x="330" y="21" font-size="6.5" font-weight="800" fill="#064e3b">Monsoon FoS = {crit_fos:.2f} | Stabilized FoS = {target_fos:.2f}</text>"""
 
 
 # ==============================================================================
@@ -1004,7 +1004,7 @@ def _render_debris_flow_svg(
     h_dim_x = max(14, chute_start_x - 16)
 
     return f"""  <!-- Mountain Bedrock Slope ({rock_name}) -->
-  <path d="M 15 25 L {crown_x} {crown_y} L {chute_start_x} {chute_start_y} Q {(chute_start_x + road_x_start)//2} {road_y - 35} {road_x_start} {road_y} L {road_x_end} {road_y} L 505 {valley_y} L 505 236 L 15 236 Z" fill="url(#{hatch_id})" stroke="#334155" stroke-width="1.2" />
+  <path d="M 15 25 L {crown_x} {crown_y} L {chute_start_x} {chute_start_y} Q {(chute_start_x + road_x_start)//2} {road_y - 35} {road_x_start} {road_y} L {road_x_end} {road_y} L 505 {valley_y} L 505 236 L 15 236 Z" fill="url(#{hatch_id})" stroke="#64748b" stroke-width="1.2" />
 
   <!-- Scoured Erosion Gully Chute (Torrent Runout Bed) -->
   <path d="M {chute_start_x} {chute_start_y} Q {(chute_start_x + road_x_start)//2} {road_y - 42} {road_x_start} {road_y}" fill="none" stroke="#0284c7" stroke-width="3.2" stroke-dasharray="6,2" />
@@ -1021,45 +1021,45 @@ def _render_debris_flow_svg(
   <circle cx="{(chute_start_x + road_x_start)//2 + 18}" cy="{road_y - 32}" r="6" fill="#b45309" stroke="#78350f" stroke-width="1" />
 
   <!-- Debris Fan Lobe Overtopping Highway -->
-  <path d="M {road_x_start} {road_y} Q {(road_x_start + debris_road_x)//2} {road_y - 24} {debris_road_x} {road_y} Z" fill="#92400e" stroke="#ea580c" stroke-width="1.2" />
+  <path d="M {road_x_start} {road_y} Q {(road_x_start + debris_road_x)//2} {road_y - 24} {debris_road_x} {road_y} Z" fill="#fed7aa" fill-opacity="0.9" stroke="#ea580c" stroke-width="1.2" />
   <path d="M {road_x_start} {road_y} Q {(road_x_start + debris_road_x)//2} {road_y - 24} {debris_road_x} {road_y} Z" fill="url(#{debris_id})" />
 
   <!-- Proposed Remediation: Flexible Debris Ring Net Barrier / Concrete Check Dam -->
   <line x1="{chute_start_x + 35}" y1="{chute_start_y + 25}" x2="{chute_start_x + 55}" y2="{chute_start_y + 40}" stroke="#06b6d4" stroke-width="3" />
-  <text x="{chute_start_x + 40}" y="{chute_start_y + 20}" font-size="5.5" font-weight="700" fill="#38bdf8">Check Dam (H=3.5m)</text>
+  <text x="{chute_start_x + 40}" y="{chute_start_y + 20}" font-size="5.5" font-weight="800" fill="#0284c7">Check Dam (H=3.5m)</text>
 
   <!-- Road Width Dimension Line (Tier 1) -->
   <line x1="{road_x_start}" y1="{road_y + 18}" x2="{road_x_end}" y2="{road_y + 18}" stroke="#94a3b8" stroke-width="0.9" />
   <line x1="{road_x_start}" y1="{road_y + 14}" x2="{road_x_start}" y2="{road_y + 22}" stroke="#94a3b8" stroke-width="0.9" />
   <line x1="{road_x_end}" y1="{road_y + 14}" x2="{road_x_end}" y2="{road_y + 22}" stroke="#94a3b8" stroke-width="0.9" />
-  <rect x="{(road_x_start + road_x_end)//2 - 38}" y="{road_y + 12}" width="76" height="12" rx="2" fill="#09131f" opacity="0.95" stroke="#334155" stroke-width="0.6" />
-  <text x="{(road_x_start + road_x_end)//2}" y="{road_y + 21}" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="6.8" font-weight="700" fill="#cbd5e1">Formation: {formation_w:.2f}m</text>
+  <rect x="{(road_x_start + road_x_end)//2 - 38}" y="{road_y + 12}" width="76" height="12" rx="2" fill="#ffffff" opacity="0.95" stroke="#94a3b8" stroke-width="0.8" />
+  <text x="{(road_x_start + road_x_end)//2}" y="{road_y + 21}" text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-size="6.8" font-weight="700" fill="#0f172a">Formation: {formation_w:.2f}m</text>
 
   <!-- Open Width Dimension Line (Tier 2) -->
   <line x1="{debris_road_x}" y1="{road_y + 36}" x2="{road_x_end}" y2="{road_y + 36}" stroke="#22c55e" stroke-width="1.2" />
   <line x1="{debris_road_x}" y1="{road_y + 32}" x2="{debris_road_x}" y2="{road_y + 40}" stroke="#22c55e" stroke-width="1.2" />
   <line x1="{road_x_end}" y1="{road_y + 32}" x2="{road_x_end}" y2="{road_y + 40}" stroke="#22c55e" stroke-width="1.2" />
-  <rect x="{(debris_road_x + road_x_end)//2 - 36}" y="{road_y + 30}" width="72" height="12" rx="2" fill="#09131f" opacity="0.95" stroke="#15803d" stroke-width="0.6" />
-  <text x="{(debris_road_x + road_x_end)//2}" y="{road_y + 39}" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="7.2" font-weight="800" fill="#4ade80">Operable: {open_w:.2f}m</text>
+  <rect x="{(debris_road_x + road_x_end)//2 - 36}" y="{road_y + 30}" width="72" height="12" rx="2" fill="#f0fdf4" opacity="0.95" stroke="#16a34a" stroke-width="0.8" />
+  <text x="{(debris_road_x + road_x_end)//2}" y="{road_y + 39}" text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-size="7.2" font-weight="800" fill="#15803d">Operable: {open_w:.2f}m</text>
 
   <!-- Slope Height Vertical Dimension -->
   <line x1="{h_dim_x}" y1="{crown_y}" x2="{h_dim_x}" y2="{road_y}" stroke="#64748b" stroke-width="0.8" stroke-dasharray="2,2" />
-  <rect x="{max(4, h_dim_x - 38)}" y="{(crown_y + road_y)//2 - 6}" width="42" height="12" rx="2" fill="#09131f" opacity="0.95" stroke="#334155" stroke-width="0.6" />
-  <text x="{max(25, h_dim_x - 17)}" y="{(crown_y + road_y)//2 + 3}" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="6.8" font-weight="700" fill="#94a3b8">H = {slope_h:.1f}m</text>
+  <rect x="{max(4, h_dim_x - 38)}" y="{(crown_y + road_y)//2 - 6}" width="42" height="12" rx="2" fill="#ffffff" opacity="0.95" stroke="#94a3b8" stroke-width="0.8" />
+  <text x="{max(25, h_dim_x - 17)}" y="{(crown_y + road_y)//2 + 3}" text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-size="6.8" font-weight="700" fill="#334155">H = {slope_h:.1f}m</text>
 
   <!-- Anatomical Badges -->
-  <rect x="18" y="10" width="125" height="14" rx="2" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" />
-  <text x="23" y="20" font-size="6.5" font-weight="800" fill="#e0f2fe">EROSIONAL TORRENT GULLY</text>
+  <rect x="18" y="10" width="125" height="14" rx="2" fill="#f0f9ff" stroke="#0284c7" stroke-width="0.9" />
+  <text x="23" y="20" font-size="6.5" font-weight="800" fill="#0369a1">EROSIONAL TORRENT GULLY</text>
 
-  <rect x="{(chute_start_x + road_x_start)//2 - 25}" y="{road_y - 68}" width="145" height="14" rx="2" fill="#450a0a" stroke="#dc2626" stroke-width="0.8" />
-  <text x="{(chute_start_x + road_x_start)//2 - 20}" y="{road_y - 58}" font-size="6.5" font-weight="800" fill="#fca5a5">BOULDER &amp; SLURRY SURGE FRONT</text>
+  <rect x="{(chute_start_x + road_x_start)//2 - 25}" y="{road_y - 68}" width="145" height="14" rx="2" fill="#fef2f2" stroke="#dc2626" stroke-width="0.9" />
+  <text x="{(chute_start_x + road_x_start)//2 - 20}" y="{road_y - 58}" font-size="6.5" font-weight="800" fill="#991b1b">BOULDER &amp; SLURRY SURGE FRONT</text>
 
-  <rect x="{road_x_start - 25}" y="{road_y - 30}" width="140" height="14" rx="2" fill="#451a03" stroke="#f59e0b" stroke-width="0.8" />
-  <text x="{road_x_start - 20}" y="{road_y - 20}" font-size="6.5" font-weight="800" fill="#fde68a">HIGH-VELOCITY DEBRIS FAN LOBE</text>
+  <rect x="{road_x_start - 25}" y="{road_y - 30}" width="140" height="14" rx="2" fill="#fffbeb" stroke="#d97706" stroke-width="0.9" />
+  <text x="{road_x_start - 20}" y="{road_y - 20}" font-size="6.5" font-weight="800" fill="#92400e">HIGH-VELOCITY DEBRIS FAN LOBE</text>
 
   <!-- Stability Evaluation Pill -->
-  <rect x="330" y="10" width="180" height="16" rx="3" fill="#1e1b4b" stroke="#6366f1" stroke-width="0.8" />
-  <text x="335" y="21" font-size="6.5" font-weight="800" fill="#c7d2fe">Monsoon FoS = {crit_fos:.2f} | Stabilized FoS = {target_fos:.2f}</text>"""
+  <rect x="325" y="10" width="185" height="16" rx="3" fill="#f0fdf4" stroke="#047857" stroke-width="1" />
+  <text x="330" y="21" font-size="6.5" font-weight="800" fill="#064e3b">Monsoon FoS = {crit_fos:.2f} | Stabilized FoS = {target_fos:.2f}</text>"""
 
 
 # ==============================================================================
@@ -1096,7 +1096,7 @@ def _render_wedge_failure_svg(
     h_dim_x = max(14, crown_x - 22)
 
     return f"""  <!-- In-situ Competent Bedrock Strata -->
-  <path d="M 15 28 L {crown_x} {crown_y} L {apex_x} {apex_y} L {road_x_start} {road_y} L {road_x_end} {road_y} L 505 {valley_y} L 505 236 L 15 236 Z" fill="url(#{hatch_id})" stroke="#334155" stroke-width="1.2" />
+  <path d="M 15 28 L {crown_x} {crown_y} L {apex_x} {apex_y} L {road_x_start} {road_y} L {road_x_end} {road_y} L 505 {valley_y} L 505 236 L 15 236 Z" fill="url(#{hatch_id})" stroke="#64748b" stroke-width="1.2" />
 
   <!-- Intersecting Discontinuity Planes (J1 & J2 Forming Sliding Trough) -->
   <line x1="{apex_x}" y1="{apex_y}" x2="{road_x_start - 12}" y2="{road_y}" stroke="#dc2626" stroke-width="2" stroke-dasharray="5,2" />
@@ -1114,41 +1114,41 @@ def _render_wedge_failure_svg(
   <line x1="{road_x_start}" y1="{road_y + 1}" x2="{road_x_end}" y2="{road_y + 1}" stroke="#facc15" stroke-width="0.9" stroke-dasharray="3,3" />
 
   <!-- Debris Covering Highway -->
-  <path d="M {road_x_start} {road_y} Q {(road_x_start + debris_road_x)//2} {road_y - 22} {debris_road_x} {road_y} Z" fill="#92400e" stroke="#ea580c" stroke-width="1" />
+  <path d="M {road_x_start} {road_y} Q {(road_x_start + debris_road_x)//2} {road_y - 22} {debris_road_x} {road_y} Z" fill="#fed7aa" fill-opacity="0.9" stroke="#ea580c" stroke-width="1" />
   <path d="M {road_x_start} {road_y} Q {(road_x_start + debris_road_x)//2} {road_y - 22} {debris_road_x} {road_y} Z" fill="url(#{debris_id})" />
 
   <!-- Road Width Dimension Line (Tier 1) -->
   <line x1="{road_x_start}" y1="{road_y + 18}" x2="{road_x_end}" y2="{road_y + 18}" stroke="#94a3b8" stroke-width="0.9" />
   <line x1="{road_x_start}" y1="{road_y + 14}" x2="{road_x_start}" y2="{road_y + 22}" stroke="#94a3b8" stroke-width="0.9" />
   <line x1="{road_x_end}" y1="{road_y + 14}" x2="{road_x_end}" y2="{road_y + 22}" stroke="#94a3b8" stroke-width="0.9" />
-  <rect x="{(road_x_start + road_x_end)//2 - 38}" y="{road_y + 12}" width="76" height="12" rx="2" fill="#09131f" opacity="0.95" stroke="#334155" stroke-width="0.6" />
-  <text x="{(road_x_start + road_x_end)//2}" y="{road_y + 21}" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="6.8" font-weight="700" fill="#cbd5e1">Formation: {formation_w:.2f}m</text>
+  <rect x="{(road_x_start + road_x_end)//2 - 38}" y="{road_y + 12}" width="76" height="12" rx="2" fill="#ffffff" opacity="0.95" stroke="#94a3b8" stroke-width="0.8" />
+  <text x="{(road_x_start + road_x_end)//2}" y="{road_y + 21}" text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-size="6.8" font-weight="700" fill="#0f172a">Formation: {formation_w:.2f}m</text>
 
   <!-- Open Width Dimension Line (Tier 2) -->
   <line x1="{debris_road_x}" y1="{road_y + 36}" x2="{road_x_end}" y2="{road_y + 36}" stroke="#22c55e" stroke-width="1.2" />
   <line x1="{debris_road_x}" y1="{road_y + 32}" x2="{debris_road_x}" y2="{road_y + 40}" stroke="#22c55e" stroke-width="1.2" />
   <line x1="{road_x_end}" y1="{road_y + 32}" x2="{road_x_end}" y2="{road_y + 40}" stroke="#22c55e" stroke-width="1.2" />
-  <rect x="{(debris_road_x + road_x_end)//2 - 36}" y="{road_y + 30}" width="72" height="12" rx="2" fill="#09131f" opacity="0.95" stroke="#15803d" stroke-width="0.6" />
-  <text x="{(debris_road_x + road_x_end)//2}" y="{road_y + 39}" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="7.2" font-weight="800" fill="#4ade80">Operable: {open_w:.2f}m</text>
+  <rect x="{(debris_road_x + road_x_end)//2 - 36}" y="{road_y + 30}" width="72" height="12" rx="2" fill="#f0fdf4" opacity="0.95" stroke="#16a34a" stroke-width="0.8" />
+  <text x="{(debris_road_x + road_x_end)//2}" y="{road_y + 39}" text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-size="7.2" font-weight="800" fill="#15803d">Operable: {open_w:.2f}m</text>
 
   <!-- Slope Height Vertical Dimension -->
   <line x1="{h_dim_x}" y1="{crown_y}" x2="{h_dim_x}" y2="{road_y}" stroke="#64748b" stroke-width="0.8" stroke-dasharray="2,2" />
-  <rect x="{max(4, h_dim_x - 38)}" y="{(crown_y + road_y)//2 - 6}" width="42" height="12" rx="2" fill="#09131f" opacity="0.95" stroke="#334155" stroke-width="0.6" />
-  <text x="{max(25, h_dim_x - 17)}" y="{(crown_y + road_y)//2 + 3}" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="6.8" font-weight="700" fill="#94a3b8">H = {slope_h:.1f}m</text>
+  <rect x="{max(4, h_dim_x - 38)}" y="{(crown_y + road_y)//2 - 6}" width="42" height="12" rx="2" fill="#ffffff" opacity="0.95" stroke="#94a3b8" stroke-width="0.8" />
+  <text x="{max(25, h_dim_x - 17)}" y="{(crown_y + road_y)//2 + 3}" text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-size="6.8" font-weight="700" fill="#334155">H = {slope_h:.1f}m</text>
 
   <!-- Anatomical Badges -->
-  <rect x="18" y="10" width="138" height="14" rx="2" fill="#450a0a" stroke="#dc2626" stroke-width="0.8" />
-  <text x="23" y="20" font-size="6.5" font-weight="800" fill="#fca5a5">WEDGE APEX TENSION CRACK</text>
+  <rect x="18" y="10" width="138" height="14" rx="2" fill="#fef2f2" stroke="#dc2626" stroke-width="0.9" />
+  <text x="23" y="20" font-size="6.5" font-weight="800" fill="#991b1b">WEDGE APEX TENSION CRACK</text>
 
-  <rect x="{apex_x - 10}" y="{apex_y - 20}" width="168" height="14" rx="2" fill="#450a0a" stroke="#dc2626" stroke-width="0.8" />
-  <text x="{apex_x - 5}" y="{apex_y - 10}" font-size="6.5" font-weight="800" fill="#fca5a5">INTERSECTING JOINTS (J1 x J2 TROUGH)</text>
+  <rect x="{apex_x - 10}" y="{apex_y - 20}" width="168" height="14" rx="2" fill="#fef2f2" stroke="#dc2626" stroke-width="0.9" />
+  <text x="{apex_x - 5}" y="{apex_y - 10}" font-size="6.5" font-weight="800" fill="#991b1b">INTERSECTING JOINTS (J1 x J2 TROUGH)</text>
 
-  <rect x="{apex_x + 40}" y="{apex_y + 45}" width="135" height="14" rx="2" fill="#451a03" stroke="#f59e0b" stroke-width="0.8" />
-  <text x="{apex_x + 45}" y="{apex_y + 55}" font-size="6.5" font-weight="800" fill="#fde68a">SLIDING TETRAHEDRAL WEDGE</text>
+  <rect x="{apex_x + 40}" y="{apex_y + 45}" width="135" height="14" rx="2" fill="#fffbeb" stroke="#d97706" stroke-width="0.9" />
+  <text x="{apex_x + 45}" y="{apex_y + 55}" font-size="6.5" font-weight="800" fill="#92400e">SLIDING TETRAHEDRAL WEDGE</text>
 
   <!-- Stability Evaluation Pill -->
-  <rect x="330" y="10" width="180" height="16" rx="3" fill="#1e1b4b" stroke="#6366f1" stroke-width="0.8" />
-  <text x="335" y="21" font-size="6.5" font-weight="800" fill="#c7d2fe">Monsoon FoS = {crit_fos:.2f} | Stabilized FoS = {target_fos:.2f}</text>"""
+  <rect x="325" y="10" width="185" height="16" rx="3" fill="#f0fdf4" stroke="#047857" stroke-width="1" />
+  <text x="330" y="21" font-size="6.5" font-weight="800" fill="#064e3b">Monsoon FoS = {crit_fos:.2f} | Stabilized FoS = {target_fos:.2f}</text>"""
 
 
 # ==============================================================================
@@ -1183,10 +1183,10 @@ def _render_creep_subsidence_svg(
     h_dim_x = max(14, crown_x - 22)
 
     return f"""  <!-- In-situ Competent Bedrock Strata -->
-  <path d="M 15 35 L {crown_x} {crown_y + 12} L {road_x_start} {road_y + 10} L {road_x_end} {road_y + 12} L 505 {valley_y} L 505 236 L 15 236 Z" fill="url(#{hatch_id})" stroke="#334155" stroke-width="1.2" />
+  <path d="M 15 35 L {crown_x} {crown_y + 12} L {road_x_start} {road_y + 10} L {road_x_end} {road_y + 12} L 505 {valley_y} L 505 236 L 15 236 Z" fill="url(#{hatch_id})" stroke="#64748b" stroke-width="1.2" />
 
   <!-- Active Creep Zone in Colluvial Overburden (Visco-Plastic Shear) -->
-  <path d="M 15 25 L {crown_x} {crown_y} L {road_x_start} {road_y} L {road_x_start} {road_y + 10} L {crown_x} {crown_y + 12} L 15 35 Z" fill="#451a03" fill-opacity="0.32" stroke="#f59e0b" stroke-width="1" />
+  <path d="M 15 25 L {crown_x} {crown_y} L {road_x_start} {road_y} L {road_x_start} {road_y + 10} L {crown_x} {crown_y + 12} L 15 35 Z" fill="#fef3c7" fill-opacity="0.75" stroke="#d97706" stroke-width="1" />
   <path d="M 15 25 L {crown_x} {crown_y} L {road_x_start} {road_y} L {road_x_start} {road_y + 10} L {crown_x} {crown_y + 12} L 15 35 Z" fill="url(#{colluvium_id})" />
 
   <!-- Tilting Trees & Pistol-Butt Curvature (Geomorphological Indicator) -->
@@ -1206,7 +1206,7 @@ def _render_creep_subsidence_svg(
 
   <!-- Subsidence Callout Arrow -->
   <line x1="{road_x_start + 50}" y1="{road_y - 16}" x2="{road_x_start + 50}" y2="{road_y - 2}" stroke="#ef4444" stroke-width="1.2" marker-end="url(#arrowRed)" />
-  <text x="{road_x_start + 35}" y="{road_y - 20}" font-size="6.5" font-weight="800" fill="#fca5a5">&Delta;z = 0.35m SETTLEMENT</text>
+  <text x="{road_x_start + 35}" y="{road_y - 20}" font-size="6.5" font-weight="800" fill="#991b1b">&Delta;z = 0.35m SETTLEMENT</text>
 
   <!-- Side Drain Sheared & Displaced -->
   <polygon points="{road_x_start - 1},{road_y} {road_x_start + 7},{road_y + 8} {road_x_start + 14},{road_y + 8} {road_x_start + 14},{road_y}" fill="#334155" stroke="#ef4444" stroke-width="1" />
@@ -1216,24 +1216,24 @@ def _render_creep_subsidence_svg(
   <line x1="{road_x_start}" y1="{road_y + 22}" x2="{road_x_end}" y2="{road_y + 22}" stroke="#94a3b8" stroke-width="0.9" />
   <line x1="{road_x_start}" y1="{road_y + 18}" x2="{road_x_start}" y2="{road_y + 26}" stroke="#94a3b8" stroke-width="0.9" />
   <line x1="{road_x_end}" y1="{road_y + 18}" x2="{road_x_end}" y2="{road_y + 26}" stroke="#94a3b8" stroke-width="0.9" />
-  <rect x="{(road_x_start + road_x_end)//2 - 38}" y="{road_y + 16}" width="76" height="12" rx="2" fill="#09131f" opacity="0.95" stroke="#334155" stroke-width="0.6" />
-  <text x="{(road_x_start + road_x_end)//2}" y="{road_y + 25}" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="6.8" font-weight="700" fill="#cbd5e1">Formation: {formation_w:.2f}m</text>
+  <rect x="{(road_x_start + road_x_end)//2 - 38}" y="{road_y + 16}" width="76" height="12" rx="2" fill="#ffffff" opacity="0.95" stroke="#94a3b8" stroke-width="0.8" />
+  <text x="{(road_x_start + road_x_end)//2}" y="{road_y + 25}" text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-size="6.8" font-weight="700" fill="#0f172a">Formation: {formation_w:.2f}m</text>
 
   <!-- Slope Height Vertical Dimension -->
   <line x1="{h_dim_x}" y1="{crown_y}" x2="{h_dim_x}" y2="{road_y}" stroke="#64748b" stroke-width="0.8" stroke-dasharray="2,2" />
-  <rect x="{max(4, h_dim_x - 38)}" y="{(crown_y + road_y)//2 - 6}" width="42" height="12" rx="2" fill="#09131f" opacity="0.95" stroke="#334155" stroke-width="0.6" />
-  <text x="{max(25, h_dim_x - 17)}" y="{(crown_y + road_y)//2 + 3}" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="6.8" font-weight="700" fill="#94a3b8">H = {slope_h:.1f}m</text>
+  <rect x="{max(4, h_dim_x - 38)}" y="{(crown_y + road_y)//2 - 6}" width="42" height="12" rx="2" fill="#ffffff" opacity="0.95" stroke="#94a3b8" stroke-width="0.8" />
+  <text x="{max(25, h_dim_x - 17)}" y="{(crown_y + road_y)//2 + 3}" text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-size="6.8" font-weight="700" fill="#334155">H = {slope_h:.1f}m</text>
 
   <!-- Anatomical Badges -->
-  <rect x="18" y="10" width="138" height="14" rx="2" fill="#451a03" stroke="#f59e0b" stroke-width="0.8" />
-  <text x="23" y="20" font-size="6.5" font-weight="800" fill="#fde68a">PISTOL-BUTT TREE CURVATURE (CREEP)</text>
+  <rect x="18" y="10" width="138" height="14" rx="2" fill="#fffbeb" stroke="#d97706" stroke-width="0.9" />
+  <text x="23" y="20" font-size="6.5" font-weight="800" fill="#92400e">PISTOL-BUTT TREE CURVATURE (CREEP)</text>
 
-  <rect x="{crown_x + 10}" y="{crown_y - 12}" width="135" height="14" rx="2" fill="#450a0a" stroke="#dc2626" stroke-width="0.8" />
-  <text x="{crown_x + 15}" y="{crown_y - 2}" font-size="6.5" font-weight="800" fill="#fca5a5">VISCO-PLASTIC OVERBURDEN CREEP</text>
+  <rect x="{crown_x + 10}" y="{crown_y - 12}" width="135" height="14" rx="2" fill="#fef2f2" stroke="#dc2626" stroke-width="0.9" />
+  <text x="{crown_x + 15}" y="{crown_y - 2}" font-size="6.5" font-weight="800" fill="#991b1b">VISCO-PLASTIC OVERBURDEN CREEP</text>
 
   <!-- Stability Evaluation Pill -->
-  <rect x="330" y="10" width="180" height="16" rx="3" fill="#1e1b4b" stroke="#6366f1" stroke-width="0.8" />
-  <text x="335" y="21" font-size="6.5" font-weight="800" fill="#c7d2fe">Monsoon FoS = {crit_fos:.2f} | Stabilized FoS = {target_fos:.2f}</text>"""
+  <rect x="325" y="10" width="185" height="16" rx="3" fill="#f0fdf4" stroke="#047857" stroke-width="1" />
+  <text x="330" y="21" font-size="6.5" font-weight="800" fill="#064e3b">Monsoon FoS = {crit_fos:.2f} | Stabilized FoS = {target_fos:.2f}</text>"""
 
 
 # ==============================================================================
@@ -1284,7 +1284,7 @@ def _render_valley_subsidence_svg(
     g_base_y = min(220, road_y + round(wall_h_px * 0.75))
 
     return f"""  <!-- In-situ Competent Mountain Bedrock (Uphill Flank: {rock_name}) -->
-  <path d="M 15 25 L {c_x} {c_y} L {r_start} {road_y} L {subside_x} {road_y} L {subside_x} 220 L 505 220 L 505 236 L 15 236 Z" fill="url(#{hatch_id})" stroke="#334155" stroke-width="1.2" />
+  <path d="M 15 25 L {c_x} {c_y} L {r_start} {road_y} L {subside_x} {road_y} L {subside_x} 220 L 505 220 L 505 236 L 15 236 Z" fill="url(#{hatch_id})" stroke="#64748b" stroke-width="1.2" />
 
   <!-- Uphill Cut Slope Face -->
   <path d="M 15 25 L {c_x} {c_y} L {r_start} {road_y}" fill="none" stroke="#64748b" stroke-width="1.5" />
@@ -1332,7 +1332,7 @@ def _render_valley_subsidence_svg(
   <rect x="{g_base_x - 8}" y="{g_base_y - 16}" width="42" height="16" fill="#334155" stroke="#94a3b8" stroke-width="1" />
   <rect x="{g_base_x - 2}" y="{g_base_y - 32}" width="36" height="16" fill="#334155" stroke="#94a3b8" stroke-width="1" />
   <rect x="{g_base_x + 4}" y="{g_base_y - 48}" width="30" height="16" fill="#334155" stroke="#94a3b8" stroke-width="1" />
-  <text x="{g_base_x - 6}" y="{g_base_y - 52}" font-size="5.5" font-weight="700" fill="#94a3b8">STEPPED GABION WALL (H={wall_h:.1f}m)</text>
+  <text x="{g_base_x - 6}" y="{g_base_y - 52}" font-size="5.5" font-weight="800" fill="#334155">STEPPED GABION WALL (H={wall_h:.1f}m)</text>
 
   <!-- Lower Valley Slope beyond Gabion Wall -->
   <path d="M {g_base_x + 34} {g_base_y} L 505 228 L 505 236 L {g_base_x + 34} 236 Z" fill="url(#{hatch_id})" stroke="#334155" stroke-width="1" />
@@ -1341,28 +1341,28 @@ def _render_valley_subsidence_svg(
   <line x1="{r_start}" y1="{road_y - 18}" x2="{r_end}" y2="{road_y - 18}" stroke="#94a3b8" stroke-width="0.8" />
   <line x1="{r_start}" y1="{road_y - 22}" x2="{r_start}" y2="{road_y - 14}" stroke="#94a3b8" stroke-width="0.8" />
   <line x1="{r_end}" y1="{road_y - 22}" x2="{r_end}" y2="{road_y - 14}" stroke="#94a3b8" stroke-width="0.8" />
-  <rect x="{(r_start + r_end)//2 - 38}" y="{road_y - 24}" width="76" height="12" rx="2" fill="#09131f" opacity="0.95" stroke="#334155" stroke-width="0.6" />
-  <text x="{(r_start + r_end)//2}" y="{road_y - 15}" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="6.5" font-weight="700" fill="#cbd5e1">Formation: {formation_w:.2f}m</text>
+  <rect x="{(r_start + r_end)//2 - 38}" y="{road_y - 24}" width="76" height="12" rx="2" fill="#ffffff" opacity="0.95" stroke="#94a3b8" stroke-width="0.8" />
+  <text x="{(r_start + r_end)//2}" y="{road_y - 15}" text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-size="6.5" font-weight="700" fill="#0f172a">Formation: {formation_w:.2f}m</text>
 
   <line x1="{r_start}" y1="{road_y + 16}" x2="{subside_x}" y2="{road_y + 16}" stroke="#22c55e" stroke-width="1.2" />
   <line x1="{r_start}" y1="{road_y + 12}" x2="{r_start}" y2="{road_y + 20}" stroke="#22c55e" stroke-width="1.2" />
   <line x1="{subside_x}" y1="{road_y + 12}" x2="{subside_x}" y2="{road_y + 20}" stroke="#22c55e" stroke-width="1.2" />
-  <rect x="{(r_start + subside_x)//2 - 34}" y="{road_y + 10}" width="68" height="12" rx="2" fill="#09131f" opacity="0.95" stroke="#15803d" stroke-width="0.6" />
-  <text x="{(r_start + subside_x)//2}" y="{road_y + 19}" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="6.8" font-weight="800" fill="#4ade80">Operable: {open_w:.2f}m</text>
+  <rect x="{(r_start + subside_x)//2 - 34}" y="{road_y + 10}" width="68" height="12" rx="2" fill="#f0fdf4" opacity="0.95" stroke="#16a34a" stroke-width="0.8" />
+  <text x="{(r_start + subside_x)//2}" y="{road_y + 19}" text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-size="6.8" font-weight="800" fill="#15803d">Operable: {open_w:.2f}m</text>
 
   <!-- Anatomical Callout Badges -->
-  <rect x="18" y="10" width="138" height="14" rx="2" fill="#450a0a" stroke="#dc2626" stroke-width="0.8" />
-  <text x="23" y="20" font-size="6.5" font-weight="800" fill="#fca5a5">ROAD EMBANKMENT SHEAR SCARP</text>
+  <rect x="18" y="10" width="138" height="14" rx="2" fill="#fef2f2" stroke="#dc2626" stroke-width="0.9" />
+  <text x="23" y="20" font-size="6.5" font-weight="800" fill="#991b1b">ROAD EMBANKMENT SHEAR SCARP</text>
 
-  <rect x="18" y="27" width="148" height="14" rx="2" fill="#042f2e" stroke="#0d9488" stroke-width="0.8" />
-  <text x="23" y="37" font-size="6.2" font-weight="800" fill="#5eead4">SLOPE LOCATION: BELOW ROAD: YES</text>
+  <rect x="18" y="27" width="148" height="14" rx="2" fill="#f0fdf4" stroke="#059669" stroke-width="0.9" />
+  <text x="23" y="37" font-size="6.2" font-weight="800" fill="#065f46">SLOPE LOCATION: BELOW ROAD: YES</text>
 
-  <rect x="{max(160, subside_x - 70)}" y="98" width="145" height="14" rx="2" fill="#082f49" stroke="#0284c7" stroke-width="0.8" />
-  <text x="{max(165, subside_x - 65)}" y="108" font-size="6.2" font-weight="800" fill="#bae6fd">&Oslash;150mm MICROPILES &amp; RC CAP BEAM</text>
+  <rect x="{max(160, subside_x - 70)}" y="98" width="145" height="14" rx="2" fill="#f0f9ff" stroke="#0284c7" stroke-width="0.9" />
+  <text x="{max(165, subside_x - 65)}" y="108" font-size="6.2" font-weight="800" fill="#0369a1">&Oslash;150mm MICROPILES &amp; RC CAP BEAM</text>
 
   <!-- Stability Evaluation Pill -->
-  <rect x="330" y="10" width="180" height="16" rx="3" fill="#1e1b4b" stroke="#6366f1" stroke-width="0.8" />
-  <text x="335" y="21" font-size="6.5" font-weight="800" fill="#c7d2fe">Monsoon FoS = {crit_fos:.2f} | Stabilized FoS = {target_fos:.2f}</text>"""
+  <rect x="325" y="10" width="185" height="16" rx="3" fill="#f0fdf4" stroke="#047857" stroke-width="1" />
+  <text x="330" y="21" font-size="6.5" font-weight="800" fill="#064e3b">Monsoon FoS = {crit_fos:.2f} | Stabilized FoS = {target_fos:.2f}</text>"""
 
 
 # ==============================================================================
@@ -1414,7 +1414,7 @@ def _render_habitation_slump_svg(
     house_w = min(120, 505 - house_x - 10)
 
     return f"""  <!-- In-situ Mountain Bedrock Basement ({rock_name}) -->
-  <path d="M 15 35 L {c_x} {c_y} L {bench_x} {bench_y} L 505 {bench_y} L 505 236 L 15 236 Z" fill="url(#{hatch_id})" stroke="#334155" stroke-width="1.2" />
+  <path d="M 15 35 L {c_x} {c_y} L {bench_x} {bench_y} L 505 {bench_y} L 505 236 L 15 236 Z" fill="url(#{hatch_id})" stroke="#64748b" stroke-width="1.2" />
 
   <!-- Colluvial Overburden Mud Slump Layer on Terrace Slope -->
   <path d="M {c_x} {c_y} L {bench_x} {bench_y} L {wall_x} {bench_y} L {wall_x} {bench_y - 12} L {bench_x} {bench_y - 15} L {c_x} {c_y - 10} Z" fill="#451a03" fill-opacity="0.4" stroke="#f59e0b" stroke-width="1" />
@@ -1426,7 +1426,7 @@ def _render_habitation_slump_svg(
 
   <!-- Lined Garland Catch Drain at Terrace Crest (MoRTH 309) -->
   <polygon points="{c_x - 8},{c_y - 8} {c_x + 2},{c_y - 8} {c_x - 1},{c_y - 1} {c_x - 5},{c_y - 1}" fill="#0284c7" stroke="#38bdf8" stroke-width="0.8" />
-  <circle cx="{c_x - 3}" cy="{c_y - 5}" r="1.5" fill="#bae6fd" />
+  <circle cx="{c_x - 3}" cy="{c_y - 5}" r="1.5" fill="#0369a1" />
 
   <!-- Upper Terrace Grouted Soil Dowels (Ø25mm Fe500D) -->
   <g stroke="#10b981" stroke-width="1.8" stroke-dasharray="4,2">
@@ -1447,13 +1447,13 @@ def _render_habitation_slump_svg(
   <line x1="{wall_x + 2}" y1="{bench_y - 4}" x2="{wall_x + 14}" y2="{bench_y - 2}" stroke="#facc15" stroke-width="1.6" />
 
   <!-- Residential Dwelling (SDRF Residential Housing Zone) -->
-  <line x1="{wall_x + wall_b_px}" y1="{bench_y}" x2="505" y2="{bench_y}" stroke="#334155" stroke-width="1.2" />
+  <line x1="{wall_x + wall_b_px}" y1="{bench_y}" x2="505" y2="{bench_y}" stroke="#64748b" stroke-width="1.2" />
 
   <!-- Residential House Main Body -->
   <rect x="{house_x}" y="{bench_y - 38}" width="{house_w}" height="38" rx="1" fill="#1e293b" stroke="#64748b" stroke-width="1.2" />
   <!-- Front Door -->
   <rect x="{house_x + 35}" y="{bench_y - 24}" width="16" height="24" fill="#b45309" stroke="#d97706" stroke-width="0.8" />
-  <circle cx="{house_x + 47}" cy="{bench_y - 12}" r="1" fill="#fde68a" />
+  <circle cx="{house_x + 47}" cy="{bench_y - 12}" r="1" fill="#92400e" />
   <!-- Windows with illumination -->
   <rect x="{house_x + 10}" y="{bench_y - 28}" width="16" height="14" rx="1" fill="#0284c7" opacity="0.8" stroke="#38bdf8" stroke-width="0.8" />
   <rect x="{house_x + 60}" y="{bench_y - 28}" width="16" height="14" rx="1" fill="#0284c7" opacity="0.8" stroke="#38bdf8" stroke-width="0.8" />
@@ -1467,18 +1467,18 @@ def _render_habitation_slump_svg(
   <text x="{wall_x + wall_b_px + 6}" y="{bench_y - 24}" font-size="5.8" font-weight="800" fill="#6ee7b7">BUFFER CLEARANCE: 4.5m</text>
 
   <!-- Anatomical Callout Badges -->
-  <rect x="18" y="10" width="142" height="14" rx="2" fill="#450a0a" stroke="#dc2626" stroke-width="0.8" />
-  <text x="23" y="20" font-size="6.5" font-weight="800" fill="#fca5a5">TERRACE MUDSLIDE HEAD SCARP</text>
+  <rect x="18" y="10" width="142" height="14" rx="2" fill="#fef2f2" stroke="#dc2626" stroke-width="0.9" />
+  <text x="23" y="20" font-size="6.5" font-weight="800" fill="#991b1b">TERRACE MUDSLIDE HEAD SCARP</text>
 
-  <rect x="{bench_x - 45}" y="88" width="145" height="14" rx="2" fill="#064e3b" stroke="#059669" stroke-width="0.8" />
-  <text x="{bench_x - 40}" y="98" font-size="6.2" font-weight="800" fill="#a7f3d0">M25 CANTILEVER WALL &amp; DOWELS</text>
+  <rect x="{bench_x - 45}" y="88" width="145" height="14" rx="2" fill="#f0fdf4" stroke="#059669" stroke-width="0.9" />
+  <text x="{bench_x - 40}" y="98" font-size="6.2" font-weight="800" fill="#065f46">M25 CANTILEVER WALL &amp; DOWELS</text>
 
   <rect x="{house_x - 5}" y="88" width="140" height="14" rx="2" fill="#1e1b4b" stroke="#6366f1" stroke-width="0.8" />
   <text x="{house_x}" y="98" font-size="6.2" font-weight="800" fill="#c7d2fe">RESIDENTIAL DWELLING (SDRF ZONE)</text>
 
   <!-- Stability Evaluation Pill -->
-  <rect x="330" y="10" width="180" height="16" rx="3" fill="#1e1b4b" stroke="#6366f1" stroke-width="0.8" />
-  <text x="335" y="21" font-size="6.5" font-weight="800" fill="#c7d2fe">Monsoon FoS = {crit_fos:.2f} | Stabilized FoS = {target_fos:.2f}</text>"""
+  <rect x="325" y="10" width="185" height="16" rx="3" fill="#f0fdf4" stroke="#047857" stroke-width="1" />
+  <text x="330" y="21" font-size="6.5" font-weight="800" fill="#064e3b">Monsoon FoS = {crit_fos:.2f} | Stabilized FoS = {target_fos:.2f}</text>"""
 
 
 # ==============================================================================
@@ -1494,14 +1494,14 @@ def _render_macro_catastrophic_svg(
     Renders zero fake slip planes and zero fake FoS numbers, mandating a full LiDAR & DPR.
     """
     return f"""  <!-- Macro Catastrophe Warning Background Banner -->
-  <rect x="15" y="12" width="490" height="32" rx="4" fill="#450a0a" stroke="#ef4444" stroke-width="1.2" />
+  <rect x="15" y="12" width="490" height="32" rx="4" fill="#fef2f2" stroke="#dc2626" stroke-width="1.2" />
   <circle cx="34" cy="28" r="9" fill="#dc2626" />
   <text x="31" y="32" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="900" fill="#ffffff">!</text>
-  <text x="52" y="24" font-size="8" font-weight="900" fill="#fecaca" letter-spacing="0.5">MACRO-SCALE SLOPE FAILURE &bull; LOCAL TOE WALL INAPPLICABLE</text>
-  <text x="52" y="36" font-size="6.5" font-weight="700" fill="#fca5a5">STATUTORY MANDATE: FULL AIRBORNE LiDAR &amp; MULTIDISCIPLINARY DPR REQUIRED</text>
+  <text x="52" y="24" font-size="8" font-weight="900" fill="#991b1b" letter-spacing="0.5">MACRO-SCALE SLOPE FAILURE &bull; LOCAL TOE WALL INAPPLICABLE</text>
+  <text x="52" y="36" font-size="6.5" font-weight="700" fill="#991b1b">STATUTORY MANDATE: FULL AIRBORNE LiDAR &amp; MULTIDISCIPLINARY DPR REQUIRED</text>
 
   <!-- Massive Mountain Silhouette Background -->
-  <path d="M 15 220 L 70 170 L 140 120 L 210 70 L 290 55 L 360 85 L 430 145 L 505 220 Z" fill="#1e293b" opacity="0.35" stroke="#334155" stroke-width="1" />
+  <path d="M 15 220 L 70 170 L 140 120 L 210 70 L 290 55 L 360 85 L 430 145 L 505 220 Z" fill="#e2e8f0" opacity="0.6" stroke="#94a3b8" stroke-width="1" />
   <path d="M 140 120 Q 240 135 360 170" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="6,4" />
 
   <!-- High-Risk Fault Zones -->
@@ -1511,18 +1511,18 @@ def _render_macro_catastrophic_svg(
   </g>
 
   <!-- Technical Diagnostic Specifications Card -->
-  <rect x="35" y="58" width="450" height="142" rx="4" fill="#0f172a" fill-opacity="0.95" stroke="#334155" stroke-width="1.2" />
+  <rect x="35" y="58" width="450" height="142" rx="4" fill="#0f172a" fill-opacity="0.95" stroke="#64748b" stroke-width="1.2" />
 
-  <text x="50" y="80" font-size="7.5" font-weight="900" fill="#fca5a5">DISASTER SCALE CLASSIFICATION: LEVEL-1 MEGA-LANDSLIDE</text>
-  <text x="50" y="96" font-size="6.8" font-weight="700" fill="#cbd5e1">&bull; Measured Slope Scarp Height: H = {slope_h:.1f}m (Exceeds standard 30m limit of IS:14458 toe walls)</text>
-  <text x="50" y="112" font-size="6.8" font-weight="700" fill="#cbd5e1">&bull; Geological Basement: Deep-seated {rock_name} with progressive shearing along major regional tectonic fault</text>
-  <text x="50" y="128" font-size="6.8" font-weight="700" fill="#cbd5e1">&bull; Estimated Colluvial Displacement: &gt; 50,000 m&sup3; debris volume exceeding routine municipal clearing thresholds</text>
-  <text x="50" y="144" font-size="6.8" font-weight="700" fill="#cbd5e1">&bull; Engineering Notice: Localized retaining walls will experience foundation undermining and rapid structural failure</text>
+  <text x="50" y="80" font-size="7.5" font-weight="900" fill="#991b1b">DISASTER SCALE CLASSIFICATION: LEVEL-1 MEGA-LANDSLIDE</text>
+  <text x="50" y="96" font-size="6.8" font-weight="700" fill="#334155">&bull; Measured Slope Scarp Height: H = {slope_h:.1f}m (Exceeds standard 30m limit of IS:14458 toe walls)</text>
+  <text x="50" y="112" font-size="6.8" font-weight="700" fill="#334155">&bull; Geological Basement: Deep-seated {rock_name} with progressive shearing along major regional tectonic fault</text>
+  <text x="50" y="128" font-size="6.8" font-weight="700" fill="#334155">&bull; Estimated Colluvial Displacement: &gt; 50,000 m&sup3; debris volume exceeding routine municipal clearing thresholds</text>
+  <text x="50" y="144" font-size="6.8" font-weight="700" fill="#334155">&bull; Engineering Notice: Localized retaining walls will experience foundation undermining and rapid structural failure</text>
 
   <!-- Statutory Mandate Pill Box -->
-  <rect x="50" y="156" width="420" height="32" rx="3" fill="#1e1b4b" stroke="#6366f1" stroke-width="1" />
-  <text x="62" y="170" font-size="6.5" font-weight="800" fill="#c7d2fe">MANDATED STATUTORY PROTOCOL: MULTI-TIER GEOTECHNICAL INVESTIGATION</text>
-  <text x="62" y="181" font-size="6" font-weight="600" fill="#a5b4fc">1. Airborne LiDAR Topographic Mapping &bull; 2. Deep Core Borings (60m) &bull; 3. Piezometer &amp; Inclinometer Telemetry &bull; 4. Formal DPR</text>"""
+  <rect x="50" y="156" width="420" height="32" rx="3" fill="#f0fdf4" stroke="#047857" stroke-width="1" />
+  <text x="62" y="170" font-size="6.5" font-weight="800" fill="#064e3b">MANDATED STATUTORY PROTOCOL: MULTI-TIER GEOTECHNICAL INVESTIGATION</text>
+  <text x="62" y="181" font-size="6" font-weight="600" fill="#047857">1. Airborne LiDAR Topographic Mapping &bull; 2. Deep Core Borings (60m) &bull; 3. Piezometer &amp; Inclinometer Telemetry &bull; 4. Formal DPR</text>"""
 
 
 # ==============================================================================
@@ -1534,29 +1534,29 @@ def _render_rejected_ood_svg(rejection_notice: str = "", **kwargs: Any) -> str:
     """
     clean_notice = rejection_notice or "Non-landslide / Out-of-Domain Media Uploaded"
     return f"""  <!-- Disqualification Dark Backplate -->
-  <rect x="15" y="15" width="490" height="206" rx="4" fill="#0b1120" stroke="#334155" stroke-width="1.2" />
+  <rect x="15" y="15" width="490" height="206" rx="4" fill="#0b1120" stroke="#64748b" stroke-width="1.2" />
 
   <!-- Warning Red Header -->
-  <rect x="25" y="25" width="470" height="34" rx="3" fill="#450a0a" stroke="#ef4444" stroke-width="1" />
+  <rect x="25" y="25" width="470" height="34" rx="3" fill="#fef2f2" stroke="#dc2626" stroke-width="1" />
   <circle cx="45" cy="42" r="10" fill="#dc2626" />
   <text x="41" y="46" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="900" fill="#ffffff">&times;</text>
-  <text x="65" y="38" font-size="8" font-weight="900" fill="#fecaca" letter-spacing="0.5">OPTICAL AUDIT DISQUALIFICATION &bull; NON-LANDSLIDE / NON-TERRAIN MEDIA</text>
-  <text x="65" y="50" font-size="6.5" font-weight="700" fill="#fca5a5">CROSS-SECTION SUPPRESSED — ZERO ACTIVE GROUND DEFORMATION OBSERVED</text>
+  <text x="65" y="38" font-size="8" font-weight="900" fill="#991b1b" letter-spacing="0.5">OPTICAL AUDIT DISQUALIFICATION &bull; NON-LANDSLIDE / NON-TERRAIN MEDIA</text>
+  <text x="65" y="50" font-size="6.5" font-weight="700" fill="#991b1b">CROSS-SECTION SUPPRESSED — ZERO ACTIVE GROUND DEFORMATION OBSERVED</text>
 
   <!-- Diagnostic Suppression Details Card -->
-  <rect x="40" y="72" width="440" height="135" rx="3" fill="#0f172a" stroke="#1e293b" stroke-width="1" />
+  <rect x="40" y="72" width="440" height="135" rx="3" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
 
   <!-- Diagonal Watermark Stamp -->
   <g transform="rotate(-12 260 140)" opacity="0.12">
     <text x="140" y="150" font-size="34" font-weight="900" fill="#ef4444" letter-spacing="4">NON-LANDSLIDE</text>
   </g>
 
-  <text x="58" y="96" font-size="7.5" font-weight="900" fill="#fca5a5">DIAGNOSTIC REJECTION AUDIT DETAILS</text>
-  <text x="58" y="112" font-size="6.8" font-weight="700" fill="#cbd5e1">&bull; Optical Classification: {clean_notice}</text>
-  <text x="58" y="128" font-size="6.8" font-weight="700" fill="#cbd5e1">&bull; Computer Vision Verdict: Image features indicate indoor, vehicular, documentary, or stable built infrastructure</text>
-  <text x="58" y="144" font-size="6.8" font-weight="700" fill="#cbd5e1">&bull; Compliance Integrity: Synthetic cross-section generation suppressed to prevent fraudulent emergency claims</text>
-  <text x="58" y="160" font-size="6.8" font-weight="700" fill="#cbd5e1">&bull; Action Required: Please capture and upload an authentic field photograph of the damaged hill slope</text>
+  <text x="58" y="96" font-size="7.5" font-weight="900" fill="#991b1b">DIAGNOSTIC REJECTION AUDIT DETAILS</text>
+  <text x="58" y="112" font-size="6.8" font-weight="700" fill="#334155">&bull; Optical Classification: {clean_notice}</text>
+  <text x="58" y="128" font-size="6.8" font-weight="700" fill="#334155">&bull; Computer Vision Verdict: Image features indicate indoor, vehicular, documentary, or stable built infrastructure</text>
+  <text x="58" y="144" font-size="6.8" font-weight="700" fill="#334155">&bull; Compliance Integrity: Synthetic cross-section generation suppressed to prevent fraudulent emergency claims</text>
+  <text x="58" y="160" font-size="6.8" font-weight="700" fill="#334155">&bull; Action Required: Please capture and upload an authentic field photograph of the damaged hill slope</text>
 
   <!-- Green Camera Instructions -->
-  <rect x="58" y="172" width="404" height="24" rx="2" fill="#042f2e" stroke="#0d9488" stroke-width="0.8" />
-  <text x="70" y="187" font-size="6.2" font-weight="700" fill="#5eead4">VALID INPUT SPECIFICATION: Clear optical view showing uphill cut face, crown scarp, displaced colluvium, or carriageway encroachment.</text>"""
+  <rect x="58" y="172" width="404" height="24" rx="2" fill="#f0fdf4" stroke="#059669" stroke-width="0.8" />
+  <text x="70" y="187" font-size="6.2" font-weight="700" fill="#065f46">VALID INPUT SPECIFICATION: Clear optical view showing uphill cut face, crown scarp, displaced colluvium, or carriageway encroachment.</text>"""
