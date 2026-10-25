@@ -156,19 +156,42 @@ def fetch_community_reports(include_hidden: bool = False) -> list[dict[str, Any]
             logger.warning("Supabase reports query exception: %s. Falling back to local data.", exc)
             reports = load_local_reports()
 
-    # Merge Supabase reports with local reports so neither is dropped
-    seen_ids = set()
+    # Merge Supabase reports with local reports so neither is dropped,
+    # strictly prioritizing official IITM-CR- canonical records over legacy HL-CR- stubs.
+    def _core_suffix(rep_id: str) -> str:
+        s = str(rep_id or "").strip()
+        for pfx in ("IITM-CR-", "HL-CR-", "IITM-STAR-"):
+            if s.startswith(pfx):
+                return s[len(pfx):]
+        return s
+
+    raw_candidates = []
+    if isinstance(reports, list):
+        raw_candidates.extend(reports)
+    raw_candidates.extend(load_local_reports())
+
+    # Sort so that canonical IITM-CR- records and rich records with descriptions come first
+    def _report_priority(rep: dict[str, Any]) -> tuple[int, int]:
+        rid = str(rep.get("id") or "")
+        pfx_prio = 0 if rid.startswith("IITM-CR-") else (1 if rid.startswith("HL-CR-") else 2)
+        has_desc = 0 if (rep.get("description") or rep.get("notes")) else 1
+        return (pfx_prio, has_desc)
+
+    raw_candidates.sort(key=_report_priority)
+
+    seen_suffixes = set()
+    seen_full_ids = set()
     merged_reports = []
-    for r in (reports if isinstance(reports, list) else []):
-        rid = r.get("id")
-        if rid and rid not in seen_ids:
-            seen_ids.add(rid)
-            merged_reports.append(r)
-    for lr in load_local_reports():
-        lid = lr.get("id")
-        if lid and lid not in seen_ids:
-            seen_ids.add(lid)
-            merged_reports.append(lr)
+    for r in raw_candidates:
+        rid = str(r.get("id") or "").strip()
+        if not rid:
+            continue
+        core = _core_suffix(rid)
+        if core in seen_suffixes or rid in seen_full_ids:
+            continue
+        seen_suffixes.add(core)
+        seen_full_ids.add(rid)
+        merged_reports.append(r)
     reports = merged_reports
 
     if include_hidden:
@@ -176,8 +199,9 @@ def fetch_community_reports(include_hidden: bool = False) -> list[dict[str, Any]
 
     visible_reports = []
     for r in reports:
+        rid = str(r.get("id") or "")
         # Filter out automated test probe records
-        if r.get("id") == "IITM-CR-17525F02" or r.get("reporter_name") == "Automated Test":
+        if rid in ("IITM-CR-17525F02", "TEST-PROBE-001") or rid.startswith("TEST-PROBE-") or r.get("reporter_name") == "Automated Test":
             continue
         # Check boolean is_hidden column
         is_hidden_val = r.get("is_hidden")
