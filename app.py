@@ -974,7 +974,9 @@ def save_custom_ai_assessment(report_id: str):
     if not payload:
         return jsonify(success=False, error="EMPTY_PAYLOAD", message="No assessment payload provided."), 400
 
-    ai_assessment.save_assessment_to_cache(report_id, payload)
+    existing = ai_assessment.get_cached_assessment(report_id) or ai_assessment.compute_deterministic_engineering_dossier(report)
+    merged = ai_assessment.deep_merge(existing, payload)
+    ai_assessment.save_assessment_to_cache(report_id, merged)
     return jsonify(success=True, report_id=report_id, message="Custom assessment persisted.")
 
 
@@ -1267,6 +1269,11 @@ def update_report_parameters(report_id: str):
     if notes:
         cached["engineer_verification_notes"] = notes
         cached["senior_engineer_remarks"] = f"VERIFIED BY FIELD ENGINEER ({verified_time}): {notes}"
+
+    cached["optical_geometry"] = optical_geometry
+    if "observed_features" not in cached or not isinstance(cached["observed_features"], dict):
+        cached["observed_features"] = {}
+    cached["observed_features"]["optical_geometry"] = optical_geometry
 
     cached["project_data_model"] = pdm
     cached["unified_geometry"] = pdm["unified_geometry"]

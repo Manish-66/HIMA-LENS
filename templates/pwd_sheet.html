@@ -158,40 +158,52 @@
       box-shadow: 0 4px 12px rgba(45, 212, 191, 0.3);
     }
 
-    /* Harmonized HIMA-LENS Floating Parameter Control Panel Card */
+    /* Harmonized White & Forest Green Parameter Verification Window */
     #parameter-panel-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(4, 25, 20, 0.45);
-      backdrop-filter: blur(3px);
-      -webkit-backdrop-filter: blur(3px);
-      z-index: 9998;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.25s ease;
+      display: none !important;
+      pointer-events: none !important;
     }
-    #parameter-panel-backdrop.active {
-      opacity: 1;
-      pointer-events: auto;
+
+    /* Smooth Workspace Left-Shift */
+    .report-canvas-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 0 4px 30px 4px;
+      display: flex;
+      justify-content: center;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
+    body.panel-open .report-canvas-wrapper {
+      transform: translateX(-220px);
+    }
+    @media (max-width: 1380px) {
+      body.panel-open .report-canvas-wrapper {
+        transform: translateX(-180px);
+      }
+    }
+    @media (max-width: 1120px) {
+      body.panel-open .report-canvas-wrapper {
+        transform: none;
+      }
+    }
+
     #parameter-control-panel {
       position: fixed;
       top: 20px;
-      right: 20px;
+      right: 24px;
       bottom: 20px;
-      width: 440px;
-      max-width: calc(100vw - 40px);
+      width: 430px;
+      max-width: calc(100vw - 48px);
       height: calc(100vh - 40px);
-      border-radius: 14px;
-      background: rgba(7, 37, 29, 0.96);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      color: #f0fdf4;
+      border-radius: 12px;
+      background: #ffffff;
+      color: #0f172a;
       z-index: 9999;
-      border: 1.5px solid #17624d;
-      box-shadow: -15px 15px 45px rgba(4, 25, 20, 0.8), 0 0 0 1px rgba(45, 212, 191, 0.12);
-      transform: translateX(calc(100% + 30px));
-      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      border: 1.5px solid #104c3b;
+      box-shadow: -10px 15px 40px rgba(9, 47, 37, 0.16), 0 0 0 1px #cbd5e1;
+      transform: translateX(calc(100% + 40px));
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
       display: flex;
       flex-direction: column;
       font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -201,9 +213,9 @@
       transform: translateX(0);
     }
     .pcp-header {
-      padding: 14px 18px;
+      padding: 13px 18px;
       background: #092f25;
-      border-bottom: 1.5px solid #17624d;
+      border-bottom: 2px solid #104c3b;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -214,18 +226,18 @@
       font-size: 13px;
       font-weight: 850;
       color: #ffffff;
-      letter-spacing: 0.4px;
+      letter-spacing: 0.3px;
     }
     .pcp-subtitle {
       font-size: 9.5px;
-      color: #5eead4;
+      color: #a7f3d0;
       margin-top: 2px;
       font-weight: 600;
     }
     .pcp-close-btn {
-      background: #0e3d31;
-      border: 1px solid #17624d;
-      color: #a7f3d0;
+      background: #104c3b;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #ffffff;
       cursor: pointer;
       border-radius: 6px;
       width: 28px;
@@ -236,9 +248,8 @@
       transition: all 0.15s ease;
     }
     .pcp-close-btn:hover {
-      background: #2dd4bf;
-      color: #092f25;
-      border-color: #2dd4bf;
+      background: #17624d;
+      color: #5eead4;
     }
     .pcp-body {
       padding: 14px 18px;
@@ -247,19 +258,57 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
+      background: #fdfdfd;
     }
     .pcp-body::-webkit-scrollbar {
-      width: 5px;
+      width: 6px;
     }
     .pcp-body::-webkit-scrollbar-track {
-      background: #07251d;
+      background: #f1f5f9;
     }
     .pcp-body::-webkit-scrollbar-thumb {
-      background: #17624d;
+      background: #cbd5e1;
       border-radius: 3px;
     }
     .pcp-body::-webkit-scrollbar-thumb:hover {
-      background: #2dd4bf;
+      background: #104c3b;
+    }
+    .pcp-info-banner {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-left: 3.5px solid #104c3b;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 9.5px;
+      line-height: 1.45;
+      color: #065f46;
+    }
+    .pcp-info-banner strong {
+      color: #092f25;
+      font-weight: 800;
+    }
+    .pcp-group {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+    .pcp-group-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      color: #092f25;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1.5px solid #f1f5f9;
+      padding-bottom: 6px;
     }
     .pcp-preset-row {
       display: flex;
@@ -269,23 +318,24 @@
     .pcp-preset-chip {
       flex: 1;
       padding: 6px 8px;
-      background: #092f25;
-      border: 1px solid #1a5c4c;
+      background: #f8faf9;
+      border: 1px solid #cbd5e1;
       border-radius: 6px;
-      color: #ccfbf1;
+      color: #092f25;
       font-family: 'DM Sans', sans-serif;
       font-size: 9.5px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       text-align: center;
       transition: all 0.15s ease;
       white-space: nowrap;
     }
     .pcp-preset-chip:hover {
-      background: #17624d;
-      border-color: #2dd4bf;
+      background: #104c3b;
+      border-color: #104c3b;
       color: #ffffff;
       transform: translateY(-1px);
+      box-shadow: 0 2px 6px rgba(16, 76, 59, 0.2);
     }
     .pcp-dim-grid {
       display: grid;
@@ -293,18 +343,19 @@
       gap: 8px;
     }
     .pcp-dim-card {
-      background: #07251d;
-      border: 1px solid #144e3f;
+      background: #f8faf9;
+      border: 1px solid #e2e8f0;
       border-radius: 6px;
       padding: 8px 10px;
       display: flex;
       flex-direction: column;
       gap: 6px;
-      transition: border-color 0.15s ease;
+      transition: all 0.15s ease;
     }
     .pcp-dim-card:focus-within {
-      border-color: #2dd4bf;
-      box-shadow: 0 0 0 1px rgba(45, 212, 191, 0.2);
+      border-color: #104c3b;
+      background: #ffffff;
+      box-shadow: 0 0 0 2px rgba(16, 76, 59, 0.12);
     }
     .pcp-dim-header {
       display: flex;
@@ -314,157 +365,73 @@
     .pcp-dim-label {
       font-size: 9.5px;
       font-weight: 700;
-      color: #ccfbf1;
+      color: #092f25;
       line-height: 1.2;
     }
     .pcp-dim-unit {
       font-size: 9px;
       font-family: 'JetBrains Mono', monospace;
-      color: #5eead4;
-      font-weight: 600;
+      color: #104c3b;
+      font-weight: 700;
+      background: #e6f4ea;
+      padding: 1px 4px;
+      border-radius: 3px;
     }
     .pcp-dim-controls {
       display: flex;
       align-items: center;
       gap: 6px;
     }
-    .pcp-dim-slider {
-      flex: 1;
-      height: 5px;
-      border-radius: 3px;
-      background: #144e3f;
-      outline: none;
-      accent-color: #2dd4bf;
-      cursor: pointer;
-    }
     .pcp-dim-input {
-      width: 58px;
-      padding: 3px 5px;
-      background: #041d16;
-      border: 1px solid #1a5c4c;
-      border-radius: 4px;
-      color: #5eead4;
+      width: 100%;
+      padding: 6px 8px;
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 5px;
+      color: #092f25;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 10.5px;
+      font-size: 11.5px;
       font-weight: 700;
       text-align: right;
       transition: border-color 0.15s ease;
     }
     .pcp-dim-input:focus {
-      border-color: #2dd4bf;
+      border-color: #104c3b;
       outline: none;
-    }
-    .pcp-info-banner {
-      background: #092f25;
-      border: 1px solid #17624d;
-      border-left: 4px solid #2dd4bf;
-      padding: 8px 12px;
-      border-radius: 4px;
-      font-size: 9.8px;
-      line-height: 1.42;
-      color: #ccfbf1;
-    }
-    .pcp-info-banner strong {
-      color: #5eead4;
-      font-weight: 800;
-    }
-    .pcp-group {
-      background: #0c382e;
-      border: 1px solid #17624d;
-      border-radius: 6px;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .pcp-group-title {
-      font-family: 'Manrope', sans-serif;
-      font-size: 11px;
-      font-weight: 800;
-      color: #f0fdf4;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #144e3f;
-      padding-bottom: 6px;
-    }
-    .pcp-field {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .pcp-label-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 10.5px;
-      font-weight: 600;
-      color: #ccfbf1;
-    }
-    .pcp-slider-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .pcp-slider {
-      flex: 1;
-      height: 6px;
-      border-radius: 3px;
-      background: #144e3f;
-      outline: none;
-      accent-color: #2dd4bf;
-      cursor: pointer;
-    }
-    .pcp-num-input {
-      width: 74px;
-      padding: 4px 6px;
-      background: #07251d;
-      border: 1.5px solid #1a5c4c;
-      border-radius: 4px;
-      color: #5eead4;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      font-weight: 700;
-      text-align: right;
-      transition: border-color 0.15s ease;
-    }
-    .pcp-num-input:focus {
-      border-color: #2dd4bf;
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(45, 212, 191, 0.2);
+      box-shadow: 0 0 0 2px rgba(16, 76, 59, 0.15);
     }
     .pcp-select {
       width: 100%;
-      padding: 6px 8px;
-      background: #07251d;
-      border: 1.5px solid #1a5c4c;
-      border-radius: 4px;
-      color: #f0fdf4;
+      padding: 7px 9px;
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 5px;
+      color: #092f25;
       font-family: 'DM Sans', sans-serif;
       font-size: 11px;
       font-weight: 600;
     }
     .pcp-select:focus {
-      border-color: #2dd4bf;
+      border-color: #104c3b;
       outline: none;
+      box-shadow: 0 0 0 2px rgba(16, 76, 59, 0.15);
     }
     .pcp-textarea {
       width: 100%;
-      min-height: 54px;
-      padding: 6px 8px;
-      background: #07251d;
-      border: 1.5px solid #1a5c4c;
-      border-radius: 4px;
-      color: #f0fdf4;
+      min-height: 52px;
+      padding: 7px 9px;
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 5px;
+      color: #092f25;
       font-family: 'DM Sans', sans-serif;
       font-size: 10.5px;
       resize: vertical;
     }
     .pcp-textarea:focus {
-      border-color: #2dd4bf;
+      border-color: #104c3b;
       outline: none;
+      box-shadow: 0 0 0 2px rgba(16, 76, 59, 0.15);
     }
     .pcp-preview-grid {
       display: grid;
@@ -472,14 +439,14 @@
       gap: 8px;
     }
     .pcp-metric-card {
-      background: #07251d;
-      border: 1px solid #17624d;
-      border-radius: 4px;
-      padding: 6px 8px;
+      background: #f8faf9;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 7px 9px;
     }
     .pcp-metric-lbl {
       font-size: 8.5px;
-      color: #86efac;
+      color: #64748b;
       text-transform: uppercase;
       font-weight: 700;
       letter-spacing: 0.3px;
@@ -488,38 +455,38 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 12px;
       font-weight: 800;
-      color: #5eead4;
+      color: #092f25;
       margin-top: 2px;
     }
     .pcp-metric-card.highlight {
-      border-color: #2dd4bf;
-      background: #041d16;
+      border-color: #104c3b;
+      background: #f0fdf4;
       grid-column: span 2;
-      box-shadow: 0 0 12px rgba(45, 212, 191, 0.12);
+      box-shadow: 0 1px 4px rgba(16, 76, 59, 0.1);
     }
     .pcp-metric-card.highlight .pcp-metric-lbl {
-      color: #a7f3d0;
+      color: #047857;
     }
     .pcp-metric-card.highlight .pcp-metric-val {
-      color: #2dd4bf;
-      font-size: 14px;
+      color: #092f25;
+      font-size: 14.5px;
     }
-
     .pcp-footer {
       padding: 12px 18px;
-      background: #092f25;
-      border-top: 1.5px solid #17624d;
+      background: #f8faf9;
+      border-top: 1.5px solid #e2e8f0;
       display: flex;
       align-items: center;
       gap: 10px;
+      flex-shrink: 0;
     }
     .pcp-btn-save {
       flex: 1;
       padding: 9px 14px;
-      background: #2dd4bf;
-      color: #092f25;
-      border: 1px solid #5eead4;
-      border-radius: 4px;
+      background: #092f25;
+      color: #ffffff;
+      border: 1px solid #104c3b;
+      border-radius: 6px;
       font-family: 'Manrope', sans-serif;
       font-size: 11.5px;
       font-weight: 850;
@@ -531,16 +498,16 @@
       gap: 6px;
     }
     .pcp-btn-save:hover {
-      background: #5eead4;
+      background: #104c3b;
       transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(45, 212, 191, 0.3);
+      box-shadow: 0 4px 12px rgba(9, 47, 37, 0.25);
     }
     .pcp-btn-reset {
       padding: 9px 12px;
-      background: #0e3d31;
-      color: #e2e8f0;
-      border: 1px solid #1c6b56;
-      border-radius: 4px;
+      background: #ffffff;
+      color: #475569;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
       font-family: 'Manrope', sans-serif;
       font-size: 11px;
       font-weight: 700;
@@ -548,9 +515,17 @@
       transition: all 0.15s ease;
     }
     .pcp-btn-reset:hover {
-      background: #17624d;
-      color: #ffffff;
-      border-color: #2dd4bf;
+      background: #f1f5f9;
+      color: #0f172a;
+      border-color: #94a3b8;
+    }
+
+    /* Active Inline Editing Highlight */
+    .editable-active {
+      background-color: #fef9c3 !important;
+      outline: 1.5px dashed #ca8a04 !important;
+      border-radius: 2px;
+      color: #713f12 !important;
     }
     .field-toast {
       position: fixed;
@@ -1009,29 +984,29 @@
     <div class="brand">
       <span class="hl-tag">HIMA-LENS</span>
       <span class="hl-tag" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);">{{ (assessment.telemetry.report_reference if (assessment.telemetry is defined and assessment.telemetry) else None) or ('IITM-CR-' + report.id) }}</span>
-      <span class="hl-tag" style="background: #104c3b; border: 1px solid rgba(255,255,255,0.35); font-weight: 800;">1-PAGE PPR (A4)</span>
+      <span class="hl-tag" style="background: #104c3b; border: 1px solid rgba(255,255,255,0.35); font-weight: 800;">SHEET 1 &bull; PPR</span>
       <span>Preliminary Project Report &bull; Inception &amp; Field Assessment Docket</span>
     </div>
     <div class="action-btn-cluster">
-      <button type="button" class="screen-btn btn-print" onclick="window.print()">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-        <span>Print 1-Page PPR (A4)</span>
-      </button>
-      <a href="/report/solution-sheet/{{ report.id }}" class="screen-btn btn-sheet2">
-        <span>Sheet 2: Detailed Analysis &rarr;</span>
+      <a href="/report/solution-sheet/{{ report.id }}" class="screen-btn btn-sheet2" title="Switch to Technical Assessment & Mitigation Analysis">
+        <span>Sheet 2: Technical Assessment &rarr;</span>
       </a>
-      <a href="/report/boq-sheet/{{ report.id }}" class="screen-btn btn-sheet3">
+      <a href="/report/boq-sheet/{{ report.id }}" class="screen-btn btn-sheet3" title="Switch to Cost Estimate & BOQ Schedule">
         <span>Sheet 3: Cost &amp; BOQ &rarr;</span>
       </a>
-            <button type="button" class="screen-btn btn-param-panel" id="btn-open-control-panel" onclick="openControlPanel()" title="Open Parameter Control Panel to adjust dimensions & recalculate">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
-        <span>Edit Parameters &amp; Recalculate</span>
+      <button type="button" class="screen-btn btn-param-panel" id="btn-open-control-panel" onclick="openControlPanel()" title="Open Parameter Verification Panel to calibrate dimensions & recalculate">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+        <span>Edit Parameters</span>
       </button>
-      <button type="button" class="screen-btn btn-ghost" id="btn-toggle-edit" onclick="toggleEditMode()">
+      <button type="button" class="screen-btn btn-ghost" id="btn-toggle-edit" onclick="toggleEditMode()" title="Toggle inline editing for report text and notes">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-        <span>Edit Fields</span>
+        <span>Edit Fields Inline</span>
       </button>
-      <a href="/" class="screen-btn btn-ghost">
+      <button type="button" class="screen-btn btn-print" onclick="window.print()" title="Print complete 1-page A4 engineering docket">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+        <span>Print A4 PDF</span>
+      </button>
+      <a href="/explore" class="screen-btn btn-ghost" title="Exit to Geospatial Observatory Map">
         <span>Exit to Map</span>
       </a>
     </div>
@@ -1143,19 +1118,19 @@
             <tr>
               <td class="col-lbl">Location Details:</td>
               <td class="col-val" colspan="3">
-                <strong>Chainage:</strong> <span class="font-mono" style="color: var(--primary-forest); font-weight: 700;">{{ telem.location_chainage or 'RD 17+432 (Km 17/432)' }}</span> &bull; 
+                <strong>Chainage:</strong> <span class="editable font-mono" id="ppr-f-chainage" style="color: var(--primary-forest); font-weight: 700;">{{ telem.location_chainage or 'RD 17+432 (Km 17/432)' }}</span> &bull; 
                 <strong>Station:</strong> <span class="editable" id="ppr-f-village">{{ telem.site_road_name or 'Mandi Sector MDR' }}</span> &bull; 
                 <strong>Division:</strong> <span class="editable" id="ppr-f-block">{{ telem.district or 'Mandi' }} Division</span> &bull; 
                 <strong>District:</strong> <span class="editable" id="ppr-f-dist">{{ telem.district or 'Mandi' }} (HP)</span> &bull; 
                 <strong>GPS:</strong> <span class="font-mono" style="color: var(--primary-forest); font-weight: 700;">{{ telem.coordinates_dec or '31.70800° N, 76.93200° E' }}</span> &bull; 
-                <strong>Elevation:</strong> <span class="font-mono">{{ telem.elevation or '950 m' }}</span>
+                <strong>Elevation:</strong> <span class="editable font-mono" id="ppr-f-elevation">{{ telem.elevation or '950 m' }}</span>
               </td>
             </tr>
             <tr>
               <td class="col-lbl">Date &amp; Road Class:</td>
-              <td class="col-val"><strong>{{ telem.inspection_date or '2026-10-12' }}</strong> &bull; Class: <strong>{{ telem.road_type or 'Major District Road (MDR)' }}</strong></td>
+              <td class="col-val"><strong><span class="editable" id="ppr-f-date">{{ telem.inspection_date or '2026-10-12' }}</span></strong> &bull; Class: <strong><span class="editable" id="ppr-f-class">{{ telem.road_type or 'Major District Road (MDR)' }}</span></strong></td>
               <td class="col-lbl">Traffic Impact:</td>
-              <td class="col-val" style="color: #b45309; font-weight: 700;">{{ (assessment.road_impact.carriageway_status if (assessment.road_impact is defined and assessment.road_impact) else telem.traffic_impact) or ('Restricted Single-Lane (' ~ (geom.road_width_pre_disaster_m | default(5.25)) ~ 'm formation &rarr; ' ~ (geom.road_width_post_disaster_m | default(2.30)) ~ 'm operable)') }}</td>
+              <td class="col-val editable" id="ppr-f-traffic" style="color: #b45309; font-weight: 700;">{{ (assessment.road_impact.carriageway_status if (assessment.road_impact is defined and assessment.road_impact) else telem.traffic_impact) or ('Restricted Single-Lane (' ~ (geom.road_width_pre_disaster_m | default(5.25)) ~ 'm formation &rarr; ' ~ (geom.road_width_post_disaster_m | default(2.30)) ~ 'm operable)') }}</td>
             </tr>
           </table>
 
@@ -1189,11 +1164,8 @@
             <!-- Right: Failure Schematic SVG -->
             <div class="schematic-frame-box">
               <div class="schematic-top-bar">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                  <span id="schematic-top-badge">{{ (assessment.schematic_top_badge or ('FAILURE CROSS-SECTION &bull; CRITICAL MONSOON FoS = ' ~ crit_fos ~ ' &bull; TARGET FoS &ge; ' ~ target_fos)) | safe }}</span>
-                  <span id="schematic-live-pill" style="display: none; background: #2dd4bf; color: #092f25; font-size: 7.5px; font-weight: 850; padding: 2px 6px; border-radius: 3px; letter-spacing: 0.5px; text-transform: uppercase;">LIVE RECALCULATING</span>
-                </div>
-                <span id="schematic-params-badge" style="color: #5eead4; font-weight: 800;">DIP: {{ dip_ang }}&deg; &bull; CUT: {{ cut_ang }}&deg; &bull; H = {{ h_mean }}m ({{ h_min }}–{{ h_max }}m)</span>
+                <span id="schematic-top-badge">{{ (assessment.schematic_top_badge or ('FAILURE CROSS-SECTION &bull; CRITICAL MONSOON FoS = ' ~ crit_fos ~ ' &bull; TARGET FoS &ge; ' ~ target_fos)) | safe }}</span>
+                <span id="schematic-params-badge" style="color: #a7f3d0; font-weight: 800;">DIP: {{ dip_ang }}&deg; &bull; CUT: {{ cut_ang }}&deg; &bull; H = {{ h_mean }}m ({{ h_min }}–{{ h_max }}m)</span>
               </div>
               <div class="schematic-svg-wrap" id="schematic-svg-container">
                 {% if assessment.schematic_svg %}
@@ -1277,7 +1249,7 @@
                 {% elif pdm.status == 'SUSPENDED_MACRO_SCALE_DPR_REQUIRED' %}
                   Catastrophic Mountain Rupture: <strong>Volume &gt; 5,000 m&sup3;</strong> (Exceeds Standard PPR Limits)
                 {% else %}
-                  Simpson's Prismoidal: <span class="math-eq"><i>V</i> = <sup><i>L</i></sup>&frasl;<sub>6</sub> (<i>A</i><sub>1</sub> + 4<i>A</i><sub>m</sub> + <i>A</i><sub>2</sub>)</span> = <strong id="cell-earthwork-vol" class="font-mono" style="color: var(--primary-forest);">{{ '%.1f'|format(geom.debris_insitu_vol_m3) if geom.debris_insitu_vol_m3 else '145.0' }} m&sup3; in-situ</strong> (<strong id="cell-earthwork-bulked">{{ '%.2f'|format(geom.debris_bulked_vol_m3) if geom.debris_bulked_vol_m3 else '181.25' }} m&sup3; bulked at {{ geom.bulking_factor | default(1.25) }}&times;</strong>)
+                  Simpson's Prismoidal: <span class="math-eq"><i>V</i> = <sup><i>L</i></sup>&frasl;<sub>6</sub> (<i>A</i><sub>1</sub> + 4<i>A</i><sub>m</sub> + <i>A</i><sub>2</sub>)</span> = <strong id="cell-earthwork-vol" class="font-mono" style="color: var(--primary-forest);">{{ '%.1f'|format(geom.debris_insitu_vol_m3) if geom.debris_insitu_vol_m3 is not none else '0.0' }} m&sup3; in-situ</strong> (<strong id="cell-earthwork-bulked">{{ '%.2f'|format(geom.debris_bulked_vol_m3) if geom.debris_bulked_vol_m3 is not none else '0.00' }} m&sup3; bulked at {{ geom.bulking_factor | default(1.25) }}&times;</strong>)
                 {% endif %}
               </td>
             </tr>
@@ -1362,7 +1334,7 @@
               2. <strong>Upper Terrace Doweling (MoRTH 3100):</strong> Install <strong>{{ sn.working_nails_count | default(15) }} Nos.</strong> portable-tripod grouted soil dowels (&Oslash;25mm Fe500D, 4.5m length) with bearing plates across upper terrace to arrest creeping colluvium.<br>
               3. <strong>Interceptor Hydrology (MoRTH 309):</strong> Construct 25.0m lined stone-masonry garland catch drain (0.60m &times; 0.60m) with stepped cascade chute to divert slope runoff away from residential homes.
             {% else %}
-              1. <strong>Toe Retention (IS:14458 Part 2):</strong> Construct <strong>{{ geom.wall_length_m | default(17.0) }}m</strong> Plum Concrete Breast Wall (Stem <i>H</i>={{ '%.2f'|format(bw.stem_height_m) if bw.stem_height_m else '2.70' }}m, Embedment <i>D</i><sub>f</sub>={{ '%.2f'|format(bw.embedment_depth_m) if bw.embedment_depth_m else '1.00' }}m, Base <i>B</i>={{ '%.2f'|format(bw.base_width_m) if bw.base_width_m else '1.35' }}m, Top <i>b</i>={{ '%.2f'|format(bw.top_width_m) if bw.top_width_m else '0.60' }}m, Concrete Vol = <strong>{{ '%.2f'|format(bw.total_concrete_vol_m3) if bw.total_concrete_vol_m3 else '67.70' }} m&sup3;</strong> M15 with 40% clean plums), backed by {{ flt.filter_vol_m3 | default(16.07) }} m&sup3; filter pack and {{ flt.weep_holes_count | default(26) }} Nos. PVC weep holes.<br>
+              1. <strong>Toe Retention (IS:14458 Part 2):</strong> Construct <strong>{{ geom.wall_length_m | default(17.0) }}m</strong> Plum Concrete Breast Wall (Stem <i>H</i>={{ '%.2f'|format(bw.stem_height_m) if bw.stem_height_m is not none else '0.00' }}m, Embedment <i>D</i><sub>f</sub>={{ '%.2f'|format(bw.embedment_depth_m) if bw.embedment_depth_m is not none else '1.00' }}m, Base <i>B</i>={{ '%.2f'|format(bw.base_width_m) if bw.base_width_m is not none else '0.00' }}m, Top <i>b</i>={{ '%.2f'|format(bw.top_width_m) if bw.top_width_m is not none else '0.60' }}m, Concrete Vol = <strong>{{ '%.2f'|format(bw.total_concrete_vol_m3) if bw.total_concrete_vol_m3 is not none else '0.00' }} m&sup3;</strong> M15 with 40% clean plums), backed by {{ flt.filter_vol_m3 | default(16.07) }} m&sup3; filter pack and {{ flt.weep_holes_count | default(26) }} Nos. PVC weep holes.<br>
               2. <strong>Upper Slope Reinforcement (MoRTH 3100 / CEDD Geoguide 7):</strong> Install <strong>{{ sn.total_nails_count | default(20) }} Nos.</strong> &Oslash;25mm Fe500D soil nails ({{ sn.working_nails_count | default(18) }} working in 1.8m H &times; 2.0m V grid + {{ sn.sacrificial_test_nails_count | default(2) }} sacrificial test nails; {{ sn.total_drilling_length_m | default(180.0) }}m drilling, {{ sn.total_bar_length_m | default(190.0) }}m bar, {{ sn.bearing_pads_count | default(18) }} M30 RC pads) with <strong>{{ '%.2f'|format(sn.wire_mesh_facing_area_m2) if sn.wire_mesh_facing_area_m2 else '91.12' }} m&sup2;</strong> high-tensile diamond steel wire mesh (3mm, 65&times;65mm) and {{ un.coir_netting_area_m2 | default(100.23) }} m&sup2; 700 GSM coir bio-turfing facing (MoRTH 1802).<br>
               3. <strong>Hydrogeological Relief Drainage (MoRTH 300 / CEDD TGN 24):</strong> Drill <strong>5 Nos. &times; 15m (75.0m total array)</strong> sub-horizontal slotted PVC relief drains (&Oslash;75mm Schedule 80 at 5&deg;&ndash;10&deg; upward rake), paired with 25.0m crest saucer catch drain (0.60m &times; 0.60m) and 17.0m roadside longitudinal drain (0.60m &times; 0.60m).
             {% endif %}
@@ -1542,8 +1514,7 @@
               <span class="pcp-dim-unit">m</span>
             </div>
             <div class="pcp-dim-controls">
-              <input type="range" id="input-h-scarp" class="pcp-dim-slider" min="2.0" max="30.0" step="0.1" value="7.6" oninput="syncInputs('h-scarp', this.value)">
-              <input type="number" id="input-h-scarp-num" class="pcp-dim-input" min="2.0" max="30.0" step="0.1" value="7.6" oninput="syncInputs('h-scarp', this.value)">
+              <input type="number" id="input-h-scarp" class="pcp-dim-input" min="2.0" max="45.0" step="0.1" value="7.6" oninput="syncInputs('h-scarp', this.value)">
             </div>
           </div>
 
@@ -1553,8 +1524,7 @@
               <span class="pcp-dim-unit">deg (&deg;)</span>
             </div>
             <div class="pcp-dim-controls">
-              <input type="range" id="input-cut-angle" class="pcp-dim-slider" min="35" max="85" step="1" value="66" oninput="syncInputs('cut-angle', this.value)">
-              <input type="number" id="input-cut-angle-num" class="pcp-dim-input" min="35" max="85" step="1" value="66" oninput="syncInputs('cut-angle', this.value)">
+              <input type="number" id="input-cut-angle" class="pcp-dim-input" min="30" max="88" step="1" value="66" oninput="syncInputs('cut-angle', this.value)">
             </div>
           </div>
 
@@ -1565,8 +1535,7 @@
               <span class="pcp-dim-unit">m</span>
             </div>
             <div class="pcp-dim-controls">
-              <input type="range" id="input-l-affected" class="pcp-dim-slider" min="5.0" max="80.0" step="0.5" value="17.0" oninput="syncInputs('l-affected', this.value)">
-              <input type="number" id="input-l-affected-num" class="pcp-dim-input" min="5.0" max="80.0" step="0.5" value="17.0" oninput="syncInputs('l-affected', this.value)">
+              <input type="number" id="input-l-affected" class="pcp-dim-input" min="5.0" max="150.0" step="0.5" value="17.0" oninput="syncInputs('l-affected', this.value)">
             </div>
           </div>
 
@@ -1576,8 +1545,7 @@
               <span class="pcp-dim-unit">deg (&deg;)</span>
             </div>
             <div class="pcp-dim-controls">
-              <input type="range" id="input-dip-angle" class="pcp-dim-slider" min="25" max="75" step="1" value="57" oninput="syncInputs('dip-angle', this.value)">
-              <input type="number" id="input-dip-angle-num" class="pcp-dim-input" min="25" max="75" step="1" value="57" oninput="syncInputs('dip-angle', this.value)">
+              <input type="number" id="input-dip-angle" class="pcp-dim-input" min="20" max="80" step="1" value="57" oninput="syncInputs('dip-angle', this.value)">
             </div>
           </div>
 
@@ -1588,8 +1556,7 @@
               <span class="pcp-dim-unit">m</span>
             </div>
             <div class="pcp-dim-controls">
-              <input type="range" id="input-w-debris" class="pcp-dim-slider" min="1.0" max="30.0" step="0.5" value="8.0" oninput="syncInputs('w-debris', this.value)">
-              <input type="number" id="input-w-debris-num" class="pcp-dim-input" min="1.0" max="30.0" step="0.5" value="8.0" oninput="syncInputs('w-debris', this.value)">
+              <input type="number" id="input-w-debris" class="pcp-dim-input" min="1.0" max="40.0" step="0.5" value="8.0" oninput="syncInputs('w-debris', this.value)">
             </div>
           </div>
 
@@ -1599,8 +1566,7 @@
               <span class="pcp-dim-unit">m</span>
             </div>
             <div class="pcp-dim-controls">
-              <input type="range" id="input-d-debris" class="pcp-dim-slider" min="0.4" max="10.0" step="0.1" value="1.5" oninput="syncInputs('d-debris', this.value)">
-              <input type="number" id="input-d-debris-num" class="pcp-dim-input" min="0.4" max="10.0" step="0.1" value="1.5" oninput="syncInputs('d-debris', this.value)">
+              <input type="number" id="input-d-debris" class="pcp-dim-input" min="0.4" max="12.0" step="0.1" value="1.5" oninput="syncInputs('d-debris', this.value)">
             </div>
           </div>
 
@@ -1611,8 +1577,7 @@
               <span class="pcp-dim-unit">m</span>
             </div>
             <div class="pcp-dim-controls">
-              <input type="range" id="input-w-pre" class="pcp-dim-slider" min="3.0" max="14.0" step="0.25" value="5.25" oninput="syncInputs('w-pre', this.value)">
-              <input type="number" id="input-w-pre-num" class="pcp-dim-input" min="3.0" max="14.0" step="0.25" value="5.25" oninput="syncInputs('w-pre', this.value)">
+              <input type="number" id="input-w-pre" class="pcp-dim-input" min="3.0" max="20.0" step="0.25" value="5.25" oninput="syncInputs('w-pre', this.value)">
             </div>
           </div>
 
@@ -1622,8 +1587,7 @@
               <span class="pcp-dim-unit">m</span>
             </div>
             <div class="pcp-dim-controls">
-              <input type="range" id="input-w-post" class="pcp-dim-slider" min="0.0" max="12.0" step="0.25" value="2.30" oninput="syncInputs('w-post', this.value)">
-              <input type="number" id="input-w-post-num" class="pcp-dim-input" min="0.0" max="12.0" step="0.25" value="2.30" oninput="syncInputs('w-post', this.value)">
+              <input type="number" id="input-w-post" class="pcp-dim-input" min="0.0" max="15.0" step="0.25" value="2.30" oninput="syncInputs('w-post', this.value)">
             </div>
           </div>
         </div>
@@ -1699,35 +1663,68 @@
   </div>
 
   <script>
-let isEditMode = false;
+    let isEditMode = false;
+
     function toggleEditMode() {
       isEditMode = !isEditMode;
       const editables = document.querySelectorAll('.editable');
       const btn = document.getElementById('btn-toggle-edit');
+      
       editables.forEach(el => {
-        el.contentEditable = isEditMode;
+        el.contentEditable = isEditMode ? "true" : "false";
         if (isEditMode) {
-          el.style.outline = '1.5px dashed #2dd4bf';
-          el.style.backgroundColor = 'rgba(45, 212, 191, 0.08)';
+          el.classList.add('editable-active');
         } else {
-          el.style.outline = 'none';
-          el.style.backgroundColor = 'transparent';
+          el.classList.remove('editable-active');
         }
       });
+
       if (btn) {
-        btn.querySelector('span').textContent = isEditMode ? 'Finish Editing' : 'Edit Fields';
-        btn.style.background = isEditMode ? '#17624d' : 'rgba(255, 255, 255, 0.12)';
+        btn.querySelector('span').textContent = isEditMode ? 'Done Editing' : 'Edit Fields Inline';
+        btn.style.background = isEditMode ? '#104c3b' : 'rgba(255, 255, 255, 0.12)';
+        btn.style.color = '#ffffff';
+      }
+
+      if (!isEditMode) {
+        saveInlineEditsToServer();
+      }
+    }
+
+    async function saveInlineEditsToServer() {
+      const panel = document.getElementById('parameter-control-panel');
+      const reportId = panel ? panel.getAttribute('data-report-id') : null;
+      if (!reportId) return;
+
+      const payload = {
+        telemetry: {
+          site_road_name: document.getElementById('ppr-f-station') ? document.getElementById('ppr-f-station').innerText.trim() : undefined,
+          location_chainage: document.getElementById('ppr-f-chainage') ? document.getElementById('ppr-f-chainage').innerText.trim() : undefined,
+          road_type: document.getElementById('ppr-f-class') ? document.getElementById('ppr-f-class').innerText.trim() : undefined,
+          traffic_impact: document.getElementById('ppr-f-traffic') ? document.getElementById('ppr-f-traffic').innerText.trim() : undefined,
+          movement_classification: document.getElementById('ppr-f-classification') ? document.getElementById('ppr-f-classification').innerText.trim() : undefined,
+        },
+        senior_engineer_remarks: document.getElementById('ppr-f-remarks') ? document.getElementById('ppr-f-remarks').innerText.trim() : undefined
+      };
+
+      try {
+        await fetch('/api/reports/' + encodeURIComponent(reportId) + '/ai-assessment/save', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        showToast('Inline text edits saved successfully.');
+      } catch (err) {
+        console.warn('Inline save notice:', err);
       }
     }
 
     function openControlPanel() {
       const panel = document.getElementById('parameter-control-panel');
-      const backdrop = document.getElementById('parameter-panel-backdrop');
-      if (panel && backdrop) {
-        backdrop.classList.add('active');
+      if (panel) {
+        document.body.classList.add('panel-open');
         panel.classList.add('active');
 
-        // Init values from data attributes if available
+        // Init values from data attributes
         const vec = panel.getAttribute('data-failure-vector');
         if (vec && document.getElementById('input-failure-vector')) {
           document.getElementById('input-failure-vector').value = vec;
@@ -1755,19 +1752,16 @@ let isEditMode = false;
 
     function closeControlPanel() {
       const panel = document.getElementById('parameter-control-panel');
-      const backdrop = document.getElementById('parameter-panel-backdrop');
-      if (panel && backdrop) {
-        backdrop.classList.remove('active');
+      if (panel) {
+        document.body.classList.remove('panel-open');
         panel.classList.remove('active');
       }
     }
 
     function syncInputs(id, val) {
-      const slider = document.getElementById('input-' + id);
-      const num = document.getElementById('input-' + id + '-num');
-      if (slider && num) {
-        slider.value = val;
-        num.value = val;
+      const input = document.getElementById('input-' + id);
+      if (input && val !== undefined) {
+        input.value = val;
       }
       recalculateParametersLive();
     }
@@ -1786,12 +1780,6 @@ let isEditMode = false;
 
     let schematicDebounceTimer = null;
     function updateSchematicLive(payload) {
-      const livePill = document.getElementById('schematic-live-pill');
-      if (livePill) {
-        livePill.textContent = 'LIVE RECALCULATING';
-        livePill.style.display = 'inline-block';
-      }
-
       clearTimeout(schematicDebounceTimer);
       schematicDebounceTimer = setTimeout(async () => {
         try {
@@ -1806,39 +1794,31 @@ let isEditMode = false;
           });
           const data = await res.json();
           if (data.success && data.schematic_svg) {
-            // 1. Update main docket cross-section SVG
+            // Update main docket cross-section SVG
             const svgContainer = document.getElementById('schematic-svg-container');
             if (svgContainer) {
               svgContainer.innerHTML = data.schematic_svg;
             }
-            // 2. Update top badge
+            // Update top badge
             const topBadge = document.getElementById('schematic-top-badge');
             if (topBadge && data.top_badge) {
               topBadge.innerHTML = data.top_badge;
             }
-            // 3. Update geometry badge
+            // Update geometry badge
             const paramsBadge = document.getElementById('schematic-params-badge');
             if (paramsBadge && data.kinematic_parameters) {
               const kp = data.kinematic_parameters;
               paramsBadge.innerHTML = 'DIP: ' + Math.round(kp.dip_deg) + '&deg; &bull; CUT: ' + Math.round(kp.cut_deg) + '&deg; &bull; H = ' + kp.slope_height_m.toFixed(1) + 'm';
             }
-            // 4. Update FoS badge
+            // Update FoS badge
             const fosBadge = document.getElementById('schematic-fos-badge');
             if (fosBadge && data.kinematic_parameters) {
               const kp = data.kinematic_parameters;
               fosBadge.innerHTML = 'FoS: ' + kp.crit_fos + ' (ACTIVE FAILURE) &rarr; ' + kp.target_fos + ' (STABILIZED &ge; 1.50)';
             }
-            if (livePill) {
-              livePill.textContent = 'UPDATED';
-              setTimeout(() => {
-                livePill.style.display = 'none';
-                livePill.textContent = 'LIVE RECALCULATING';
-              }, 700);
-            }
           }
         } catch (err) {
           console.warn('Schematic dynamic update notice:', err);
-          if (livePill) livePill.style.display = 'none';
         }
       }, 70);
     }
@@ -1908,34 +1888,38 @@ let isEditMode = false;
       let subtotal = 0;
 
       if (failureVector === 'UPHILL_CUT_SLOPE') {
-        hStem = Math.min(6.5, Math.max(3.0, Math.round(H * 0.45 * 10) / 10));
-        const Df = 1.2;
+        hStem = Math.min(6.5, Math.max(2.0, Math.round(H * 0.355 * 100) / 100));
+        const Df = Math.min(1.5, Math.max(0.8, Math.round(hStem * 0.37 * 100) / 100));
         const Htot = hStem + Df;
-        bBase = Math.max(1.8, Math.round(Htot * 0.55 * 100) / 100);
         const Ttop = 0.60;
-        const Acs = ((Ttop + bBase) / 2.0) * Htot;
-        vWall = Math.round(Acs * L * 100) / 100;
+        bBase = Math.round((Ttop + (hStem / 6.0) + (hStem / 9.0)) * 100) / 100;
+        const vFooting = Math.round(L * bBase * Df * 100) / 100;
+        const vStem = Math.round(L * ((Ttop + bBase) / 2.0) * hStem * 100) / 100;
+        vWall = Math.round((vFooting + vStem) * 100) / 100;
 
-        const nRows = Math.max(2, Math.round((H * 0.55) / 1.5));
-        const nCols = Math.max(3, Math.round(L / 1.5));
-        nNails = nRows * nCols;
-        const lNail = Math.min(14.0, Math.max(6.0, Math.round(H * 0.75 * 10) / 10));
-        lDrill = Math.round(nNails * lNail);
-        aMesh = Math.round(H * L * 0.7 * 100) / 100;
+        const hUpper = Math.max(1.0, H - hStem);
+        const sUpper = Math.max(1.5, Math.round((hUpper / Math.sin(beta * Math.PI / 180)) * 100) / 100);
+        aMesh = Math.round(L * sUpper * 100) / 100;
+
+        const cols = Math.max(4, Math.round(L / 1.8));
+        const rows = Math.max(2, Math.round(sUpper / 2.0));
+        nNails = cols * rows;
+        const totalNails = nNails + 2;
+        lDrill = Math.round(totalNails * 9.0);
 
         const costExc = vBulked * 220;
         const costTrim = aMesh * 115;
-        const costFdn = (bBase * Df * L) * 580;
+        const costFdn = vFooting * 580;
         const costPlum = vWall * 4250;
         const costShut = (Htot * L * 1.4) * 145;
         const costDrill = lDrill * 880;
-        const costBar = (lDrill * 1.05) * 385;
+        const costBar = (totalNails * 9.5) * 385;
         const costGrout = lDrill * 520;
         const costPlates = nNails * 2150;
         const costTests = 2 * 5000;
         const costMesh = aMesh * 420;
         const costDrain = (L * 4.5) * 1150 + 25 * 780 + L * 850;
-        const costTurf = (H * L * 0.8) * 195;
+        const costTurf = (aMesh * 1.1) * 195;
         subtotal = costExc + costTrim + costFdn + costPlum + costShut + costDrill + costBar + costGrout + costPlates + costTests + costMesh + costDrain + costTurf;
       } else if (failureVector === 'VALLEY_EMBANKMENT_SUBSIDENCE') {
         const vGab = Math.round(L * 2.5 * 3.0 * 100) / 100;
@@ -1953,7 +1937,7 @@ let isEditMode = false;
       const totalOutlay = Math.round(subtotalBeforeGst + gst);
 
       const hStemEl = document.getElementById('metric-h-stem');
-      if (hStemEl) hStemEl.textContent = hStem > 0 ? (hStem.toFixed(1) + ' m (B=' + bBase.toFixed(2) + 'm)') : 'N/A';
+      if (hStemEl) hStemEl.textContent = hStem > 0 ? (hStem.toFixed(2) + ' m (B=' + bBase.toFixed(2) + 'm)') : 'N/A';
       const vPlumEl = document.getElementById('metric-v-plum');
       if (vPlumEl) vPlumEl.textContent = vWall > 0 ? (vWall.toFixed(1) + ' m³') : 'N/A';
       const nailsEl = document.getElementById('metric-nails');
@@ -1970,7 +1954,7 @@ let isEditMode = false;
       const critFosEl = document.getElementById('metric-crit-fos');
       if (critFosEl) critFosEl.textContent = fMonsoon.toFixed(2) + ' (Monsoon Critical)';
 
-      // Update Live Docket Cells
+      // Update Live Docket Cells on Sheet
       const cellHeight = document.getElementById('cell-slope-height');
       if (cellHeight) cellHeight.textContent = 'H = ' + H.toFixed(1) + ' m';
       const cellCut = document.getElementById('cell-cut-angle');
@@ -1996,7 +1980,7 @@ let isEditMode = false;
         cellBoqTot.innerHTML = '₹ ' + totalOutlay.toLocaleString('en-IN') + '<span style="display: block; font-size: 6.6px; font-weight: 700; color: #047857;">[FIELD ENGINEER VERIFIED &bull; HPSOR 2024-25]</span>';
       }
 
-      // Trigger debounced live schematic update!
+      // Trigger debounced live schematic cross-section update
       updateSchematicLive({
         failure_vector: failureVector,
         scarp_height_m: H,
@@ -2039,6 +2023,17 @@ let isEditMode = false;
         });
         const result = await res.json();
         if (result.success) {
+          // Update data attributes on panel
+          panel.setAttribute('data-h-scarp', payload.scarp_height_m);
+          panel.setAttribute('data-l-affected', payload.affected_length_m);
+          panel.setAttribute('data-w-debris', payload.debris_width_m);
+          panel.setAttribute('data-d-debris', payload.debris_thickness_m);
+          panel.setAttribute('data-cut-angle', payload.cut_slope_angle_deg);
+          panel.setAttribute('data-dip-angle', payload.slip_surface_dip_deg);
+          panel.setAttribute('data-w-pre', payload.carriageway_formation_m);
+          panel.setAttribute('data-w-post', payload.carriageway_open_m);
+          panel.setAttribute('data-failure-vector', payload.failure_vector);
+
           showToast('Field parameters verified and applied to docket successfully.');
           setTimeout(() => {
             window.location.reload();

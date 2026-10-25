@@ -1600,47 +1600,29 @@
 
 
   <!-- Screen Action Bar -->
-
   <div class="screen-action-bar">
-
     <div class="brand">
-
       <span class="hl-tag">HIMA-LENS</span>
-
       <span class="hl-tag" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);">{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-CR-') if assessment.telemetry.report_id else 'IITM-CR-RECORD') }}</span>
-
-      <span class="hl-tag" style="background: #104c3b; border: 1px solid rgba(255,255,255,0.35); font-weight: 800;">ISO A4 &bull; 210 &times; 297 mm</span>
-
-      <span>IIT Mandi Slope Technical Assessment &bull; BOQ &amp; Loss Estimate</span>
-
+      <span class="hl-tag" style="background: #104c3b; border: 1px solid rgba(255,255,255,0.35); font-weight: 800;">SHEET 3 &bull; COST &amp; BOQ</span>
+      <span>HPSOR 2024-25 Civil Remediation Schedule &amp; Loss BOQ</span>
     </div>
-
     <div class="action-btn-cluster">
-
-      <button type="button" class="screen-btn btn-print" onclick="window.print()">
-
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-
-        <span>Print Official PDF (A4)</span>
-
-      </button>
-
-            <button type="button" class="screen-btn btn-param-panel" id="btn-open-control-panel" onclick="openControlPanel()" title="Open Parameter Control Panel to adjust dimensions & recalculate">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
-        <span>Edit Parameters &amp; Recalculate</span>
-      </button>
-      <a href="/report/pwd-sheet/{{ report.id }}" class="screen-btn btn-ghost">
-
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-
-        <span>Back to Field Report</span>
-
+      <a href="/report/pwd-sheet/{{ report.id }}" class="screen-btn btn-ghost" title="Switch to Preliminary Project Report">
+        <span>&larr; Sheet 1: Preliminary Report (PPR)</span>
       </a>
-
-      <a href="/explore" class="screen-btn btn-ghost">
-
-        <span>Map View</span>
-
+      <a href="/report/solution-sheet/{{ report.id }}" class="screen-btn btn-ghost" title="Switch to Technical Assessment & Mitigation Analysis">
+        <span>&larr; Sheet 2: Technical Assessment</span>
+      </a>
+      <span class="nav-tab active" style="background: #104c3b; color: #f0fdf4; padding: 6px 12px; border-radius: 4px; font-weight: 800; font-size: 11px; border: 1px solid rgba(255,255,255,0.25);">
+        Sheet 3: Cost &amp; BOQ
+      </span>
+      <button type="button" class="screen-btn btn-print" onclick="window.print()" title="Print complete A4 BOQ Schedule">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+        <span>Print A4 PDF</span>
+      </button>
+      <a href="/explore" class="screen-btn btn-ghost" title="Exit to Geospatial Observatory Map">
+        <span>Exit to Map</span>
       </a>
 
     </div>

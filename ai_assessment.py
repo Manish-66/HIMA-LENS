@@ -1709,7 +1709,10 @@ def normalize_assessment_structure(assessment: dict[str, Any] | None, report: di
     is_benchmark_6A9B = any(clean.endswith("6A9B327E") for clean in [rep_id, str(report.get("id") or "")])
 
     # 1. Authoritative ProjectDataModel Single Source of Truth
-    pdm = geotech_engine.build_project_data_model(merged, report)
+    if assessment.get("is_engineer_verified") and assessment.get("project_data_model"):
+        pdm = assessment["project_data_model"]
+    else:
+        pdm = geotech_engine.build_project_data_model(merged, report)
     merged["project_data_model"] = pdm
     merged["cost_estimate_boq"] = pdm
     merged["financial_summary"] = pdm["financial_summary"]

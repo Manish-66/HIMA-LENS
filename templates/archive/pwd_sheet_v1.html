@@ -2569,63 +2569,38 @@
   <!-- Screen Top Actions Bar -->
 
   <div class="screen-action-bar">
-
     <div class="brand">
-
       <span class="hl-tag">HIMA-LENS</span>
-
       <span class="hl-tag" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);">{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-CR-') if assessment.telemetry.report_id else 'IITM-CR-RECORD') }}</span>
-
-      <span>IIT Mandi Slope Technical Assessment Report</span>
-
+      <span class="hl-tag" style="background: #104c3b; border: 1px solid rgba(255,255,255,0.35); font-weight: 800;">SHEET 2 &bull; TECHNICAL ASSESSMENT</span>
+      <span>Slope Technical Assessment &amp; Mitigation Analysis</span>
     </div>
-
     <div class="action-btn-cluster">
-
-      <a href="/report/pwd-sheet/{{ report.id }}" class="screen-btn" style="background:#2dd4bf; color:#092f25; font-weight:700;" title="Return to Preliminary Project Report Problem Identification">
-
-        <span>&larr; Back to PPR (Problem Sheet)</span>
-
+      <a href="/report/pwd-sheet/{{ report.id }}" class="screen-btn btn-ghost" title="Switch to Preliminary Project Report">
+        <span>&larr; Sheet 1: Preliminary Report (PPR)</span>
       </a>
-
-      <button type="button" class="screen-btn btn-estimate" id="btn-cost-estimate" onclick="openCostEstimateModal()">
-
+      <span class="nav-tab active" style="background: #104c3b; color: #f0fdf4; padding: 6px 12px; border-radius: 4px; font-weight: 800; font-size: 11px; border: 1px solid rgba(255,255,255,0.25);">
+        Sheet 2: Technical Assessment
+      </span>
+      <a href="/report/boq-sheet/{{ report.id }}" class="screen-btn btn-sheet3" title="Switch to Cost Estimate & BOQ Schedule">
+        <span>Sheet 3: Cost &amp; BOQ &rarr;</span>
+      </a>
+      <button type="button" class="screen-btn btn-estimate" id="btn-cost-estimate" onclick="openCostEstimateModal()" title="View Cost Estimate & Loss BOQ Modal">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path><path d="M12 6v2m0 8v2"></path></svg>
-
         <span>Cost Estimate &amp; Loss BOQ</span>
-
       </button>
-
-            <button type="button" class="screen-btn btn-param-panel" id="btn-open-control-panel" onclick="openControlPanel()" title="Open Parameter Control Panel to adjust dimensions & recalculate">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
-        <span>Edit Parameters &amp; Recalculate</span>
-      </button>
-      <button type="button" class="screen-btn btn-ghost" id="btn-toggle-edit" onclick="toggleEditMode()">
-
+      <button type="button" class="screen-btn btn-ghost" id="btn-toggle-edit" onclick="toggleEditMode()" title="Toggle inline editing for report text and notes">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-
         <span>Edit Fields Inline</span>
-
       </button>
-
-      <button type="button" class="screen-btn btn-print" onclick="window.print()">
-
+      <button type="button" class="screen-btn btn-print" onclick="window.print()" title="Print complete A4 engineering docket">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-
         <span>Print Official PDF (A4)</span>
-
       </button>
-
-      <a href="/explore" class="screen-btn btn-ghost">
-
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-
-        <span>Back to Map</span>
-
+      <a href="/explore" class="screen-btn btn-ghost" title="Exit to Geospatial Observatory Map">
+        <span>Exit to Map</span>
       </a>
-
     </div>
-
   </div>
 
 
