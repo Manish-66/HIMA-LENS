@@ -52,11 +52,11 @@ def _get_http_session() -> requests.Session:
     return _http_session
 
 GEMINI_MODELS = [
-    "gemini-flash-latest",
-    "gemini-flash-lite-latest",
-    "gemini-3.1-flash-lite",
-    "gemini-3-flash-preview",
+    "gemini-2.5-pro",
     "gemini-pro-latest",
+    "gemini-3.1-pro-preview",
+    "gemini-2.5-flash",
+    "gemini-flash-latest",
 ]
 
 ENGINEERING_DISCLAIMER = (
@@ -1986,20 +1986,37 @@ def generate_ai_assessment(report: dict[str, Any], force_refresh: bool = False) 
     photo_url = report.get("photo_url", "")
     base64_data, mime_type = _get_image_base64_and_mime(photo_url)
 
-    # If no photo was attached, return structured deterministic baseline
+    # Mandatory requirement: Photographic field evidence is required for automated photogrammetry and dimensioning.
+    # If no photo was attached, strictly suspend civil BOQ and do NOT invent synthetic slope metrics.
     if not base64_data:
-        dossier = compute_deterministic_engineering_dossier(report)
-        dossier["source"] = "HIMA-LENS Telemetry Engine (No Photo Uploaded)"
-        dossier = normalize_assessment_structure(dossier, report)
-        save_assessment_to_cache(report_id, dossier)
-        return dossier
+        rejection_dossier = build_rejected_assessment_dossier(
+            report,
+            detected_content="No Photographic Field Evidence Attached",
+            rejection_reason="Report submission lacks photographic field evidence. Automated optical photogrammetry and geotechnical remediation design require verified terrain imagery.",
+            senior_remarks="Automated geotechnical analysis and civil BOQ cost estimation are strictly suspended (₹ 0) until authentic field imagery is uploaded.",
+            plain_lang={
+                "summary": "This incident report was submitted without an attached field photograph. Geotechnical stabilization measures and civil quantities cannot be calculated without photographic terrain evidence.",
+                "action_recommendation": "Field personnel or community observers must upload clear field photographs of the slope scarp, crown, and toe to initiate automated photogrammetry and structural dimensioning.",
+            },
+            model_name="HIMA-LENS Telemetry Ingestion (No Photo)",
+        )
+        rejection_dossier["validation_status"] = "MISSING_IMAGE_EVIDENCE"
+        rejection_dossier["status"] = "PENDING_IMAGE_UPLOAD"
+        save_assessment_to_cache(report_id, rejection_dossier)
+        return rejection_dossier
 
     if not GEMINI_API_KEY:
         logger.warning("GEMINI_API_KEY not configured in environment.")
-        dossier = compute_deterministic_engineering_dossier(report)
-        dossier = normalize_assessment_structure(dossier, report)
-        save_assessment_to_cache(report_id, dossier)
-        return dossier
+        rejection_dossier = build_rejected_assessment_dossier(
+            report,
+            detected_content="AI Vision Service Key Not Configured",
+            rejection_reason="Google Gemini API key is not configured in the host environment. Automated optical photogrammetry cannot be executed.",
+            senior_remarks="Automated vision diagnosis suspended. Please configure GEMINI_API_KEY in server environment.",
+            model_name="HIMA-LENS System Configuration",
+        )
+        rejection_dossier["validation_status"] = "API_KEY_MISSING"
+        save_assessment_to_cache(report_id, rejection_dossier)
+        return rejection_dossier
 
     try:
         lat = float(report.get("latitude") or 31.7000)
@@ -2256,7 +2273,7 @@ RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
     for model_name in GEMINI_MODELS:
         try:
             url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={GEMINI_API_KEY}"
-            resp = _get_http_session().post(url, json=payload, timeout=12)
+            resp = _get_http_session().post(url, json=payload, timeout=30)
             if resp.status_code == 200:
                 result_json = resp.json()
                 candidates = result_json.get("candidates", [])
@@ -2298,8 +2315,18 @@ RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
         except Exception as exc:
             logger.warning("Gemini model %s exception: %s", model_name, exc)
 
-    logger.warning("All Gemini vision models failed or timed out. Falling back to deterministic engineering engine.")
-    dossier = compute_deterministic_engineering_dossier(report)
-    dossier = normalize_assessment_structure(dossier, report)
-    save_assessment_to_cache(report_id, dossier)
-    return dossier
+    logger.warning("All Gemini vision models failed or timed out. Suspending estimation to prevent ungrounded hallucination.")
+    fallback_dossier = build_rejected_assessment_dossier(
+        report,
+        detected_content="Photographic Vision Analysis Timed Out / Unavailable",
+        rejection_reason="Gemini Multimodal Vision API request timed out or was temporarily unavailable. Estimation suspended to prevent ungrounded geotechnical hallucination.",
+        senior_remarks="Automated optical analysis could not be completed at this time. Structural stabilization estimation is suspended (₹ 0) to avoid generating unverified engineering designs.",
+        plain_lang={
+            "summary": "The automated optical vision pipeline could not reach the multimodal reasoning service. To maintain structural safety and geotechnical integrity, no synthetic measurements were generated.",
+            "action_recommendation": "Please retry the optical analysis via the admin console or verify your network connection to Google Gemini API.",
+        },
+        model_name="Optical Timeout Guard",
+    )
+    fallback_dossier["validation_status"] = "VISION_SERVICE_TIMEOUT"
+    save_assessment_to_cache(report_id, fallback_dossier)
+    return fallback_dossier
