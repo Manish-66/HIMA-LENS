@@ -2140,7 +2140,8 @@ RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
         },
     }
 
-    # Iterate through active models with fallback
+    # Iterate through active models with fallback and transparent error tracking
+    model_errors = []
     for model_name in GEMINI_MODELS:
         try:
             url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={GEMINI_API_KEY}"
@@ -2156,12 +2157,10 @@ RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
                         parsed = json.loads(cleaned)
                     except Exception as json_err:
                         logger.warning("Standard json.loads failed (%s), attempting sanitization...", json_err)
-                        # Fix trailing commas or unescaped control chars
                         sanitized = re.sub(r",\s*([\]}])", r"\1", cleaned)
                         try:
                             parsed = json.loads(sanitized)
                         except Exception:
-                            # Try greedy extraction of JSON object
                             m_obj = re.search(r"(\{.*\})", cleaned, re.DOTALL)
                             if m_obj:
                                 parsed = json.loads(re.sub(r",\s*([\]}])", r"\1", m_obj.group(1)))
@@ -2179,6 +2178,15 @@ RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
                             plain_lang=parsed.get("plain_language_explanation"),
                             model_name=model_name,
                         )
+                        rejection_dossier["diagnostic_notice"] = (
+                            f"Optical photogrammetry verified non-terrain media: {parsed.get('detected_content', 'Object/Selfie/Pet')}. "
+                            f"Reason: {parsed.get('rejection_reason', 'Zero slope displacement observed')}. Civil remediation suspended."
+                        )
+                        rejection_dossier["vision_diagnostic"] = {
+                            "status": "NON_TERRAIN_REJECTED",
+                            "model": model_name,
+                            "detected_content": parsed.get("detected_content"),
+                        }
                         save_assessment_to_cache(report_id, rejection_dossier)
                         return rejection_dossier
 
@@ -2192,23 +2200,48 @@ RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
                         site_context=parsed.get("site_context"),
                     )
                     dossier["source"] = f"HIMA-LENS Senior Engineering Vision ({model_name})"
+                    dossier["diagnostic_notice"] = (
+                        f"AI Optical Photogrammetry verified via {model_name}. "
+                        "Ground-truth terrain features and continuous dimensions extracted from photographic plate."
+                    )
+                    dossier["vision_diagnostic"] = {
+                        "status": "ONLINE_SUCCESS",
+                        "model": model_name,
+                        "mode": "MULTIMODAL_PHOTOGRAMMETRY",
+                    }
                     dossier = normalize_assessment_structure(dossier, report)
                     save_assessment_to_cache(report_id, dossier)
                     return dossier
             else:
+                err_desc = f"{model_name}: HTTP {resp.status_code}"
+                model_errors.append(err_desc)
                 logger.warning("Gemini model %s returned status %s: %s", model_name, resp.status_code, resp.text[:180])
         except Exception as exc:
+            err_desc = f"{model_name}: {'Timeout' if 'timed out' in str(exc).lower() else str(exc)[:40]}"
+            model_errors.append(err_desc)
             logger.warning("Gemini model %s exception: %s", model_name, exc)
 
-    logger.warning("All Gemini vision models failed or timed out. Falling back to deterministic geotechnical engineering dossier.")
+    error_summary = "; ".join(model_errors) if model_errors else "API Timeout / High Demand"
+    logger.warning("All Gemini vision models failed or timed out (%s). Falling back to deterministic geotechnical engineering dossier.", error_summary)
     fallback_dossier = compute_deterministic_engineering_dossier(report)
     fallback_dossier["validation_status"] = "DETERMINISTIC_HEURISTIC_ACTIVE"
     fallback_dossier["is_landslide_or_terrain"] = True
-    fallback_dossier["source"] = "HIMA-LENS Senior Engineering Knowledge Engine (Deterministic Geotechnical Baseline)"
+    fallback_dossier["source"] = f"HIMA-LENS Senior Engineering Knowledge Engine (Deterministic Geotechnical Baseline • AI Vision Offline: {error_summary})"
+    fallback_dossier["diagnostic_notice"] = (
+        f"Multimodal AI Vision service was temporarily unavailable ({error_summary}). "
+        "To prevent fabricated metrics during development, preliminary slope dimensions, FoS, and remediation BOQ "
+        "are calculated via the deterministic kinematic engine, site GPS telemetry, and GSI Bhukosh digital geology."
+    )
+    fallback_dossier["vision_diagnostic"] = {
+        "status": "OFFLINE_FALLBACK",
+        "error_summary": error_summary,
+        "models_attempted": GEMINI_MODELS,
+        "mode": "DETERMINISTIC_KINEMATIC_HEURISTIC",
+    }
     fallback_dossier["senior_engineer_remarks"] = (
-        "Photogrammetric vision service was temporarily unreachable or timed out. "
-        "Civil stabilization schedule, BOQ, and Factor of Safety were derived via the deterministic kinematic engine, "
-        "calibrated to site telemetry, regional slope angles, and GSI Bhukosh lithology."
+        f"DEVELOPMENT NOTICE: Multimodal photographic vision analysis was temporarily unavailable ({error_summary}). "
+        "Structural stabilization quantities and Factor of Safety stability benchmark were derived deterministically "
+        "using reported incident telemetry and GSI Bhukosh digital bedrock lithology."
     )
     fallback_dossier = normalize_assessment_structure(fallback_dossier, report)
     save_assessment_to_cache(report_id, fallback_dossier)

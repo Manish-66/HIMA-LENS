@@ -250,6 +250,9 @@ def extract_ml_kinematic_parameters(
         mode_label = "TRANSLATIONAL PLANAR ROCK SLIDE"
         top_badge = f"SLIP PLANE: {dip_deg}° DAYLIGHTING • Hcut={slope_height_m:.1f}m"
 
+    if validation_status in ("DETERMINISTIC_HEURISTIC_ACTIVE", "VISION_SERVICE_TIMEOUT") and mode != "rejected_ood":
+        top_badge = f"{top_badge} [KINEMATIC HEURISTIC]"
+
     return {
         "mode": mode,
         "mode_label": mode_label,

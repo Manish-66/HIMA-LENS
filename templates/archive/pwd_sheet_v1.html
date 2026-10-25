@@ -2343,7 +2343,7 @@
 
             <span class="stamp-code">{{ telem.report_reference or 'IITM-CR-6A9B327E' }}</span>
 
-            <span class="stamp-stat">AI &bull; VERIFIED</span>
+            <span class="stamp-stat">{% if assessment.validation_status in ('DETERMINISTIC_HEURISTIC_ACTIVE', 'VISION_SERVICE_TIMEOUT') %}HEURISTIC{% elif assessment.validation_status in ('INVALID_NON_TERRAIN_IMAGE', 'NON_LANDSLIDE_STABLE_TERRAIN') %}DISQUALIFIED{% else %}AI &bull; VERIFIED{% endif %}</span>
 
           </div>
 
@@ -2354,6 +2354,24 @@
     </div>
 
 
+
+    <!-- Real-Time Diagnostic & Optical Audit Status Bar -->
+    {% if assessment.validation_status in ('INVALID_NON_TERRAIN_IMAGE', 'NON_LANDSLIDE_STABLE_TERRAIN') %}
+    <div style="background: #fef2f2; border: 1px solid #fecaca; border-left: 3px solid #dc2626; padding: 3px 8px; font-size: 8px; margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center; color: #991b1b;">
+      <span><strong>OPTICAL AUDIT DISQUALIFICATION:</strong> Computer vision confirmed non-landslide media: <em>{{ assessment.detected_content or 'Non-geological scene' }}</em>. Civil remediation suspended; zero public works capital requisitioned.</span>
+      <span style="background: #dc2626; color: #ffffff; padding: 1px 6px; border-radius: 2px; font-weight: 800; font-size: 7.2px; letter-spacing: 0.3px; white-space: nowrap;">REJECTED &bull; ₹0 BOQ</span>
+    </div>
+    {% elif assessment.validation_status in ('DETERMINISTIC_HEURISTIC_ACTIVE', 'VISION_SERVICE_TIMEOUT') %}
+    <div style="background: #fffbeb; border: 1px solid #fef3c7; border-left: 3px solid #d97706; padding: 3px 8px; font-size: 8px; margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center; color: #92400e;">
+      <span><strong>DEVELOPMENT NOTICE &bull; AI VISION OFFLINE:</strong> {{ assessment.diagnostic_notice or 'Multimodal AI vision timed out. To prevent false reporting during development, dimensions and BOQ are derived via the Deterministic Kinematic Engine & GSI Bhukosh lithology.' }}</span>
+      <span style="background: #d97706; color: #ffffff; padding: 1px 6px; border-radius: 2px; font-weight: 800; font-size: 7.2px; letter-spacing: 0.3px; white-space: nowrap;">DETERMINISTIC HEURISTIC</span>
+    </div>
+    {% elif assessment.validation_status == 'VALID_TERRAIN_IMAGE' %}
+    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-left: 3px solid #16a34a; padding: 3px 8px; font-size: 8px; margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center; color: #166534;">
+      <span><strong>AI PHOTOGRAMMETRIC AUDIT:</strong> Ground-truth terrain failure verified via {{ assessment.source or 'Multimodal AI Vision' }} &bull; Live optical scaling calibrated to field evidence plate.</span>
+      <span style="background: #16a34a; color: #ffffff; padding: 1px 6px; border-radius: 2px; font-weight: 800; font-size: 7.2px; letter-spacing: 0.3px; white-space: nowrap;">VISION VERIFIED</span>
+    </div>
+    {% endif %}
 
     <!-- Master Identification Table (Data Collection Sheet Header Format) -->
 
