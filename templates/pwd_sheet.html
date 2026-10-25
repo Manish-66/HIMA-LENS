@@ -705,7 +705,7 @@
             <!-- Right: Failure Schematic SVG -->
             <div class="schematic-frame-box">
               <div class="schematic-top-bar">
-                <span>{{ assessment.schematic_top_badge or ('FAILURE CROSS-SECTION &bull; CRITICAL MONSOON FoS = ' ~ crit_fos ~ ' &bull; TARGET FoS &ge; ' ~ target_fos) }}</span>
+                <span>{{ (assessment.schematic_top_badge or ('FAILURE CROSS-SECTION &bull; CRITICAL MONSOON FoS = ' ~ crit_fos ~ ' &bull; TARGET FoS &ge; ' ~ target_fos)) | safe }}</span>
                 <span style="color: #5eead4; font-weight: 800;">DIP: {{ dip_ang }}&deg; &bull; CUT: {{ cut_ang }}&deg; &bull; H = {{ h_mean }}m ({{ h_min }}–{{ h_max }}m)</span>
               </div>
               <div class="schematic-svg-wrap">

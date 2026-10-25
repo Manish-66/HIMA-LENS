@@ -176,6 +176,9 @@ def fetch_community_reports(include_hidden: bool = False) -> list[dict[str, Any]
 
     visible_reports = []
     for r in reports:
+        # Filter out automated test probe records
+        if r.get("id") == "IITM-CR-17525F02" or r.get("reporter_name") == "Automated Test":
+            continue
         # Check boolean is_hidden column
         is_hidden_val = r.get("is_hidden")
         if is_hidden_val is True or str(is_hidden_val).strip().lower() in ("true", "1"):
@@ -197,7 +200,7 @@ def fetch_report_by_id(report_id: str) -> dict[str, Any] | None:
     Seamlessly resolves both 'IITM-STAR-' and 'HL-CR-' report prefixes.
     """
     clean_id = (report_id or "").strip()
-    if not clean_id:
+    if not clean_id or clean_id == "IITM-CR-17525F02":
         return None
 
     def _lookup(target_id: str) -> dict[str, Any] | None:

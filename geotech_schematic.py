@@ -212,43 +212,43 @@ def extract_ml_kinematic_parameters(
     ):
         mode = "rejected_ood"
         mode_label = "OPTICAL AUDIT DISQUALIFICATION"
-        top_badge = "NON-LANDSLIDE MEDIA &bull; CROSS-SECTION SUPPRESSED"
+        top_badge = "NON-LANDSLIDE MEDIA • CROSS-SECTION SUPPRESSED"
     elif failure_vector == "MACRO_MOUNTAIN_CATASTROPHE" or (slope_height_m > 45.0):
         mode = "macro_catastrophic"
         mode_label = "MACRO-SCALE MOUNTAIN CATASTROPHE"
-        top_badge = "MACRO-SCALE SLOPE FAILURE &bull; FULL DPR REQUIRED"
+        top_badge = "MACRO-SCALE SLOPE FAILURE • FULL DPR REQUIRED"
     elif failure_vector == "VALLEY_EMBANKMENT_SUBSIDENCE":
         mode = "valley_subsidence"
         mode_label = "VALLEY ROAD EMBANKMENT SUBSIDENCE"
-        top_badge = f"VALLEY BENCH SUBSIDENCE &bull; GABIONS + MICROPILES &bull; H={slope_height_m:.1f}m"
+        top_badge = f"VALLEY BENCH SUBSIDENCE • GABIONS + MICROPILES • H={slope_height_m:.1f}m"
     elif failure_vector == "HABITATION_TERRACE_SLUMP":
         mode = "habitation_mudslide"
         mode_label = "HABITATION RESIDENTIAL TERRACE SLUMP"
-        top_badge = f"RESIDENTIAL TERRACE SLUMP &bull; RC DEFLECTOR WALL &bull; H={slope_height_m:.1f}m"
+        top_badge = f"RESIDENTIAL TERRACE SLUMP • RC DEFLECTOR WALL • H={slope_height_m:.1f}m"
     elif failure_vector == "CLIFF_ROCKFALL_TOPPLE" or any(k in mode_lower for k in ("topple", "fall", "rockfall")):
         mode = "rockfall"
         mode_label = "ROCKFALL / TOPPLING FAILURE"
-        top_badge = f"SUB-VERTICAL CLIFF &bull; CUT: {cut_deg}&deg; &bull; COLUMN TOPPLE"
+        top_badge = f"SUB-VERTICAL CLIFF • CUT: {cut_deg}° • COLUMN TOPPLE"
     elif any(k in mode_lower for k in ("flow", "debris flow", "mudflow", "avalanche")):
         mode = "debris_flow"
         mode_label = "CHANNELIZED DEBRIS FLOW"
-        top_badge = f"DEBRIS RUNOUT FAN &bull; CHUTE: {cut_deg}&deg; &bull; H={slope_height_m:.1f}m"
+        top_badge = f"DEBRIS RUNOUT FAN • CHUTE: {cut_deg}° • H={slope_height_m:.1f}m"
     elif any(k in mode_lower for k in ("slump", "rotational")):
         mode = "rotational_slump"
         mode_label = "ROTATIONAL OVERBURDEN SLUMP"
-        top_badge = f"CIRCULAR SLIP ARC &bull; DIP: {dip_deg}&deg; &bull; H<sub>cut</sub>={slope_height_m:.1f}m"
+        top_badge = f"CIRCULAR SLIP ARC • DIP: {dip_deg}° • Hcut={slope_height_m:.1f}m"
     elif any(k in mode_lower for k in ("wedge",)):
         mode = "wedge"
         mode_label = "STRUCTURAL WEDGE FAILURE"
-        top_badge = f"INTERSECTING JOINTS (J1xJ2) &bull; PLUNGE: {dip_deg}&deg;"
+        top_badge = f"INTERSECTING JOINTS (J1xJ2) • PLUNGE: {dip_deg}°"
     elif any(k in mode_lower for k in ("creep", "subsidence", "settlement")):
         mode = "creep_subsidence"
         mode_label = "SLOPE CREEP & SURFICIAL SUBSIDENCE"
-        top_badge = f"CONTINUOUS CREEP &bull; SUBSIDENCE GRADIENT: {cut_deg}&deg;"
+        top_badge = f"CONTINUOUS CREEP • SUBSIDENCE GRADIENT: {cut_deg}°"
     else:
         mode = "translational"
         mode_label = "TRANSLATIONAL PLANAR ROCK SLIDE"
-        top_badge = f"SLIP PLANE: {dip_deg}&deg; DAYLIGHTING &bull; H<sub>cut</sub>={slope_height_m:.1f}m"
+        top_badge = f"SLIP PLANE: {dip_deg}° DAYLIGHTING • Hcut={slope_height_m:.1f}m"
 
     return {
         "mode": mode,
@@ -694,7 +694,7 @@ def _render_translational_slide_svg(
   <text x="{scarp_x - 5}" y="{scarp_y - 10}" font-size="6.5" font-weight="800" fill="#fca5a5">RUPTURE PLANE: DIP {dip_deg}&deg; (DAYLIGHT)</text>
 
   <rect x="{scarp_x + 65}" y="{scarp_y + 55}" width="118" height="14" rx="2" fill="#451a03" stroke="#f59e0b" stroke-width="0.8" />
-  <text x="{scarp_x + 70}" y="{scarp_y + 65}" font-size="6.5" font-weight="800" fill="#fde68a">SLIDING COLLUVIUM ({rock_name})</text>
+  <text x="{scarp_x + 70}" y="{scarp_y + 65}" font-size="6.5" font-weight="800" fill="#fde68a">SLIDING COLLUVIUM</text>
 
   <!-- Stability Evaluation Pill (Exact Solved FoS from ProjectDataModel) -->
   <rect x="340" y="10" width="170" height="16" rx="3" fill="#1e1b4b" stroke="#6366f1" stroke-width="0.8" />

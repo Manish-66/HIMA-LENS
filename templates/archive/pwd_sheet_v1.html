@@ -1933,11 +1933,36 @@
       }
 
       .grid-table th, .grid-table td {
-
-        padding: 2px 4px !important;
-
+        padding: 1.8px 3.5px !important;
+        font-size: 7.0pt !important;
+        line-height: 1.2 !important;
+      }
+      .report-page:nth-of-type(3) .sec-bar {
+        padding: 1.5px 4px !important;
         font-size: 7.2pt !important;
-
+        margin-top: 2px !important;
+        margin-bottom: 2px !important;
+      }
+      .report-page:nth-of-type(3) .grid-table td {
+        padding: 1.2px 3px !important;
+        font-size: 6.6pt !important;
+        line-height: 1.15 !important;
+      }
+      .report-page:nth-of-type(3) .temporary-works-box {
+        padding: 2px 5px !important;
+        font-size: 6.5pt !important;
+        line-height: 1.15 !important;
+        margin: 2px 0 !important;
+      }
+      .report-page:nth-of-type(3) .remarks-card {
+        padding: 2px 5px !important;
+        font-size: 6.2pt !important;
+        line-height: 1.15 !important;
+        margin: 2px 0 !important;
+      }
+      .report-page:nth-of-type(3) .sign-table td {
+        padding: 1px 3px !important;
+        font-size: 6.5pt !important;
       }
 
       .sec-bar {
@@ -1976,7 +2001,7 @@
 
         flex: 1 1 auto !important;
 
-        min-height: 170px !important;
+        min-height: 105px !important; max-height: 120px !important;
 
         height: 100% !important;
 
@@ -2464,7 +2489,7 @@
 
             <div class="chk-item {{ 'checked' if is_soil }}"><span class="chk-box {{ 'active' if is_soil }}">{{ '✔' if is_soil else ' ' }}</span> In-situ soil: {{ 'Yes (Coarse Colluvial Overburden)' if is_soil else 'No' }}</div><br>
 
-            <div class="chk-item {{ 'checked' if is_debris }}"><span class="chk-box {{ 'active' if is_debris }}">{{ '✔' if is_debris else ' ' }}</span> Debris: {{ 'Mass Failure Colluvium (' ~ ('%.1f'|format(geom.debris_insitu_vol_m3) if geom.debris_insitu_vol_m3 is not none and geom.debris_insitu_vol_m3 > 0 else '0.0') ~ ' m&sup3; in-situ / ' ~ ('%.2f'|format(geom.debris_bulked_vol_m3) if geom.debris_bulked_vol_m3 is not none and geom.debris_bulked_vol_m3 > 0 else '0.00') ~ ' m&sup3; bulked at ' ~ (geom.bulking_factor | default(1.25)) ~ '&times;)' if is_debris else 'No' }}</div>
+            <div class="chk-item {{ 'checked' if is_debris }}"><span class="chk-box {{ 'active' if is_debris }}">{{ '✔' if is_debris else ' ' }}</span> Debris: {{ 'Mass Failure Colluvium (' ~ ('%.1f'|format(geom.debris_insitu_vol_m3) if geom.debris_insitu_vol_m3 is not none and geom.debris_insitu_vol_m3 > 0 else '0.0') ~ ' m³ in-situ / ' ~ ('%.2f'|format(geom.debris_bulked_vol_m3) if geom.debris_bulked_vol_m3 is not none and geom.debris_bulked_vol_m3 > 0 else '0.00') ~ ' m³ bulked at ' ~ (geom.bulking_factor | default(1.25)) ~ '×)' if is_debris else 'No' }}</div>
 
           </td>
 
@@ -3548,7 +3573,7 @@
 
         {% else %}
 
-        <div style="border: 1px dashed var(--border-light); background: #f8fafc; height: 230px; display: flex; align-items: center; justify-content: center; text-align: center; color: #64748b; font-size: 8.5px; padding: 12px;">
+        <div style="border: 1px dashed var(--border-light); background: #f8fafc; height: 110px; min-height: 110px; display: flex; align-items: center; justify-content: center; text-align: center; color: #64748b; font-size: 8.5px; padding: 12px;">
 
           No ground photograph uploaded with this field observation.
 
@@ -3668,7 +3693,7 @@
 
     {% set lrm = adv_stab.get('larimit_mitigations', {}) if adv_stab else {} %}
 
-    {% set sn = adv_stab.get('prescribed_soil_nailing', {}) if adv_stab else {} %}
+    {% set sn = geom.soil_nail_grid or (adv_stab.get('prescribed_soil_nailing', {}) if adv_stab else {}) %}
 
     {% set fb = adv_stab.get('flexible_barrier', {}) if adv_stab else {} %}
 
@@ -3858,7 +3883,7 @@
 
               <strong>Boreholes:</strong> {{ sn.total_nails_count | default(20) }} boreholes ({{ sn.working_nails_count | default(18) }} working + {{ sn.sacrificial_test_nails_count | default(2) }} sacrificial test nails) &times; 9.0m drill depth = <strong>{{ '%.1f'|format(sn.total_drilling_length_m) if sn.total_drilling_length_m else '180.0' }}m total drilling</strong> (&Oslash;100mm&ndash;115mm @ 15&deg; downward inclination)<br>
 
-              <strong>Nail Bars:</strong> <strong>&Oslash;25mm Fe500D TMT</strong> bars &times; 9.5m length = <strong>{{ '%.1f'|format(sn.total_bar_length_m) if sn.total_bar_length_m else '190.0' }}m total steel</strong> &nbsp;|&nbsp; <strong>Grid:</strong> 1.8m Horizontal &times; 2.0m Vertical (9 columns &times; 2 rows)<br>
+              <strong>Nail Bars:</strong> <strong>&Oslash;25mm Fe500D TMT</strong> bars &times; 9.5m length = <strong>{{ '%.1f'|format(sn.total_bar_length_m) if sn.total_bar_length_m else '190.0' }}m total steel</strong> &nbsp;|&nbsp; <strong>Grid:</strong> 1.8m Horizontal &times; 2.0m Vertical ({{ sn.columns_count | default((sn.working_nails_count or 18) // 2) }} cols &times; {{ sn.rows_count | default(2) }} rows)<br>
 
               <strong>Grout &amp; Pads:</strong> M30 cementitious grout (w/c = 0.45, min 30 MPa) &bull; <strong>{{ sn.bearing_pads_count | default(18) }} permanent M30 RC bearing pads</strong> (400 &times; 400 &times; 200 mm) with bearing plates &amp; lock-nuts<br>
 
