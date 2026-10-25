@@ -2202,16 +2202,7 @@
     }
 
   
-    .btn-param-panel {
-      background: #104c3b;
-      color: #ffffff;
-      border: 1px solid #38bdf8;
-      font-weight: 800;
-    }
-    .btn-param-panel:hover {
-      background: #17624d;
-      transform: translateY(-1px);
-    }
+
 
     /* Harmonized HIMA-LENS Action Buttons */
     .btn-sheet2 {
@@ -2256,21 +2247,26 @@
     }
     #parameter-control-panel {
       position: fixed;
-      top: 0;
-      right: 0;
-      width: 480px;
-      max-width: 95vw;
-      height: 100vh;
-      background: #07251d;
+      top: 20px;
+      right: 20px;
+      bottom: 20px;
+      width: 440px;
+      max-width: calc(100vw - 40px);
+      height: calc(100vh - 40px);
+      border-radius: 14px;
+      background: rgba(7, 37, 29, 0.96);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       color: #f0fdf4;
       z-index: 9999;
-      border-left: 2px solid #17624d;
-      box-shadow: -12px 0 40px rgba(4, 25, 20, 0.75);
-      transform: translateX(100%);
+      border: 1.5px solid #17624d;
+      box-shadow: -15px 15px 45px rgba(4, 25, 20, 0.8), 0 0 0 1px rgba(45, 212, 191, 0.12);
+      transform: translateX(calc(100% + 30px));
       transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
       display: flex;
       flex-direction: column;
       font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow: hidden;
     }
     #parameter-control-panel.active {
       transform: translateX(0);

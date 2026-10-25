@@ -130,16 +130,7 @@
     .btn-ghost:hover {
       background: rgba(255, 255, 255, 0.22);
     }
-    .btn-param-panel {
-      background: #104c3b;
-      color: #ffffff;
-      border: 1px solid #38bdf8;
-      font-weight: 800;
-    }
-    .btn-param-panel:hover {
-      background: #17624d;
-      transform: translateY(-1px);
-    }
+
 
     /* Harmonized HIMA-LENS Action Buttons */
     .btn-sheet2 {
@@ -167,12 +158,13 @@
       box-shadow: 0 4px 12px rgba(45, 212, 191, 0.3);
     }
 
-    /* Harmonized HIMA-LENS Slide-Over Parameter Control Panel Drawer */
+    /* Harmonized HIMA-LENS Floating Parameter Control Panel Card */
     #parameter-panel-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(9, 47, 37, 0.72);
-      backdrop-filter: blur(4px);
+      background: rgba(4, 25, 20, 0.45);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
       z-index: 9998;
       opacity: 0;
       pointer-events: none;
@@ -184,21 +176,26 @@
     }
     #parameter-control-panel {
       position: fixed;
-      top: 0;
-      right: 0;
-      width: 480px;
-      max-width: 95vw;
-      height: 100vh;
-      background: #07251d;
+      top: 20px;
+      right: 20px;
+      bottom: 20px;
+      width: 440px;
+      max-width: calc(100vw - 40px);
+      height: calc(100vh - 40px);
+      border-radius: 14px;
+      background: rgba(7, 37, 29, 0.96);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       color: #f0fdf4;
       z-index: 9999;
-      border-left: 2px solid #17624d;
-      box-shadow: -12px 0 40px rgba(4, 25, 20, 0.75);
-      transform: translateX(100%);
+      border: 1.5px solid #17624d;
+      box-shadow: -15px 15px 45px rgba(4, 25, 20, 0.8), 0 0 0 1px rgba(45, 212, 191, 0.12);
+      transform: translateX(calc(100% + 30px));
       transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
       display: flex;
       flex-direction: column;
       font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow: hidden;
     }
     #parameter-control-panel.active {
       transform: translateX(0);
@@ -210,6 +207,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-shrink: 0;
     }
     .pcp-title {
       font-family: 'Manrope', sans-serif;
@@ -229,7 +227,7 @@
       border: 1px solid #17624d;
       color: #a7f3d0;
       cursor: pointer;
-      border-radius: 4px;
+      border-radius: 6px;
       width: 28px;
       height: 28px;
       display: flex;
@@ -248,7 +246,113 @@
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 13px;
+      gap: 12px;
+    }
+    .pcp-body::-webkit-scrollbar {
+      width: 5px;
+    }
+    .pcp-body::-webkit-scrollbar-track {
+      background: #07251d;
+    }
+    .pcp-body::-webkit-scrollbar-thumb {
+      background: #17624d;
+      border-radius: 3px;
+    }
+    .pcp-body::-webkit-scrollbar-thumb:hover {
+      background: #2dd4bf;
+    }
+    .pcp-preset-row {
+      display: flex;
+      gap: 6px;
+      margin-top: 4px;
+    }
+    .pcp-preset-chip {
+      flex: 1;
+      padding: 6px 8px;
+      background: #092f25;
+      border: 1px solid #1a5c4c;
+      border-radius: 6px;
+      color: #ccfbf1;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 9.5px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .pcp-preset-chip:hover {
+      background: #17624d;
+      border-color: #2dd4bf;
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+    .pcp-dim-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .pcp-dim-card {
+      background: #07251d;
+      border: 1px solid #144e3f;
+      border-radius: 6px;
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: border-color 0.15s ease;
+    }
+    .pcp-dim-card:focus-within {
+      border-color: #2dd4bf;
+      box-shadow: 0 0 0 1px rgba(45, 212, 191, 0.2);
+    }
+    .pcp-dim-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .pcp-dim-label {
+      font-size: 9.5px;
+      font-weight: 700;
+      color: #ccfbf1;
+      line-height: 1.2;
+    }
+    .pcp-dim-unit {
+      font-size: 9px;
+      font-family: 'JetBrains Mono', monospace;
+      color: #5eead4;
+      font-weight: 600;
+    }
+    .pcp-dim-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .pcp-dim-slider {
+      flex: 1;
+      height: 5px;
+      border-radius: 3px;
+      background: #144e3f;
+      outline: none;
+      accent-color: #2dd4bf;
+      cursor: pointer;
+    }
+    .pcp-dim-input {
+      width: 58px;
+      padding: 3px 5px;
+      background: #041d16;
+      border: 1px solid #1a5c4c;
+      border-radius: 4px;
+      color: #5eead4;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      font-weight: 700;
+      text-align: right;
+      transition: border-color 0.15s ease;
+    }
+    .pcp-dim-input:focus {
+      border-color: #2dd4bf;
+      outline: none;
     }
     .pcp-info-banner {
       background: #092f25;
@@ -400,22 +504,7 @@
       color: #2dd4bf;
       font-size: 14px;
     }
-    .pcp-mini-schematic-box {
-      width: 100%;
-      height: 130px;
-      background: #090d16;
-      border: 1.5px solid #17624d;
-      border-radius: 4px;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .pcp-mini-schematic-box svg {
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
+
     .pcp-footer {
       padding: 12px 18px;
       background: #092f25;
@@ -1100,7 +1189,10 @@
             <!-- Right: Failure Schematic SVG -->
             <div class="schematic-frame-box">
               <div class="schematic-top-bar">
-                <span id="schematic-top-badge">{{ (assessment.schematic_top_badge or ('FAILURE CROSS-SECTION &bull; CRITICAL MONSOON FoS = ' ~ crit_fos ~ ' &bull; TARGET FoS &ge; ' ~ target_fos)) | safe }}</span>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span id="schematic-top-badge">{{ (assessment.schematic_top_badge or ('FAILURE CROSS-SECTION &bull; CRITICAL MONSOON FoS = ' ~ crit_fos ~ ' &bull; TARGET FoS &ge; ' ~ target_fos)) | safe }}</span>
+                  <span id="schematic-live-pill" style="display: none; background: #2dd4bf; color: #092f25; font-size: 7.5px; font-weight: 850; padding: 2px 6px; border-radius: 3px; letter-spacing: 0.5px; text-transform: uppercase;">LIVE RECALCULATING</span>
+                </div>
                 <span id="schematic-params-badge" style="color: #5eead4; font-weight: 800;">DIP: {{ dip_ang }}&deg; &bull; CUT: {{ cut_ang }}&deg; &bull; H = {{ h_mean }}m ({{ h_min }}–{{ h_max }}m)</span>
               </div>
               <div class="schematic-svg-wrap" id="schematic-svg-container">
@@ -1422,119 +1514,117 @@
         </div>
       </div>
 
-      <!-- Live Mini Schematic Preview Box -->
+      <!-- Quick Himalayan Scenario Presets -->
       <div class="pcp-group">
         <div class="pcp-group-title">
-          <span>Live Kinematic Cross-Section</span>
-          <span id="pcp-schem-mode-badge" style="font-size: 8.5px; color: #2dd4bf; text-transform: none;">UPHILL CUT-SLOPE</span>
+          <span>Himalayan Scenario Presets</span>
+          <span style="font-size: 8.5px; color: #2dd4bf; text-transform: none; font-weight: 700;">1-Click Calibration</span>
         </div>
-        <div class="pcp-mini-schematic-box" id="pcp-mini-schem-wrap">
-          {% if assessment.schematic_svg %}
-            {{ assessment.schematic_svg | safe }}
-          {% else %}
-            <span style="color: #64748b; font-size: 9px;">Loading schematic cross-section...</span>
-          {% endif %}
+        <div class="pcp-preset-row">
+          <button type="button" class="pcp-preset-chip" onclick="applyPreset('mandi_cut')">Mandi Cut-Slope</button>
+          <button type="button" class="pcp-preset-chip" onclick="applyPreset('valley_sink')">Valley Sinking</button>
+          <button type="button" class="pcp-preset-chip" onclick="applyPreset('cliff_rock')">Cliff Rockfall</button>
         </div>
       </div>
 
-      <!-- Geometry Sliders & Number Inputs -->
+      <!-- Geometry Sliders & Number Inputs (Compact 2-Column Paired Cards) -->
       <div class="pcp-group">
         <div class="pcp-group-title">
           <span>2. Physical Field Dimensions</span>
-          <span style="font-size: 8.5px; color: #2dd4bf; text-transform: none;">Live In-Situ Measurements</span>
+          <span style="font-size: 8.5px; color: #2dd4bf; text-transform: none; font-weight: 700;">Paired In-Situ Metrics</span>
         </div>
 
-        <!-- Slope Height H -->
-        <div class="pcp-field">
-          <div class="pcp-label-row">
-            <span>Slope Scarp Height (<i>H</i>)</span>
-            <span class="font-mono" style="color: #5eead4;">m</span>
+        <div class="pcp-dim-grid">
+          <!-- Row 1: Scarp Height H & Cut Angle beta -->
+          <div class="pcp-dim-card">
+            <div class="pcp-dim-header">
+              <span class="pcp-dim-label">Scarp Height (<i>H</i>)</span>
+              <span class="pcp-dim-unit">m</span>
+            </div>
+            <div class="pcp-dim-controls">
+              <input type="range" id="input-h-scarp" class="pcp-dim-slider" min="2.0" max="30.0" step="0.1" value="7.6" oninput="syncInputs('h-scarp', this.value)">
+              <input type="number" id="input-h-scarp-num" class="pcp-dim-input" min="2.0" max="30.0" step="0.1" value="7.6" oninput="syncInputs('h-scarp', this.value)">
+            </div>
           </div>
-          <div class="pcp-slider-row">
-            <input type="range" id="input-h-scarp" class="pcp-slider" min="2.0" max="30.0" step="0.1" value="7.6" oninput="syncInputs('h-scarp', this.value)">
-            <input type="number" id="input-h-scarp-num" class="pcp-num-input" min="2.0" max="30.0" step="0.1" value="7.6" oninput="syncInputs('h-scarp', this.value)">
-          </div>
-        </div>
 
-        <!-- Affected Length L -->
-        <div class="pcp-field">
-          <div class="pcp-label-row">
-            <span>Affected Slide Length (<i>L</i>)</span>
-            <span class="font-mono" style="color: #5eead4;">m</span>
+          <div class="pcp-dim-card">
+            <div class="pcp-dim-header">
+              <span class="pcp-dim-label">Cut Slope (&beta;)</span>
+              <span class="pcp-dim-unit">deg (&deg;)</span>
+            </div>
+            <div class="pcp-dim-controls">
+              <input type="range" id="input-cut-angle" class="pcp-dim-slider" min="35" max="85" step="1" value="66" oninput="syncInputs('cut-angle', this.value)">
+              <input type="number" id="input-cut-angle-num" class="pcp-dim-input" min="35" max="85" step="1" value="66" oninput="syncInputs('cut-angle', this.value)">
+            </div>
           </div>
-          <div class="pcp-slider-row">
-            <input type="range" id="input-l-affected" class="pcp-slider" min="5.0" max="80.0" step="0.5" value="17.0" oninput="syncInputs('l-affected', this.value)">
-            <input type="number" id="input-l-affected-num" class="pcp-num-input" min="5.0" max="80.0" step="0.5" value="17.0" oninput="syncInputs('l-affected', this.value)">
-          </div>
-        </div>
 
-        <!-- Colluvium Width W -->
-        <div class="pcp-field">
-          <div class="pcp-label-row">
-            <span>Colluvium / Debris Width (<i>W</i>)</span>
-            <span class="font-mono" style="color: #5eead4;">m</span>
+          <!-- Row 2: Slide Length L & Slip Dip theta_p -->
+          <div class="pcp-dim-card">
+            <div class="pcp-dim-header">
+              <span class="pcp-dim-label">Slide Length (<i>L</i>)</span>
+              <span class="pcp-dim-unit">m</span>
+            </div>
+            <div class="pcp-dim-controls">
+              <input type="range" id="input-l-affected" class="pcp-dim-slider" min="5.0" max="80.0" step="0.5" value="17.0" oninput="syncInputs('l-affected', this.value)">
+              <input type="number" id="input-l-affected-num" class="pcp-dim-input" min="5.0" max="80.0" step="0.5" value="17.0" oninput="syncInputs('l-affected', this.value)">
+            </div>
           </div>
-          <div class="pcp-slider-row">
-            <input type="range" id="input-w-debris" class="pcp-slider" min="1.0" max="30.0" step="0.5" value="8.0" oninput="syncInputs('w-debris', this.value)">
-            <input type="number" id="input-w-debris-num" class="pcp-num-input" min="1.0" max="30.0" step="0.5" value="8.0" oninput="syncInputs('w-debris', this.value)">
-          </div>
-        </div>
 
-        <!-- Colluvium Thickness D -->
-        <div class="pcp-field">
-          <div class="pcp-label-row">
-            <span>Debris / Rupture Thickness (<i>D</i>)</span>
-            <span class="font-mono" style="color: #5eead4;">m</span>
+          <div class="pcp-dim-card">
+            <div class="pcp-dim-header">
+              <span class="pcp-dim-label">Joint Dip (&theta;<sub>p</sub>)</span>
+              <span class="pcp-dim-unit">deg (&deg;)</span>
+            </div>
+            <div class="pcp-dim-controls">
+              <input type="range" id="input-dip-angle" class="pcp-dim-slider" min="25" max="75" step="1" value="57" oninput="syncInputs('dip-angle', this.value)">
+              <input type="number" id="input-dip-angle-num" class="pcp-dim-input" min="25" max="75" step="1" value="57" oninput="syncInputs('dip-angle', this.value)">
+            </div>
           </div>
-          <div class="pcp-slider-row">
-            <input type="range" id="input-d-debris" class="pcp-slider" min="0.4" max="10.0" step="0.1" value="1.5" oninput="syncInputs('d-debris', this.value)">
-            <input type="number" id="input-d-debris-num" class="pcp-num-input" min="0.4" max="10.0" step="0.1" value="1.5" oninput="syncInputs('d-debris', this.value)">
-          </div>
-        </div>
 
-        <!-- Cut Slope Angle beta -->
-        <div class="pcp-field">
-          <div class="pcp-label-row">
-            <span>Cut Slope Angle (&beta;)</span>
-            <span class="font-mono" style="color: #5eead4;">deg (&deg;)</span>
+          <!-- Row 3: Debris Width W & Thickness D -->
+          <div class="pcp-dim-card">
+            <div class="pcp-dim-header">
+              <span class="pcp-dim-label">Debris Width (<i>W</i>)</span>
+              <span class="pcp-dim-unit">m</span>
+            </div>
+            <div class="pcp-dim-controls">
+              <input type="range" id="input-w-debris" class="pcp-dim-slider" min="1.0" max="30.0" step="0.5" value="8.0" oninput="syncInputs('w-debris', this.value)">
+              <input type="number" id="input-w-debris-num" class="pcp-dim-input" min="1.0" max="30.0" step="0.5" value="8.0" oninput="syncInputs('w-debris', this.value)">
+            </div>
           </div>
-          <div class="pcp-slider-row">
-            <input type="range" id="input-cut-angle" class="pcp-slider" min="35" max="85" step="1" value="66" oninput="syncInputs('cut-angle', this.value)">
-            <input type="number" id="input-cut-angle-num" class="pcp-num-input" min="35" max="85" step="1" value="66" oninput="syncInputs('cut-angle', this.value)">
-          </div>
-        </div>
 
-        <!-- Slip Surface Dip theta_p -->
-        <div class="pcp-field">
-          <div class="pcp-label-row">
-            <span>Slip Surface / Joint Dip (&theta;<sub>p</sub>)</span>
-            <span class="font-mono" style="color: #5eead4;">deg (&deg;)</span>
+          <div class="pcp-dim-card">
+            <div class="pcp-dim-header">
+              <span class="pcp-dim-label">Thickness (<i>D</i>)</span>
+              <span class="pcp-dim-unit">m</span>
+            </div>
+            <div class="pcp-dim-controls">
+              <input type="range" id="input-d-debris" class="pcp-dim-slider" min="0.4" max="10.0" step="0.1" value="1.5" oninput="syncInputs('d-debris', this.value)">
+              <input type="number" id="input-d-debris-num" class="pcp-dim-input" min="0.4" max="10.0" step="0.1" value="1.5" oninput="syncInputs('d-debris', this.value)">
+            </div>
           </div>
-          <div class="pcp-slider-row">
-            <input type="range" id="input-dip-angle" class="pcp-slider" min="25" max="75" step="1" value="57" oninput="syncInputs('dip-angle', this.value)">
-            <input type="number" id="input-dip-angle-num" class="pcp-num-input" min="25" max="75" step="1" value="57" oninput="syncInputs('dip-angle', this.value)">
-          </div>
-        </div>
 
-        <!-- Carriageway Formation & Operable Widths -->
-        <div class="pcp-field">
-          <div class="pcp-label-row">
-            <span>Road Formation Width (Pre-Disaster)</span>
-            <span class="font-mono" style="color: #5eead4;">m</span>
+          <!-- Row 4: Road Pre-Disaster Formation & Post-Disaster Operable -->
+          <div class="pcp-dim-card">
+            <div class="pcp-dim-header">
+              <span class="pcp-dim-label">Pre-Road Width</span>
+              <span class="pcp-dim-unit">m</span>
+            </div>
+            <div class="pcp-dim-controls">
+              <input type="range" id="input-w-pre" class="pcp-dim-slider" min="3.0" max="14.0" step="0.25" value="5.25" oninput="syncInputs('w-pre', this.value)">
+              <input type="number" id="input-w-pre-num" class="pcp-dim-input" min="3.0" max="14.0" step="0.25" value="5.25" oninput="syncInputs('w-pre', this.value)">
+            </div>
           </div>
-          <div class="pcp-slider-row">
-            <input type="range" id="input-w-pre" class="pcp-slider" min="3.0" max="14.0" step="0.25" value="5.25" oninput="syncInputs('w-pre', this.value)">
-            <input type="number" id="input-w-pre-num" class="pcp-num-input" min="3.0" max="14.0" step="0.25" value="5.25" oninput="syncInputs('w-pre', this.value)">
-          </div>
-        </div>
-        <div class="pcp-field">
-          <div class="pcp-label-row">
-            <span>Road Operable Width (Post-Disaster)</span>
-            <span class="font-mono" style="color: #5eead4;">m</span>
-          </div>
-          <div class="pcp-slider-row">
-            <input type="range" id="input-w-post" class="pcp-slider" min="0.0" max="12.0" step="0.25" value="2.30" oninput="syncInputs('w-post', this.value)">
-            <input type="number" id="input-w-post-num" class="pcp-num-input" min="0.0" max="12.0" step="0.25" value="2.30" oninput="syncInputs('w-post', this.value)">
+
+          <div class="pcp-dim-card">
+            <div class="pcp-dim-header">
+              <span class="pcp-dim-label">Open Width (Post)</span>
+              <span class="pcp-dim-unit">m</span>
+            </div>
+            <div class="pcp-dim-controls">
+              <input type="range" id="input-w-post" class="pcp-dim-slider" min="0.0" max="12.0" step="0.25" value="2.30" oninput="syncInputs('w-post', this.value)">
+              <input type="number" id="input-w-post-num" class="pcp-dim-input" min="0.0" max="12.0" step="0.25" value="2.30" oninput="syncInputs('w-post', this.value)">
+            </div>
           </div>
         </div>
       </div>
@@ -1696,6 +1786,12 @@ let isEditMode = false;
 
     let schematicDebounceTimer = null;
     function updateSchematicLive(payload) {
+      const livePill = document.getElementById('schematic-live-pill');
+      if (livePill) {
+        livePill.textContent = 'LIVE RECALCULATING';
+        livePill.style.display = 'inline-block';
+      }
+
       clearTimeout(schematicDebounceTimer);
       schematicDebounceTimer = setTimeout(async () => {
         try {
@@ -1715,38 +1811,74 @@ let isEditMode = false;
             if (svgContainer) {
               svgContainer.innerHTML = data.schematic_svg;
             }
-            // 2. Update mini schematic preview in drawer
-            const miniContainer = document.getElementById('pcp-mini-schem-wrap');
-            if (miniContainer) {
-              miniContainer.innerHTML = data.schematic_svg;
-            }
-            // 3. Update top badge
+            // 2. Update top badge
             const topBadge = document.getElementById('schematic-top-badge');
             if (topBadge && data.top_badge) {
               topBadge.innerHTML = data.top_badge;
             }
-            // 4. Update geometry badge
+            // 3. Update geometry badge
             const paramsBadge = document.getElementById('schematic-params-badge');
             if (paramsBadge && data.kinematic_parameters) {
               const kp = data.kinematic_parameters;
               paramsBadge.innerHTML = 'DIP: ' + Math.round(kp.dip_deg) + '&deg; &bull; CUT: ' + Math.round(kp.cut_deg) + '&deg; &bull; H = ' + kp.slope_height_m.toFixed(1) + 'm';
             }
-            // 5. Update FoS badge
+            // 4. Update FoS badge
             const fosBadge = document.getElementById('schematic-fos-badge');
             if (fosBadge && data.kinematic_parameters) {
               const kp = data.kinematic_parameters;
               fosBadge.innerHTML = 'FoS: ' + kp.crit_fos + ' (ACTIVE FAILURE) &rarr; ' + kp.target_fos + ' (STABILIZED &ge; 1.50)';
             }
-            // 6. Update mode badge in drawer
-            const modeBadge = document.getElementById('pcp-schem-mode-badge');
-            if (modeBadge && data.kinematic_parameters) {
-              modeBadge.textContent = data.kinematic_parameters.mode_label || data.kinematic_parameters.mode;
+            if (livePill) {
+              livePill.textContent = 'UPDATED';
+              setTimeout(() => {
+                livePill.style.display = 'none';
+                livePill.textContent = 'LIVE RECALCULATING';
+              }, 700);
             }
           }
         } catch (err) {
           console.warn('Schematic dynamic update notice:', err);
+          if (livePill) livePill.style.display = 'none';
         }
       }, 70);
+    }
+
+    function applyPreset(type) {
+      if (type === 'mandi_cut') {
+        const vecEl = document.getElementById('input-failure-vector');
+        if (vecEl) vecEl.value = 'UPHILL_CUT_SLOPE';
+        syncInputs('h-scarp', 7.6);
+        syncInputs('l-affected', 17.0);
+        syncInputs('w-debris', 8.0);
+        syncInputs('d-debris', 1.5);
+        syncInputs('cut-angle', 66.0);
+        syncInputs('dip-angle', 57.0);
+        syncInputs('w-pre', 5.25);
+        syncInputs('w-post', 2.30);
+      } else if (type === 'valley_sink') {
+        const vecEl = document.getElementById('input-failure-vector');
+        if (vecEl) vecEl.value = 'VALLEY_EMBANKMENT_SUBSIDENCE';
+        syncInputs('h-scarp', 5.5);
+        syncInputs('l-affected', 25.0);
+        syncInputs('w-debris', 6.5);
+        syncInputs('d-debris', 2.2);
+        syncInputs('cut-angle', 48.0);
+        syncInputs('dip-angle', 38.0);
+        syncInputs('w-pre', 6.00);
+        syncInputs('w-post', 1.80);
+      } else if (type === 'cliff_rock') {
+        const vecEl = document.getElementById('input-failure-vector');
+        if (vecEl) vecEl.value = 'CLIFF_ROCKFALL';
+        syncInputs('h-scarp', 14.0);
+        syncInputs('l-affected', 12.0);
+        syncInputs('w-debris', 4.5);
+        syncInputs('d-debris', 1.2);
+        syncInputs('cut-angle', 78.0);
+        syncInputs('dip-angle', 68.0);
+        syncInputs('w-pre', 5.50);
+        syncInputs('w-post', 3.10);
+      }
+      recalculateParametersLive();
     }
 
     function recalculateParametersLive() {
