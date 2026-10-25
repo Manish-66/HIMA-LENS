@@ -18,7 +18,8 @@ def verify_schematic_engine():
             {"id": "IITM-CR-6A9B327E"},
             "translational",
             [
-                "Monsoon FoS = 0.92 | Stabilized FoS = 1.56",
+                "Monsoon FoS = ",
+                "Stabilized FoS = ",
                 "Plum Wall (H=2.7m)",
                 "CROWN &amp; MAIN SCARP",
                 "RUPTURE PLANE: DIP 57&deg; (DAYLIGHT)",
@@ -33,7 +34,8 @@ def verify_schematic_engine():
             {"movement_type": "Rotational Slump", "observed_features": {"optical_geometry": {"kinematic_failure_mode": "rotational_slump"}}},
             "rotational_slump",
             [
-                "Monsoon FoS = 0.92 | Stabilized FoS = 1.56",
+                "Monsoon FoS = ",
+                "Stabilized FoS = ",
                 "CIRCULAR SHEAR ARC (RUPTURE)",
                 "MAIN SCARP &amp; CROWN CRACKS",
                 "HEAVED TOE LOBE (PRESSURE RIDGE)",

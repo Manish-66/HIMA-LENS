@@ -2979,9 +2979,8 @@ def build_project_data_model(
     ):
         failure_vector = "VALLEY_EMBANKMENT_SUBSIDENCE"
     elif (
-        raw_vec == "CLIFF_ROCKFALL_TOPPLE" or
+        raw_vec in ("CLIFF_ROCKFALL_TOPPLE", "CLIFF_ROCKFALL") or
         any(w in movement_type.lower() for w in ("fall", "topple", "rockfall", "boulder")) or
-        cut_ang_opt >= 70.0 or
         report_id in ("IITM-CR-37541B33", "IITM-CR-D6C8DA65")
     ):
         failure_vector = "CLIFF_ROCKFALL_TOPPLE"
