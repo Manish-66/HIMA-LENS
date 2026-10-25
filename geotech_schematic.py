@@ -206,9 +206,9 @@ def extract_ml_kinematic_parameters(
     mode_lower = raw_mode.lower()
 
     if (
-        not is_terrain
-        or validation_status in ("INVALID_IMAGE", "REJECTED_NON_TERRAIN")
+        validation_status in ("INVALID_NON_TERRAIN_IMAGE", "NON_LANDSLIDE_STABLE_TERRAIN", "INVALID_IMAGE", "REJECTED_NON_TERRAIN")
         or failure_vector == "DISQUALIFIED_NON_TERRAIN"
+        or (not is_terrain and validation_status not in ("DETERMINISTIC_HEURISTIC_ACTIVE", "VALID_TERRAIN_IMAGE"))
     ):
         mode = "rejected_ood"
         mode_label = "OPTICAL AUDIT DISQUALIFICATION"

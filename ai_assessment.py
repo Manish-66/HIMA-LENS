@@ -52,10 +52,9 @@ def _get_http_session() -> requests.Session:
     return _http_session
 
 GEMINI_MODELS = [
-    "gemini-2.5-pro",
-    "gemini-pro-latest",
-    "gemini-3.1-pro-preview",
-    "gemini-2.5-flash",
+    "gemini-flash-lite-latest",
+    "gemini-3.1-flash-lite",
+    "gemini-2.5-flash-lite",
     "gemini-flash-latest",
 ]
 
@@ -320,17 +319,18 @@ def _get_image_base64_and_mime(photo_url: str) -> tuple[str, str] | tuple[None, 
                     break
 
         if raw_bytes:
-            # Compress / resize large images to under 1024px for fast API transit
+            # Compress and resize all images to max 640px JPEG (quality 75, ~40-60 KB)
+            # to guarantee fast API transit and prevent socket write timeouts.
             try:
                 import io
                 from PIL import Image
                 img = Image.open(io.BytesIO(raw_bytes))
-                if max(img.width, img.height) > 1024:
-                    img.thumbnail((1024, 1024))
-                    buf = io.BytesIO()
-                    img.convert("RGB").save(buf, format="JPEG", quality=82)
-                    raw_bytes = buf.getvalue()
-                    mime = "image/jpeg"
+                if max(img.width, img.height) > 640:
+                    img.thumbnail((640, 640))
+                buf = io.BytesIO()
+                img.convert("RGB").save(buf, format="JPEG", quality=75)
+                raw_bytes = buf.getvalue()
+                mime = "image/jpeg"
             except Exception:
                 pass
             return base64.b64encode(raw_bytes).decode("utf-8"), mime
@@ -1072,11 +1072,13 @@ def compute_deterministic_engineering_dossier(
             "confirming kinematic daylighting and high susceptibility to progressive retrogressive failure during prolonged monsoon precipitation."
         ),
         "safety_directives": safety_dirs,
+        "observed_features": visual_clues or {},
         "visual_analysis": {
             "material_composition": f"{observed_rock} ({rock_colour})",
             "slope_condition": f"Cut angle {cut_angle_val}, Convex Escarpment",
             "infrastructure_impact": f"{impacted_assets}: {structural_damage}",
             "drainage_and_seepage": "Seepage: Active, Drainage: Clogged / Lacking permanent relief",
+            "optical_geometry": visual_clues.get("optical_geometry") if (visual_clues and isinstance(visual_clues, dict)) else None,
         },
         "synthesis_remarks": senior_remarks,
         "senior_engineer_remarks": senior_remarks,
@@ -1679,9 +1681,10 @@ def normalize_assessment_structure(assessment: dict[str, Any] | None, report: di
     If the assessment is flagged as non-terrain/rejected, baseline schema is built using
     build_rejected_assessment_dossier to prevent fabricating synthetic landslide parameters.
     """
-    if assessment and (
-        assessment.get("is_landslide_or_terrain") is False
-        or assessment.get("validation_status") in ("INVALID_NON_TERRAIN_IMAGE", "NON_LANDSLIDE_STABLE_TERRAIN")
+    if assessment and assessment.get("validation_status") in (
+        "INVALID_NON_TERRAIN_IMAGE",
+        "NON_LANDSLIDE_STABLE_TERRAIN",
+        "DISQUALIFIED_NON_TERRAIN",
     ):
         detected = assessment.get("detected_content", "Non-terrain image")
         reason = assessment.get("rejection_reason", "Non-terrain media uploaded.")
@@ -2039,222 +2042,89 @@ def generate_ai_assessment(report: dict[str, Any], force_refresh: bool = False) 
     prompt = f"""You are the Chief Geotechnical Engineer & Slope Disaster Specialist for HIMA-LENS (Himachal Landslide Spatial Observatory & Engineering System).
 
 TASK:
-Perform a rigorous, 6-dimensional diagnostic audit of the attached field photograph and incident telemetry using the official United States Geological Survey (USGS Circular 1325 / Cruden & Varnes 1996) standard definition of landslide and international engineering frameworks (CEDD GEO & LaRiMiT). You must determine with absolute scientific precision whether this image genuinely depicts an active or recent landslide event, or if it is a non-landslide scene or non-terrain upload.
+Perform an optical photogrammetric and geomorphic diagnostic audit of the attached field photograph for an incident in {district}, Himachal Pradesh (GPS: {lat:.5f}° N, {lng:.5f}° E; GSI Bhukosh Lithology: {bhukosh_rock_str}).
 
-FOLLOW THESE 6 RIGOROUS DIAGNOSTIC INQUIRIES:
+RULES:
+1. USGS LANDSLIDE DEFINITION AUDIT:
+   - If the image depicts a domestic pet, selfie, room, screenshot, document, or non-terrain object:
+     Set "is_landslide_or_terrain": false, "validation_status": "INVALID_NON_TERRAIN_IMAGE".
+   - If the image shows completely stable green hills with zero detachment or planned stable construction:
+     Set "is_landslide_or_terrain": false, "validation_status": "NON_LANDSLIDE_STABLE_TERRAIN".
+   - If the image shows an authentic landslide (fresh shear scarp, crown cracks, displaced debris/mud/rock encroaching on slope, road, or asset):
+     Set "is_landslide_or_terrain": true, "validation_status": "VALID_TERRAIN_IMAGE".
 
-================================================================================
-INQUIRY 1: GEOMORPHIC & OPTICAL GROUND TRUTH (USGS LANDSLIDE DEFINITION AUDIT)
-(Is this ACTUALLY a Landslide / Mass Wasting Event, or a Non-Landslide False Alarm?)
-================================================================================
-The official USGS definition (USGS Circular 1325, Highland & Bobrowsky 2008; Cruden & Varnes 1996) governs this audit:
-"A landslide is a general term used to describe the downslope movement of soil, rock, and organic materials under the effects of gravity and also the landform that results from such movement."
-To be accepted as an authentic landslide, the image MUST exhibit physical evidence of downslope displacement occurring on a surface of rupture or detachment, producing discernible features of:
-1. Crown / Crown tension cracks
-2. Main scarp / exposed shear headwall
-3. Displaced / depleted mass (soil, rock, debris, or mud slurry)
-4. Toe / accumulation foot encroaching on slopes, roads, or structures.
-
-A. NON-TERRAIN / IRRELEVANT UPLOADS (REJECT IMMEDIATELY):
-   - Domestic pets or animals (e.g. dogs, cats, cattle, birds)
-   - Human selfies, portraits, crowds, indoor rooms, furniture, electronic screens, app screenshots, vehicle interiors, food, code listings, or documents
-   -> If YES to any: Set "is_landslide_or_terrain": false, "validation_status": "INVALID_NON_TERRAIN_IMAGE".
-
-B. NON-LANDSLIDE TERRAIN & FALSE POSITIVES (REJECT AS NON-FAILURE):
-   - Stable Mountains / Forested Slopes: Intact green hills, undisturbed forests, tranquil valleys, or ridgelines with unbroken canopy cover and zero detachment scarps or displaced debris.
-   - Planned Construction Cuts: Engineered road cuts, building foundation pits, or terraced excavation benches that are stable and exhibit no slope collapse.
-   - Quarries / Mining Pits: Open-cast stone extraction pits under operational control.
-   - Minor Surface Discontinuities: Surface puddles, dry river gravel, or normal asphalt potholes with no hillside involvement.
-   -> If the photo shows ANY stable terrain, normal construction cut, quarry, or non-failure scene:
-      Set "is_landslide_or_terrain": false, "validation_status": "NON_LANDSLIDE_STABLE_TERRAIN".
-      Set "detected_content": Concise description of what is actually shown.
-      Set "rejection_reason": "Optical analysis confirmed the image depicts [detected_content]. No active mass-wasting, tension crack, detachment scarp, or debris accumulation is observed."
-
-C. TRUE LANDSLIDE VERIFICATION MARKERS (ACCEPT AS AUTHENTIC LANDSLIDE):
-   To be accepted as an authentic landslide ("is_landslide_or_terrain": true, "validation_status": "VALID_TERRAIN_IMAGE"), the image MUST exhibit at least one or more of:
-   1. Detachment Crown / Main Scarp: Fresh exposed shear face or headwall where soil or rock detached.
-   2. Tension Cracks & Shear Fissures: Open extensional fissures in crown or slope body.
-   3. Displaced Material & Chaotic Debris: Chaotic accumulation of colluvium, rock boulders, scree, or liquefied mud slurry.
-   4. Toe Bulge / Debris Apron: Protruding toe lobe or runout tongue encroaching upon roadways, structures, or riverbeds.
-   5. Vegetation Distress: Trees tilted ("drunken forest"), sheared, snapped, or uprooted within displaced mass.
-   6. Structural Breach / Damage: Walls sheared or breached by falling earth/rock, foundations undermined, or road pavement buckled, cracked, or buried.
-
-================================================================================
-INQUIRY 2: KINEMATIC FAILURE MECHANISM & USGS TWO-TERM CLASSIFICATION (CRUDEN & VARNES 1996)
-================================================================================
-Classify movement kinematics using the formal USGS / Cruden & Varnes (1996) Two-Term Classification System [Type of Movement + Type of Material]:
-1. Movement Type: Fall, Topple, Slide (Rotational Slide / Slump vs. Translational Slide / Planar), Lateral Spread, Flow, or Complex.
-2. Material Type: Rock, Debris (coarse fragments > 2mm), or Earth (fine particles < 2mm).
-- Assign the precise Two-Term Name (e.g. "Translational Rock Slide", "Rotational Earth Slide", "Debris Flow", "Rock Fall", "Rock Topple", "Complex Rock Slide - Debris Flow").
-- Estimate the Cruden & Varnes Velocity Class: Class 7 Extremely Rapid (>5 m/s), Class 6 Very Rapid (3 m/min - 5 m/s), Class 5 Rapid (1.8 m/h - 3 m/min), Class 4 Moderate (13 m/mo - 1.8 m/h), Class 3 Slow (1.6 m/yr - 13 m/mo).
-
-================================================================================
-INQUIRY 3: MICRO-SETTING & IMPACTED ASSET VULNERABILITY
-================================================================================
-Examine what the slide struck:
-- "Residential Dwelling / Settlement": State exact structural damage.
-- "Highway / Transport Corridor": State road type (NH, SH, MDR, ODR, Rural Road), carriageway obstruction ("Fully Blocked", "Partially Blocked", "Single-Lane Restricted", "Clear"), pavement type (Flexible BT, Rigid CC, Unpaved).
-- "Agricultural / Terrace Orchard": State terrace / crop damage.
-
-================================================================================
-INQUIRY 4: LIFE-SAFETY, UTILITY HAZARDS & STABILIZATION DIRECTIVES
-================================================================================
-Physical safety directives without label prefixes:
-- "utility_hazard": Electrical wires, gas, domestic water lines, optical fibers at risk.
-- "machinery_and_rescue": Equipment required (e.g. manual shovels vs hydraulic breaker excavators).
-- "access_or_evacuation": Clearance target or evacuation perimeter.
-- "permanent_stabilization": Standard retaining structure (IS:14458) and drainage chute.
-
-================================================================================
-INQUIRY 5: LITHOLOGICAL & FIELD SHEET INDICATORS (DATA COLLECTION SHEET)
-================================================================================
-- Prominent Rock Type: Identify rock lithology observed in scarp/boulders. Note: The official Geological Survey of India (GSI Bhukosh) database maps this sector as "{bhukosh_rock_str}". Cross-examine your optical analysis against this GSI Bhukosh benchmark. If the photograph shows weathered colluvium or specific bedrock, record it accurately, but ensure alignment with this geological setting.
-- Rock Colour: Visible coloration
-- Jointing Spacing: Distance between fractures
-- Weathering Grade: Grade I to Grade V
-- Rock Strength: R1 Very Weak to R5 Very Strong
-- Slope Geometry: Scarp height (m), cut slope angle (deg)
-- Distress Indicators: Gully, crack, unstable rock, seepage, erosion, potholes, subsidence, rutting, drain clogging, wall bulging/collapse.
-
-================================================================================
-INQUIRY 6: SENIOR GEOTECHNICAL FORENSIC WRITING (USGS, CEDD GEO & LARIMIT STANDARDS)
-================================================================================
-When generating "senior_engineer_remarks", adopt the authoritative forensic diagnostic writing style synthesizing:
-- USGS Circular 1325 (Highland & Bobrowsky 2008) and Cruden & Varnes (1996) standard definitions, two-term taxonomy, velocity ratings, and anatomical parts.
-- Hong Kong CEDD GEO Landslide Study Reports (LSR: Geoguide 1 consequence categories, target FOS, Geoguide 7 soil nailing).
-- Klima 2050 / LaRiMiT multi-barrier mitigation framework.
-
-Structure your remarks into 5 numbered engineering sections:
-1. GEOTECHNICAL & USGS CLASSIFICATION (USGS Circular 1325 / Cruden & Varnes 1996):
-   - Cite the USGS standard definition of a landslide ("the downslope movement of soil, rock, and organic materials under the effects of gravity and also the landform that results from such movement").
-   - Explicitly formulate the formal Cruden & Varnes (1996) Two-Term Classification matching the actual observed image.
-   - Specify the estimated Cruden & Varnes Velocity Class.
-2. CONSEQUENCE RATING & TARGET FACTOR OF SAFETY (CEDD Geoguide 1):
-   - Designate the Consequence-to-Life Category (Category 1, 2, or 3) and statutory minimum target Factor of Safety based on the actual asset at risk.
-3. KINEMATIC FAILURE MECHANICS, ANATOMY & HYDROGEOLOGY:
-   - Identify precise failure kinematics and diagnostic anatomical features per USGS Circular 1325 (Crown, Main Scarp, Surface of Rupture, Displaced Mass, Depletion Zone, Accumulation Foot).
-   - Detail the hydrogeological trigger: antecedent rainfall infiltration, loss of soil matric suction, transient perched water table build-up, and cleft-water hydrostatic pressure along lithological boundaries.
-4. MULTI-BARRIER MITIGATION STRATEGY (LaRiMiT / CEDD GEO Standards):
-   - Propose an appropriate multi-barrier mitigation strategy tailored to the specific failure vector observed (e.g. for uphill cut slopes: retaining breast wall, soil nails, relief drainage; for valley subsidence: valley retaining wall, micro-piles, shoulder reconstruction; for rockfall cliffs: high-energy rockfall barrier/mesh, rock anchors; for habitation mudslides: deflector wall, drainage cutoff; for macro mountain failures: macro debris basin, bypass alignment).
-5. STATUTORY MAINTENANCE REGIME:
-   - Mandate statutory inspection regime under CEDD Geoguide 5 and routine clearing of drainage networks.
-
-INCIDENT TELEMETRY:
-- Report ID: {report_id}
-- District: {district}, Himachal Pradesh
-- Sector / Landmark: {landmark_str}
-- GPS Coordinates: {lat:.5f}° N, {lng:.5f}° E
-- Date of Inspection / Incident: {inc_date}
-- GSI Bhukosh Ground Truth Geology: {bhukosh_rock_str}
-- Reported Failure / Movement: {movement}
-- Reported Severity: {severity}
-- Field Notes: {user_desc}
-
-In "optical_geometry" inside "observed_features", extract continuous site-specific parameters from the image using visible scale references (e.g. road lanes ~3.5m each, vehicles ~4.5m long / ~1.6m high, people ~1.7m high, guardrails ~0.75m high, houses ~3.0m per storey, mature trees ~15-25m high):
-- "failure_vector": "UPHILL_CUT_SLOPE" (debris falling onto road/asset) | "VALLEY_EMBANKMENT_SUBSIDENCE" (road bench/embankment collapsing down into valley) | "CLIFF_ROCKFALL_TOPPLE" (steep bedrock cliff dropping monolithic boulders) | "HABITATION_TERRACE_SLUMP" (soil/mud slump hitting a residential house/building without a highway) | "MACRO_MOUNTAIN_CATASTROPHE" (massive >50m mountain/gorge collapse where local retaining walls cannot work)
-- "scarp_height_m": estimated vertical height H (m)
-- "affected_length_m": estimated longitudinal span L along road/asset (m)
-- "debris_width_m": cross-sectional width W of displaced debris (m)
-- "debris_thickness_m": mean thickness D of debris (m)
-- "cut_slope_angle_deg": slope/cliff face angle (deg)
-- "slip_surface_dip_deg": basal rupture / joint dip angle (deg)
-- "boulder_max_dia_m": max boulder diameter (m, 0.0 if soil/mud)
-- "carriageway_formation_m": pre-disaster road width (m, 0.0 if residential non-road site)
-- "carriageway_open_m": post-disaster operable width (m)
+2. KINEMATIC & OPTICAL PHOTOGRAMMETRY:
+   Extract real continuous physical measurements from the image using visible scaling anchors (e.g. road lane ~3.5m, vehicles ~4.5m x 1.6m, humans ~1.7m, guardrails ~0.8m):
+   - failure_vector: UPHILL_CUT_SLOPE (debris sliding down onto road/asset) | VALLEY_EMBANKMENT_SUBSIDENCE (road bench collapsing into valley) | CLIFF_ROCKFALL_TOPPLE (steep rock cliff dropping boulders) | HABITATION_TERRACE_SLUMP (slope failure hitting residential buildings) | MACRO_MOUNTAIN_CATASTROPHE (>50m deep mountain rupture).
+   - scarp_height_m: vertical height H of failure in meters (float).
+   - affected_length_m: longitudinal span L along road/slope in meters (float).
+   - debris_width_m: cross-sectional width W of debris in meters (float).
+   - debris_thickness_m: mean thickness D of debris in meters (float).
+   - cut_slope_angle_deg: slope cut face angle relative to horizontal in degrees (e.g. 40 to 85).
+   - slip_surface_dip_deg: rupture plane dip angle in degrees (e.g. 30 to 75).
+   - boulder_max_dia_m: max boulder diameter in meters (0.0 if soil).
+   - carriageway_formation_m: pre-disaster road width in meters (0.0 if off-road).
+   - carriageway_open_m: remaining operable road width in meters.
+   - road_blocked_percent: percentage of road carriageway obstructed (0 to 100).
 
 RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
 {{
-  "is_landslide_or_terrain": true or false,
-  "validation_status": "VALID_TERRAIN_IMAGE" or "INVALID_NON_TERRAIN_IMAGE" or "NON_LANDSLIDE_STABLE_TERRAIN",
-  "detected_content": "String describing exact image content",
-  "rejection_reason": "String or null",
+  "is_landslide_or_terrain": true,
+  "validation_status": "VALID_TERRAIN_IMAGE",
+  "detected_content": "Concise 1-sentence description of observed scene",
+  "rejection_reason": null,
   "site_context": {{
-    "environment_type": "Residential Dwelling / Settlement or Highway / Transport Corridor or Agricultural / Terrace Orchard",
-    "impacted_assets": "String describing specific assets damaged",
-    "structural_damage": "String describing physical structural breach or impact"
+    "environment_type": "Highway / Transport Corridor",
+    "impacted_assets": "Carriageway pavement and roadside ditch",
+    "structural_damage": "Debris blockage across traffic lane"
   }},
   "safety_directives": {{
-    "utility_hazard": "String without label prefix",
-    "machinery_and_rescue": "String without label prefix",
-    "access_or_evacuation": "String without label prefix",
-    "permanent_stabilization": "String without label prefix"
+    "utility_hazard": "Roadside drainage blocked",
+    "machinery_and_rescue": "Tracked excavator and dump trucks for debris clearing",
+    "access_or_evacuation": "Single lane shuttle operation with caution signage",
+    "permanent_stabilization": "Toe retention breast wall and upper slope drainage"
   }},
   "observed_features": {{
-    "road_type": "String",
-    "road_alignment": "String",
-    "pavement_type": "Flexible Bituminous Pavement (BT) or Rigid Concrete (CC) or Unpaved Gravel / Earth",
-    "fencing_type": "String",
-    "carriageway_obstruction": "Fully Blocked or Partially Blocked or Single-Lane Restricted or Clear",
-    "prominent_rock_type": "String",
-    "rock_colour": "String",
-    "in_situ_soil_desc": "String",
-    "debris_accumulation_desc": "String",
-    "failure_movement_observed": "String",
-    "usgs_two_term_name": "Translational Rock Slide or Rotational Earth Slide or Debris Flow etc.",
-    "usgs_velocity_class": "Class 5 (Rapid, 1.8 m/h to 3 m/min) or similar",
-    "slope_presence_above": true or false,
-    "slope_presence_below": true or false,
-    "slope_presence_both": true or false,
-    "in_situ_rock_visible": true or false,
-    "slope_type_cut": true or false,
-    "slope_type_fill": true or false,
-    "slope_type_natural_desc": "String",
-    "slope_geometry_profile": "String",
-    "slope_height_est": "String",
-    "cut_slope_angle_est": "String",
-    "jointing_spacing": "String",
-    "weathering_grade": "String",
-    "rock_strength": "String",
-    "fracture_pattern": "String",
-    "minerals_or_matrix": "String",
-    "dip_joints_visible": "String",
-    "retaining_wall_material": "None — Unprotected cut slope prior to failure",
-    "defects_gully": true or false,
-    "defects_crack": true or false,
-    "defects_unstable_rock": true or false,
-    "defects_seepage": true or false,
-    "defects_erosion": true or false,
-    "defects_landslide": true or false,
-    "road_crack": true or false,
-    "road_heaving": true or false,
-    "road_settlement": true or false,
-    "road_recent_repair": true or false,
-    "drain_overflow": true or false,
-    "drain_clogged": true or false,
-    "drain_deformation": true or false,
-    "drain_crack": true or false,
-    "wall_distress_crack": true or false,
-    "wall_distress_bulging": true or false,
-    "wall_distress_collapse": true or false,
-    "wall_distress_joint": true or false,
+    "road_type": "Major District Road (MDR)",
+    "road_alignment": "Curved",
+    "pavement_type": "Flexible Bituminous Pavement (BT)",
+    "fencing_type": "None",
+    "carriageway_obstruction": "Partially Blocked",
+    "prominent_rock_type": "Weathered Colluvium / Siltstone",
+    "rock_colour": "Reddish brown",
+    "in_situ_soil_desc": "Weathered residual hill slope soil",
+    "debris_accumulation_desc": "Colluvial debris and mud spilling across road",
+    "failure_movement_observed": "Translational debris slide on cut slope",
+    "usgs_two_term_name": "Translational Debris Slide",
+    "usgs_velocity_class": "Class 5 (Rapid)",
     "optical_geometry": {{
-      "failure_vector": "UPHILL_CUT_SLOPE or VALLEY_EMBANKMENT_SUBSIDENCE or CLIFF_ROCKFALL_TOPPLE or HABITATION_TERRACE_SLUMP or MACRO_MOUNTAIN_CATASTROPHE",
-      "kinematic_failure_mode": "Translational Planar Slide or Rotational Slump or Rockfall / Block Topple or Debris Flow or Embankment Subsidence",
-      "visible_scale_reference": "String identifying visual scale anchor used (e.g. road lane width ~3.5m, car ~4.5m x 1.6m, human ~1.7m, bus/truck ~10m x 3m, guardrail ~0.8m, building storey ~3.0m)",
-      "scarp_height_m": "float (continuous vertical scarp height in meters, derived from visual scaling against objects)",
-      "affected_length_m": "float (continuous longitudinal span along road/slope in meters)",
-      "debris_width_m": "float (cross-sectional width of displaced debris in meters)",
-      "debris_thickness_m": "float (mean thickness of accumulated debris in meters)",
-      "cut_slope_angle_deg": "float (slope face angle relative to horizontal in degrees, e.g. 35 to 85)",
-      "slip_surface_dip_deg": "float (dip angle of rupture plane or joint discontinuity in degrees, e.g. 25 to 75)",
-      "boulder_max_dia_m": "float (diameter of largest detached boulder in meters, 0.0 if soil)",
-      "tension_cracks_visible": true or false,
-      "carriageway_formation_m": "float (pre-disaster carriageway formation width in meters, 0.0 if off-road)",
-      "carriageway_open_m": "float (remaining operable road width in meters)",
-      "road_blocked_percent": "float (percentage of road carriageway blocked 0 to 100)",
-      "drain_status": "String describing observed state of roadside or hillside drainage"
+      "failure_vector": "UPHILL_CUT_SLOPE",
+      "kinematic_failure_mode": "Translational Planar Slide",
+      "visible_scale_reference": "Road lane width ~3.5m",
+      "scarp_height_m": 12.0,
+      "affected_length_m": 25.0,
+      "debris_width_m": 8.0,
+      "debris_thickness_m": 1.5,
+      "cut_slope_angle_deg": 65.0,
+      "slip_surface_dip_deg": 52.0,
+      "boulder_max_dia_m": 0.8,
+      "tension_cracks_visible": true,
+      "carriageway_formation_m": 5.5,
+      "carriageway_open_m": 2.2,
+      "road_blocked_percent": 60.0,
+      "drain_status": "Roadside toe drain 100% blocked under sliding debris"
     }}
   }},
   "plain_language_explanation": {{
-    "summary_title": "String",
-    "what_happened": "String",
-    "why_it_happened": "String",
-    "property_and_access_impact": "String",
-    "ongoing_hazards": "String",
-    "what_needs_to_be_done": "String",
-    "citizen_safety_advice": "String"
+    "summary_title": "Hill Cut-Slope Slide Blocking Roadway",
+    "what_happened": "A section of the steep hillside gave way, spilling soil, rocks, and uprooted trees directly onto the asphalt road.",
+    "why_it_happened": "Rainfall infiltration saturated the weathered soil overburden on the cut slope, triggering downslope failure.",
+    "property_and_access_impact": "The slide has obstructed the curved lane of the road, restricting vehicular movement to a single lane.",
+    "ongoing_hazards": "Continuous monitoring required as water runoff may trigger secondary slumping.",
+    "what_needs_to_be_done": "Deploy excavators for debris clearance, followed by construction of a toe breast wall and crest drains.",
+    "citizen_safety_advice": "Motorists must proceed with extreme caution and follow traffic marshal directions."
   }},
-  "senior_engineer_remarks": "String"
+  "senior_engineer_remarks": "Optical photogrammetry confirms an active translational cut-slope debris failure encroaching on the carriageway. Urgent clearance and plum concrete breast wall stabilization required."
 }}"""
 
     payload = {
@@ -2274,7 +2144,7 @@ RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
     for model_name in GEMINI_MODELS:
         try:
             url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={GEMINI_API_KEY}"
-            resp = _get_http_session().post(url, json=payload, timeout=30)
+            resp = requests.post(url, json=payload, timeout=25)
             if resp.status_code == 200:
                 result_json = resp.json()
                 candidates = result_json.get("candidates", [])
@@ -2282,7 +2152,21 @@ RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
                     raw_text = candidates[0].get("content", {}).get("parts", [{}])[0].get("text", "")
                     cleaned = re.sub(r"^```(?:json)?\s*", "", raw_text.strip(), flags=re.MULTILINE)
                     cleaned = re.sub(r"\s*```$", "", cleaned.strip(), flags=re.MULTILINE)
-                    parsed = json.loads(cleaned)
+                    try:
+                        parsed = json.loads(cleaned)
+                    except Exception as json_err:
+                        logger.warning("Standard json.loads failed (%s), attempting sanitization...", json_err)
+                        # Fix trailing commas or unescaped control chars
+                        sanitized = re.sub(r",\s*([\]}])", r"\1", cleaned)
+                        try:
+                            parsed = json.loads(sanitized)
+                        except Exception:
+                            # Try greedy extraction of JSON object
+                            m_obj = re.search(r"(\{.*\})", cleaned, re.DOTALL)
+                            if m_obj:
+                                parsed = json.loads(re.sub(r",\s*([\]}])", r"\1", m_obj.group(1)))
+                            else:
+                                raise json_err
 
                     # Optical Validation Check: Non-Terrain Rejection
                     if not parsed.get("is_landslide_or_terrain", True):
@@ -2316,18 +2200,16 @@ RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
         except Exception as exc:
             logger.warning("Gemini model %s exception: %s", model_name, exc)
 
-    logger.warning("All Gemini vision models failed or timed out. Suspending estimation to prevent ungrounded hallucination.")
-    fallback_dossier = build_rejected_assessment_dossier(
-        report,
-        detected_content="Photographic Vision Analysis Timed Out / Unavailable",
-        rejection_reason="Gemini Multimodal Vision API request timed out or was temporarily unavailable. Estimation suspended to prevent ungrounded geotechnical hallucination.",
-        senior_remarks="Automated optical analysis could not be completed at this time. Structural stabilization estimation is suspended (₹ 0) to avoid generating unverified engineering designs.",
-        plain_lang={
-            "summary": "The automated optical vision pipeline could not reach the multimodal reasoning service. To maintain structural safety and geotechnical integrity, no synthetic measurements were generated.",
-            "action_recommendation": "Please retry the optical analysis via the admin console or verify your network connection to Google Gemini API.",
-        },
-        model_name="Optical Timeout Guard",
+    logger.warning("All Gemini vision models failed or timed out. Falling back to deterministic geotechnical engineering dossier.")
+    fallback_dossier = compute_deterministic_engineering_dossier(report)
+    fallback_dossier["validation_status"] = "DETERMINISTIC_HEURISTIC_ACTIVE"
+    fallback_dossier["is_landslide_or_terrain"] = True
+    fallback_dossier["source"] = "HIMA-LENS Senior Engineering Knowledge Engine (Deterministic Geotechnical Baseline)"
+    fallback_dossier["senior_engineer_remarks"] = (
+        "Photogrammetric vision service was temporarily unreachable or timed out. "
+        "Civil stabilization schedule, BOQ, and Factor of Safety were derived via the deterministic kinematic engine, "
+        "calibrated to site telemetry, regional slope angles, and GSI Bhukosh lithology."
     )
-    fallback_dossier["validation_status"] = "VISION_SERVICE_TIMEOUT"
+    fallback_dossier = normalize_assessment_structure(fallback_dossier, report)
     save_assessment_to_cache(report_id, fallback_dossier)
     return fallback_dossier
