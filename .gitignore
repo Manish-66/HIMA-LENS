@@ -46,3 +46,9 @@ src/ts/globals.d.ts
 graphify-out/cache/
 graphify-out/2026-*/
 
+
+# Unneeded heavy data packages
+Mandi_data/
+old_data.geojson
+graphify-out/
+*.lpkx
