@@ -628,8 +628,8 @@
   </div>
 
   <div class="mobile-hint-banner">
-    <span>📱 <strong>Mobile A4 View:</strong> Swipe or tap to fit screen width.</span>
-    <button type="button" class="mobile-zoom-toggle" onclick="toggleMobileFit()">🔍 Fit to Screen</button>
+    <span><strong>Mobile A4 View:</strong> Swipe or tap to fit screen width.</span>
+    <button type="button" class="mobile-zoom-toggle" onclick="toggleMobileFit()">Fit to Screen</button>
   </div>
 
   {% set boq = assessment.cost_estimate_boq %}
@@ -952,12 +952,12 @@
         canvas.style.transformOrigin = 'top left';
         canvas.style.width = '920px';
         if (wrapper) wrapper.style.height = `${canvas.offsetHeight * scale + 30}px`;
-        if (btn) btn.innerText = "🔍 100% Zoom";
+        if (btn) btn.innerText = "100% Zoom";
       } else {
         canvas.style.transform = 'none';
         canvas.style.width = '920px';
         if (wrapper) wrapper.style.height = 'auto';
-        if (btn) btn.innerText = "🔍 Fit to Screen";
+        if (btn) btn.innerText = "Fit to Screen";
       }
     }
   </script>
