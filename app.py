@@ -23,6 +23,8 @@ import ai_assessment
 import cap_engine
 import geotech_vision
 import photogrammetry_engine
+import geotech_engine
+import geotech_schematic
 from config import (
     ANNOTATED_PLATES_DIR,
     APP_DESCRIPTION,
@@ -1106,6 +1108,126 @@ def get_report_schematic(report_id: str):
         top_badge=assessment.get("schematic_top_badge") or params.get("top_badge"),
         kinematic_parameters=params,
         schematic_svg=svg,
+    )
+
+@app.post("/api/report/<report_id>/parameters")
+def update_report_parameters(report_id: str):
+    """Updates physical engineering parameters for a report docket with live Cruden & Varnes
+    recalculation, ProjectDataModel binding, and persistence."""
+    report = find_report_by_id(report_id)
+    if not report:
+        return jsonify(success=False, error="REPORT_NOT_FOUND", message=f"Report {report_id} not found."), 404
+
+    data = request.get_json() or {}
+
+    failure_vec = str(data.get("failure_vector") or "UPHILL_CUT_SLOPE").strip()
+    try:
+        h_scarp = float(data.get("scarp_height_m") or 7.6)
+    except (TypeError, ValueError):
+        h_scarp = 7.6
+    try:
+        l_affected = float(data.get("affected_length_m") or 17.0)
+    except (TypeError, ValueError):
+        l_affected = 17.0
+    try:
+        w_debris = float(data.get("debris_width_m") or 8.0)
+    except (TypeError, ValueError):
+        w_debris = 8.0
+    try:
+        d_debris = float(data.get("debris_thickness_m") or 1.5)
+    except (TypeError, ValueError):
+        d_debris = 1.5
+    try:
+        cut_ang = float(data.get("cut_slope_angle_deg") or 66.0)
+    except (TypeError, ValueError):
+        cut_ang = 66.0
+    try:
+        slip_dip = float(data.get("slip_surface_dip_deg") or 57.0)
+    except (TypeError, ValueError):
+        slip_dip = 57.0
+    try:
+        w_pre = float(data.get("carriageway_formation_m") or 5.25)
+    except (TypeError, ValueError):
+        w_pre = 5.25
+    try:
+        w_post = float(data.get("carriageway_open_m") or 2.30)
+    except (TypeError, ValueError):
+        w_post = 2.30
+    notes = str(data.get("engineer_notes") or "").strip()
+
+    optical_geometry = {
+        "failure_vector": failure_vec,
+        "scarp_height_m": h_scarp,
+        "affected_length_m": l_affected,
+        "debris_width_m": w_debris,
+        "debris_thickness_m": d_debris,
+        "cut_slope_angle_deg": cut_ang,
+        "slip_surface_dip_deg": slip_dip,
+        "carriageway_formation_m": w_pre,
+        "carriageway_open_m": w_post,
+    }
+
+    partial_dossier = {
+        "observed_features": {"optical_geometry": optical_geometry},
+        "optical_geometry": optical_geometry,
+        "site_context": {"road_width_pre_disaster_m": w_pre, "road_width_post_disaster_m": w_post},
+        "district": report.get("district", "Mandi"),
+        "latitude": report.get("latitude", 31.708),
+        "longitude": report.get("longitude", 76.932),
+    }
+    pdm = geotech_engine.build_project_data_model(dossier=partial_dossier, report=report)
+
+    cached = ai_assessment.get_cached_assessment(report_id) or ai_assessment.compute_deterministic_engineering_dossier(report)
+    cached["validation_status"] = "VERIFIED_FIELD_ENGINEER"
+    cached["is_engineer_verified"] = True
+    cached["is_landslide_or_terrain"] = True
+    verified_time = datetime.utcnow().strftime("%d %b %Y, %H:%M UTC")
+    cached["engineer_verified_at"] = verified_time
+    if notes:
+        cached["engineer_verification_notes"] = notes
+        cached["senior_engineer_remarks"] = f"VERIFIED BY FIELD ENGINEER ({verified_time}): {notes}"
+
+    cached["project_data_model"] = pdm
+    cached["unified_geometry"] = pdm["unified_geometry"]
+    cached["stability_analysis"] = pdm["stability_analysis"]
+    cached["financial_summary"] = pdm["financial_summary"]
+    cached["statutory_capital_works_outlay"] = pdm["statutory_capital_works_outlay"]
+    cached["boq_items"] = pdm["boq_items"]
+    cached["loss_items"] = pdm["loss_items"]
+    cached["cost_estimate_boq"] = pdm
+    cached["source"] = f"Field Engineer Verified Docket ({verified_time})"
+    cached["diagnostic_notice"] = f"Parameters verified by Field Engineer on {verified_time}. Cruden & Varnes (1996) volumetric modeling active."
+
+    import geotech_schematic
+    cached["schematic_svg"] = geotech_schematic.generate_schematic_svg(cached, report, unique_suffix=report_id)
+    cached["schematic_top_badge"] = geotech_schematic.extract_ml_kinematic_parameters(cached, report)["top_badge"]
+
+    ai_assessment.save_assessment_to_cache(report_id, cached)
+
+    return jsonify(
+        success=True,
+        report_id=report_id,
+        assessment=cached,
+        message="Engineering parameters verified and applied successfully.",
+    )
+
+@app.post("/api/report/<report_id>/reset-parameters")
+def reset_report_parameters(report_id: str):
+    """Resets manual overrides and recomputes the baseline assessment."""
+    report = find_report_by_id(report_id)
+    if not report:
+        return jsonify(success=False, error="REPORT_NOT_FOUND", message=f"Report {report_id} not found."), 404
+
+    # Reset to authoritative deterministic baseline
+    baseline = ai_assessment.compute_deterministic_engineering_dossier(report)
+    assessment = ai_assessment.normalize_assessment_structure(baseline, report)
+    ai_assessment.save_assessment_to_cache(report_id, assessment)
+
+    return jsonify(
+        success=True,
+        report_id=report_id,
+        assessment=assessment,
+        message="Parameters reset to original baseline.",
     )
 
 @app.get("/report/boq-sheet/<report_id>")

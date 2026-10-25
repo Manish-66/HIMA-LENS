@@ -1332,9 +1332,10 @@ def _build_uphill_cut_slope_model(
         debris_w = float(opt_geom.get("debris_width_m") or 0.0)
         debris_d = float(opt_geom.get("debris_thickness_m") or 0.0)
         if debris_w > 0 and debris_d > 0:
-            debris_insitu_m3 = round(0.5 * wall_length_m * debris_w * debris_d, 2)
+            # Cruden & Varnes (1996) / USGS Circular 1325 Half-Ellipsoid: V = (pi / 6) * L * W * D
+            debris_insitu_m3 = round((math.pi / 6.0) * wall_length_m * debris_w * debris_d, 2)
         else:
-            debris_insitu_m3 = round(0.5 * wall_length_m * (H_mean * 0.6) * 3.5, 2)
+            debris_insitu_m3 = round((math.pi / 6.0) * wall_length_m * (H_mean * 0.6) * 3.5, 2)
         bulking_factor = 1.25
         debris_bulked_m3 = round(debris_insitu_m3 * bulking_factor, 2)
 
@@ -1793,7 +1794,7 @@ def _build_valley_subsidence_model(
     debris_w = float(opt_geom.get("debris_width_m") or 0.0)
     debris_d = float(opt_geom.get("debris_thickness_m") or 0.0)
     if debris_w > 0 and debris_d > 0:
-        debris_insitu_m3 = round(0.5 * wall_length_m * debris_w * debris_d, 2)
+        debris_insitu_m3 = round((math.pi / 6.0) * wall_length_m * debris_w * debris_d, 2)
     else:
         debris_insitu_m3 = round(wall_length_m * 1.8 * 1.5, 2)
     bulking_factor = 1.25
@@ -2177,7 +2178,7 @@ def _build_cliff_rockfall_model(
     debris_w = float(opt_geom.get("debris_width_m") or 0.0)
     debris_d = float(opt_geom.get("debris_thickness_m") or 0.0)
     if debris_w > 0 and debris_d > 0:
-        debris_insitu_m3 = round(0.5 * wall_length_m * debris_w * debris_d, 2)
+        debris_insitu_m3 = round((math.pi / 6.0) * wall_length_m * debris_w * debris_d, 2)
     else:
         debris_insitu_m3 = round(wall_length_m * 2.2 * 1.4, 2)
     bulking_factor = 1.25
@@ -2563,7 +2564,7 @@ def _build_habitation_slump_model(
     debris_w = float(opt_geom.get("debris_width_m") or 0.0)
     debris_d = float(opt_geom.get("debris_thickness_m") or 0.0)
     if debris_w > 0 and debris_d > 0:
-        debris_insitu_m3 = round(0.5 * wall_length_m * debris_w * debris_d, 2)
+        debris_insitu_m3 = round((math.pi / 6.0) * wall_length_m * debris_w * debris_d, 2)
     else:
         debris_insitu_m3 = round(wall_length_m * 2.0 * 1.6, 2)
     bulking_factor = 1.25

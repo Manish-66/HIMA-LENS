@@ -2201,6 +2201,298 @@
 
     }
 
+  
+    .btn-param-panel {
+      background: #0284c7;
+      color: #ffffff;
+      border: 1px solid #38bdf8;
+      font-weight: 800;
+    }
+    .btn-param-panel:hover {
+      background: #0369a1;
+      transform: translateY(-1px);
+    }
+
+    /* Slide-Over Parameter Control Panel Drawer */
+    #parameter-panel-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(2px);
+      z-index: 9998;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease;
+    }
+    #parameter-panel-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    #parameter-control-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 480px;
+      max-width: 95vw;
+      height: 100vh;
+      background: #0f172a;
+      color: #f1f5f9;
+      z-index: 9999;
+      box-shadow: -10px 0 35px rgba(0, 0, 0, 0.5);
+      transform: translateX(100%);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    #parameter-control-panel.active {
+      transform: translateX(0);
+    }
+    .pcp-header {
+      padding: 14px 18px;
+      background: #1e293b;
+      border-bottom: 1px solid #334155;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .pcp-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 0.3px;
+    }
+    .pcp-subtitle {
+      font-size: 9.5px;
+      color: #94a3b8;
+      margin-top: 2px;
+    }
+    .pcp-close-btn {
+      background: transparent;
+      border: 1px solid #475569;
+      color: #cbd5e1;
+      cursor: pointer;
+      border-radius: 4px;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+    .pcp-close-btn:hover {
+      background: #334155;
+      color: #ffffff;
+    }
+    .pcp-body {
+      padding: 14px 18px;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .pcp-info-banner {
+      background: #1e293b;
+      border-left: 3.5px solid #2dd4bf;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 10px;
+      line-height: 1.4;
+      color: #cbd5e1;
+    }
+    .pcp-info-banner strong {
+      color: #5eead4;
+    }
+    .pcp-group {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 6px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .pcp-group-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      color: #f8fafc;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 6px;
+    }
+    .pcp-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .pcp-label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10.5px;
+      font-weight: 600;
+      color: #cbd5e1;
+    }
+    .pcp-slider-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .pcp-slider {
+      flex: 1;
+      height: 6px;
+      border-radius: 3px;
+      background: #334155;
+      outline: none;
+      accent-color: #2dd4bf;
+      cursor: pointer;
+    }
+    .pcp-num-input {
+      width: 72px;
+      padding: 4px 6px;
+      background: #0f172a;
+      border: 1px solid #475569;
+      border-radius: 4px;
+      color: #5eead4;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      text-align: right;
+    }
+    .pcp-select {
+      width: 100%;
+      padding: 6px 8px;
+      background: #0f172a;
+      border: 1px solid #475569;
+      border-radius: 4px;
+      color: #f8fafc;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .pcp-textarea {
+      width: 100%;
+      min-height: 56px;
+      padding: 6px 8px;
+      background: #0f172a;
+      border: 1px solid #475569;
+      border-radius: 4px;
+      color: #f8fafc;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10.5px;
+      resize: vertical;
+    }
+    .pcp-preview-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .pcp-metric-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 4px;
+      padding: 6px 8px;
+    }
+    .pcp-metric-lbl {
+      font-size: 8.5px;
+      color: #94a3b8;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+    .pcp-metric-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-top: 2px;
+    }
+    .pcp-metric-card.highlight {
+      border-color: #059669;
+      background: #022c22;
+      grid-column: span 2;
+    }
+    .pcp-metric-card.highlight .pcp-metric-val {
+      color: #34d399;
+      font-size: 13.5px;
+    }
+    .pcp-footer {
+      padding: 12px 18px;
+      background: #1e293b;
+      border-top: 1px solid #334155;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .pcp-btn-save {
+      flex: 1;
+      padding: 8px 14px;
+      background: #059669;
+      color: #ffffff;
+      border: 1px solid #10b981;
+      border-radius: 4px;
+      font-family: 'Manrope', sans-serif;
+      font-size: 11.5px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .pcp-btn-save:hover {
+      background: #047857;
+      transform: translateY(-1px);
+    }
+    .pcp-btn-reset {
+      padding: 8px 12px;
+      background: #78350f;
+      color: #fef3c7;
+      border: 1px solid #d97706;
+      border-radius: 4px;
+      font-family: 'Manrope', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .pcp-btn-reset:hover {
+      background: #92400e;
+    }
+    .field-toast {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      background: #0f172a;
+      color: #f8fafc;
+      border: 1.5px solid #10b981;
+      border-radius: 6px;
+      padding: 10px 16px;
+      font-size: 11px;
+      font-family: 'Manrope', sans-serif;
+      font-weight: 700;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      gap: 8px;
+    }
+    @media print {
+      #parameter-control-panel,
+      #parameter-panel-backdrop,
+      .field-toast {
+        display: none !important;
+      }
+    }
+
   </style>
 
 </head>
@@ -2239,6 +2531,10 @@
 
       </button>
 
+            <button type="button" class="screen-btn btn-param-panel" id="btn-open-control-panel" onclick="openControlPanel()" title="Open Parameter Control Panel to adjust dimensions & recalculate">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+        <span>Edit Parameters &amp; Recalculate</span>
+      </button>
       <button type="button" class="screen-btn btn-ghost" id="btn-toggle-edit" onclick="toggleEditMode()">
 
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
@@ -2431,7 +2727,7 @@
 
       <div style="font-weight: 700; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px;">
 
-        <span style="font-size: 12px;">⛔</span> AUDIT DISQUALIFICATION NOTICE &bull; NON-GEOLOGICAL MEDIA DETECTED
+        <span style="background:#dc2626; color:#ffffff; padding:1px 5px; border-radius:3px; font-size:8.5px; font-weight:800;">DISQUALIFIED</span> AUDIT DISQUALIFICATION NOTICE &bull; NON-GEOLOGICAL MEDIA DETECTED
 
       </div>
 
