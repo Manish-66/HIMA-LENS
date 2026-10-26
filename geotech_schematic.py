@@ -234,11 +234,11 @@ def extract_ml_kinematic_parameters(
     elif any(k in mode_lower for k in ("slump", "rotational")):
         mode = "rotational_slump"
         mode_label = "ROTATIONAL OVERBURDEN SLUMP"
-        top_badge = f"CIRCULAR SLIP ARC • DIP: {dip_deg}° • Hcut={slope_height_m:.1f}m"
+        top_badge = f"CIRCULAR SLIP ARC • CUT: {cut_deg}° • Hcut={slope_height_m:.1f}m"
     elif any(k in mode_lower for k in ("wedge",)):
         mode = "wedge"
         mode_label = "STRUCTURAL WEDGE FAILURE"
-        top_badge = f"INTERSECTING JOINTS (J1xJ2) • PLUNGE: {dip_deg}°"
+        top_badge = f"INTERSECTING JOINTS (J1xJ2) • CUT: {cut_deg}°"
     elif any(k in mode_lower for k in ("creep", "subsidence", "settlement")):
         mode = "creep_subsidence"
         mode_label = "SLOPE CREEP & SURFICIAL SUBSIDENCE"
@@ -246,7 +246,7 @@ def extract_ml_kinematic_parameters(
     else:
         mode = "translational"
         mode_label = "TRANSLATIONAL PLANAR ROCK SLIDE"
-        top_badge = f"SLIP PLANE: {dip_deg}° DAYLIGHTING • Hcut={slope_height_m:.1f}m"
+        top_badge = f"PLANAR DAYLIGHTING SCARP • CUT: {cut_deg}° • Hcut={slope_height_m:.1f}m"
 
     if validation_status in ("DETERMINISTIC_HEURISTIC_ACTIVE", "VISION_SERVICE_TIMEOUT") and mode != "rejected_ood":
         top_badge = f"{top_badge} [KINEMATIC HEURISTIC]"
@@ -668,7 +668,7 @@ def _render_translational_slide_svg(
     <line x1="{scarp_x + 12}" y1="{scarp_y + 12}" x2="{scarp_x + 12 + j1_dx - 15}" y2="{scarp_y + 12 + round((j1_dx - 15) * tan_dip)}" />
     <line x1="{scarp_x + 55}" y1="{scarp_y + 32}" x2="{scarp_x + 55 + j1_dx - 25}" y2="{scarp_y + 32 + round((j1_dx - 25) * tan_dip)}" />
   </g>
-  <text x="{scarp_x + 15}" y="{scarp_y + j1_dy - 10}" font-size="5.5" font-weight="700" fill="#64748b">Joint Set J1 (Dip {dip_deg}&deg;)</text>
+  <text x="{scarp_x + 15}" y="{scarp_y + j1_dy - 10}" font-size="5.5" font-weight="700" fill="#64748b">Joint Set J1 (Discontinuity)</text>
 
   <!-- Phreatic Seepage Line / Transient Water Table (Monsoon Saturation) -->
   <path d="M 22 {scarp_y + 18} Q {scarp_x + 25} {scarp_y + 30} {road_x_start - 12} {road_y - 8}" fill="none" stroke="#0284c7" stroke-width="1.4" stroke-dasharray="4,2" />

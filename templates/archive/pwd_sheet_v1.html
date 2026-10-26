@@ -1326,7 +1326,7 @@
     .photo-frame-box,
     .photo-plate-container {
       border: 1.5px solid var(--border-dark);
-      background: #092f25;
+      background: #ffffff;
       display: flex;
       flex-direction: column;
       border-radius: 4px;
@@ -1353,7 +1353,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #09131f;
+      background: #ffffff;
       padding: 4px;
       min-height: 120px;
       max-height: 250px;
@@ -2011,8 +2011,8 @@
 
       .photo-frame-box,
       .photo-plate-container {
-        border: 1px solid #092f25 !important;
-        background: #092f25 !important;
+        border: 1px solid #104c3b !important;
+        background: #ffffff !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
         display: flex !important;
@@ -2031,7 +2031,7 @@
         print-color-adjust: exact !important;
       }
       .photo-img-wrap {
-        background: #09131f !important;
+        background: #ffffff !important;
         min-height: 70px !important;
         max-height: 105px !important;
         height: 100% !important;
@@ -2616,9 +2616,6 @@
       <span class="nav-tab active" style="background: #104c3b; color: #f0fdf4; padding: 6px 12px; border-radius: 4px; font-weight: 800; font-size: 11px; border: 1px solid rgba(255,255,255,0.25);">
         Sheet 2: Technical Assessment
       </span>
-      <a href="/report/boq-sheet/{{ report.id }}" class="screen-btn btn-sheet3" title="Switch to Cost Estimate & BOQ Schedule">
-        <span>Sheet 3: Cost &amp; BOQ &rarr;</span>
-      </a>
       <button type="button" class="screen-btn btn-ghost" id="btn-toggle-edit" onclick="toggleEditMode()" title="Toggle inline editing for report text and notes">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
         <span>Edit Fields Inline</span>
@@ -2901,7 +2898,7 @@
 
           <td colspan="2"><strong>Slope geometry (below road):</strong> <span class="editable" id="f-slope-below">Natural Valley Slope (~32&deg;&ndash;35&deg; gradient descending to valley floor, stable undisturbed profile)</span></td>
 
-          <td><strong>Slope profile:</strong> <span class="editable" id="f-slope-profile">Convex Escarpment (Steep Overburden Cut Slope &amp; Relict Daylighting Joint Dip {{ geom.joint_dip_deg | default(57) }}&deg; SW)</span></td>
+          <td><strong>Slope profile:</strong> <span class="editable" id="f-slope-profile">Convex Escarpment (Steep Overburden Cut Slope Scarp)</span></td>
 
         </tr>
 
@@ -3001,178 +2998,38 @@
 
 
 
-    <!-- 3. Protection Works (Proposed Measures) Matrix (7 Rows per Data Collection Sheet) -->
-
-    <div class="sec-bar">3. Protection Works (Proposed Measures)</div>
-
+    <!-- 3. Geology of In-Situ Rock Around Works (Table 2 of Data Collection Sheet) -->
+    <div class="sec-bar">3. Geology of In-Situ Rock Around Works</div>
     <table class="grid-table">
-
-      <thead>
-
-        <tr>
-
-          <th rowspan="2" style="width: 32%;">Structure Type</th>
-
-          <th colspan="2" style="text-align: center; width: 22%;">Location</th>
-
-          <th colspan="2" style="text-align: center; width: 23%;">Preventive</th>
-
-          <th colspan="2" style="text-align: center; width: 23%;">Remedial</th>
-
-        </tr>
-
-        <tr>
-
-          <th style="text-align: center;">Above</th>
-
-          <th style="text-align: center;">Below</th>
-
-          <th style="text-align: center;">Cut</th>
-
-          <th style="text-align: center;">Natural</th>
-
-          <th style="text-align: center;">Cut</th>
-
-          <th style="text-align: center;">Natural</th>
-
-        </tr>
-
-      </thead>
-
-      <tbody>
-
-        {% if assessment.protection_works %}
-
-        {% for pw in assessment.protection_works %}
-
-        <tr>
-
-          <td><strong>{{ pw.structure }}</strong></td>
-
-          <td style="text-align: center;">{{ '✔' if pw.above else '-' }}</td>
-
-          <td style="text-align: center;">{{ '✔' if pw.below else '-' }}</td>
-
-          <td style="text-align: center;">{{ '✔' if pw.prev_cut else '-' }}</td>
-
-          <td style="text-align: center;">{{ '✔' if pw.prev_nat else '-' }}</td>
-
-          <td style="text-align: center;">{{ '✔' if pw.rem_cut else '-' }}</td>
-
-          <td style="text-align: center;">{{ '✔' if pw.rem_nat else '-' }}</td>
-
-        </tr>
-
-        {% endfor %}
-
-        {% else %}
-
-        <tr>
-
-          <td colspan="7" style="text-align: center; color: #64748b; font-style: italic; padding: 4px;">
-
-            No structural protection measures proposed — Verification Rejected / Non-Terrain Upload.
-
-          </td>
-
-        </tr>
-
-        {% endif %}
-
-      </tbody>
-
-    </table>
-
-
-
-    <!-- 4. Geology of In-Situ Rock Around Works (Table 2 of Data Collection Sheet) -->
-
-    <div class="sec-bar">4. Geology of In-Situ Rock Around Works</div>
-
-    <table class="grid-table">
-
       <tr>
-
         <td class="col-lbl">Prominent soil/rock desc:</td>
-
         <td class="col-val editable" id="f-soil-desc">{{ assessment.geology.prominent_soil_rock }}</td>
-
         <td class="col-lbl">Prominent rock desc:</td>
-
         <td class="col-val editable" id="f-rock-desc">{{ assessment.geology.prominent_rock_desc }}</td>
-
       </tr>
-
       <tr>
-
         <td class="col-lbl">Colour:</td>
-
         <td class="col-val editable" id="f-rock-color">{{ assessment.geology.colour }}</td>
-
         <td class="col-lbl">Jointing spacing:</td>
-
         <td class="col-val editable" id="f-joint-space">{{ assessment.geology.jointing_spacing }}</td>
-
       </tr>
-
       <tr>
-
-        <td class="col-lbl">Strength:</td>
-
-        <td class="col-val editable" id="f-rock-strength">{{ assessment.geology.strength }}</td>
-
-        <td class="col-lbl">Dip joints:</td>
-
-        <td class="col-val editable" id="f-dip-joints">{{ assessment.geology.dip_joints }}</td>
-
-      </tr>
-
-      <tr>
-
         <td class="col-lbl">Minerals present:</td>
-
         <td class="col-val editable" id="f-minerals">{{ assessment.geology.minerals_present }}</td>
-
-        <td class="col-lbl">Joint orientation:</td>
-
-        <td class="col-val editable" id="f-joint-orient">{{ assessment.geology.joint_orientation }}</td>
-
-      </tr>
-
-      <tr>
-
-        <td class="col-lbl">Dip/strike:</td>
-
-        <td class="col-val editable" id="f-dip-strike">{{ assessment.geology.dip_strike_relation }}</td>
-
         <td class="col-lbl">Weathering grade:</td>
-
         <td class="col-val editable" id="f-weather-grade">{{ assessment.geology.weathering_grade }}</td>
-
       </tr>
-
       <tr>
-
         <td class="col-lbl">Material type:</td>
-
         <td class="col-val editable" id="f-mat-type">{{ assessment.geology.material_type }}</td>
-
         <td class="col-lbl">Fracture pattern:</td>
-
         <td class="col-val editable" id="f-fracture">{{ assessment.geology.fracture_pattern }}</td>
-
       </tr>
-
     </table>
-
-
 
     <div class="page-footer">
-
       <span>IIT Mandi Slope Technical Assessment Report &bull; Ref: <strong>{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-CR-') if assessment.telemetry.report_id else 'IITM-CR-RECORD') }}</strong></span>
-
-      <span>Page 1 of 3</span>
-
+      <span>Page 1 of 2</span>
     </div>
 
   </div>
@@ -3209,7 +3066,7 @@
 
         <div class="master-badge-col">
 
-          <span style="font-family:'JetBrains Mono',monospace; font-size: 8px; font-weight:700; color:var(--primary-forest);">PAGE 02 / 03</span>
+          <span style="font-family:'JetBrains Mono',monospace; font-size: 8px; font-weight:700; color:var(--primary-forest);">PAGE 02 / 02</span>
 
         </div>
 
@@ -3221,7 +3078,7 @@
 
     <!-- 5. Defects & Distress Observed Around Works (Table 2 of Data Collection Sheet) -->
 
-    <div class="sec-bar">5. Defects &amp; Distress Observed Around Works</div>
+    <div class="sec-bar">4. Defects &amp; Distress Observed Around Works</div>
 
     <div style="border: 1px solid var(--border-dark); border-bottom: none; padding: 3px 6px; font-size: 8.5px; background: #f8fafc;">
 
@@ -3327,163 +3184,9 @@
 
 
 
-    <!-- 6. Retaining Wall Specifications (Table 3 of Data Collection Sheet) -->
-
-    {% if not pdm.is_applicable or pdm.status == 'SUSPENDED_MACRO_SCALE_DPR_REQUIRED' %}
-    <div class="sec-bar">6. Proposed Retaining Structure Design Specifications ({{ 'N/A — Optical Disqualification (Non-Terrain Media)' if not pdm.is_applicable else 'SUSPENDED — Macro-Scale Mountain Disaster DPR Required' }})</div>
-    {% else %}
-    <div class="sec-bar">6. Proposed {{ (bw.material if pdm.failure_vector == 'UPHILL_CUT_SLOPE' else ('Stepped Gabion Retaining Wall' if pdm.failure_vector == 'VALLEY_EMBANKMENT_SUBSIDENCE' else ('Dynamic Catch Barrier' if pdm.failure_vector == 'CLIFF_ROCKFALL_TOPPLE' else ('RC Cantilever Deflector Wall' if pdm.failure_vector == 'HABITATION_TERRACE_SLUMP' else 'Primary Retaining Structure')))) }} Design Specifications ({{ bw.governing_standard or ('MoRTH 2504 / IS:16014' if pdm.failure_vector == 'VALLEY_EMBANKMENT_SUBSIDENCE' else ('CEDD GEO 138' if pdm.failure_vector == 'CLIFF_ROCKFALL_TOPPLE' else ('IS:456' if pdm.failure_vector == 'HABITATION_TERRACE_SLUMP' else 'IS:14458 Part 2'))) }}, L={{ '%.1f'|format(geom.wall_length_m) if geom.wall_length_m else '17.0' }}m, H={{ '%.2f'|format(bw.stem_height_m) if bw.stem_height_m else '2.70' }}m, Df={{ '%.2f'|format(bw.embedment_depth_m) if bw.embedment_depth_m else '1.00' }}m, b_top={{ '%.2f'|format(bw.top_width_m) if bw.top_width_m else '0.60' }}m, B_base={{ '%.2f'|format(bw.base_width_m) if bw.base_width_m else '1.35' }}m, front batter {{ bw.front_batter or '1:6' }}, Total Volume = {{ '%.2f'|format(bw.total_concrete_vol_m3) if bw.total_concrete_vol_m3 else '67.70' }} m&sup3;)</div>
-    {% endif %}
-
-    <table class="grid-table">
-
-      <thead>
-
-        <tr>
-
-          <th colspan="2" style="width: 50%;">Shape Configuration (IS:14458 Part 2)</th>
-
-          <th colspan="2" style="width: 50%;">Dimensions &amp; Construction Parameters</th>
-
-        </tr>
-
-      </thead>
-
-      <tbody>
-
-        <tr>
-
-          <td class="col-lbl">Front face:</td>
-
-          <td class="col-val editable" id="f-front-face">1:6 Batter (Plane Inclined)</td>
-
-          <td class="col-lbl">Height (Stem / Embedment):</td>
-
-          <td class="col-val editable" id="f-wall-h"><strong>Stem <i>H</i> = {{ '%.2f'|format(bw.stem_height_m) if bw.stem_height_m else '2.70' }} m</strong> (Embedment <i>D</i><sub>f</sub> = {{ '%.2f'|format(bw.embedment_depth_m) if bw.embedment_depth_m else '1.00' }} m &bull; Total 3.70 m)</td>
-
-        </tr>
-
-        <tr>
-
-          <td class="col-lbl">Back face:</td>
-
-          <td class="col-val editable" id="f-back-face">1:9 Stepped Batter</td>
-
-          <td class="col-lbl">Length (parallel to road):</td>
-
-          <td class="col-val editable" id="f-wall-l"><strong><i>L</i> = {{ '%.1f'|format(geom.wall_length_m) if geom.wall_length_m else '17.0' }} m</strong></td>
-
-        </tr>
-
-        <tr>
-
-          <td class="col-lbl">Base:</td>
-
-          <td class="col-val editable" id="f-base-shape">Plane Horizontal on Hard In-Situ Rock Bench</td>
-
-          <td class="col-lbl">Embedded depth (<i>D</i><sub>f</sub>):</td>
-
-          <td class="col-val editable" id="f-wall-embed"><strong>{{ '%.2f'|format(bw.embedment_depth_m) if bw.embedment_depth_m else '1.00' }} m</strong> below road formation</td>
-
-        </tr>
-
-        <tr>
-
-          <td class="col-lbl" rowspan="2">Material:</td>
-
-          <td class="col-val editable" id="f-wall-mat" rowspan="2">
-
-            {% if pdm.failure_vector == 'VALLEY_EMBANKMENT_SUBSIDENCE' %}
-
-              <strong>Stepped PVC-Coated GI Wire Gabion Retaining Wall</strong> (IS:16014 / MoRTH 2504, H=4.5m, Base=2.93m) with Valley Micropile Array
-
-            {% elif pdm.failure_vector == 'CLIFF_ROCKFALL_TOPPLE' %}
-
-              <strong>Dynamic Flexible Ring-Net Catch Barrier &amp; High-Tensile Drape Mesh</strong> (CEDD GEO 138 / ETAG 027)
-
-            {% elif pdm.failure_vector == 'HABITATION_TERRACE_SLUMP' %}
-
-              <strong>M25 Reinforced Concrete (RC) Cantilever Retaining &amp; Debris Deflector Wall</strong> (IS:456 / MoRTH 1500)
-
-            {% elif not pdm.is_applicable or pdm.status == 'SUSPENDED_MACRO_SCALE_DPR_REQUIRED' %}
-
-              <strong>{{ 'N/A — Civil Estimation Suspended (Non-Terrain Media)' if not pdm.is_applicable else 'SUSPENDED — Macro-Scale Mountain Disaster DPR Required' }}</strong>
-
-            {% else %}
-
-              <strong>Plum Concrete M15 with 40% clean sound hard rock plums</strong> (IS:14458 Part 2) &bull; Concrete Volume = <strong>{{ '%.2f'|format(bw.total_concrete_vol_m3) if bw.total_concrete_vol_m3 else '67.70' }} m&sup3;</strong> (Footing: 22.95 m&sup3; + Stem: 44.75 m&sup3;)
-
-            {% endif %}
-
-          </td>
-
-          <td class="col-lbl">Width at top (<i>b</i>):</td>
-
-          <td class="col-val editable" id="f-wall-top"><strong>{{ '%.2f'|format(bw.top_width_m) if bw.top_width_m else '0.60' }} m</strong></td>
-
-        </tr>
-
-        <tr>
-
-          <td class="col-lbl">Width at base (<i>B</i>):</td>
-
-          <td class="col-val editable" id="f-wall-base"><strong>{{ '%.2f'|format(bw.base_width_m) if bw.base_width_m else '1.35' }} m</strong></td>
-
-        </tr>
-
-        <tr>
-
-          <td class="col-lbl">Structural Distress Status:</td>
-
-          <td class="col-val editable" id="f-wall-signs" colspan="3">
-
-            [ — ] Crack &nbsp;|&nbsp; 
-
-            [ — ] Bulging &nbsp;|&nbsp; 
-
-            [ — ] Collapse &nbsp;|&nbsp; 
-
-            [ — ] Slip-out joint &nbsp;|&nbsp;
-
-            <strong>Status:</strong> <span style="color: #15803d; font-weight: 700;">Proposed New Structure (Pre-failure cut slope was unprotected; no existing breast wall present on site)</span>
-
-          </td>
-
-        </tr>
-
-        <tr>
-
-          <td class="col-lbl">Distress behind wall:</td>
-
-          <td class="col-val editable" id="f-distress-behind" colspan="3">N/A (Proposed New Remedial Construction &bull; Backed by full-height {{ flt.filter_vol_m3 | default(16.07) }} m&sup3; gravel filter blanket and {{ flt.geotextile_wrap_area_m2 | default(67.25) }} m&sup2; non-woven geotextile wrap)</td>
-
-        </tr>
-
-        <tr>
-
-          <td class="col-lbl">Distress in front of wall:</td>
-
-          <td class="col-val editable" id="f-distress-front" colspan="3">N/A (Proposed New Remedial Construction &bull; Footing embedded 1.00m in rock bench)</td>
-
-        </tr>
-
-        <tr>
-
-          <td class="col-lbl">Weep holes &amp; Drainage:</td>
-
-          <td class="col-val editable" id="f-weep-holes" colspan="3"><strong>{{ flt.weep_holes_count | default(26) }} Nos.</strong> &Oslash;100mm PVC weep pipes with 1:20 outward drainage slope (Total length = {{ '%.2f'|format(flt.weep_pipe_total_length_m) if flt.weep_pipe_total_length_m else '32.50' }} m), staggered at 2.0m c/c with non-woven geotextile wrapping</td>
-
-        </tr>
-
-      </tbody>
-
-    </table>
-
-
-
     <!-- 7. Drainage (12 Types per Table 3 of Data Collection Sheet) -->
 
-    <div class="sec-bar">7. Drainage Measures &amp; Typology (IS:14458 Part 2 &amp; IRC:SP:48)</div>
+    <div class="sec-bar">5. Drainage Measures &amp; Typology (IS:14458 Part 2 &amp; IRC:SP:48)</div>
 
     <table class="grid-table">
 
@@ -3589,7 +3292,7 @@
 
     <!-- 8. Bioengineering & Gabion (Table 5 of Data Collection Sheet) -->
 
-    <div class="sec-bar">8. Bioengineering &amp; Gabion Specifications</div>
+    <div class="sec-bar">6. Bioengineering &amp; Gabion Specifications</div>
 
     <table class="grid-table">
 
@@ -3763,7 +3466,7 @@
 
     <!-- 9. Earthworks Quantification (IS:14458 Clearance &amp; Rebuilding) -->
 
-    <div class="sec-bar">9. Earthworks Quantification (IS:14458 Clearance &amp; Rebuilding)</div>
+    <div class="sec-bar">7. Earthworks Quantification (IS:14458 Clearance &amp; Rebuilding)</div>
 
     <table class="grid-table">
 
@@ -3823,108 +3526,23 @@
 
     </table>
 
-
-
-    <div class="page-footer">
-
-      <span>IIT Mandi Slope Technical Assessment Report &bull; Structural &amp; Quantification Module &bull; Ref: <strong>{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-CR-') if assessment.telemetry.report_id else 'IITM-CR-RECORD') }}</strong></span>
-
-      <span>Page 2 of 3</span>
-
-    </div>
-
-  </div>
-
-
-
-  <!-- ======================================================== -->
-
-  <!-- PAGE 3: EVIDENCE, MITIGATION, REMARKS & STATUTORY SIGN-OFF -->
-
-  <!-- ======================================================== -->
-
-  <div class="report-page">
-
-    <div class="master-header">
-
-      <div class="master-header-grid">
-
-        <div class="master-logo-col">
-
-          <img src="{{ url_for('static', filename='img/iit_mandi_logo.svg') }}" alt="IIT Mandi Logo" class="inst-logo-img" style="width: 38px; height: 38px;">
-
-        </div>
-
-        <div class="master-text-col">
-
-          <div class="inst-name" style="font-size: 9.5px;">INDIAN INSTITUTE OF TECHNOLOGY MANDI</div>
-
-          <div class="master-title" style="font-size: 11.5px;">IIT MANDI SLOPE TECHNICAL ASSESSMENT REPORT (Page 3)</div>
-
-          <div class="master-standards">Optical Verification &bull; Multi-tier Statutory Engineering Sign-Off</div>
-
-        </div>
-
-        <div class="master-badge-col">
-
-          <span style="font-family:'JetBrains Mono',monospace; font-size: 8px; font-weight:700; color:var(--primary-forest);">PAGE 03 / 03</span>
-
-        </div>
-
-      </div>
-
-    </div>
-
-
-
-    <!-- 10. Site Photograph & Plain-Language Public Briefing -->
-
-    <div class="sec-bar">10. Ground Evidence &amp; Plain-Language Incident Briefing</div>
-
-
-
-    {% if assessment.is_landslide_or_terrain is defined and not assessment.is_landslide_or_terrain %}
-
-    <div class="optical-alert">
-
-      <div class="optical-alert-title">
-
-        Optical Validation Warning &bull; Non-Geological Media Detected
-
-      </div>
-
-      <p style="font-size: 8.5px; color: #7f1d1d; line-height: 1.35;">
-
-        Automated multimodal visual auditing identified this upload as: <strong>{{ assessment.detected_content }}</strong>. 
-
-        This image does not contain authentic outdoor terrain, geological rock slope, or road landslide failure. 
-
-        Structural dimensioning and clearance quantities above represent standard parametric defaults and require authentic terrain photography verification.
-
-      </p>
-
-    </div>
-
-    {% endif %}
-
-
-
-    <div class="evidence-briefing-grid">
-
-      <!-- Ground Photo Plate -->
+    <!-- 8. Photographic Evidence & Senior Diagnostic Observations -->
+    <div class="sec-bar">8. Field Photographic Evidence &amp; Senior Diagnostic Observations</div>
+    <div class="evidence-briefing-grid" style="display: grid; grid-template-columns: 46% 54%; gap: 8px; margin: 4px 0; align-items: stretch;">
+      <!-- Ground Photo Plate with adaptive white styling -->
       <div class="photo-plate-column">
         {% if report.photo_url %}
-        <div class="photo-frame-box">
-          <div class="photo-top-bar">
+        <div class="photo-frame-box" style="border: 1.5px solid var(--border-dark); background: #ffffff; display: flex; flex-direction: column; border-radius: 4px; overflow: hidden; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); height: 100%;">
+          <div class="photo-top-bar" style="background: #104c3b; color: #5eead4; padding: 3px 8px; font-size: 7.5px; font-weight: 700; letter-spacing: 0.4px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.15); font-family: 'Manrope', sans-serif;">
             <span>EVIDENCE PHOTO &bull; {{ telem.report_reference or 'IITM-CR-6A9B327E' }}</span>
             <span>{{ telem.coordinates_dec or '31.70800° N, 76.93200° E' }}</span>
           </div>
-          <div class="photo-img-wrap">
+          <div class="photo-img-wrap" style="width: 100%; flex: 1 1 auto; display: flex; align-items: center; justify-content: center; background: #ffffff; padding: 4px; min-height: 110px; max-height: 190px; overflow: hidden;">
             <a href="{{ report.photo_url }}" target="_blank" rel="noopener noreferrer" title="Click to view full original uncropped image" style="display:flex; width:100%; height:100%; align-items:center; justify-content:center; text-decoration:none;">
-              <img src="{{ report.photo_url }}" alt="Site Evidence Plate">
+              <img src="{{ report.photo_url }}" alt="Site Evidence Plate" style="max-width: 100%; max-height: 180px; width: auto; height: auto; object-fit: contain; display: block; margin: 0 auto; border-radius: 2px;">
             </a>
           </div>
-          <div class="photo-caption-bar">
+          <div class="photo-caption-bar" style="background: #104c3b; color: #ffffff; padding: 3px 8px; font-size: 7.2px; font-family: 'JetBrains Mono', monospace; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.18);">
             <span>
               {% if assessment.is_landslide_or_terrain is defined and not assessment.is_landslide_or_terrain %}
                 <span class="badge-status-invalid">Flagged: Non-Terrain</span>
@@ -3936,944 +3554,49 @@
           </div>
         </div>
         {% else %}
-
-        <div style="border: 1px dashed var(--border-light); background: #f8fafc; height: 110px; min-height: 110px; display: flex; align-items: center; justify-content: center; text-align: center; color: #64748b; font-size: 8.5px; padding: 12px;">
-
+        <div style="border: 1px dashed var(--border-light); background: #f8fafc; height: 100%; min-height: 110px; display: flex; align-items: center; justify-content: center; text-align: center; color: #64748b; font-size: 8.5px; padding: 12px; border-radius: 4px;">
           No ground photograph uploaded with this field observation.
-
         </div>
-
         {% endif %}
-
       </div>
 
-
-
-      <!-- Plain Language Explanation -->
-
-      <div class="plain-briefing-card">
-
-        <div class="plain-briefing-head">
-
-          <div class="plain-briefing-tag">Public &amp; Field Briefing &bull; Plain Language (Non-Technical)</div>
-
-          <div class="plain-briefing-title editable" id="f-plain-title">
-
-            {{ assessment.plain_language_explanation.summary_title if assessment.plain_language_explanation else 'Slope Failure Incident Summary' }}
-
-          </div>
-
+      <!-- Senior Geotechnical Diagnostic Remarks -->
+      <div style="display: flex; flex-direction: column; height: 100%;">
+        <div class="remarks-card editable" id="f-senior-rem" style="flex: 1 1 auto; margin: 0; padding: 6px 10px; font-size: 8.5px; line-height: 1.4; border: 1.5px solid var(--border-dark); background: #ffffff; border-radius: 4px; overflow-y: auto;">
+          {{ assessment.senior_engineer_remarks }}
         </div>
-
-        <div class="plain-briefing-body">
-
-          <div class="plain-item">
-
-            <span class="plain-item-label">What Happened:</span>
-
-            <span class="plain-item-text editable" id="f-plain-what">
-
-              {{ assessment.plain_language_explanation.what_happened if assessment.plain_language_explanation else 'A section of the hill slope gave way, dumping debris directly onto the roadway.' }}
-
-            </span>
-
-          </div>
-
-          <div class="plain-item">
-
-            <span class="plain-item-label">Why It Happened:</span>
-
-            <span class="plain-item-text editable" id="f-plain-why">
-
-              {{ assessment.plain_language_explanation.why_it_happened if assessment.plain_language_explanation else 'Rainwater seeped into steep, fractured hillside layers, causing the slope to slide under gravity.' }}
-
-            </span>
-
-          </div>
-
-          <div class="plain-item">
-
-            <span class="plain-item-label">Impact on Property &amp; Access:</span>
-
-            <span class="plain-item-text editable" id="f-plain-road">
-
-              {{ assessment.plain_language_explanation.property_and_access_impact or assessment.plain_language_explanation.road_and_travel_impact or assessment.road_impact.carriageway_status }}
-
-            </span>
-
-          </div>
-
-          <div class="plain-item">
-
-            <span class="plain-item-label">Immediate Hazards:</span>
-
-            <span class="plain-item-text editable" id="f-plain-hazard">
-
-              {{ assessment.plain_language_explanation.ongoing_hazards if assessment.plain_language_explanation else 'Risk of secondary rock falls and mud slippage during wet conditions.' }}
-
-            </span>
-
-          </div>
-
-          <div class="plain-item">
-
-            <span class="plain-item-label">What Needs To Be Done:</span>
-
-            <span class="plain-item-text editable" id="f-plain-remedy">
-
-              {{ assessment.plain_language_explanation.what_needs_to_be_done if assessment.plain_language_explanation else assessment.safety_directives.permanent_restoration }}
-
-            </span>
-
-          </div>
-
-          <div class="plain-item-advisory">
-
-            <strong>Citizen Safety Rule:</strong> 
-
-            <span class="editable" id="f-plain-advice">
-
-              {{ assessment.plain_language_explanation.citizen_safety_advice if assessment.plain_language_explanation else 'Do not cross under active slip zones. Maintain a safe perimeter of at least 50m.' }}
-
-            </span>
-
-          </div>
-
-        </div>
-
       </div>
-
     </div>
 
-
-
-    <!-- 11. Advanced Quantitative Mitigation Schedule (USGS, CEDD GEO & LaRiMiT Standards) -->
-
-    {% set adv_stab = assessment.advanced_geotechnical_stabilization if assessment and assessment.advanced_geotechnical_stabilization else {} %}
-
-    {% set usgs = adv_stab.get('usgs_classification', {}) if adv_stab else {} %}
-
-    {% set cedd = adv_stab.get('cedd_consequence', {}) if adv_stab else {} %}
-
-    {% set lrm = adv_stab.get('larimit_mitigations', {}) if adv_stab else {} %}
-
-    {% set sn = geom.soil_nail_grid or (adv_stab.get('prescribed_soil_nailing', {}) if adv_stab else {}) %}
-
-    {% set fb = adv_stab.get('flexible_barrier', {}) if adv_stab else {} %}
-
-    {% set sd = adv_stab.get('subsurface_drainage', {}) if adv_stab else {} %}
-
-    <div class="sec-bar">11. International Geotechnical &amp; Mitigation Schedule (USGS, CEDD GEO &amp; LaRiMiT)</div>
-
-    <table class="grid-table">
-
-      <thead>
-
-        <tr>
-
-          <th colspan="4" style="background: #0f172a; color: #f8fafc; font-size: 8px; padding: 4px 6px; text-transform: uppercase; letter-spacing: 0.5px;">
-
-            USGS Circular 1325 &amp; Cruden-Varnes (1996) Landslide Definition &amp; Kinematic Taxonomy
-
-          </th>
-
-        </tr>
-
-      </thead>
-
-      <tbody>
-
-        <tr>
-
-          <td class="col-lbl" style="width: 22%;">USGS Standard Definition:</td>
-
-          <td class="col-val" colspan="3" style="font-size: 7.5px; color: #334155; line-height: 1.35;">
-
-            <em>&ldquo;{{ usgs.get('usgs_general_definition') or 'A landslide is a general term used to describe the downslope movement of soil, rock, and organic materials under the effects of gravity and also the landform that results from such movement.' }}&rdquo;</em> (Highland &amp; Bobrowsky, USGS Circular 1325)
-
-          </td>
-
-        </tr>
-
-        <tr>
-
-          <td class="col-lbl">Two-Term Classification:</td>
-
-          <td class="col-val">
-
-            <strong style="color: #065f46;">{{ usgs.get('two_term_classification') or 'Translational Rock Slide' }}</strong><br>
-
-            <span style="font-size: 7px; color: #64748b;">(Movement: {{ usgs.get('primary_movement') or 'Translational Slide' }} &bull; Material: {{ usgs.get('material_class') or 'Rock' }})</span>
-
-          </td>
-
-          <td class="col-lbl" style="width: 20%;">Cruden-Varnes Velocity:</td>
-
-          <td class="col-val">
-
-            <strong>{{ (usgs.get('velocity_class', {})).get('rate_name') or 'Rapid' }}</strong> ({{ (usgs.get('velocity_class', {})).get('class_code') or 'Class 5' }})<br>
-
-            <span style="font-size: 7px; color: #64748b;">Rate: {{ (usgs.get('velocity_class', {})).get('velocity_range') or '1.8 m/h to 3 m/min' }}</span>
-
-          </td>
-
-        </tr>
-
-      </tbody>
-
-      <thead>
-
-        <tr>
-
-          <th colspan="2" style="width: 50%;">Hong Kong CEDD GEO Slope Safety &amp; Consequence Classification</th>
-
-          <th colspan="2" style="width: 50%;">LaRiMiT (Klima 2050) Multi-Criteria Ranked Mitigation Options</th>
-
-        </tr>
-
-      </thead>
-
-      <tbody>
-
-        <tr>
-
-          <td class="col-lbl">Consequence Category:</td>
-
-          <td class="col-val">
-
-            <strong>{{ cedd.get('consequence_category') or 'Category 2' }}</strong> 
-
-            ({{ cedd.get('consequence_level') or 'Moderate' }})
-
-          </td>
-
-          <td class="col-lbl">Primary Structural:</td>
-
-          <td class="col-val">
-
-            <strong>{{ (lrm.get('primary_structural', {})).get('name') or 'Passive Soil Nailing' }}</strong><br>
-
-            <span style="color: #15803d; font-weight: 700;">Suitability: {{ (lrm.get('primary_structural', {})).get('suitability_score') or '0.95' }}</span> &bull; 
-
-            Est. Time: {{ (lrm.get('primary_structural', {})).get('construction_time') or '14 Days' }}
-
-          </td>
-
-        </tr>
-
-        <tr>
-
-          <td class="col-lbl">Minimum Target FOS:</td>
-
-          <td class="col-val">
-
-            <strong>FOS &ge; {{ cedd.get('target_fos_10yr') or '1.30' }}</strong> (10-Yr Storm)<br>
-
-            FOS &ge; {{ cedd.get('target_fos_extreme') or '1.15' }} (Extreme Storm)
-
-          </td>
-
-          <td class="col-lbl">Subsurface Drainage:</td>
-
-          <td class="col-val">
-
-            <strong>{{ (lrm.get('hydrogeological_drainage', {})).get('name') or 'Horizontal Relief Drains' }}</strong><br>
-
-            <span style="color: #15803d; font-weight: 700;">Suitability: {{ (lrm.get('hydrogeological_drainage', {})).get('suitability_score') or '0.95' }}</span> &bull; 
-
-            Est. Time: {{ (lrm.get('hydrogeological_drainage', {})).get('construction_time') or '7 Days' }}
-
-          </td>
-
-        </tr>
-
-        <tr>
-
-          <td class="col-lbl">Inspection Protocol:</td>
-
-          <td class="col-val">
-
-            <strong>{{ (cedd.get('inspection_regime', {})).get('code') or 'EIM' }}:</strong> 
-
-            {{ (cedd.get('inspection_regime', {})).get('name') or 'Engineer Inspection' }}<br>
-
-            <span style="font-size: 7.5px; color: #64748b;">Freq: {{ (cedd.get('inspection_regime', {})).get('frequency') or 'Every 2 Years' }}</span>
-
-          </td>
-
-          <td class="col-lbl">Nature-Based Solution (NBS):</td>
-
-          <td class="col-val">
-
-            <strong>{{ (lrm.get('nature_based_solution', {})).get('name') or ('N/A (Bare Rock Mass)' if pdm.failure_vector == 'CLIFF_ROCKFALL_TOPPLE' else 'Vetiver Contour Hedges') }}</strong><br>
-
-            <span style="color: #15803d; font-weight: 700;">Suitability: {{ 'N/A' if not pdm.is_applicable or pdm.status == 'SUSPENDED_MACRO_SCALE_DPR_REQUIRED' else ((lrm.get('nature_based_solution', {})).get('suitability_score') or '0.85') }}</span> &bull; 
-
-            Est. Time: {{ (lrm.get('nature_based_solution', {})).get('construction_time') or '5 Days' }}
-
-          </td>
-
-        </tr>
-
-        <tr>
-
-          <td class="col-lbl">Prescribed Slope Support &amp; Structural Stabilization:</td>
-
-          <td class="col-val" colspan="3">
-
-            {% if pdm.failure_vector == 'CLIFF_ROCKFALL_TOPPLE' %}
-
-              <strong>Pattern Tensioned Rock Bolts:</strong> 40 Nos. working + 2 sacrificial test bolts (&Oslash;32mm Fe500D High-Yield steel, 6.0m depth, 80 kN post-tensioning) with heavy-duty galvanized bearing plates (250&times;250&times;20mm).<br>
-
-              <strong>Surface Protection:</strong> High-tensile steel wire-rope drape netting (&Oslash;8mm boundary grid, 1770 MPa) paired with <strong>500 kJ Dynamic Flexible Ring-Net Catch Barrier</strong> (HEB steel posts, ROCCO 19-ring mesh).
-
-            {% elif pdm.failure_vector == 'VALLEY_EMBANKMENT_SUBSIDENCE' %}
-
-              <strong>Stepped Gabion Retaining Wall:</strong> PVC-coated GI wire crates (H=4.5m, Base=2.93m) packed with angular boulders, backed by non-woven geotextile filter fabric.<br>
-
-              <strong>Valley-Edge Micropiles:</strong> 26 Nos. vertical &Oslash;150mm RC micropiles (&Oslash;32mm Fe500D rebar, 9.0m depth) tied into M30 RC capping beam and W-Beam barrier.
-
-            {% elif pdm.failure_vector == 'HABITATION_TERRACE_SLUMP' %}
-
-              <strong>Settlement Deflector Wall:</strong> M25 RC Cantilever Wall (H=2.8m, Base=1.65m) with granular filter backfill protecting dwelling rear.<br>
-
-              <strong>Upper Terrace Dowels:</strong> 22 Nos. portable tripod-drilled &Oslash;25mm grouted soil dowels (6.0m depth) to arrest creeping terrace colluvium.
-
-            {% elif not pdm.is_applicable %}
-
-              <strong>Statutory Investigation:</strong> Level-1 Multidisciplinary Reconnaissance Mandated under Disaster Management Act 2005. Civil estimation suspended.
-
-            {% else %}
-
-              <strong>Boreholes:</strong> {{ sn.total_nails_count | default(20) }} boreholes ({{ sn.working_nails_count | default(18) }} working + {{ sn.sacrificial_test_nails_count | default(2) }} sacrificial test nails) &times; 9.0m drill depth = <strong>{{ '%.1f'|format(sn.total_drilling_length_m) if sn.total_drilling_length_m else '180.0' }}m total drilling</strong> (&Oslash;100mm&ndash;115mm @ 15&deg; downward inclination)<br>
-
-              <strong>Nail Bars:</strong> <strong>&Oslash;25mm Fe500D TMT</strong> bars &times; 9.5m length = <strong>{{ '%.1f'|format(sn.total_bar_length_m) if sn.total_bar_length_m else '190.0' }}m total steel</strong> &nbsp;|&nbsp; <strong>Grid:</strong> 1.8m Horizontal &times; 2.0m Vertical ({{ sn.columns_count | default((sn.working_nails_count or 18) // 2) }} cols &times; {{ sn.rows_count | default(2) }} rows)<br>
-
-              <strong>Grout &amp; Pads:</strong> M30 cementitious grout (w/c = 0.45, min 30 MPa) &bull; <strong>{{ sn.bearing_pads_count | default(18) }} permanent M30 RC bearing pads</strong> (400 &times; 400 &times; 200 mm) with bearing plates &amp; lock-nuts<br>
-
-              <strong>Facing System:</strong> <strong>{{ '%.2f'|format(sn.wire_mesh_facing_area_m2) if sn.wire_mesh_facing_area_m2 else '91.12' }} m&sup2;</strong> high-tensile diamond steel wire mesh (3mm wire, 65 &times; 65mm grid) + <strong>{{ '%.2f'|format(un.coir_netting_area_m2) if un.coir_netting_area_m2 else '100.23' }} m&sup2;</strong> 700 GSM coir bio-turfing facing (MoRTH 1802)
-
-            {% endif %}
-
-          </td>
-
-        </tr>
-
-        <tr>
-
-          <td class="col-lbl">Sub-horizontal Drains &amp; Deep Drainage (CEDD TGN 24 / MoRTH 300):</td>
-
-          <td class="col-val" colspan="3">
-
-            <strong>Sub-horizontal Relief Drains:</strong> <strong>5 Nos. &times; 15m (75.0m total array)</strong> of <strong>&Oslash;75mm Schedule 80 slotted PVC pipe</strong> installed at 5&deg;&ndash;10&deg; upward rake directly into daylighting joint plane J1 for hydrostatic cleft-water depressurization.<br>
-
-            <strong>Catch &amp; Longitudinal Drains:</strong> <strong>25.0m</strong> lined crest saucer catch drain (0.60m &times; 0.60m, IRC:SP:48 Clause 7.3) &bull; <strong>17.0m</strong> roadside toe drain reconstruction (0.60m &times; 0.60m, MoRTH Section 300 / Clause 309) &bull; <strong>22.0m</strong> stepped stone-pitched cascade chute discharging to natural drainage ravine.
-
-          </td>
-
-        </tr>
-
-      </tbody>
-
-    </table>
-
-
-
-    <!-- 12. Mitigation Measures Provided & Other Observations (Data Collection Sheet End Section) -->
-
-    <div class="sec-bar">12. Mitigation Measures Provided to the Site &amp; Site Observations</div>
-
-    <table class="grid-table">
-
-      <tr>
-
-        <td class="col-lbl" style="width: 25%;">Mitigation measures provided to the site:</td>
-
-        <td class="col-val editable" id="f-mitigation" style="width: 75%; white-space: pre-line;">{% if pdm.failure_vector == 'VALLEY_EMBANKMENT_SUBSIDENCE' %}1. Valley Retention (MoRTH 2504 / IS:16014): {{ geom.wall_length_m | default(25.0) }}m Stepped PVC-Coated Wire Gabion Retaining Wall (H=3.50m, Base=3.00m) founded on lower valley bench with M15 toe embedment.
-
-2. Valley-Edge Shear Dowels (MoRTH 1200 / 811): {{ sn.working_nails_count | default(25) }} Nos. vertical RC Micropiles (&Oslash;150mm with &Oslash;32mm Fe500D rebar @ 1.0m c/c, 10m depth) with M30 capping beam (0.4m &times; 0.4m) and W-Beam steel barrier.
-
-3. Reinforced Backfill (MoRTH 3100): Compacted granular roadway fill reinforced with high-strength biaxial polymeric geogrid layers and non-woven geotextile wrap.
-
-4. Drainage &amp; Roadway Restoration: Rebuilding of road bench to full 5.25m operable formation width.
-
-{% elif pdm.failure_vector == 'CLIFF_ROCKFALL_TOPPLE' %}1. Rock Mass Scaling (IS:13365 Part 1): Certified rope-access rock scaling to remove unstable toppling blocks and overhangs along cliff crest.
-
-2. Crest Anchor Bolting (MoRTH 3100 / IS:14448): {{ sn.working_nails_count | default(24) }} Nos. pattern tensioned rock bolts (&Oslash;32mm high-tensile bar, 6.0m depth in 3m &times; 3m grid) with heavy-duty bearing plates locked to 80 kN post-tensioning.
-
-3. Dynamic Interception (CEDD GEO 138): {{ geom.wall_length_m | default(35.0) }}m Dynamic Flexible Ring-Net Rockfall Catch Barrier ({{ (assessment.advanced_geotechnical_stabilization.flexible_barrier.capacity_kj if assessment.advanced_geotechnical_stabilization and assessment.advanced_geotechnical_stabilization.flexible_barrier else 500) }} kJ capacity, 3.5m height) along ditch and heavy wire-rope drape netting.
-
-4. Cleft Drainage &amp; Deflector Kerb: Sub-horizontal bedrock cleft drains and M25 RC impact kerb along ditch.
-
-{% elif pdm.failure_vector == 'HABITATION_TERRACE_SLUMP' %}1. Settlement Deflector Wall (IS:456 / IS:14458): {{ geom.wall_length_m | default(20.0) }}m M25 RC Cantilever Debris Deflector Wall (H=3.5m, Df=1.0m, Base=2.2m) with granular filter pack protecting dwelling rear.
-
-2. Upper Terrace Doweling (MoRTH 3100): {{ sn.working_nails_count | default(15) }} Nos. portable-tripod grouted soil dowels (&Oslash;25mm Fe500D, 4.5m length) with bearing plates across upper terrace to arrest creeping colluvium.
-
-3. Interceptor Hydrology (MoRTH 309): 25.0m lined stone-masonry garland catch drain (0.60m &times; 0.60m) with stepped cascade chute to divert slope runoff away from residential homes.
-
-{% elif not pdm.is_applicable %}1. Disqualification Notice: The submitted media does not depict an active geological landslide or mountain slope failure. No civil engineering works or structural interventions are proposed.
-
-2. Field Geotechnical Verification: If slope distress is suspected at this site, conduct an on-ground physical inspection by the jurisdictional PWD Sub-Divisional Officer.
-
-{% elif pdm.status == 'SUSPENDED_MACRO_SCALE_DPR_REQUIRED' or pdm.failure_vector == 'MACRO_MOUNTAIN_CATASTROPHE' %}1. Statutory DPR Mandate: Macro-scale catastrophic mountain slope failure (scarp height &gt; 45m / volume &gt; 5,000 m&sup3;). Standard road-level retaining structures are strictly prohibited and structurally non-viable.
-
-2. Level-1 Reconnaissance: Commission comprehensive multi-hazard reconnaissance including airborne/UAV LiDAR, core drilling, piezometer installations, and deep inclinometer instrumentation.
-
-3. Intermediate Traffic Bypass: Establish emergency riverbed bypass alignment or valley causeway under disaster management protocols pending final specialized engineering DPR.
-
-{% else %}1. Toe Retention (IS:14458 Part 2): {{ '%.1f'|format(geom.wall_length_m) if geom.wall_length_m else '17.0' }}m Plum Concrete Breast Wall (M15 with 40% clean sound hard rock plums, Stem H={{ '%.2f'|format(bw.stem_height_m) if bw.stem_height_m else '2.70' }}m, Df={{ '%.2f'|format(bw.embedment_depth_m) if bw.embedment_depth_m else '1.00' }}m, Base B={{ '%.2f'|format(bw.base_width_m) if bw.base_width_m else '1.35' }}m, Top b={{ '%.2f'|format(bw.top_width_m) if bw.top_width_m else '0.60' }}m, Total Volume = {{ '%.2f'|format(bw.total_concrete_vol_m3) if bw.total_concrete_vol_m3 else '67.70' }} m&sup3;) with {{ flt.weep_holes_count | default(26) }} Nos. &Oslash;100mm PVC weep holes, {{ flt.filter_vol_m3 | default(16.07) }} m&sup3; granular filter pack, and {{ flt.geotextile_wrap_area_m2 | default(67.25) }} m&sup2; non-woven geotextile wrap.
-
-2. Upper Slope Reinforcement (CEDD Geoguide 7 / MoRTH 3100): {{ sn.total_nails_count | default(20) }} Nos. ({{ sn.working_nails_count | default(18) }} working + {{ sn.sacrificial_test_nails_count | default(2) }} sacrificial test nails) &Oslash;25mm Fe500D soil nails drilled 9.0m ({{ '%.1f'|format(sn.total_drilling_length_m) if sn.total_drilling_length_m else '180.0' }}m total drilling, {{ '%.1f'|format(sn.total_bar_length_m) if sn.total_bar_length_m else '190.0' }}m steel bar) in 1.8m H &times; 2.0m V grid with {{ sn.bearing_pads_count | default(18) }} permanent M30 RC bearing pads (400&times;400&times;200mm), {{ '%.2f'|format(sn.wire_mesh_facing_area_m2) if sn.wire_mesh_facing_area_m2 else '91.12' }} m&sup2; high-tensile diamond steel wire mesh (3mm, 65&times;65mm), and {{ un.coir_netting_area_m2 | default(100.23) }} m&sup2; 700 GSM coir bio-turfing facing (MoRTH 1802).
-
-3. Hydrogeological Relief &amp; Surface Drainage (CEDD TGN 24 / MoRTH 300): 5 Nos. &times; 15m (75.0m total array) &Oslash;75mm Schedule 80 slotted PVC relief drains at 5&deg;&ndash;10&deg; upward rake, 25.0m crest saucer catch drain (0.60m &times; 0.60m), 17.0m roadside toe drain (0.60m &times; 0.60m), and 22.0m stepped stone-pitched cascade chute.
-
-4. Pavement &amp; Formation Reconstruction: Reconstruction of flexible bituminous pavement restoring {{ geom.road_width_pre_disaster_m | default(5.25) }}m formation width from restricted single-lane bottleneck.{% endif %}</td>
-
-      </tr>
-
-      <tr>
-
-        <td class="col-lbl">Any other observation at the site:</td>
-
-        <td class="col-val editable" id="f-observation" style="white-space: pre-line;">{{ assessment.other_observations or ('Slope scarp height H = ' ~ '%.2f'|format(h_mean) ~ 'm. Subsurface geotechnical parameters preliminary.') }}</td>
-
-      </tr>
-
-    </table>
-
-
-
-    <!-- 13. Critical Safety & Immediate Action Notice -->
-
-    <div class="safety-box">
-
-      <div class="head">MANDATORY 3-PHASE ZERO-ACCIDENT TEMPORARY WORKS &amp; SAFETY STAGING PROTOCOL (IRC:SP:48 / HPPWD):</div>
-
-      <ol>
-
-        <li class="editable" id="f-safe-phase1">
-
-          <strong>Phase 1 (Immediate Hazard Control &amp; Monitoring, 0&ndash;24h):</strong> Demarcate a strict <strong>30m exclusion zone</strong> with interlocking steel crash barriers and high-visibility reflective warning signage. Isolate all overhead electrical lines and roadside utility conduits. Install mechanical crack gauges and vernier telltales across upslope tension fissures with a strict <strong>stop-work trigger</strong> if displacement exceeds <strong>2.0 mm/day</strong> or 24-hour rainfall exceeds <strong>35 mm</strong>.
-
-        </li>
-
-        <li class="editable" id="f-safe-phase2">
-          {% if pdm.failure_vector == 'CLIFF_ROCKFALL_TOPPLE' %}
-          <strong>Phase 2 (Controlled Crest Scaling):</strong> Deploy certified rope-access specialists with air-powered splitters to manually scale detached rock slabs and overhangs from the crest down. Establish total traffic stoppage during all scaling operations.
-          {% elif not pdm.is_applicable %}
-          <strong>Phase 2 (Site Verification):</strong> In the event of conflicting ground reports, dispatch Assistant Engineer (AE) for visual physical verification.
-          {% elif pdm.status == 'SUSPENDED_MACRO_SCALE_DPR_REQUIRED' or pdm.failure_vector == 'MACRO_MOUNTAIN_CATASTROPHE' %}
-          <strong>Phase 2 (Aerial Reconnaissance):</strong> Mobilize UAV LiDAR survey crew to map tension cracks and crown headscarps across the entire mountain ridge beyond visual line-of-sight.
-          {% else %}
-          <strong>Phase 2 (Top-Down Stabilization Sequence):</strong> Construct a temporary compacted upslope interceptor diversion bund <strong>5m above tension fissures</strong> to prevent storm runoff ingress into the slide mass. Execute controlled top-down manual scaling of unstable rock overhangs before introducing heavy equipment. Install upper slope soil nails, diamond wire mesh facing, and sub-horizontal relief drains working strictly <strong>top-down</strong> from stable upper benches <strong>prior to any toe excavation</strong>.
-          {% endif %}
-        </li>
-
-        <li class="editable" id="f-safe-phase3">
-          {% if pdm.failure_vector == 'VALLEY_EMBANKMENT_SUBSIDENCE' %}
-          <strong>Phase 3 (Valley Bench Stepping &amp; Toe Retention):</strong> Strictly prohibit unbraced bench cutting on unstable fill. Install bored cast-in-situ micropiles through the slip circle before placing lower gabion tiers. Wire gabion units together using continuous helical selvedge wire and backfill with biaxial geogrid reinforcement in compacted 300mm lifts.
-          {% elif pdm.failure_vector == 'CLIFF_ROCKFALL_TOPPLE' %}
-          <strong>Phase 3 (Drape Netting Anchors &amp; Catch Barrier Assembly):</strong> Install top-crest anchor rods into sound bedrock with high-early-strength epoxy-cement grout. Suspended rope-access crew unrolls drape netting down the rock face. Erect 500 kJ barrier posts and anchor brake-ring energy dissipators strictly according to manufacturer specifications prior to reopening road lanes.
-          {% elif pdm.failure_vector == 'HABITATION_TERRACE_SLUMP' %}
-          <strong>Phase 3 (Cantilever Deflector Wall &amp; Drainage Relief):</strong> Cast RC deflector wall foundation in alternating 3.0m bays with continuous keyed waterstops. Install perforated PVC weep holes with coarse aggregate filter bags at 1.5m staggered centers and complete the stone masonry garland interceptor drain before monsoonal rains.
-          {% elif not pdm.is_applicable %}
-          <strong>Phase 3 (Non-Geological Submission Protocol):</strong> Optical inspection confirmed non-terrain media. No slope stabilization or earth retention sequence required. Close incident docket or re-upload authenticated site imagery.
-          {% elif pdm.status == 'SUSPENDED_MACRO_SCALE_DPR_REQUIRED' or pdm.failure_vector == 'MACRO_MOUNTAIN_CATASTROPHE' %}
-          <strong>Phase 3 (Macro-Disaster Emergency Safety Protocol):</strong> Immediate clearance of non-essential personnel from debris zone. Implement 24/7 automated robotic total station monitoring and establish bypass detour alignment under District Disaster Management Authority (DDMA) direction.
-          {% else %}
-          <strong>Phase 3 (Sequential Short-Bay Trenching &amp; Toe Retention):</strong> Strictly <strong>PROHIBIT continuous {{ '%.1f'|format(geom.wall_length_m) if geom.wall_length_m else '17.0' }}m open toe excavation</strong>, which risks releasing kinematic toe restraint and triggering progressive catastrophic slope collapse. Excavate and cast the breast wall foundation in alternating short bays of <strong>2.5m to 3.0m length</strong> (Bays 1, 3, and 5 excavated and cast first, cured to 70% design strength, followed by interstitial Bays 2, 4, and 6). Backfill with granular filter and non-woven geotextile wrap incrementally behind each bay.
-          {% endif %}
-        </li>
-
-      </ol>
-
-    </div>
-
-
-
-    <!-- 14. Senior Geotechnical Diagnostic Remarks -->
-
-    <div class="sec-bar">13. Senior Geotechnical Diagnostic Observations &amp; Kinematics</div>
-
-    <div class="remarks-card editable" id="f-senior-rem">
-
-      {{ assessment.senior_engineer_remarks }}
-
-    </div>
-
-
-
-    <!-- 15. Official 3-Tier Sign-Off Block -->
-
+    <!-- Official 3-Tier Sign-Off Block -->
     <table class="sign-table">
-
       <thead>
-
         <tr>
-
           <th>Junior Field Observer / Junior Engineer<br>HIMA-LENS Field Cell</th>
-
           <th>Assistant Geotechnical Engineer / Geologist<br>HIMA-LENS Technical Cell</th>
-
           <th>Executive Highway Structural Lead<br>HIMA-LENS Geotechnical Division</th>
-
         </tr>
-
       </thead>
-
       <tbody>
-
         <tr>
-
           <td class="sign-space">Signature &amp; Date: {{ telem.inspection_date or '2026-10-12' }}</td>
-
           <td class="sign-space">Signature &amp; Date: {{ telem.inspection_date or '2026-10-12' }}</td>
-
           <td class="sign-space">Official Seal &amp; Approval: {{ telem.inspection_date or '2026-10-12' }}</td>
-
         </tr>
-
       </tbody>
-
     </table>
-
-
 
     <div class="page-footer">
-
       <span>IIT Mandi Slope Technical Assessment Report &bull; Statutory Engineering Sign-Off &bull; Ref: <strong>{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-CR-') if assessment.telemetry.report_id else 'IITM-CR-RECORD') }}</strong></span>
-
-      <span>Page 3 of 3</span>
-
+      <span>Page 2 of 2</span>
     </div>
 
   </div>
 
-
-
-    </div>
-
   </div>
+</div>
 
-
-
-  <!-- ======================================================== -->
-
-  <!-- MODAL: HPPWD & MoRTH COST ESTIMATE & LOSS ASSESSMENT BOQ -->
-
-  <!-- ======================================================== -->
-
-  <div id="modal-cost-estimate" class="cost-modal-overlay" onclick="handleModalBackdropClick(event)">
-
-    <div class="cost-modal-window" onclick="event.stopPropagation()">
-
-      <!-- Modal Header -->
-
-      <div class="cost-modal-header">
-
-        <div>
-
-          <h2>
-
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path><path d="M12 6v2m0 8v2"></path></svg>
-
-            <span>HPPWD Schedule of Rates (HPSOR) &amp; MoRTH (5th Rev) BOQ &amp; Loss Assessment</span>
-
-          </h2>
-
-          <p>Detailed Engineering Bill of Quantities &bull; Statutory Hill Rates &bull; Direct Physical Asset Loss &bull; Regional Economic Disruption Impact</p>
-
-        </div>
-
-        <button type="button" class="cost-modal-close" onclick="closeCostEstimateModal()" title="Close">&times;</button>
-
-      </div>
-
-
-
-      <!-- Modal Body -->
-
-      <div class="cost-modal-body" id="cost-estimate-printable-content">
-
-        {% set boq = assessment.cost_estimate_boq %}
-
-        {% if not boq or not boq.is_applicable %}
-
-          <div style="background: #fef2f2; border: 1.5px solid #f87171; border-radius: 8px; padding: 20px; text-align: center; color: #991b1b;">
-
-            <h3 style="font-size: 13px; font-weight: 800; margin-bottom: 6px;">CIVIL WORKS ESTIMATION SUSPENDED</h3>
-
-            <p style="font-size: 10px; line-height: 1.5;">{{ boq.rejection_notice if boq else "The uploaded media was disqualified or non-geological. Comprehensive field geotechnical survey is required before compiling civil BOQ estimates." }}</p>
-
-          </div>
-
-        {% else %}
-
-          <!-- Badges & Telemetry Row -->
-
-          <div class="cost-badge-row">
-
-            <span class="cost-chip cost-chip-pri"><strong>Ref ID:</strong> {{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-CR-') if assessment.telemetry.report_id else 'IITM-CR-RECORD') }}</span>
-
-            <span class="cost-chip"><strong>District:</strong> {{ assessment.telemetry.district }} (HP)</span>
-
-            <span class="cost-chip"><strong>Terrain Sector:</strong> Himalayan Hill Road Cut</span>
-
-            <span class="cost-chip cost-chip-amber"><strong>Severity:</strong> {{ (boq.parameters_used.severity if (boq.parameters_used is defined and boq.parameters_used) else report.severity) or 'Critical' }}</span>
-
-            <span class="cost-chip"><strong>Rate Regime:</strong> HPSOR Hill Rates &bull; MoRTH 5th Revision &bull; IRC Data Book</span>
-
-            <span class="cost-chip"><strong>Statutory Tax:</strong> 18% GST &bull; 3% Contingencies &bull; 1.5% QC Audit</span>
-
-          </div>
-
-
-
-          <!-- KPI Metric Cards Grid -->
-
-          <div class="cost-kpi-grid">
-
-            <div class="cost-kpi-card">
-
-              <div class="cost-kpi-title">Direct Civil Works (BOQ)</div>
-
-              <div class="cost-kpi-val">{{ boq.financial_summary.civil_subtotal_fmt }}</div>
-
-              <div class="cost-kpi-sub">{{ boq.boq_items|length }} Standard Scheduled Items</div>
-
-            </div>
-
-            <div class="cost-kpi-card highlight">
-
-              <div class="cost-kpi-title">Total Civil Remediation</div>
-
-              <div class="cost-kpi-val">{{ boq.financial_summary.total_remediation_badge }}</div>
-
-              <div class="cost-kpi-sub">Incl. Contingencies, QC &amp; 18% GST</div>
-
-            </div>
-
-            <div class="cost-kpi-card">
-
-              <div class="cost-kpi-title">Direct Asset Physical Loss</div>
-
-              <div class="cost-kpi-val">{{ boq.financial_summary.direct_asset_loss_badge }}</div>
-
-              <div class="cost-kpi-sub">Carriageway, Culverts &amp; Structures</div>
-
-            </div>
-
-            <div class="cost-kpi-card grand">
-
-              <div class="cost-kpi-title">Grand Total Disaster Impact</div>
-
-              <div class="cost-kpi-val">{{ boq.financial_summary.grand_total_disaster_impact_badge }}</div>
-
-              <div class="cost-kpi-sub">Works + Asset Damage + Transit Loss</div>
-
-            </div>
-
-          </div>
-
-
-
-          <!-- SECTION 1: ITEMIZED BILL OF QUANTITIES (BOQ) -->
-
-          <div class="cost-sec-head">
-
-            <h3>
-
-              <span>1. Itemized Bill of Quantities (BOQ) &bull; Remedial Civil Works</span>
-
-            </h3>
-
-            <span>Schedule: HPPWD HPSOR &bull; MoRTH 5th Rev Section 300, 700, 1000, 1300, 1400, 1700</span>
-
-          </div>
-
-
-
-          <table class="cost-table">
-
-            <thead>
-
-              <tr>
-
-                <th style="width: 32px; text-align: center;">Sl.</th>
-
-                <th style="width: 110px;">Item Code</th>
-
-                <th>Work Package &amp; Detailed Specification</th>
-
-                <th class="num" style="width: 65px;">Quantity</th>
-
-                <th style="width: 45px; text-align: center;">Unit</th>
-
-                <th class="num" style="width: 75px;">Rate (₹)</th>
-
-                <th class="num" style="width: 85px;">Amount (₹)</th>
-
-              </tr>
-
-            </thead>
-
-            <tbody>
-
-              {% for item in boq.boq_items %}
-
-              <tr>
-
-                <td style="text-align: center; font-weight: 600; color: #64748b;">{{ item.sl_no }}</td>
-
-                <td class="item-code">{{ item.item_code }}</td>
-
-                <td>
-
-                  <strong style="color: #0f172a;">[{{ item.work_package }}]</strong>
-
-                  <span>{{ item.short_description or item.description }}</span>
-
-                </td>
-
-                <td class="num mono">{{ "%.2f"|format(item.quantity) if item.quantity is number else item.quantity }}</td>
-
-                <td style="text-align: center; font-weight: 600;">{{ item.unit }}</td>
-
-                <td class="num mono">{{ item.rate_fmt }}</td>
-
-                <td class="num mono" style="font-weight: 700; color: #0f172a;">{{ item.amount_fmt }}</td>
-
-              </tr>
-
-              {% endfor %}
-
-
-
-              <!-- Subtotal & Statutory Additions -->
-
-              <tr class="total-row">
-
-                <td colspan="6" style="text-align: right; padding-right: 12px; text-transform: uppercase;">Direct Civil Works Subtotal (MoRTH / HPSOR Items):</td>
-
-                <td class="num mono" style="font-size: 10px; color: #092f25;">{{ boq.financial_summary.civil_subtotal_fmt }}</td>
-
-              </tr>
-
-              <tr class="statutory-row">
-
-                <td colspan="6" style="text-align: right; padding-right: 12px;">Add: Physical &amp; Unforeseen Contingencies (3.0% as per PWD Hill Norms):</td>
-
-                <td class="num mono">{{ boq.financial_summary.contingencies_fmt }}</td>
-
-              </tr>
-
-              <tr class="statutory-row">
-
-                <td colspan="6" style="text-align: right; padding-right: 12px;">Add: Quality Control, Field Laboratory &amp; Third-Party Testing (1.5%):</td>
-
-                <td class="num mono">{{ boq.financial_summary.qc_testing_fmt }}</td>
-
-              </tr>
-
-              <tr class="statutory-row" style="font-weight: 700; background: #f1f5f9;">
-
-                <td colspan="6" style="text-align: right; padding-right: 12px;">Subtotal (Direct Works + Contingencies + QC Audit):</td>
-
-                <td class="num mono">{{ boq.financial_summary.subtotal_before_tax_fmt }}</td>
-
-              </tr>
-
-              <tr class="statutory-row">
-
-                <td colspan="6" style="text-align: right; padding-right: 12px;">Add: Statutory Goods and Services Tax (GST @ 18.0%):</td>
-
-                <td class="num mono">{{ boq.financial_summary.gst_fmt }}</td>
-
-              </tr>
-
-              <tr class="grand-row">
-
-                <td colspan="6" style="text-align: right; padding-right: 12px; text-transform: uppercase; letter-spacing: 0.5px;">Total Civil Remediation Capital Outlay:</td>
-
-                <td class="num mono">{{ boq.financial_summary.total_remediation_fmt }}</td>
-
-              </tr>
-
-            </tbody>
-
-          </table>
-
-
-
-          <!-- SECTION 2: DISASTER LOSS ASSESSMENT -->
-
-          <div class="cost-sec-head">
-
-            <h3>
-
-              <span>2. Disaster Damage &amp; Economic Disruption Assessment</span>
-
-            </h3>
-
-            <span>Direct Infrastructure &amp; Dwelling Loss &bull; Transit Corridor Interruption</span>
-
-          </div>
-
-
-
-          <table class="cost-table">
-
-            <thead>
-
-              <tr>
-
-                <th style="width: 32px; text-align: center;">Sl.</th>
-
-                <th style="width: 140px;">Category</th>
-
-                <th style="width: 220px;">Impacted Asset / Vector</th>
-
-                <th>Valuation Basis &amp; Forensic Assessment Criteria</th>
-
-                <th class="num" style="width: 95px;">Loss Amount (₹)</th>
-
-              </tr>
-
-            </thead>
-
-            <tbody>
-
-              {% for loss in boq.loss_items %}
-
-              <tr>
-
-                <td style="text-align: center; font-weight: 600; color: #64748b;">{{ loss.sl_no }}</td>
-
-                <td>
-
-                  <span class="cost-chip {% if loss.category == 'Direct Asset Loss' %}cost-chip-amber{% else %}cost-chip-pri{% endif %}" style="padding: 1px 6px; font-size: 8px;">
-
-                    {{ loss.category }}
-
-                  </span>
-
-                </td>
-
-                <td style="font-weight: 700; color: #0f172a;">{{ loss.asset }}</td>
-
-                <td style="color: #475569;">{{ loss.criteria }}</td>
-
-                <td class="num mono" style="font-weight: 700; color: #991b1b;">{{ loss.amount_fmt }}</td>
-
-              </tr>
-
-              {% endfor %}
-
-
-
-              <tr class="total-row">
-
-                <td colspan="4" style="text-align: right; padding-right: 12px; text-transform: uppercase;">Direct Physical Asset Loss Subtotal:</td>
-
-                <td class="num mono" style="color: #991b1b;">{{ boq.financial_summary.direct_asset_loss_fmt }}</td>
-
-              </tr>
-
-              <tr class="total-row">
-
-                <td colspan="4" style="text-align: right; padding-right: 12px; text-transform: uppercase;">Indirect Economic Disruption Loss Subtotal:</td>
-
-                <td class="num mono" style="color: #b45309;">{{ boq.financial_summary.indirect_economic_loss_fmt }}</td>
-
-              </tr>
-
-              <tr class="grand-row">
-
-                <td colspan="4" style="text-align: right; padding-right: 12px; text-transform: uppercase; letter-spacing: 0.5px;">Total Disaster Loss (Physical Damage + Economic Disruption):</td>
-
-                <td class="num mono">{{ boq.financial_summary.total_disaster_loss_fmt }}</td>
-
-              </tr>
-
-              <tr style="background: #092f25; color: #ffffff; font-weight: 800; font-size: 10.5px;">
-
-                <td colspan="4" style="text-align: right; padding: 8px 12px; text-transform: uppercase; letter-spacing: 0.8px; color: #5eead4;">
-
-                  COMPREHENSIVE DISASTER IMPACT (Remediation Works + Total Disaster Loss):
-
-                </td>
-
-                <td class="num mono" style="padding: 8px 12px; color: #facc15; font-size: 11.5px;">
-
-                  {{ boq.financial_summary.grand_total_disaster_impact_fmt }}
-
-                </td>
-
-              </tr>
-
-            </tbody>
-
-          </table>
-
-
-
-          <!-- Statutory Engineering Certification Box -->
-
-          <div class="cost-cert-note">
-
-            <strong>OFFICIAL STATUTORY NOTICE &bull; HPPWD / MoRTH SPECIFICATIONS:</strong>
-
-            All unit rates referenced herein are derived strictly from the Himachal Pradesh Public Works Department (HPPWD) Schedule of Rates for Hill Roads and MoRTH Standard Data Book for Road &amp; Bridge Works (5th Revision). Physical quantities are derived analytically from forensic cross-sectional geometry, slope heights, cut angles, and geotechnical stability criteria. This abstract estimate is prepared for administrative sanction and emergency disaster recovery allocation by the Executive Engineer (XEN), HPPWD.
-
-          </div>
-
-        {% endif %}
-
-      </div>
-
-
-
-      <!-- Modal Footer Actions -->
-
-      <div class="cost-modal-footer">
-
-        <div class="standards-cite">
-
-          IRC:SP:48 &bull; MoRTH 5th Rev &bull; HPSOR &bull; Disaster Management Act 2005
-
-        </div>
-
-        <div style="display: flex; gap: 8px;">
-
-          {% if boq and boq.is_applicable %}
-
-          <a href="/report/boq-sheet/{{ report.id }}" target="_blank" class="screen-btn btn-print" style="text-decoration: none;">
-
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-
-            <span>Print Official BOQ (A4)</span>
-
-          </a>
-
-          {% endif %}
-
-          <button type="button" class="screen-btn btn-ghost" style="color: #0f172a; border-color: #cbd5e1; background: #e2e8f0;" onclick="closeCostEstimateModal()">
-
-            <span>Close</span>
-
-          </button>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-
-  <script>
+<script>
 
     let isEditMode = false;
 

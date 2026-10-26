@@ -778,7 +778,7 @@
     }
     .photo-frame-box {
       border: 1.5px solid var(--border-dark);
-      background: #0f172a;
+      background: #ffffff;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -788,7 +788,7 @@
       border-radius: 3px;
     }
     .photo-top-bar {
-      background: rgba(9, 47, 37, 0.95);
+      background: #104c3b;
       color: #5eead4;
       padding: 2.5px 6px;
       font-size: 6.8px;
@@ -807,7 +807,7 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      background: #09131f;
+      background: #ffffff;
       padding: 2px;
     }
     .photo-img-wrap img {
@@ -819,7 +819,7 @@
       display: block;
     }
     .photo-caption-bar {
-      background: rgba(9, 47, 37, 0.95);
+      background: #104c3b;
       color: #ffffff;
       padding: 2px 6px;
       font-size: 6.8px;
@@ -995,9 +995,6 @@
       <a href="/report/solution-sheet/{{ report.id }}" class="screen-btn btn-sheet2" title="Switch to Technical Assessment & Mitigation Analysis">
         <span>Sheet 2: Technical Assessment &rarr;</span>
       </a>
-      <a href="/report/boq-sheet/{{ report.id }}" class="screen-btn btn-sheet3" title="Switch to Cost Estimate & BOQ Schedule">
-        <span>Sheet 3: Cost &amp; BOQ &rarr;</span>
-      </a>
       <button type="button" class="screen-btn btn-param-panel" id="btn-open-control-panel" onclick="openControlPanel()" title="Open Parameter Verification Panel to calibrate dimensions & recalculate">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
         <span>Edit Parameters</span>
@@ -1169,7 +1166,7 @@
             <div class="schematic-frame-box">
               <div class="schematic-top-bar">
                 <span id="schematic-top-badge">{{ (assessment.schematic_top_badge or ('FAILURE CROSS-SECTION &bull; CRITICAL MONSOON FoS = ' ~ crit_fos ~ ' &bull; TARGET FoS &ge; ' ~ target_fos)) | safe }}</span>
-                <span id="schematic-params-badge" style="color: #a7f3d0; font-weight: 800;">DIP: {{ dip_ang }}&deg; &bull; CUT: {{ cut_ang }}&deg; &bull; H = {{ h_mean }}m ({{ h_min }}–{{ h_max }}m)</span>
+                <span id="schematic-params-badge" style="color: #a7f3d0; font-weight: 800;">CUT: {{ cut_ang }}&deg; &bull; H = {{ h_mean }}m ({{ h_min }}–{{ h_max }}m)</span>
               </div>
               <div class="schematic-svg-wrap" id="schematic-svg-container">
                 {% if assessment.schematic_svg %}
@@ -1208,17 +1205,17 @@
                   <rect x="25" y="10" width="135" height="15" rx="2" fill="#fee2e2" stroke="#f87171" stroke-width="1" />
                   <text x="30" y="21" font-family="'Manrope', sans-serif" font-size="7" font-weight="800" fill="#991b1b">DETACHMENT SCARP ({{ cut_ang }}&deg;)</text>
                   <rect x="110" y="65" width="140" height="15" rx="2" fill="#fee2e2" stroke="#f87171" stroke-width="1" />
-                  <text x="115" y="76" font-family="'Manrope', sans-serif" font-size="7" font-weight="800" fill="#991b1b">SLIP PLANE (DIP: {{ dip_ang }}&deg; SW)</text>
+                  <text x="115" y="76" font-family="'Manrope', sans-serif" font-size="7" font-weight="800" fill="#991b1b">Basal Failure Surface (Daylighting)</text>
                   <rect x="210" y="102" width="130" height="15" rx="2" fill="#fef3c7" stroke="#fcd34d" stroke-width="1" />
                   <text x="215" y="113" font-family="'Manrope', sans-serif" font-size="7" font-weight="800" fill="#92400e">SLIDING COLLUVIUM ({{ geom.debris_insitu_vol_m3 | default(145.0) }} m&sup3;)</text>
                   <rect x="340" y="10" width="170" height="16" rx="3" fill="#f0fdf4" stroke="#047857" stroke-width="1" />
-                  <text x="345" y="21" font-size="6.5" font-weight="800" fill="#064e3b">Monsoon FoS = {{ crit_fos }} | Stabilized FoS = {{ target_fos }}</text>
+                  <text x="345" y="21" font-size="6.5" font-weight="800" fill="#064e3b">Kinematic Failure Profile &bull; Remediated</text>
                 </svg>
                 {% endif %}
               </div>
               <div class="schematic-caption-bar">
-                <span>FIGURE 1: GEOTECHNICAL FAILURE CROSS-SECTION &bull; HOEK &amp; BRAY PLANAR LIMIT EQUILIBRIUM</span>
-                <span class="font-mono" id="schematic-fos-badge" style="color: #5eead4;">FoS: {{ crit_fos }} (ACTIVE FAILURE) &rarr; {{ target_fos }} (STABILIZED &ge; 1.50)</span>
+                <span>FIGURE 1: GEOTECHNICAL FAILURE CROSS-SECTION &bull; DISCONTINUITY &amp; REMEDIATION PROFILE</span>
+                <span class="font-mono" id="schematic-fos-badge" style="color: #5eead4;">LIMIT EQUILIBRIUM &bull; KINEMATIC CROSS-SECTION</span>
               </div>
             </div>
           </div>
@@ -1233,13 +1230,13 @@
               <td class="col-lbl">Slope Height &amp; Angle:</td>
               <td class="col-val">Height: <strong id="cell-slope-height">H = {{ h_mean }} m</strong> (Range: {{ h_min }} m &ndash; {{ h_max }} m) &bull; Cut Angle: <strong id="cell-cut-angle" style="color: var(--danger-red);">{{ cut_ang }}&deg;</strong> (Profile: {{ (assessment.slope_characteristics.slope_geometry_profile if (assessment.slope_characteristics is defined and assessment.slope_characteristics) else '') or 'Steep Cut Slope Scarp' }}) &bull; Slope Location: <strong>{{ 'Below road: Yes' if pdm.failure_vector == 'VALLEY_EMBANKMENT_SUBSIDENCE' else 'Above road: Yes' }}</strong></td>
               <td class="col-lbl">Lithology &amp; Jointing:</td>
-              <td class="col-val"><strong>{{ (assessment.geology.prominent_soil_rock if (assessment.geology is defined and assessment.geology) else '') or 'Shali Dolomite & Sundernagar Quartzite' }}</strong> &bull; Joint Dip: <span id="cell-joint-dip" class="font-mono" style="color: var(--danger-red); font-weight: 700;">{{ dip_ang }}&deg; SW (Daylighting)</span> &bull; Weathering: {{ (assessment.geology.weathering_grade if (assessment.geology is defined and assessment.geology) else '') or 'Grade IV' }}</td>
+              <td class="col-val"><strong>{{ (assessment.geology.prominent_soil_rock if (assessment.geology is defined and assessment.geology) else '') or 'Shali Dolomite & Sundernagar Quartzite' }}</strong> &bull; Joint Spacing: {{ (assessment.geology.jointing_spacing if (assessment.geology is defined and assessment.geology) else '') or '0.2m–0.6m (Moderate)' }} &bull; Weathering: {{ (assessment.geology.weathering_grade if (assessment.geology is defined and assessment.geology) else '') or 'Grade IV' }}</td>
             </tr>
             <tr>
               <td class="col-lbl">Impacted Asset Damage:</td>
               <td class="col-val">
                 {% if pdm.failure_vector == 'HABITATION_TERRACE_SLUMP' or assessment.environment_type == 'Residential Dwelling / Settlement' %}
-                  Residential Dwelling Settlement Zone (Inundation of Rear Flank &bull; SDRF Housing Norms: ₹ 3,15,000)
+                  Residential Dwelling Settlement Zone (Inundation of Rear Flank &bull; Colluvial Hazard)
                 {% elif assessment.validation_status in ('INVALID_NON_TERRAIN_IMAGE', 'NON_LANDSLIDE_STABLE_TERRAIN') %}
                   N/A &bull; Disqualified / Non-Landslide Upload (Zero Roadway or Asset Damage)
                 {% else %}
@@ -1259,64 +1256,12 @@
             </tr>
           </table>
 
-          <!-- Section 4: Forensic Failure Diagnosis & FoS Benchmark -->
+          <!-- Section 4: Inception Remediation Strategy & Field Directives -->
           <div class="sec-bar">
-            <span>4. Forensic Failure Diagnosis &amp; Stability Benchmark</span>
-            <span class="sec-bar-sub">Hoek &amp; Bray Planar Cleft-Water &bull; Eurocode 7 &bull; IS:14458</span>
+            <span>4. Inception Remediation Strategy &amp; Physical Engineering Directives</span>
+            <span class="sec-bar-sub">MoRTH &bull; IS:14458 Standard Specifications</span>
           </div>
-
-          <!-- Geotechnical Strength Properties Bar with [ASSUMED / PRELIMINARY] Badge -->
-          <div style="background: #fffbeb; border: 1px solid #fef3c7; border-left: 3px solid #f59e0b; padding: 2px 6px; font-size: 7.2px; margin-bottom: 2.5px; display: flex; justify-content: space-between; align-items: center;">
-            <span><strong>Geotechnical Strength Basis:</strong> <i>c'</i> = {{ geo_params.effective_cohesion_kpa | default(14.0) }} kPa &bull; &phi;' = {{ geo_params.effective_friction_deg | default(28.0) }}&deg; &bull; &gamma; = {{ geo_params.unit_weight_kn_m3 | default(20.5) }} kN/m&sup3; &bull; UCS = {{ geo_params.intact_rock_ucs_mpa or geo_params.ucs_rock_mpa or 35.0 }} MPa &bull; Joint Dip = {{ dip_ang }}&deg; SW &bull; <i>L</i><sub>slip</sub> = {{ geo_params.slip_plane_length_m | default(6.856) }}m</span>
-            <span style="background: #fef3c7; color: #92400e; border: 1px solid #f59e0b; padding: 1px 5px; border-radius: 2px; font-weight: 800; font-size: 6.8px; letter-spacing: 0.3px;">[ASSUMED / PRELIMINARY &bull; PENDING BOREHOLE VERIFICATION]</span>
-          </div>
-
-          <table class="grid-table" style="margin-bottom: 2.5px;">
-            <tr>
-              <td class="col-lbl" style="width: 17%;">Failure Mechanism:</td>
-              <td class="col-val" colspan="3">
-                <strong style="color: var(--primary-dark);">{{ telem.movement_classification or 'Composite Translational Debris-Rock Slide (Cruden & Varnes, 1996)' }}</strong>. Monsoon rainfall infiltration generated hydrostatic cleft-water head (<i>z</i><sub>w</sub> &ge; 1.2m) in tension cracks, exceeding critical shear threshold along daylighting joint set J1 (inclined length <i>L</i><sub>slip</sub> = 6.856m).
-              </td>
-            </tr>
-          </table>
-
-          <table class="grid-table" style="margin-bottom: 3px;">
-            <thead>
-              <tr style="background: #f1f5f9;">
-                <th>Hydraulic &amp; Loading Condition</th>
-                <th style="width: 110px; text-align: center;">Statutory Min. FoS</th>
-                <th style="width: 90px; text-align: center;">Calculated FoS</th>
-                <th style="width: 140px; text-align: center;">Stability Diagnosis</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Dry Baseline (Zero Pore-Water Pressure, <i>r</i><sub>u</sub> = 0.0)</td>
-                <td style="text-align: center;" class="font-mono">{{ scenarios[0].min_statutory_fos if (scenarios and scenarios|length > 0) else '1.50' }} (USACE / IS)</td>
-                <td style="text-align: center; font-weight: 700;" class="font-mono">{{ dry_fos }}</td>
-                <td style="text-align: center; color: #b45309; font-weight: 700;">Marginal Stability</td>
-              </tr>
-              <tr style="background: #fef2f2;">
-                <td><strong>Monsoon Steady Saturated State (<i>r</i><sub>u</sub> = 0.35, <i>z</i><sub>w</sub> = 1.2m &ndash; Critical Failure Trigger)</strong></td>
-                <td style="text-align: center;" class="font-mono">{{ scenarios[1].min_statutory_fos if (scenarios and scenarios|length > 1) else '1.30' }} (CEDD / USACE)</td>
-                <td style="text-align: center; color: var(--danger-red); font-weight: 800;" class="font-mono">{{ crit_fos }}</td>
-                <td style="text-align: center; color: var(--danger-red); font-weight: 800;">Active Shear Failure (Limit State Exceeded)</td>
-              </tr>
-              <tr style="background: #f0fdf4;">
-                <td><strong>Design Stabilized State (With Breast Wall, Soil Nails &amp; Relief Drains)</strong></td>
-                <td style="text-align: center;" class="font-mono">{{ scenarios[2].min_statutory_fos if (scenarios and scenarios|length > 2) else '1.50' }} (Permanent State)</td>
-                <td style="text-align: center; color: #15803d; font-weight: 800;" class="font-mono">{{ target_fos }}</td>
-                <td style="text-align: center; color: #15803d; font-weight: 800;">Fully Code Compliant (&gt; Min. 1.50 Target)</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <!-- Section 5: Inception Remediation Strategy & Preliminary Cost Estimate for AA&ES -->
-          <div class="sec-bar">
-            <span>5. Inception Remediation Strategy &amp; Preliminary AA&amp;ES Cost Estimate</span>
-            <span class="sec-bar-sub">HPSOR 2024-25 &bull; MoRTH &bull; IS:14458</span>
-          </div>
-          <div style="border: 1px solid var(--border-dark); padding: 3px 6px; font-size: 7.3px; background: #ffffff; line-height: 1.3; margin-bottom: 2.5px;">
+          <div style="border: 1px solid var(--border-dark); padding: 5px 8px; font-size: 7.8px; background: #ffffff; line-height: 1.35; margin-bottom: 4px;">
             {% if assessment.validation_status in ('INVALID_NON_TERRAIN_IMAGE', 'NON_LANDSLIDE_STABLE_TERRAIN') %}
               <strong>OPTICAL AUDIT DISQUALIFICATION:</strong> N/A &bull; Disqualified / Non-Landslide Upload. Computer vision inspection detected no ground failure, active deformation scarp, or road obstruction. Remedial civil works suspended; zero capital outlay requisitioned.
             {% elif pdm.status == 'SUSPENDED_MACRO_SCALE_DPR_REQUIRED' %}
@@ -1344,62 +1289,10 @@
             {% endif %}
           </div>
 
-          <!-- Preliminary Cost Estimate Table for AA&ES -->
-          <table class="grid-table" style="margin-bottom: 2px;">
-            <thead>
-              <tr style="background: #f1f5f9;">
-                <th>Base Civil Subtotal (Items 1–18)</th>
-                <th style="text-align: center; width: 14%;">Contingency (3%)</th>
-                <th style="text-align: center; width: 14%;">QC &amp; Tests (1.5%)</th>
-                <th style="text-align: center; width: 16%;">GST (18% CGST+SGST)</th>
-                <th style="text-align: center; width: 28%; background: #ccfbf1; color: #065f46;">Direct Civil Remediation Outlay (AA&amp;ES)</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% if assessment.validation_status in ('INVALID_NON_TERRAIN_IMAGE', 'NON_LANDSLIDE_STABLE_TERRAIN') %}
-              <tr>
-                <td class="font-mono" style="font-weight: 700; color: #94a3b8;">₹ 0</td>
-                <td style="text-align: center; color: #94a3b8;" class="font-mono">₹ 0</td>
-                <td style="text-align: center; color: #94a3b8;" class="font-mono">₹ 0</td>
-                <td style="text-align: center; color: #94a3b8;" class="font-mono">₹ 0</td>
-                <td style="text-align: center; background: #fef2f2; color: #dc2626; font-weight: 850; font-size: 8px;" class="font-mono">
-                  ₹ 0 (ESTIMATION SUSPENDED)
-                  <span style="display: block; font-size: 6.6px; font-weight: 700; color: #991b1b;">[DISQUALIFIED NON-TERRAIN]</span>
-                </td>
-              </tr>
-              {% elif pdm.status == 'SUSPENDED_MACRO_SCALE_DPR_REQUIRED' %}
-              <tr>
-                <td class="font-mono" style="font-weight: 700; color: #94a3b8;">N/A</td>
-                <td style="text-align: center; color: #94a3b8;" class="font-mono">N/A</td>
-                <td style="text-align: center; color: #94a3b8;" class="font-mono">N/A</td>
-                <td style="text-align: center; color: #94a3b8;" class="font-mono">N/A</td>
-                <td style="text-align: center; background: #fff1f2; color: #e11d48; font-weight: 850; font-size: 7.8px;" class="font-mono">
-                  ESTIMATE SUSPENDED (Requires Full DPR)
-                  <span style="display: block; font-size: 6.6px; font-weight: 700; color: #be123c;">[MACRO SCALE CATASTROPHE]</span>
-                </td>
-              </tr>
-              {% else %}
-              <tr>
-                <td id="cell-boq-subtotal" class="font-mono" style="font-weight: 700;">{{ fin.civil_subtotal_fmt or '₹ 9,60,305' }}</td>
-                <td id="cell-boq-contingency" style="text-align: center;" class="font-mono">{{ fin.contingencies_fmt or '₹ 28,809' }}</td>
-                <td id="cell-boq-qc" style="text-align: center;" class="font-mono">{{ fin.qc_testing_fmt or '₹ 14,405' }}</td>
-                <td id="cell-boq-gst" style="text-align: center;" class="font-mono">{{ fin.gst_fmt or '₹ 1,80,633' }}</td>
-                <td id="cell-boq-total" style="text-align: center; background: #f0fdf4; color: #15803d; font-weight: 850; font-size: 8.8px;" class="font-mono">
-                  {{ fin.total_remediation_fmt or '₹ 11,84,152' }}
-                  <span style="display: block; font-size: 6.6px; font-weight: 700; color: #047857;">{% if assessment.is_engineer_verified %}[FIELD ENGINEER VERIFIED &bull; HPSOR 2024-25]{% else %}[PRELIMINARY ESTIMATE &bull; HPSOR 2024-25]{% endif %}</span>
-                </td>
-              </tr>
-              {% endif %}
-            </tbody>
-          </table>
-          <div style="font-size: 6.8px; color: #64748b; line-height: 1.22; margin-bottom: 2.5px;">
-            * <strong>Statutory Accounting Note:</strong> Direct civil remediation outlay of <strong>{{ fin.total_remediation_fmt or '₹ 11,84,152' }}</strong> is a preliminary engineering estimate for AA&amp;ES subject to confirmatory borehole ground investigation. Direct asset damage ({{ fin.direct_asset_loss_fmt or '₹ 3,02,262' }}) and detour losses ({{ fin.indirect_economic_loss_fmt or '₹ 1,25,000' }}) are isolated under disaster loss accounting and excluded from the capital works requisition.
-          </div>
-
-          <!-- Section 6: Statutory Sign-Off Block -->
+          <!-- Section 5: Statutory Sign-Off Block -->
           <div class="sec-bar">
-            <span>6. Statutory Authority Verification &amp; Engineering Sign-Off</span>
-            <span class="sec-bar-sub">Administrative Approval &amp; Expenditure Sanction Docket</span>
+            <span>5. Statutory Authority Verification &amp; Engineering Sign-Off</span>
+            <span class="sec-bar-sub">Administrative Approval &amp; Field Verification Docket</span>
           </div>
           <table class="sign-table">
             <thead>
@@ -1545,7 +1438,7 @@
 
           <div class="pcp-dim-card">
             <div class="pcp-dim-header">
-              <span class="pcp-dim-label">Joint Dip (&theta;<sub>p</sub>)</span>
+              <span class="pcp-dim-label">Joint Dip (&theta;<sub>p</sub>) <small style="font-size:7.5px; color:#047857; font-weight:700;">[Optional &bull; 57&deg;]</small></span>
               <span class="pcp-dim-unit">deg (&deg;)</span>
             </div>
             <div class="pcp-dim-controls">
@@ -1624,17 +1517,9 @@
             <div class="pcp-metric-lbl">Soil Nails (MoRTH 3100)</div>
             <div class="pcp-metric-val" id="metric-nails">-- nos</div>
           </div>
-          <div class="pcp-metric-card">
-            <div class="pcp-metric-lbl">Critical Monsoon FoS</div>
-            <div class="pcp-metric-val" id="metric-crit-fos" style="color: #f87171;">--</div>
-          </div>
-          <div class="pcp-metric-card">
-            <div class="pcp-metric-lbl">Civil Subtotal (A)</div>
-            <div class="pcp-metric-val" id="metric-subtotal">--</div>
-          </div>
           <div class="pcp-metric-card highlight">
-            <div class="pcp-metric-lbl">Total Statutory Outlay (HPSOR 2024-25)</div>
-            <div class="pcp-metric-val" id="metric-total-outlay">--</div>
+            <div class="pcp-metric-lbl">Operable Road Width</div>
+            <div class="pcp-metric-val" id="metric-operable-w" style="color: #064e3b; font-weight: 800;">-- m</div>
           </div>
         </div>
       </div>
@@ -1820,13 +1705,12 @@
             const paramsBadge = document.getElementById('schematic-params-badge');
             if (paramsBadge && data.kinematic_parameters) {
               const kp = data.kinematic_parameters;
-              paramsBadge.innerHTML = 'DIP: ' + Math.round(kp.dip_deg) + '&deg; &bull; CUT: ' + Math.round(kp.cut_deg) + '&deg; &bull; H = ' + kp.slope_height_m.toFixed(1) + 'm';
+              paramsBadge.innerHTML = 'CUT: ' + Math.round(kp.cut_deg) + '&deg; &bull; H = ' + kp.slope_height_m.toFixed(1) + 'm';
             }
             // Update FoS badge
             const fosBadge = document.getElementById('schematic-fos-badge');
-            if (fosBadge && data.kinematic_parameters) {
-              const kp = data.kinematic_parameters;
-              fosBadge.innerHTML = 'FoS: ' + kp.crit_fos + ' (ACTIVE FAILURE) &rarr; ' + kp.target_fos + ' (STABILIZED &ge; 1.50)';
+            if (fosBadge) {
+              fosBadge.innerHTML = 'LIMIT EQUILIBRIUM &bull; KINEMATIC CROSS-SECTION';
             }
           }
         } catch (err) {
@@ -1956,52 +1840,25 @@
       if (vPlumEl) vPlumEl.textContent = vWall > 0 ? (vWall.toFixed(1) + ' m³') : 'N/A';
       const nailsEl = document.getElementById('metric-nails');
       if (nailsEl) nailsEl.textContent = nNails > 0 ? (nNails + ' nos (' + lDrill + 'm)') : 'N/A';
-      const subEl = document.getElementById('metric-subtotal');
-      if (subEl) subEl.textContent = '₹ ' + Math.round(subtotal).toLocaleString('en-IN');
-      const outlayEl = document.getElementById('metric-total-outlay');
-      if (outlayEl) outlayEl.textContent = '₹ ' + totalOutlay.toLocaleString('en-IN');
-
-      const c = 14.0, phi = 28.0 * (Math.PI / 180), gamma = 20.5;
-      const thetaRad = theta * (Math.PI / 180);
-      const fDry = Math.round((Math.tan(phi) / Math.tan(thetaRad) + (2 * c) / (gamma * H * Math.sin(thetaRad))) * 100) / 100;
-      const fMonsoon = Math.round(Math.max(0.65, fDry * 0.62) * 100) / 100;
-      const critFosEl = document.getElementById('metric-crit-fos');
-      if (critFosEl) critFosEl.textContent = fMonsoon.toFixed(2) + ' (Monsoon Critical)';
+      const operableWEl = document.getElementById('metric-operable-w');
+      if (operableWEl) operableWEl.textContent = wPost.toFixed(2) + ' m';
 
       // Update Live Docket Cells on Sheet
       const cellHeight = document.getElementById('cell-slope-height');
       if (cellHeight) cellHeight.textContent = 'H = ' + H.toFixed(1) + ' m';
       const cellCut = document.getElementById('cell-cut-angle');
       if (cellCut) cellCut.innerHTML = Math.round(beta) + '&deg;';
-      const cellDip = document.getElementById('cell-joint-dip');
-      if (cellDip) cellDip.innerHTML = Math.round(theta) + '&deg; SW (Daylighting)';
       const cellVol = document.getElementById('cell-earthwork-vol');
       if (cellVol) cellVol.textContent = vInsitu.toFixed(1) + ' m³ in-situ';
       const cellBulked = document.getElementById('cell-earthwork-bulked');
       if (cellBulked) cellBulked.textContent = vBulked.toFixed(2) + ' m³ bulked at 1.25×';
       const cellOperable = document.getElementById('cell-road-operable');
       if (cellOperable) cellOperable.textContent = wPost.toFixed(2) + 'm';
-      const cellBoqSub = document.getElementById('cell-boq-subtotal');
-      if (cellBoqSub) cellBoqSub.textContent = '₹ ' + Math.round(subtotal).toLocaleString('en-IN');
-      const cellBoqCont = document.getElementById('cell-boq-contingency');
-      if (cellBoqCont) cellBoqCont.textContent = '₹ ' + Math.round(contingency).toLocaleString('en-IN');
-      const cellBoqQc = document.getElementById('cell-boq-qc');
-      if (cellBoqQc) cellBoqQc.textContent = '₹ ' + Math.round(qc).toLocaleString('en-IN');
-      const cellBoqGst = document.getElementById('cell-boq-gst');
-      if (cellBoqGst) cellBoqGst.textContent = '₹ ' + Math.round(gst).toLocaleString('en-IN');
-      const cellBoqTot = document.getElementById('cell-boq-total');
-      if (cellBoqTot) {
-        cellBoqTot.innerHTML = '₹ ' + totalOutlay.toLocaleString('en-IN') + '<span style="display: block; font-size: 6.6px; font-weight: 700; color: #047857;">[FIELD ENGINEER VERIFIED &bull; HPSOR 2024-25]</span>';
-      }
 
       // Synchronously update schematic badges instantly (0ms latency)
       const paramsBadge = document.getElementById('schematic-params-badge');
       if (paramsBadge) {
-        paramsBadge.innerHTML = 'DIP: ' + Math.round(theta) + '&deg; &bull; CUT: ' + Math.round(beta) + '&deg; &bull; H = ' + H.toFixed(1) + 'm';
-      }
-      const fosBadge = document.getElementById('schematic-fos-badge');
-      if (fosBadge) {
-        fosBadge.innerHTML = 'FoS: ' + fMonsoon.toFixed(2) + ' (ACTIVE FAILURE) &rarr; 1.56 (STABILIZED &ge; 1.50)';
+        paramsBadge.innerHTML = 'CUT: ' + Math.round(beta) + '&deg; &bull; H = ' + H.toFixed(1) + 'm';
       }
 
       // Trigger debounced live schematic cross-section update

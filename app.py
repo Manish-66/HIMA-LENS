@@ -17,7 +17,7 @@ from datetime import datetime, timezone
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
-from flask import Flask, jsonify, render_template, request, Response
+from flask import Flask, jsonify, render_template, request, Response, redirect, url_for
 import supabase_db
 import ai_assessment
 import cap_engine
@@ -1346,27 +1346,14 @@ def reset_report_parameters(report_id: str):
 
 @app.get("/report/boq-sheet/<report_id>")
 def view_boq_sheet(report_id: str):
-    report = find_report_by_id(report_id)
-    if not report:
-        return f"Report with ID {report_id} was not found.", 404
-
-    force = request.args.get("force", "").lower() in ("1", "true", "yes")
-    assessment = ai_assessment.generate_ai_assessment(report, force_refresh=force)
-    assessment = ai_assessment.normalize_assessment_structure(assessment, report)
-    return render_template("boq_sheet.html", report=report, assessment=assessment)
+    """Sheet 3 (Cost & BOQ) deprecated/redirected to Sheet 1: Preliminary Report."""
+    return redirect(f"/report/pwd-sheet/{report_id}")
 
 @app.get("/report/boq-sheet-v1/<report_id>")
 @app.get("/report/legacy-boq/<report_id>")
 def view_legacy_boq_sheet(report_id: str):
-    """Preserved classic v1.0 BOQ loss estimation format."""
-    report = find_report_by_id(report_id)
-    if not report:
-        return f"Report with ID {report_id} was not found.", 404
-
-    force = request.args.get("force", "").lower() in ("1", "true", "yes")
-    assessment = ai_assessment.generate_ai_assessment(report, force_refresh=force)
-    assessment = ai_assessment.normalize_assessment_structure(assessment, report)
-    return render_template("archive/boq_sheet_v1.html", report=report, assessment=assessment)
+    """Preserved classic v1.0 BOQ redirected to Sheet 1: Preliminary Report."""
+    return redirect(f"/report/pwd-sheet/{report_id}")
 
 @app.get("/admin")
 @app.get("/admin/analytics")

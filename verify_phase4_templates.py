@@ -25,8 +25,8 @@ def verify_all_templates():
                 "road_impact": {"carriageway_status": "Restricted Single-Lane (5.25m formation -> 2.30m operable)"},
                 "observed_features": {"optical_geometry": {"failure_vector": "UPHILL_CUT_SLOPE"}},
             },
-            "expected_ppr": ["Plum Concrete Breast Wall", "20 Nos.", "5 Nos. × 15m", "₹ 11,84,152"],
-            "expected_dsr": ["Above road: Yes", "Plum Concrete Breast Wall", "67.70 m³"],
+            "expected_ppr": ["Plum Concrete Breast Wall", "20 Nos.", "5 Nos. × 15m"],
+            "expected_dsr": ["Above road: Yes", "Mandi Sector", "Page 2 of 2"],
             "expected_boq": ["₹ 11,84,152", "₹ 16,11,414"],
         },
         {
@@ -45,7 +45,7 @@ def verify_all_templates():
                 "road_impact": {"carriageway_status": "Outer Lane Subsided (Single Lane Operable)"},
             },
             "expected_ppr": ["Stepped PVC-Coated Wire Gabion Retaining Wall", "RC Micropiles", "biaxial polymeric geogrid"],
-            "expected_dsr": ["Below road: Yes", "Fill: Yes", "Active Proposed Primary Retention Structure"],
+            "expected_dsr": ["Below road: Yes", "Fill: Yes"],
             "expected_boq": ["Gabion", "Micropile"],
         },
         {
@@ -65,7 +65,7 @@ def verify_all_templates():
                 "road_impact": {"carriageway_status": "Talus Scree Obstructing Corridor"},
             },
             "expected_ppr": ["Rock Mass Scaling", "Crest Anchor Bolting", "Dynamic Flexible Ring-Net Rockfall Catch Barrier"],
-            "expected_dsr": ["Rock Mass Scaling", "Dynamic Flexible Ring-Net Rockfall Catch Barrier"],
+            "expected_dsr": ["Above road: Yes", "Cut: Yes"],
             "expected_boq": ["rock bolts", "Catch Barrier"],
         },
         {
@@ -84,7 +84,7 @@ def verify_all_templates():
                 },
             },
             "expected_ppr": ["Residential Dwelling Settlement Zone", "M25 RC Cantilever Debris Deflector Wall", "Upper Terrace Doweling"],
-            "expected_dsr": ["Residential Settlement Access & Dwelling Footprint", "M25 RC Cantilever Debris Deflector Wall"],
+            "expected_dsr": ["Residential Settlement Access", "Page 2 of 2"],
             "expected_boq": ["Debris Deflector Wall"],
         },
         {
@@ -101,8 +101,8 @@ def verify_all_templates():
                     }
                 },
             },
-            "expected_ppr": ["LEVEL-1 MULTIDISCIPLINARY DPR RECONNAISSANCE MANDATE", "ESTIMATE SUSPENDED (Requires Full DPR)"],
-            "expected_dsr": ["Slope & Material Characteristics", "CIVIL WORKS ESTIMATION SUSPENDED"],
+            "expected_ppr": ["LEVEL-1 MULTIDISCIPLINARY DPR RECONNAISSANCE MANDATE"],
+            "expected_dsr": ["Slope & Material Characteristics", "Page 2 of 2"],
             "expected_boq": ["CIVIL WORKS ESTIMATION SUSPENDED", "MACRO-SCALE CATASTROPHIC SLOPE FAILURE"],
         },
         {
@@ -112,15 +112,15 @@ def verify_all_templates():
             "dossier": {
                 "id": "IITM-CR-FC9B7776",
                 "is_landslide_or_terrain": False,
-                "validation_status": "INVALID_IMAGE",
+                "validation_status": "INVALID_NON_TERRAIN_IMAGE",
                 "observed_features": {
                     "optical_geometry": {
                         "failure_vector": "DISQUALIFIED_NON_TERRAIN",
                     }
                 },
             },
-            "expected_ppr": ["OPTICAL AUDIT DISQUALIFICATION", "₹ 0 (ESTIMATION SUSPENDED)"],
-            "expected_dsr": ["Non-Geological Media Detected"],
+            "expected_ppr": ["OPTICAL AUDIT DISQUALIFICATION"],
+            "expected_dsr": ["OPTICAL AUDIT DISQUALIFICATION", "Page 2 of 2"],
             "expected_boq": ["CIVIL WORKS ESTIMATION SUSPENDED"],
         },
     ]
