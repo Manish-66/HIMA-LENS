@@ -1080,6 +1080,24 @@ def view_pwd_sheet(report_id: str):
             except Exception:
                 pass
 
+    # Support multi-photo showcase demonstration (max 3: front, left flank, right flank)
+    if not display_report.get("photos"):
+        if request.args.get("multi") in ("1", "true") or report_id == "IITM-CR-6A9B327E":
+            display_report["photos"] = [
+                {
+                    "url": display_report.get("photo_url") or "/static/img/events/himachal_highway_slide.jpg",
+                    "label": "Front View (Daylighting Scarp & Debris Fan)"
+                },
+                {
+                    "url": "/static/img/events/himachal_slope_failure.jpg",
+                    "label": "Left Flank Perspective (Tension Cracks)"
+                },
+                {
+                    "url": "/static/img/events/himalaya_road_cut.jpg",
+                    "label": "Right Flank Perspective (Toe Encroachment)"
+                }
+            ]
+
     # Read from cache or run deterministic calculation
     assessment = ai_assessment.generate_ai_assessment(report, force_refresh=force)
     assessment = ai_assessment.normalize_assessment_structure(assessment, report)
@@ -1126,7 +1144,7 @@ def get_report_schematic(report_id: str):
     if not payload:
         payload = request.args.to_dict()
 
-    dynamic_keys = ("failure_vector", "scarp_height_m", "affected_length_m", "debris_width_m", "debris_thickness_m", "cut_slope_angle_deg", "slip_surface_dip_deg", "carriageway_formation_m", "carriageway_open_m")
+    dynamic_keys = ("failure_vector", "scarp_height_m", "affected_length_m", "debris_width_m", "debris_thickness_m", "cut_slope_angle_deg", "slip_surface_dip_deg", "carriageway_formation_m", "carriageway_open_m", "include_wall")
     if any(k in payload for k in dynamic_keys):
         failure_vec = str(payload.get("failure_vector") or "UPHILL_CUT_SLOPE").strip()
         try:
@@ -1162,6 +1180,8 @@ def get_report_schematic(report_id: str):
         except (TypeError, ValueError):
             w_post = 2.30
 
+        inc_wall_raw = payload.get("include_wall")
+        include_wall = True if inc_wall_raw is None else (str(inc_wall_raw).lower() in ("true", "1", "yes"))
         optical_geometry = {
             "failure_vector": failure_vec,
             "scarp_height_m": h_scarp,
@@ -1172,6 +1192,7 @@ def get_report_schematic(report_id: str):
             "slip_surface_dip_deg": slip_dip,
             "carriageway_formation_m": w_pre,
             "carriageway_open_m": w_post,
+            "include_wall": include_wall,
         }
         partial_dossier = {
             "observed_features": {"optical_geometry": optical_geometry},
@@ -1262,6 +1283,8 @@ def update_report_parameters(report_id: str):
         w_post = 2.30
     notes = str(data.get("engineer_notes") or "").strip()
 
+    inc_wall_raw = data.get("include_wall")
+    include_wall = True if inc_wall_raw is None else (str(inc_wall_raw).lower() in ("true", "1", "yes"))
     optical_geometry = {
         "failure_vector": failure_vec,
         "scarp_height_m": h_scarp,
@@ -1272,6 +1295,7 @@ def update_report_parameters(report_id: str):
         "slip_surface_dip_deg": slip_dip,
         "carriageway_formation_m": w_pre,
         "carriageway_open_m": w_post,
+        "include_wall": include_wall,
     }
 
     partial_dossier = {

@@ -156,33 +156,25 @@
       transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
     body.panel-open .report-canvas-wrapper {
-      transform: translateX(-220px);
+      transform: translateX(-240px);
     }
-    @media (max-width: 1380px) {
+    @media (max-width: 1440px) {
       body.panel-open .report-canvas-wrapper {
-        transform: translateX(-180px);
+        transform: translateX(-210px);
       }
     }
-    @media (max-width: 1120px) {
+    @media (max-width: 1200px) {
       body.panel-open .report-canvas-wrapper {
-        transform: none;
+        transform: translateX(-160px);
       }
     }
 
     /* Parameter Calibration Side-Sheet Drawer */
     #parameter-panel-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.32);
-      backdrop-filter: blur(2px);
-      z-index: 9998;
-      display: none;
-      opacity: 0;
-      transition: opacity 0.25s ease;
+      display: none !important;
     }
     body.panel-open #parameter-panel-backdrop {
-      display: block;
-      opacity: 1;
+      display: none !important;
     }
 
     #parameter-control-panel {
@@ -608,6 +600,93 @@
       font-size: 6.5px;
       font-weight: 800;
       color: #16a34a;
+    }
+
+    
+    /* Wall Toggle Box in Parameter Panel */
+    .pcp-wall-toggle-box {
+      background: #f8fafc;
+      border: 1px solid var(--border-light);
+      border-radius: 6px;
+      padding: 8px 12px;
+      margin-top: 4px;
+    }
+    .pcp-toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      cursor: pointer;
+    }
+    .pcp-toggle-text strong {
+      display: block;
+      font-size: 11px;
+      color: var(--primary-dark);
+      font-weight: 700;
+    }
+    .pcp-toggle-text small {
+      display: block;
+      font-size: 9.5px;
+      color: #64748b;
+      margin-top: 2px;
+      line-height: 1.25;
+    }
+    .pcp-toggle-row input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary-forest);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    /* Section 10 Multi-Photo Plate Grid */
+    .multi-photo-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr 1fr;
+      gap: 3px;
+      width: 100%;
+      height: 155px;
+    }
+    .multi-photo-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      background: #0f172a;
+      border: 1px solid var(--border-dark);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .multi-photo-tag {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      background: rgba(9, 47, 37, 0.90);
+      color: #a7f3d0;
+      font-size: 5.2px;
+      font-weight: 800;
+      padding: 1px 3.5px;
+      border-radius: 1.5px;
+      letter-spacing: 0.2px;
+      z-index: 3;
+      pointer-events: none;
+      font-family: 'Manrope', sans-serif;
+    }
+    .multi-photo-link {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+    }
+    .multi-photo-link img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     /* Section Bars & Tables */
@@ -1444,7 +1523,8 @@
                 <strong>Internal Ground Reinforcement:</strong> Prescribed Soil Nailing Array (MoRTH Section 3100 &bull; FHWA GEC 7)<br>
                 <strong>Nails:</strong> <strong>{{ un.total_nails_count | default(20) }} Nos.</strong> (18 working + 2 sacrificial pullout tests) @ 9.0m depth (180.0m total drilling, 1.8m H × 2.0m V grid).<br>
                 <strong>Facing:</strong> <strong>{{ '%.2f'|format(un.face_surface_area_m2) if un.face_surface_area_m2 else '91.12' }}</strong> m² high-tensile diamond wire mesh with 18 Nos. M30 bearing plates (400×400×200mm).<br>
-                <strong>Bioengineering:</strong> 700 GSM coir geotextile netting ({{ '%.2f'|format(un.coir_netting_area_m2) if un.coir_netting_area_m2 else '100.23' }} m² with 10% overlap), hydroseeding, and Vetiver grass contour hedges (MoRTH Section 1802).
+                <strong>HPPWD 361 Geonetting:</strong> 700 GSM 100% natural biodegradable open-weave coir/jute netting ({{ '%.2f'|format(un.coir_netting_area_m2) if un.coir_netting_area_m2 else '100.23' }} m² with 10% overlap), pegged with hardwood cuttings of Banaa (<i>Vitex negundo</i>) and 10mm Ø rebar U-staples (100×300mm @ 1.0m c/c).<br>
+                <strong>HPPWD 352 Vegetative Works:</strong> Contour Live Hedge Brush Layering using rooted cuttings of Basuti (<i>Adhatoda vasica</i>) and Biunse (<i>Salix tetrasperma</i>) in 20° inclined trenches; contour line grassing with Dholu grass (<i>Chrysopogon fulvus</i>) @ 200mm centres; and direct hydroseeding of native Kunish (<i>Alnus nepalensis</i>) pioneer seeds.
               {% endif %}
             </td>
           </tr>
@@ -1501,7 +1581,23 @@
             <span>{{ telem.coordinates_dec or '31.70800° N, 76.93200° E' }}</span>
           </div>
           <div class="photo-img-wrap">
-            {% if report.photo_url %}
+            {% if report.photos and report.photos|length > 1 %}
+            <div class="multi-photo-grid count-{{ report.photos|length }}">
+              {% for p in report.photos[:3] %}
+              <div class="multi-photo-card">
+                <span class="multi-photo-tag">
+                  {% if loop.index == 1 %}1. FRONT VIEW (SCARP)
+                  {% elif loop.index == 2 %}2. LEFT FLANK
+                  {% else %}3. RIGHT FLANK
+                  {% endif %}
+                </span>
+                <a href="{{ p.url if p.url is defined else p }}" target="_blank" rel="noopener noreferrer" title="Click to view full uncropped image" class="multi-photo-link">
+                  <img src="{{ p.url if p.url is defined else p }}" alt="{{ p.label or ('Perspective ' ~ loop.index) }}">
+                </a>
+              </div>
+              {% endfor %}
+            </div>
+            {% elif report.photo_url %}
             <a href="{{ report.photo_url }}" target="_blank" rel="noopener noreferrer" title="Click to view full uncropped image" style="display:flex; width:100%; height:100%; align-items:center; justify-content:center; text-decoration:none;">
               <img src="{{ report.photo_url }}" alt="Site Evidence Plate">
             </a>
@@ -1514,7 +1610,7 @@
               {% if assessment.is_landslide_or_terrain is defined and not assessment.is_landslide_or_terrain %}
                 <span style="background:#dc2626; color:#ffffff; padding:1px 5px; border-radius:2px; font-weight:800; font-size:6.8px;">Flagged: Non-Terrain</span>
               {% else %}
-                <span style="background:#16a34a; color:#ffffff; padding:1px 5px; border-radius:2px; font-weight:800; font-size:6.8px;">Verified Slope Imagery</span>
+                <span style="background:#16a34a; color:#ffffff; padding:1px 5px; border-radius:2px; font-weight:800; font-size:6.8px;">Verified Slope Imagery{% if report.photos and report.photos|length > 1 %} &bull; 3 Perspectives (Front, Left, Right){% endif %}</span>
               {% endif %}
             </span>
             <span>Date: {{ telem.inspection_date or '2026-10-12' }}</span>
@@ -1780,16 +1876,20 @@
         </div>
       </div>
 
-      <!-- Quick Himalayan Scenario Presets -->
+      <!-- Retaining Wall Presence Toggle -->
       <div class="pcp-group">
         <div class="pcp-group-title">
-          <span>Himalayan Scenario Presets</span>
-          <span style="font-size: 8.5px; color: #2dd4bf; text-transform: none; font-weight: 700;">1-Click Calibration</span>
+          <span>Toe Retaining Wall Configuration</span>
+          <span style="font-size: 8.5px; color: #2dd4bf; text-transform: none; font-weight: 700;">Schematic &amp; Works</span>
         </div>
-        <div class="pcp-preset-row">
-          <button type="button" class="pcp-preset-chip" onclick="applyPreset('mandi_cut')">Mandi Cut-Slope</button>
-          <button type="button" class="pcp-preset-chip" onclick="applyPreset('valley_sink')">Valley Sinking</button>
-          <button type="button" class="pcp-preset-chip" onclick="applyPreset('cliff_rock')">Cliff Rockfall</button>
+        <div class="pcp-wall-toggle-box">
+          <label class="pcp-toggle-row" for="toggle-retaining-wall">
+            <span class="pcp-toggle-text">
+              <strong>Include Toe Retaining Wall in Schematic</strong>
+              <small>Toggle off if site has natural toe without any retaining structure</small>
+            </span>
+            <input type="checkbox" id="toggle-retaining-wall" checked onchange="recalculateParametersLive()">
+          </label>
         </div>
       </div>
 
@@ -2163,6 +2263,8 @@
       const theta = parseFloat(document.getElementById('input-dip-angle').value) || 57.0;
       const wPre = parseFloat(document.getElementById('input-w-pre').value) || 5.25;
       const wPost = parseFloat(document.getElementById('input-w-post').value) || 2.30;
+      const wallToggle = document.getElementById('toggle-retaining-wall');
+      const includeWall = wallToggle ? wallToggle.checked : true;
 
       // Cruden & Varnes (1996) / USGS Circular 1325 Half-Ellipsoid Debris Volume:
       const vInsitu = Math.round((Math.PI / 6.0) * L * W * D * 100) / 100;
@@ -2236,6 +2338,13 @@
         paramsBadge.innerHTML = 'CUT: ' + Math.round(beta) + '&deg; &bull; H = ' + H.toFixed(1) + 'm';
       }
 
+      if (!includeWall) {
+        if (fWallH) fWallH.innerHTML = '<strong>No Retaining Wall Present</strong> (Natural slope toe)';
+        if (fWallVol) fWallVol.innerHTML = '<strong>0.00 m&sup3;</strong> (No structural toe wall)';
+        if (fWallBase) fWallBase.innerHTML = '<strong>N/A</strong> (Natural toe formation)';
+        if (fWallH2) fWallH2.innerHTML = '<strong>0.00</strong>';
+      }
+
       // Trigger debounced live schematic cross-section update
       updateSchematicLive({
         failure_vector: failureVector,
@@ -2246,7 +2355,8 @@
         cut_slope_angle_deg: beta,
         slip_surface_dip_deg: theta,
         carriageway_formation_m: wPre,
-        carriageway_open_m: wPost
+        carriageway_open_m: wPost,
+        include_wall: includeWall
       });
     }
 
@@ -2258,6 +2368,8 @@
 
       const panel = document.getElementById('parameter-control-panel');
       const reportId = panel.getAttribute('data-report-id');
+      const wallToggle = document.getElementById('toggle-retaining-wall');
+      const includeWall = wallToggle ? wallToggle.checked : true;
       const payload = {
         failure_vector: document.getElementById('input-failure-vector').value,
         scarp_height_m: parseFloat(document.getElementById('input-h-scarp').value) || 7.6,
@@ -2268,6 +2380,7 @@
         slip_surface_dip_deg: parseFloat(document.getElementById('input-dip-angle').value) || 57.0,
         carriageway_formation_m: parseFloat(document.getElementById('input-w-pre').value) || 5.25,
         carriageway_open_m: parseFloat(document.getElementById('input-w-post').value) || 2.30,
+        include_wall: includeWall,
         engineer_notes: document.getElementById('input-engineer-notes').value
       };
 

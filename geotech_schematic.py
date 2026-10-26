@@ -180,13 +180,28 @@ def extract_ml_kinematic_parameters(
         or "Sandstone"
     )
 
-    wall_info = geom.get("breast_wall") or {}
-    wall_h = _extract_height(
-        wall_info.get("stem_height_m")
-        or wall_info.get("total_height_m")
-        or rw_specs.get("height_m"),
-        default=2.7,
+    include_wall_val = (
+        opt_geom.get("include_wall")
+        if opt_geom.get("include_wall") is not None
+        else geom.get("include_wall")
     )
+    if include_wall_val is None:
+        include_wall = True
+    elif isinstance(include_wall_val, str):
+        include_wall = include_wall_val.lower() in ("true", "1", "yes")
+    else:
+        include_wall = bool(include_wall_val)
+
+    wall_info = geom.get("breast_wall") or {}
+    if not include_wall:
+        wall_h = 0.0
+    else:
+        wall_h = _extract_height(
+            wall_info.get("stem_height_m")
+            or wall_info.get("total_height_m")
+            or rw_specs.get("height_m"),
+            default=2.7,
+        )
     wall_mat = str(
         wall_info.get("material") or rw_specs.get("material") or "Plum Concrete (M15)"
     )
@@ -272,6 +287,7 @@ def extract_ml_kinematic_parameters(
         "failure_vector": failure_vector,
         "is_applicable": is_applicable,
         "rejection_notice": rejection_notice,
+        "include_wall": include_wall,
     }
 
 
@@ -697,9 +713,11 @@ def _render_translational_slide_svg(
   <path d="M {road_x_start} {road_y} Q {(road_x_start + debris_road_x)//2} {road_y - 22} {debris_road_x} {road_y} Z" fill="#fed7aa" fill-opacity="0.9" stroke="#ea580c" stroke-width="1" />
   <path d="M {road_x_start} {road_y} Q {(road_x_start + debris_road_x)//2} {road_y - 22} {debris_road_x} {road_y} Z" fill="url(#{debris_id})" />
 
-  <!-- Proposed Remediation: Plum Concrete Breast Wall (IS:14458) -->
+  {f'''<!-- Proposed Remediation: Plum Concrete Breast Wall (IS:14458) -->
   <polygon points="{road_x_start - 3},{road_y} {road_x_start + wall_b_px},{road_y} {road_x_start + round(wall_b_px * 0.65)},{road_y - wall_h_px} {road_x_start - 2},{road_y - wall_h_px}" fill="#f1f5f9" stroke="#092f25" stroke-width="1.4" stroke-dasharray="3,1" opacity="0.95" />
-  <text x="{road_x_start - 4}" y="{road_y - wall_h_px - 4}" font-size="5.5" font-weight="800" fill="#092f25">Plum Wall (H={wall_h:.1f}m)</text>
+  <text x="{road_x_start - 4}" y="{road_y - wall_h_px - 4}" font-size="5.5" font-weight="800" fill="#092f25">Plum Wall (H={wall_h:.1f}m)</text>''' if wall_h > 0 else f'''<!-- Natural Road Toe: No Retaining Wall Present -->
+  <circle cx="{road_x_start}" cy="{road_y}" r="2.5" fill="#dc2626" />
+  <text x="{road_x_start - 6}" y="{road_y - 6}" font-size="5.2" font-weight="800" fill="#dc2626">NATURAL TOE (NO WALL)</text>'''}
 
   <!-- Proposed Soil Nails Anchors (Fe500D TMT Grouted) -->
   <g stroke="#14b8a6" stroke-width="1.4" stroke-dasharray="3,2">
@@ -814,10 +832,12 @@ def _render_rotational_slump_svg(
   <rect x="{road_x_start}" y="{road_y - 1}" width="{road_x_end - road_x_start}" height="5" fill="#1e293b" stroke="#334155" stroke-width="0.8" />
   <line x1="{road_x_start}" y1="{road_y + 1}" x2="{road_x_end}" y2="{road_y + 1}" stroke="#facc15" stroke-width="0.9" stroke-dasharray="3,3" />
 
-  <!-- Proposed Remediation: Gabion Toe Retaining Wall (IS:16014) -->
+  {f'''<!-- Proposed Remediation: Gabion Toe Retaining Wall (IS:16014) -->
   <rect x="{road_x_start - 2}" y="{road_y - wall_h_px}" width="{wall_b_px}" height="{wall_h_px}" fill="#e2e8f0" stroke="#475569" stroke-width="1.2" stroke-dasharray="2,2" opacity="0.95" />
   <line x1="{road_x_start - 2}" y1="{road_y - wall_h_px // 2}" x2="{road_x_start + wall_b_px - 2}" y2="{road_y - wall_h_px // 2}" stroke="#94a3b8" stroke-width="0.8" stroke-dasharray="2,2" />
-  <text x="{road_x_start - 4}" y="{road_y - wall_h_px - 4}" font-size="5.5" font-weight="800" fill="#334155">Gabion Wall (H={wall_h:.1f}m)</text>
+  <text x="{road_x_start - 4}" y="{road_y - wall_h_px - 4}" font-size="5.5" font-weight="800" fill="#334155">Gabion Wall (H={wall_h:.1f}m)</text>''' if wall_h > 0 else f'''<!-- Natural Road Toe: No Retaining Wall Present -->
+  <circle cx="{road_x_start}" cy="{road_y}" r="2.5" fill="#dc2626" />
+  <text x="{road_x_start - 6}" y="{road_y - 6}" font-size="5.2" font-weight="800" fill="#dc2626">NATURAL TOE (NO WALL)</text>'''}
 
   <!-- Proposed Slotted Perforated Collector Drainage -->
   <circle cx="{road_x_start - 6}" cy="{road_y - 4}" r="3" fill="#0284c7" stroke="#38bdf8" stroke-width="0.8" />
@@ -1328,11 +1348,13 @@ def _render_valley_subsidence_svg(
   <line x1="{subside_x - 4}" y1="{road_y - 14}" x2="{subside_x - 4}" y2="{road_y - 4}" stroke="#94a3b8" stroke-width="1.6" />
   <rect x="{subside_x - 7}" y="{road_y - 13}" width="6" height="4" rx="0.5" fill="#e2e8f0" stroke="#475569" stroke-width="0.8" />
 
-  <!-- Stepped Gabion Retaining Wall (MoRTH 2504 / IS:16014) on Lower Valley Bench -->
+  {f'''<!-- Stepped Gabion Retaining Wall (MoRTH 2504 / IS:16014) on Lower Valley Bench -->
   <rect x="{g_base_x - 8}" y="{g_base_y - 16}" width="42" height="16" fill="#334155" stroke="#94a3b8" stroke-width="1" />
   <rect x="{g_base_x - 2}" y="{g_base_y - 32}" width="36" height="16" fill="#334155" stroke="#94a3b8" stroke-width="1" />
   <rect x="{g_base_x + 4}" y="{g_base_y - 48}" width="30" height="16" fill="#334155" stroke="#94a3b8" stroke-width="1" />
-  <text x="{g_base_x - 6}" y="{g_base_y - 52}" font-size="5.5" font-weight="800" fill="#334155">STEPPED GABION WALL (H={wall_h:.1f}m)</text>
+  <text x="{g_base_x - 6}" y="{g_base_y - 52}" font-size="5.5" font-weight="800" fill="#334155">STEPPED GABION WALL (H={wall_h:.1f}m)</text>''' if wall_h > 0 else f'''<!-- Natural Valley Fill: No Retaining Wall Present -->
+  <circle cx="{g_base_x}" cy="{g_base_y}" r="2.5" fill="#dc2626" />
+  <text x="{g_base_x - 6}" y="{g_base_y - 20}" font-size="5.2" font-weight="800" fill="#dc2626">NATURAL VALLEY FILL (NO WALL)</text>'''}
 
   <!-- Lower Valley Slope beyond Gabion Wall -->
   <path d="M {g_base_x + 34} {g_base_y} L 505 228 L 505 236 L {g_base_x + 34} 236 Z" fill="url(#{hatch_id})" stroke="#334155" stroke-width="1" />
