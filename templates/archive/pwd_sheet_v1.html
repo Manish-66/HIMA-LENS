@@ -507,7 +507,7 @@
       width: 210mm;
       min-height: 297mm;
       max-height: 297mm;
-      padding: 7mm 8mm 6mm 8mm;
+      padding: 5mm 8mm 4mm 8mm;
       margin: 0 auto 14px auto;
       background: #ffffff;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
@@ -515,7 +515,7 @@
       position: relative;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
+      justify-content: space-between;
       overflow: hidden;
       page-break-after: always;
     }
@@ -822,7 +822,7 @@
       justify-content: space-between;
       align-items: center;
       padding-top: 2px;
-      margin-top: auto;
+      margin-top: 2px;
       border-top: 1px solid var(--border-light);
       font-size: 6.8px;
       color: #64748b;
@@ -847,12 +847,15 @@
       }
       .report-page {
         margin: 0 !important;
-        padding: 7mm 8mm 6mm 8mm !important;
+        padding: 5mm 8mm 4mm 8mm !important;
         box-shadow: none !important;
         border: none !important;
         page-break-after: always !important;
         height: 297mm !important;
         max-height: 297mm !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
       }
       .report-page:last-child {
         page-break-after: avoid !important;
@@ -1177,32 +1180,6 @@
         </tbody>
       </table>
 
-      <div class="page-footer">
-        <span>IIT Mandi Slope Technical Assessment Docket &bull; Ref: <strong>{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-CR-') if assessment.telemetry.report_id else 'IITM-CR-RECORD') }}</strong></span>
-        <span>Page 1 of 3</span>
-      </div>
-    </div>
-
-    <!-- ======================================================== -->
-    <!-- PAGE 2: DEFECTS, RETAINING STRUCTURE SCHEDULE, DRAINAGE, BIOENGINEERING, EARTHWORKS -->
-    <!-- ======================================================== -->
-    <div class="report-page">
-      <div class="master-header">
-        <div class="master-header-grid">
-          <div class="master-logo-col">
-            <img src="{{ url_for('static', filename='img/iit_mandi_logo.svg') }}" alt="IIT Mandi Emblem" class="inst-logo-img">
-          </div>
-          <div class="master-text-col">
-            <div class="inst-name">INDIAN INSTITUTE OF TECHNOLOGY MANDI</div>
-            <div class="inst-title">IIT MANDI SLOPE TECHNICAL ASSESSMENT DOCKET (Page 2)</div>
-            <div class="master-standards">IS:14458 (Design of Retaining Structures) &bull; IRC:SP:48 Hill Road Drainage Specifications</div>
-          </div>
-          <div class="master-badge-col">
-            <span style="font-family:'JetBrains Mono',monospace; font-size: 7.5px; font-weight:700; color:var(--primary-forest);">PAGE 02 / 03</span>
-          </div>
-        </div>
-      </div>
-
       <!-- 5. Defects & Distress Observed Around Works -->
       <div class="sec-bar">5. Defects &amp; Distress Observed Around Works</div>
       <div style="border: 1px solid var(--border-dark); border-bottom: none; padding: 2.5px 5px; font-size: 7.6px; background: #f8fafc;">
@@ -1385,6 +1362,36 @@
         </tbody>
       </table>
 
+      <div class="page-footer">
+        <span>IIT Mandi Slope Technical Assessment Docket &bull; Ref: <strong>{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-CR-') if assessment.telemetry.report_id else 'IITM-CR-RECORD') }}</strong> &bull; Part 1 of 2 Site Characterization &amp; Ground Works</span>
+        <span>Page 1 of 2</span>
+      </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- PAGE 2: BIOENGINEERING, EARTHWORKS, VISUAL PLATES, PROTOCOL, SIGN-OFF -->
+    <!-- ======================================================== -->
+    <div class="report-page">
+      <div class="master-header">
+        <div class="master-header-grid">
+          <div class="master-logo-col">
+            <img src="{{ url_for('static', filename='img/iit_mandi_logo.svg') }}" alt="IIT Mandi Emblem" class="inst-logo-img">
+          </div>
+          <div class="master-text-col">
+            <div class="inst-name">INDIAN INSTITUTE OF TECHNOLOGY MANDI</div>
+            <div class="master-title">IIT MANDI SLOPE TECHNICAL ASSESSMENT DOCKET</div>
+            <div class="master-standards">Statutory Geotechnical Assessment &bull; IRC:SP:48 Drainage &bull; IS:14458 Stabilization &bull; IRC:SP:55 Traffic Management</div>
+          </div>
+          <div class="master-badge-col">
+            <div class="report-stamp">
+              <span class="stamp-lbl">DOCKET PAGE</span>
+              <span class="stamp-code">PAGE 02 / 02</span>
+              <span class="stamp-stat">OFFICIAL RECORD</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- 8. Bioengineering & Retaining Specifications -->
       <div class="sec-bar">8. Bioengineering &amp; Retaining Specifications</div>
       <table class="grid-table">
@@ -1483,32 +1490,6 @@
           </tr>
         </tbody>
       </table>
-
-      <div class="page-footer">
-        <span>IIT Mandi Slope Technical Assessment Docket &bull; Ref: <strong>{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-CR-') if assessment.telemetry.report_id else 'IITM-CR-RECORD') }}</strong> &bull; Part 2 of 2 Core Civil Specifications</span>
-        <span>Page 2 of 3</span>
-      </div>
-    </div>
-
-    <!-- ======================================================== -->
-    <!-- PAGE 3: VISUAL PLATES, FIELD BRIEFING, EMERGENCY TRAFFIC, SIGN-OFF -->
-    <!-- ======================================================== -->
-    <div class="report-page">
-      <div class="master-header">
-        <div class="master-header-grid">
-          <div class="master-logo-col">
-            <img src="{{ url_for('static', filename='img/iit_mandi_logo.svg') }}" alt="IIT Mandi Emblem" class="inst-logo-img">
-          </div>
-          <div class="master-text-col">
-            <div class="inst-name">INDIAN INSTITUTE OF TECHNOLOGY MANDI</div>
-            <div class="inst-title">IIT MANDI SLOPE TECHNICAL ASSESSMENT DOCKET (Page 3)</div>
-            <div class="master-standards">Statutory Geotechnical Assessment &bull; IRC:SP:55 Highway Traffic Management &bull; MoRTH Section 3100</div>
-          </div>
-          <div class="master-badge-col">
-            <span style="font-family:'JetBrains Mono',monospace; font-size: 7.5px; font-weight:700; color:var(--primary-forest);">PAGE 03 / 03</span>
-          </div>
-        </div>
-      </div>
 
       <!-- 10. Field Photographic Evidence & Kinematic Cross-Section (SIDE-BY-SIDE VISUAL PLATES) -->
       <div class="sec-bar">10. Field Photographic Evidence &amp; Kinematic Cross-Section</div>
@@ -1747,7 +1728,7 @@
 
       <div class="page-footer">
         <span>IIT Mandi Slope Technical Assessment Docket &bull; Statutory Engineering Sign-Off &bull; Ref: <strong>{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-CR-') if assessment.telemetry.report_id else 'IITM-CR-RECORD') }}</strong></span>
-        <span>Page 3 of 3</span>
+        <span>Page 2 of 2</span>
       </div>
     </div>
 
