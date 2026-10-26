@@ -1106,28 +1106,7 @@ def view_pwd_sheet(report_id: str):
     if not photo_urls and display_report.get("photo_url"):
         photo_urls = [display_report["photo_url"]]
 
-    # Support multi-photo showcase demonstration (up to 4: front, left flank, right flank, toe accumulation)
-    if not display_report.get("photos"):
-        if request.args.get("multi") in ("1", "true") or report_id == "IITM-CR-6A9B327E":
-            display_report["photos"] = [
-                {
-                    "url": display_report.get("photo_url") or "/static/img/events/himachal_highway_slide.jpg",
-                    "label": "1. Front View (Daylighting Scarp & Debris Fan)"
-                },
-                {
-                    "url": "/static/img/events/himachal_slope_failure.jpg",
-                    "label": "2. Left Flank Perspective (Tension Cracks)"
-                },
-                {
-                    "url": "/static/img/events/himalaya_road_cut.jpg",
-                    "label": "3. Right Flank Perspective (Toe Encroachment)"
-                },
-                {
-                    "url": "/static/img/events/debris_flow_torrent.jpg",
-                    "label": "4. Downslope Runout & Carriageway Accumulation"
-                }
-            ]
-            photo_urls = [p["url"] for p in display_report["photos"]]
+    # Retain strictly authentic user-uploaded photos (no hardcoded filler images)
 
     display_report["photo_urls"] = photo_urls[:4]
     display_report["photo_url"] = photo_urls[0] if photo_urls else display_report.get("photo_url", "")

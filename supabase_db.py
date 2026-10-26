@@ -178,10 +178,18 @@ def fetch_community_reports(include_hidden: bool = False) -> list[dict[str, Any]
                 return s[len(pfx):]
         return s
 
+    local_list = load_local_reports()
+    local_lookup: dict[str, dict[str, Any]] = {}
+    for lr in local_list:
+        lid = str(lr.get("id") or "").strip()
+        if lid:
+            local_lookup[lid] = lr
+            local_lookup[_core_suffix(lid)] = lr
+
     raw_candidates = []
     if isinstance(reports, list):
         raw_candidates.extend(reports)
-    raw_candidates.extend(load_local_reports())
+    raw_candidates.extend(local_list)
 
     # Sort so that canonical IITM-CR- records and rich records with descriptions come first
     def _report_priority(rep: dict[str, Any]) -> tuple[int, int]:
@@ -204,6 +212,23 @@ def fetch_community_reports(include_hidden: bool = False) -> list[dict[str, Any]
             continue
         seen_suffixes.add(core)
         seen_full_ids.add(rid)
+
+        # Enrich remote row with rich local fields (especially photo_urls array)
+        local_match = local_lookup.get(rid) or local_lookup.get(core)
+        if local_match:
+            if not r.get("photo_urls") and local_match.get("photo_urls"):
+                r["photo_urls"] = list(local_match["photo_urls"])
+            if not r.get("photo_url") and local_match.get("photo_url"):
+                r["photo_url"] = local_match["photo_url"]
+            if not r.get("description") and local_match.get("description"):
+                r["description"] = local_match["description"]
+            if not r.get("reporter_name") and local_match.get("reporter_name"):
+                r["reporter_name"] = local_match["reporter_name"]
+            if not r.get("movement_type") and local_match.get("movement_type"):
+                r["movement_type"] = local_match["movement_type"]
+            if not r.get("district") and local_match.get("district"):
+                r["district"] = local_match["district"]
+
         merged_reports.append(r)
     reports = merged_reports
 
@@ -213,8 +238,14 @@ def fetch_community_reports(include_hidden: bool = False) -> list[dict[str, Any]
     visible_reports = []
     for r in reports:
         rid = str(r.get("id") or "")
-        # Filter out automated test probe records
-        if rid in ("IITM-CR-17525F02", "TEST-PROBE-001") or rid.startswith("TEST-PROBE-") or r.get("reporter_name") == "Automated Test":
+        desc = str(r.get("description") or "").lower()
+        # Filter out automated test probe records and upload verification spam
+        if (
+            rid in ("IITM-CR-17525F02", "IITM-CR-001", "IITM-CR-TESTNOPHOT", "TEST-PROBE-001")
+            or rid.startswith("TEST-")
+            or r.get("reporter_name") == "Automated Test"
+            or any(kw in desc for kw in ("upload test", "test probe", "simulated landslide", "none recorded"))
+        ):
             continue
         # Check boolean is_hidden column
         is_hidden_val = r.get("is_hidden")
@@ -225,6 +256,11 @@ def fetch_community_reports(include_hidden: bool = False) -> list[dict[str, Any]
         if status_val in ("hidden", "archived", "rejected", "deleted"):
             continue
         visible_reports.append(r)
+
+    # Sort newest first based on created_at or incident_date
+    def _sort_timestamp(rep: dict[str, Any]) -> str:
+        return str(rep.get("created_at") or rep.get("incident_date") or "")
+    visible_reports.sort(key=_sort_timestamp, reverse=True)
 
     return visible_reports
 

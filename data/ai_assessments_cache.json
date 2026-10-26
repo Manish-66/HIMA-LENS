@@ -92588,7 +92588,7 @@
     "detected_content": "No Photographic Field Evidence Attached",
     "rejection_reason": "Report submission lacks photographic field evidence. Automated optical photogrammetry and geotechnical remediation design require verified terrain imagery.",
     "source": "HIMA-LENS Optical Audit (HIMA-LENS Telemetry Ingestion (No Photo))",
-    "generated_at": "26 Oct 2026, 19:46 UTC",
+    "generated_at": "26 Oct 2026, 20:15 UTC",
     "engineering_disclaimer": "N/A — Non-Terrain Upload / Optical Audit Disqualification",
     "telemetry": {
       "report_id": "IITM-CR-TEST-NOPHOT",
@@ -93310,7 +93310,7 @@
     "detected_content": "No Photographic Field Evidence Attached",
     "rejection_reason": "Report submission lacks photographic field evidence. Automated optical photogrammetry and geotechnical remediation design require verified terrain imagery.",
     "source": "HIMA-LENS Optical Audit (HIMA-LENS Telemetry Ingestion (No Photo))",
-    "generated_at": "26 Oct 2026, 19:46 UTC",
+    "generated_at": "26 Oct 2026, 20:15 UTC",
     "engineering_disclaimer": "N/A — Non-Terrain Upload / Optical Audit Disqualification",
     "telemetry": {
       "report_id": "IITM-CR-TEST-NOPHOT",
@@ -94032,7 +94032,7 @@
     "detected_content": "No Photographic Field Evidence Attached",
     "rejection_reason": "Report submission lacks photographic field evidence. Automated optical photogrammetry and geotechnical remediation design require verified terrain imagery.",
     "source": "HIMA-LENS Optical Audit (HIMA-LENS Telemetry Ingestion (No Photo))",
-    "generated_at": "26 Oct 2026, 19:46 UTC",
+    "generated_at": "26 Oct 2026, 20:15 UTC",
     "engineering_disclaimer": "N/A — Non-Terrain Upload / Optical Audit Disqualification",
     "telemetry": {
       "report_id": "IITM-CR-TEST-NOPHOT",
@@ -101667,6 +101667,2202 @@
       "status": "ONLINE_SUCCESS",
       "model": "gemini-3.1-flash-lite",
       "mode": "MULTIMODAL_PHOTOGRAMMETRY"
+    }
+  },
+  "IITM-CR-5D10E663": {
+    "is_landslide_or_terrain": false,
+    "validation_status": "INVALID_NON_TERRAIN_IMAGE",
+    "detected_content": "The image is completely black or unreadable.",
+    "rejection_reason": "Image data contains no visual information or is entirely corrupted/black.",
+    "source": "HIMA-LENS Optical Audit (gemini-flash-lite-latest)",
+    "generated_at": "26 Oct 2026, 19:56 UTC",
+    "engineering_disclaimer": "N/A — Non-Terrain Upload / Optical Audit Disqualification",
+    "telemetry": {
+      "report_id": "IITM-CR-5D10E663",
+      "report_reference": "IITM-CR-5D10E663",
+      "district": "Mandi",
+      "site_road_name": "Mandi Sector — Verification Rejected",
+      "location_chainage": "N/A — Verification Rejected",
+      "road_type": "N/A — Unverified Ground Asset",
+      "inspection_date": "2026-10-27",
+      "elevation": "N/A — Disqualified",
+      "coordinates_dms": "Lat: 31°42'31\" N | Long: 76°55'55\" E",
+      "coordinates_dec": "31.70870° N, 76.93210° E",
+      "reported_movement": "Slide",
+      "reported_severity": "Moderate",
+      "reporter_name": "Anonymous",
+      "user_notes": "Legacy single-photo upload test"
+    },
+    "site_context": {
+      "environment_type": "N/A — Non-Terrain Upload",
+      "impacted_assets": "None Verified — Non-Terrain Media",
+      "structural_damage": "No geological or physical terrain damage verified."
+    },
+    "slope_characteristics": {
+      "presence_above": false,
+      "presence_below": false,
+      "presence_both": false,
+      "in_situ_rock": false,
+      "in_situ_soil": "N/A — Non-Terrain Media",
+      "debris_accumulation": "N/A — No Debris Present",
+      "slope_type_cut": false,
+      "slope_type_fill": false,
+      "slope_type_natural": "N/A — Non-Terrain Media",
+      "slope_height_above": "N/A",
+      "cut_slope_angle": "N/A",
+      "slope_geometry_below": "N/A",
+      "slope_geometry_profile": "N/A — Non-Terrain Image Uploaded"
+    },
+    "road_impact": {
+      "road_alignment": "N/A",
+      "fencing_type": "N/A",
+      "width_before": "N/A",
+      "width_after": "N/A",
+      "pavement_type": "N/A — Unverified",
+      "shoulder_width": "N/A",
+      "number_of_lanes": "N/A",
+      "way": "N/A",
+      "width_of_median": "N/A",
+      "bridge_present": "No",
+      "culvert_present": "N/A",
+      "carriageway_status": "Unverified — Non-Terrain Media"
+    },
+    "protection_works": [],
+    "geology": {
+      "prominent_soil_rock": "N/A — Non-Geological Media",
+      "prominent_rock_desc": "N/A — Image does not depict geological rock strata",
+      "colour": "N/A",
+      "jointing_spacing": "N/A",
+      "strength": "N/A",
+      "dip_joints": "N/A",
+      "minerals_present": "N/A",
+      "joint_orientation": "N/A",
+      "dip_strike_relation": "N/A",
+      "weathering_grade": "N/A",
+      "material_type": "N/A — Non-Terrain Media",
+      "fracture_pattern": "N/A"
+    },
+    "defects_and_distress": {
+      "defects_on_slope": {
+        "gully": false,
+        "crack": false,
+        "unstable_rock": false,
+        "seepage": false,
+        "erosion": false,
+        "landslide": false
+      },
+      "road_surface": {
+        "crack": false,
+        "heaving": false,
+        "settlement": false,
+        "recent_repair": false
+      },
+      "roadside_drain": {
+        "overflow": false,
+        "clogged_100": false,
+        "deformation": false,
+        "crack": false,
+        "width": "N/A",
+        "depth": "N/A"
+      },
+      "slope_drainage": {
+        "overflow": false,
+        "clogged_100": false,
+        "deformation": false,
+        "crack": false,
+        "width": "N/A",
+        "depth": "N/A"
+      },
+      "distress_remarks": "Audit Disqualification: Image uploaded depicts The image is completely black or unreadable.. Zero landslide or terrain distress verified."
+    },
+    "pavement_dimensions": {
+      "potholes": "N/A",
+      "subsidence": "N/A",
+      "rutting": "N/A"
+    },
+    "retaining_wall_specs": {
+      "shape_front": "N/A",
+      "shape_back": "N/A",
+      "shape_base": "N/A",
+      "material": "N/A — No Wall Proposed (Non-Terrain)",
+      "height_m": "N/A",
+      "length_m": "N/A",
+      "embedded_depth_m": "N/A",
+      "top_width_m": "N/A",
+      "base_width_m": "N/A",
+      "length_affected_m": "N/A",
+      "distress_crack": false,
+      "distress_bulging": false,
+      "distress_collapse": false,
+      "distress_joint": false,
+      "signs_of_distress": "None — Image Disqualified",
+      "distress_behind": "N/A — No terrain surcharge",
+      "distress_in_front": "N/A — No toe distress",
+      "weep_holes": "N/A"
+    },
+    "retaining_wall": {
+      "height_m": 0.0,
+      "length_m": 0.0,
+      "base_width_m": 0.0,
+      "top_width_m": 0.0,
+      "embedded_depth_m": 0.0,
+      "length_affected_m": 0.0,
+      "plum_concrete_vol_m3": 0.0,
+      "stone_plums_vol_m3": 0.0,
+      "stone_plums_tonnes": 0.0,
+      "filter_medium_vol_m3": 0.0,
+      "geotextile_back_m2": 0.0,
+      "n_weep_holes": 0,
+      "weep_pipe_length_m": 0.0,
+      "material": "N/A — No Wall Proposed",
+      "distress_crack": false,
+      "distress_bulging": false,
+      "distress_collapse": false,
+      "distress_joint": false,
+      "signs_of_distress": "None — Image Disqualified",
+      "distress_behind": "N/A",
+      "distress_in_front": "N/A"
+    },
+    "drainage_and_bioengineering": {
+      "roadside_drain": "N/A — Verification Rejected",
+      "lined_channel": "N/A",
+      "lined_cutoff": "N/A",
+      "french_drain": "N/A",
+      "check_dam": "N/A",
+      "catch_drain": "N/A",
+      "bioengineering_desc": "N/A — No bioengineering stabilization required for non-terrain upload."
+    },
+    "drainage": {
+      "roadside_stone": false,
+      "roadside_concrete": false,
+      "lined_channel": false,
+      "lined_cutoff": false,
+      "counterfort": false,
+      "branched": false,
+      "unlined_cutoff": false,
+      "horizontal": false,
+      "sub_surface": false,
+      "herringbone": false,
+      "check_dam": false,
+      "slope_surface": false,
+      "material": "N/A — Disqualified",
+      "signs_of_distress": "None — Image Disqualified"
+    },
+    "bioengineering": {
+      "description": "N/A — Disqualified",
+      "signs_of_distress": "None — Image Disqualified"
+    },
+    "gabion_and_earthworks": {
+      "gabion_wall": null,
+      "excavation": {
+        "material": "N/A",
+        "dimensions": "N/A",
+        "volume_m3": 0.0,
+        "h_m": 0.0,
+        "l_m": 0.0,
+        "w_m": 0.0
+      },
+      "fill": {
+        "material": "N/A",
+        "dimensions": "N/A",
+        "volume_m3": 0.0,
+        "h_m": 0.0,
+        "l_m": 0.0,
+        "w_m": 0.0
+      }
+    },
+    "mitigation_measures": "N/A — Verification Rejected: No physical stabilization required for non-terrain upload.",
+    "other_observations": "Multimodal optical audit flagged upload as non-terrain (The image is completely black or unreadable.). Geotechnical evaluation disqualified.",
+    "safety_directives": {
+      "utility_hazard": "None verified — Non-terrain media upload.",
+      "machinery_deployment": "Suspend machinery until verified terrain photograph is submitted.",
+      "traffic_restoration": "Pending authentic field verification.",
+      "permanent_restoration": "Mandatory photographic re-inspection required."
+    },
+    "visual_analysis": {
+      "material_composition": "N/A — Non-Terrain Upload",
+      "slope_condition": "Disqualified",
+      "infrastructure_impact": "None verified",
+      "drainage_and_seepage": "N/A"
+    },
+    "advanced_geotechnical_stabilization": {
+      "usgs_classification": {
+        "usgs_general_definition": "N/A — Verification Rejected: Upload does not depict geological terrain.",
+        "usgs_kinematic_definition": "N/A — Non-Terrain Upload",
+        "two_term_classification": "Disqualified / Non-Terrain",
+        "primary_movement": "N/A",
+        "material_class": "N/A",
+        "velocity_class": {
+          "class_code": "N/A",
+          "rate_name": "N/A",
+          "velocity_range": "N/A",
+          "consequences": "N/A"
+        },
+        "landslide_anatomy": {
+          "crown_and_scarp": "N/A",
+          "displaced_mass": "N/A",
+          "toe_and_foot": "N/A"
+        },
+        "causal_factors": {},
+        "standard_reference": "USGS Circular 1325 (Highland & Bobrowsky, 2008)"
+      },
+      "cedd_consequence": {
+        "consequence_category": "N/A — Disqualified",
+        "consequence_level": "N/A",
+        "consequence_criteria": "None verified — Non-terrain media upload.",
+        "economic_consequence": "N/A",
+        "target_fos_10yr": "N/A",
+        "target_fos_extreme": "N/A",
+        "mandatory_investigation": "N/A",
+        "inspection_regime": {
+          "code": "N/A",
+          "name": "N/A",
+          "frequency": "N/A",
+          "personnel": "N/A",
+          "key_checks": "N/A"
+        }
+      },
+      "larimit_mitigations": {
+        "analyzed_mechanism": "N/A",
+        "primary_structural": {
+          "id": "N/A",
+          "name": "N/A — Verification Rejected",
+          "cluster": "N/A",
+          "description": "N/A",
+          "suitability_score": 0.0,
+          "cost_tier": "N/A",
+          "construction_time": "N/A"
+        },
+        "hydrogeological_drainage": {
+          "id": "N/A",
+          "name": "N/A",
+          "cluster": "N/A",
+          "description": "N/A",
+          "suitability_score": 0.0,
+          "cost_tier": "N/A",
+          "construction_time": "N/A"
+        },
+        "nature_based_solution": {
+          "id": "N/A",
+          "name": "N/A",
+          "cluster": "N/A",
+          "description": "N/A",
+          "suitability_score": 0.0,
+          "cost_tier": "N/A",
+          "construction_time": "N/A"
+        }
+      },
+      "prescribed_soil_nailing": {
+        "design_code": "N/A",
+        "bar_diameter": "N/A",
+        "drillhole_diameter": "N/A",
+        "drillhole_inclination": "N/A",
+        "grid_spacing": "N/A",
+        "nail_length": "N/A",
+        "grout_strength": "N/A",
+        "head_assembly": "N/A",
+        "testing_protocol": "N/A"
+      },
+      "flexible_barrier": null,
+      "subsurface_drainage": {
+        "design_code": "N/A",
+        "pipe_specification": "N/A",
+        "slot_aperture": "N/A",
+        "filter_sock": "N/A",
+        "upward_inclination": "N/A",
+        "array_spacing": "N/A",
+        "drain_length": "N/A"
+      }
+    },
+    "bhukosh_rock_audit": {
+      "bhukosh_formation": "N/A — Non-Terrain Upload",
+      "toposheet": "N/A",
+      "distance_km": null,
+      "ai_detected_rock": "Disqualified",
+      "is_discrepancy": false,
+      "status": "DISQUALIFIED",
+      "status_label": "Disqualified Non-Terrain Upload",
+      "calibrated_rock": "N/A",
+      "reconciliation_note": "No geological strata evaluated for non-terrain upload."
+    },
+    "synthesis_remarks": "Image payload is invalid or completely blank. Unable to perform photogrammetric or geomorphic audit.",
+    "senior_engineer_remarks": "Image payload is invalid or completely blank. Unable to perform photogrammetric or geomorphic audit.",
+    "plain_language_explanation": {
+      "summary_title": "Invalid Image Input",
+      "what_happened": "The uploaded image is completely black and cannot be processed.",
+      "why_it_happened": "File corruption or incorrect capture format.",
+      "property_and_access_impact": "None",
+      "ongoing_hazards": "None",
+      "what_needs_to_be_done": "Please upload a valid image of the terrain or landslide incident.",
+      "citizen_safety_advice": "Ensure clear image capture before submission."
+    },
+    "project_data_model": {
+      "is_applicable": false,
+      "status": "DISQUALIFIED_NON_TERRAIN",
+      "failure_vector": "DISQUALIFIED_NON_TERRAIN",
+      "rejection_notice": "Optical audit confirmed non-geological media or stable false alarm. Estimation suspended.",
+      "unified_geometry": {
+        "slope_height_mean_m": 0.0,
+        "slope_height_min_m": 0.0,
+        "slope_height_max_m": 0.0,
+        "cut_angle_deg": 0.0,
+        "joint_dip_deg": 0.0,
+        "wall_length_m": 0.0,
+        "road_width_pre_disaster_m": 0.0,
+        "road_width_post_disaster_m": 0.0,
+        "debris_insitu_vol_m3": 0.0,
+        "bulking_factor": 1.0,
+        "debris_bulked_vol_m3": 0.0,
+        "breast_wall": {
+          "stem_height_m": 0.0,
+          "embedment_depth_m": 0.0,
+          "total_height_m": 0.0,
+          "top_width_m": 0.0,
+          "base_width_m": 0.0,
+          "cross_section_area_m2": 0.0,
+          "total_concrete_vol_m3": 0.0
+        },
+        "filter_and_drainage": {
+          "filter_thickness_m": 0.0,
+          "filter_vol_m3": 0.0,
+          "geotextile_wrap_area_m2": 0.0,
+          "weep_holes_count": 0,
+          "weep_pipes_total_length_m": 0.0
+        },
+        "upper_slope_and_nails": {
+          "upper_vertical_height_m": 0.0,
+          "upper_inclined_length_m": 0.0,
+          "face_surface_area_m2": 0.0,
+          "coir_netting_area_m2": 0.0,
+          "working_nails_count": 0,
+          "sacrificial_nails_count": 0,
+          "total_nails_count": 0,
+          "drilling_total_depth_m": 0.0,
+          "tmt_bars_total_length_m": 0.0,
+          "bearing_pads_count": 0
+        },
+        "drainage_channels": {
+          "crest_catch_drain_length_m": 0.0,
+          "roadside_drain_reconstruct_m": 0.0,
+          "cascade_chute_length_m": 0.0
+        }
+      },
+      "stability_analysis": {
+        "is_applicable": false,
+        "disqualification_note": "Stability analysis not applicable — Non-terrain or stable terrain upload.",
+        "scenarios": [
+          {
+            "name": "dry_baseline",
+            "label": "Dry Baseline",
+            "calculated_fos": 0.0,
+            "condition": "Disqualified"
+          },
+          {
+            "name": "monsoon_saturated",
+            "label": "Monsoon Saturated",
+            "calculated_fos": 0.0,
+            "condition": "Disqualified"
+          },
+          {
+            "name": "stabilized_design",
+            "label": "Design Stabilized",
+            "calculated_fos": 0.0,
+            "condition": "Disqualified"
+          }
+        ],
+        "geotechnical_parameters": {
+          "effective_friction_deg": 0.0,
+          "effective_cohesion_kpa": 0.0,
+          "unit_weight_kn_m3": 0.0,
+          "intact_rock_ucs_mpa": 0.0,
+          "joint_dip_deg": 0.0
+        }
+      },
+      "financial_summary": {
+        "civil_subtotal_raw": 0.0,
+        "civil_subtotal_fmt": "₹ 0",
+        "contingencies_raw": 0.0,
+        "contingencies_fmt": "₹ 0",
+        "qc_testing_raw": 0.0,
+        "qc_testing_fmt": "₹ 0",
+        "subtotal_before_tax_raw": 0.0,
+        "subtotal_before_tax_fmt": "₹ 0",
+        "gst_raw": 0.0,
+        "gst_fmt": "₹ 0",
+        "total_remediation_raw": 0.0,
+        "total_remediation_fmt": "₹ 0",
+        "total_remediation_badge": "₹ 0",
+        "direct_asset_loss_raw": 0.0,
+        "direct_asset_loss_fmt": "₹ 0",
+        "indirect_economic_loss_raw": 0.0,
+        "indirect_economic_loss_fmt": "₹ 0",
+        "total_disaster_loss_raw": 0.0,
+        "total_disaster_loss_fmt": "₹ 0",
+        "grand_total_disaster_impact_raw": 0.0,
+        "grand_total_disaster_impact_fmt": "₹ 0",
+        "statutory_sanction_total_raw": 0.0,
+        "statutory_sanction_total_fmt": "₹ 0",
+        "total_civil_remediation_outlay": 0.0,
+        "total_outlay_display": "₹ 0.00",
+        "civil_subtotal_a": 0.0,
+        "contingency_3pct": 0.0,
+        "quality_control_1_5pct": 0.0,
+        "subtotal_before_tax": 0.0,
+        "statutory_gst_18pct": 0.0,
+        "direct_asset_damage_sdrf": 0.0,
+        "indirect_economic_disruption": 0.0,
+        "comprehensive_disaster_impact": 0.0
+      },
+      "statutory_capital_works_outlay": {
+        "subtotal_a": 0.0,
+        "total_civil_outlay": 0.0,
+        "formatted_total": "₹ 0.00"
+      },
+      "direct_asset_damage": {
+        "total_direct_loss": 0.0
+      },
+      "indirect_economic_disruption": {
+        "detour_loss": 0.0
+      },
+      "comprehensive_disaster_impact": {
+        "grand_total": 0.0
+      },
+      "boq_items": [],
+      "loss_items": []
+    },
+    "unified_geometry": {
+      "slope_height_mean_m": 0.0,
+      "slope_height_min_m": 0.0,
+      "slope_height_max_m": 0.0,
+      "cut_angle_deg": 0.0,
+      "joint_dip_deg": 0.0,
+      "wall_length_m": 0.0,
+      "road_width_pre_disaster_m": 0.0,
+      "road_width_post_disaster_m": 0.0,
+      "debris_insitu_vol_m3": 0.0,
+      "bulking_factor": 1.0,
+      "debris_bulked_vol_m3": 0.0,
+      "breast_wall": {
+        "stem_height_m": 0.0,
+        "embedment_depth_m": 0.0,
+        "total_height_m": 0.0,
+        "top_width_m": 0.0,
+        "base_width_m": 0.0,
+        "cross_section_area_m2": 0.0,
+        "total_concrete_vol_m3": 0.0
+      },
+      "filter_and_drainage": {
+        "filter_thickness_m": 0.0,
+        "filter_vol_m3": 0.0,
+        "geotextile_wrap_area_m2": 0.0,
+        "weep_holes_count": 0,
+        "weep_pipes_total_length_m": 0.0
+      },
+      "upper_slope_and_nails": {
+        "upper_vertical_height_m": 0.0,
+        "upper_inclined_length_m": 0.0,
+        "face_surface_area_m2": 0.0,
+        "coir_netting_area_m2": 0.0,
+        "working_nails_count": 0,
+        "sacrificial_nails_count": 0,
+        "total_nails_count": 0,
+        "drilling_total_depth_m": 0.0,
+        "tmt_bars_total_length_m": 0.0,
+        "bearing_pads_count": 0
+      },
+      "drainage_channels": {
+        "crest_catch_drain_length_m": 0.0,
+        "roadside_drain_reconstruct_m": 0.0,
+        "cascade_chute_length_m": 0.0
+      }
+    },
+    "stability_analysis": {
+      "is_applicable": false,
+      "disqualification_note": "Stability analysis not applicable — Non-terrain or stable terrain upload.",
+      "scenarios": [
+        {
+          "name": "dry_baseline",
+          "label": "Dry Baseline",
+          "calculated_fos": 0.0,
+          "condition": "Disqualified"
+        },
+        {
+          "name": "monsoon_saturated",
+          "label": "Monsoon Saturated",
+          "calculated_fos": 0.0,
+          "condition": "Disqualified"
+        },
+        {
+          "name": "stabilized_design",
+          "label": "Design Stabilized",
+          "calculated_fos": 0.0,
+          "condition": "Disqualified"
+        }
+      ],
+      "geotechnical_parameters": {
+        "effective_friction_deg": 0.0,
+        "effective_cohesion_kpa": 0.0,
+        "unit_weight_kn_m3": 0.0,
+        "intact_rock_ucs_mpa": 0.0,
+        "joint_dip_deg": 0.0
+      }
+    },
+    "financial_summary": {
+      "civil_subtotal_raw": 0.0,
+      "civil_subtotal_fmt": "₹ 0",
+      "contingencies_raw": 0.0,
+      "contingencies_fmt": "₹ 0",
+      "qc_testing_raw": 0.0,
+      "qc_testing_fmt": "₹ 0",
+      "subtotal_before_tax_raw": 0.0,
+      "subtotal_before_tax_fmt": "₹ 0",
+      "gst_raw": 0.0,
+      "gst_fmt": "₹ 0",
+      "total_remediation_raw": 0.0,
+      "total_remediation_fmt": "₹ 0",
+      "total_remediation_badge": "₹ 0",
+      "direct_asset_loss_raw": 0.0,
+      "direct_asset_loss_fmt": "₹ 0",
+      "indirect_economic_loss_raw": 0.0,
+      "indirect_economic_loss_fmt": "₹ 0",
+      "total_disaster_loss_raw": 0.0,
+      "total_disaster_loss_fmt": "₹ 0",
+      "grand_total_disaster_impact_raw": 0.0,
+      "grand_total_disaster_impact_fmt": "₹ 0",
+      "statutory_sanction_total_raw": 0.0,
+      "statutory_sanction_total_fmt": "₹ 0",
+      "total_civil_remediation_outlay": 0.0,
+      "total_outlay_display": "₹ 0.00",
+      "civil_subtotal_a": 0.0,
+      "contingency_3pct": 0.0,
+      "quality_control_1_5pct": 0.0,
+      "subtotal_before_tax": 0.0,
+      "statutory_gst_18pct": 0.0,
+      "direct_asset_damage_sdrf": 0.0,
+      "indirect_economic_disruption": 0.0,
+      "comprehensive_disaster_impact": 0.0
+    },
+    "statutory_capital_works_outlay": {
+      "subtotal_a": 0.0,
+      "total_civil_outlay": 0.0,
+      "formatted_total": "₹ 0.00"
+    },
+    "direct_asset_damage": {
+      "total_direct_loss": 0.0
+    },
+    "indirect_economic_disruption": {
+      "detour_loss": 0.0
+    },
+    "comprehensive_disaster_impact": {
+      "grand_total": 0.0
+    },
+    "boq_items": [],
+    "loss_items": [],
+    "cost_estimate_boq": {
+      "is_applicable": false,
+      "status": "DISQUALIFIED_NON_TERRAIN",
+      "failure_vector": "DISQUALIFIED_NON_TERRAIN",
+      "rejection_notice": "Optical audit confirmed non-geological media or stable false alarm. Estimation suspended.",
+      "unified_geometry": {
+        "slope_height_mean_m": 0.0,
+        "slope_height_min_m": 0.0,
+        "slope_height_max_m": 0.0,
+        "cut_angle_deg": 0.0,
+        "joint_dip_deg": 0.0,
+        "wall_length_m": 0.0,
+        "road_width_pre_disaster_m": 0.0,
+        "road_width_post_disaster_m": 0.0,
+        "debris_insitu_vol_m3": 0.0,
+        "bulking_factor": 1.0,
+        "debris_bulked_vol_m3": 0.0,
+        "breast_wall": {
+          "stem_height_m": 0.0,
+          "embedment_depth_m": 0.0,
+          "total_height_m": 0.0,
+          "top_width_m": 0.0,
+          "base_width_m": 0.0,
+          "cross_section_area_m2": 0.0,
+          "total_concrete_vol_m3": 0.0
+        },
+        "filter_and_drainage": {
+          "filter_thickness_m": 0.0,
+          "filter_vol_m3": 0.0,
+          "geotextile_wrap_area_m2": 0.0,
+          "weep_holes_count": 0,
+          "weep_pipes_total_length_m": 0.0
+        },
+        "upper_slope_and_nails": {
+          "upper_vertical_height_m": 0.0,
+          "upper_inclined_length_m": 0.0,
+          "face_surface_area_m2": 0.0,
+          "coir_netting_area_m2": 0.0,
+          "working_nails_count": 0,
+          "sacrificial_nails_count": 0,
+          "total_nails_count": 0,
+          "drilling_total_depth_m": 0.0,
+          "tmt_bars_total_length_m": 0.0,
+          "bearing_pads_count": 0
+        },
+        "drainage_channels": {
+          "crest_catch_drain_length_m": 0.0,
+          "roadside_drain_reconstruct_m": 0.0,
+          "cascade_chute_length_m": 0.0
+        }
+      },
+      "stability_analysis": {
+        "is_applicable": false,
+        "disqualification_note": "Stability analysis not applicable — Non-terrain or stable terrain upload.",
+        "scenarios": [
+          {
+            "name": "dry_baseline",
+            "label": "Dry Baseline",
+            "calculated_fos": 0.0,
+            "condition": "Disqualified"
+          },
+          {
+            "name": "monsoon_saturated",
+            "label": "Monsoon Saturated",
+            "calculated_fos": 0.0,
+            "condition": "Disqualified"
+          },
+          {
+            "name": "stabilized_design",
+            "label": "Design Stabilized",
+            "calculated_fos": 0.0,
+            "condition": "Disqualified"
+          }
+        ],
+        "geotechnical_parameters": {
+          "effective_friction_deg": 0.0,
+          "effective_cohesion_kpa": 0.0,
+          "unit_weight_kn_m3": 0.0,
+          "intact_rock_ucs_mpa": 0.0,
+          "joint_dip_deg": 0.0
+        }
+      },
+      "financial_summary": {
+        "civil_subtotal_raw": 0.0,
+        "civil_subtotal_fmt": "₹ 0",
+        "contingencies_raw": 0.0,
+        "contingencies_fmt": "₹ 0",
+        "qc_testing_raw": 0.0,
+        "qc_testing_fmt": "₹ 0",
+        "subtotal_before_tax_raw": 0.0,
+        "subtotal_before_tax_fmt": "₹ 0",
+        "gst_raw": 0.0,
+        "gst_fmt": "₹ 0",
+        "total_remediation_raw": 0.0,
+        "total_remediation_fmt": "₹ 0",
+        "total_remediation_badge": "₹ 0",
+        "direct_asset_loss_raw": 0.0,
+        "direct_asset_loss_fmt": "₹ 0",
+        "indirect_economic_loss_raw": 0.0,
+        "indirect_economic_loss_fmt": "₹ 0",
+        "total_disaster_loss_raw": 0.0,
+        "total_disaster_loss_fmt": "₹ 0",
+        "grand_total_disaster_impact_raw": 0.0,
+        "grand_total_disaster_impact_fmt": "₹ 0",
+        "statutory_sanction_total_raw": 0.0,
+        "statutory_sanction_total_fmt": "₹ 0",
+        "total_civil_remediation_outlay": 0.0,
+        "total_outlay_display": "₹ 0.00",
+        "civil_subtotal_a": 0.0,
+        "contingency_3pct": 0.0,
+        "quality_control_1_5pct": 0.0,
+        "subtotal_before_tax": 0.0,
+        "statutory_gst_18pct": 0.0,
+        "direct_asset_damage_sdrf": 0.0,
+        "indirect_economic_disruption": 0.0,
+        "comprehensive_disaster_impact": 0.0
+      },
+      "statutory_capital_works_outlay": {
+        "subtotal_a": 0.0,
+        "total_civil_outlay": 0.0,
+        "formatted_total": "₹ 0.00"
+      },
+      "direct_asset_damage": {
+        "total_direct_loss": 0.0
+      },
+      "indirect_economic_disruption": {
+        "detour_loss": 0.0
+      },
+      "comprehensive_disaster_impact": {
+        "grand_total": 0.0
+      },
+      "boq_items": [],
+      "loss_items": []
+    },
+    "schematic_top_badge": "OPTICAL AUDIT REJECTION • NON-TERRAIN / FALSE ALARM",
+    "schematic_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 600 350\" width=\"100%\" height=\"100%\"><rect width=\"600\" height=\"350\" fill=\"#f8fafc\" rx=\"8\" stroke=\"#cbd5e1\" stroke-width=\"1.5\"/><circle cx=\"300\" cy=\"130\" r=\"44\" fill=\"#fee2e2\" stroke=\"#ef4444\" stroke-width=\"2\"/><path d=\"M285 115 L315 145 M315 115 L285 145\" stroke=\"#dc2626\" stroke-width=\"4\" stroke-linecap=\"round\"/><text x=\"300\" y=\"210\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"16\" font-weight=\"700\" fill=\"#1e293b\" text-anchor=\"middle\">OPTICAL AUDIT DISQUALIFICATION</text><text x=\"300\" y=\"235\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"12\" fill=\"#64748b\" text-anchor=\"middle\">Image Verified as Non-Terrain / Stable Feature — Zero Civil Remediation Warranted</text><rect x=\"180\" y=\"260\" width=\"240\" height=\"30\" fill=\"#f1f5f9\" rx=\"6\" stroke=\"#e2e8f0\"/><text x=\"300\" y=\"280\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"11\" font-weight=\"600\" fill=\"#475569\" text-anchor=\"middle\">STATUS: REJECTED • ₹0 BOQ</text></svg>",
+    "diagnostic_notice": "Optical photogrammetry verified non-terrain media: The image is completely black or unreadable.. Reason: Image data contains no visual information or is entirely corrupted/black.. Civil remediation suspended.",
+    "vision_diagnostic": {
+      "status": "NON_TERRAIN_REJECTED",
+      "model": "gemini-flash-lite-latest",
+      "detected_content": "The image is completely black or unreadable."
+    }
+  },
+  "HL-CR-5D10E663": {
+    "is_landslide_or_terrain": false,
+    "validation_status": "INVALID_NON_TERRAIN_IMAGE",
+    "detected_content": "The image is completely black or unreadable.",
+    "rejection_reason": "Image data contains no visual information or is entirely corrupted/black.",
+    "source": "HIMA-LENS Optical Audit (gemini-flash-lite-latest)",
+    "generated_at": "26 Oct 2026, 19:56 UTC",
+    "engineering_disclaimer": "N/A — Non-Terrain Upload / Optical Audit Disqualification",
+    "telemetry": {
+      "report_id": "IITM-CR-5D10E663",
+      "report_reference": "IITM-CR-5D10E663",
+      "district": "Mandi",
+      "site_road_name": "Mandi Sector — Verification Rejected",
+      "location_chainage": "N/A — Verification Rejected",
+      "road_type": "N/A — Unverified Ground Asset",
+      "inspection_date": "2026-10-27",
+      "elevation": "N/A — Disqualified",
+      "coordinates_dms": "Lat: 31°42'31\" N | Long: 76°55'55\" E",
+      "coordinates_dec": "31.70870° N, 76.93210° E",
+      "reported_movement": "Slide",
+      "reported_severity": "Moderate",
+      "reporter_name": "Anonymous",
+      "user_notes": "Legacy single-photo upload test"
+    },
+    "site_context": {
+      "environment_type": "N/A — Non-Terrain Upload",
+      "impacted_assets": "None Verified — Non-Terrain Media",
+      "structural_damage": "No geological or physical terrain damage verified."
+    },
+    "slope_characteristics": {
+      "presence_above": false,
+      "presence_below": false,
+      "presence_both": false,
+      "in_situ_rock": false,
+      "in_situ_soil": "N/A — Non-Terrain Media",
+      "debris_accumulation": "N/A — No Debris Present",
+      "slope_type_cut": false,
+      "slope_type_fill": false,
+      "slope_type_natural": "N/A — Non-Terrain Media",
+      "slope_height_above": "N/A",
+      "cut_slope_angle": "N/A",
+      "slope_geometry_below": "N/A",
+      "slope_geometry_profile": "N/A — Non-Terrain Image Uploaded"
+    },
+    "road_impact": {
+      "road_alignment": "N/A",
+      "fencing_type": "N/A",
+      "width_before": "N/A",
+      "width_after": "N/A",
+      "pavement_type": "N/A — Unverified",
+      "shoulder_width": "N/A",
+      "number_of_lanes": "N/A",
+      "way": "N/A",
+      "width_of_median": "N/A",
+      "bridge_present": "No",
+      "culvert_present": "N/A",
+      "carriageway_status": "Unverified — Non-Terrain Media"
+    },
+    "protection_works": [],
+    "geology": {
+      "prominent_soil_rock": "N/A — Non-Geological Media",
+      "prominent_rock_desc": "N/A — Image does not depict geological rock strata",
+      "colour": "N/A",
+      "jointing_spacing": "N/A",
+      "strength": "N/A",
+      "dip_joints": "N/A",
+      "minerals_present": "N/A",
+      "joint_orientation": "N/A",
+      "dip_strike_relation": "N/A",
+      "weathering_grade": "N/A",
+      "material_type": "N/A — Non-Terrain Media",
+      "fracture_pattern": "N/A"
+    },
+    "defects_and_distress": {
+      "defects_on_slope": {
+        "gully": false,
+        "crack": false,
+        "unstable_rock": false,
+        "seepage": false,
+        "erosion": false,
+        "landslide": false
+      },
+      "road_surface": {
+        "crack": false,
+        "heaving": false,
+        "settlement": false,
+        "recent_repair": false
+      },
+      "roadside_drain": {
+        "overflow": false,
+        "clogged_100": false,
+        "deformation": false,
+        "crack": false,
+        "width": "N/A",
+        "depth": "N/A"
+      },
+      "slope_drainage": {
+        "overflow": false,
+        "clogged_100": false,
+        "deformation": false,
+        "crack": false,
+        "width": "N/A",
+        "depth": "N/A"
+      },
+      "distress_remarks": "Audit Disqualification: Image uploaded depicts The image is completely black or unreadable.. Zero landslide or terrain distress verified."
+    },
+    "pavement_dimensions": {
+      "potholes": "N/A",
+      "subsidence": "N/A",
+      "rutting": "N/A"
+    },
+    "retaining_wall_specs": {
+      "shape_front": "N/A",
+      "shape_back": "N/A",
+      "shape_base": "N/A",
+      "material": "N/A — No Wall Proposed (Non-Terrain)",
+      "height_m": "N/A",
+      "length_m": "N/A",
+      "embedded_depth_m": "N/A",
+      "top_width_m": "N/A",
+      "base_width_m": "N/A",
+      "length_affected_m": "N/A",
+      "distress_crack": false,
+      "distress_bulging": false,
+      "distress_collapse": false,
+      "distress_joint": false,
+      "signs_of_distress": "None — Image Disqualified",
+      "distress_behind": "N/A — No terrain surcharge",
+      "distress_in_front": "N/A — No toe distress",
+      "weep_holes": "N/A"
+    },
+    "retaining_wall": {
+      "height_m": 0.0,
+      "length_m": 0.0,
+      "base_width_m": 0.0,
+      "top_width_m": 0.0,
+      "embedded_depth_m": 0.0,
+      "length_affected_m": 0.0,
+      "plum_concrete_vol_m3": 0.0,
+      "stone_plums_vol_m3": 0.0,
+      "stone_plums_tonnes": 0.0,
+      "filter_medium_vol_m3": 0.0,
+      "geotextile_back_m2": 0.0,
+      "n_weep_holes": 0,
+      "weep_pipe_length_m": 0.0,
+      "material": "N/A — No Wall Proposed",
+      "distress_crack": false,
+      "distress_bulging": false,
+      "distress_collapse": false,
+      "distress_joint": false,
+      "signs_of_distress": "None — Image Disqualified",
+      "distress_behind": "N/A",
+      "distress_in_front": "N/A"
+    },
+    "drainage_and_bioengineering": {
+      "roadside_drain": "N/A — Verification Rejected",
+      "lined_channel": "N/A",
+      "lined_cutoff": "N/A",
+      "french_drain": "N/A",
+      "check_dam": "N/A",
+      "catch_drain": "N/A",
+      "bioengineering_desc": "N/A — No bioengineering stabilization required for non-terrain upload."
+    },
+    "drainage": {
+      "roadside_stone": false,
+      "roadside_concrete": false,
+      "lined_channel": false,
+      "lined_cutoff": false,
+      "counterfort": false,
+      "branched": false,
+      "unlined_cutoff": false,
+      "horizontal": false,
+      "sub_surface": false,
+      "herringbone": false,
+      "check_dam": false,
+      "slope_surface": false,
+      "material": "N/A — Disqualified",
+      "signs_of_distress": "None — Image Disqualified"
+    },
+    "bioengineering": {
+      "description": "N/A — Disqualified",
+      "signs_of_distress": "None — Image Disqualified"
+    },
+    "gabion_and_earthworks": {
+      "gabion_wall": null,
+      "excavation": {
+        "material": "N/A",
+        "dimensions": "N/A",
+        "volume_m3": 0.0,
+        "h_m": 0.0,
+        "l_m": 0.0,
+        "w_m": 0.0
+      },
+      "fill": {
+        "material": "N/A",
+        "dimensions": "N/A",
+        "volume_m3": 0.0,
+        "h_m": 0.0,
+        "l_m": 0.0,
+        "w_m": 0.0
+      }
+    },
+    "mitigation_measures": "N/A — Verification Rejected: No physical stabilization required for non-terrain upload.",
+    "other_observations": "Multimodal optical audit flagged upload as non-terrain (The image is completely black or unreadable.). Geotechnical evaluation disqualified.",
+    "safety_directives": {
+      "utility_hazard": "None verified — Non-terrain media upload.",
+      "machinery_deployment": "Suspend machinery until verified terrain photograph is submitted.",
+      "traffic_restoration": "Pending authentic field verification.",
+      "permanent_restoration": "Mandatory photographic re-inspection required."
+    },
+    "visual_analysis": {
+      "material_composition": "N/A — Non-Terrain Upload",
+      "slope_condition": "Disqualified",
+      "infrastructure_impact": "None verified",
+      "drainage_and_seepage": "N/A"
+    },
+    "advanced_geotechnical_stabilization": {
+      "usgs_classification": {
+        "usgs_general_definition": "N/A — Verification Rejected: Upload does not depict geological terrain.",
+        "usgs_kinematic_definition": "N/A — Non-Terrain Upload",
+        "two_term_classification": "Disqualified / Non-Terrain",
+        "primary_movement": "N/A",
+        "material_class": "N/A",
+        "velocity_class": {
+          "class_code": "N/A",
+          "rate_name": "N/A",
+          "velocity_range": "N/A",
+          "consequences": "N/A"
+        },
+        "landslide_anatomy": {
+          "crown_and_scarp": "N/A",
+          "displaced_mass": "N/A",
+          "toe_and_foot": "N/A"
+        },
+        "causal_factors": {},
+        "standard_reference": "USGS Circular 1325 (Highland & Bobrowsky, 2008)"
+      },
+      "cedd_consequence": {
+        "consequence_category": "N/A — Disqualified",
+        "consequence_level": "N/A",
+        "consequence_criteria": "None verified — Non-terrain media upload.",
+        "economic_consequence": "N/A",
+        "target_fos_10yr": "N/A",
+        "target_fos_extreme": "N/A",
+        "mandatory_investigation": "N/A",
+        "inspection_regime": {
+          "code": "N/A",
+          "name": "N/A",
+          "frequency": "N/A",
+          "personnel": "N/A",
+          "key_checks": "N/A"
+        }
+      },
+      "larimit_mitigations": {
+        "analyzed_mechanism": "N/A",
+        "primary_structural": {
+          "id": "N/A",
+          "name": "N/A — Verification Rejected",
+          "cluster": "N/A",
+          "description": "N/A",
+          "suitability_score": 0.0,
+          "cost_tier": "N/A",
+          "construction_time": "N/A"
+        },
+        "hydrogeological_drainage": {
+          "id": "N/A",
+          "name": "N/A",
+          "cluster": "N/A",
+          "description": "N/A",
+          "suitability_score": 0.0,
+          "cost_tier": "N/A",
+          "construction_time": "N/A"
+        },
+        "nature_based_solution": {
+          "id": "N/A",
+          "name": "N/A",
+          "cluster": "N/A",
+          "description": "N/A",
+          "suitability_score": 0.0,
+          "cost_tier": "N/A",
+          "construction_time": "N/A"
+        }
+      },
+      "prescribed_soil_nailing": {
+        "design_code": "N/A",
+        "bar_diameter": "N/A",
+        "drillhole_diameter": "N/A",
+        "drillhole_inclination": "N/A",
+        "grid_spacing": "N/A",
+        "nail_length": "N/A",
+        "grout_strength": "N/A",
+        "head_assembly": "N/A",
+        "testing_protocol": "N/A"
+      },
+      "flexible_barrier": null,
+      "subsurface_drainage": {
+        "design_code": "N/A",
+        "pipe_specification": "N/A",
+        "slot_aperture": "N/A",
+        "filter_sock": "N/A",
+        "upward_inclination": "N/A",
+        "array_spacing": "N/A",
+        "drain_length": "N/A"
+      }
+    },
+    "bhukosh_rock_audit": {
+      "bhukosh_formation": "N/A — Non-Terrain Upload",
+      "toposheet": "N/A",
+      "distance_km": null,
+      "ai_detected_rock": "Disqualified",
+      "is_discrepancy": false,
+      "status": "DISQUALIFIED",
+      "status_label": "Disqualified Non-Terrain Upload",
+      "calibrated_rock": "N/A",
+      "reconciliation_note": "No geological strata evaluated for non-terrain upload."
+    },
+    "synthesis_remarks": "Image payload is invalid or completely blank. Unable to perform photogrammetric or geomorphic audit.",
+    "senior_engineer_remarks": "Image payload is invalid or completely blank. Unable to perform photogrammetric or geomorphic audit.",
+    "plain_language_explanation": {
+      "summary_title": "Invalid Image Input",
+      "what_happened": "The uploaded image is completely black and cannot be processed.",
+      "why_it_happened": "File corruption or incorrect capture format.",
+      "property_and_access_impact": "None",
+      "ongoing_hazards": "None",
+      "what_needs_to_be_done": "Please upload a valid image of the terrain or landslide incident.",
+      "citizen_safety_advice": "Ensure clear image capture before submission."
+    },
+    "project_data_model": {
+      "is_applicable": false,
+      "status": "DISQUALIFIED_NON_TERRAIN",
+      "failure_vector": "DISQUALIFIED_NON_TERRAIN",
+      "rejection_notice": "Optical audit confirmed non-geological media or stable false alarm. Estimation suspended.",
+      "unified_geometry": {
+        "slope_height_mean_m": 0.0,
+        "slope_height_min_m": 0.0,
+        "slope_height_max_m": 0.0,
+        "cut_angle_deg": 0.0,
+        "joint_dip_deg": 0.0,
+        "wall_length_m": 0.0,
+        "road_width_pre_disaster_m": 0.0,
+        "road_width_post_disaster_m": 0.0,
+        "debris_insitu_vol_m3": 0.0,
+        "bulking_factor": 1.0,
+        "debris_bulked_vol_m3": 0.0,
+        "breast_wall": {
+          "stem_height_m": 0.0,
+          "embedment_depth_m": 0.0,
+          "total_height_m": 0.0,
+          "top_width_m": 0.0,
+          "base_width_m": 0.0,
+          "cross_section_area_m2": 0.0,
+          "total_concrete_vol_m3": 0.0
+        },
+        "filter_and_drainage": {
+          "filter_thickness_m": 0.0,
+          "filter_vol_m3": 0.0,
+          "geotextile_wrap_area_m2": 0.0,
+          "weep_holes_count": 0,
+          "weep_pipes_total_length_m": 0.0
+        },
+        "upper_slope_and_nails": {
+          "upper_vertical_height_m": 0.0,
+          "upper_inclined_length_m": 0.0,
+          "face_surface_area_m2": 0.0,
+          "coir_netting_area_m2": 0.0,
+          "working_nails_count": 0,
+          "sacrificial_nails_count": 0,
+          "total_nails_count": 0,
+          "drilling_total_depth_m": 0.0,
+          "tmt_bars_total_length_m": 0.0,
+          "bearing_pads_count": 0
+        },
+        "drainage_channels": {
+          "crest_catch_drain_length_m": 0.0,
+          "roadside_drain_reconstruct_m": 0.0,
+          "cascade_chute_length_m": 0.0
+        }
+      },
+      "stability_analysis": {
+        "is_applicable": false,
+        "disqualification_note": "Stability analysis not applicable — Non-terrain or stable terrain upload.",
+        "scenarios": [
+          {
+            "name": "dry_baseline",
+            "label": "Dry Baseline",
+            "calculated_fos": 0.0,
+            "condition": "Disqualified"
+          },
+          {
+            "name": "monsoon_saturated",
+            "label": "Monsoon Saturated",
+            "calculated_fos": 0.0,
+            "condition": "Disqualified"
+          },
+          {
+            "name": "stabilized_design",
+            "label": "Design Stabilized",
+            "calculated_fos": 0.0,
+            "condition": "Disqualified"
+          }
+        ],
+        "geotechnical_parameters": {
+          "effective_friction_deg": 0.0,
+          "effective_cohesion_kpa": 0.0,
+          "unit_weight_kn_m3": 0.0,
+          "intact_rock_ucs_mpa": 0.0,
+          "joint_dip_deg": 0.0
+        }
+      },
+      "financial_summary": {
+        "civil_subtotal_raw": 0.0,
+        "civil_subtotal_fmt": "₹ 0",
+        "contingencies_raw": 0.0,
+        "contingencies_fmt": "₹ 0",
+        "qc_testing_raw": 0.0,
+        "qc_testing_fmt": "₹ 0",
+        "subtotal_before_tax_raw": 0.0,
+        "subtotal_before_tax_fmt": "₹ 0",
+        "gst_raw": 0.0,
+        "gst_fmt": "₹ 0",
+        "total_remediation_raw": 0.0,
+        "total_remediation_fmt": "₹ 0",
+        "total_remediation_badge": "₹ 0",
+        "direct_asset_loss_raw": 0.0,
+        "direct_asset_loss_fmt": "₹ 0",
+        "indirect_economic_loss_raw": 0.0,
+        "indirect_economic_loss_fmt": "₹ 0",
+        "total_disaster_loss_raw": 0.0,
+        "total_disaster_loss_fmt": "₹ 0",
+        "grand_total_disaster_impact_raw": 0.0,
+        "grand_total_disaster_impact_fmt": "₹ 0",
+        "statutory_sanction_total_raw": 0.0,
+        "statutory_sanction_total_fmt": "₹ 0",
+        "total_civil_remediation_outlay": 0.0,
+        "total_outlay_display": "₹ 0.00",
+        "civil_subtotal_a": 0.0,
+        "contingency_3pct": 0.0,
+        "quality_control_1_5pct": 0.0,
+        "subtotal_before_tax": 0.0,
+        "statutory_gst_18pct": 0.0,
+        "direct_asset_damage_sdrf": 0.0,
+        "indirect_economic_disruption": 0.0,
+        "comprehensive_disaster_impact": 0.0
+      },
+      "statutory_capital_works_outlay": {
+        "subtotal_a": 0.0,
+        "total_civil_outlay": 0.0,
+        "formatted_total": "₹ 0.00"
+      },
+      "direct_asset_damage": {
+        "total_direct_loss": 0.0
+      },
+      "indirect_economic_disruption": {
+        "detour_loss": 0.0
+      },
+      "comprehensive_disaster_impact": {
+        "grand_total": 0.0
+      },
+      "boq_items": [],
+      "loss_items": []
+    },
+    "unified_geometry": {
+      "slope_height_mean_m": 0.0,
+      "slope_height_min_m": 0.0,
+      "slope_height_max_m": 0.0,
+      "cut_angle_deg": 0.0,
+      "joint_dip_deg": 0.0,
+      "wall_length_m": 0.0,
+      "road_width_pre_disaster_m": 0.0,
+      "road_width_post_disaster_m": 0.0,
+      "debris_insitu_vol_m3": 0.0,
+      "bulking_factor": 1.0,
+      "debris_bulked_vol_m3": 0.0,
+      "breast_wall": {
+        "stem_height_m": 0.0,
+        "embedment_depth_m": 0.0,
+        "total_height_m": 0.0,
+        "top_width_m": 0.0,
+        "base_width_m": 0.0,
+        "cross_section_area_m2": 0.0,
+        "total_concrete_vol_m3": 0.0
+      },
+      "filter_and_drainage": {
+        "filter_thickness_m": 0.0,
+        "filter_vol_m3": 0.0,
+        "geotextile_wrap_area_m2": 0.0,
+        "weep_holes_count": 0,
+        "weep_pipes_total_length_m": 0.0
+      },
+      "upper_slope_and_nails": {
+        "upper_vertical_height_m": 0.0,
+        "upper_inclined_length_m": 0.0,
+        "face_surface_area_m2": 0.0,
+        "coir_netting_area_m2": 0.0,
+        "working_nails_count": 0,
+        "sacrificial_nails_count": 0,
+        "total_nails_count": 0,
+        "drilling_total_depth_m": 0.0,
+        "tmt_bars_total_length_m": 0.0,
+        "bearing_pads_count": 0
+      },
+      "drainage_channels": {
+        "crest_catch_drain_length_m": 0.0,
+        "roadside_drain_reconstruct_m": 0.0,
+        "cascade_chute_length_m": 0.0
+      }
+    },
+    "stability_analysis": {
+      "is_applicable": false,
+      "disqualification_note": "Stability analysis not applicable — Non-terrain or stable terrain upload.",
+      "scenarios": [
+        {
+          "name": "dry_baseline",
+          "label": "Dry Baseline",
+          "calculated_fos": 0.0,
+          "condition": "Disqualified"
+        },
+        {
+          "name": "monsoon_saturated",
+          "label": "Monsoon Saturated",
+          "calculated_fos": 0.0,
+          "condition": "Disqualified"
+        },
+        {
+          "name": "stabilized_design",
+          "label": "Design Stabilized",
+          "calculated_fos": 0.0,
+          "condition": "Disqualified"
+        }
+      ],
+      "geotechnical_parameters": {
+        "effective_friction_deg": 0.0,
+        "effective_cohesion_kpa": 0.0,
+        "unit_weight_kn_m3": 0.0,
+        "intact_rock_ucs_mpa": 0.0,
+        "joint_dip_deg": 0.0
+      }
+    },
+    "financial_summary": {
+      "civil_subtotal_raw": 0.0,
+      "civil_subtotal_fmt": "₹ 0",
+      "contingencies_raw": 0.0,
+      "contingencies_fmt": "₹ 0",
+      "qc_testing_raw": 0.0,
+      "qc_testing_fmt": "₹ 0",
+      "subtotal_before_tax_raw": 0.0,
+      "subtotal_before_tax_fmt": "₹ 0",
+      "gst_raw": 0.0,
+      "gst_fmt": "₹ 0",
+      "total_remediation_raw": 0.0,
+      "total_remediation_fmt": "₹ 0",
+      "total_remediation_badge": "₹ 0",
+      "direct_asset_loss_raw": 0.0,
+      "direct_asset_loss_fmt": "₹ 0",
+      "indirect_economic_loss_raw": 0.0,
+      "indirect_economic_loss_fmt": "₹ 0",
+      "total_disaster_loss_raw": 0.0,
+      "total_disaster_loss_fmt": "₹ 0",
+      "grand_total_disaster_impact_raw": 0.0,
+      "grand_total_disaster_impact_fmt": "₹ 0",
+      "statutory_sanction_total_raw": 0.0,
+      "statutory_sanction_total_fmt": "₹ 0",
+      "total_civil_remediation_outlay": 0.0,
+      "total_outlay_display": "₹ 0.00",
+      "civil_subtotal_a": 0.0,
+      "contingency_3pct": 0.0,
+      "quality_control_1_5pct": 0.0,
+      "subtotal_before_tax": 0.0,
+      "statutory_gst_18pct": 0.0,
+      "direct_asset_damage_sdrf": 0.0,
+      "indirect_economic_disruption": 0.0,
+      "comprehensive_disaster_impact": 0.0
+    },
+    "statutory_capital_works_outlay": {
+      "subtotal_a": 0.0,
+      "total_civil_outlay": 0.0,
+      "formatted_total": "₹ 0.00"
+    },
+    "direct_asset_damage": {
+      "total_direct_loss": 0.0
+    },
+    "indirect_economic_disruption": {
+      "detour_loss": 0.0
+    },
+    "comprehensive_disaster_impact": {
+      "grand_total": 0.0
+    },
+    "boq_items": [],
+    "loss_items": [],
+    "cost_estimate_boq": {
+      "is_applicable": false,
+      "status": "DISQUALIFIED_NON_TERRAIN",
+      "failure_vector": "DISQUALIFIED_NON_TERRAIN",
+      "rejection_notice": "Optical audit confirmed non-geological media or stable false alarm. Estimation suspended.",
+      "unified_geometry": {
+        "slope_height_mean_m": 0.0,
+        "slope_height_min_m": 0.0,
+        "slope_height_max_m": 0.0,
+        "cut_angle_deg": 0.0,
+        "joint_dip_deg": 0.0,
+        "wall_length_m": 0.0,
+        "road_width_pre_disaster_m": 0.0,
+        "road_width_post_disaster_m": 0.0,
+        "debris_insitu_vol_m3": 0.0,
+        "bulking_factor": 1.0,
+        "debris_bulked_vol_m3": 0.0,
+        "breast_wall": {
+          "stem_height_m": 0.0,
+          "embedment_depth_m": 0.0,
+          "total_height_m": 0.0,
+          "top_width_m": 0.0,
+          "base_width_m": 0.0,
+          "cross_section_area_m2": 0.0,
+          "total_concrete_vol_m3": 0.0
+        },
+        "filter_and_drainage": {
+          "filter_thickness_m": 0.0,
+          "filter_vol_m3": 0.0,
+          "geotextile_wrap_area_m2": 0.0,
+          "weep_holes_count": 0,
+          "weep_pipes_total_length_m": 0.0
+        },
+        "upper_slope_and_nails": {
+          "upper_vertical_height_m": 0.0,
+          "upper_inclined_length_m": 0.0,
+          "face_surface_area_m2": 0.0,
+          "coir_netting_area_m2": 0.0,
+          "working_nails_count": 0,
+          "sacrificial_nails_count": 0,
+          "total_nails_count": 0,
+          "drilling_total_depth_m": 0.0,
+          "tmt_bars_total_length_m": 0.0,
+          "bearing_pads_count": 0
+        },
+        "drainage_channels": {
+          "crest_catch_drain_length_m": 0.0,
+          "roadside_drain_reconstruct_m": 0.0,
+          "cascade_chute_length_m": 0.0
+        }
+      },
+      "stability_analysis": {
+        "is_applicable": false,
+        "disqualification_note": "Stability analysis not applicable — Non-terrain or stable terrain upload.",
+        "scenarios": [
+          {
+            "name": "dry_baseline",
+            "label": "Dry Baseline",
+            "calculated_fos": 0.0,
+            "condition": "Disqualified"
+          },
+          {
+            "name": "monsoon_saturated",
+            "label": "Monsoon Saturated",
+            "calculated_fos": 0.0,
+            "condition": "Disqualified"
+          },
+          {
+            "name": "stabilized_design",
+            "label": "Design Stabilized",
+            "calculated_fos": 0.0,
+            "condition": "Disqualified"
+          }
+        ],
+        "geotechnical_parameters": {
+          "effective_friction_deg": 0.0,
+          "effective_cohesion_kpa": 0.0,
+          "unit_weight_kn_m3": 0.0,
+          "intact_rock_ucs_mpa": 0.0,
+          "joint_dip_deg": 0.0
+        }
+      },
+      "financial_summary": {
+        "civil_subtotal_raw": 0.0,
+        "civil_subtotal_fmt": "₹ 0",
+        "contingencies_raw": 0.0,
+        "contingencies_fmt": "₹ 0",
+        "qc_testing_raw": 0.0,
+        "qc_testing_fmt": "₹ 0",
+        "subtotal_before_tax_raw": 0.0,
+        "subtotal_before_tax_fmt": "₹ 0",
+        "gst_raw": 0.0,
+        "gst_fmt": "₹ 0",
+        "total_remediation_raw": 0.0,
+        "total_remediation_fmt": "₹ 0",
+        "total_remediation_badge": "₹ 0",
+        "direct_asset_loss_raw": 0.0,
+        "direct_asset_loss_fmt": "₹ 0",
+        "indirect_economic_loss_raw": 0.0,
+        "indirect_economic_loss_fmt": "₹ 0",
+        "total_disaster_loss_raw": 0.0,
+        "total_disaster_loss_fmt": "₹ 0",
+        "grand_total_disaster_impact_raw": 0.0,
+        "grand_total_disaster_impact_fmt": "₹ 0",
+        "statutory_sanction_total_raw": 0.0,
+        "statutory_sanction_total_fmt": "₹ 0",
+        "total_civil_remediation_outlay": 0.0,
+        "total_outlay_display": "₹ 0.00",
+        "civil_subtotal_a": 0.0,
+        "contingency_3pct": 0.0,
+        "quality_control_1_5pct": 0.0,
+        "subtotal_before_tax": 0.0,
+        "statutory_gst_18pct": 0.0,
+        "direct_asset_damage_sdrf": 0.0,
+        "indirect_economic_disruption": 0.0,
+        "comprehensive_disaster_impact": 0.0
+      },
+      "statutory_capital_works_outlay": {
+        "subtotal_a": 0.0,
+        "total_civil_outlay": 0.0,
+        "formatted_total": "₹ 0.00"
+      },
+      "direct_asset_damage": {
+        "total_direct_loss": 0.0
+      },
+      "indirect_economic_disruption": {
+        "detour_loss": 0.0
+      },
+      "comprehensive_disaster_impact": {
+        "grand_total": 0.0
+      },
+      "boq_items": [],
+      "loss_items": []
+    },
+    "schematic_top_badge": "OPTICAL AUDIT REJECTION • NON-TERRAIN / FALSE ALARM",
+    "schematic_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 600 350\" width=\"100%\" height=\"100%\"><rect width=\"600\" height=\"350\" fill=\"#f8fafc\" rx=\"8\" stroke=\"#cbd5e1\" stroke-width=\"1.5\"/><circle cx=\"300\" cy=\"130\" r=\"44\" fill=\"#fee2e2\" stroke=\"#ef4444\" stroke-width=\"2\"/><path d=\"M285 115 L315 145 M315 115 L285 145\" stroke=\"#dc2626\" stroke-width=\"4\" stroke-linecap=\"round\"/><text x=\"300\" y=\"210\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"16\" font-weight=\"700\" fill=\"#1e293b\" text-anchor=\"middle\">OPTICAL AUDIT DISQUALIFICATION</text><text x=\"300\" y=\"235\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"12\" fill=\"#64748b\" text-anchor=\"middle\">Image Verified as Non-Terrain / Stable Feature — Zero Civil Remediation Warranted</text><rect x=\"180\" y=\"260\" width=\"240\" height=\"30\" fill=\"#f1f5f9\" rx=\"6\" stroke=\"#e2e8f0\"/><text x=\"300\" y=\"280\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"11\" font-weight=\"600\" fill=\"#475569\" text-anchor=\"middle\">STATUS: REJECTED • ₹0 BOQ</text></svg>",
+    "diagnostic_notice": "Optical photogrammetry verified non-terrain media: The image is completely black or unreadable.. Reason: Image data contains no visual information or is entirely corrupted/black.. Civil remediation suspended.",
+    "vision_diagnostic": {
+      "status": "NON_TERRAIN_REJECTED",
+      "model": "gemini-flash-lite-latest",
+      "detected_content": "The image is completely black or unreadable."
+    }
+  },
+  "IITM-STAR-5D10E663": {
+    "is_landslide_or_terrain": false,
+    "validation_status": "INVALID_NON_TERRAIN_IMAGE",
+    "detected_content": "The image is completely black or unreadable.",
+    "rejection_reason": "Image data contains no visual information or is entirely corrupted/black.",
+    "source": "HIMA-LENS Optical Audit (gemini-flash-lite-latest)",
+    "generated_at": "26 Oct 2026, 19:56 UTC",
+    "engineering_disclaimer": "N/A — Non-Terrain Upload / Optical Audit Disqualification",
+    "telemetry": {
+      "report_id": "IITM-CR-5D10E663",
+      "report_reference": "IITM-CR-5D10E663",
+      "district": "Mandi",
+      "site_road_name": "Mandi Sector — Verification Rejected",
+      "location_chainage": "N/A — Verification Rejected",
+      "road_type": "N/A — Unverified Ground Asset",
+      "inspection_date": "2026-10-27",
+      "elevation": "N/A — Disqualified",
+      "coordinates_dms": "Lat: 31°42'31\" N | Long: 76°55'55\" E",
+      "coordinates_dec": "31.70870° N, 76.93210° E",
+      "reported_movement": "Slide",
+      "reported_severity": "Moderate",
+      "reporter_name": "Anonymous",
+      "user_notes": "Legacy single-photo upload test"
+    },
+    "site_context": {
+      "environment_type": "N/A — Non-Terrain Upload",
+      "impacted_assets": "None Verified — Non-Terrain Media",
+      "structural_damage": "No geological or physical terrain damage verified."
+    },
+    "slope_characteristics": {
+      "presence_above": false,
+      "presence_below": false,
+      "presence_both": false,
+      "in_situ_rock": false,
+      "in_situ_soil": "N/A — Non-Terrain Media",
+      "debris_accumulation": "N/A — No Debris Present",
+      "slope_type_cut": false,
+      "slope_type_fill": false,
+      "slope_type_natural": "N/A — Non-Terrain Media",
+      "slope_height_above": "N/A",
+      "cut_slope_angle": "N/A",
+      "slope_geometry_below": "N/A",
+      "slope_geometry_profile": "N/A — Non-Terrain Image Uploaded"
+    },
+    "road_impact": {
+      "road_alignment": "N/A",
+      "fencing_type": "N/A",
+      "width_before": "N/A",
+      "width_after": "N/A",
+      "pavement_type": "N/A — Unverified",
+      "shoulder_width": "N/A",
+      "number_of_lanes": "N/A",
+      "way": "N/A",
+      "width_of_median": "N/A",
+      "bridge_present": "No",
+      "culvert_present": "N/A",
+      "carriageway_status": "Unverified — Non-Terrain Media"
+    },
+    "protection_works": [],
+    "geology": {
+      "prominent_soil_rock": "N/A — Non-Geological Media",
+      "prominent_rock_desc": "N/A — Image does not depict geological rock strata",
+      "colour": "N/A",
+      "jointing_spacing": "N/A",
+      "strength": "N/A",
+      "dip_joints": "N/A",
+      "minerals_present": "N/A",
+      "joint_orientation": "N/A",
+      "dip_strike_relation": "N/A",
+      "weathering_grade": "N/A",
+      "material_type": "N/A — Non-Terrain Media",
+      "fracture_pattern": "N/A"
+    },
+    "defects_and_distress": {
+      "defects_on_slope": {
+        "gully": false,
+        "crack": false,
+        "unstable_rock": false,
+        "seepage": false,
+        "erosion": false,
+        "landslide": false
+      },
+      "road_surface": {
+        "crack": false,
+        "heaving": false,
+        "settlement": false,
+        "recent_repair": false
+      },
+      "roadside_drain": {
+        "overflow": false,
+        "clogged_100": false,
+        "deformation": false,
+        "crack": false,
+        "width": "N/A",
+        "depth": "N/A"
+      },
+      "slope_drainage": {
+        "overflow": false,
+        "clogged_100": false,
+        "deformation": false,
+        "crack": false,
+        "width": "N/A",
+        "depth": "N/A"
+      },
+      "distress_remarks": "Audit Disqualification: Image uploaded depicts The image is completely black or unreadable.. Zero landslide or terrain distress verified."
+    },
+    "pavement_dimensions": {
+      "potholes": "N/A",
+      "subsidence": "N/A",
+      "rutting": "N/A"
+    },
+    "retaining_wall_specs": {
+      "shape_front": "N/A",
+      "shape_back": "N/A",
+      "shape_base": "N/A",
+      "material": "N/A — No Wall Proposed (Non-Terrain)",
+      "height_m": "N/A",
+      "length_m": "N/A",
+      "embedded_depth_m": "N/A",
+      "top_width_m": "N/A",
+      "base_width_m": "N/A",
+      "length_affected_m": "N/A",
+      "distress_crack": false,
+      "distress_bulging": false,
+      "distress_collapse": false,
+      "distress_joint": false,
+      "signs_of_distress": "None — Image Disqualified",
+      "distress_behind": "N/A — No terrain surcharge",
+      "distress_in_front": "N/A — No toe distress",
+      "weep_holes": "N/A"
+    },
+    "retaining_wall": {
+      "height_m": 0.0,
+      "length_m": 0.0,
+      "base_width_m": 0.0,
+      "top_width_m": 0.0,
+      "embedded_depth_m": 0.0,
+      "length_affected_m": 0.0,
+      "plum_concrete_vol_m3": 0.0,
+      "stone_plums_vol_m3": 0.0,
+      "stone_plums_tonnes": 0.0,
+      "filter_medium_vol_m3": 0.0,
+      "geotextile_back_m2": 0.0,
+      "n_weep_holes": 0,
+      "weep_pipe_length_m": 0.0,
+      "material": "N/A — No Wall Proposed",
+      "distress_crack": false,
+      "distress_bulging": false,
+      "distress_collapse": false,
+      "distress_joint": false,
+      "signs_of_distress": "None — Image Disqualified",
+      "distress_behind": "N/A",
+      "distress_in_front": "N/A"
+    },
+    "drainage_and_bioengineering": {
+      "roadside_drain": "N/A — Verification Rejected",
+      "lined_channel": "N/A",
+      "lined_cutoff": "N/A",
+      "french_drain": "N/A",
+      "check_dam": "N/A",
+      "catch_drain": "N/A",
+      "bioengineering_desc": "N/A — No bioengineering stabilization required for non-terrain upload."
+    },
+    "drainage": {
+      "roadside_stone": false,
+      "roadside_concrete": false,
+      "lined_channel": false,
+      "lined_cutoff": false,
+      "counterfort": false,
+      "branched": false,
+      "unlined_cutoff": false,
+      "horizontal": false,
+      "sub_surface": false,
+      "herringbone": false,
+      "check_dam": false,
+      "slope_surface": false,
+      "material": "N/A — Disqualified",
+      "signs_of_distress": "None — Image Disqualified"
+    },
+    "bioengineering": {
+      "description": "N/A — Disqualified",
+      "signs_of_distress": "None — Image Disqualified"
+    },
+    "gabion_and_earthworks": {
+      "gabion_wall": null,
+      "excavation": {
+        "material": "N/A",
+        "dimensions": "N/A",
+        "volume_m3": 0.0,
+        "h_m": 0.0,
+        "l_m": 0.0,
+        "w_m": 0.0
+      },
+      "fill": {
+        "material": "N/A",
+        "dimensions": "N/A",
+        "volume_m3": 0.0,
+        "h_m": 0.0,
+        "l_m": 0.0,
+        "w_m": 0.0
+      }
+    },
+    "mitigation_measures": "N/A — Verification Rejected: No physical stabilization required for non-terrain upload.",
+    "other_observations": "Multimodal optical audit flagged upload as non-terrain (The image is completely black or unreadable.). Geotechnical evaluation disqualified.",
+    "safety_directives": {
+      "utility_hazard": "None verified — Non-terrain media upload.",
+      "machinery_deployment": "Suspend machinery until verified terrain photograph is submitted.",
+      "traffic_restoration": "Pending authentic field verification.",
+      "permanent_restoration": "Mandatory photographic re-inspection required."
+    },
+    "visual_analysis": {
+      "material_composition": "N/A — Non-Terrain Upload",
+      "slope_condition": "Disqualified",
+      "infrastructure_impact": "None verified",
+      "drainage_and_seepage": "N/A"
+    },
+    "advanced_geotechnical_stabilization": {
+      "usgs_classification": {
+        "usgs_general_definition": "N/A — Verification Rejected: Upload does not depict geological terrain.",
+        "usgs_kinematic_definition": "N/A — Non-Terrain Upload",
+        "two_term_classification": "Disqualified / Non-Terrain",
+        "primary_movement": "N/A",
+        "material_class": "N/A",
+        "velocity_class": {
+          "class_code": "N/A",
+          "rate_name": "N/A",
+          "velocity_range": "N/A",
+          "consequences": "N/A"
+        },
+        "landslide_anatomy": {
+          "crown_and_scarp": "N/A",
+          "displaced_mass": "N/A",
+          "toe_and_foot": "N/A"
+        },
+        "causal_factors": {},
+        "standard_reference": "USGS Circular 1325 (Highland & Bobrowsky, 2008)"
+      },
+      "cedd_consequence": {
+        "consequence_category": "N/A — Disqualified",
+        "consequence_level": "N/A",
+        "consequence_criteria": "None verified — Non-terrain media upload.",
+        "economic_consequence": "N/A",
+        "target_fos_10yr": "N/A",
+        "target_fos_extreme": "N/A",
+        "mandatory_investigation": "N/A",
+        "inspection_regime": {
+          "code": "N/A",
+          "name": "N/A",
+          "frequency": "N/A",
+          "personnel": "N/A",
+          "key_checks": "N/A"
+        }
+      },
+      "larimit_mitigations": {
+        "analyzed_mechanism": "N/A",
+        "primary_structural": {
+          "id": "N/A",
+          "name": "N/A — Verification Rejected",
+          "cluster": "N/A",
+          "description": "N/A",
+          "suitability_score": 0.0,
+          "cost_tier": "N/A",
+          "construction_time": "N/A"
+        },
+        "hydrogeological_drainage": {
+          "id": "N/A",
+          "name": "N/A",
+          "cluster": "N/A",
+          "description": "N/A",
+          "suitability_score": 0.0,
+          "cost_tier": "N/A",
+          "construction_time": "N/A"
+        },
+        "nature_based_solution": {
+          "id": "N/A",
+          "name": "N/A",
+          "cluster": "N/A",
+          "description": "N/A",
+          "suitability_score": 0.0,
+          "cost_tier": "N/A",
+          "construction_time": "N/A"
+        }
+      },
+      "prescribed_soil_nailing": {
+        "design_code": "N/A",
+        "bar_diameter": "N/A",
+        "drillhole_diameter": "N/A",
+        "drillhole_inclination": "N/A",
+        "grid_spacing": "N/A",
+        "nail_length": "N/A",
+        "grout_strength": "N/A",
+        "head_assembly": "N/A",
+        "testing_protocol": "N/A"
+      },
+      "flexible_barrier": null,
+      "subsurface_drainage": {
+        "design_code": "N/A",
+        "pipe_specification": "N/A",
+        "slot_aperture": "N/A",
+        "filter_sock": "N/A",
+        "upward_inclination": "N/A",
+        "array_spacing": "N/A",
+        "drain_length": "N/A"
+      }
+    },
+    "bhukosh_rock_audit": {
+      "bhukosh_formation": "N/A — Non-Terrain Upload",
+      "toposheet": "N/A",
+      "distance_km": null,
+      "ai_detected_rock": "Disqualified",
+      "is_discrepancy": false,
+      "status": "DISQUALIFIED",
+      "status_label": "Disqualified Non-Terrain Upload",
+      "calibrated_rock": "N/A",
+      "reconciliation_note": "No geological strata evaluated for non-terrain upload."
+    },
+    "synthesis_remarks": "Image payload is invalid or completely blank. Unable to perform photogrammetric or geomorphic audit.",
+    "senior_engineer_remarks": "Image payload is invalid or completely blank. Unable to perform photogrammetric or geomorphic audit.",
+    "plain_language_explanation": {
+      "summary_title": "Invalid Image Input",
+      "what_happened": "The uploaded image is completely black and cannot be processed.",
+      "why_it_happened": "File corruption or incorrect capture format.",
+      "property_and_access_impact": "None",
+      "ongoing_hazards": "None",
+      "what_needs_to_be_done": "Please upload a valid image of the terrain or landslide incident.",
+      "citizen_safety_advice": "Ensure clear image capture before submission."
+    },
+    "project_data_model": {
+      "is_applicable": false,
+      "status": "DISQUALIFIED_NON_TERRAIN",
+      "failure_vector": "DISQUALIFIED_NON_TERRAIN",
+      "rejection_notice": "Optical audit confirmed non-geological media or stable false alarm. Estimation suspended.",
+      "unified_geometry": {
+        "slope_height_mean_m": 0.0,
+        "slope_height_min_m": 0.0,
+        "slope_height_max_m": 0.0,
+        "cut_angle_deg": 0.0,
+        "joint_dip_deg": 0.0,
+        "wall_length_m": 0.0,
+        "road_width_pre_disaster_m": 0.0,
+        "road_width_post_disaster_m": 0.0,
+        "debris_insitu_vol_m3": 0.0,
+        "bulking_factor": 1.0,
+        "debris_bulked_vol_m3": 0.0,
+        "breast_wall": {
+          "stem_height_m": 0.0,
+          "embedment_depth_m": 0.0,
+          "total_height_m": 0.0,
+          "top_width_m": 0.0,
+          "base_width_m": 0.0,
+          "cross_section_area_m2": 0.0,
+          "total_concrete_vol_m3": 0.0
+        },
+        "filter_and_drainage": {
+          "filter_thickness_m": 0.0,
+          "filter_vol_m3": 0.0,
+          "geotextile_wrap_area_m2": 0.0,
+          "weep_holes_count": 0,
+          "weep_pipes_total_length_m": 0.0
+        },
+        "upper_slope_and_nails": {
+          "upper_vertical_height_m": 0.0,
+          "upper_inclined_length_m": 0.0,
+          "face_surface_area_m2": 0.0,
+          "coir_netting_area_m2": 0.0,
+          "working_nails_count": 0,
+          "sacrificial_nails_count": 0,
+          "total_nails_count": 0,
+          "drilling_total_depth_m": 0.0,
+          "tmt_bars_total_length_m": 0.0,
+          "bearing_pads_count": 0
+        },
+        "drainage_channels": {
+          "crest_catch_drain_length_m": 0.0,
+          "roadside_drain_reconstruct_m": 0.0,
+          "cascade_chute_length_m": 0.0
+        }
+      },
+      "stability_analysis": {
+        "is_applicable": false,
+        "disqualification_note": "Stability analysis not applicable — Non-terrain or stable terrain upload.",
+        "scenarios": [
+          {
+            "name": "dry_baseline",
+            "label": "Dry Baseline",
+            "calculated_fos": 0.0,
+            "condition": "Disqualified"
+          },
+          {
+            "name": "monsoon_saturated",
+            "label": "Monsoon Saturated",
+            "calculated_fos": 0.0,
+            "condition": "Disqualified"
+          },
+          {
+            "name": "stabilized_design",
+            "label": "Design Stabilized",
+            "calculated_fos": 0.0,
+            "condition": "Disqualified"
+          }
+        ],
+        "geotechnical_parameters": {
+          "effective_friction_deg": 0.0,
+          "effective_cohesion_kpa": 0.0,
+          "unit_weight_kn_m3": 0.0,
+          "intact_rock_ucs_mpa": 0.0,
+          "joint_dip_deg": 0.0
+        }
+      },
+      "financial_summary": {
+        "civil_subtotal_raw": 0.0,
+        "civil_subtotal_fmt": "₹ 0",
+        "contingencies_raw": 0.0,
+        "contingencies_fmt": "₹ 0",
+        "qc_testing_raw": 0.0,
+        "qc_testing_fmt": "₹ 0",
+        "subtotal_before_tax_raw": 0.0,
+        "subtotal_before_tax_fmt": "₹ 0",
+        "gst_raw": 0.0,
+        "gst_fmt": "₹ 0",
+        "total_remediation_raw": 0.0,
+        "total_remediation_fmt": "₹ 0",
+        "total_remediation_badge": "₹ 0",
+        "direct_asset_loss_raw": 0.0,
+        "direct_asset_loss_fmt": "₹ 0",
+        "indirect_economic_loss_raw": 0.0,
+        "indirect_economic_loss_fmt": "₹ 0",
+        "total_disaster_loss_raw": 0.0,
+        "total_disaster_loss_fmt": "₹ 0",
+        "grand_total_disaster_impact_raw": 0.0,
+        "grand_total_disaster_impact_fmt": "₹ 0",
+        "statutory_sanction_total_raw": 0.0,
+        "statutory_sanction_total_fmt": "₹ 0",
+        "total_civil_remediation_outlay": 0.0,
+        "total_outlay_display": "₹ 0.00",
+        "civil_subtotal_a": 0.0,
+        "contingency_3pct": 0.0,
+        "quality_control_1_5pct": 0.0,
+        "subtotal_before_tax": 0.0,
+        "statutory_gst_18pct": 0.0,
+        "direct_asset_damage_sdrf": 0.0,
+        "indirect_economic_disruption": 0.0,
+        "comprehensive_disaster_impact": 0.0
+      },
+      "statutory_capital_works_outlay": {
+        "subtotal_a": 0.0,
+        "total_civil_outlay": 0.0,
+        "formatted_total": "₹ 0.00"
+      },
+      "direct_asset_damage": {
+        "total_direct_loss": 0.0
+      },
+      "indirect_economic_disruption": {
+        "detour_loss": 0.0
+      },
+      "comprehensive_disaster_impact": {
+        "grand_total": 0.0
+      },
+      "boq_items": [],
+      "loss_items": []
+    },
+    "unified_geometry": {
+      "slope_height_mean_m": 0.0,
+      "slope_height_min_m": 0.0,
+      "slope_height_max_m": 0.0,
+      "cut_angle_deg": 0.0,
+      "joint_dip_deg": 0.0,
+      "wall_length_m": 0.0,
+      "road_width_pre_disaster_m": 0.0,
+      "road_width_post_disaster_m": 0.0,
+      "debris_insitu_vol_m3": 0.0,
+      "bulking_factor": 1.0,
+      "debris_bulked_vol_m3": 0.0,
+      "breast_wall": {
+        "stem_height_m": 0.0,
+        "embedment_depth_m": 0.0,
+        "total_height_m": 0.0,
+        "top_width_m": 0.0,
+        "base_width_m": 0.0,
+        "cross_section_area_m2": 0.0,
+        "total_concrete_vol_m3": 0.0
+      },
+      "filter_and_drainage": {
+        "filter_thickness_m": 0.0,
+        "filter_vol_m3": 0.0,
+        "geotextile_wrap_area_m2": 0.0,
+        "weep_holes_count": 0,
+        "weep_pipes_total_length_m": 0.0
+      },
+      "upper_slope_and_nails": {
+        "upper_vertical_height_m": 0.0,
+        "upper_inclined_length_m": 0.0,
+        "face_surface_area_m2": 0.0,
+        "coir_netting_area_m2": 0.0,
+        "working_nails_count": 0,
+        "sacrificial_nails_count": 0,
+        "total_nails_count": 0,
+        "drilling_total_depth_m": 0.0,
+        "tmt_bars_total_length_m": 0.0,
+        "bearing_pads_count": 0
+      },
+      "drainage_channels": {
+        "crest_catch_drain_length_m": 0.0,
+        "roadside_drain_reconstruct_m": 0.0,
+        "cascade_chute_length_m": 0.0
+      }
+    },
+    "stability_analysis": {
+      "is_applicable": false,
+      "disqualification_note": "Stability analysis not applicable — Non-terrain or stable terrain upload.",
+      "scenarios": [
+        {
+          "name": "dry_baseline",
+          "label": "Dry Baseline",
+          "calculated_fos": 0.0,
+          "condition": "Disqualified"
+        },
+        {
+          "name": "monsoon_saturated",
+          "label": "Monsoon Saturated",
+          "calculated_fos": 0.0,
+          "condition": "Disqualified"
+        },
+        {
+          "name": "stabilized_design",
+          "label": "Design Stabilized",
+          "calculated_fos": 0.0,
+          "condition": "Disqualified"
+        }
+      ],
+      "geotechnical_parameters": {
+        "effective_friction_deg": 0.0,
+        "effective_cohesion_kpa": 0.0,
+        "unit_weight_kn_m3": 0.0,
+        "intact_rock_ucs_mpa": 0.0,
+        "joint_dip_deg": 0.0
+      }
+    },
+    "financial_summary": {
+      "civil_subtotal_raw": 0.0,
+      "civil_subtotal_fmt": "₹ 0",
+      "contingencies_raw": 0.0,
+      "contingencies_fmt": "₹ 0",
+      "qc_testing_raw": 0.0,
+      "qc_testing_fmt": "₹ 0",
+      "subtotal_before_tax_raw": 0.0,
+      "subtotal_before_tax_fmt": "₹ 0",
+      "gst_raw": 0.0,
+      "gst_fmt": "₹ 0",
+      "total_remediation_raw": 0.0,
+      "total_remediation_fmt": "₹ 0",
+      "total_remediation_badge": "₹ 0",
+      "direct_asset_loss_raw": 0.0,
+      "direct_asset_loss_fmt": "₹ 0",
+      "indirect_economic_loss_raw": 0.0,
+      "indirect_economic_loss_fmt": "₹ 0",
+      "total_disaster_loss_raw": 0.0,
+      "total_disaster_loss_fmt": "₹ 0",
+      "grand_total_disaster_impact_raw": 0.0,
+      "grand_total_disaster_impact_fmt": "₹ 0",
+      "statutory_sanction_total_raw": 0.0,
+      "statutory_sanction_total_fmt": "₹ 0",
+      "total_civil_remediation_outlay": 0.0,
+      "total_outlay_display": "₹ 0.00",
+      "civil_subtotal_a": 0.0,
+      "contingency_3pct": 0.0,
+      "quality_control_1_5pct": 0.0,
+      "subtotal_before_tax": 0.0,
+      "statutory_gst_18pct": 0.0,
+      "direct_asset_damage_sdrf": 0.0,
+      "indirect_economic_disruption": 0.0,
+      "comprehensive_disaster_impact": 0.0
+    },
+    "statutory_capital_works_outlay": {
+      "subtotal_a": 0.0,
+      "total_civil_outlay": 0.0,
+      "formatted_total": "₹ 0.00"
+    },
+    "direct_asset_damage": {
+      "total_direct_loss": 0.0
+    },
+    "indirect_economic_disruption": {
+      "detour_loss": 0.0
+    },
+    "comprehensive_disaster_impact": {
+      "grand_total": 0.0
+    },
+    "boq_items": [],
+    "loss_items": [],
+    "cost_estimate_boq": {
+      "is_applicable": false,
+      "status": "DISQUALIFIED_NON_TERRAIN",
+      "failure_vector": "DISQUALIFIED_NON_TERRAIN",
+      "rejection_notice": "Optical audit confirmed non-geological media or stable false alarm. Estimation suspended.",
+      "unified_geometry": {
+        "slope_height_mean_m": 0.0,
+        "slope_height_min_m": 0.0,
+        "slope_height_max_m": 0.0,
+        "cut_angle_deg": 0.0,
+        "joint_dip_deg": 0.0,
+        "wall_length_m": 0.0,
+        "road_width_pre_disaster_m": 0.0,
+        "road_width_post_disaster_m": 0.0,
+        "debris_insitu_vol_m3": 0.0,
+        "bulking_factor": 1.0,
+        "debris_bulked_vol_m3": 0.0,
+        "breast_wall": {
+          "stem_height_m": 0.0,
+          "embedment_depth_m": 0.0,
+          "total_height_m": 0.0,
+          "top_width_m": 0.0,
+          "base_width_m": 0.0,
+          "cross_section_area_m2": 0.0,
+          "total_concrete_vol_m3": 0.0
+        },
+        "filter_and_drainage": {
+          "filter_thickness_m": 0.0,
+          "filter_vol_m3": 0.0,
+          "geotextile_wrap_area_m2": 0.0,
+          "weep_holes_count": 0,
+          "weep_pipes_total_length_m": 0.0
+        },
+        "upper_slope_and_nails": {
+          "upper_vertical_height_m": 0.0,
+          "upper_inclined_length_m": 0.0,
+          "face_surface_area_m2": 0.0,
+          "coir_netting_area_m2": 0.0,
+          "working_nails_count": 0,
+          "sacrificial_nails_count": 0,
+          "total_nails_count": 0,
+          "drilling_total_depth_m": 0.0,
+          "tmt_bars_total_length_m": 0.0,
+          "bearing_pads_count": 0
+        },
+        "drainage_channels": {
+          "crest_catch_drain_length_m": 0.0,
+          "roadside_drain_reconstruct_m": 0.0,
+          "cascade_chute_length_m": 0.0
+        }
+      },
+      "stability_analysis": {
+        "is_applicable": false,
+        "disqualification_note": "Stability analysis not applicable — Non-terrain or stable terrain upload.",
+        "scenarios": [
+          {
+            "name": "dry_baseline",
+            "label": "Dry Baseline",
+            "calculated_fos": 0.0,
+            "condition": "Disqualified"
+          },
+          {
+            "name": "monsoon_saturated",
+            "label": "Monsoon Saturated",
+            "calculated_fos": 0.0,
+            "condition": "Disqualified"
+          },
+          {
+            "name": "stabilized_design",
+            "label": "Design Stabilized",
+            "calculated_fos": 0.0,
+            "condition": "Disqualified"
+          }
+        ],
+        "geotechnical_parameters": {
+          "effective_friction_deg": 0.0,
+          "effective_cohesion_kpa": 0.0,
+          "unit_weight_kn_m3": 0.0,
+          "intact_rock_ucs_mpa": 0.0,
+          "joint_dip_deg": 0.0
+        }
+      },
+      "financial_summary": {
+        "civil_subtotal_raw": 0.0,
+        "civil_subtotal_fmt": "₹ 0",
+        "contingencies_raw": 0.0,
+        "contingencies_fmt": "₹ 0",
+        "qc_testing_raw": 0.0,
+        "qc_testing_fmt": "₹ 0",
+        "subtotal_before_tax_raw": 0.0,
+        "subtotal_before_tax_fmt": "₹ 0",
+        "gst_raw": 0.0,
+        "gst_fmt": "₹ 0",
+        "total_remediation_raw": 0.0,
+        "total_remediation_fmt": "₹ 0",
+        "total_remediation_badge": "₹ 0",
+        "direct_asset_loss_raw": 0.0,
+        "direct_asset_loss_fmt": "₹ 0",
+        "indirect_economic_loss_raw": 0.0,
+        "indirect_economic_loss_fmt": "₹ 0",
+        "total_disaster_loss_raw": 0.0,
+        "total_disaster_loss_fmt": "₹ 0",
+        "grand_total_disaster_impact_raw": 0.0,
+        "grand_total_disaster_impact_fmt": "₹ 0",
+        "statutory_sanction_total_raw": 0.0,
+        "statutory_sanction_total_fmt": "₹ 0",
+        "total_civil_remediation_outlay": 0.0,
+        "total_outlay_display": "₹ 0.00",
+        "civil_subtotal_a": 0.0,
+        "contingency_3pct": 0.0,
+        "quality_control_1_5pct": 0.0,
+        "subtotal_before_tax": 0.0,
+        "statutory_gst_18pct": 0.0,
+        "direct_asset_damage_sdrf": 0.0,
+        "indirect_economic_disruption": 0.0,
+        "comprehensive_disaster_impact": 0.0
+      },
+      "statutory_capital_works_outlay": {
+        "subtotal_a": 0.0,
+        "total_civil_outlay": 0.0,
+        "formatted_total": "₹ 0.00"
+      },
+      "direct_asset_damage": {
+        "total_direct_loss": 0.0
+      },
+      "indirect_economic_disruption": {
+        "detour_loss": 0.0
+      },
+      "comprehensive_disaster_impact": {
+        "grand_total": 0.0
+      },
+      "boq_items": [],
+      "loss_items": []
+    },
+    "schematic_top_badge": "OPTICAL AUDIT REJECTION • NON-TERRAIN / FALSE ALARM",
+    "schematic_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 600 350\" width=\"100%\" height=\"100%\"><rect width=\"600\" height=\"350\" fill=\"#f8fafc\" rx=\"8\" stroke=\"#cbd5e1\" stroke-width=\"1.5\"/><circle cx=\"300\" cy=\"130\" r=\"44\" fill=\"#fee2e2\" stroke=\"#ef4444\" stroke-width=\"2\"/><path d=\"M285 115 L315 145 M315 115 L285 145\" stroke=\"#dc2626\" stroke-width=\"4\" stroke-linecap=\"round\"/><text x=\"300\" y=\"210\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"16\" font-weight=\"700\" fill=\"#1e293b\" text-anchor=\"middle\">OPTICAL AUDIT DISQUALIFICATION</text><text x=\"300\" y=\"235\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"12\" fill=\"#64748b\" text-anchor=\"middle\">Image Verified as Non-Terrain / Stable Feature — Zero Civil Remediation Warranted</text><rect x=\"180\" y=\"260\" width=\"240\" height=\"30\" fill=\"#f1f5f9\" rx=\"6\" stroke=\"#e2e8f0\"/><text x=\"300\" y=\"280\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"11\" font-weight=\"600\" fill=\"#475569\" text-anchor=\"middle\">STATUS: REJECTED • ₹0 BOQ</text></svg>",
+    "diagnostic_notice": "Optical photogrammetry verified non-terrain media: The image is completely black or unreadable.. Reason: Image data contains no visual information or is entirely corrupted/black.. Civil remediation suspended.",
+    "vision_diagnostic": {
+      "status": "NON_TERRAIN_REJECTED",
+      "model": "gemini-flash-lite-latest",
+      "detected_content": "The image is completely black or unreadable."
     }
   }
 }

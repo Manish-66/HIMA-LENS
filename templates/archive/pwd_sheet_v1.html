@@ -646,8 +646,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #f8fafc;
-      padding: 3px;
+      background: #0f172a;
+      padding: 2.5px;
       height: 190px;
       min-height: 190px;
       max-height: 190px;
@@ -655,7 +655,17 @@
       box-sizing: border-box;
     }
     .photo-img-wrap {
-      background: #f1f5f9;
+      background: #020617;
+    }
+    .photo-img-wrap img {
+      width: 100% !important;
+      height: 100% !important;
+      max-width: 100% !important;
+      max-height: 100% !important;
+      object-fit: contain !important;
+      object-position: center !important;
+      display: block !important;
+      background: #020617;
     }
     .gallery-adaptive {
       width: 100%;
@@ -750,6 +760,170 @@
     }
     .gallery-cell:hover img {
       transform: scale(1.025);
+    }
+    /* ========================================================
+       PAGE 3: ANNEXURE A HIGH-RESOLUTION EVIDENCE PLATE
+       ======================================================== */
+    .photo-annexure-page {
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      height: 297mm;
+      min-height: 297mm;
+      max-height: 297mm;
+      overflow: hidden;
+      page-break-before: always;
+      page-break-after: avoid;
+    }
+
+    .annexure-telemetry-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: 3px;
+      padding: 3.5px 8px;
+      margin: 3px 0 5px 0;
+      font-size: 7.2px;
+      font-family: 'JetBrains Mono', monospace;
+      flex: 0 0 auto;
+    }
+    .annex-telem-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .annex-telem-lbl {
+      color: #64748b;
+      font-weight: 700;
+    }
+    .annex-telem-val {
+      color: var(--primary-forest);
+      font-weight: 800;
+    }
+
+    .annexure-gallery-container {
+      flex: 1 1 auto;
+      display: grid;
+      gap: 6.5px;
+      margin-bottom: 4px;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    /* 2 Photos: 2 large stacked horizontal cards */
+    .annexure-grid-2 {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr 1fr;
+    }
+
+    /* 3 Photos: 1 top hero, 2 bottom side-by-side */
+    .annexure-grid-3 {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1.15fr 1fr;
+    }
+    .annexure-grid-3 .card-idx-1 {
+      grid-column: 1 / span 2;
+    }
+
+    /* 4 Photos: 2x2 quadrant grid - Strictly equal quadrants */
+    .annexure-grid-4 {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      grid-template-rows: 1fr 1fr !important;
+      gap: 7px !important;
+      height: calc(100% - 82px) !important;
+      min-height: 0 !important;
+      box-sizing: border-box !important;
+    }
+    .annexure-grid-4 .annexure-photo-card {
+      grid-column: auto !important;
+      height: 100% !important;
+      min-height: 0 !important;
+    }
+
+    .annexure-photo-card {
+      display: flex;
+      flex-direction: column;
+      background: #ffffff;
+      border: 1.5px solid var(--border-medium);
+      border-radius: 3.5px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      min-height: 0;
+      height: 100%;
+    }
+
+    .annexure-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #1e293b;
+      color: #ffffff;
+      padding: 3px 8px;
+      border-bottom: 1px solid #0f172a;
+      flex: 0 0 auto;
+      font-family: 'Manrope', sans-serif;
+    }
+    .annexure-card-tag {
+      background: #0ea5e9;
+      color: #ffffff;
+      font-size: 6.5px;
+      font-weight: 800;
+      padding: 1px 5px;
+      border-radius: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .annexure-card-img-wrap {
+      flex: 1 1 auto;
+      position: relative;
+      background: #020617;
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 2px;
+    }
+    .annexure-img-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      text-decoration: none;
+    }
+    .annexure-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .annexure-card-footer {
+      background: #f8fafc;
+      border-top: 1px solid var(--border-light);
+      padding: 3px 7px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5px;
+      flex: 0 0 auto;
+    }
+    .annex-meta-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 6.8px;
+      color: #475569;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .annex-desc-row {
+      font-size: 7px;
+      color: #334155;
+      line-height: 1.22;
     }
 
     /* Section Bars & Tables */
@@ -1011,6 +1185,10 @@
         size: A4 portrait;
         margin: 0;
       }
+      .annexure-img {
+        max-height: 100% !important;
+        object-fit: contain !important;
+      }
     }
   </style>
 </head>
@@ -1061,6 +1239,8 @@
     {% set un = geom.upper_slope_and_nails or {} %}
     {% set sn = geom.soil_nail_grid or {} %}
     {% set usgs = assessment.usgs_classification or {} %}
+    {% set photo_list = report.photo_urls if (report.photo_urls is defined and report.photo_urls) else (report.photos if (report.photos is defined and report.photos) else ([report.photo_url] if report.photo_url else [])) %}
+    {% set p_count = photo_list|length %}
 
     <!-- ======================================================== -->
     <!-- PAGE 1: SITE METADATA, SLOPE, ROAD IMPACT, PROTECTION MATRIX, GEOLOGY -->
@@ -1186,7 +1366,7 @@
       </table>
 
       <!-- 2. Road Characteristics -->
-      <div class="sec-bar">2. Road Characteristics &amp; Transportation Disruption</div>
+      <div class="sec-bar">2. Road Characteristics &amp; Transportation Disruption (IRC:SP:48 &amp; IRC:SP:55)</div>
       <table class="grid-table">
         <tr>
           <td class="col-lbl">Road Alignment:</td>
@@ -1510,8 +1690,8 @@
       </table>
 
       <div class="page-footer">
-        <span>IIT Mandi Slope Technical Assessment Docket &bull; Ref: <strong>{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-CR-') if assessment.telemetry.report_id else 'IITM-CR-RECORD') }}</strong> &bull; Part 1 of 2 Site Characterization &amp; Ground Works</span>
-        <span>Page 1 of 2</span>
+        <span>IIT Mandi Slope Technical Assessment Docket &bull; Ref: <strong>{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-CR-') if assessment.telemetry.report_id else 'IITM-CR-RECORD') }}</strong> &bull; Part 1 of {{ '3 Site Characterization &amp; Ground Works' if p_count > 1 else '2 Site Characterization &amp; Ground Works' }}</span>
+        <span>Page 1 of {{ '3' if p_count > 1 else '2' }}</span>
       </div>
     </div>
 
@@ -1534,7 +1714,7 @@
       </div>
 
       <!-- 8. Bioengineering & Retaining Specifications -->
-      <div class="sec-bar">8. Bioengineering &amp; Retaining Specifications</div>
+      <div class="sec-bar">8. Bioengineering &amp; Retaining Specifications (HPPWD Bio-Engineering Manual &amp; IS:14458)</div>
       <table class="grid-table">
         <thead>
           <tr>
@@ -1594,7 +1774,7 @@
       </table>
 
       <!-- 9. Earthworks Quantification (IS:14458 Clearance & Rebuilding) -->
-      <div class="sec-bar">9. Earthworks Quantification (IS:14458 Clearance &amp; Rebuilding)</div>
+      <div class="sec-bar">9. Earthworks Quantification (IS:1200 Part 1, IS:14458 &amp; MoRTH 301.1)</div>
       <table class="grid-table">
         <thead>
           <tr>
@@ -1634,7 +1814,7 @@
       </table>
 
       <!-- 10. Field Photographic Evidence & Kinematic Cross-Section (SIDE-BY-SIDE VISUAL PLATES) -->
-      <div class="sec-bar">10. Field Photographic Evidence &amp; Kinematic Cross-Section</div>
+      <div class="sec-bar">10. Field Photographic Evidence &amp; Kinematic Cross-Section (IS:14458 Part 1 &amp; Cruden &amp; Varnes)</div>
       <div class="visual-diagnostic-grid">
         <!-- Left: Ground Photo Plate -->
         <div class="photo-frame-box">
@@ -1643,67 +1823,15 @@
             <span>{{ telem.coordinates_dec or '31.70800° N, 76.93200° E' }}</span>
           </div>
           <div class="photo-img-wrap">
-            {% set photo_list = report.photo_urls if (report.photo_urls is defined and report.photo_urls) else (report.photos if (report.photos is defined and report.photos) else ([report.photo_url] if report.photo_url else [])) %}
-            {% set p_count = photo_list|length %}
-
-            {% if p_count == 1 %}
+            {% if p_count >= 1 %}
             <div class="gallery-adaptive gallery-layout-1">
               {% set p = photo_list[0] %}
               <div class="gallery-cell hero-cell">
-                <span class="gallery-badge">{{ p.label if p.label is defined else '1. PRIMARY SCARP &amp; DETACHMENT' }}</span>
+                <span class="gallery-badge">{% if p_count > 1 %}1. PRIMARY SCARP DETACHMENT (HERO VIEW){% else %}1. SITE GROUND RECONNAISSANCE EVIDENCE{% endif %}</span>
                 <a href="{{ p.url if p.url is defined else p }}" target="_blank" rel="noopener noreferrer" class="gallery-link" title="Click to view original high-resolution photo">
                   <img src="{{ p.url if p.url is defined else p }}" alt="Site Evidence Plate">
                 </a>
               </div>
-            </div>
-            {% elif p_count == 2 %}
-            <div class="gallery-adaptive gallery-layout-2">
-              {% for p in photo_list[:2] %}
-              <div class="gallery-cell">
-                <span class="gallery-badge">
-                  {% if loop.index == 1 %}{{ p.label if p.label is defined else '1. PRIMARY SCARP &amp; CROWN' }}
-                  {% else %}{{ p.label if p.label is defined else '2. LATERAL FLANK &amp; TOE' }}
-                  {% endif %}
-                </span>
-                <a href="{{ p.url if p.url is defined else p }}" target="_blank" rel="noopener noreferrer" class="gallery-link" title="Click to view original high-resolution photo">
-                  <img src="{{ p.url if p.url is defined else p }}" alt="Perspective {{ loop.index }}">
-                </a>
-              </div>
-              {% endfor %}
-            </div>
-            {% elif p_count == 3 %}
-            <div class="gallery-adaptive gallery-layout-3">
-              {% for p in photo_list[:3] %}
-              <div class="gallery-cell {% if loop.index == 1 %}hero-cell{% endif %}">
-                <span class="gallery-badge">
-                  {% if loop.index == 1 %}{{ p.label if p.label is defined else '1. PRIMARY SCARP DETACHMENT (HERO VIEW)' }}
-                  {% elif loop.index == 2 %}{{ p.label if p.label is defined else '2. LEFT FLANK' }}
-                  {% else %}{{ p.label if p.label is defined else '3. RIGHT FLANK &amp; TOE' }}
-                  {% endif %}
-                </span>
-                <a href="{{ p.url if p.url is defined else p }}" target="_blank" rel="noopener noreferrer" class="gallery-link" title="Click to view original high-resolution photo">
-                  <img src="{{ p.url if p.url is defined else p }}" alt="Perspective {{ loop.index }}">
-                </a>
-              </div>
-              {% endfor %}
-            </div>
-            {% elif p_count >= 4 %}
-            <!-- Option 2: Dominant Primary Hero Scarp on Top + 3 Perspective Strip on Bottom -->
-            <div class="gallery-adaptive gallery-layout-4">
-              {% for p in photo_list[:4] %}
-              <div class="gallery-cell {% if loop.index == 1 %}hero-cell{% endif %}">
-                <span class="gallery-badge">
-                  {% if loop.index == 1 %}{{ p.label if p.label is defined else '1. PRIMARY SCARP DETACHMENT (HERO VIEW)' }}
-                  {% elif loop.index == 2 %}{{ p.label if p.label is defined else '2. LEFT FLANK' }}
-                  {% elif loop.index == 3 %}{{ p.label if p.label is defined else '3. RIGHT FLANK' }}
-                  {% else %}{{ p.label if p.label is defined else '4. TOE / CARRIAGEWAY' }}
-                  {% endif %}
-                </span>
-                <a href="{{ p.url if p.url is defined else p }}" target="_blank" rel="noopener noreferrer" class="gallery-link" title="Click to view original high-resolution photo">
-                  <img src="{{ p.url if p.url is defined else p }}" alt="Perspective {{ loop.index }}">
-                </a>
-              </div>
-              {% endfor %}
             </div>
             {% else %}
             <div style="color: #94a3b8; font-size: 8px; text-align: center; padding: 16px;">No ground photograph uploaded with this field observation.</div>
@@ -1715,7 +1843,11 @@
                 <span style="background:#dc2626; color:#ffffff; padding:1px 5px; border-radius:2px; font-weight:800; font-size:6.8px;">Flagged: Non-Terrain</span>
               {% else %}
                 <span style="background:#16a34a; color:#ffffff; padding:1px 5px; border-radius:2px; font-weight:800; font-size:6.8px;">
-                  Verified Slope Imagery{% if p_count > 1 %} &bull; {{ p_count }} Perspectives (Primary Scarp + Flanks){% endif %}
+                  {% if p_count > 1 %}
+                  Verified Primary Imagery &bull; See Annexure A (Page 3) for all {{ p_count }} High-Res Perspectives
+                  {% else %}
+                  Verified Slope Imagery &bull; Field Reconnaissance Record
+                  {% endif %}
                 </span>
               {% endif %}
             </span>
@@ -1845,7 +1977,7 @@
       </div>
 
       <!-- 12. Emergency Site Management & Traffic Control Protocol (IRC:SP:55 & PWD SOP) -->
-      <div class="sec-bar">12. Emergency Site Management &amp; Traffic Control Protocol (IRC:SP:55)</div>
+      <div class="sec-bar">12. Emergency Site Management &amp; Traffic Control Protocol (IRC:SP:55 &amp; HPPWD SOP)</div>
       <table class="grid-table">
         <thead>
           <tr>
@@ -1930,9 +2062,105 @@
 
       <div class="page-footer">
         <span>IIT Mandi Slope Technical Assessment Docket &bull; Statutory Engineering Sign-Off &bull; Ref: <strong>{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-CR-') if assessment.telemetry.report_id else 'IITM-CR-RECORD') }}</strong></span>
-        <span>Page 2 of 2</span>
+        <span>Page 2 of {{ '3' if p_count > 1 else '2' }}</span>
       </div>
     </div>
+
+    <!-- ======================================================== -->
+    <!-- PAGE 3: ANNEXURE A: MULTI-PERSPECTIVE FIELD EVIDENCE PLATE -->
+    <!-- ======================================================== -->
+    {% if p_count > 1 %}
+    <div class="report-page photo-annexure-page">
+      <div class="master-header">
+        <div class="master-header-grid">
+          <div class="master-logo-col">
+            <img src="{{ url_for('static', filename='img/iit_mandi_logo.svg') }}" alt="IIT Mandi Emblem" class="inst-logo-img">
+          </div>
+          <div class="master-text-col">
+            <div class="inst-name">INDIAN INSTITUTE OF TECHNOLOGY MANDI</div>
+            <div class="inst-dept">SCHOOL OF CIVIL &amp; ENVIRONMENTAL ENGINEERING &bull; HIMA-LENS OBSERVATORY</div>
+            <div class="master-title">ANNEXURE A: MULTI-PERSPECTIVE FIELD PHOTOGRAPHIC EVIDENCE</div>
+            <div class="master-standards">Statutory Geotechnical Reconnaissance &bull; High-Resolution Optical Diagnostic Plates &bull; IRC:SP:48 Ground Verification</div>
+          </div>
+          <div class="master-badge-col">
+            <div class="report-stamp">
+              <span class="stamp-lbl">EVIDENCE ANNEXURE</span>
+              <span class="stamp-code">ANNEXURE A</span>
+              <span class="stamp-stat">{{ p_count }} PERSPECTIVES</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Telemetry Strip -->
+      <div class="annexure-telemetry-strip">
+        <div class="annex-telem-item">
+          <span class="annex-telem-lbl">DOCKET REFERENCE:</span>
+          <span class="annex-telem-val">{{ telem.report_reference or 'IITM-CR-6A9B327E' }}</span>
+        </div>
+        <div class="annex-telem-item">
+          <span class="annex-telem-lbl">GPS COORDINATES:</span>
+          <span class="annex-telem-val">{{ telem.coordinates_dec or '31.70800° N, 76.93200° E' }}</span>
+        </div>
+        <div class="annex-telem-item">
+          <span class="annex-telem-lbl">FAILURE VECTOR:</span>
+          <span class="annex-telem-val">{{ (pdm.failure_vector if pdm else None) or 'UPHILL_CUT_SLOPE' }}</span>
+        </div>
+        <div class="annex-telem-item">
+          <span class="annex-telem-lbl">INSPECTION DATE:</span>
+          <span class="annex-telem-val">{{ telem.inspection_date or '2026-10-12' }}</span>
+        </div>
+      </div>
+
+      <!-- Main Photo Annexure Container (Option 1: Equal Multi-Perspective Grid) -->
+      <div class="annexure-gallery-container annexure-grid-{{ p_count }}">
+        {% for p in photo_list %}
+        <div class="annexure-photo-card card-idx-{{ loop.index }}">
+          <div class="annexure-card-header">
+            <span class="gallery-badge" style="position: static; font-size: 6.8px; font-weight: 800; background: #0f172a; color: #5eead4; border: 1px solid rgba(94,234,212,0.4); padding: 1.5px 6px;">
+              {% if loop.index == 1 %}PLATE A.1 &bull; PRIMARY SCARP &amp; DETACHMENT HEAD (ORTHOGONAL)
+              {% elif loop.index == 2 %}PLATE A.2 &bull; LEFT LATERAL FLANK &amp; CROWN DISCONTINUITY
+              {% elif loop.index == 3 %}PLATE A.3 &bull; RIGHT LATERAL FLANK &amp; TENSION CRACK ZONE
+              {% elif loop.index == 4 %}PLATE A.4 &bull; TOE DEBRIS RUNOUT &amp; FORMATION ENCROACHMENT
+              {% else %}PLATE A.{{ loop.index }} &bull; FIELD GROUND RECONNAISSANCE PERSPECTIVE
+              {% endif %}
+            </span>
+            <div class="annexure-card-tag">PERSPECTIVE {{ loop.index }} OF {{ p_count }}</div>
+          </div>
+          <div class="annexure-card-img-wrap">
+            <a href="{{ p.url if p.url is defined else p }}" target="_blank" rel="noopener noreferrer" class="gallery-link annexure-img-link" title="Click to view full uncompressed original photo">
+              <img src="{{ p.url if p.url is defined else p }}" alt="Evidence Plate {{ loop.index }}" class="annexure-img">
+            </a>
+          </div>
+          <div class="annexure-card-footer">
+            <div class="annex-meta-row">
+              <span><strong>View Angle:</strong> {% if loop.index == 1 %}Frontal Orthogonal / Upslope View{% elif loop.index == 2 %}Up-Station / Left Lateral Flank Profile{% elif loop.index == 3 %}Down-Station / Right Lateral Flank Diagnostic{% else %}Highway Formation / Toe Debris Runout{% endif %}</span>
+              <span><strong>Status:</strong> Optical Diagnostic Record</span>
+            </div>
+            <div class="annex-desc-row">
+              {% if loop.index == 1 %}
+              Direct orthogonal optical survey of active detachment face showing tension cracking, shear failure surface, and colluvial overburden displacement.
+              {% elif loop.index == 2 %}
+              Lateral flank profile view capturing boundary scarp, root-wedge disruption of topsoil, and crown clearance above highway corridor.
+              {% elif loop.index == 3 %}
+              Opposing lateral diagnostic inspecting rock discontinuity dip angle, shear zones, and uphill drainage seepage channels.
+              {% elif loop.index == 4 %}
+              Carriageway toe contact inspecting boulder dispersion, asphalt heave, formation restriction, and drainage gutter clearance.
+              {% else %}
+              Supplementary field photographic evidence documenting geotechnical and corridor impact.
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="page-footer">
+        <span>IIT Mandi Slope Technical Assessment Docket &bull; Annexure A: Optical Ground Evidence &bull; Ref: <strong>{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-CR-') if assessment.telemetry.report_id else 'IITM-CR-RECORD') }}</strong></span>
+        <span>Page 3 of 3</span>
+      </div>
+    </div>
+    {% endif %}
 
     </div>
   </div>

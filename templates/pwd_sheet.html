@@ -646,8 +646,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #f8fafc;
-      padding: 3px;
+      background: #0f172a;
+      padding: 2.5px;
       height: 190px;
       min-height: 190px;
       max-height: 190px;
@@ -655,7 +655,17 @@
       box-sizing: border-box;
     }
     .photo-img-wrap {
-      background: #f1f5f9;
+      background: #020617;
+    }
+    .photo-img-wrap img {
+      width: 100% !important;
+      height: 100% !important;
+      max-width: 100% !important;
+      max-height: 100% !important;
+      object-fit: contain !important;
+      object-position: center !important;
+      display: block !important;
+      background: #020617;
     }
     .gallery-adaptive {
       width: 100%;
@@ -817,10 +827,20 @@
       grid-column: 1 / span 2;
     }
 
-    /* 4 Photos: 2x2 quadrant grid */
+    /* 4 Photos: 2x2 quadrant grid - Strictly equal quadrants */
     .annexure-grid-4 {
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr 1fr;
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      grid-template-rows: 1fr 1fr !important;
+      gap: 7px !important;
+      height: calc(100% - 82px) !important;
+      min-height: 0 !important;
+      box-sizing: border-box !important;
+    }
+    .annexure-grid-4 .annexure-photo-card {
+      grid-column: auto !important;
+      height: 100% !important;
+      min-height: 0 !important;
     }
 
     .annexure-photo-card {
@@ -1346,7 +1366,7 @@
       </table>
 
       <!-- 2. Road Characteristics -->
-      <div class="sec-bar">2. Road Characteristics &amp; Transportation Disruption</div>
+      <div class="sec-bar">2. Road Characteristics &amp; Transportation Disruption (IRC:SP:48 &amp; IRC:SP:55)</div>
       <table class="grid-table">
         <tr>
           <td class="col-lbl">Road Alignment:</td>
@@ -1694,7 +1714,7 @@
       </div>
 
       <!-- 8. Bioengineering & Retaining Specifications -->
-      <div class="sec-bar">8. Bioengineering &amp; Retaining Specifications</div>
+      <div class="sec-bar">8. Bioengineering &amp; Retaining Specifications (HPPWD Bio-Engineering Manual &amp; IS:14458)</div>
       <table class="grid-table">
         <thead>
           <tr>
@@ -1754,7 +1774,7 @@
       </table>
 
       <!-- 9. Earthworks Quantification (IS:14458 Clearance & Rebuilding) -->
-      <div class="sec-bar">9. Earthworks Quantification (IS:14458 Clearance &amp; Rebuilding)</div>
+      <div class="sec-bar">9. Earthworks Quantification (IS:1200 Part 1, IS:14458 &amp; MoRTH 301.1)</div>
       <table class="grid-table">
         <thead>
           <tr>
@@ -1794,7 +1814,7 @@
       </table>
 
       <!-- 10. Field Photographic Evidence & Kinematic Cross-Section (SIDE-BY-SIDE VISUAL PLATES) -->
-      <div class="sec-bar">10. Field Photographic Evidence &amp; Kinematic Cross-Section</div>
+      <div class="sec-bar">10. Field Photographic Evidence &amp; Kinematic Cross-Section (IS:14458 Part 1 &amp; Cruden &amp; Varnes)</div>
       <div class="visual-diagnostic-grid">
         <!-- Left: Ground Photo Plate -->
         <div class="photo-frame-box">
@@ -1957,7 +1977,7 @@
       </div>
 
       <!-- 12. Emergency Site Management & Traffic Control Protocol (IRC:SP:55 & PWD SOP) -->
-      <div class="sec-bar">12. Emergency Site Management &amp; Traffic Control Protocol (IRC:SP:55)</div>
+      <div class="sec-bar">12. Emergency Site Management &amp; Traffic Control Protocol (IRC:SP:55 &amp; HPPWD SOP)</div>
       <table class="grid-table">
         <thead>
           <tr>
@@ -2092,17 +2112,17 @@
         </div>
       </div>
 
-      <!-- Main Photo Annexure Container -->
-      <div class="annexure-gallery-container annexure-grid-{{ p_count }} gallery-adaptive gallery-layout-{{ p_count }}">
+      <!-- Main Photo Annexure Container (Option 1: Equal Multi-Perspective Grid) -->
+      <div class="annexure-gallery-container annexure-grid-{{ p_count }}">
         {% for p in photo_list %}
-        <div class="annexure-photo-card card-idx-{{ loop.index }} gallery-cell {% if loop.index == 1 %}hero-cell{% endif %}">
+        <div class="annexure-photo-card card-idx-{{ loop.index }}">
           <div class="annexure-card-header">
-            <span class="gallery-badge" style="position: static; font-size: 6.5px;">
-              {% if loop.index == 1 %}1. PRIMARY SCARP DETACHMENT (HERO VIEW)
-              {% elif loop.index == 2 %}2. LEFT FLANK &amp; CROWN PROFILE
-              {% elif loop.index == 3 %}3. RIGHT FLANK &amp; TENSION DISCONTINUITY
-              {% elif loop.index == 4 %}4. TOE DEBRIS &amp; CARRIAGEWAY CLEARANCE
-              {% else %}{{ loop.index }}. FIELD PERSPECTIVE
+            <span class="gallery-badge" style="position: static; font-size: 6.8px; font-weight: 800; background: #0f172a; color: #5eead4; border: 1px solid rgba(94,234,212,0.4); padding: 1.5px 6px;">
+              {% if loop.index == 1 %}PLATE A.1 &bull; PRIMARY SCARP &amp; DETACHMENT HEAD (ORTHOGONAL)
+              {% elif loop.index == 2 %}PLATE A.2 &bull; LEFT LATERAL FLANK &amp; CROWN DISCONTINUITY
+              {% elif loop.index == 3 %}PLATE A.3 &bull; RIGHT LATERAL FLANK &amp; TENSION CRACK ZONE
+              {% elif loop.index == 4 %}PLATE A.4 &bull; TOE DEBRIS RUNOUT &amp; FORMATION ENCROACHMENT
+              {% else %}PLATE A.{{ loop.index }} &bull; FIELD GROUND RECONNAISSANCE PERSPECTIVE
               {% endif %}
             </span>
             <div class="annexure-card-tag">PERSPECTIVE {{ loop.index }} OF {{ p_count }}</div>
