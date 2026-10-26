@@ -639,7 +639,24 @@
       flex-shrink: 0;
     }
 
-    /* Section 10 Multi-Photo Adaptive Gallery Grid */
+    /* Section 10 Adaptive Engineering Photo Plate (Option 2: Hero + Flanks) */
+    .photo-img-wrap, .schematic-svg-wrap {
+      width: 100%;
+      flex: 1 1 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f8fafc;
+      padding: 3px;
+      height: 190px;
+      min-height: 190px;
+      max-height: 190px;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+    .photo-img-wrap {
+      background: #f1f5f9;
+    }
     .gallery-adaptive {
       width: 100%;
       height: 100%;
@@ -653,58 +670,64 @@
     .gallery-layout-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 3px;
+      gap: 3.5px;
       width: 100%;
       height: 100%;
     }
     .gallery-layout-3 {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1.15fr 0.85fr;
-      gap: 3px;
+      grid-template-rows: 1.25fr 0.75fr;
+      gap: 3.5px;
       width: 100%;
       height: 100%;
     }
-    .gallery-layout-3 .gallery-cell.top-span {
+    .gallery-layout-3 .gallery-cell.hero-cell {
       grid-column: 1 / span 2;
     }
+    /* Layout 4: Hero Scarp on Top (Full Width) + 3 Perspective Strip on Bottom */
     .gallery-layout-4 {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr 1fr;
-      gap: 3px;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 1.35fr 0.85fr;
+      gap: 3.5px;
       width: 100%;
       height: 100%;
+    }
+    .gallery-layout-4 .gallery-cell.hero-cell {
+      grid-column: 1 / span 3;
     }
     .gallery-cell {
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #0b1329;
-      border: 1px solid rgba(15, 23, 42, 0.4);
-      border-radius: 2px;
+      background: #0f172a;
+      border: 1px solid #cbd5e1;
+      border-radius: 2.5px;
       overflow: hidden;
       height: 100%;
       width: 100%;
       box-sizing: border-box;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     }
     .gallery-badge {
       position: absolute;
-      top: 2px;
-      left: 2px;
-      background: rgba(9, 47, 37, 0.95);
+      top: 2.5px;
+      left: 3px;
+      background: rgba(9, 47, 37, 0.90);
       color: #a7f3d0;
       font-size: 5.2px;
       font-weight: 800;
-      padding: 1px 3.5px;
+      padding: 1px 4px;
       border-radius: 1.5px;
-      letter-spacing: 0.2px;
+      letter-spacing: 0.25px;
       z-index: 3;
       pointer-events: none;
       font-family: 'Manrope', sans-serif;
       border: 0.5px solid rgba(167, 243, 208, 0.35);
       text-transform: uppercase;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     }
     .gallery-link {
       display: flex;
@@ -713,6 +736,7 @@
       align-items: center;
       justify-content: center;
       text-decoration: none;
+      position: relative;
     }
     .gallery-cell img {
       width: 100%;
@@ -725,21 +749,7 @@
       transition: transform 0.2s ease;
     }
     .gallery-cell:hover img {
-      transform: scale(1.04);
-    }
-    .gallery-zoom-hint {
-      position: absolute;
-      bottom: 2px;
-      right: 3px;
-      background: rgba(15, 23, 42, 0.85);
-      color: #f1f5f9;
-      font-size: 5.5px;
-      font-weight: 700;
-      padding: 1px 3.5px;
-      border-radius: 2px;
-      pointer-events: none;
-      letter-spacing: 0.2px;
-      border: 0.5px solid rgba(255, 255, 255, 0.25);
+      transform: scale(1.025);
     }
 
     /* Section Bars & Tables */
@@ -1645,12 +1655,11 @@
             {% if p_count == 1 %}
             <div class="gallery-adaptive gallery-layout-1">
               {% set p = photo_list[0] %}
-              <div class="gallery-cell">
-                <span class="gallery-badge">{{ p.label if p.label is defined else '1. FIELD TERRAIN OBSERVATION' }}</span>
-                <a href="{{ p.url if p.url is defined else p }}" target="_blank" rel="noopener noreferrer" class="gallery-link" title="Click to inspect full uncropped high-resolution photo">
+              <div class="gallery-cell hero-cell">
+                <span class="gallery-badge">{{ p.label if p.label is defined else '1. PRIMARY SCARP &amp; DETACHMENT' }}</span>
+                <a href="{{ p.url if p.url is defined else p }}" target="_blank" rel="noopener noreferrer" class="gallery-link" title="Click to view original high-resolution photo">
                   <img src="{{ p.url if p.url is defined else p }}" alt="Site Evidence Plate">
                 </a>
-                <span class="gallery-zoom-hint">CLICK TO EXPAND</span>
               </div>
             </div>
             {% elif p_count == 2 %}
@@ -1658,49 +1667,47 @@
               {% for p in photo_list[:2] %}
               <div class="gallery-cell">
                 <span class="gallery-badge">
-                  {% if loop.index == 1 %}{{ p.label if p.label is defined else '1. PERSPECTIVE A &bull; SCARP' }}
-                  {% else %}{{ p.label if p.label is defined else '2. PERSPECTIVE B &bull; TOE / FLANK' }}
+                  {% if loop.index == 1 %}{{ p.label if p.label is defined else '1. PRIMARY SCARP &amp; CROWN' }}
+                  {% else %}{{ p.label if p.label is defined else '2. LATERAL FLANK &amp; TOE' }}
                   {% endif %}
                 </span>
-                <a href="{{ p.url if p.url is defined else p }}" target="_blank" rel="noopener noreferrer" class="gallery-link" title="Click to inspect full uncropped high-resolution photo">
+                <a href="{{ p.url if p.url is defined else p }}" target="_blank" rel="noopener noreferrer" class="gallery-link" title="Click to view original high-resolution photo">
                   <img src="{{ p.url if p.url is defined else p }}" alt="Perspective {{ loop.index }}">
                 </a>
-                <span class="gallery-zoom-hint">CLICK TO EXPAND</span>
               </div>
               {% endfor %}
             </div>
             {% elif p_count == 3 %}
             <div class="gallery-adaptive gallery-layout-3">
               {% for p in photo_list[:3] %}
-              <div class="gallery-cell {% if loop.index == 1 %}top-span{% endif %}">
+              <div class="gallery-cell {% if loop.index == 1 %}hero-cell{% endif %}">
                 <span class="gallery-badge">
-                  {% if loop.index == 1 %}{{ p.label if p.label is defined else '1. PRIMARY SCARP &amp; DETACHMENT' }}
-                  {% elif loop.index == 2 %}{{ p.label if p.label is defined else '2. LEFT FLANK TENSION' }}
+                  {% if loop.index == 1 %}{{ p.label if p.label is defined else '1. PRIMARY SCARP DETACHMENT (HERO VIEW)' }}
+                  {% elif loop.index == 2 %}{{ p.label if p.label is defined else '2. LEFT FLANK' }}
                   {% else %}{{ p.label if p.label is defined else '3. RIGHT FLANK &amp; TOE' }}
                   {% endif %}
                 </span>
-                <a href="{{ p.url if p.url is defined else p }}" target="_blank" rel="noopener noreferrer" class="gallery-link" title="Click to inspect full uncropped high-resolution photo">
+                <a href="{{ p.url if p.url is defined else p }}" target="_blank" rel="noopener noreferrer" class="gallery-link" title="Click to view original high-resolution photo">
                   <img src="{{ p.url if p.url is defined else p }}" alt="Perspective {{ loop.index }}">
                 </a>
-                <span class="gallery-zoom-hint">CLICK TO EXPAND</span>
               </div>
               {% endfor %}
             </div>
             {% elif p_count >= 4 %}
+            <!-- Option 2: Dominant Primary Hero Scarp on Top + 3 Perspective Strip on Bottom -->
             <div class="gallery-adaptive gallery-layout-4">
               {% for p in photo_list[:4] %}
-              <div class="gallery-cell">
+              <div class="gallery-cell {% if loop.index == 1 %}hero-cell{% endif %}">
                 <span class="gallery-badge">
-                  {% if loop.index == 1 %}{{ p.label if p.label is defined else '1. FRONT SCARP' }}
+                  {% if loop.index == 1 %}{{ p.label if p.label is defined else '1. PRIMARY SCARP DETACHMENT (HERO VIEW)' }}
                   {% elif loop.index == 2 %}{{ p.label if p.label is defined else '2. LEFT FLANK' }}
                   {% elif loop.index == 3 %}{{ p.label if p.label is defined else '3. RIGHT FLANK' }}
                   {% else %}{{ p.label if p.label is defined else '4. TOE / CARRIAGEWAY' }}
                   {% endif %}
                 </span>
-                <a href="{{ p.url if p.url is defined else p }}" target="_blank" rel="noopener noreferrer" class="gallery-link" title="Click to inspect full uncropped high-resolution photo">
+                <a href="{{ p.url if p.url is defined else p }}" target="_blank" rel="noopener noreferrer" class="gallery-link" title="Click to view original high-resolution photo">
                   <img src="{{ p.url if p.url is defined else p }}" alt="Perspective {{ loop.index }}">
                 </a>
-                <span class="gallery-zoom-hint">CLICK TO EXPAND</span>
               </div>
               {% endfor %}
             </div>
@@ -1714,7 +1721,7 @@
                 <span style="background:#dc2626; color:#ffffff; padding:1px 5px; border-radius:2px; font-weight:800; font-size:6.8px;">Flagged: Non-Terrain</span>
               {% else %}
                 <span style="background:#16a34a; color:#ffffff; padding:1px 5px; border-radius:2px; font-weight:800; font-size:6.8px;">
-                  Verified Slope Imagery{% if p_count > 1 %} &bull; {{ p_count }} Perspectives (Adaptive Gallery){% endif %}
+                  Verified Slope Imagery{% if p_count > 1 %} &bull; {{ p_count }} Perspectives (Primary Scarp + Flanks){% endif %}
                 </span>
               {% endif %}
             </span>

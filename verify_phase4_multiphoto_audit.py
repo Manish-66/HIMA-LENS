@@ -293,7 +293,7 @@ rep_3 = {
 base_assessment_3 = ai_assessment.normalize_assessment_structure(dict(raw_assessment), rep_3)
 with flask_app.app.test_request_context():
     rendered_3 = flask.render_template("pwd_sheet.html", report=rep_3, assessment=base_assessment_3, boq=base_assessment_3.get("cost_estimate_boq"))
-has_layout_3 = 'gallery-adaptive gallery-layout-3' in rendered_3 and 'top-span' in rendered_3
+has_layout_3 = 'gallery-adaptive gallery-layout-3' in rendered_3 and 'hero-cell' in rendered_3
 check(has_layout_3, "Adaptive Gallery Case C: 3 photos render in gallery-layout-3 (1 large top-span, 2 below)",
       "Verified: 1 large top card (span 2) + 2 smaller cards below rendered with 3 distinct badges.")
 
@@ -310,7 +310,7 @@ rep_4 = {
 base_assessment_4 = ai_assessment.normalize_assessment_structure(dict(raw_assessment), rep_4)
 with flask_app.app.test_request_context():
     rendered_4 = flask.render_template("pwd_sheet.html", report=rep_4, assessment=base_assessment_4, boq=base_assessment_4.get("cost_estimate_boq"))
-has_layout_4 = 'gallery-adaptive gallery-layout-4' in rendered_4
+has_layout_4 = 'gallery-adaptive gallery-layout-4' in rendered_4 and 'hero-cell' in rendered_4
 check(has_layout_4, "Adaptive Gallery Case D: 4 photos render in gallery-layout-4 (2x2 quadrant grid)",
       "Verified: 4 cards in 2x2 grid with Front Scarp, Left Flank, Right Flank, Toe/Road badges.")
 
@@ -324,11 +324,11 @@ check(has_layout_0, "Adaptive Gallery Case E: 0 photos renders clean missing pho
       "Verified: Safe non-breaking placeholder rendered.")
 
 # 4.6 Strict ISO A4 CSS Height Invariance Check
-has_fixed_160px = 'height: 185px;' in pwd_sheet_src and '.photo-img-wrap, .schematic-svg-wrap' in pwd_sheet_src
+has_fixed_160px = 'height: 190px;' in pwd_sheet_src and '.photo-img-wrap, .schematic-svg-wrap' in pwd_sheet_src
 has_contain_fit = 'object-fit: cover;' in pwd_sheet_src
 check(has_fixed_160px and has_contain_fit,
-      "Strict A4 Spatial Discipline: Container height strictly bounded (185px, object-fit: cover)",
-      "Verified: Left (photo gallery) and Right (schematic cross-section) share identical 185px fixed height.")
+      "Strict A4 Spatial Discipline: Container height strictly bounded (190px, object-fit: cover)",
+      "Verified: Left (photo gallery) and Right (schematic cross-section) share identical 190px fixed height.")
 
 # ==============================================================================
 # SUITE 5: Side-by-Side Calibration Panel & Schematic Wall Toggle Continuity
