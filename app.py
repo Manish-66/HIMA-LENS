@@ -760,7 +760,8 @@ def get_reports():
                 "severity": rep.get("severity", "Moderate"),
                 "description": rep.get("description", ""),
                 "reporter_name": rep.get("reporter_name", "Anonymous"),
-                "photo_url": rep.get("photo_url", ""),
+                "photo_url": rep.get("photo_url", "") or ((rep.get("photo_urls") or [""])[0]),
+                "photo_urls": rep.get("photo_urls") or ([rep["photo_url"]] if rep.get("photo_url") else []),
                 "created_at": rep.get("created_at", ""),
                 "is_community_report": True
             },
@@ -795,10 +796,18 @@ def submit_report():
     description = request.form.get("description", "").strip()
     reporter_name = request.form.get("reporter_name", "Anonymous").strip()
 
-    photo_url = ""
-    file = request.files.get("photo")
-    if file and file.filename and allowed_image_file(file.filename):
-        photo_url = supabase_db.upload_report_image(file, file.filename)
+    photo_urls = []
+    files_list = request.files.getlist("photos")
+    if not files_list:
+        files_list = request.files.getlist("photo")
+    for file in files_list:
+        if file and file.filename and allowed_image_file(file.filename):
+            u = supabase_db.upload_report_image(file, file.filename)
+            if u:
+                photo_urls.append(u)
+            if len(photo_urls) >= 4:
+                break
+    photo_url = photo_urls[0] if photo_urls else ""
 
     report_id = f"IITM-CR-{uuid.uuid4().hex[:8].upper()}"
     new_report = {
@@ -812,6 +821,7 @@ def submit_report():
         "description": description,
         "reporter_name": reporter_name,
         "photo_url": photo_url,
+        "photo_urls": photo_urls,
         "status": "active",
         "is_hidden": False,
         "ai_assessment": None,
@@ -1080,23 +1090,40 @@ def view_pwd_sheet(report_id: str):
             except Exception:
                 pass
 
-    # Support multi-photo showcase demonstration (max 3: front, left flank, right flank)
+    # Normalize photo_urls array (up to 4 images)
+    photo_urls = display_report.get("photo_urls") or []
+    if isinstance(photo_urls, str):
+        photo_urls = [photo_urls]
+    elif not isinstance(photo_urls, list):
+        photo_urls = []
+    if not photo_urls and display_report.get("photo_url"):
+        photo_urls = [display_report["photo_url"]]
+
+    # Support multi-photo showcase demonstration (up to 4: front, left flank, right flank, toe accumulation)
     if not display_report.get("photos"):
         if request.args.get("multi") in ("1", "true") or report_id == "IITM-CR-6A9B327E":
             display_report["photos"] = [
                 {
                     "url": display_report.get("photo_url") or "/static/img/events/himachal_highway_slide.jpg",
-                    "label": "Front View (Daylighting Scarp & Debris Fan)"
+                    "label": "1. Front View (Daylighting Scarp & Debris Fan)"
                 },
                 {
                     "url": "/static/img/events/himachal_slope_failure.jpg",
-                    "label": "Left Flank Perspective (Tension Cracks)"
+                    "label": "2. Left Flank Perspective (Tension Cracks)"
                 },
                 {
                     "url": "/static/img/events/himalaya_road_cut.jpg",
-                    "label": "Right Flank Perspective (Toe Encroachment)"
+                    "label": "3. Right Flank Perspective (Toe Encroachment)"
+                },
+                {
+                    "url": "/static/img/events/debris_flow_torrent.jpg",
+                    "label": "4. Downslope Runout & Carriageway Accumulation"
                 }
             ]
+            photo_urls = [p["url"] for p in display_report["photos"]]
+
+    display_report["photo_urls"] = photo_urls[:4]
+    display_report["photo_url"] = photo_urls[0] if photo_urls else display_report.get("photo_url", "")
 
     # Read from cache or run deterministic calculation
     assessment = ai_assessment.generate_ai_assessment(report, force_refresh=force)

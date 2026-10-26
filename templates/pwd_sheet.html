@@ -639,31 +639,61 @@
       flex-shrink: 0;
     }
 
-    /* Section 10 Multi-Photo Plate Grid */
-    .multi-photo-grid {
+    /* Section 10 Multi-Photo Adaptive Gallery Grid */
+    .gallery-adaptive {
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+    }
+    .gallery-layout-1 {
+      display: flex;
+      width: 100%;
+      height: 100%;
+    }
+    .gallery-layout-2 {
       display: grid;
-      grid-template-columns: 1.25fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
       gap: 3px;
       width: 100%;
-      height: 155px;
+      height: 100%;
     }
-    .multi-photo-card {
+    .gallery-layout-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1.15fr 0.85fr;
+      gap: 3px;
+      width: 100%;
+      height: 100%;
+    }
+    .gallery-layout-3 .gallery-cell.top-span {
+      grid-column: 1 / span 2;
+    }
+    .gallery-layout-4 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 3px;
+      width: 100%;
+      height: 100%;
+    }
+    .gallery-cell {
       position: relative;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100%;
-      background: #0f172a;
-      border: 1px solid var(--border-dark);
+      background: #0b1329;
+      border: 1px solid rgba(15, 23, 42, 0.4);
       border-radius: 2px;
       overflow: hidden;
+      height: 100%;
+      width: 100%;
+      box-sizing: border-box;
     }
-    .multi-photo-tag {
+    .gallery-badge {
       position: absolute;
       top: 2px;
       left: 2px;
-      background: rgba(9, 47, 37, 0.90);
+      background: rgba(9, 47, 37, 0.95);
       color: #a7f3d0;
       font-size: 5.2px;
       font-weight: 800;
@@ -673,8 +703,10 @@
       z-index: 3;
       pointer-events: none;
       font-family: 'Manrope', sans-serif;
+      border: 0.5px solid rgba(167, 243, 208, 0.35);
+      text-transform: uppercase;
     }
-    .multi-photo-link {
+    .gallery-link {
       display: flex;
       width: 100%;
       height: 100%;
@@ -682,10 +714,12 @@
       justify-content: center;
       text-decoration: none;
     }
-    .multi-photo-link img {
+    .gallery-cell img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
       display: block;
     }
 
@@ -807,10 +841,15 @@
       align-items: center;
       justify-content: center;
       background: #ffffff;
-      padding: 4px;
-      min-height: 125px;
-      max-height: 165px;
+      padding: 3px;
+      height: 160px;
+      min-height: 160px;
+      max-height: 160px;
       overflow: hidden;
+      box-sizing: border-box;
+    }
+    .photo-img-wrap {
+      background: #0b1329;
     }
     .photo-img-wrap img {
       max-width: 100%;
@@ -952,7 +991,7 @@
   <div class="screen-action-bar">
     <div class="brand">
       <span class="hl-tag">HIMA-LENS</span>
-      <span class="hl-tag" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);">{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-CR-') if assessment.telemetry.report_id else 'IITM-CR-' + report.id) }}</span>
+      <span class="hl-tag" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);">{{ (assessment.telemetry.report_reference if (assessment.telemetry is defined and assessment.telemetry and assessment.telemetry.report_reference) else (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-CR-') if (assessment.telemetry is defined and assessment.telemetry and assessment.telemetry.report_id) else ('IITM-CR-' ~ report.id))) }}</span>
       <span class="hl-tag" style="background: #104c3b; border: 1px solid rgba(255,255,255,0.35); font-weight: 800;">TECHNICAL ASSESSMENT DOCKET</span>
       <span>Slope Technical Assessment &amp; Mitigation Analysis</span>
     </div>
@@ -1581,28 +1620,69 @@
             <span>{{ telem.coordinates_dec or '31.70800° N, 76.93200° E' }}</span>
           </div>
           <div class="photo-img-wrap">
-            {% if report.photos and report.photos|length > 1 %}
-            <div class="multi-photo-grid count-{{ report.photos|length }}">
-              {% for p in report.photos[:3] %}
-              <div class="multi-photo-card">
-                <span class="multi-photo-tag">
-                  {% if loop.index == 1 %}1. FRONT VIEW (SCARP)
-                  {% elif loop.index == 2 %}2. LEFT FLANK
-                  {% else %}3. RIGHT FLANK
+            {% set photo_list = report.photo_urls if (report.photo_urls is defined and report.photo_urls) else (report.photos if (report.photos is defined and report.photos) else ([report.photo_url] if report.photo_url else [])) %}
+            {% set p_count = photo_list|length %}
+
+            {% if p_count == 1 %}
+            <div class="gallery-adaptive gallery-layout-1">
+              {% set p = photo_list[0] %}
+              <div class="gallery-cell">
+                <span class="gallery-badge">{{ p.label if p.label is defined else '1. FIELD TERRAIN OBSERVATION' }}</span>
+                <a href="{{ p.url if p.url is defined else p }}" target="_blank" rel="noopener noreferrer" class="gallery-link" title="Click to view full uncropped image">
+                  <img src="{{ p.url if p.url is defined else p }}" alt="Site Evidence Plate">
+                </a>
+              </div>
+            </div>
+            {% elif p_count == 2 %}
+            <div class="gallery-adaptive gallery-layout-2">
+              {% for p in photo_list[:2] %}
+              <div class="gallery-cell">
+                <span class="gallery-badge">
+                  {% if loop.index == 1 %}{{ p.label if p.label is defined else '1. PERSPECTIVE A &bull; SCARP' }}
+                  {% else %}{{ p.label if p.label is defined else '2. PERSPECTIVE B &bull; TOE / FLANK' }}
                   {% endif %}
                 </span>
-                <a href="{{ p.url if p.url is defined else p }}" target="_blank" rel="noopener noreferrer" title="Click to view full uncropped image" class="multi-photo-link">
-                  <img src="{{ p.url if p.url is defined else p }}" alt="{{ p.label or ('Perspective ' ~ loop.index) }}">
+                <a href="{{ p.url if p.url is defined else p }}" target="_blank" rel="noopener noreferrer" class="gallery-link" title="Click to view full uncropped image">
+                  <img src="{{ p.url if p.url is defined else p }}" alt="Perspective {{ loop.index }}">
                 </a>
               </div>
               {% endfor %}
             </div>
-            {% elif report.photo_url %}
-            <a href="{{ report.photo_url }}" target="_blank" rel="noopener noreferrer" title="Click to view full uncropped image" style="display:flex; width:100%; height:100%; align-items:center; justify-content:center; text-decoration:none;">
-              <img src="{{ report.photo_url }}" alt="Site Evidence Plate">
-            </a>
+            {% elif p_count == 3 %}
+            <div class="gallery-adaptive gallery-layout-3">
+              {% for p in photo_list[:3] %}
+              <div class="gallery-cell {% if loop.index == 1 %}top-span{% endif %}">
+                <span class="gallery-badge">
+                  {% if loop.index == 1 %}{{ p.label if p.label is defined else '1. PRIMARY SCARP &amp; DETACHMENT' }}
+                  {% elif loop.index == 2 %}{{ p.label if p.label is defined else '2. LEFT FLANK TENSION' }}
+                  {% else %}{{ p.label if p.label is defined else '3. RIGHT FLANK &amp; TOE' }}
+                  {% endif %}
+                </span>
+                <a href="{{ p.url if p.url is defined else p }}" target="_blank" rel="noopener noreferrer" class="gallery-link" title="Click to view full uncropped image">
+                  <img src="{{ p.url if p.url is defined else p }}" alt="Perspective {{ loop.index }}">
+                </a>
+              </div>
+              {% endfor %}
+            </div>
+            {% elif p_count >= 4 %}
+            <div class="gallery-adaptive gallery-layout-4">
+              {% for p in photo_list[:4] %}
+              <div class="gallery-cell">
+                <span class="gallery-badge">
+                  {% if loop.index == 1 %}{{ p.label if p.label is defined else '1. FRONT SCARP' }}
+                  {% elif loop.index == 2 %}{{ p.label if p.label is defined else '2. LEFT FLANK' }}
+                  {% elif loop.index == 3 %}{{ p.label if p.label is defined else '3. RIGHT FLANK' }}
+                  {% else %}{{ p.label if p.label is defined else '4. TOE / CARRIAGEWAY' }}
+                  {% endif %}
+                </span>
+                <a href="{{ p.url if p.url is defined else p }}" target="_blank" rel="noopener noreferrer" class="gallery-link" title="Click to view full uncropped image">
+                  <img src="{{ p.url if p.url is defined else p }}" alt="Perspective {{ loop.index }}">
+                </a>
+              </div>
+              {% endfor %}
+            </div>
             {% else %}
-            <div style="color: #64748b; font-size: 8px; text-align: center; padding: 16px;">No ground photograph uploaded with this field observation.</div>
+            <div style="color: #94a3b8; font-size: 8px; text-align: center; padding: 16px;">No ground photograph uploaded with this field observation.</div>
             {% endif %}
           </div>
           <div class="photo-caption-bar">
@@ -1610,7 +1690,9 @@
               {% if assessment.is_landslide_or_terrain is defined and not assessment.is_landslide_or_terrain %}
                 <span style="background:#dc2626; color:#ffffff; padding:1px 5px; border-radius:2px; font-weight:800; font-size:6.8px;">Flagged: Non-Terrain</span>
               {% else %}
-                <span style="background:#16a34a; color:#ffffff; padding:1px 5px; border-radius:2px; font-weight:800; font-size:6.8px;">Verified Slope Imagery{% if report.photos and report.photos|length > 1 %} &bull; 3 Perspectives (Front, Left, Right){% endif %}</span>
+                <span style="background:#16a34a; color:#ffffff; padding:1px 5px; border-radius:2px; font-weight:800; font-size:6.8px;">
+                  Verified Slope Imagery{% if p_count > 1 %} &bull; {{ p_count }} Perspectives (Adaptive Gallery){% endif %}
+                </span>
               {% endif %}
             </span>
             <span>Date: {{ telem.inspection_date or '2026-10-12' }}</span>

@@ -165,13 +165,23 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // 3. Photo Dropzone & Live Camera Capture
+    // 3. Photo Dropzone & Live Camera Capture (Multi-Photo up to 4)
+    let selectedPhotoFiles = [];
+    const previewGrid = document.getElementById("preview-grid");
+    const btnAddMorePhotos = document.getElementById("btn-add-more-photos");
+
     if (dropzoneArea && photoFileInput) {
         dropzoneArea.addEventListener("click", function (e) {
-            if (e.target !== btnRemovePhoto) {
+            if (e.target !== btnRemovePhoto && !e.target.closest('.preview-card-remove') && e.target !== btnAddMorePhotos) {
                 photoFileInput.click();
             }
         });
+        if (btnAddMorePhotos) {
+            btnAddMorePhotos.addEventListener("click", function(e) {
+                e.stopPropagation();
+                photoFileInput.click();
+            });
+        }
 
         dropzoneArea.addEventListener("dragover", function (e) {
             e.preventDefault();
@@ -185,36 +195,93 @@ document.addEventListener("DOMContentLoaded", function () {
         dropzoneArea.addEventListener("drop", function (e) {
             e.preventDefault();
             dropzoneArea.classList.remove("dragover");
-            if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-                handlePhotoSelection(e.dataTransfer.files[0]);
+            if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                handlePhotoSelection(e.dataTransfer.files);
             }
         });
 
         photoFileInput.addEventListener("change", function () {
-            if (photoFileInput.files && photoFileInput.files[0]) {
-                handlePhotoSelection(photoFileInput.files[0]);
+            if (photoFileInput.files && photoFileInput.files.length > 0) {
+                handlePhotoSelection(photoFileInput.files);
             }
         });
     }
 
-    function handlePhotoSelection(file) {
-        if (!file) return;
-        const isImage = (file.type && file.type.startsWith("image/")) ||
-                        /\.(jpe?g|png|webp|gif|heic|heif|avif)$/i.test(file.name || "");
-        if (!isImage) {
-            alert("Please select a valid image file (JPG, PNG, WebP, HEIC).");
+    function handlePhotoSelection(fileList) {
+        if (!fileList || fileList.length === 0) return;
+        
+        for (let i = 0; i < fileList.length; i++) {
+            const file = fileList[i];
+            const isImage = (file.type && file.type.startsWith("image/")) ||
+                            /\.(jpe?g|png|webp|gif|heic|heif|avif)$/i.test(file.name || "");
+            if (!isImage) {
+                alert(`"${file.name}" is not a supported image file (JPG, PNG, WebP).`);
+                continue;
+            }
+            if (selectedPhotoFiles.length >= 4) {
+                alert("Maximum 4 photos allowed per report.");
+                break;
+            }
+            selectedPhotoFiles.push(file);
+        }
+        renderPhotoPreviews();
+    }
+
+    function renderPhotoPreviews() {
+        if (!previewGrid) return;
+        previewGrid.innerHTML = "";
+
+        if (selectedPhotoFiles.length === 0) {
+            clearPhotoSelection();
             return;
         }
 
-        selectedPhotoFile = file;
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            if (previewImg) previewImg.src = e.target.result;
-            if (previewFilename) previewFilename.textContent = `${file.name || 'field_photo.jpg'} (${(file.size / 1024).toFixed(0)} KB)`;
-            if (dropzoneEmpty) dropzoneEmpty.style.display = "none";
-            if (dropzonePreview) dropzonePreview.style.display = "block";
-        };
-        reader.readAsDataURL(file);
+        if (dropzoneEmpty) dropzoneEmpty.style.display = "none";
+        if (dropzonePreview) dropzonePreview.style.display = "block";
+        if (previewFilename) {
+            const totalKb = (selectedPhotoFiles.reduce((acc, f) => acc + f.size, 0) / 1024).toFixed(0);
+            previewFilename.textContent = `${selectedPhotoFiles.length} photo${selectedPhotoFiles.length > 1 ? 's' : ''} selected (${totalKb} KB total)`;
+        }
+
+        const labels = ["1. Front Scarp", "2. Left Flank", "3. Right Flank", "4. Toe Debris"];
+        selectedPhotoFiles.forEach((file, idx) => {
+            const card = document.createElement("div");
+            card.className = "preview-card";
+            card.style.cssText = "position:relative; border-radius:6px; overflow:hidden; border:1px solid #cbd5e1; background:#0f172a; height:90px; display:flex; align-items:center; justify-content:center;";
+
+            const tag = document.createElement("span");
+            tag.style.cssText = "position:absolute; top:3px; left:3px; background:rgba(9,47,37,0.9); color:#a7f3d0; font-size:8.5px; font-weight:800; padding:1px 4px; border-radius:2px; z-index:2;";
+            tag.textContent = labels[idx] || `${idx + 1}. Perspective`;
+
+            const removeBtn = document.createElement("button");
+            removeBtn.type = "button";
+            removeBtn.className = "preview-card-remove";
+            removeBtn.style.cssText = "position:absolute; top:3px; right:3px; background:rgba(220,38,38,0.9); color:#fff; border:none; border-radius:50%; width:18px; height:18px; cursor:pointer; font-size:11px; font-weight:bold; display:flex; align-items:center; justify-content:center; z-index:2;";
+            removeBtn.innerHTML = "&times;";
+            removeBtn.title = "Remove this photo";
+            removeBtn.onclick = function(e) {
+                e.stopPropagation();
+                selectedPhotoFiles.splice(idx, 1);
+                renderPhotoPreviews();
+            };
+
+            const img = document.createElement("img");
+            img.style.cssText = "width:100%; height:100%; object-fit:cover; display:block;";
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+
+            card.appendChild(tag);
+            card.appendChild(removeBtn);
+            card.appendChild(img);
+            previewGrid.appendChild(card);
+        });
+
+        if (btnAddMorePhotos) {
+            btnAddMorePhotos.style.display = selectedPhotoFiles.length >= 4 ? "none" : "inline-block";
+        }
     }
 
     if (btnRemovePhoto) {
@@ -225,9 +292,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function clearPhotoSelection() {
-        selectedPhotoFile = null;
+        selectedPhotoFiles = [];
         if (photoFileInput) photoFileInput.value = "";
-        if (previewImg) previewImg.src = "";
+        if (previewGrid) previewGrid.innerHTML = "";
         if (dropzoneEmpty) dropzoneEmpty.style.display = "flex";
         if (dropzonePreview) dropzonePreview.style.display = "none";
     }
@@ -251,8 +318,13 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             const formData = new FormData(reportForm);
-            if (selectedPhotoFile) {
-                formData.set("photo", selectedPhotoFile);
+            formData.delete("photo");
+            formData.delete("photos");
+            selectedPhotoFiles.forEach(f => {
+                formData.append("photos", f);
+            });
+            if (selectedPhotoFiles[0]) {
+                formData.append("photo", selectedPhotoFiles[0]);
             }
 
             if (submitBtn) {

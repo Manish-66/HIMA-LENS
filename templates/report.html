@@ -112,25 +112,28 @@ HIMA-LENS | Field Telemetry & Landslide Incident Reporting
                         <p class="card-subheading">Provide photographic evidence, classify movement dynamics, and record observations.</p>
                     </div>
 
-                    <!-- Photo Upload Dropzone -->
+                    <!-- Photo Upload Dropzone (Multi-Image up to 4) -->
                     <div class="field-photo-container">
-                        <label class="field-label">ON-SITE PHOTOGRAPHIC EVIDENCE</label>
+                        <label class="field-label">ON-SITE PHOTOGRAPHIC EVIDENCE (UP TO 4 PHOTOS)</label>
                         <div class="field-photo-dropzone" id="dropzone-area">
-                            <input type="file" id="rep-photo-file" name="photo" accept="image/*" style="display:none;">
+                            <input type="file" id="rep-photo-file" name="photos" accept="image/*" multiple style="display:none;">
                             <div class="dropzone-content" id="dropzone-empty">
                                 <div class="dropzone-icon-ring">
                                     <span class="dropzone-camera-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg></span>
                                 </div>
                                 <div class="dropzone-text">
-                                    <span class="dropzone-primary-text">Capture live photo or select file</span>
-                                    <span class="dropzone-sub-text">JPG, PNG, or WebP up to 16MB &bull; Live camera enabled</span>
+                                    <span class="dropzone-primary-text">Capture live photos or select up to 4 files</span>
+                                    <span class="dropzone-sub-text">JPG, PNG, or WebP up to 16MB each &bull; Front scarp, left &amp; right flanks, toe debris</span>
                                 </div>
                             </div>
                             <div class="dropzone-preview" id="dropzone-preview" style="display:none;">
-                                <img id="preview-img-element" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3C/svg%3E" alt="Field observation preview">
-                                <div class="preview-meta-bar">
-                                    <span id="preview-filename" class="preview-filename">photo.jpg</span>
-                                    <button type="button" id="btn-remove-photo" class="btn-remove-preview">&times; Remove</button>
+                                <div id="preview-grid" class="preview-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px; width: 100%; margin-bottom: 8px;"></div>
+                                <div class="preview-meta-bar" style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+                                    <span id="preview-filename" class="preview-filename" style="font-size:11px; font-weight:700; color:#5d7068;">0 photos selected</span>
+                                    <div style="display:flex; gap:6px;">
+                                        <button type="button" id="btn-add-more-photos" class="btn-add-preview" style="background:#047857; color:#fff; border:none; padding:4px 9px; border-radius:4px; font-size:10px; cursor:pointer; font-weight:700;">+ Add Photo</button>
+                                        <button type="button" id="btn-remove-photo" class="btn-remove-preview" style="background:#fee2e2; border:1px solid #fca5a5; color:#b91c1c; border-radius:4px; padding:4px 9px; font-size:10px; cursor:pointer; font-weight:700;">&times; Clear All</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

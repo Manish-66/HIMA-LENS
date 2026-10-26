@@ -147,10 +147,7 @@ function ensurePwdModalInDOM() {
         <div class="pwd-modal-footer">
           <button type="button" class="pwd-btn pwd-btn-secondary" onclick="closePwdAssessmentModal()">Close</button>
           <div class="pwd-modal-actions" style="display: flex; gap: 8px; flex-wrap: wrap;">
-            <button type="button" class="pwd-btn" id="btn-modal-cost-estimate" style="background: #f59e0b; color: #092f25; font-weight: 700; border: 1px solid #d97706;" onclick="submitAndOpenCostEstimate()">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path><path d="M12 6v2m0 8v2"></path></svg>
-              <span>Cost Estimate &amp; Loss BOQ</span>
-            </button>
+
             <button type="button" class="pwd-btn pwd-btn-primary" id="btn-print-official" onclick="submitAndOpenOfficialSheet()">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
               <span>View IIT Mandi Assessment Report</span>
@@ -276,17 +273,11 @@ window.submitAndOpenOfficialSheet = function(openEstimate = false) {
   closePwdAssessmentModal();
 };
 
-window.submitAndOpenCostEstimate = function() {
-  window.open(`/report/boq-sheet/${encodeURIComponent(activeReportId)}`, '_blank');
-  closePwdAssessmentModal();
-};
+
 
 window.openDirectSheet = function(reportId) {
   window.open(`/report/pwd-sheet/${encodeURIComponent(reportId)}`, '_blank');
   closePwdAssessmentModal();
 };
 
-window.openDirectCostEstimate = function(reportId) {
-  window.open(`/report/boq-sheet/${encodeURIComponent(reportId)}`, '_blank');
-  closePwdAssessmentModal();
-};
+

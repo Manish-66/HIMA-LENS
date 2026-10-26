@@ -114,7 +114,20 @@ def load_local_reports() -> list[dict[str, Any]]:
     try:
         with COMMUNITY_REPORTS_PATH.open(encoding="utf-8") as f:
             data = json.load(f)
-            return data if isinstance(data, list) else []
+            if isinstance(data, list):
+                for r in data:
+                    if isinstance(r, dict):
+                        p_urls = r.get("photo_urls") or []
+                        if isinstance(p_urls, str):
+                            p_urls = [p_urls]
+                        elif not isinstance(p_urls, list):
+                            p_urls = []
+                        if not p_urls and r.get("photo_url"):
+                            p_urls = [r["photo_url"]]
+                        r["photo_urls"] = p_urls
+                        r["photo_url"] = p_urls[0] if p_urls else (r.get("photo_url") or "")
+                return data
+            return []
     except Exception as exc:
         logger.warning("Failed to read local reports JSON: %s", exc)
         return []
@@ -305,6 +318,17 @@ def save_community_report(report_data: dict[str, Any]) -> bool:
                 )
         except Exception as exc:
             logger.warning("Supabase report insert exception: %s", exc)
+
+    # Ensure normalized photo_urls array and photo_url string
+    p_urls = report_data.get("photo_urls") or []
+    if isinstance(p_urls, str):
+        p_urls = [p_urls]
+    elif not isinstance(p_urls, list):
+        p_urls = []
+    if not p_urls and report_data.get("photo_url"):
+        p_urls = [report_data["photo_url"]]
+    report_data["photo_urls"] = p_urls
+    report_data["photo_url"] = p_urls[0] if p_urls else (report_data.get("photo_url") or "")
 
     # Always attempt local backup (works during local dev; safely handled on serverless)
     local_reports = load_local_reports()

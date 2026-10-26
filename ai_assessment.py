@@ -1989,12 +1989,24 @@ def generate_ai_assessment(report: dict[str, Any], force_refresh: bool = False) 
             logger.info("Serving assessment for %s from persistent cache.", report_id)
             return normalize_assessment_structure(cached, report)
 
-    photo_url = report.get("photo_url", "")
-    base64_data, mime_type = _get_image_base64_and_mime(photo_url)
+    # Extract photographic field evidence array (supports up to 4 perspective images)
+    photo_urls = report.get("photo_urls") or []
+    if isinstance(photo_urls, str):
+        photo_urls = [photo_urls]
+    elif not isinstance(photo_urls, list):
+        photo_urls = []
+    if not photo_urls and report.get("photo_url"):
+        photo_urls = [report["photo_url"]]
+
+    image_parts = []
+    for u in photo_urls[:4]:
+        b64, mime = _get_image_base64_and_mime(u)
+        if b64:
+            image_parts.append({"inline_data": {"mime_type": mime, "data": b64}})
 
     # Mandatory requirement: Photographic field evidence is required for automated photogrammetry and dimensioning.
     # If no photo was attached, strictly suspend civil BOQ and do NOT invent synthetic slope metrics.
-    if not base64_data:
+    if not image_parts:
         rejection_dossier = build_rejected_assessment_dossier(
             report,
             detected_content="No Photographic Field Evidence Attached",
@@ -2130,12 +2142,19 @@ RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
   "senior_engineer_remarks": "Optical photogrammetry confirms an active translational cut-slope debris failure encroaching on the carriageway. Urgent clearance and plum concrete breast wall stabilization required."
 }}"""
 
+    prompt_text = prompt
+    if len(image_parts) > 1:
+        prompt_text += f"""
+
+MULTI-PERSPECTIVE VISUAL FIELD EVIDENCE SYNTHESIS:
+You are provided with {len(image_parts)} distinct photographic perspectives of this same slope disaster (e.g. main scarp detachment, left lateral flank tension cracks, right flank profile, and toe debris carriageway accumulation).
+Carefully synthesize the visual information across ALL {len(image_parts)} attached photographs to produce a single, unified, comprehensive optical photogrammetry diagnosis and consistent physical geometry.
+"""
+
+    parts_list = [{"text": prompt_text}] + image_parts
     payload = {
         "contents": [{
-            "parts": [
-                {"text": prompt},
-                {"inline_data": {"mime_type": mime_type, "data": base64_data}}
-            ]
+            "parts": parts_list
         }],
         "generationConfig": {
             "temperature": 0.0,
