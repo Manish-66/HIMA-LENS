@@ -26,7 +26,7 @@ def verify_all_templates():
                 "observed_features": {"optical_geometry": {"failure_vector": "UPHILL_CUT_SLOPE"}},
             },
             "expected_ppr": ["Plum Concrete Breast Wall", "20 Nos.", "5 Nos. × 15m"],
-            "expected_dsr": ["Above road: Yes", "Mandi Sector", "Page 2 of 2"],
+            "expected_dsr": ["Above road: Yes", "Mandi Sector", "Page 3 of 3"],
             "expected_boq": ["₹ 11,84,152", "₹ 16,11,414"],
         },
         {
@@ -84,7 +84,7 @@ def verify_all_templates():
                 },
             },
             "expected_ppr": ["Residential Dwelling Settlement Zone", "M25 RC Cantilever Debris Deflector Wall", "Upper Terrace Doweling"],
-            "expected_dsr": ["Residential Settlement Access", "Page 2 of 2"],
+            "expected_dsr": ["Residential Settlement Access", "Page 3 of 3"],
             "expected_boq": ["Debris Deflector Wall"],
         },
         {
@@ -102,7 +102,7 @@ def verify_all_templates():
                 },
             },
             "expected_ppr": ["LEVEL-1 MULTIDISCIPLINARY DPR RECONNAISSANCE MANDATE"],
-            "expected_dsr": ["Slope & Material Characteristics", "Page 2 of 2"],
+            "expected_dsr": ["Slope & Material Characteristics", "Page 3 of 3"],
             "expected_boq": ["CIVIL WORKS ESTIMATION SUSPENDED", "MACRO-SCALE CATASTROPHIC SLOPE FAILURE"],
         },
         {
@@ -120,7 +120,7 @@ def verify_all_templates():
                 },
             },
             "expected_ppr": ["OPTICAL AUDIT DISQUALIFICATION"],
-            "expected_dsr": ["OPTICAL AUDIT DISQUALIFICATION", "Page 2 of 2"],
+            "expected_dsr": ["OPTICAL AUDIT DISQUALIFICATION", "Page 3 of 3"],
             "expected_boq": ["CIVIL WORKS ESTIMATION SUSPENDED"],
         },
     ]
