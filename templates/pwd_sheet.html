@@ -639,15 +639,15 @@
       flex-shrink: 0;
     }
 
-    /* Section 10 Adaptive Engineering Photo Plate (Option 2: Hero + Flanks) */
+    /* Section 10 Adaptive Engineering Photo Plate & Kinematic Schematic */
     .photo-img-wrap, .schematic-svg-wrap {
       width: 100%;
       flex: 1 1 auto;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #0f172a;
-      padding: 2.5px;
+      background: #f8fafc;
+      padding: 3px;
       height: 190px;
       min-height: 190px;
       max-height: 190px;
@@ -655,17 +655,17 @@
       box-sizing: border-box;
     }
     .photo-img-wrap {
-      background: #020617;
+      background: #f1f5f9;
+      padding: 3px;
     }
     .photo-img-wrap img {
-      width: 100% !important;
-      height: 100% !important;
-      max-width: 100% !important;
-      max-height: 100% !important;
-      object-fit: contain !important;
-      object-position: center !important;
-      display: block !important;
-      background: #020617;
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
     }
     .gallery-adaptive {
       width: 100%;
@@ -760,6 +760,122 @@
     }
     .gallery-cell:hover img {
       transform: scale(1.025);
+    }
+
+    /* Section 10 Dual-Pane Split Plate (Eliminates Portrait Dead Void) */
+    .sec10-split-plate {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      gap: 5px;
+      box-sizing: border-box;
+    }
+    .sec10-photo-col {
+      flex: 0 0 47%;
+      height: 100%;
+      position: relative;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 3px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      box-sizing: border-box;
+    }
+    .sec10-photo-col img {
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      transition: transform 0.2s ease;
+    }
+    .sec10-photo-col:hover img {
+      transform: scale(1.025);
+    }
+    .sec10-telemetry-col {
+      flex: 1 1 53%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 3px;
+      padding: 4px 6px;
+      box-sizing: border-box;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      min-width: 0;
+    }
+    .sec10-telem-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 2px;
+      margin-bottom: 2px;
+      flex: 0 0 auto;
+    }
+    .sec10-telem-title {
+      font-size: 6.8px;
+      font-weight: 800;
+      color: var(--primary-forest);
+      font-family: 'Manrope', sans-serif;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+    .sec10-telem-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 1 1 auto;
+      justify-content: center;
+    }
+    .sec10-telem-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      font-size: 6.6px;
+      line-height: 1.18;
+    }
+    .sec10-lbl {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      color: #64748b;
+      flex: 0 0 74px;
+    }
+    .sec10-val {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 700;
+      color: #0f172a;
+      text-align: right;
+      flex: 1 1 auto;
+    }
+    .sec10-annexure-box {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 2px;
+      padding: 2.5px 4.5px;
+      margin-top: 2px;
+      flex: 0 0 auto;
+    }
+    .sec10-annex-tag {
+      font-size: 6px;
+      font-weight: 800;
+      color: #166534;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.25px;
+      margin-bottom: 1px;
+    }
+    .sec10-annex-desc {
+      font-size: 6.5px;
+      color: #1e293b;
+      line-height: 1.2;
+      font-family: 'Inter', -apple-system, sans-serif;
     }
     /* ========================================================
        PAGE 3: ANNEXURE A HIGH-RESOLUTION EVIDENCE PLATE
@@ -859,15 +975,15 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: #1e293b;
+      background: #0f2b23;
       color: #ffffff;
       padding: 3px 8px;
-      border-bottom: 1px solid #0f172a;
+      border-bottom: 1.5px solid #091e18;
       flex: 0 0 auto;
       font-family: 'Manrope', sans-serif;
     }
     .annexure-card-tag {
-      background: #0ea5e9;
+      background: #0369a1;
       color: #ffffff;
       font-size: 6.5px;
       font-weight: 800;
@@ -881,13 +997,14 @@
     .annexure-card-img-wrap {
       flex: 1 1 auto;
       position: relative;
-      background: #020617;
+      background: #f8fafc;
       min-height: 0;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      padding: 2px;
+      padding: 4px;
+      box-sizing: border-box;
     }
     .annexure-img-link {
       display: flex;
@@ -898,16 +1015,22 @@
       text-decoration: none;
     }
     .annexure-img {
-      width: 100%;
-      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
       object-fit: contain;
       display: block;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 2px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.07);
     }
 
     .annexure-card-footer {
-      background: #f8fafc;
-      border-top: 1px solid var(--border-light);
-      padding: 3px 7px;
+      background: #f1f5f9;
+      border-top: 1px solid #cbd5e1;
+      padding: 3.5px 7px;
       display: flex;
       flex-direction: column;
       gap: 1.5px;
@@ -1037,32 +1160,8 @@
       border-bottom: 1px solid rgba(255, 255, 255, 0.15);
       font-family: 'Manrope', sans-serif;
     }
-    .photo-img-wrap, .schematic-svg-wrap {
-      width: 100%;
-      flex: 1 1 auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #ffffff;
-      padding: 3px;
-      height: 185px;
-      min-height: 185px;
-      max-height: 185px;
-      overflow: hidden;
-      box-sizing: border-box;
-    }
-    .photo-img-wrap {
-      background: #0f172a;
-    }
-    .photo-img-wrap img {
-      max-width: 100%;
-      max-height: 155px;
-      width: auto;
-      height: auto;
-      object-fit: contain;
-      display: block;
-      margin: 0 auto;
-      border-radius: 2px;
+    .photo-caption-bar, .schematic-caption-bar {
+      white-space: nowrap;
     }
     .schematic-svg-wrap svg {
       width: 100%;
@@ -1824,13 +1923,49 @@
           </div>
           <div class="photo-img-wrap">
             {% if p_count >= 1 %}
-            <div class="gallery-adaptive gallery-layout-1">
+            <div class="gallery-adaptive gallery-layout-1 sec10-split-plate">
               {% set p = photo_list[0] %}
-              <div class="gallery-cell hero-cell">
-                <span class="gallery-badge">{% if p_count > 1 %}1. PRIMARY SCARP DETACHMENT (HERO VIEW){% else %}1. SITE GROUND RECONNAISSANCE EVIDENCE{% endif %}</span>
-                <a href="{{ p.url if p.url is defined else p }}" target="_blank" rel="noopener noreferrer" class="gallery-link" title="Click to view original high-resolution photo">
+              <div class="gallery-cell hero-cell sec10-photo-col">
+                <span class="gallery-badge">1. PRIMARY SCARP DETACHMENT</span>
+                <a href="{{ p.url if p.url is defined else p }}" target="_blank" rel="noopener noreferrer" class="gallery-link" title="Click to view full uncompressed original photo">
                   <img src="{{ p.url if p.url is defined else p }}" alt="Site Evidence Plate">
                 </a>
+              </div>
+              <div class="sec10-telemetry-col">
+                <div class="sec10-telem-header">
+                  <span class="sec10-telem-title">OPTICAL FIELD RECONNAISSANCE</span>
+                </div>
+                <div class="sec10-telem-list">
+                  <div class="sec10-telem-item">
+                    <span class="sec10-lbl">SURVEY ANGLE:</span>
+                    <span class="sec10-val">Frontal Orthogonal / Upslope</span>
+                  </div>
+                  <div class="sec10-telem-item">
+                    <span class="sec10-lbl">FAILURE SCARP:</span>
+                    <span class="sec10-val">Active Crown Detachment Face</span>
+                  </div>
+                  <div class="sec10-telem-item">
+                    <span class="sec10-lbl">ROAD CORRIDOR:</span>
+                    <span class="sec10-val">{{ 'Debris Accumulation at Toe' if (geom and geom.road_width_post_disaster_m and geom.road_width_pre_disaster_m and geom.road_width_post_disaster_m < geom.road_width_pre_disaster_m) else 'Pavement Free / Shoulder Block' }}</span>
+                  </div>
+                  <div class="sec10-telem-item">
+                    <span class="sec10-lbl">SPECIFICATION:</span>
+                    <span class="sec10-val">IS:14458 (Part 1) &amp; IRC:SP:48</span>
+                  </div>
+                </div>
+                <div class="sec10-annexure-box">
+                  {% if p_count > 1 %}
+                  <div class="sec10-annex-tag">{{ p_count }} PERSPECTIVES ON FILE</div>
+                  <div class="sec10-annex-desc">
+                    Comprehensive multi-angle photogrammetric dossier recorded. Refer to <strong>Annexure A (Page 3)</strong> for flank profiles &amp; toe encroachment plates.
+                  </div>
+                  {% else %}
+                  <div class="sec10-annex-tag">PRIMARY FIELD PLATE</div>
+                  <div class="sec10-annex-desc">
+                    Calibrated ground optical reconnaissance record. Single-perspective statutory archive.
+                  </div>
+                  {% endif %}
+                </div>
               </div>
             </div>
             {% else %}
@@ -1844,7 +1979,7 @@
               {% else %}
                 <span style="background:#16a34a; color:#ffffff; padding:1px 5px; border-radius:2px; font-weight:800; font-size:6.8px;">
                   {% if p_count > 1 %}
-                  Verified Primary Imagery &bull; See Annexure A (Page 3) for all {{ p_count }} High-Res Perspectives
+                  Verified Primary Imagery &bull; Annexure A (Page 3)
                   {% else %}
                   Verified Slope Imagery &bull; Field Reconnaissance Record
                   {% endif %}
@@ -2134,8 +2269,8 @@
           </div>
           <div class="annexure-card-footer">
             <div class="annex-meta-row">
-              <span><strong>View Angle:</strong> {% if loop.index == 1 %}Frontal Orthogonal / Upslope View{% elif loop.index == 2 %}Up-Station / Left Lateral Flank Profile{% elif loop.index == 3 %}Down-Station / Right Lateral Flank Diagnostic{% else %}Highway Formation / Toe Debris Runout{% endif %}</span>
-              <span><strong>Status:</strong> Optical Diagnostic Record</span>
+              <span><strong style="color: #0f2b23;">ORIENTATION:</strong> {% if loop.index == 1 %}Frontal Orthogonal / Upslope View{% elif loop.index == 2 %}Up-Station / Left Lateral Flank Profile{% elif loop.index == 3 %}Down-Station / Right Lateral Flank Diagnostic{% else %}Highway Formation / Toe Debris Runout{% endif %}</span>
+              <span style="background: #e0f2fe; color: #0369a1; border: 0.5px solid #bae6fd; padding: 1px 4.5px; border-radius: 2px; font-weight: 800; font-size: 6px;">OPTICAL EVIDENCE</span>
             </div>
             <div class="annex-desc-row">
               {% if loop.index == 1 %}
