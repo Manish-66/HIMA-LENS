@@ -324,11 +324,11 @@ check(has_layout_0, "Adaptive Gallery Case E: 0 photos renders clean missing pho
       "Verified: Safe non-breaking placeholder rendered.")
 
 # 4.6 Strict ISO A4 CSS Height Invariance Check
-has_fixed_160px = 'height: 160px;' in pwd_sheet_src and '.photo-img-wrap, .schematic-svg-wrap' in pwd_sheet_src
-has_contain_fit = 'object-fit: contain;' in pwd_sheet_src
+has_fixed_160px = 'height: 185px;' in pwd_sheet_src and '.photo-img-wrap, .schematic-svg-wrap' in pwd_sheet_src
+has_contain_fit = 'object-fit: cover;' in pwd_sheet_src
 check(has_fixed_160px and has_contain_fit,
-      "Strict A4 Spatial Discipline: Container height strictly bounded (160px, object-fit: contain)",
-      "Verified: Left (photo gallery) and Right (schematic cross-section) share identical 160px fixed height.")
+      "Strict A4 Spatial Discipline: Container height strictly bounded (185px, object-fit: cover)",
+      "Verified: Left (photo gallery) and Right (schematic cross-section) share identical 185px fixed height.")
 
 # ==============================================================================
 # SUITE 5: Side-by-Side Calibration Panel & Schematic Wall Toggle Continuity

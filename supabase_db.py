@@ -241,6 +241,15 @@ def fetch_report_by_id(report_id: str) -> dict[str, Any] | None:
         return None
 
     def _lookup(target_id: str) -> dict[str, Any] | None:
+        local_match = None
+        clean_lower = target_id.casefold()
+        for r in load_local_reports():
+            rid = str(r.get("id", "")).strip().casefold()
+            if rid == clean_lower or rid.endswith(clean_lower) or clean_lower.endswith(rid):
+                local_match = r
+                break
+
+        remote_row = None
         if is_supabase_configured():
             url = f"{SUPABASE_URL}/rest/v1/community_reports?id=eq.{target_id}&limit=1"
             try:
@@ -248,7 +257,7 @@ def fetch_report_by_id(report_id: str) -> dict[str, Any] | None:
                 if resp.status_code == 200:
                     rows = resp.json()
                     if isinstance(rows, list) and len(rows) > 0:
-                        return rows[0]
+                        remote_row = rows[0]
                 else:
                     logger.warning(
                         "Supabase single report lookup returned status %s: %s",
@@ -258,10 +267,31 @@ def fetch_report_by_id(report_id: str) -> dict[str, Any] | None:
             except Exception as exc:
                 logger.warning("Supabase single report lookup exception: %s. Falling back to local data.", exc)
 
-        clean_lower = target_id.casefold()
-        for r in load_local_reports():
-            if str(r.get("id", "")).strip().casefold() == clean_lower:
-                return r
+        # Merge remote and local rows, ensuring photo_urls and ai_assessment are never lost
+        final_rep = remote_row or local_match
+        if final_rep:
+            if local_match:
+                # If remote is missing multi-photo array, restore from local backup
+                if not final_rep.get("photo_urls") and local_match.get("photo_urls"):
+                    final_rep["photo_urls"] = list(local_match["photo_urls"])
+                elif local_match.get("photo_urls") and len(local_match["photo_urls"]) > len(final_rep.get("photo_urls") or []):
+                    final_rep["photo_urls"] = list(local_match["photo_urls"])
+
+                if not final_rep.get("ai_assessment") and local_match.get("ai_assessment"):
+                    final_rep["ai_assessment"] = local_match["ai_assessment"]
+
+            # Normalize photo_urls array
+            p_urls = final_rep.get("photo_urls") or []
+            if isinstance(p_urls, str):
+                p_urls = [p_urls]
+            elif not isinstance(p_urls, list):
+                p_urls = []
+            if not p_urls and final_rep.get("photo_url"):
+                p_urls = [final_rep["photo_url"]]
+            final_rep["photo_urls"] = p_urls
+            final_rep["photo_url"] = p_urls[0] if p_urls else (final_rep.get("photo_url") or "")
+            return final_rep
+
         return None
 
     result = _lookup(clean_id)

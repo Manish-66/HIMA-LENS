@@ -1090,12 +1090,19 @@ def view_pwd_sheet(report_id: str):
             except Exception:
                 pass
 
-    # Normalize photo_urls array (up to 4 images)
+    # Normalize photo_urls array (up to 4 images) with local backup enrichment
+    clean_id = (report_id or "").strip()
+    local_rep = next((r for r in supabase_db.load_local_reports() if str(r.get("id", "")).strip().casefold() in (clean_id.casefold(), report_id.casefold()) or str(r.get("id", "")).endswith(clean_id)), None)
+
     photo_urls = display_report.get("photo_urls") or []
     if isinstance(photo_urls, str):
         photo_urls = [photo_urls]
     elif not isinstance(photo_urls, list):
         photo_urls = []
+
+    if (not photo_urls or len(photo_urls) <= 1) and local_rep and local_rep.get("photo_urls"):
+        photo_urls = list(local_rep["photo_urls"])
+
     if not photo_urls and display_report.get("photo_url"):
         photo_urls = [display_report["photo_url"]]
 
