@@ -455,7 +455,7 @@ def compute_deterministic_engineering_dossier(
         env_type = "Highway / Transport Corridor"
         impacted_assets = "Mandi Sector Major District Road (MDR) Corridor (Formation Width 5.25m)"
         structural_damage = (
-            "Carriageway blocked by 181.25 m³ bulked debris; roadway constricted from 5.25m to 2.30m single-lane transit; "
+            "Carriageway blocked by 181.25 m³ bulked colluvial mass; roadway constricted from 5.25m to 2.30m single-lane transit; "
             "roadside longitudinal drain choked and deformed."
         )
     else:
@@ -481,7 +481,7 @@ def compute_deterministic_engineering_dossier(
         if site_context:
             env_type = site_context.get("environment_type") or "Highway / Transport Corridor"
             impacted_assets = site_context.get("impacted_assets") or f"{site_road_name} Asset"
-            structural_damage = site_context.get("structural_damage") or "Carriageway blocked by debris accumulation."
+            structural_damage = site_context.get("structural_damage") or "Carriageway blocked by displaced colluvial mass accumulation."
         else:
             env_type = "Highway / Transport Corridor"
             impacted_assets = f"{site_road_name} Corridor"
@@ -668,7 +668,7 @@ def compute_deterministic_engineering_dossier(
             "usgs_kinematic_definition": "A translational slide mass that moves down and outward along a planar surface of rupture daylighting into the road formation.",
             "two_term_classification": classification_str,
             "primary_movement": movement,
-            "material_class": f"Debris and Weathered Rock ({observed_rock})",
+            "material_class": f"Colluvial Mass and Weathered Rock ({observed_rock})",
             "velocity_class": {
                 "class_code": "Class 5",
                 "rate_name": "Rapid",
@@ -678,7 +678,7 @@ def compute_deterministic_engineering_dossier(
             "landslide_anatomy": {
                 "crown_and_scarp": f"Detachment main scarp H = {h_mean:.2f}m (upper face {h_cut:.2f}m @ {geom.get('cut_angle_deg', 66.0):.0f}° inclination), open tension fissures 15-40mm",
                 "displaced_mass": f"{exc_insitu:.1f} m³ in-situ ({exc_vol:.2f} m³ bulked) colluvial overburden and jointed clasts",
-                "toe_and_foot": f"Accumulation debris lobe encroaching {road_pre - road_post:.2f}m across carriageway and choking roadside drain",
+                "toe_and_foot": f"Displaced colluvial runout lobe encroaching {road_pre - road_post:.2f}m across carriageway and choking roadside drain",
             },
             "standard_reference": "USGS Circular 1325 (Highland & Bobrowsky, 2008) / Cruden & Varnes (1996)",
         },
@@ -696,7 +696,7 @@ def compute_deterministic_engineering_dossier(
             "Forensic geotechnical evaluation of the Mandi Sector MDR corridor (RD 17+432, 31.70800° N, 76.93200° E) confirms an active slope failure "
             "formally designated under Cruden & Varnes (1996) taxonomy as a Composite Translational Debris-Rock Slide. The failure detachment occurred along "
             "daylighting structural joint set J1 dipping 57° SW in Grade IV highly weathered Shali Dolomite / Quartzite bedrock, releasing 145.0 m³ in-situ "
-            "(181.25 m³ bulked @ 1.25 swell) of colluvial overburden and boulder debris across the carriageway, restricting the 5.25m formation to 2.30m single-lane transit.\n\n"
+            "(181.25 m³ bulked @ 1.25 swell) of colluvial overburden and displaced rock clasts across the carriageway, restricting the 5.25m formation to 2.30m single-lane transit.\n\n"
             "2. CONSEQUENCE RATING & LIMIT STATE STABILITY (CEDD Geoguide 1 / Eurocode 7):\n"
             "Under Hong Kong CEDD Geoguide 1 consequence classification, this corridor represents Category 2 (High / Sub-Divisional Corridor Life & Transport Consequence), "
             "requiring a statutory minimum Factor of Safety FoS ≥ 1.30 under extreme monsoon steady-seepage saturation and FoS ≥ 1.50 under long-term permanent stabilized conditions. "
@@ -759,7 +759,7 @@ def compute_deterministic_engineering_dossier(
     if is_benchmark_6A9B:
         mitigation_text = (
             "1. Primary Toe Retention & Structural Retention (IS:14458 Part 2 / MoRTH Section 1500):\n"
-            "   Emergency hydraulic clearance of 181.25 m³ bulked debris (145.0 m³ in-situ @ 1.25 bulking) followed by construction of a 17.0m long Plum Concrete Breast Wall "
+            "   Emergency hydraulic clearance of 181.25 m³ bulked colluvial mass (145.0 m³ in-situ @ 1.25 bulking) followed by construction of a 17.0m long Plum Concrete Breast Wall "
             "(H_stem = 2.70m, D_f = 1.00m embedment, base width B = 1.35m, top width b = 0.60m, concrete volume = 67.70 m³ M15 with 40% plums 150–300mm), backed by 16.07 m³ crushed gravel filter pack (0.35m thick) wrapped in 67.25 m² non-woven geotextile and 26 Nos. 100mm dia PVC weep hole pipes (32.50m total) in 2 staggered rows.\n"
             "2. Internal Ground Reinforcement & Slope Nailing (MoRTH Section 3100 / CEDD Geoguide 7):\n"
             "   Installation of 20 Nos. Ø25mm High-Yield Fe500D TMT soil nails (18 working nails in 1.8m H × 2.0m V staggered grid + 2 sacrificial pullout verification test nails) drilled to 9.0m depth (180.0m total drilling, 190.0m bar), pressure grouted with non-shrink cementitious grout (fcu ≥ 30 MPa), anchored with 18 Nos. cast-in-situ M30 RC bearing pads (400×400×200mm) and high-tensile diamond steel wire mesh facing (3mm wire, 65×65mm, 91.12 m²).\n"
@@ -771,7 +771,7 @@ def compute_deterministic_engineering_dossier(
     else:
         mitigation_text = (
             f"1. Primary Toe Retention & Structural Retention (IS:14458 Part 2 / MoRTH Section 1500):\n"
-            f"   Emergency clearance of {exc_vol:.1f} m³ bulked debris ({exc_insitu:.1f} m³ in-situ @ {bulking_factor} bulking) followed by construction of a {l_wall:.1f}m long Plum Concrete Breast Wall "
+            f"   Emergency clearance of {exc_vol:.1f} m³ bulked colluvial mass ({exc_insitu:.1f} m³ in-situ @ {bulking_factor} bulking) followed by construction of a {l_wall:.1f}m long Plum Concrete Breast Wall "
             f"(H_stem = {h_wall:.2f}m, D_f = {embed_d:.2f}m embedment, base width B = {base_w:.2f}m, concrete volume = {plum_concrete_vol:.2f} m³ M15 with 40% plums), backed by {backfill_filter_vol:.2f} m³ crushed gravel filter pack wrapped in {geotextile_back_area:.2f} m² non-woven geotextile and {n_weep_holes} Nos. PVC weep holes.\n"
             f"2. Internal Ground Reinforcement & Slope Nailing (MoRTH Section 3100 / CEDD Geoguide 7):\n"
             f"   Installation of {un.get('total_nails_count', 20)} Nos. Ø25mm High-Yield Fe500D TMT soil nails ({un.get('working_nails_count', 18)} working nails + 2 sacrificial test nails) drilled to 9.0m depth ({un.get('drilling_total_depth_m', 180.0):.1f}m total drilling), pressure grouted with non-shrink cementitious grout, anchored with RC bearing pads and high-tensile diamond steel wire mesh facing ({un.get('face_surface_area_m2', 91.12):.2f} m²).\n"
@@ -799,12 +799,12 @@ def compute_deterministic_engineering_dossier(
     if is_benchmark_6A9B:
         plain_explanation = {
             "summary_title": "MDR Corridor Landslide Disruption in Mandi Sector (RD 17+432)",
-            "what_happened": "A steep section of the hillside cut scarp failed, dumping 181 m³ of colluvial debris and boulders across the road corridor.",
+            "what_happened": "A steep section of the hillside cut scarp failed, discharging 181 m³ of colluvial mass and fractured rock clasts across the road corridor.",
             "why_it_happened": "Heavy monsoon rainfall saturated open joint discontinuities dipping 57° into the roadway, inducing hydrostatic cleft-water pressure and shear collapse.",
             "property_and_access_impact": f"Passage is obstructed ({blockage}). Two-way traffic is halted; single-lane transit is restricted under safety spotters.",
             "road_and_travel_impact": f"Passage is obstructed ({blockage}). Two-way traffic is halted; single-lane transit is restricted under safety spotters.",
             "ongoing_hazards": "The hillside directly above remains vulnerable to secondary detachment under continuous precipitation.",
-            "what_needs_to_be_done": "Deploy excavators to clear 181 m³ of debris, construct a 17m plum concrete breast wall (H=2.7m), install 20 soil nails, and drill 75m of subsurface drainage.",
+            "what_needs_to_be_done": "Deploy excavators to clear 181 m³ of displaced colluvial mass, construct a 17m plum concrete breast wall (H=2.7m), install 20 soil nails, and drill 75m of subsurface drainage.",
             "citizen_safety_advice": "Do NOT attempt to transit under active scarp faces during rainfall. Follow flagger directions and maintain 50m exclusion distance.",
         }
     else:
@@ -956,7 +956,7 @@ def compute_deterministic_engineering_dossier(
             },
             "distress_remarks": (
                 f"Slope failure along daylighting joint set under precipitation. "
-                f"{exc_vol:.2f} m³ bulked debris deposited across the carriageway, blocking {road_pre - road_post:.2f}m of the {road_pre:.2f}m formation and choking the roadside drain."
+                f"{exc_vol:.2f} m³ bulked colluvial mass deposited across the carriageway, blocking {road_pre - road_post:.2f}m of the {road_pre:.2f}m formation and choking the roadside drain."
             ),
         },
         "pavement_dimensions": {
@@ -1090,7 +1090,7 @@ def compute_deterministic_engineering_dossier(
                 "title": "Tier 1: Factual Ground Truth & Telemetry (Objective Past Passive)",
                 "description": (
                     f"At {site_road_name} ({loc_chainage_val}), a detachment scarp of vertical height "
-                    f"{h_mean:.2f} m (upper face {h_cut:.2f} m inclined at 66°) was surveyed. Saturated {observed_rock.lower()} debris "
+                    f"{h_mean:.2f} m (upper face {h_cut:.2f} m inclined at 66°) was surveyed. Saturated {observed_rock.lower()} colluvial mass and rock clasts "
                     f"({exc_insitu:.1f} m³ in-situ / {exc_vol:.2f} m³ bulked calculated via Simpson's prismoidal rule at 1.25 bulking factor) "
                     f"encroached {road_pre - road_post:.2f} m across the {road_pre:.2f} m carriageway formation. Roadside drainage was 100% obstructed under active hydrostatic surcharge. "
                     f"Prior to failure, the cut slope was an unprotected excavation. Discontinuities dipping {calc_dip}° adversely into the slope face were measured with aperture 15–40 mm."
@@ -1356,7 +1356,7 @@ def build_rejected_assessment_dossier(
             "presence_both": False,
             "in_situ_rock": False,
             "in_situ_soil": "N/A — Non-Terrain Media",
-            "debris_accumulation": "N/A — No Debris Present",
+            "debris_accumulation": "N/A — No Colluvial Mass Present",
             "slope_type_cut": False,
             "slope_type_fill": False,
             "slope_type_natural": "N/A — Non-Terrain Media",
@@ -1927,7 +1927,7 @@ def normalize_assessment_structure(assessment: dict[str, Any] | None, report: di
         merged["other_observations"] = "Sub-vertical metamorphic cliff face with daylighting joints and toppling blocks."
     elif f_vec == "HABITATION_TERRACE_SLUMP":
         hab_rem = (
-            "1. GEOTECHNICAL CLASSIFICATION: Saturated colluvial debris slump and mudslide threatening residential dwelling compound.\n"
+            "1. GEOTECHNICAL CLASSIFICATION: Saturated colluvial mass slump and mudslide threatening residential dwelling compound.\n"
             "2. DEFLECTOR STRUCTURAL DESIGN: M25 reinforced concrete cantilever retaining and debris deflector wall (H=2.8m stem, Base=1.65m) behind dwelling.\n"
             "3. UPPER TERRACE STABILIZATION: Lightweight tripod-drilled Ø25mm grouted soil dowels across upper residential terrace to arrest creeping colluvium.\n"
             "4. SURFACE WATER DIVERSION: Lined trapezoidal peripheral garland catch drain and stepped masonry cascade chute.\n"
@@ -1936,7 +1936,7 @@ def normalize_assessment_structure(assessment: dict[str, Any] | None, report: di
         merged["senior_engineer_remarks"] = hab_rem
         merged["synthesis_remarks"] = hab_rem
         merged["mitigation_measures"] = "M25 RC Deflector Wall, Upper Terrace Soil Dowels, Garland Drain, and SDRF Housing Norms."
-        merged["other_observations"] = "Colluvial debris slump threatening residential settlement structures."
+        merged["other_observations"] = "Colluvial mass slump threatening residential settlement structures."
     elif f_vec == "MACRO_MOUNTAIN_CATASTROPHE":
         macro_rem = (
             "1. GEOTECHNICAL ALERT: Macro-scale catastrophic mountain slope failure exceeding standard PWD divisional remediation limits.\n"
@@ -2091,11 +2091,11 @@ RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
   "site_context": {{
     "environment_type": "Highway / Transport Corridor",
     "impacted_assets": "Carriageway pavement and roadside ditch",
-    "structural_damage": "Debris blockage across traffic lane"
+    "structural_damage": "Displaced colluvial mass blockage across traffic lane"
   }},
   "safety_directives": {{
     "utility_hazard": "Roadside drainage blocked",
-    "machinery_and_rescue": "Tracked excavator and dump trucks for debris clearing",
+    "machinery_and_rescue": "Tracked excavator and dump trucks for colluvial mass clearance",
     "access_or_evacuation": "Single lane shuttle operation with caution signage",
     "permanent_stabilization": "Toe retention breast wall and upper slope drainage"
   }},
@@ -2108,7 +2108,7 @@ RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
     "prominent_rock_type": "Weathered Colluvium / Siltstone",
     "rock_colour": "Reddish brown",
     "in_situ_soil_desc": "Weathered residual hill slope soil",
-    "debris_accumulation_desc": "Colluvial debris and mud spilling across road",
+    "debris_accumulation_desc": "Displaced colluvial mass and mud spilling across road",
     "failure_movement_observed": "Translational debris slide on cut slope",
     "usgs_two_term_name": "Translational Debris Slide",
     "usgs_velocity_class": "Class 5 (Rapid)",
@@ -2127,7 +2127,7 @@ RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
       "carriageway_formation_m": 5.5,
       "carriageway_open_m": 2.2,
       "road_blocked_percent": 60.0,
-      "drain_status": "Roadside toe drain 100% blocked under sliding debris"
+      "drain_status": "Roadside toe drain 100% blocked under displaced colluvial mass"
     }}
   }},
   "plain_language_explanation": {{

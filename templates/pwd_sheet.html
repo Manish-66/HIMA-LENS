@@ -1445,7 +1445,7 @@
             <td>
               <div class="chk-item {{ 'checked' if is_rock }}"><span class="chk-box {{ 'active' if is_rock }}">{{ '✔' if is_rock else ' ' }}</span> In-situ rock: {{ 'Yes (' ~ (assessment.geology.prominent_soil_rock or 'Jointed Bedrock') ~ ')' if is_rock else 'No' }}</div><br>
               <div class="chk-item {{ 'checked' if is_soil }}"><span class="chk-box {{ 'active' if is_soil }}">{{ '✔' if is_soil else ' ' }}</span> In-situ soil: {{ 'Yes (Coarse Colluvial Overburden)' if is_soil else 'No' }}</div><br>
-              <div class="chk-item {{ 'checked' if is_debris }}"><span class="chk-box {{ 'active' if is_debris }}">{{ '✔' if is_debris else ' ' }}</span> Debris: {{ 'Mass Failure Colluvium (' ~ ('%.1f'|format(geom.debris_insitu_vol_m3) if geom.debris_insitu_vol_m3 is not none and geom.debris_insitu_vol_m3 > 0 else '0.0') ~ ' m³ in-situ / ' ~ ('%.2f'|format(geom.debris_bulked_vol_m3) if geom.debris_bulked_vol_m3 is not none and geom.debris_bulked_vol_m3 > 0 else '0.00') ~ ' m³ bulked at ' ~ (geom.bulking_factor | default(1.25)) ~ '×)' if is_debris else 'No' }}</div>
+              <div class="chk-item {{ 'checked' if is_debris }}"><span class="chk-box {{ 'active' if is_debris }}">{{ '✔' if is_debris else ' ' }}</span> Colluvium / Displaced Mass: {{ 'Mass Failure Colluvium (' ~ ('%.1f'|format(geom.debris_insitu_vol_m3) if geom.debris_insitu_vol_m3 is not none and geom.debris_insitu_vol_m3 > 0 else '0.0') ~ ' m³ in-situ / ' ~ ('%.2f'|format(geom.debris_bulked_vol_m3) if geom.debris_bulked_vol_m3 is not none and geom.debris_bulked_vol_m3 > 0 else '0.00') ~ ' m³ bulked at ' ~ (geom.bulking_factor | default(1.25)) ~ '×)' if is_debris else 'No' }}</div>
             </td>
             <td>
               <div class="chk-item {{ 'checked' if is_cut }}"><span class="chk-box {{ 'active' if is_cut }}">{{ '✔' if is_cut else ' ' }}</span> Cut: {{ 'Yes (Engineered Cut Slope Scarp)' if is_cut else 'No' }}</div><br>
@@ -1481,7 +1481,7 @@
         </tr>
         <tr>
           <td class="col-lbl">Pavement distress:</td>
-          <td class="col-val editable" id="f-pave-distress" colspan="3">{{ assessment.road_impact.pavement_distress or 'Transverse tension cracks 8–15mm wide along uphill shoulder; debris surcharge burying hillside drain' }}</td>
+          <td class="col-val editable" id="f-pave-distress" colspan="3">{{ assessment.road_impact.pavement_distress or 'Transverse tension cracks 8–15mm wide along uphill shoulder; colluvial surcharge burying hillside drain' }}</td>
         </tr>
         <tr>
           <td class="col-lbl">Roadside drain status:</td>
@@ -1592,7 +1592,7 @@
             <td>
               <strong>Rock Unit:</strong> {{ assessment.geology.formation or 'Shali Formation' }} &bull; {{ assessment.geology.rock_type or 'Dolomite / Quartzite / Phyllite' }}<br>
               <strong>Description:</strong> {{ assessment.geology.prominent_soil_rock or 'Shali Dolomite & Quartzite with jointed blocks' }}<br>
-              <strong>Facies:</strong> Colluvial slopewash &amp; debris scree overlying jointed bedrock.
+              <strong>Facies:</strong> Colluvial slopewash &amp; talus scree overlying jointed bedrock.
             </td>
             <td>
               <strong>Grade:</strong> <span class="editable" id="f-weathering">{{ assessment.geology.weathering_grade or 'Grade IV (Highly Weathered)' }}</span><br>
@@ -1649,7 +1649,7 @@
               Crack on drain: [ ✔ ] Yes
             </td>
             <td>
-              Slope surface shows active tension scarps and scoured gullies. Hillside drain fully overwhelmed by debris cone, diverting runoff across pavement.
+              Slope surface shows active tension scarps and scoured gullies. Hillside drain fully overwhelmed by colluvial runout cone, diverting runoff across pavement.
             </td>
           </tr>
         </tbody>
@@ -1946,7 +1946,7 @@
                   </div>
                   <div class="sec10-telem-item">
                     <span class="sec10-lbl">ROAD CORRIDOR:</span>
-                    <span class="sec10-val">{{ 'Debris Accumulation at Toe' if (geom and geom.road_width_post_disaster_m and geom.road_width_pre_disaster_m and geom.road_width_post_disaster_m < geom.road_width_pre_disaster_m) else 'Pavement Free / Shoulder Block' }}</span>
+                    <span class="sec10-val">{{ 'Displaced Colluvial Mass at Formation' if (geom and geom.road_width_post_disaster_m and geom.road_width_pre_disaster_m and geom.road_width_post_disaster_m < geom.road_width_pre_disaster_m) else 'Pavement Free / Shoulder Block' }}</span>
                   </div>
                   <div class="sec10-telem-item">
                     <span class="sec10-lbl">SPECIFICATION:</span>
@@ -2051,7 +2051,7 @@
             {% elif pdm.failure_vector == 'HABITATION_TERRACE_SLUMP' %}
             Terrace settlement and rotational slump in overburden soil threatening adjacent residential dwelling foundation.
             {% else %}
-            Detachment along steep daylighting rock joint set in {{ assessment.geology.rock_mass_lithology or 'dolomitic limestone / colluvium' }}. {{ '%.1f'|format(geom.debris_insitu_vol_m3) if geom.debris_insitu_vol_m3 else '145.0' }} m³ in-situ colluvial overburden and boulder debris discharged across roadway, restricting formation from {{ '%.2f'|format(geom.road_width_pre_disaster_m) if geom.road_width_pre_disaster_m else '5.25' }}m to {{ '%.2f'|format(geom.clear_width_remaining_m) if geom.clear_width_remaining_m else '2.30' }}m single-lane transit.
+            Detachment along steep daylighting rock joint set in {{ assessment.geology.rock_mass_lithology or 'dolomitic limestone / colluvium' }}. {{ '%.1f'|format(geom.debris_insitu_vol_m3) if geom.debris_insitu_vol_m3 else '145.0' }} m³ in-situ colluvial overburden and displaced rock clasts discharged across roadway, restricting formation from {{ '%.2f'|format(geom.road_width_pre_disaster_m) if geom.road_width_pre_disaster_m else '5.25' }}m to {{ '%.2f'|format(geom.clear_width_remaining_m) if geom.clear_width_remaining_m else '2.30' }}m single-lane transit.
             {% endif %}
           </div>
         </div>
@@ -2069,7 +2069,7 @@
             {% elif pdm.failure_vector == 'HABITATION_TERRACE_SLUMP' %}
             Residential drainage outfall discharge infiltrating into unstable slope crest, exacerbating terrace creep.
             {% else %}
-            Sub-surface cleft water seepage active at rock-debris interface. Unlined uphill drain blocked 100%, causing uncontrolled stormwater cascade across pavement. Sub-horizontal relief drains mandated.
+            Sub-surface cleft water seepage active at rock-colluvium boundary. Unlined uphill drain blocked 100%, causing uncontrolled stormwater cascade across pavement. Sub-horizontal relief drains mandated.
             {% endif %}
           </div>
         </div>
@@ -2099,7 +2099,7 @@
             {% elif pdm.failure_vector in ('CLIFF_ROCKFALL_TOPPLE', 'CLIFF_ROCKFALL') %}
             Prioritize rock mass scaling of unstable overhang blocks along cliff crest. Erect 500 kJ dynamic rockfall catch barrier and anchor high-tensile wire drape netting.
             {% elif pdm.failure_vector == 'HABITATION_TERRACE_SLUMP' %}
-            Construct M25 RC cantilever deflector wall and upper terrace grouted soil dowels to protect residential dwelling structures from creeping debris.
+            Construct M25 RC cantilever deflector wall and upper terrace grouted soil dowels to protect residential dwelling structures from creeping colluvial slopewash.
             {% elif not pdm.is_applicable %}
             Media disqualified as non-terrain. No civil engineering works or structural interventions required.
             {% elif pdm.status == 'SUSPENDED_MACRO_SCALE_DPR_REQUIRED' or pdm.failure_vector == 'MACRO_MOUNTAIN_CATASTROPHE' %}
@@ -2256,7 +2256,7 @@
               {% if loop.index == 1 %}PLATE A.1 &bull; PRIMARY SCARP &amp; DETACHMENT HEAD (ORTHOGONAL)
               {% elif loop.index == 2 %}PLATE A.2 &bull; LEFT LATERAL FLANK &amp; CROWN DISCONTINUITY
               {% elif loop.index == 3 %}PLATE A.3 &bull; RIGHT LATERAL FLANK &amp; TENSION CRACK ZONE
-              {% elif loop.index == 4 %}PLATE A.4 &bull; TOE DEBRIS RUNOUT &amp; FORMATION ENCROACHMENT
+              {% elif loop.index == 4 %}PLATE A.4 &bull; DISPLACED COLLUVIAL RUNOUT &amp; FORMATION ENCROACHMENT
               {% else %}PLATE A.{{ loop.index }} &bull; FIELD GROUND RECONNAISSANCE PERSPECTIVE
               {% endif %}
             </span>
@@ -2269,7 +2269,7 @@
           </div>
           <div class="annexure-card-footer">
             <div class="annex-meta-row">
-              <span><strong style="color: #0f2b23;">ORIENTATION:</strong> {% if loop.index == 1 %}Frontal Orthogonal / Upslope View{% elif loop.index == 2 %}Up-Station / Left Lateral Flank Profile{% elif loop.index == 3 %}Down-Station / Right Lateral Flank Diagnostic{% else %}Highway Formation / Toe Debris Runout{% endif %}</span>
+              <span><strong style="color: #0f2b23;">ORIENTATION:</strong> {% if loop.index == 1 %}Frontal Orthogonal / Upslope View{% elif loop.index == 2 %}Up-Station / Left Lateral Flank Profile{% elif loop.index == 3 %}Down-Station / Right Lateral Flank Diagnostic{% else %}Highway Formation / Displaced Colluvial Runout{% endif %}</span>
               <span style="background: #e0f2fe; color: #0369a1; border: 0.5px solid #bae6fd; padding: 1px 4.5px; border-radius: 2px; font-weight: 800; font-size: 6px;">OPTICAL EVIDENCE</span>
             </div>
             <div class="annex-desc-row">
@@ -2337,7 +2337,7 @@
         </div>
         <div class="pcp-field">
           <select id="input-failure-vector" class="pcp-select" onchange="recalculateParametersLive()">
-            <option value="UPHILL_CUT_SLOPE">Uphill Cut-Slope Debris Slide (IS:14458 Plum Wall + MoRTH 3100 Nails)</option>
+            <option value="UPHILL_CUT_SLOPE">Uphill Cut-Slope Colluvial Slide (IS:14458 Plum Wall + MoRTH 3100 Nails)</option>
             <option value="VALLEY_EMBANKMENT_SUBSIDENCE">Valley Embankment Subsidence (Stepped Gabion + Micropiles)</option>
             <option value="CLIFF_ROCKFALL">Cliff Face Rockfall &amp; Daylighting Wedge (Rock Scaling + Netting)</option>
             <option value="HABITATION_TERRACE_SLUMP">Habitation Terrace Slump (RC Deflector Wall + Soil Dowels)</option>
@@ -2412,7 +2412,7 @@
 
           <div class="pcp-dim-card">
             <div class="pcp-dim-header">
-              <span class="pcp-dim-label">Debris Width (<i>W</i>)</span>
+              <span class="pcp-dim-label">Colluvial Width (<i>W</i>)</span>
               <span class="pcp-dim-unit">m</span>
             </div>
             <div class="pcp-dim-controls">
@@ -2422,7 +2422,7 @@
 
           <div class="pcp-dim-card">
             <div class="pcp-dim-header">
-              <span class="pcp-dim-label">Thickness (<i>D</i>)</span>
+              <span class="pcp-dim-label">Colluvial Depth (<i>D</i>)</span>
               <span class="pcp-dim-unit">m</span>
             </div>
             <div class="pcp-dim-controls">
@@ -2735,7 +2735,7 @@
       const wallToggle = document.getElementById('toggle-retaining-wall');
       const includeWall = wallToggle ? wallToggle.checked : true;
 
-      // Cruden & Varnes (1996) / USGS Circular 1325 Half-Ellipsoid Debris Volume:
+      // Cruden & Varnes (1996) / USGS Circular 1325 Half-Ellipsoid Displaced Mass Volume:
       const vInsitu = Math.round((Math.PI / 6.0) * L * W * D * 100) / 100;
       const vBulked = Math.round(vInsitu * 1.25 * 100) / 100;
 

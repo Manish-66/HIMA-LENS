@@ -1,5 +1,2330 @@
 [
   {
+    "id": "IITM-CR-DB3E207A",
+    "latitude": 31.708,
+    "longitude": 76.932,
+    "district": "Chamba",
+    "incident_date": "2026-10-27T10:37",
+    "movement_type": "Slide",
+    "severity": "Moderate",
+    "description": "",
+    "reporter_name": "",
+    "photo_url": "https://lsjnontlkffkneiuxmwx.supabase.co/storage/v1/object/public/report-images/report_293acc5bc4fa_1793077692.jpeg",
+    "photo_urls": [
+      "https://lsjnontlkffkneiuxmwx.supabase.co/storage/v1/object/public/report-images/report_293acc5bc4fa_1793077692.jpeg"
+    ],
+    "status": "active",
+    "is_hidden": false,
+    "ai_assessment": {
+      "is_landslide_or_terrain": true,
+      "validation_status": "VALID_TERRAIN_IMAGE",
+      "detected_content": "Authentic geological terrain failure (Sandstone and weathered overburden)",
+      "rejection_reason": null,
+      "source": "HIMA-LENS Senior Engineering Vision (gemini-flash-lite-latest)",
+      "generated_at": "27 Oct 2026, 05:08 UTC",
+      "engineering_disclaimer": "Subsurface geotechnical parameters (effective cohesion c' = 14.0 kPa, effective internal friction angle \u03c6' = 28.0\u00b0, intact rock UCS = 35.0 MPa, and structural joint dip = 57.0\u00b0) are preliminary model estimates and assumptions based on empirical rock mass classifications and regional lithological analogs. These values are strictly subject to confirmatory site investigation, trial-pit logging, and rotary borehole core extraction with laboratory testing prior to detailed engineering design, statutory tendering, or construction authorization.",
+      "telemetry": {
+        "report_id": "IITM-CR-DB3E207A",
+        "report_reference": "IITM-CR-DB3E207A",
+        "district": "Chamba",
+        "site_road_name": "Chamba Sector \u2014 Hill Road Corridor",
+        "location_chainage": "Chamba Sector",
+        "road_type": "Hill Road / Rural Highway",
+        "inspection_date": "2026-10-27",
+        "elevation": "1,150 m AMSL",
+        "coordinates_dms": "Lat: 31\u00b042'28\" N | Long: 76\u00b055'55\" E",
+        "coordinates_dec": "31.70800\u00b0 N, 76.93200\u00b0 E",
+        "reported_movement": "Debris Slide",
+        "reported_severity": "Moderate",
+        "reporter_name": "Senior Field Geotechnical Engineer",
+        "user_notes": "Field observation recorded via HIMA-LENS spatial observatory.",
+        "date": "2026-10-27",
+        "movement_classification": "Slide (Cruden & Varnes, 1996)",
+        "cruden_varnes_classification": "Slide"
+      },
+      "site_context": {
+        "environment_type": "Hilly Transport Corridor / Mountainous Terrain",
+        "impacted_assets": "Roadway alignment at the toe of the failing slope",
+        "structural_damage": "Partial obstruction of the road formation by slide debris"
+      },
+      "slope_characteristics": {
+        "presence_above": true,
+        "presence_below": false,
+        "presence_both": false,
+        "in_situ_rock": true,
+        "in_situ_soil": "Loose colluvial soil and weathered sandstone debris",
+        "debris_accumulation": "Mass Failure Colluvium (1570.8 m\u00b3 in-situ / 1963.50 m\u00b3 bulked)",
+        "slope_type_cut": true,
+        "slope_type_fill": false,
+        "slope_type_natural": "Steep Mountain Side",
+        "slope_height_above": "35.00 m (Observed scarp range: 31.3 m to 38.7 m)",
+        "cut_slope_angle": "50\u00b0 (Steep Cut Slope Scarp)",
+        "slope_geometry_below": "Valley drop ~ 14 m",
+        "slope_geometry_profile": "Convex Escarpment (Steep Overburden Cut)"
+      },
+      "road_impact": {
+        "road_alignment": "Curved alignment passing slope toe",
+        "fencing_type": "None",
+        "width_before": "4.50 m (Carriageway + Berm)",
+        "width_after": "2.50 m (Single-Lane Restricted / Shoulder Lost: 2.00m Operable)",
+        "pavement_type": "Unpaved / Gravel / WBM Road",
+        "shoulder_width": "0.75 m (Damaged / Inundated)",
+        "number_of_lanes": "Single Lane Restricted (2.30m Operable Formation)",
+        "way": "Two-way Traffic Flow",
+        "width_of_median": "None (Hill Road Formation)",
+        "bridge_present": "No",
+        "culvert_present": "Yes (Roadside culvert barrel choked upstream)",
+        "carriageway_status": "Partially Blocked"
+      },
+      "protection_works": [
+        {
+          "structure": "Retaining wall (Breast wall)",
+          "above": true,
+          "below": false,
+          "prev_cut": false,
+          "prev_nat": false,
+          "rem_cut": true,
+          "rem_nat": false
+        },
+        {
+          "structure": "Gabion",
+          "above": false,
+          "below": false,
+          "prev_cut": false,
+          "prev_nat": false,
+          "rem_cut": false,
+          "rem_nat": false
+        },
+        {
+          "structure": "Drainage",
+          "above": true,
+          "below": true,
+          "prev_cut": true,
+          "prev_nat": false,
+          "rem_cut": true,
+          "rem_nat": false
+        },
+        {
+          "structure": "Bioengineering",
+          "above": true,
+          "below": false,
+          "prev_cut": true,
+          "prev_nat": true,
+          "rem_cut": false,
+          "rem_nat": false
+        },
+        {
+          "structure": "Earthworks",
+          "above": true,
+          "below": false,
+          "prev_cut": false,
+          "prev_nat": false,
+          "rem_cut": true,
+          "rem_nat": false
+        },
+        {
+          "structure": "Anchor (Soil Nails)",
+          "above": true,
+          "below": false,
+          "prev_cut": true,
+          "prev_nat": false,
+          "rem_cut": true,
+          "rem_nat": false
+        },
+        {
+          "structure": "Netting (Mesh Facing)",
+          "above": true,
+          "below": false,
+          "prev_cut": true,
+          "prev_nat": false,
+          "rem_cut": true,
+          "rem_nat": false
+        }
+      ],
+      "geology": {
+        "prominent_soil_rock": "Sandstone and weathered overburden",
+        "prominent_rock_desc": "Sandstone and weathered overburden with persistent planar jointing set J1 daylighting into cut face",
+        "colour": "Brownish-grey",
+        "jointing_spacing": "0.20 m \u2013 0.45 m (Closely Jointed to Moderately Fractured)",
+        "strength": "Medium to Strong (R3-R4 Class, UCS 35-70 MPa)",
+        "dip_joints": "42\u00b0 daylighting adversely into slope toe",
+        "minerals_present": "Quartz, Chlorite, Sericite, Feldspar, Hornblende",
+        "joint_orientation": "Strike N25\u00b0W, Dip 42\u00b0 SW (Daylighting into Cut Face)",
+        "dip_strike_relation": "Dipping towards road carriageway (Kinematic Daylighting)",
+        "weathering_grade": "Grade III to IV (Deep wedge fractures along slaty cleavage)",
+        "material_type": "Cleaved Slaty Shingle & Weathered Granitic Grus",
+        "fracture_pattern": "Translational wedge slip along intersecting joint planes",
+        "phi_prime_deg": 28.0,
+        "c_prime_kpa": 14.0,
+        "gamma_kn_m3": 20.5,
+        "gamma_sat_kn_m3": 21.7,
+        "ucs_rock_mpa": 35.0,
+        "engineering_disclaimer": "Subsurface geotechnical parameters (effective cohesion c' = 14.0 kPa, effective internal friction angle \u03c6' = 28.0\u00b0, intact rock UCS = 35.0 MPa, and structural joint dip = 57.0\u00b0) are preliminary model estimates and assumptions based on empirical rock mass classifications and regional lithological analogs. These values are strictly subject to confirmatory site investigation, trial-pit logging, and rotary borehole core extraction with laboratory testing prior to detailed engineering design, statutory tendering, or construction authorization.",
+        "parameter_basis": "ASSUMED (Pending Site Investigation & Lab Testing)"
+      },
+      "defects_and_distress": {
+        "defects_on_slope": {
+          "gully": false,
+          "crack": true,
+          "unstable_rock": true,
+          "seepage": true,
+          "erosion": true,
+          "landslide": true
+        },
+        "road_surface": {
+          "crack": true,
+          "heaving": false,
+          "settlement": true,
+          "recent_repair": false
+        },
+        "roadside_drain": {
+          "overflow": true,
+          "clogged_100": true,
+          "deformation": true,
+          "crack": true,
+          "width": "0.60 m",
+          "depth": "0.60 m"
+        },
+        "slope_drainage": {
+          "overflow": true,
+          "clogged_100": true,
+          "deformation": true,
+          "crack": true,
+          "width": "0.60 m",
+          "depth": "0.60 m"
+        },
+        "distress_remarks": "Slope failure along daylighting joint set under precipitation. 1963.50 m\u00b3 bulked colluvial mass deposited across the carriageway, blocking 2.50m of the 4.50m formation and choking the roadside drain."
+      },
+      "pavement_dimensions": {
+        "potholes": "Width: 0.90 m | Depth: 0.12 m",
+        "subsidence": "Width: 3.20 m | Depth: 0.25 m (Edge drop along outer shoulder)",
+        "rutting": "Observed along outer wheel track due to subgrade moisture saturation"
+      },
+      "retaining_wall_specs": {
+        "shape_front": "Sloping / Battered (1:6)",
+        "shape_back": "Stepped / Battered (1:9)",
+        "shape_base": "Horizontal Keyed Base (1.0m rock embedment)",
+        "material": "Plum Concrete M15 (40% clean quarry plums 150\u2013300mm, IS:14458 Part 2)",
+        "height_m": 2.7,
+        "length_m": 17.0,
+        "embedded_depth_m": 1.0,
+        "top_width_m": 0.6,
+        "base_width_m": 1.35,
+        "length_affected_m": 17.0,
+        "plum_concrete_vol_m3": 67.7,
+        "stone_plums_vol_m3": 27.08,
+        "stone_plums_tonnes": 64.99,
+        "filter_medium_vol_m3": 16.07,
+        "geotextile_back_m2": 67.25,
+        "n_weep_holes": 26,
+        "weep_pipe_length_m": 32.5,
+        "distress_crack": false,
+        "distress_bulging": false,
+        "distress_collapse": false,
+        "distress_joint": false,
+        "signs_of_distress": "None \u2014 Unprotected cut slope prior to failure; breast wall is a proposed permanent structural retention measure.",
+        "distress_behind": "N/A \u2014 Proposed permanent structure; will retain active scarp.",
+        "distress_in_front": "N/A \u2014 Proposed footing embedded 1.0m into competent rock foundation.",
+        "weep_holes": "26 Nos. 100mm dia PVC pipes @ 1.20m c/c staggered in 2 rows wrapped in non-woven geotextile"
+      },
+      "retaining_wall": {
+        "height_m": 2.7,
+        "length_m": 17.0,
+        "base_width_m": 1.35,
+        "top_width_m": 0.6,
+        "embedded_depth_m": 1.0,
+        "length_affected_m": 17.0,
+        "plum_concrete_vol_m3": 67.7,
+        "stone_plums_vol_m3": 27.08,
+        "stone_plums_tonnes": 64.99,
+        "filter_medium_vol_m3": 16.07,
+        "geotextile_back_m2": 67.25,
+        "n_weep_holes": 26,
+        "weep_pipe_length_m": 32.5,
+        "material": "Plum Concrete M15 (40% clean quarry plums 150\u2013300mm)",
+        "distress_crack": false,
+        "distress_bulging": false,
+        "distress_collapse": false,
+        "distress_joint": false,
+        "signs_of_distress": "None \u2014 Unprotected cut slope prior to failure; breast wall is a proposed permanent structural retention measure.",
+        "distress_behind": "N/A \u2014 Proposed permanent structure; will retain active scarp.",
+        "distress_in_front": "N/A \u2014 Proposed footing embedded 1.0m into competent rock foundation."
+      },
+      "drainage_and_bioengineering": {
+        "roadside_drain": "Reconstruction of 17.0m roadside longitudinal rectangular drain (0.60m \u00d7 0.60m) in stone masonry with M15 concrete bedding (MoRTH 309.2)",
+        "lined_channel": "22.0m stepped cascade stone-pitched drainage chute down slope flank into road culvert (MoRTH 309.5)",
+        "lined_cutoff": "25.0m stone masonry saucer catch drain (0.60m \u00d7 0.60m) along slope crest in 1:4 cement mortar (MoRTH 309 / HPSOR 5.3)",
+        "french_drain": "16.07 m\u00b3 graded granular backfill behind breast wall wrapped in 250 GSM geotextile (67.25 m\u00b2)",
+        "check_dam": "None required along immediate highway corridor; unconfined natural drainage discharges safely through hillside cascade chute.",
+        "catch_drain": "0.60m \u00d7 0.60m lined stone masonry saucer catch drain along slope crest (25.0m length)",
+        "bioengineering_desc": "700 GSM coir geotextile netting (100.23 m\u00b2 with 10% overlap), hydroseeding with native grass mixes, and Vetiver grass contour slips across upper cut face (MoRTH 1802 / IS:14458)."
+      },
+      "drainage": {
+        "roadside_stone": true,
+        "roadside_concrete": true,
+        "lined_channel": true,
+        "lined_cutoff": true,
+        "counterfort": false,
+        "branched": false,
+        "unlined_cutoff": false,
+        "horizontal": true,
+        "sub_surface": true,
+        "herringbone": false,
+        "check_dam": false,
+        "slope_surface": true,
+        "material": "Stone Masonry (1:4 cement mortar) with 100mm M15 Concrete Bedding & Slotted PVC (Schedule 80)",
+        "signs_of_distress": "Roadside drain inlet choked by boulder colluvium; slope lacks permanent subsurface relief drainage."
+      },
+      "bioengineering": {
+        "description": "700 GSM coir geotextile netting (1751.64 m\u00b2), native hydroseeding, and Vetiver contour hedges across upper cut face.",
+        "signs_of_distress": "Unprotected virgin cut slope; surficial colluvium eroded and stripped during failure detachment."
+      },
+      "gabion_and_earthworks": {
+        "gabion_wall": null,
+        "excavation": {
+          "material": "Saturated Colluvium, Boulders & Overburden (IS:1200 / MoRTH Section 300)",
+          "dimensions": "4.90 m (H) \u00d7 17.00 m (L) \u00d7 5.36 m (S_upper)",
+          "volume_insitu_m3": 145.0,
+          "bulking_factor": 1.25,
+          "volume_m3": 181.25,
+          "h_m": 4.9,
+          "l_m": 17.0,
+          "w_m": 5.25
+        },
+        "fill": {
+          "material": "Granular Filter Backfill with non-woven geotextile wrap (IS:14458 / IRC:SP:48)",
+          "dimensions": "2.70 m (H) \u00d7 17.00 m (L) \u00d7 0.35 m (W)",
+          "volume_m3": 16.07,
+          "h_m": 2.7,
+          "l_m": 17.0,
+          "w_m": 0.35
+        }
+      },
+      "mitigation_measures": "1. Primary Toe Retention & Structural Retention (IS:14458 Part 2 / MoRTH Section 1500):\n   Emergency clearance of 1963.5 m\u00b3 bulked colluvial mass (1570.8 m\u00b3 in-situ @ 1.25 bulking) followed by construction of a 40.0m long Plum Concrete Breast Wall (H_stem = 4.50m, D_f = 1.50m embedment, base width B = 1.85m, concrete volume = 331.50 m\u00b3 M15 with 40% plums), backed by 63.00 m\u00b3 crushed gravel filter pack wrapped in 242.11 m\u00b2 non-woven geotextile and 62 Nos. PVC weep holes.\n2. Internal Ground Reinforcement & Slope Nailing (MoRTH Section 3100 / CEDD Geoguide 7):\n   Installation of 464 Nos. \u00d825mm High-Yield Fe500D TMT soil nails (462 working nails + 2 sacrificial test nails) drilled to 9.0m depth (180.0m total drilling), pressure grouted with non-shrink cementitious grout, anchored with RC bearing pads and high-tensile diamond steel wire mesh facing (91.12 m\u00b2).\n3. Hydrogeological Pore-Pressure Relief & Surface Drainage (MoRTH Section 300, Clause 309 / IRC:SP:48):\n   Installation of 5 Nos. \u00d7 15m (75.0m total) sub-horizontal slotted PVC relief drains (\u00d875mm, Schedule 80) drilled at 5\u00b0\u201310\u00b0 upward rake into the hillside, accompanied by crest catch drain, roadside drain, and cascade chute.\n4. Soil Bioengineering & Surficial Erosion Control (MoRTH Section 1802 / IS:14458):\n   Dressing cut face (91.12 m\u00b2), laying 700 GSM coir geotextile netting (1751.64 m\u00b2 with 10% overlap), hydraulic hydroseeding, and planting Vetiver grass contour hedges.",
+      "other_observations": "Sub-surface groundwater seepage daylighting along the colluvial mantle and bedrock interface, confirming elevated perched phreatic levels during rainfall. Active extensional tension fissures (apertures 15-40 mm) trace uphill of the detachment crown. Relict discontinuity set J1 (42\u00b0 dip daylighting adversely into the slope face) exhibits planar persistent slickensides with iron-oxide staining, confirming kinematic daylighting and high susceptibility to progressive retrogressive failure during prolonged monsoon precipitation.",
+      "safety_directives": {
+        "utility_hazard": "Potential damage to overhead utility lines and complete blockage of surface drainage",
+        "machinery_deployment": "Deployment of heavy hydraulic excavators and dumpers for immediate clearance",
+        "traffic_restoration": "Restricted traffic movement with active spotters and warning barricades",
+        "permanent_restoration": "Installation of gabion walls, rock-bolting, and slope bioengineering"
+      },
+      "observed_features": {
+        "road_type": "Hill Road / Rural Highway",
+        "road_alignment": "Curved alignment passing slope toe",
+        "pavement_type": "Unpaved / Gravel / WBM Road",
+        "fencing_type": "None",
+        "carriageway_obstruction": "Partially Blocked",
+        "prominent_rock_type": "Sandstone and weathered overburden",
+        "rock_colour": "Brownish-grey",
+        "in_situ_soil_desc": "Loose colluvial soil and weathered sandstone debris",
+        "debris_accumulation_desc": "Mixed soil and rock fragments covering the slope face and spilling onto the road",
+        "failure_movement_observed": "Translational sliding along a planar surface in soil and weathered rock",
+        "usgs_two_term_name": "Debris Slide",
+        "usgs_velocity_class": "Class 5 (Rapid)",
+        "optical_geometry": {
+          "failure_vector": "UPHILL_CUT_SLOPE",
+          "kinematic_failure_mode": "Translational Planar Slide",
+          "visible_scale_reference": "Road width approx 4.0m",
+          "scarp_height_m": 35.0,
+          "affected_length_m": 40.0,
+          "debris_width_m": 30.0,
+          "debris_thickness_m": 2.5,
+          "cut_slope_angle_deg": 50.0,
+          "slip_surface_dip_deg": 42.0,
+          "boulder_max_dia_m": 1.2,
+          "tension_cracks_visible": true,
+          "carriageway_formation_m": 4.5,
+          "carriageway_open_m": 2.0,
+          "road_blocked_percent": 55.0,
+          "drain_status": "Roadside drainage completely buried by debris"
+        },
+        "wall_distress_crack": false,
+        "wall_distress_bulging": false,
+        "wall_distress_collapse": false,
+        "wall_distress_joint": false,
+        "retaining_wall_material": "None \u2014 Unprotected cut slope prior to failure"
+      },
+      "visual_analysis": {
+        "material_composition": "Sandstone and weathered overburden (Brownish-grey)",
+        "slope_condition": "Cut angle 50\u00b0 (Steep Cut Slope Scarp), Convex Escarpment",
+        "infrastructure_impact": "Roadway alignment at the toe of the failing slope: Partial obstruction of the road formation by slide debris",
+        "drainage_and_seepage": "Seepage: Active, Drainage: Clogged / Lacking permanent relief",
+        "optical_geometry": {
+          "failure_vector": "UPHILL_CUT_SLOPE",
+          "kinematic_failure_mode": "Translational Planar Slide",
+          "visible_scale_reference": "Road width approx 4.0m",
+          "scarp_height_m": 35.0,
+          "affected_length_m": 40.0,
+          "debris_width_m": 30.0,
+          "debris_thickness_m": 2.5,
+          "cut_slope_angle_deg": 50.0,
+          "slip_surface_dip_deg": 42.0,
+          "boulder_max_dia_m": 1.2,
+          "tension_cracks_visible": true,
+          "carriageway_formation_m": 4.5,
+          "carriageway_open_m": 2.0,
+          "road_blocked_percent": 55.0,
+          "drain_status": "Roadside drainage completely buried by debris"
+        }
+      },
+      "synthesis_remarks": "The image confirms a translational debris slide within sandstone-derived colluvium. Immediate deployment of safety barriers and slope protection measures are warranted to prevent further road closure.\n\n5. ENGINEERING DISCLAIMER & GEOTECHNICAL LIMITATION:\nSubsurface geotechnical parameters (effective cohesion c' = 14.0 kPa, effective internal friction angle \u03c6' = 28.0\u00b0, intact rock UCS = 35.0 MPa, and structural joint dip = 57.0\u00b0) are preliminary model estimates and assumptions based on empirical rock mass classifications and regional lithological analogs. These values are strictly subject to confirmatory site investigation, trial-pit logging, and rotary borehole core extraction with laboratory testing prior to detailed engineering design, statutory tendering, or construction authorization.",
+      "senior_engineer_remarks": "The image confirms a translational debris slide within sandstone-derived colluvium. Immediate deployment of safety barriers and slope protection measures are warranted to prevent further road closure.\n\n5. ENGINEERING DISCLAIMER & GEOTECHNICAL LIMITATION:\nSubsurface geotechnical parameters (effective cohesion c' = 14.0 kPa, effective internal friction angle \u03c6' = 28.0\u00b0, intact rock UCS = 35.0 MPa, and structural joint dip = 57.0\u00b0) are preliminary model estimates and assumptions based on empirical rock mass classifications and regional lithological analogs. These values are strictly subject to confirmatory site investigation, trial-pit logging, and rotary borehole core extraction with laboratory testing prior to detailed engineering design, statutory tendering, or construction authorization.",
+      "plain_language_explanation": {
+        "summary_title": "Hill Slope Landslide Affecting Roadway in Chamba",
+        "what_happened": "A considerable section of the hillside has failed, sending a mass of soil, weathered rock, and debris sliding down toward the road.",
+        "why_it_happened": "Heavy monsoon rainfall and saturation of the upper soil mantle on steep sandstone terrain reduced internal friction and triggered the slide.",
+        "property_and_access_impact": "Debris has partially blocked the road at the toe of the slope, hindering smooth vehicular transit.",
+        "road_and_travel_impact": "Debris has partially blocked the road at the toe of the slope, hindering smooth vehicular transit.",
+        "ongoing_hazards": "Possibility of subsequent retrogressive failures upslope and rolling boulders during further rainfall.",
+        "what_needs_to_be_done": "Clear the accumulated debris using excavators, restore proper drainage channels, and construct adequate retaining structures.",
+        "citizen_safety_advice": "Avoid stopping near the affected zone and adhere to all traffic advisories issued by authorities."
+      },
+      "advanced_geotechnical_stabilization": {
+        "usgs_classification": {
+          "usgs_general_definition": "A landslide is a general term used to describe the downslope movement of soil, rock, and organic materials under the effects of gravity and also the landform that results from such movement.",
+          "usgs_kinematic_definition": "A translational slide mass that moves down and outward along a planar surface of rupture daylighting into the road formation.",
+          "two_term_classification": "Slide Mass Movement (Cruden & Varnes, 1996)",
+          "primary_movement": "Slide",
+          "material_class": "Debris and Weathered Rock (Chamba Formation Slate, Siltstone & Dhauladhar Granodiorite)",
+          "velocity_class": {
+            "class_code": "Class 5",
+            "rate_name": "Rapid",
+            "velocity_range": "1.8 m/h to 3 m/min",
+            "consequences": "Carriageway constriction of 5.25m formation (2.95m loss, 2.30m operable)"
+          },
+          "landslide_anatomy": {
+            "crown_and_scarp": "Detachment main scarp H = 7.60m (upper face 4.90m @ 66\u00b0 inclination), open tension fissures 15-40mm",
+            "displaced_mass": "145.0 m\u00b3 in-situ (181.25 m\u00b3 bulked) colluvial overburden and jointed clasts",
+            "toe_and_foot": "Displaced colluvial runout lobe encroaching 2.95m across carriageway and choking roadside drain"
+          },
+          "standard_reference": "USGS Circular 1325 (Highland & Bobrowsky, 2008) / Cruden & Varnes (1996)"
+        },
+        "cedd_consequence": {
+          "consequence_category": "Category 2",
+          "consequence_level": "High / Sub-Divisional Corridor Consequence",
+          "consequence_criteria": "Direct disruption of transport corridor with public safety risk",
+          "economic_consequence": "Significant freight detour and corridor closure loss",
+          "target_fos_10yr": 1.3,
+          "target_fos_extreme": 1.2,
+          "target_fos_permanent": 1.5,
+          "mandatory_investigation": "Detailed Geotechnical Ground Investigation & Rotary Core Drilling",
+          "inspection_regime": {
+            "code": "EIM",
+            "name": "Engineer Inspection for Maintenance",
+            "frequency": "Biennial (Pre-monsoon and post-monsoon)",
+            "personnel": "Qualified Geotechnical Engineer (MIE / Chartered)",
+            "key_checks": "Weep hole discharge, tension crack monitoring, sub-horizontal drain flushing, and crest drain clearance"
+          }
+        },
+        "larimit_mitigations": {
+          "analyzed_mechanism": "Slide Mass Movement (Cruden & Varnes, 1996)",
+          "primary_structural": {
+            "id": "M04_BREAST_WALL",
+            "name": "Plum Concrete Breast Wall (IS:14458 Part 2 / MoRTH Section 1500)",
+            "cluster": "Cluster 4: Retaining / Toe Support Structures",
+            "description": "17.0m long Plum Concrete Breast Wall (H=2.7m stem, 1.0m embedment, 1.35m base) in M15 concrete with 40% clean sound plums (150\u2013300mm).",
+            "suitability_score": 0.95,
+            "cost_tier": "Standard Civil Outlay (HPSOR 2024-25)",
+            "construction_time": "21 days"
+          },
+          "hydrogeological_drainage": {
+            "id": "M03_SUB_HORIZ_DRAINS",
+            "name": "Sub-horizontal Slotted PVC Relief Drains (\u00d875mm, Schedule 80)",
+            "cluster": "Cluster 3: Subsurface & Surface Drainage",
+            "description": "5 Nos. \u00d7 15m (75.0m total array) sub-horizontal relief drains at 5\u00b0\u201310\u00b0 upward rake paired with 0.60m \u00d7 0.60m crest saucer catch drain.",
+            "suitability_score": 0.92,
+            "cost_tier": "Standard Civil Outlay (MoRTH Section 300)",
+            "construction_time": "7 days"
+          },
+          "nature_based_solution": {
+            "id": "M08_BIOENGINEERING",
+            "name": "Coir Geotextile Netting (700 GSM) with Vetiver Contour Hedges & Hydroseeding",
+            "cluster": "Cluster 8: Bioengineering & Surficial Erosion Defense",
+            "description": "700 GSM biodegradable coir netting (100.23 m\u00b2 with 10% overlap) with native hydroseeding and Vetiver grass contour slips across upper cut face.",
+            "suitability_score": 0.88,
+            "cost_tier": "Low Cost Eco-Remediation",
+            "construction_time": "10 days"
+          }
+        },
+        "prescribed_soil_nailing": {
+          "design_code": "MoRTH Section 3100 / FHWA-NHI-14-007 / CEDD Geoguide 7",
+          "bar_diameter": "\u00d825mm High-Yield Fe500D TMT rebar",
+          "drillhole_diameter": "100\u2013110 mm",
+          "drillhole_inclination": "15\u00b0 to 20\u00b0 downward rake",
+          "grid_spacing": "1.80 m (H) \u00d7 2.00 m (V) Staggered Pattern",
+          "nail_length": "9.0 m drill depth (9.5 m bar length with 0.5 m threaded head)",
+          "total_nails": 20,
+          "working_nails": 18,
+          "sacrificial_nails": 2,
+          "total_drilling_length_m": 180.0,
+          "total_bar_length_m": 190.0,
+          "total_grout_length_m": 180.0,
+          "grout_specification": "Neat cement grout (fcu \u2265 30 MPa, W/C = 0.42) with non-shrink expanding admixture",
+          "bearing_pads": "18 Nos. Cast-in-situ RC bearing pads (400\u00d7400\u00d7200mm M30) & 200\u00d7200\u00d716mm galvanized steel plates",
+          "facing_mesh": "High-tensile diamond steel wire mesh (3.0mm wire, 65\u00d765mm mesh, 50 kN/m, 91.12 m\u00b2)",
+          "testing_protocol": "2 Nos. sacrificial pullout proof verification tests up to 1.5\u00d7 design pullout load per CEDD Geoguide 7"
+        },
+        "flexible_barrier": null,
+        "subsurface_drainage": {
+          "design_code": "MoRTH Section 300, Clause 309 / IRC:SP:48 Clause 7.4 / CEDD TGN 24",
+          "pipe_specification": "\u00d875mm Schedule 80 slotted PVC pipe",
+          "slot_aperture": "1.5mm\u20132.0mm longitudinal staggered slots",
+          "filter_sock": "Non-woven polypropylene geotextile filter sock (O90 < 150 \u00b5m)",
+          "upward_inclination": "5\u00b0 to 10\u00b0 upward rake into hillside",
+          "array_count": "5 Nos. boreholes",
+          "drain_length": "15.0 m per borehole (75.0 m total array)",
+          "total_array_length_m": 75.0,
+          "crest_catch_drain": "25.0m lined stone masonry saucer catch drain (0.60m \u00d7 0.60m)",
+          "roadside_drain": "17.0m stone masonry longitudinal drain (0.60m \u00d7 0.60m)"
+        }
+      },
+      "bhukosh_rock_audit": {
+        "bhukosh_formation": "Chamba Formation Slate, Siltstone & Dhauladhar Granodiorite",
+        "toposheet": "53A14",
+        "distance_km": 0.0,
+        "ai_detected_rock": "Sandstone and weathered overburden",
+        "is_discrepancy": false,
+        "status": "VALIDATED_CONSISTENT",
+        "status_label": "Ground-Truth Geological Consistency Confirmed",
+        "calibrated_rock": "Sandstone and weathered overburden",
+        "reconciliation_note": "Field lithology correlates with GSI Bhukosh Chamba database."
+      },
+      "epistemic_dossier": {
+        "tier_1_factual_evidence": {
+          "title": "Tier 1: Factual Ground Truth & Telemetry (Objective Past Passive)",
+          "description": "At Chamba Sector \u2014 Hill Road Corridor (Chamba Sector), a detachment scarp of vertical height 7.60 m (upper face 4.90 m inclined at 66\u00b0) was surveyed. Saturated chamba formation slate, siltstone & dhauladhar granodiorite debris (145.0 m\u00b3 in-situ / 181.25 m\u00b3 bulked calculated via Simpson's prismoidal rule at 1.25 bulking factor) encroached 2.95 m across the 5.25 m carriageway formation. Roadside drainage was 100% obstructed under active hydrostatic surcharge. Prior to failure, the cut slope was an unprotected excavation. Discontinuities dipping 57\u00b0 adversely into the slope face were measured with aperture 15\u201340 mm.",
+          "surveyed_scarp_height_m": 7.6,
+          "upper_cut_height_m": 4.9,
+          "cut_slope_angle": "66\u00b0 (Steep Cut Slope Scarp)",
+          "structural_joint_dip": "57\u00b0 SW",
+          "encroached_carriageway_m": 2.95,
+          "operable_carriageway_m": 2.3,
+          "road_width_pre_m": 5.25,
+          "prismoidal_debris_vol_m3": 181.25,
+          "discontinuity_dip": "57\u00b0",
+          "weathering_grade": "Grade III to IV (Deep wedge fractures along slaty cleavage)"
+        },
+        "tier_2_analytical_mechanics": {
+          "title": "Tier 2: Analytical Geotechnical Mechanics & FoS (Calibrated Engineering Inferences)",
+          "description": "Under the Cruden & Varnes (1996) and USGS Circular 1325 classification, the failure is designated as a Slide Mass Movement (Cruden & Varnes, 1996) within Chamba Formation Slate, Siltstone & Dhauladhar Granodiorite strata. Under dry baseline conditions, limit equilibrium stability analysis (Hoek & Bray planar cleft-water mechanics) yields FoS = 1.01 (marginal). During monsoon steady-seepage saturation with active joint cleft-water hydrostatic pressure (zw = 1.2m), calculated FoS drops to 0.60, confirming active shear mobilization along daylighting joint set J1 (slip plane inclined length L_slip = 6.856 m). Following multi-barrier stabilization, post-remediation FoS is verified at 1.54. The site lies in Seismic Zone V (Z = 0.36, ah = 0.09g).",
+          "fos_dry_baseline": 1.01,
+          "fos_monsoon_seepage": 0.6,
+          "fos_post_remediation": 1.54,
+          "effective_friction_phi": "28.0\u00b0 (Assumed)",
+          "effective_cohesion_c": "14.0 kPa (Assumed)",
+          "unit_weight_gamma": "20.5 kN/m\u00b3 (Assumed)",
+          "rock_ucs_strength": "35.0 MPa (Assumed)",
+          "tension_crack_depth_m": 1.85,
+          "slip_plane_length_m": 6.856,
+          "seismic_zone": "Zone V (IS:1893:2016, ah=0.09g)",
+          "cedd_consequence_category": "Category 2",
+          "target_fos_statutory": 1.3,
+          "disclaimer": "Subsurface geotechnical parameters (effective cohesion c' = 14.0 kPa, effective internal friction angle \u03c6' = 28.0\u00b0, intact rock UCS = 35.0 MPa, and structural joint dip = 57.0\u00b0) are preliminary model estimates and assumptions based on empirical rock mass classifications and regional lithological analogs. These values are strictly subject to confirmatory site investigation, trial-pit logging, and rotary borehole core extraction with laboratory testing prior to detailed engineering design, statutory tendering, or construction authorization."
+        },
+        "tier_3_statutory_directives": {
+          "title": "Tier 3: Statutory Remediation Directives & Civil Schedule (Imperative Standards)",
+          "description": "1. Construct a 17m long Plum Concrete Breast Wall (H_stem=2.70m, D_f=1.00m, Base B=1.35m, Top b=0.60m, volume = 67.70 m\u00b3 M15 with 40% plums per IS:14458 Part 2), backed by 16.07 m\u00b3 filter pack and 26 Nos. weep holes.\n2. Install 20 Nos. \u00d825mm High-Yield Fe500D soil nails (18 working in 1.8m H \u00d7 2.0m V grid + 2 sacrificial pullout verification test nails) drilled to 9.0m depth (180m drill, 190m bar, 18 pads, 91.12 m\u00b2 wire mesh) per MoRTH Section 3100.\n3. Install 5 Nos. \u00d7 15m (75.0m total) sub-horizontal slotted PVC relief drains (\u00d875mm, Schedule 80) at 5\u00b0\u201310\u00b0 upward rake, paired with 25.0m crest saucer catch drain (0.60m \u00d7 0.60m), 17.0m roadside drain (0.60m \u00d7 0.60m), and 22.0m stepped cascade chute per MoRTH Section 300.\n4. Lay 700 GSM coir geotextile netting (100.23 m\u00b2 with 10% overlap), hydroseeding, and Vetiver grass contour hedges per MoRTH Section 1802.",
+          "wall_specs": "L=17m, H_stem=2.70m, D_f=1.00m, B=1.35m, V=67.70 m\u00b3 (IS:14458 Part 2)",
+          "soil_nailing_specs": "20 Nos. (18 working + 2 test) \u00d825mm Fe500D, L=9.0m, 180m drill (MoRTH 3100)",
+          "drainage_specs": "5 Nos. \u00d7 15m (75.0m) \u00d875mm PVC relief drains + 25m crest catch drain (0.60\u00d70.60m)",
+          "bioengineering_specs": "100.23 m\u00b2 700 GSM coir netting with Vetiver contour hedges (MoRTH 1802)",
+          "statutory_civil_outlay": "\u20b9 1,184,151.97 (Subtotal A \u20b9 960,304.90 + Contingency + QC + 18% GST)"
+        }
+      },
+      "unified_geometry": {
+        "slope_height_mean_m": 35.0,
+        "slope_height_min_m": 31.31,
+        "slope_height_max_m": 38.69,
+        "cut_angle_deg": 50.0,
+        "joint_dip_deg": 42.0,
+        "wall_length_m": 40.0,
+        "road_width_pre_disaster_m": 4.5,
+        "road_width_post_disaster_m": 2.0,
+        "debris_insitu_vol_m3": 1570.8,
+        "bulking_factor": 1.25,
+        "debris_bulked_vol_m3": 1963.5,
+        "failure_vector": "UPHILL_CUT_SLOPE",
+        "breast_wall": {
+          "stem_height_m": 4.5,
+          "embedment_depth_m": 1.5,
+          "total_height_m": 6.0,
+          "top_width_m": 0.6,
+          "base_width_m": 1.85,
+          "front_batter": "1:6",
+          "back_batter": "1:9",
+          "footing_vol_m3": 111.0,
+          "stem_vol_m3": 220.5,
+          "total_concrete_vol_m3": 331.5,
+          "material": "Plum Concrete M15 (40% clean quarry plums 150\u2013300mm)",
+          "governing_standard": "IS:14458 (Part 2):1997 / MoRTH Section 1500"
+        },
+        "filter_and_drainage": {
+          "filter_thickness_m": 0.35,
+          "filter_height_m": 4.5,
+          "filter_vol_m3": 63.0,
+          "geotextile_wrap_area_m2": 242.11,
+          "weep_holes_count": 62,
+          "weep_pipes_total_length_m": 105.4,
+          "weep_pipe_total_length_m": 105.4,
+          "relief_drains_count": 12,
+          "relief_drain_len_each_m": 15.0,
+          "relief_drains_total_length_m": 180.0
+        },
+        "upper_slope_and_nails": {
+          "upper_vertical_height_m": 30.5,
+          "upper_inclined_length_m": 39.81,
+          "upper_surface_area_m2": 1592.4,
+          "coir_netting_area_m2": 1751.64,
+          "working_nails_count": 462,
+          "sacrificial_nails_count": 2,
+          "total_nails_count": 464,
+          "nail_bar_spec": "\u00d825mm High-Yield Fe500D TMT rebar",
+          "drilling_depth_per_nail_m": 9.0,
+          "bar_length_per_nail_m": 9.5,
+          "total_drilling_length_m": 4176.0,
+          "total_bar_length_m": 4408.0,
+          "total_grout_length_m": 4176.0,
+          "permanent_bearing_pads_count": 462,
+          "wire_mesh_facing_area_m2": 1592.4
+        },
+        "soil_nail_grid": {
+          "working_nails_count": 462,
+          "sacrificial_test_nails_count": 2,
+          "total_nails_count": 464,
+          "total_drilling_length_m": 4176.0,
+          "total_bar_length_m": 4408.0,
+          "bearing_pads_count": 462,
+          "wire_mesh_facing_area_m2": 1592.4
+        }
+      },
+      "stability_analysis": {
+        "is_applicable": true,
+        "geotechnical_parameters": {
+          "unit_weight_kn_m3": 20.5,
+          "effective_cohesion_kpa": 14.0,
+          "effective_friction_deg": 28.0,
+          "intact_rock_ucs_mpa": 35.0,
+          "rock_weathering_grade": "Grade IV (Highly Weathered)",
+          "tension_crack_depth_m": 1.85,
+          "slip_plane_length_m": 49.542,
+          "basis": "ASSUMED (Pending Site Investigation & Lab Testing)"
+        },
+        "scenarios": [
+          {
+            "stage_id": "dry_baseline",
+            "stage_name": "Dry Natural Baseline (Zero Cleft-Water Pressure, Peak Shear)",
+            "min_statutory_fos": 1.5,
+            "calculated_fos": 1.01,
+            "diagnosis": "Marginal Stability (< 1.50 Code Minimum)",
+            "code_ref": "USACE EM 1110-2-1902 / IS:14458"
+          },
+          {
+            "stage_id": "monsoon_saturated",
+            "stage_name": "Monsoon Cleft-Water Saturation (Active Joint Pore Pressure, zw=1.2m)",
+            "min_statutory_fos": 1.3,
+            "calculated_fos": 0.55,
+            "diagnosis": "Active Shear Failure (Limit State Exceeded)",
+            "code_ref": "CEDD Geoguide 1 / Eurocode 7 DA1/C2"
+          },
+          {
+            "stage_id": "post_remediation",
+            "stage_name": "Post-Remediation (Plum Wall M15 + Fe500D Nails + Sub-horizontal Drains)",
+            "min_statutory_fos": 1.5,
+            "calculated_fos": 1.5,
+            "diagnosis": "Fully Code Compliant (>= 1.50 Permanent State)",
+            "code_ref": "IRC:SP:48:1998 / IS:14458 Part 2"
+          }
+        ],
+        "seismic_zone_note": "Site lies in Seismic Zone V (IS:1893:2016, Zone Factor Z=0.36, ah=0.09g). Permanent stabilization accommodates pseudo-static earthquake coefficient in addition to static surcharge."
+      },
+      "project_data_model": {
+        "status": "CALCULATED_OK",
+        "is_applicable": true,
+        "failure_vector": "UPHILL_CUT_SLOPE",
+        "rejection_notice": null,
+        "schedule_metadata": {
+          "title": "Himachal Pradesh Public Works Department (HPSOR 2024-25) & MoRTH Hill Roads Schedule",
+          "primary_references": [
+            "HPPWD Schedule of Rates (HPSOR 2024-25), Government of Himachal Pradesh",
+            "MoRTH Specifications for Road and Bridge Works (5th Revision)",
+            "IS:14458 Guidelines for Retaining/Breast Walls in Hill Areas",
+            "IRC:SP:48:1998 Hill Road Manual (Indian Roads Congress)",
+            "CEDD Geoguide 7: Guide to Soil Nail Design and Construction (2023 Edition)"
+          ],
+          "applicable_terrain": "Himalayan Hill Roads & High Altitude Sectors (Chamba Division)",
+          "currency": "INR (\u20b9)",
+          "tax_regime": {
+            "gst_percentage": 18.0,
+            "contingencies_percentage": 3.0,
+            "quality_control_percentage": 1.5
+          }
+        },
+        "unified_geometry": {
+          "slope_height_mean_m": 35.0,
+          "slope_height_min_m": 31.31,
+          "slope_height_max_m": 38.69,
+          "cut_angle_deg": 50.0,
+          "joint_dip_deg": 42.0,
+          "wall_length_m": 40.0,
+          "road_width_pre_disaster_m": 4.5,
+          "road_width_post_disaster_m": 2.0,
+          "debris_insitu_vol_m3": 1570.8,
+          "bulking_factor": 1.25,
+          "debris_bulked_vol_m3": 1963.5,
+          "failure_vector": "UPHILL_CUT_SLOPE",
+          "breast_wall": {
+            "stem_height_m": 4.5,
+            "embedment_depth_m": 1.5,
+            "total_height_m": 6.0,
+            "top_width_m": 0.6,
+            "base_width_m": 1.85,
+            "front_batter": "1:6",
+            "back_batter": "1:9",
+            "footing_vol_m3": 111.0,
+            "stem_vol_m3": 220.5,
+            "total_concrete_vol_m3": 331.5,
+            "material": "Plum Concrete M15 (40% clean quarry plums 150\u2013300mm)",
+            "governing_standard": "IS:14458 (Part 2):1997 / MoRTH Section 1500"
+          },
+          "filter_and_drainage": {
+            "filter_thickness_m": 0.35,
+            "filter_height_m": 4.5,
+            "filter_vol_m3": 63.0,
+            "geotextile_wrap_area_m2": 242.11,
+            "weep_holes_count": 62,
+            "weep_pipes_total_length_m": 105.4,
+            "weep_pipe_total_length_m": 105.4,
+            "relief_drains_count": 12,
+            "relief_drain_len_each_m": 15.0,
+            "relief_drains_total_length_m": 180.0
+          },
+          "upper_slope_and_nails": {
+            "upper_vertical_height_m": 30.5,
+            "upper_inclined_length_m": 39.81,
+            "upper_surface_area_m2": 1592.4,
+            "coir_netting_area_m2": 1751.64,
+            "working_nails_count": 462,
+            "sacrificial_nails_count": 2,
+            "total_nails_count": 464,
+            "nail_bar_spec": "\u00d825mm High-Yield Fe500D TMT rebar",
+            "drilling_depth_per_nail_m": 9.0,
+            "bar_length_per_nail_m": 9.5,
+            "total_drilling_length_m": 4176.0,
+            "total_bar_length_m": 4408.0,
+            "total_grout_length_m": 4176.0,
+            "permanent_bearing_pads_count": 462,
+            "wire_mesh_facing_area_m2": 1592.4
+          },
+          "soil_nail_grid": {
+            "working_nails_count": 462,
+            "sacrificial_test_nails_count": 2,
+            "total_nails_count": 464,
+            "total_drilling_length_m": 4176.0,
+            "total_bar_length_m": 4408.0,
+            "bearing_pads_count": 462,
+            "wire_mesh_facing_area_m2": 1592.4
+          }
+        },
+        "stability_analysis": {
+          "is_applicable": true,
+          "geotechnical_parameters": {
+            "unit_weight_kn_m3": 20.5,
+            "effective_cohesion_kpa": 14.0,
+            "effective_friction_deg": 28.0,
+            "intact_rock_ucs_mpa": 35.0,
+            "rock_weathering_grade": "Grade IV (Highly Weathered)",
+            "tension_crack_depth_m": 1.85,
+            "slip_plane_length_m": 49.542,
+            "basis": "ASSUMED (Pending Site Investigation & Lab Testing)"
+          },
+          "scenarios": [
+            {
+              "stage_id": "dry_baseline",
+              "stage_name": "Dry Natural Baseline (Zero Cleft-Water Pressure, Peak Shear)",
+              "min_statutory_fos": 1.5,
+              "calculated_fos": 1.01,
+              "diagnosis": "Marginal Stability (< 1.50 Code Minimum)",
+              "code_ref": "USACE EM 1110-2-1902 / IS:14458"
+            },
+            {
+              "stage_id": "monsoon_saturated",
+              "stage_name": "Monsoon Cleft-Water Saturation (Active Joint Pore Pressure, zw=1.2m)",
+              "min_statutory_fos": 1.3,
+              "calculated_fos": 0.55,
+              "diagnosis": "Active Shear Failure (Limit State Exceeded)",
+              "code_ref": "CEDD Geoguide 1 / Eurocode 7 DA1/C2"
+            },
+            {
+              "stage_id": "post_remediation",
+              "stage_name": "Post-Remediation (Plum Wall M15 + Fe500D Nails + Sub-horizontal Drains)",
+              "min_statutory_fos": 1.5,
+              "calculated_fos": 1.5,
+              "diagnosis": "Fully Code Compliant (>= 1.50 Permanent State)",
+              "code_ref": "IRC:SP:48:1998 / IS:14458 Part 2"
+            }
+          ],
+          "seismic_zone_note": "Site lies in Seismic Zone V (IS:1893:2016, Zone Factor Z=0.36, ah=0.09g). Permanent stabilization accommodates pseudo-static earthquake coefficient in addition to static surcharge."
+        },
+        "statutory_capital_works_outlay": {
+          "civil_subtotal_raw": 12154595.25,
+          "civil_subtotal_fmt": "\u20b9 1,21,54,595",
+          "contingencies_pct": 3.0,
+          "contingencies_raw": 364637.86,
+          "contingencies_fmt": "\u20b9 3,64,638",
+          "qc_testing_pct": 1.5,
+          "qc_testing_raw": 182318.93,
+          "qc_testing_fmt": "\u20b9 1,82,319",
+          "subtotal_before_tax_raw": 12701552.04,
+          "subtotal_before_tax_fmt": "\u20b9 1,27,01,552",
+          "gst_pct": 18.0,
+          "gst_raw": 2286279.37,
+          "gst_fmt": "\u20b9 22,86,279",
+          "total_remediation_raw": 14987831.41,
+          "total_remediation_fmt": "\u20b9 1,49,87,831",
+          "total_remediation_badge": "\u20b9 1.50 Cr",
+          "statutory_sanction_total_raw": 15439831.41,
+          "statutory_sanction_total_fmt": "\u20b9 1,54,39,831",
+          "statutory_sanction_total_badge": "\u20b9 1.54 Cr",
+          "currency": "INR (\u20b9)",
+          "statutory_role": "Administrative Approval & Expenditure Sanction (AA&ES) / Technical Sanction (TS)"
+        },
+        "direct_asset_damage": {
+          "items": [
+            {
+              "sl_no": 1,
+              "category": "Direct Asset Damage",
+              "asset": "Highway Carriageway Pavement (WMM + Bituminous Crust)",
+              "criteria": "Full pavement reconstruction over damaged corridor (180.0 m\u00b2 = 40.0m \u00d7 4.5m formation width): Scarification, subgrade re-compaction, 150mm WMM base and 50mm Bituminous Concrete overlay @ \u20b91,650/m\u00b2",
+              "quantity": 180.0,
+              "unit": "m\u00b2",
+              "rate": 1650.0,
+              "amount": 297000.0,
+              "amount_fmt": "\u20b9 2,97,000"
+            },
+            {
+              "sl_no": 2,
+              "category": "Direct Asset Damage",
+              "asset": "Roadside Culvert Headwall & Silt Flushing",
+              "criteria": "High-pressure hydraulic flushing of choked 1.2m dia Hume pipe barrel, masonry headwall reconstruction, and cement pressure grouting of apron cracks",
+              "quantity": 1.0,
+              "unit": "LS",
+              "rate": 120000.0,
+              "amount": 120000.0,
+              "amount_fmt": "\u20b9 1,20,000"
+            },
+            {
+              "sl_no": 3,
+              "category": "Direct Asset Damage",
+              "asset": "Emergency Corridor Traffic Staging & Diversion Safety",
+              "criteria": "Deployment of portable steel crash barriers, solar LED hazard flashers, warning signage, and 24/7 flagger spotters during emergency single-lane transit",
+              "quantity": 1.0,
+              "unit": "LS",
+              "rate": 35000.0,
+              "amount": 35000.0,
+              "amount_fmt": "\u20b9 35,000"
+            }
+          ],
+          "subtotal_raw": 452000.0,
+          "subtotal_fmt": "\u20b9 4,52,000",
+          "subtotal_badge": "\u20b9 4.52 Lakh",
+          "statutory_head": "SDRF Section 48(1)(a) Infrastructure Restoration"
+        },
+        "indirect_economic_disruption": {
+          "items": [
+            {
+              "sl_no": 1,
+              "category": "Indirect Economic Loss",
+              "asset": "Regional Corridor Freight Detour & Transit Delay",
+              "criteria": "1.0 day regional commercial transit disruption: Freight carrier diversion (extra 45 km detour via alternate state highway), commercial idling fuel surcharge, and commuter travel-time delay",
+              "quantity": 1.0,
+              "unit": "day",
+              "rate": 125000.0,
+              "amount": 125000.0,
+              "amount_fmt": "\u20b9 1,25,000"
+            }
+          ],
+          "subtotal_raw": 125000.0,
+          "subtotal_fmt": "\u20b9 1,25,000",
+          "subtotal_badge": "\u20b9 1.25 Lakh",
+          "disclaimer": "Macroeconomic user-delay losses are recorded for statistical and disaster impact monitoring; strictly excluded from statutory contractor procurement."
+        },
+        "comprehensive_disaster_impact": {
+          "total_disaster_loss_raw": 577000.0,
+          "total_disaster_loss_fmt": "\u20b9 5,77,000",
+          "total_disaster_loss_badge": "\u20b9 5.77 Lakh",
+          "grand_total_impact_raw": 15564831.41,
+          "grand_total_impact_fmt": "\u20b9 1,55,64,831",
+          "grand_total_impact_badge": "\u20b9 1.56 Cr"
+        },
+        "boq_items": [
+          {
+            "sl_no": 1,
+            "item_code": "MoRTH 301.1",
+            "work_package": "Earthwork & Clearance",
+            "description": "Hydraulic clearance of fallen colluvium and boulders using excavator, including loading, hauling up to 1000m, and dumping at designated HPPWD spoil site. (In-situ 1570.8 m\u00b3 \u00d7 1.25 bulking = 1963.5 m\u00b3)",
+            "short_description": "Hydraulic excavation & disposal of debris/boulders (lead 1000m)",
+            "quantity": 1963.5,
+            "unit": "m\u00b3",
+            "rate": 220.0,
+            "rate_fmt": "\u20b9 220",
+            "amount": 431970.0,
+            "amount_fmt": "\u20b9 4,31,970"
+          },
+          {
+            "sl_no": 2,
+            "item_code": "MoRTH 305.2",
+            "work_package": "Earthwork & Clearance",
+            "description": "Dressing, trimming, and scarp reprofiling of upper cut slope face above breast wall at 50.0\u00b0 inclination. (40.0m \u00d7 39.81m inclined face = 1592.4 m\u00b2)",
+            "short_description": "Slope trimming, scarp reprofiling & bench dressing in cut face",
+            "quantity": 1592.4,
+            "unit": "m\u00b2",
+            "rate": 115.0,
+            "rate_fmt": "\u20b9 115",
+            "amount": 183126.0,
+            "amount_fmt": "\u20b9 1,83,126"
+          },
+          {
+            "sl_no": 3,
+            "item_code": "MoRTH 304.3",
+            "work_package": "Earthwork & Clearance",
+            "description": "Foundation trench excavation in hard rock for breast wall using pneumatic breaker. (40.0m \u00d7 1.85m \u00d7 1.5m neat trench)",
+            "short_description": "Foundation trench rock excavation with pneumatic breaker for wall footing",
+            "quantity": 111.0,
+            "unit": "m\u00b3",
+            "rate": 580.0,
+            "rate_fmt": "\u20b9 580",
+            "amount": 64380.0,
+            "amount_fmt": "\u20b9 64,380"
+          },
+          {
+            "sl_no": 4,
+            "item_code": "MoRTH 1500 / IS:14458",
+            "work_package": "Structural Retention",
+            "description": "Construction of Plum Concrete Breast Wall (H=4.5m stem, 1.5m embedment, 1.85m base, 0.6m top) in M15 concrete with 40% clean sound plums (150\u2013300mm). (Footing 111.0 m\u00b3 + Stem 220.5 m\u00b3)",
+            "short_description": "Plum Concrete Breast Wall (H=4.5m, B=1.85m) in M15 with 40% plums",
+            "quantity": 331.5,
+            "unit": "m\u00b3",
+            "rate": 4250.0,
+            "rate_fmt": "\u20b9 4,250",
+            "amount": 1408875.0,
+            "amount_fmt": "\u20b9 14,08,875"
+          },
+          {
+            "sl_no": 5,
+            "item_code": "MoRTH 702.1",
+            "work_package": "Structural Retention",
+            "description": "Non-woven needle-punched polypropylene geotextile filter fabric (250 GSM) wrapping granular drainage pack behind wall stem, with 300mm overlaps. (242.11 m\u00b2 wrap)",
+            "short_description": "Non-woven polypropylene geotextile filter fabric (250 GSM) wrapping filter pack",
+            "quantity": 242.11,
+            "unit": "m\u00b2",
+            "rate": 145.0,
+            "rate_fmt": "\u20b9 145",
+            "amount": 35105.95,
+            "amount_fmt": "\u20b9 35,106"
+          },
+          {
+            "sl_no": 6,
+            "item_code": "MoRTH 309.3 / HPSOR 4.8",
+            "work_package": "Structural Retention",
+            "description": "Free-draining graded granular filter backfill (20\u201340mm crushed gravel) extending full 4.5m stem height behind breast wall. (40.0m \u00d7 4.5m \u00d7 0.35m)",
+            "short_description": "Free-draining granular filter backfill (20\u201340mm crushed gravel) behind wall",
+            "quantity": 63.0,
+            "unit": "m\u00b3",
+            "rate": 980.0,
+            "rate_fmt": "\u20b9 980",
+            "amount": 61740.0,
+            "amount_fmt": "\u20b9 61,740"
+          },
+          {
+            "sl_no": 7,
+            "item_code": "MoRTH 309.4 / HPSOR 4.9",
+            "work_package": "Structural Retention",
+            "description": "Providing and laying 100mm dia perforated PVC weep hole pipes laid at 1:20 slope in 2 staggered rows, wrapped in geotextile. (62 holes \u00d7 1.7m)",
+            "short_description": "100mm dia PVC weep hole pipes @ 1.2m c/c in 2 staggered rows",
+            "quantity": 105.4,
+            "unit": "meter",
+            "rate": 260.0,
+            "rate_fmt": "\u20b9 260",
+            "amount": 27404.0,
+            "amount_fmt": "\u20b9 27,404"
+          },
+          {
+            "sl_no": 8,
+            "item_code": "MoRTH 3100 / FHWA GEC 7",
+            "work_package": "Internal Ground Reinforcement",
+            "description": "Rotary percussion drilling of 100\u2013110mm dia boreholes for soil nails at 15\u00b0\u201320\u00b0 rake in weathered rock/colluvium. (462 working nails + 2 sacrificial = 464 holes \u00d7 9.0m)",
+            "short_description": "Drilling 100\u2013110mm boreholes for soil nails at 15\u00b0\u201320\u00b0 rake (464 Nos. \u00d7 9.0m)",
+            "quantity": 4176.0,
+            "unit": "meter",
+            "rate": 880.0,
+            "rate_fmt": "\u20b9 880",
+            "amount": 3674880.0,
+            "amount_fmt": "\u20b9 36,74,880"
+          },
+          {
+            "sl_no": 9,
+            "item_code": "MoRTH 3100 / IS:1786",
+            "work_package": "Internal Ground Reinforcement",
+            "description": "Supplying and installing \u00d825mm High-Yield Fe500D TMT rebar with centralizers @ 1.8m c/c, with 0.5m threaded head projection. (464 bars \u00d7 9.5m)",
+            "short_description": "\u00d825mm High-Yield Fe500D steel soil nail bars with centralizers (464 Nos. \u00d7 9.5m)",
+            "quantity": 4408.0,
+            "unit": "meter",
+            "rate": 385.0,
+            "rate_fmt": "\u20b9 385",
+            "amount": 1697080.0,
+            "amount_fmt": "\u20b9 16,97,080"
+          },
+          {
+            "sl_no": 10,
+            "item_code": "MoRTH 3100",
+            "work_package": "Internal Ground Reinforcement",
+            "description": "Pressure grouting of boreholes with neat cement grout (fcu \u2265 30 MPa, W/C = 0.42) including expanding admixture. (464 holes \u00d7 9.0m)",
+            "short_description": "Pressure grouting of boreholes with non-shrink cementitious grout (\u226530 MPa)",
+            "quantity": 4176.0,
+            "unit": "meter",
+            "rate": 520.0,
+            "rate_fmt": "\u20b9 520",
+            "amount": 2171520.0,
+            "amount_fmt": "\u20b9 21,71,520"
+          },
+          {
+            "sl_no": 11,
+            "item_code": "MoRTH 3100 / IS:456",
+            "work_package": "Internal Ground Reinforcement",
+            "description": "Cast-in-situ reinforced concrete bearing pads (400\u00d7400\u00d7200mm M30) and 200\u00d7200\u00d716mm galvanized steel bearing plates with lock nuts. (462 permanent working pads)",
+            "short_description": "Cast-in-situ RC bearing pads (400\u00d7400\u00d7200mm M30) & galvanized plates (462 sets)",
+            "quantity": 462.0,
+            "unit": "unit",
+            "rate": 2150.0,
+            "rate_fmt": "\u20b9 2,150",
+            "amount": 993300.0,
+            "amount_fmt": "\u20b9 9,93,300"
+          },
+          {
+            "sl_no": 12,
+            "item_code": "MoRTH 3100 / Geoguide 7",
+            "work_package": "Internal Ground Reinforcement",
+            "description": "Sacrificial pullout verification proof testing up to 1.5\u00d7 design pullout load with calibrated hollow-core jack on 2 sacrificial nails.",
+            "short_description": "Sacrificial pullout verification proof testing up to 1.5\u00d7 design load (2 tests)",
+            "quantity": 2.0,
+            "unit": "test",
+            "rate": 5000.0,
+            "rate_fmt": "\u20b9 5,000",
+            "amount": 10000.0,
+            "amount_fmt": "\u20b9 10,000"
+          },
+          {
+            "sl_no": 13,
+            "item_code": "MoRTH 3100",
+            "work_package": "Internal Ground Reinforcement",
+            "description": "Supplying and installing high-tensile flexible diamond steel wire mesh (3.0mm wire, 65\u00d765mm mesh, 50 kN/m) bolted across nail heads to prevent colluvial ravelling.",
+            "short_description": "High-tensile diamond steel wire mesh (3mm wire, 65\u00d765mm, 50 kN/m) facing",
+            "quantity": 1592.4,
+            "unit": "m\u00b2",
+            "rate": 420.0,
+            "rate_fmt": "\u20b9 420",
+            "amount": 668808.0,
+            "amount_fmt": "\u20b9 6,68,808"
+          },
+          {
+            "sl_no": 14,
+            "item_code": "MoRTH 309 / IRC:SP:48",
+            "work_package": "Subsurface & Surface Drainage",
+            "description": "Installation of sub-horizontal slotted PVC relief drains (\u00d875mm, Schedule 80) at 5\u00b0\u201310\u00b0 upward rake into hillside with cleanout cap. (12 Nos. \u00d7 15m)",
+            "short_description": "Slotted PVC sub-horizontal relief drains (\u00d875mm) at 5\u00b0\u201310\u00b0 rake (12 Nos. \u00d7 15m)",
+            "quantity": 180.0,
+            "unit": "meter",
+            "rate": 1150.0,
+            "rate_fmt": "\u20b9 1,150",
+            "amount": 207000.0,
+            "amount_fmt": "\u20b9 2,07,000"
+          },
+          {
+            "sl_no": 15,
+            "item_code": "MoRTH 309 / HPSOR 5.3",
+            "work_package": "Subsurface & Surface Drainage",
+            "description": "Construction of lined stone masonry saucer catch drain (0.60m \u00d7 0.60m) along slope crest to intercept surface runoff.",
+            "short_description": "Stone masonry saucer catch drain (0.60\u00d70.60m) along slope crest in 1:4 mortar",
+            "quantity": 48.0,
+            "unit": "meter",
+            "rate": 780.0,
+            "rate_fmt": "\u20b9 780",
+            "amount": 37440.0,
+            "amount_fmt": "\u20b9 37,440"
+          },
+          {
+            "sl_no": 16,
+            "item_code": "MoRTH 309.2",
+            "work_package": "Subsurface & Surface Drainage",
+            "description": "Reconstruction of damaged roadside longitudinal rectangular drain (0.60m \u00d7 0.60m) in stone masonry with M15 concrete bedding.",
+            "short_description": "Reconstruction of roadside longitudinal drain (0.60\u00d70.60m) in stone masonry",
+            "quantity": 40.0,
+            "unit": "meter",
+            "rate": 850.0,
+            "rate_fmt": "\u20b9 850",
+            "amount": 34000.0,
+            "amount_fmt": "\u20b9 34,000"
+          },
+          {
+            "sl_no": 17,
+            "item_code": "MoRTH 309.5",
+            "work_package": "Subsurface & Surface Drainage",
+            "description": "Stepped cascade stone-pitched drainage chute down slope flank to safely discharge crest drain runoff into road culvert.",
+            "short_description": "Stepped cascade stone-pitched drainage chute down slope flank into ravine",
+            "quantity": 101.33,
+            "unit": "meter",
+            "rate": 1050.0,
+            "rate_fmt": "\u20b9 1,050",
+            "amount": 106396.5,
+            "amount_fmt": "\u20b9 1,06,396"
+          },
+          {
+            "sl_no": 18,
+            "item_code": "MoRTH 1802 / IS:14458",
+            "work_package": "Bioengineering & Erosion Control",
+            "description": "Soil bioengineering: 700 GSM coir netting, hydroseeding with native grass mixes, and Vetiver grass contour slips across upper cut face. (1592.4 m\u00b2 + 10% overlap)",
+            "short_description": "Coir geotextile netting (700 GSM), hydroseeding & Vetiver grass contour hedges",
+            "quantity": 1751.64,
+            "unit": "m\u00b2",
+            "rate": 195.0,
+            "rate_fmt": "\u20b9 195",
+            "amount": 341569.8,
+            "amount_fmt": "\u20b9 3,41,570"
+          }
+        ],
+        "financial_summary": {
+          "civil_subtotal_raw": 12154595.25,
+          "civil_subtotal_fmt": "\u20b9 1,21,54,595",
+          "subtotal_direct_fmt": "\u20b9 1,21,54,595",
+          "contingencies_raw": 364637.86,
+          "contingencies_fmt": "\u20b9 3,64,638",
+          "contingency_cost_fmt": "\u20b9 3,64,638",
+          "contingencies_pct": 3.0,
+          "contingency_pct": 3.0,
+          "qc_testing_raw": 182318.93,
+          "qc_testing_fmt": "\u20b9 1,82,319",
+          "qc_testing_pct": 1.5,
+          "subtotal_before_tax_raw": 12701552.04,
+          "subtotal_before_tax_fmt": "\u20b9 1,27,01,552",
+          "gst_pct": 18.0,
+          "gst_raw": 2286279.37,
+          "gst_fmt": "\u20b9 22,86,279",
+          "total_remediation_raw": 14987831.41,
+          "total_remediation_fmt": "\u20b9 1,49,87,831",
+          "total_remediation_badge": "\u20b9 1.50 Cr",
+          "direct_asset_loss_raw": 452000.0,
+          "direct_asset_loss_fmt": "\u20b9 4,52,000",
+          "direct_asset_loss_badge": "\u20b9 4.52 Lakh",
+          "indirect_economic_loss_raw": 125000.0,
+          "indirect_economic_loss_fmt": "\u20b9 1,25,000",
+          "indirect_economic_loss_badge": "\u20b9 1.25 Lakh",
+          "total_disaster_loss_raw": 577000.0,
+          "total_disaster_loss_fmt": "\u20b9 5,77,000",
+          "total_disaster_loss_badge": "\u20b9 5.77 Lakh",
+          "grand_total_disaster_impact_raw": 15564831.41,
+          "grand_total_disaster_impact_fmt": "\u20b9 1,55,64,831",
+          "grand_total_disaster_impact_badge": "\u20b9 1.56 Cr",
+          "statutory_sanction_total_raw": 15439831.41,
+          "statutory_sanction_total_fmt": "\u20b9 1,54,39,831",
+          "statutory_sanction_total_badge": "\u20b9 1.54 Cr",
+          "total_civil_remediation_outlay": 14987831.41
+        },
+        "loss_items": [
+          {
+            "sl_no": 1,
+            "category": "Direct Asset Damage",
+            "asset": "Highway Carriageway Pavement (WMM + Bituminous Crust)",
+            "criteria": "Full pavement reconstruction over damaged corridor (180.0 m\u00b2 = 40.0m \u00d7 4.5m formation width): Scarification, subgrade re-compaction, 150mm WMM base and 50mm Bituminous Concrete overlay @ \u20b91,650/m\u00b2",
+            "quantity": 180.0,
+            "unit": "m\u00b2",
+            "rate": 1650.0,
+            "amount": 297000.0,
+            "amount_fmt": "\u20b9 2,97,000"
+          },
+          {
+            "sl_no": 2,
+            "category": "Direct Asset Damage",
+            "asset": "Roadside Culvert Headwall & Silt Flushing",
+            "criteria": "High-pressure hydraulic flushing of choked 1.2m dia Hume pipe barrel, masonry headwall reconstruction, and cement pressure grouting of apron cracks",
+            "quantity": 1.0,
+            "unit": "LS",
+            "rate": 120000.0,
+            "amount": 120000.0,
+            "amount_fmt": "\u20b9 1,20,000"
+          },
+          {
+            "sl_no": 3,
+            "category": "Direct Asset Damage",
+            "asset": "Emergency Corridor Traffic Staging & Diversion Safety",
+            "criteria": "Deployment of portable steel crash barriers, solar LED hazard flashers, warning signage, and 24/7 flagger spotters during emergency single-lane transit",
+            "quantity": 1.0,
+            "unit": "LS",
+            "rate": 35000.0,
+            "amount": 35000.0,
+            "amount_fmt": "\u20b9 35,000"
+          },
+          {
+            "sl_no": 1,
+            "category": "Indirect Economic Loss",
+            "asset": "Regional Corridor Freight Detour & Transit Delay",
+            "criteria": "1.0 day regional commercial transit disruption: Freight carrier diversion (extra 45 km detour via alternate state highway), commercial idling fuel surcharge, and commuter travel-time delay",
+            "quantity": 1.0,
+            "unit": "day",
+            "rate": 125000.0,
+            "amount": 125000.0,
+            "amount_fmt": "\u20b9 1,25,000"
+          }
+        ],
+        "cedd_assessment": {
+          "consequence_category": "Category 2",
+          "consequence_level": "Moderate Consequence",
+          "consequence_criteria": "Secondary roads (State Highways, Major District Roads), bus stands, open commercial yards, rural bypasses where failure causes severe transit disruption but low direct risk to occupied buildings.",
+          "economic_consequence": "Moderate Economic Consequence",
+          "target_fos_10yr": 1.25,
+          "target_fos_extreme": 1.15,
+          "mandatory_investigation": "Engineer Inspection for Maintenance (EIM) & Preventive Upgrading",
+          "inspection_regime": {
+            "code": "EIM",
+            "name": "Engineer Inspection for Maintenance",
+            "frequency": "Every 2 years for Category 1 slopes; every 5 years for Category 2/3 slopes",
+            "personnel": "Qualified Geotechnical Engineer (Executive / Assistant Engineer)",
+            "key_checks": "Structural integrity of retaining walls, soil nail head pad displacement, crack gauge monitoring, drainage gradient verification"
+          }
+        },
+        "larimit_mitigations": {
+          "analyzed_mechanism": "Planar Slide",
+          "primary_structural": {
+            "id": "M14",
+            "name": "Prestressed High-Tensile Rock Anchors",
+            "cluster": "Internal Ground Reinforcement",
+            "description": "Post-tensioned multi-strand steel cable tendons anchored deep into bedrock to tie back unstable structural rock wedges.",
+            "suitability_score": 0.98,
+            "cost_tier": "Very High",
+            "construction_time": "21-35 Days"
+          },
+          "hydrogeological_drainage": {
+            "id": "M07",
+            "name": "Sub-Horizontal Directional Relief Drains (GEO Standard)",
+            "cluster": "Subsurface Drainage",
+            "description": "Array of perforated PVC pipes (50-75mm dia, 15-30m length) drilled at 5-10 deg upward rake into slope to depress water table.",
+            "suitability_score": 0.92,
+            "cost_tier": "Medium",
+            "construction_time": "6-12 Days"
+          },
+          "nature_based_solution": {
+            "id": "M23",
+            "name": "Live Vegetated Crib Wall / Timber Cribbing",
+            "cluster": "Nature-Based Solutions: Vegetated Structural Systems",
+            "description": "Hollow box-like interlocking timber or precast concrete beam framework backfilled with soil/rock and planted with live root cuttings.",
+            "suitability_score": 0.75,
+            "cost_tier": "Medium",
+            "construction_time": "10-18 Days"
+          }
+        },
+        "usgs_classification": {
+          "usgs_general_definition": "A landslide is a general term used to describe the downslope movement of soil, rock, and organic materials under the effects of gravity and also the landform that results from such movement.",
+          "usgs_kinematic_definition": "A downslope movement of rock or soil, or both, occurring on the surface of rupture\u2014either curved (rotational slide) or planar (translational slide) rupture\u2014in which much of the material often moves as a coherent or semicoherent mass with little internal deformation.",
+          "two_term_classification": "Translational Debris Slide",
+          "primary_movement": "Translational Slide",
+          "material_class": "Debris (coarse fragments > 2mm)",
+          "material_definition": "Soil containing a significant proportion of coarse fragments; 20% to 80% of the particles are greater than 2 mm in size (gravel, cobbles, and boulders).",
+          "movement_definition": "A landslide mass that moves out, or down and outward, along a relatively planar surface with little rotational movement or backward tilting; frequently controlled by structural discontinuities (bedding, joints, faults).",
+          "velocity_class": {
+            "class_code": "Class 5",
+            "rate_name": "Rapid",
+            "velocity_range": "1.8 m/h to 3 m/min",
+            "consequences": "Escape possible; property and structures destroyed; roads severely disrupted."
+          },
+          "landslide_anatomy": {
+            "crown_and_scarp": "Undisplaced crown with open extensional crown cracks; distinct steep main scarp exposing rupture surface.",
+            "displaced_mass": "Depleted mass above planar/rotational surface of rupture, extending downslope into zone of accumulation.",
+            "toe_and_foot": "Displaced foot advancing beyond toe of rupture surface across roadway/property margin."
+          },
+          "causal_factors": {
+            "geological": [
+              "Weak, weathered, or fractured rock and soil materials",
+              "Adversely oriented structural discontinuities (faults, joints, bedding planes daylighting into cut face)"
+            ],
+            "morphological": [
+              "Fluvial or wave erosion undermining the slope toe",
+              "Tectonic or steep gravitational escarpment oversteepening"
+            ],
+            "physical_trigger": [
+              "Prolonged antecedent precipitation and high-intensity storm rainfall",
+              "Transient perched groundwater table development and loss of matric suction"
+            ],
+            "human_causes": [
+              "Anthropogenic excavation / toe undercutting for roadway benching or foundation cuts",
+              "Surcharge loading at the slope crest (unengineered spoil disposal or building construction)"
+            ]
+          },
+          "standard_reference": "USGS Circular 1325 (Highland & Bobrowsky, 2008) & Cruden & Varnes (1996) TRB Special Report 247"
+        },
+        "bhukosh_geology": {
+          "primary_rock": "Sandstone",
+          "toposheet": "53A14",
+          "structure": "Discontinuities dipping into valley",
+          "citation": "Rahul V. et al., 2016. Macro-scale (1:50,000) landslide susceptibility Mapping in parts of toposheets no. 53A/13, 14, Kullu and Mandi districts, Himachal Pradesh. Unpub. GSI report of FS 2015-2016",
+          "distance_km": 1.1,
+          "source": "GSI Bhukosh Spatial Survey (Toposheet 53A14)",
+          "is_spatial_match": true
+        }
+      },
+      "cost_estimate_boq": {
+        "status": "CALCULATED_OK",
+        "is_applicable": true,
+        "failure_vector": "UPHILL_CUT_SLOPE",
+        "rejection_notice": null,
+        "schedule_metadata": {
+          "title": "Himachal Pradesh Public Works Department (HPSOR 2024-25) & MoRTH Hill Roads Schedule",
+          "primary_references": [
+            "HPPWD Schedule of Rates (HPSOR 2024-25), Government of Himachal Pradesh",
+            "MoRTH Specifications for Road and Bridge Works (5th Revision)",
+            "IS:14458 Guidelines for Retaining/Breast Walls in Hill Areas",
+            "IRC:SP:48:1998 Hill Road Manual (Indian Roads Congress)",
+            "CEDD Geoguide 7: Guide to Soil Nail Design and Construction (2023 Edition)"
+          ],
+          "applicable_terrain": "Himalayan Hill Roads & High Altitude Sectors (Chamba Division)",
+          "currency": "INR (\u20b9)",
+          "tax_regime": {
+            "gst_percentage": 18.0,
+            "contingencies_percentage": 3.0,
+            "quality_control_percentage": 1.5
+          }
+        },
+        "unified_geometry": {
+          "slope_height_mean_m": 35.0,
+          "slope_height_min_m": 31.31,
+          "slope_height_max_m": 38.69,
+          "cut_angle_deg": 50.0,
+          "joint_dip_deg": 42.0,
+          "wall_length_m": 40.0,
+          "road_width_pre_disaster_m": 4.5,
+          "road_width_post_disaster_m": 2.0,
+          "debris_insitu_vol_m3": 1570.8,
+          "bulking_factor": 1.25,
+          "debris_bulked_vol_m3": 1963.5,
+          "failure_vector": "UPHILL_CUT_SLOPE",
+          "breast_wall": {
+            "stem_height_m": 4.5,
+            "embedment_depth_m": 1.5,
+            "total_height_m": 6.0,
+            "top_width_m": 0.6,
+            "base_width_m": 1.85,
+            "front_batter": "1:6",
+            "back_batter": "1:9",
+            "footing_vol_m3": 111.0,
+            "stem_vol_m3": 220.5,
+            "total_concrete_vol_m3": 331.5,
+            "material": "Plum Concrete M15 (40% clean quarry plums 150\u2013300mm)",
+            "governing_standard": "IS:14458 (Part 2):1997 / MoRTH Section 1500"
+          },
+          "filter_and_drainage": {
+            "filter_thickness_m": 0.35,
+            "filter_height_m": 4.5,
+            "filter_vol_m3": 63.0,
+            "geotextile_wrap_area_m2": 242.11,
+            "weep_holes_count": 62,
+            "weep_pipes_total_length_m": 105.4,
+            "weep_pipe_total_length_m": 105.4,
+            "relief_drains_count": 12,
+            "relief_drain_len_each_m": 15.0,
+            "relief_drains_total_length_m": 180.0
+          },
+          "upper_slope_and_nails": {
+            "upper_vertical_height_m": 30.5,
+            "upper_inclined_length_m": 39.81,
+            "upper_surface_area_m2": 1592.4,
+            "coir_netting_area_m2": 1751.64,
+            "working_nails_count": 462,
+            "sacrificial_nails_count": 2,
+            "total_nails_count": 464,
+            "nail_bar_spec": "\u00d825mm High-Yield Fe500D TMT rebar",
+            "drilling_depth_per_nail_m": 9.0,
+            "bar_length_per_nail_m": 9.5,
+            "total_drilling_length_m": 4176.0,
+            "total_bar_length_m": 4408.0,
+            "total_grout_length_m": 4176.0,
+            "permanent_bearing_pads_count": 462,
+            "wire_mesh_facing_area_m2": 1592.4
+          },
+          "soil_nail_grid": {
+            "working_nails_count": 462,
+            "sacrificial_test_nails_count": 2,
+            "total_nails_count": 464,
+            "total_drilling_length_m": 4176.0,
+            "total_bar_length_m": 4408.0,
+            "bearing_pads_count": 462,
+            "wire_mesh_facing_area_m2": 1592.4
+          }
+        },
+        "stability_analysis": {
+          "is_applicable": true,
+          "geotechnical_parameters": {
+            "unit_weight_kn_m3": 20.5,
+            "effective_cohesion_kpa": 14.0,
+            "effective_friction_deg": 28.0,
+            "intact_rock_ucs_mpa": 35.0,
+            "rock_weathering_grade": "Grade IV (Highly Weathered)",
+            "tension_crack_depth_m": 1.85,
+            "slip_plane_length_m": 49.542,
+            "basis": "ASSUMED (Pending Site Investigation & Lab Testing)"
+          },
+          "scenarios": [
+            {
+              "stage_id": "dry_baseline",
+              "stage_name": "Dry Natural Baseline (Zero Cleft-Water Pressure, Peak Shear)",
+              "min_statutory_fos": 1.5,
+              "calculated_fos": 1.01,
+              "diagnosis": "Marginal Stability (< 1.50 Code Minimum)",
+              "code_ref": "USACE EM 1110-2-1902 / IS:14458"
+            },
+            {
+              "stage_id": "monsoon_saturated",
+              "stage_name": "Monsoon Cleft-Water Saturation (Active Joint Pore Pressure, zw=1.2m)",
+              "min_statutory_fos": 1.3,
+              "calculated_fos": 0.55,
+              "diagnosis": "Active Shear Failure (Limit State Exceeded)",
+              "code_ref": "CEDD Geoguide 1 / Eurocode 7 DA1/C2"
+            },
+            {
+              "stage_id": "post_remediation",
+              "stage_name": "Post-Remediation (Plum Wall M15 + Fe500D Nails + Sub-horizontal Drains)",
+              "min_statutory_fos": 1.5,
+              "calculated_fos": 1.5,
+              "diagnosis": "Fully Code Compliant (>= 1.50 Permanent State)",
+              "code_ref": "IRC:SP:48:1998 / IS:14458 Part 2"
+            }
+          ],
+          "seismic_zone_note": "Site lies in Seismic Zone V (IS:1893:2016, Zone Factor Z=0.36, ah=0.09g). Permanent stabilization accommodates pseudo-static earthquake coefficient in addition to static surcharge."
+        },
+        "statutory_capital_works_outlay": {
+          "civil_subtotal_raw": 12154595.25,
+          "civil_subtotal_fmt": "\u20b9 1,21,54,595",
+          "contingencies_pct": 3.0,
+          "contingencies_raw": 364637.86,
+          "contingencies_fmt": "\u20b9 3,64,638",
+          "qc_testing_pct": 1.5,
+          "qc_testing_raw": 182318.93,
+          "qc_testing_fmt": "\u20b9 1,82,319",
+          "subtotal_before_tax_raw": 12701552.04,
+          "subtotal_before_tax_fmt": "\u20b9 1,27,01,552",
+          "gst_pct": 18.0,
+          "gst_raw": 2286279.37,
+          "gst_fmt": "\u20b9 22,86,279",
+          "total_remediation_raw": 14987831.41,
+          "total_remediation_fmt": "\u20b9 1,49,87,831",
+          "total_remediation_badge": "\u20b9 1.50 Cr",
+          "statutory_sanction_total_raw": 15439831.41,
+          "statutory_sanction_total_fmt": "\u20b9 1,54,39,831",
+          "statutory_sanction_total_badge": "\u20b9 1.54 Cr",
+          "currency": "INR (\u20b9)",
+          "statutory_role": "Administrative Approval & Expenditure Sanction (AA&ES) / Technical Sanction (TS)"
+        },
+        "direct_asset_damage": {
+          "items": [
+            {
+              "sl_no": 1,
+              "category": "Direct Asset Damage",
+              "asset": "Highway Carriageway Pavement (WMM + Bituminous Crust)",
+              "criteria": "Full pavement reconstruction over damaged corridor (180.0 m\u00b2 = 40.0m \u00d7 4.5m formation width): Scarification, subgrade re-compaction, 150mm WMM base and 50mm Bituminous Concrete overlay @ \u20b91,650/m\u00b2",
+              "quantity": 180.0,
+              "unit": "m\u00b2",
+              "rate": 1650.0,
+              "amount": 297000.0,
+              "amount_fmt": "\u20b9 2,97,000"
+            },
+            {
+              "sl_no": 2,
+              "category": "Direct Asset Damage",
+              "asset": "Roadside Culvert Headwall & Silt Flushing",
+              "criteria": "High-pressure hydraulic flushing of choked 1.2m dia Hume pipe barrel, masonry headwall reconstruction, and cement pressure grouting of apron cracks",
+              "quantity": 1.0,
+              "unit": "LS",
+              "rate": 120000.0,
+              "amount": 120000.0,
+              "amount_fmt": "\u20b9 1,20,000"
+            },
+            {
+              "sl_no": 3,
+              "category": "Direct Asset Damage",
+              "asset": "Emergency Corridor Traffic Staging & Diversion Safety",
+              "criteria": "Deployment of portable steel crash barriers, solar LED hazard flashers, warning signage, and 24/7 flagger spotters during emergency single-lane transit",
+              "quantity": 1.0,
+              "unit": "LS",
+              "rate": 35000.0,
+              "amount": 35000.0,
+              "amount_fmt": "\u20b9 35,000"
+            }
+          ],
+          "subtotal_raw": 452000.0,
+          "subtotal_fmt": "\u20b9 4,52,000",
+          "subtotal_badge": "\u20b9 4.52 Lakh",
+          "statutory_head": "SDRF Section 48(1)(a) Infrastructure Restoration"
+        },
+        "indirect_economic_disruption": {
+          "items": [
+            {
+              "sl_no": 1,
+              "category": "Indirect Economic Loss",
+              "asset": "Regional Corridor Freight Detour & Transit Delay",
+              "criteria": "1.0 day regional commercial transit disruption: Freight carrier diversion (extra 45 km detour via alternate state highway), commercial idling fuel surcharge, and commuter travel-time delay",
+              "quantity": 1.0,
+              "unit": "day",
+              "rate": 125000.0,
+              "amount": 125000.0,
+              "amount_fmt": "\u20b9 1,25,000"
+            }
+          ],
+          "subtotal_raw": 125000.0,
+          "subtotal_fmt": "\u20b9 1,25,000",
+          "subtotal_badge": "\u20b9 1.25 Lakh",
+          "disclaimer": "Macroeconomic user-delay losses are recorded for statistical and disaster impact monitoring; strictly excluded from statutory contractor procurement."
+        },
+        "comprehensive_disaster_impact": {
+          "total_disaster_loss_raw": 577000.0,
+          "total_disaster_loss_fmt": "\u20b9 5,77,000",
+          "total_disaster_loss_badge": "\u20b9 5.77 Lakh",
+          "grand_total_impact_raw": 15564831.41,
+          "grand_total_impact_fmt": "\u20b9 1,55,64,831",
+          "grand_total_impact_badge": "\u20b9 1.56 Cr"
+        },
+        "boq_items": [
+          {
+            "sl_no": 1,
+            "item_code": "MoRTH 301.1",
+            "work_package": "Earthwork & Clearance",
+            "description": "Hydraulic clearance of fallen colluvium and boulders using excavator, including loading, hauling up to 1000m, and dumping at designated HPPWD spoil site. (In-situ 1570.8 m\u00b3 \u00d7 1.25 bulking = 1963.5 m\u00b3)",
+            "short_description": "Hydraulic excavation & disposal of debris/boulders (lead 1000m)",
+            "quantity": 1963.5,
+            "unit": "m\u00b3",
+            "rate": 220.0,
+            "rate_fmt": "\u20b9 220",
+            "amount": 431970.0,
+            "amount_fmt": "\u20b9 4,31,970"
+          },
+          {
+            "sl_no": 2,
+            "item_code": "MoRTH 305.2",
+            "work_package": "Earthwork & Clearance",
+            "description": "Dressing, trimming, and scarp reprofiling of upper cut slope face above breast wall at 50.0\u00b0 inclination. (40.0m \u00d7 39.81m inclined face = 1592.4 m\u00b2)",
+            "short_description": "Slope trimming, scarp reprofiling & bench dressing in cut face",
+            "quantity": 1592.4,
+            "unit": "m\u00b2",
+            "rate": 115.0,
+            "rate_fmt": "\u20b9 115",
+            "amount": 183126.0,
+            "amount_fmt": "\u20b9 1,83,126"
+          },
+          {
+            "sl_no": 3,
+            "item_code": "MoRTH 304.3",
+            "work_package": "Earthwork & Clearance",
+            "description": "Foundation trench excavation in hard rock for breast wall using pneumatic breaker. (40.0m \u00d7 1.85m \u00d7 1.5m neat trench)",
+            "short_description": "Foundation trench rock excavation with pneumatic breaker for wall footing",
+            "quantity": 111.0,
+            "unit": "m\u00b3",
+            "rate": 580.0,
+            "rate_fmt": "\u20b9 580",
+            "amount": 64380.0,
+            "amount_fmt": "\u20b9 64,380"
+          },
+          {
+            "sl_no": 4,
+            "item_code": "MoRTH 1500 / IS:14458",
+            "work_package": "Structural Retention",
+            "description": "Construction of Plum Concrete Breast Wall (H=4.5m stem, 1.5m embedment, 1.85m base, 0.6m top) in M15 concrete with 40% clean sound plums (150\u2013300mm). (Footing 111.0 m\u00b3 + Stem 220.5 m\u00b3)",
+            "short_description": "Plum Concrete Breast Wall (H=4.5m, B=1.85m) in M15 with 40% plums",
+            "quantity": 331.5,
+            "unit": "m\u00b3",
+            "rate": 4250.0,
+            "rate_fmt": "\u20b9 4,250",
+            "amount": 1408875.0,
+            "amount_fmt": "\u20b9 14,08,875"
+          },
+          {
+            "sl_no": 5,
+            "item_code": "MoRTH 702.1",
+            "work_package": "Structural Retention",
+            "description": "Non-woven needle-punched polypropylene geotextile filter fabric (250 GSM) wrapping granular drainage pack behind wall stem, with 300mm overlaps. (242.11 m\u00b2 wrap)",
+            "short_description": "Non-woven polypropylene geotextile filter fabric (250 GSM) wrapping filter pack",
+            "quantity": 242.11,
+            "unit": "m\u00b2",
+            "rate": 145.0,
+            "rate_fmt": "\u20b9 145",
+            "amount": 35105.95,
+            "amount_fmt": "\u20b9 35,106"
+          },
+          {
+            "sl_no": 6,
+            "item_code": "MoRTH 309.3 / HPSOR 4.8",
+            "work_package": "Structural Retention",
+            "description": "Free-draining graded granular filter backfill (20\u201340mm crushed gravel) extending full 4.5m stem height behind breast wall. (40.0m \u00d7 4.5m \u00d7 0.35m)",
+            "short_description": "Free-draining granular filter backfill (20\u201340mm crushed gravel) behind wall",
+            "quantity": 63.0,
+            "unit": "m\u00b3",
+            "rate": 980.0,
+            "rate_fmt": "\u20b9 980",
+            "amount": 61740.0,
+            "amount_fmt": "\u20b9 61,740"
+          },
+          {
+            "sl_no": 7,
+            "item_code": "MoRTH 309.4 / HPSOR 4.9",
+            "work_package": "Structural Retention",
+            "description": "Providing and laying 100mm dia perforated PVC weep hole pipes laid at 1:20 slope in 2 staggered rows, wrapped in geotextile. (62 holes \u00d7 1.7m)",
+            "short_description": "100mm dia PVC weep hole pipes @ 1.2m c/c in 2 staggered rows",
+            "quantity": 105.4,
+            "unit": "meter",
+            "rate": 260.0,
+            "rate_fmt": "\u20b9 260",
+            "amount": 27404.0,
+            "amount_fmt": "\u20b9 27,404"
+          },
+          {
+            "sl_no": 8,
+            "item_code": "MoRTH 3100 / FHWA GEC 7",
+            "work_package": "Internal Ground Reinforcement",
+            "description": "Rotary percussion drilling of 100\u2013110mm dia boreholes for soil nails at 15\u00b0\u201320\u00b0 rake in weathered rock/colluvium. (462 working nails + 2 sacrificial = 464 holes \u00d7 9.0m)",
+            "short_description": "Drilling 100\u2013110mm boreholes for soil nails at 15\u00b0\u201320\u00b0 rake (464 Nos. \u00d7 9.0m)",
+            "quantity": 4176.0,
+            "unit": "meter",
+            "rate": 880.0,
+            "rate_fmt": "\u20b9 880",
+            "amount": 3674880.0,
+            "amount_fmt": "\u20b9 36,74,880"
+          },
+          {
+            "sl_no": 9,
+            "item_code": "MoRTH 3100 / IS:1786",
+            "work_package": "Internal Ground Reinforcement",
+            "description": "Supplying and installing \u00d825mm High-Yield Fe500D TMT rebar with centralizers @ 1.8m c/c, with 0.5m threaded head projection. (464 bars \u00d7 9.5m)",
+            "short_description": "\u00d825mm High-Yield Fe500D steel soil nail bars with centralizers (464 Nos. \u00d7 9.5m)",
+            "quantity": 4408.0,
+            "unit": "meter",
+            "rate": 385.0,
+            "rate_fmt": "\u20b9 385",
+            "amount": 1697080.0,
+            "amount_fmt": "\u20b9 16,97,080"
+          },
+          {
+            "sl_no": 10,
+            "item_code": "MoRTH 3100",
+            "work_package": "Internal Ground Reinforcement",
+            "description": "Pressure grouting of boreholes with neat cement grout (fcu \u2265 30 MPa, W/C = 0.42) including expanding admixture. (464 holes \u00d7 9.0m)",
+            "short_description": "Pressure grouting of boreholes with non-shrink cementitious grout (\u226530 MPa)",
+            "quantity": 4176.0,
+            "unit": "meter",
+            "rate": 520.0,
+            "rate_fmt": "\u20b9 520",
+            "amount": 2171520.0,
+            "amount_fmt": "\u20b9 21,71,520"
+          },
+          {
+            "sl_no": 11,
+            "item_code": "MoRTH 3100 / IS:456",
+            "work_package": "Internal Ground Reinforcement",
+            "description": "Cast-in-situ reinforced concrete bearing pads (400\u00d7400\u00d7200mm M30) and 200\u00d7200\u00d716mm galvanized steel bearing plates with lock nuts. (462 permanent working pads)",
+            "short_description": "Cast-in-situ RC bearing pads (400\u00d7400\u00d7200mm M30) & galvanized plates (462 sets)",
+            "quantity": 462.0,
+            "unit": "unit",
+            "rate": 2150.0,
+            "rate_fmt": "\u20b9 2,150",
+            "amount": 993300.0,
+            "amount_fmt": "\u20b9 9,93,300"
+          },
+          {
+            "sl_no": 12,
+            "item_code": "MoRTH 3100 / Geoguide 7",
+            "work_package": "Internal Ground Reinforcement",
+            "description": "Sacrificial pullout verification proof testing up to 1.5\u00d7 design pullout load with calibrated hollow-core jack on 2 sacrificial nails.",
+            "short_description": "Sacrificial pullout verification proof testing up to 1.5\u00d7 design load (2 tests)",
+            "quantity": 2.0,
+            "unit": "test",
+            "rate": 5000.0,
+            "rate_fmt": "\u20b9 5,000",
+            "amount": 10000.0,
+            "amount_fmt": "\u20b9 10,000"
+          },
+          {
+            "sl_no": 13,
+            "item_code": "MoRTH 3100",
+            "work_package": "Internal Ground Reinforcement",
+            "description": "Supplying and installing high-tensile flexible diamond steel wire mesh (3.0mm wire, 65\u00d765mm mesh, 50 kN/m) bolted across nail heads to prevent colluvial ravelling.",
+            "short_description": "High-tensile diamond steel wire mesh (3mm wire, 65\u00d765mm, 50 kN/m) facing",
+            "quantity": 1592.4,
+            "unit": "m\u00b2",
+            "rate": 420.0,
+            "rate_fmt": "\u20b9 420",
+            "amount": 668808.0,
+            "amount_fmt": "\u20b9 6,68,808"
+          },
+          {
+            "sl_no": 14,
+            "item_code": "MoRTH 309 / IRC:SP:48",
+            "work_package": "Subsurface & Surface Drainage",
+            "description": "Installation of sub-horizontal slotted PVC relief drains (\u00d875mm, Schedule 80) at 5\u00b0\u201310\u00b0 upward rake into hillside with cleanout cap. (12 Nos. \u00d7 15m)",
+            "short_description": "Slotted PVC sub-horizontal relief drains (\u00d875mm) at 5\u00b0\u201310\u00b0 rake (12 Nos. \u00d7 15m)",
+            "quantity": 180.0,
+            "unit": "meter",
+            "rate": 1150.0,
+            "rate_fmt": "\u20b9 1,150",
+            "amount": 207000.0,
+            "amount_fmt": "\u20b9 2,07,000"
+          },
+          {
+            "sl_no": 15,
+            "item_code": "MoRTH 309 / HPSOR 5.3",
+            "work_package": "Subsurface & Surface Drainage",
+            "description": "Construction of lined stone masonry saucer catch drain (0.60m \u00d7 0.60m) along slope crest to intercept surface runoff.",
+            "short_description": "Stone masonry saucer catch drain (0.60\u00d70.60m) along slope crest in 1:4 mortar",
+            "quantity": 48.0,
+            "unit": "meter",
+            "rate": 780.0,
+            "rate_fmt": "\u20b9 780",
+            "amount": 37440.0,
+            "amount_fmt": "\u20b9 37,440"
+          },
+          {
+            "sl_no": 16,
+            "item_code": "MoRTH 309.2",
+            "work_package": "Subsurface & Surface Drainage",
+            "description": "Reconstruction of damaged roadside longitudinal rectangular drain (0.60m \u00d7 0.60m) in stone masonry with M15 concrete bedding.",
+            "short_description": "Reconstruction of roadside longitudinal drain (0.60\u00d70.60m) in stone masonry",
+            "quantity": 40.0,
+            "unit": "meter",
+            "rate": 850.0,
+            "rate_fmt": "\u20b9 850",
+            "amount": 34000.0,
+            "amount_fmt": "\u20b9 34,000"
+          },
+          {
+            "sl_no": 17,
+            "item_code": "MoRTH 309.5",
+            "work_package": "Subsurface & Surface Drainage",
+            "description": "Stepped cascade stone-pitched drainage chute down slope flank to safely discharge crest drain runoff into road culvert.",
+            "short_description": "Stepped cascade stone-pitched drainage chute down slope flank into ravine",
+            "quantity": 101.33,
+            "unit": "meter",
+            "rate": 1050.0,
+            "rate_fmt": "\u20b9 1,050",
+            "amount": 106396.5,
+            "amount_fmt": "\u20b9 1,06,396"
+          },
+          {
+            "sl_no": 18,
+            "item_code": "MoRTH 1802 / IS:14458",
+            "work_package": "Bioengineering & Erosion Control",
+            "description": "Soil bioengineering: 700 GSM coir netting, hydroseeding with native grass mixes, and Vetiver grass contour slips across upper cut face. (1592.4 m\u00b2 + 10% overlap)",
+            "short_description": "Coir geotextile netting (700 GSM), hydroseeding & Vetiver grass contour hedges",
+            "quantity": 1751.64,
+            "unit": "m\u00b2",
+            "rate": 195.0,
+            "rate_fmt": "\u20b9 195",
+            "amount": 341569.8,
+            "amount_fmt": "\u20b9 3,41,570"
+          }
+        ],
+        "financial_summary": {
+          "civil_subtotal_raw": 12154595.25,
+          "civil_subtotal_fmt": "\u20b9 1,21,54,595",
+          "subtotal_direct_fmt": "\u20b9 1,21,54,595",
+          "contingencies_raw": 364637.86,
+          "contingencies_fmt": "\u20b9 3,64,638",
+          "contingency_cost_fmt": "\u20b9 3,64,638",
+          "contingencies_pct": 3.0,
+          "contingency_pct": 3.0,
+          "qc_testing_raw": 182318.93,
+          "qc_testing_fmt": "\u20b9 1,82,319",
+          "qc_testing_pct": 1.5,
+          "subtotal_before_tax_raw": 12701552.04,
+          "subtotal_before_tax_fmt": "\u20b9 1,27,01,552",
+          "gst_pct": 18.0,
+          "gst_raw": 2286279.37,
+          "gst_fmt": "\u20b9 22,86,279",
+          "total_remediation_raw": 14987831.41,
+          "total_remediation_fmt": "\u20b9 1,49,87,831",
+          "total_remediation_badge": "\u20b9 1.50 Cr",
+          "direct_asset_loss_raw": 452000.0,
+          "direct_asset_loss_fmt": "\u20b9 4,52,000",
+          "direct_asset_loss_badge": "\u20b9 4.52 Lakh",
+          "indirect_economic_loss_raw": 125000.0,
+          "indirect_economic_loss_fmt": "\u20b9 1,25,000",
+          "indirect_economic_loss_badge": "\u20b9 1.25 Lakh",
+          "total_disaster_loss_raw": 577000.0,
+          "total_disaster_loss_fmt": "\u20b9 5,77,000",
+          "total_disaster_loss_badge": "\u20b9 5.77 Lakh",
+          "grand_total_disaster_impact_raw": 15564831.41,
+          "grand_total_disaster_impact_fmt": "\u20b9 1,55,64,831",
+          "grand_total_disaster_impact_badge": "\u20b9 1.56 Cr",
+          "statutory_sanction_total_raw": 15439831.41,
+          "statutory_sanction_total_fmt": "\u20b9 1,54,39,831",
+          "statutory_sanction_total_badge": "\u20b9 1.54 Cr",
+          "total_civil_remediation_outlay": 14987831.41
+        },
+        "loss_items": [
+          {
+            "sl_no": 1,
+            "category": "Direct Asset Damage",
+            "asset": "Highway Carriageway Pavement (WMM + Bituminous Crust)",
+            "criteria": "Full pavement reconstruction over damaged corridor (180.0 m\u00b2 = 40.0m \u00d7 4.5m formation width): Scarification, subgrade re-compaction, 150mm WMM base and 50mm Bituminous Concrete overlay @ \u20b91,650/m\u00b2",
+            "quantity": 180.0,
+            "unit": "m\u00b2",
+            "rate": 1650.0,
+            "amount": 297000.0,
+            "amount_fmt": "\u20b9 2,97,000"
+          },
+          {
+            "sl_no": 2,
+            "category": "Direct Asset Damage",
+            "asset": "Roadside Culvert Headwall & Silt Flushing",
+            "criteria": "High-pressure hydraulic flushing of choked 1.2m dia Hume pipe barrel, masonry headwall reconstruction, and cement pressure grouting of apron cracks",
+            "quantity": 1.0,
+            "unit": "LS",
+            "rate": 120000.0,
+            "amount": 120000.0,
+            "amount_fmt": "\u20b9 1,20,000"
+          },
+          {
+            "sl_no": 3,
+            "category": "Direct Asset Damage",
+            "asset": "Emergency Corridor Traffic Staging & Diversion Safety",
+            "criteria": "Deployment of portable steel crash barriers, solar LED hazard flashers, warning signage, and 24/7 flagger spotters during emergency single-lane transit",
+            "quantity": 1.0,
+            "unit": "LS",
+            "rate": 35000.0,
+            "amount": 35000.0,
+            "amount_fmt": "\u20b9 35,000"
+          },
+          {
+            "sl_no": 1,
+            "category": "Indirect Economic Loss",
+            "asset": "Regional Corridor Freight Detour & Transit Delay",
+            "criteria": "1.0 day regional commercial transit disruption: Freight carrier diversion (extra 45 km detour via alternate state highway), commercial idling fuel surcharge, and commuter travel-time delay",
+            "quantity": 1.0,
+            "unit": "day",
+            "rate": 125000.0,
+            "amount": 125000.0,
+            "amount_fmt": "\u20b9 1,25,000"
+          }
+        ],
+        "cedd_assessment": {
+          "consequence_category": "Category 2",
+          "consequence_level": "Moderate Consequence",
+          "consequence_criteria": "Secondary roads (State Highways, Major District Roads), bus stands, open commercial yards, rural bypasses where failure causes severe transit disruption but low direct risk to occupied buildings.",
+          "economic_consequence": "Moderate Economic Consequence",
+          "target_fos_10yr": 1.25,
+          "target_fos_extreme": 1.15,
+          "mandatory_investigation": "Engineer Inspection for Maintenance (EIM) & Preventive Upgrading",
+          "inspection_regime": {
+            "code": "EIM",
+            "name": "Engineer Inspection for Maintenance",
+            "frequency": "Every 2 years for Category 1 slopes; every 5 years for Category 2/3 slopes",
+            "personnel": "Qualified Geotechnical Engineer (Executive / Assistant Engineer)",
+            "key_checks": "Structural integrity of retaining walls, soil nail head pad displacement, crack gauge monitoring, drainage gradient verification"
+          }
+        },
+        "larimit_mitigations": {
+          "analyzed_mechanism": "Planar Slide",
+          "primary_structural": {
+            "id": "M14",
+            "name": "Prestressed High-Tensile Rock Anchors",
+            "cluster": "Internal Ground Reinforcement",
+            "description": "Post-tensioned multi-strand steel cable tendons anchored deep into bedrock to tie back unstable structural rock wedges.",
+            "suitability_score": 0.98,
+            "cost_tier": "Very High",
+            "construction_time": "21-35 Days"
+          },
+          "hydrogeological_drainage": {
+            "id": "M07",
+            "name": "Sub-Horizontal Directional Relief Drains (GEO Standard)",
+            "cluster": "Subsurface Drainage",
+            "description": "Array of perforated PVC pipes (50-75mm dia, 15-30m length) drilled at 5-10 deg upward rake into slope to depress water table.",
+            "suitability_score": 0.92,
+            "cost_tier": "Medium",
+            "construction_time": "6-12 Days"
+          },
+          "nature_based_solution": {
+            "id": "M23",
+            "name": "Live Vegetated Crib Wall / Timber Cribbing",
+            "cluster": "Nature-Based Solutions: Vegetated Structural Systems",
+            "description": "Hollow box-like interlocking timber or precast concrete beam framework backfilled with soil/rock and planted with live root cuttings.",
+            "suitability_score": 0.75,
+            "cost_tier": "Medium",
+            "construction_time": "10-18 Days"
+          }
+        },
+        "usgs_classification": {
+          "usgs_general_definition": "A landslide is a general term used to describe the downslope movement of soil, rock, and organic materials under the effects of gravity and also the landform that results from such movement.",
+          "usgs_kinematic_definition": "A downslope movement of rock or soil, or both, occurring on the surface of rupture\u2014either curved (rotational slide) or planar (translational slide) rupture\u2014in which much of the material often moves as a coherent or semicoherent mass with little internal deformation.",
+          "two_term_classification": "Translational Debris Slide",
+          "primary_movement": "Translational Slide",
+          "material_class": "Debris (coarse fragments > 2mm)",
+          "material_definition": "Soil containing a significant proportion of coarse fragments; 20% to 80% of the particles are greater than 2 mm in size (gravel, cobbles, and boulders).",
+          "movement_definition": "A landslide mass that moves out, or down and outward, along a relatively planar surface with little rotational movement or backward tilting; frequently controlled by structural discontinuities (bedding, joints, faults).",
+          "velocity_class": {
+            "class_code": "Class 5",
+            "rate_name": "Rapid",
+            "velocity_range": "1.8 m/h to 3 m/min",
+            "consequences": "Escape possible; property and structures destroyed; roads severely disrupted."
+          },
+          "landslide_anatomy": {
+            "crown_and_scarp": "Undisplaced crown with open extensional crown cracks; distinct steep main scarp exposing rupture surface.",
+            "displaced_mass": "Depleted mass above planar/rotational surface of rupture, extending downslope into zone of accumulation.",
+            "toe_and_foot": "Displaced foot advancing beyond toe of rupture surface across roadway/property margin."
+          },
+          "causal_factors": {
+            "geological": [
+              "Weak, weathered, or fractured rock and soil materials",
+              "Adversely oriented structural discontinuities (faults, joints, bedding planes daylighting into cut face)"
+            ],
+            "morphological": [
+              "Fluvial or wave erosion undermining the slope toe",
+              "Tectonic or steep gravitational escarpment oversteepening"
+            ],
+            "physical_trigger": [
+              "Prolonged antecedent precipitation and high-intensity storm rainfall",
+              "Transient perched groundwater table development and loss of matric suction"
+            ],
+            "human_causes": [
+              "Anthropogenic excavation / toe undercutting for roadway benching or foundation cuts",
+              "Surcharge loading at the slope crest (unengineered spoil disposal or building construction)"
+            ]
+          },
+          "standard_reference": "USGS Circular 1325 (Highland & Bobrowsky, 2008) & Cruden & Varnes (1996) TRB Special Report 247"
+        },
+        "bhukosh_geology": {
+          "primary_rock": "Sandstone",
+          "toposheet": "53A14",
+          "structure": "Discontinuities dipping into valley",
+          "citation": "Rahul V. et al., 2016. Macro-scale (1:50,000) landslide susceptibility Mapping in parts of toposheets no. 53A/13, 14, Kullu and Mandi districts, Himachal Pradesh. Unpub. GSI report of FS 2015-2016",
+          "distance_km": 1.1,
+          "source": "GSI Bhukosh Spatial Survey (Toposheet 53A14)",
+          "is_spatial_match": true
+        }
+      },
+      "financial_summary": {
+        "civil_subtotal_raw": 12154595.25,
+        "civil_subtotal_fmt": "\u20b9 1,21,54,595",
+        "subtotal_direct_fmt": "\u20b9 1,21,54,595",
+        "contingencies_raw": 364637.86,
+        "contingencies_fmt": "\u20b9 3,64,638",
+        "contingency_cost_fmt": "\u20b9 3,64,638",
+        "contingencies_pct": 3.0,
+        "contingency_pct": 3.0,
+        "qc_testing_raw": 182318.93,
+        "qc_testing_fmt": "\u20b9 1,82,319",
+        "qc_testing_pct": 1.5,
+        "subtotal_before_tax_raw": 12701552.04,
+        "subtotal_before_tax_fmt": "\u20b9 1,27,01,552",
+        "gst_pct": 18.0,
+        "gst_raw": 2286279.37,
+        "gst_fmt": "\u20b9 22,86,279",
+        "total_remediation_raw": 14987831.41,
+        "total_remediation_fmt": "\u20b9 1,49,87,831",
+        "total_remediation_badge": "\u20b9 1.50 Cr",
+        "direct_asset_loss_raw": 452000.0,
+        "direct_asset_loss_fmt": "\u20b9 4,52,000",
+        "direct_asset_loss_badge": "\u20b9 4.52 Lakh",
+        "indirect_economic_loss_raw": 125000.0,
+        "indirect_economic_loss_fmt": "\u20b9 1,25,000",
+        "indirect_economic_loss_badge": "\u20b9 1.25 Lakh",
+        "total_disaster_loss_raw": 577000.0,
+        "total_disaster_loss_fmt": "\u20b9 5,77,000",
+        "total_disaster_loss_badge": "\u20b9 5.77 Lakh",
+        "grand_total_disaster_impact_raw": 15564831.41,
+        "grand_total_disaster_impact_fmt": "\u20b9 1,55,64,831",
+        "grand_total_disaster_impact_badge": "\u20b9 1.56 Cr",
+        "statutory_sanction_total_raw": 15439831.41,
+        "statutory_sanction_total_fmt": "\u20b9 1,54,39,831",
+        "statutory_sanction_total_badge": "\u20b9 1.54 Cr",
+        "total_civil_remediation_outlay": 14987831.41
+      },
+      "statutory_capital_works_outlay": {
+        "civil_subtotal_raw": 12154595.25,
+        "civil_subtotal_fmt": "\u20b9 1,21,54,595",
+        "contingencies_pct": 3.0,
+        "contingencies_raw": 364637.86,
+        "contingencies_fmt": "\u20b9 3,64,638",
+        "qc_testing_pct": 1.5,
+        "qc_testing_raw": 182318.93,
+        "qc_testing_fmt": "\u20b9 1,82,319",
+        "subtotal_before_tax_raw": 12701552.04,
+        "subtotal_before_tax_fmt": "\u20b9 1,27,01,552",
+        "gst_pct": 18.0,
+        "gst_raw": 2286279.37,
+        "gst_fmt": "\u20b9 22,86,279",
+        "total_remediation_raw": 14987831.41,
+        "total_remediation_fmt": "\u20b9 1,49,87,831",
+        "total_remediation_badge": "\u20b9 1.50 Cr",
+        "statutory_sanction_total_raw": 15439831.41,
+        "statutory_sanction_total_fmt": "\u20b9 1,54,39,831",
+        "statutory_sanction_total_badge": "\u20b9 1.54 Cr",
+        "currency": "INR (\u20b9)",
+        "statutory_role": "Administrative Approval & Expenditure Sanction (AA&ES) / Technical Sanction (TS)"
+      },
+      "direct_asset_damage": {
+        "items": [
+          {
+            "sl_no": 1,
+            "category": "Direct Asset Damage",
+            "asset": "Highway Carriageway Pavement (WMM + Bituminous Crust)",
+            "criteria": "Full pavement reconstruction over damaged corridor (180.0 m\u00b2 = 40.0m \u00d7 4.5m formation width): Scarification, subgrade re-compaction, 150mm WMM base and 50mm Bituminous Concrete overlay @ \u20b91,650/m\u00b2",
+            "quantity": 180.0,
+            "unit": "m\u00b2",
+            "rate": 1650.0,
+            "amount": 297000.0,
+            "amount_fmt": "\u20b9 2,97,000"
+          },
+          {
+            "sl_no": 2,
+            "category": "Direct Asset Damage",
+            "asset": "Roadside Culvert Headwall & Silt Flushing",
+            "criteria": "High-pressure hydraulic flushing of choked 1.2m dia Hume pipe barrel, masonry headwall reconstruction, and cement pressure grouting of apron cracks",
+            "quantity": 1.0,
+            "unit": "LS",
+            "rate": 120000.0,
+            "amount": 120000.0,
+            "amount_fmt": "\u20b9 1,20,000"
+          },
+          {
+            "sl_no": 3,
+            "category": "Direct Asset Damage",
+            "asset": "Emergency Corridor Traffic Staging & Diversion Safety",
+            "criteria": "Deployment of portable steel crash barriers, solar LED hazard flashers, warning signage, and 24/7 flagger spotters during emergency single-lane transit",
+            "quantity": 1.0,
+            "unit": "LS",
+            "rate": 35000.0,
+            "amount": 35000.0,
+            "amount_fmt": "\u20b9 35,000"
+          }
+        ],
+        "subtotal_raw": 452000.0,
+        "subtotal_fmt": "\u20b9 4,52,000",
+        "subtotal_badge": "\u20b9 4.52 Lakh",
+        "statutory_head": "SDRF Section 48(1)(a) Infrastructure Restoration"
+      },
+      "indirect_economic_disruption": {
+        "items": [
+          {
+            "sl_no": 1,
+            "category": "Indirect Economic Loss",
+            "asset": "Regional Corridor Freight Detour & Transit Delay",
+            "criteria": "1.0 day regional commercial transit disruption: Freight carrier diversion (extra 45 km detour via alternate state highway), commercial idling fuel surcharge, and commuter travel-time delay",
+            "quantity": 1.0,
+            "unit": "day",
+            "rate": 125000.0,
+            "amount": 125000.0,
+            "amount_fmt": "\u20b9 1,25,000"
+          }
+        ],
+        "subtotal_raw": 125000.0,
+        "subtotal_fmt": "\u20b9 1,25,000",
+        "subtotal_badge": "\u20b9 1.25 Lakh",
+        "disclaimer": "Macroeconomic user-delay losses are recorded for statistical and disaster impact monitoring; strictly excluded from statutory contractor procurement."
+      },
+      "comprehensive_disaster_impact": {
+        "total_disaster_loss_raw": 577000.0,
+        "total_disaster_loss_fmt": "\u20b9 5,77,000",
+        "total_disaster_loss_badge": "\u20b9 5.77 Lakh",
+        "grand_total_impact_raw": 15564831.41,
+        "grand_total_impact_fmt": "\u20b9 1,55,64,831",
+        "grand_total_impact_badge": "\u20b9 1.56 Cr"
+      },
+      "boq_items": [
+        {
+          "sl_no": 1,
+          "item_code": "MoRTH 301.1",
+          "work_package": "Earthwork & Clearance",
+          "description": "Hydraulic clearance of fallen colluvium and boulders using excavator, including loading, hauling up to 1000m, and dumping at designated HPPWD spoil site. (In-situ 1570.8 m\u00b3 \u00d7 1.25 bulking = 1963.5 m\u00b3)",
+          "short_description": "Hydraulic excavation & disposal of debris/boulders (lead 1000m)",
+          "quantity": 1963.5,
+          "unit": "m\u00b3",
+          "rate": 220.0,
+          "rate_fmt": "\u20b9 220",
+          "amount": 431970.0,
+          "amount_fmt": "\u20b9 4,31,970"
+        },
+        {
+          "sl_no": 2,
+          "item_code": "MoRTH 305.2",
+          "work_package": "Earthwork & Clearance",
+          "description": "Dressing, trimming, and scarp reprofiling of upper cut slope face above breast wall at 50.0\u00b0 inclination. (40.0m \u00d7 39.81m inclined face = 1592.4 m\u00b2)",
+          "short_description": "Slope trimming, scarp reprofiling & bench dressing in cut face",
+          "quantity": 1592.4,
+          "unit": "m\u00b2",
+          "rate": 115.0,
+          "rate_fmt": "\u20b9 115",
+          "amount": 183126.0,
+          "amount_fmt": "\u20b9 1,83,126"
+        },
+        {
+          "sl_no": 3,
+          "item_code": "MoRTH 304.3",
+          "work_package": "Earthwork & Clearance",
+          "description": "Foundation trench excavation in hard rock for breast wall using pneumatic breaker. (40.0m \u00d7 1.85m \u00d7 1.5m neat trench)",
+          "short_description": "Foundation trench rock excavation with pneumatic breaker for wall footing",
+          "quantity": 111.0,
+          "unit": "m\u00b3",
+          "rate": 580.0,
+          "rate_fmt": "\u20b9 580",
+          "amount": 64380.0,
+          "amount_fmt": "\u20b9 64,380"
+        },
+        {
+          "sl_no": 4,
+          "item_code": "MoRTH 1500 / IS:14458",
+          "work_package": "Structural Retention",
+          "description": "Construction of Plum Concrete Breast Wall (H=4.5m stem, 1.5m embedment, 1.85m base, 0.6m top) in M15 concrete with 40% clean sound plums (150\u2013300mm). (Footing 111.0 m\u00b3 + Stem 220.5 m\u00b3)",
+          "short_description": "Plum Concrete Breast Wall (H=4.5m, B=1.85m) in M15 with 40% plums",
+          "quantity": 331.5,
+          "unit": "m\u00b3",
+          "rate": 4250.0,
+          "rate_fmt": "\u20b9 4,250",
+          "amount": 1408875.0,
+          "amount_fmt": "\u20b9 14,08,875"
+        },
+        {
+          "sl_no": 5,
+          "item_code": "MoRTH 702.1",
+          "work_package": "Structural Retention",
+          "description": "Non-woven needle-punched polypropylene geotextile filter fabric (250 GSM) wrapping granular drainage pack behind wall stem, with 300mm overlaps. (242.11 m\u00b2 wrap)",
+          "short_description": "Non-woven polypropylene geotextile filter fabric (250 GSM) wrapping filter pack",
+          "quantity": 242.11,
+          "unit": "m\u00b2",
+          "rate": 145.0,
+          "rate_fmt": "\u20b9 145",
+          "amount": 35105.95,
+          "amount_fmt": "\u20b9 35,106"
+        },
+        {
+          "sl_no": 6,
+          "item_code": "MoRTH 309.3 / HPSOR 4.8",
+          "work_package": "Structural Retention",
+          "description": "Free-draining graded granular filter backfill (20\u201340mm crushed gravel) extending full 4.5m stem height behind breast wall. (40.0m \u00d7 4.5m \u00d7 0.35m)",
+          "short_description": "Free-draining granular filter backfill (20\u201340mm crushed gravel) behind wall",
+          "quantity": 63.0,
+          "unit": "m\u00b3",
+          "rate": 980.0,
+          "rate_fmt": "\u20b9 980",
+          "amount": 61740.0,
+          "amount_fmt": "\u20b9 61,740"
+        },
+        {
+          "sl_no": 7,
+          "item_code": "MoRTH 309.4 / HPSOR 4.9",
+          "work_package": "Structural Retention",
+          "description": "Providing and laying 100mm dia perforated PVC weep hole pipes laid at 1:20 slope in 2 staggered rows, wrapped in geotextile. (62 holes \u00d7 1.7m)",
+          "short_description": "100mm dia PVC weep hole pipes @ 1.2m c/c in 2 staggered rows",
+          "quantity": 105.4,
+          "unit": "meter",
+          "rate": 260.0,
+          "rate_fmt": "\u20b9 260",
+          "amount": 27404.0,
+          "amount_fmt": "\u20b9 27,404"
+        },
+        {
+          "sl_no": 8,
+          "item_code": "MoRTH 3100 / FHWA GEC 7",
+          "work_package": "Internal Ground Reinforcement",
+          "description": "Rotary percussion drilling of 100\u2013110mm dia boreholes for soil nails at 15\u00b0\u201320\u00b0 rake in weathered rock/colluvium. (462 working nails + 2 sacrificial = 464 holes \u00d7 9.0m)",
+          "short_description": "Drilling 100\u2013110mm boreholes for soil nails at 15\u00b0\u201320\u00b0 rake (464 Nos. \u00d7 9.0m)",
+          "quantity": 4176.0,
+          "unit": "meter",
+          "rate": 880.0,
+          "rate_fmt": "\u20b9 880",
+          "amount": 3674880.0,
+          "amount_fmt": "\u20b9 36,74,880"
+        },
+        {
+          "sl_no": 9,
+          "item_code": "MoRTH 3100 / IS:1786",
+          "work_package": "Internal Ground Reinforcement",
+          "description": "Supplying and installing \u00d825mm High-Yield Fe500D TMT rebar with centralizers @ 1.8m c/c, with 0.5m threaded head projection. (464 bars \u00d7 9.5m)",
+          "short_description": "\u00d825mm High-Yield Fe500D steel soil nail bars with centralizers (464 Nos. \u00d7 9.5m)",
+          "quantity": 4408.0,
+          "unit": "meter",
+          "rate": 385.0,
+          "rate_fmt": "\u20b9 385",
+          "amount": 1697080.0,
+          "amount_fmt": "\u20b9 16,97,080"
+        },
+        {
+          "sl_no": 10,
+          "item_code": "MoRTH 3100",
+          "work_package": "Internal Ground Reinforcement",
+          "description": "Pressure grouting of boreholes with neat cement grout (fcu \u2265 30 MPa, W/C = 0.42) including expanding admixture. (464 holes \u00d7 9.0m)",
+          "short_description": "Pressure grouting of boreholes with non-shrink cementitious grout (\u226530 MPa)",
+          "quantity": 4176.0,
+          "unit": "meter",
+          "rate": 520.0,
+          "rate_fmt": "\u20b9 520",
+          "amount": 2171520.0,
+          "amount_fmt": "\u20b9 21,71,520"
+        },
+        {
+          "sl_no": 11,
+          "item_code": "MoRTH 3100 / IS:456",
+          "work_package": "Internal Ground Reinforcement",
+          "description": "Cast-in-situ reinforced concrete bearing pads (400\u00d7400\u00d7200mm M30) and 200\u00d7200\u00d716mm galvanized steel bearing plates with lock nuts. (462 permanent working pads)",
+          "short_description": "Cast-in-situ RC bearing pads (400\u00d7400\u00d7200mm M30) & galvanized plates (462 sets)",
+          "quantity": 462.0,
+          "unit": "unit",
+          "rate": 2150.0,
+          "rate_fmt": "\u20b9 2,150",
+          "amount": 993300.0,
+          "amount_fmt": "\u20b9 9,93,300"
+        },
+        {
+          "sl_no": 12,
+          "item_code": "MoRTH 3100 / Geoguide 7",
+          "work_package": "Internal Ground Reinforcement",
+          "description": "Sacrificial pullout verification proof testing up to 1.5\u00d7 design pullout load with calibrated hollow-core jack on 2 sacrificial nails.",
+          "short_description": "Sacrificial pullout verification proof testing up to 1.5\u00d7 design load (2 tests)",
+          "quantity": 2.0,
+          "unit": "test",
+          "rate": 5000.0,
+          "rate_fmt": "\u20b9 5,000",
+          "amount": 10000.0,
+          "amount_fmt": "\u20b9 10,000"
+        },
+        {
+          "sl_no": 13,
+          "item_code": "MoRTH 3100",
+          "work_package": "Internal Ground Reinforcement",
+          "description": "Supplying and installing high-tensile flexible diamond steel wire mesh (3.0mm wire, 65\u00d765mm mesh, 50 kN/m) bolted across nail heads to prevent colluvial ravelling.",
+          "short_description": "High-tensile diamond steel wire mesh (3mm wire, 65\u00d765mm, 50 kN/m) facing",
+          "quantity": 1592.4,
+          "unit": "m\u00b2",
+          "rate": 420.0,
+          "rate_fmt": "\u20b9 420",
+          "amount": 668808.0,
+          "amount_fmt": "\u20b9 6,68,808"
+        },
+        {
+          "sl_no": 14,
+          "item_code": "MoRTH 309 / IRC:SP:48",
+          "work_package": "Subsurface & Surface Drainage",
+          "description": "Installation of sub-horizontal slotted PVC relief drains (\u00d875mm, Schedule 80) at 5\u00b0\u201310\u00b0 upward rake into hillside with cleanout cap. (12 Nos. \u00d7 15m)",
+          "short_description": "Slotted PVC sub-horizontal relief drains (\u00d875mm) at 5\u00b0\u201310\u00b0 rake (12 Nos. \u00d7 15m)",
+          "quantity": 180.0,
+          "unit": "meter",
+          "rate": 1150.0,
+          "rate_fmt": "\u20b9 1,150",
+          "amount": 207000.0,
+          "amount_fmt": "\u20b9 2,07,000"
+        },
+        {
+          "sl_no": 15,
+          "item_code": "MoRTH 309 / HPSOR 5.3",
+          "work_package": "Subsurface & Surface Drainage",
+          "description": "Construction of lined stone masonry saucer catch drain (0.60m \u00d7 0.60m) along slope crest to intercept surface runoff.",
+          "short_description": "Stone masonry saucer catch drain (0.60\u00d70.60m) along slope crest in 1:4 mortar",
+          "quantity": 48.0,
+          "unit": "meter",
+          "rate": 780.0,
+          "rate_fmt": "\u20b9 780",
+          "amount": 37440.0,
+          "amount_fmt": "\u20b9 37,440"
+        },
+        {
+          "sl_no": 16,
+          "item_code": "MoRTH 309.2",
+          "work_package": "Subsurface & Surface Drainage",
+          "description": "Reconstruction of damaged roadside longitudinal rectangular drain (0.60m \u00d7 0.60m) in stone masonry with M15 concrete bedding.",
+          "short_description": "Reconstruction of roadside longitudinal drain (0.60\u00d70.60m) in stone masonry",
+          "quantity": 40.0,
+          "unit": "meter",
+          "rate": 850.0,
+          "rate_fmt": "\u20b9 850",
+          "amount": 34000.0,
+          "amount_fmt": "\u20b9 34,000"
+        },
+        {
+          "sl_no": 17,
+          "item_code": "MoRTH 309.5",
+          "work_package": "Subsurface & Surface Drainage",
+          "description": "Stepped cascade stone-pitched drainage chute down slope flank to safely discharge crest drain runoff into road culvert.",
+          "short_description": "Stepped cascade stone-pitched drainage chute down slope flank into ravine",
+          "quantity": 101.33,
+          "unit": "meter",
+          "rate": 1050.0,
+          "rate_fmt": "\u20b9 1,050",
+          "amount": 106396.5,
+          "amount_fmt": "\u20b9 1,06,396"
+        },
+        {
+          "sl_no": 18,
+          "item_code": "MoRTH 1802 / IS:14458",
+          "work_package": "Bioengineering & Erosion Control",
+          "description": "Soil bioengineering: 700 GSM coir netting, hydroseeding with native grass mixes, and Vetiver grass contour slips across upper cut face. (1592.4 m\u00b2 + 10% overlap)",
+          "short_description": "Coir geotextile netting (700 GSM), hydroseeding & Vetiver grass contour hedges",
+          "quantity": 1751.64,
+          "unit": "m\u00b2",
+          "rate": 195.0,
+          "rate_fmt": "\u20b9 195",
+          "amount": 341569.8,
+          "amount_fmt": "\u20b9 3,41,570"
+        }
+      ],
+      "loss_items": [
+        {
+          "sl_no": 1,
+          "category": "Direct Asset Damage",
+          "asset": "Highway Carriageway Pavement (WMM + Bituminous Crust)",
+          "criteria": "Full pavement reconstruction over damaged corridor (180.0 m\u00b2 = 40.0m \u00d7 4.5m formation width): Scarification, subgrade re-compaction, 150mm WMM base and 50mm Bituminous Concrete overlay @ \u20b91,650/m\u00b2",
+          "quantity": 180.0,
+          "unit": "m\u00b2",
+          "rate": 1650.0,
+          "amount": 297000.0,
+          "amount_fmt": "\u20b9 2,97,000"
+        },
+        {
+          "sl_no": 2,
+          "category": "Direct Asset Damage",
+          "asset": "Roadside Culvert Headwall & Silt Flushing",
+          "criteria": "High-pressure hydraulic flushing of choked 1.2m dia Hume pipe barrel, masonry headwall reconstruction, and cement pressure grouting of apron cracks",
+          "quantity": 1.0,
+          "unit": "LS",
+          "rate": 120000.0,
+          "amount": 120000.0,
+          "amount_fmt": "\u20b9 1,20,000"
+        },
+        {
+          "sl_no": 3,
+          "category": "Direct Asset Damage",
+          "asset": "Emergency Corridor Traffic Staging & Diversion Safety",
+          "criteria": "Deployment of portable steel crash barriers, solar LED hazard flashers, warning signage, and 24/7 flagger spotters during emergency single-lane transit",
+          "quantity": 1.0,
+          "unit": "LS",
+          "rate": 35000.0,
+          "amount": 35000.0,
+          "amount_fmt": "\u20b9 35,000"
+        },
+        {
+          "sl_no": 1,
+          "category": "Indirect Economic Loss",
+          "asset": "Regional Corridor Freight Detour & Transit Delay",
+          "criteria": "1.0 day regional commercial transit disruption: Freight carrier diversion (extra 45 km detour via alternate state highway), commercial idling fuel surcharge, and commuter travel-time delay",
+          "quantity": 1.0,
+          "unit": "day",
+          "rate": 125000.0,
+          "amount": 125000.0,
+          "amount_fmt": "\u20b9 1,25,000"
+        }
+      ],
+      "schematic_svg": "<svg viewBox=\"0 0 520 236\" xmlns=\"http://www.w3.org/2000/svg\" style=\"background:#ffffff; font-family:'Manrope', -apple-system, sans-serif; shape-rendering:geometricPrecision;\">\n  <defs>\n    \n    <pattern id=\"rockHatch_IITM_CR_DB3E207A\" width=\"10\" height=\"10\" patternTransform=\"rotate(45 0 0)\" patternUnits=\"userSpaceOnUse\">\n      <rect width=\"10\" height=\"10\" fill=\"#f8fafc\" />\n      <line x1=\"0\" y1=\"0\" x2=\"0\" y2=\"10\" stroke=\"#cbd5e1\" stroke-width=\"1.0\" />\n      <circle cx=\"5\" cy=\"5\" r=\"0.8\" fill=\"#94a3b8\" />\n    </pattern>\n    <!-- Colluvial Overburden Pattern -->\n    <pattern id=\"colluviumPat_IITM_CR_DB3E207A\" width=\"14\" height=\"14\" patternUnits=\"userSpaceOnUse\">\n      <circle cx=\"3\" cy=\"3\" r=\"1.2\" fill=\"#78350f\" opacity=\"0.3\" />\n      <polygon points=\"9,2 12,4 10,6\" fill=\"#92400e\" opacity=\"0.25\" />\n      <circle cx=\"5\" cy=\"11\" r=\"1\" fill=\"#78350f\" opacity=\"0.3\" />\n      <polygon points=\"11,10 13,12 11,13\" fill=\"#b45309\" opacity=\"0.25\" />\n    </pattern>\n    <!-- Debris Runout Clasts -->\n    <pattern id=\"debrisPat_IITM_CR_DB3E207A\" width=\"10\" height=\"10\" patternUnits=\"userSpaceOnUse\">\n      <circle cx=\"2\" cy=\"2\" r=\"1.2\" fill=\"#d97706\" opacity=\"0.75\" />\n      <circle cx=\"7\" cy=\"6\" r=\"1.5\" fill=\"#b45309\" opacity=\"0.85\" />\n      <polygon points=\"3,7 5,9 2,9\" fill=\"#92400e\" opacity=\"0.7\" />\n    </pattern>\n    <!-- Marker Arrows for Seepage & Kinematics -->\n    <marker id=\"arrowRed\" viewBox=\"0 0 10 10\" refX=\"5\" refY=\"5\" markerWidth=\"4\" markerHeight=\"4\" orient=\"auto-start-reverse\">\n      <path d=\"M 0 1 L 9 5 L 0 9 z\" fill=\"#ef4444\" />\n    </marker>\n    <marker id=\"arrowRed_IITM_CR_DB3E207A\" viewBox=\"0 0 10 10\" refX=\"5\" refY=\"5\" markerWidth=\"4\" markerHeight=\"4\" orient=\"auto-start-reverse\">\n      <path d=\"M 0 1 L 9 5 L 0 9 z\" fill=\"#ef4444\" />\n    </marker>\n    <marker id=\"arrowBlue\" viewBox=\"0 0 10 10\" refX=\"5\" refY=\"5\" markerWidth=\"4\" markerHeight=\"4\" orient=\"auto-start-reverse\">\n      <path d=\"M 0 1 L 9 5 L 0 9 z\" fill=\"#0284c7\" />\n    </marker>\n    <marker id=\"arrowBlue_IITM_CR_DB3E207A\" viewBox=\"0 0 10 10\" refX=\"5\" refY=\"5\" markerWidth=\"4\" markerHeight=\"4\" orient=\"auto-start-reverse\">\n      <path d=\"M 0 1 L 9 5 L 0 9 z\" fill=\"#0284c7\" />\n    </marker>\n  </defs>\n\n  <!-- Clean Base Canvas -->\n  <rect width=\"520\" height=\"236\" fill=\"#ffffff\" />\n\n  <!-- In-situ Bedrock Strata (Competent Sandstone and weathered overburden) -->\n  <path d=\"M 15 28 L 173 35 L 189 59 L 285 168 L 302 168 L 505 225 L 505 236 L 15 236 Z\" fill=\"url(#rockHatch_IITM_CR_DB3E207A)\" stroke=\"#64748b\" stroke-width=\"1.2\" />\n\n  <!-- Relict Joint Set J1 (Persistent Discontinuities Dipping 42&deg;) -->\n  <g stroke=\"#475569\" stroke-width=\"0.9\" stroke-dasharray=\"3,3\">\n    <line x1=\"154\" y1=\"51\" x2=\"244\" y2=\"132\" />\n    <line x1=\"201\" y1=\"71\" x2=\"276\" y2=\"139\" />\n    <line x1=\"244\" y1=\"91\" x2=\"309\" y2=\"150\" />\n  </g>\n  <text x=\"204\" y=\"130\" font-size=\"5.5\" font-weight=\"700\" fill=\"#64748b\">Joint Set J1 (Discontinuity)</text>\n\n  <!-- Phreatic Seepage Line / Transient Water Table (Monsoon Saturation) -->\n  <path d=\"M 22 77 Q 214 89 273 160\" fill=\"none\" stroke=\"#0284c7\" stroke-width=\"1.4\" stroke-dasharray=\"4,2\" />\n  <line x1=\"250\" y1=\"143\" x2=\"267\" y2=\"156\" stroke=\"#38bdf8\" stroke-width=\"1.2\" marker-end=\"url(#arrowBlue)\" />\n  <text x=\"149\" y=\"83\" font-size=\"5.5\" font-weight=\"800\" fill=\"#0284c7\">Phreatic Table (zw)</text>\n\n  <!-- Sliding Wedge Colluvium Polygon -->\n  <path d=\"M 189 59 L 285 168 L 287 168 Q 295 142 209 67 Z\" fill=\"#fef3c7\" fill-opacity=\"0.75\" stroke=\"#d97706\" stroke-width=\"1.2\" />\n  <path d=\"M 189 59 L 285 168 L 287 168 Q 295 142 209 67 Z\" fill=\"url(#debrisPat_IITM_CR_DB3E207A)\" />\n\n  <!-- Tension Crack (USGS Taxonomy: Head Scarp) -->\n  <line x1=\"173\" y1=\"35\" x2=\"189\" y2=\"59\" stroke=\"#ef4444\" stroke-width=\"2.5\" />\n  <polygon points=\"173,35 189,59 186,63\" fill=\"#ef4444\" />\n\n  <!-- Rupture Surface Daylighting (Discontinuity Plane Daylights into Road Cut) -->\n  <line x1=\"189\" y1=\"59\" x2=\"285\" y2=\"168\" stroke=\"#ef4444\" stroke-width=\"2.8\" stroke-dasharray=\"6,3\" />\n\n  <!-- Kinematic Sliding Direction Vectors -->\n  <line x1=\"214\" y1=\"79\" x2=\"244\" y2=\"104\" stroke=\"#dc2626\" stroke-width=\"1.8\" marker-end=\"url(#arrowRed)\" />\n\n  <!-- As-Built Road Carriageway & Formation Bedding -->\n  <rect x=\"285\" y=\"167\" width=\"17\" height=\"5\" fill=\"#1e293b\" stroke=\"#334155\" stroke-width=\"0.8\" />\n  <line x1=\"285\" y1=\"169\" x2=\"302\" y2=\"169\" stroke=\"#facc15\" stroke-width=\"0.9\" stroke-dasharray=\"3,3\" />\n\n  <!-- Obstructed Debris Mound Covering Blocked Lane -->\n  <path d=\"M 285 168 Q 286 146 287 168 Z\" fill=\"#fed7aa\" fill-opacity=\"0.9\" stroke=\"#ea580c\" stroke-width=\"1\" />\n  <path d=\"M 285 168 Q 286 146 287 168 Z\" fill=\"url(#debrisPat_IITM_CR_DB3E207A)\" />\n\n  <!-- Proposed Remediation: Plum Concrete Breast Wall (IS:14458) -->\n  <polygon points=\"282,168 293,168 290,151 283,151\" fill=\"#f1f5f9\" stroke=\"#092f25\" stroke-width=\"1.4\" stroke-dasharray=\"3,1\" opacity=\"0.95\" />\n  <text x=\"281\" y=\"147\" font-size=\"5.5\" font-weight=\"800\" fill=\"#092f25\">Plum Wall (H=4.5m)</text>\n\n  <!-- Proposed Soil Nails Anchors (Fe500D TMT Grouted) -->\n  <g stroke=\"#14b8a6\" stroke-width=\"1.4\" stroke-dasharray=\"3,2\">\n    <line x1=\"273\" y1=\"136\" x2=\"217\" y2=\"154\" />\n    <line x1=\"267\" y1=\"110\" x2=\"211\" y2=\"128\" />\n  </g>\n  <!-- Perforated Weep Holes -->\n  <circle cx=\"288\" cy=\"162\" r=\"1.5\" fill=\"#38bdf8\" />\n  <circle cx=\"288\" cy=\"152\" r=\"1.5\" fill=\"#38bdf8\" />\n\n  <!-- Road Width Dimension Line (Tier 1) -->\n  <line x1=\"285\" y1=\"186\" x2=\"302\" y2=\"186\" stroke=\"#94a3b8\" stroke-width=\"0.9\" />\n  <line x1=\"285\" y1=\"182\" x2=\"285\" y2=\"190\" stroke=\"#94a3b8\" stroke-width=\"0.9\" />\n  <line x1=\"302\" y1=\"182\" x2=\"302\" y2=\"190\" stroke=\"#94a3b8\" stroke-width=\"0.9\" />\n  <rect x=\"255\" y=\"180\" width=\"76\" height=\"12\" rx=\"2\" fill=\"#ffffff\" opacity=\"0.95\" stroke=\"#94a3b8\" stroke-width=\"0.8\" />\n  <text x=\"293\" y=\"189\" text-anchor=\"middle\" font-family=\"'JetBrains Mono', monospace\" font-size=\"6.8\" font-weight=\"700\" fill=\"#0f172a\">Formation: 4.50m</text>\n\n  <!-- Open Width Dimension Line (Tier 2) -->\n  <line x1=\"287\" y1=\"204\" x2=\"302\" y2=\"204\" stroke=\"#22c55e\" stroke-width=\"1.2\" />\n  <line x1=\"287\" y1=\"200\" x2=\"287\" y2=\"208\" stroke=\"#22c55e\" stroke-width=\"1.2\" />\n  <line x1=\"302\" y1=\"200\" x2=\"302\" y2=\"208\" stroke=\"#22c55e\" stroke-width=\"1.2\" />\n  <rect x=\"258\" y=\"198\" width=\"72\" height=\"12\" rx=\"2\" fill=\"#f0fdf4\" opacity=\"0.95\" stroke=\"#16a34a\" stroke-width=\"0.8\" />\n  <text x=\"294\" y=\"207\" text-anchor=\"middle\" font-family=\"'JetBrains Mono', monospace\" font-size=\"7.2\" font-weight=\"800\" fill=\"#15803d\">Operable: 2.00m</text>\n\n  <!-- Slope Height Vertical Dimension -->\n  <line x1=\"151\" y1=\"35\" x2=\"151\" y2=\"168\" stroke=\"#64748b\" stroke-width=\"0.8\" stroke-dasharray=\"2,2\" />\n  <line x1=\"147\" y1=\"35\" x2=\"155\" y2=\"35\" stroke=\"#64748b\" stroke-width=\"0.8\" />\n  <line x1=\"147\" y1=\"168\" x2=\"155\" y2=\"168\" stroke=\"#64748b\" stroke-width=\"0.8\" />\n  <rect x=\"113\" y=\"95\" width=\"42\" height=\"12\" rx=\"2\" fill=\"#ffffff\" opacity=\"0.95\" stroke=\"#94a3b8\" stroke-width=\"0.8\" />\n  <text x=\"134\" y=\"104\" text-anchor=\"middle\" font-family=\"'JetBrains Mono', monospace\" font-size=\"6.8\" font-weight=\"700\" fill=\"#334155\">H = 35.0m</text>\n\n  <!-- Anatomical Callout Badges (USGS 1325 Taxonomy) -->\n  <rect x=\"18\" y=\"10\" width=\"115\" height=\"14\" rx=\"2\" fill=\"#fef2f2\" stroke=\"#dc2626\" stroke-width=\"0.9\" />\n  <text x=\"23\" y=\"20\" font-size=\"6.5\" font-weight=\"800\" fill=\"#991b1b\">CROWN &amp; MAIN SCARP</text>\n\n  <rect x=\"179\" y=\"39\" width=\"135\" height=\"14\" rx=\"2\" fill=\"#fef2f2\" stroke=\"#dc2626\" stroke-width=\"0.9\" />\n  <text x=\"184\" y=\"49\" font-size=\"6.5\" font-weight=\"800\" fill=\"#991b1b\">RUPTURE PLANE: DIP 42&deg; (DAYLIGHT)</text>\n\n  <rect x=\"254\" y=\"114\" width=\"118\" height=\"14\" rx=\"2\" fill=\"#fffbeb\" stroke=\"#d97706\" stroke-width=\"0.9\" />\n  <text x=\"259\" y=\"124\" font-size=\"6.5\" font-weight=\"800\" fill=\"#92400e\">SLIDING COLLUVIUM</text>\n\n  <!-- Stability Evaluation Pill -->\n  <rect x=\"325\" y=\"10\" width=\"185\" height=\"16\" rx=\"3\" fill=\"#f0fdf4\" stroke=\"#047857\" stroke-width=\"1\" />\n  <text x=\"330\" y=\"21\" font-size=\"6.5\" font-weight=\"800\" fill=\"#064e3b\">Monsoon FoS = 0.55 | Stabilized FoS = 1.50</text>\n</svg>",
+      "schematic_top_badge": "PLANAR DAYLIGHTING SCARP \u2022 CUT: 50\u00b0 \u2022 Hcut=35.0m",
+      "diagnostic_notice": "AI Optical Photogrammetry verified via gemini-flash-lite-latest. Ground-truth terrain features and continuous dimensions extracted from photographic plate.",
+      "vision_diagnostic": {
+        "status": "ONLINE_SUCCESS",
+        "model": "gemini-flash-lite-latest",
+        "mode": "MULTIMODAL_PHOTOGRAMMETRY"
+      }
+    },
+    "created_at": "2026-10-27T05:08:15.393480Z"
+  },
+  {
     "id": "IITM-CR-61DC3C62",
     "latitude": 31.708,
     "longitude": 76.932,
@@ -196,7 +2521,7 @@
           "width": "0.60 m",
           "depth": "0.60 m"
         },
-        "distress_remarks": "Slope failure along daylighting joint set under precipitation. 70.69 m\u00b3 bulked debris deposited across the carriageway, blocking 2.50m of the 5.00m formation and choking the roadside drain."
+        "distress_remarks": "Slope failure along daylighting joint set under precipitation. 70.69 m\u00b3 bulked colluvial mass deposited across the carriageway, blocking 2.50m of the 5.00m formation and choking the roadside drain."
       },
       "pavement_dimensions": {
         "potholes": "Width: 0.90 m | Depth: 0.12 m",
@@ -303,7 +2628,7 @@
           "w_m": 0.35
         }
       },
-      "mitigation_measures": "1. Primary Toe Retention & Structural Retention (IS:14458 Part 2 / MoRTH Section 1500):\n   Emergency clearance of 70.7 m\u00b3 bulked debris (56.5 m\u00b3 in-situ @ 1.25 bulking) followed by construction of a 15m long Plum Concrete Breast Wall (H_stem = 3.02m, D_f = 1.12m embedment, base width B = 1.44m, concrete volume = 70.40 m\u00b3 M15 with 40% plums), backed by 15.85 m\u00b3 crushed gravel filter pack wrapped in 64.93 m\u00b2 non-woven geotextile and 24 Nos. PVC weep holes.\n2. Internal Ground Reinforcement & Slope Nailing (MoRTH Section 3100 / CEDD Geoguide 7):\n   Installation of 26 Nos. \u00d825mm High-Yield Fe500D TMT soil nails (24 working nails + 2 sacrificial test nails) drilled to 9.0m depth (180.0m total drilling), pressure grouted with non-shrink cementitious grout, anchored with RC bearing pads and high-tensile diamond steel wire mesh facing (91.12 m\u00b2).\n3. Hydrogeological Pore-Pressure Relief & Surface Drainage (MoRTH Section 300, Clause 309 / IRC:SP:48):\n   Installation of 5 Nos. \u00d7 15m (75.0m total) sub-horizontal slotted PVC relief drains (\u00d875mm, Schedule 80) drilled at 5\u00b0\u201310\u00b0 upward rake into the hillside, accompanied by crest catch drain, roadside drain, and cascade chute.\n4. Soil Bioengineering & Surficial Erosion Control (MoRTH Section 1802 / IS:14458):\n   Dressing cut face (91.12 m\u00b2), laying 700 GSM coir geotextile netting (110.39 m\u00b2 with 10% overlap), hydraulic hydroseeding, and planting Vetiver grass contour hedges.",
+      "mitigation_measures": "1. Primary Toe Retention & Structural Retention (IS:14458 Part 2 / MoRTH Section 1500):\n   Emergency clearance of 70.7 m\u00b3 bulked colluvial mass (56.5 m\u00b3 in-situ @ 1.25 bulking) followed by construction of a 15m long Plum Concrete Breast Wall (H_stem = 3.02m, D_f = 1.12m embedment, base width B = 1.44m, concrete volume = 70.40 m\u00b3 M15 with 40% plums), backed by 15.85 m\u00b3 crushed gravel filter pack wrapped in 64.93 m\u00b2 non-woven geotextile and 24 Nos. PVC weep holes.\n2. Internal Ground Reinforcement & Slope Nailing (MoRTH Section 3100 / CEDD Geoguide 7):\n   Installation of 26 Nos. \u00d825mm High-Yield Fe500D TMT soil nails (24 working nails + 2 sacrificial test nails) drilled to 9.0m depth (180.0m total drilling), pressure grouted with non-shrink cementitious grout, anchored with RC bearing pads and high-tensile diamond steel wire mesh facing (91.12 m\u00b2).\n3. Hydrogeological Pore-Pressure Relief & Surface Drainage (MoRTH Section 300, Clause 309 / IRC:SP:48):\n   Installation of 5 Nos. \u00d7 15m (75.0m total) sub-horizontal slotted PVC relief drains (\u00d875mm, Schedule 80) drilled at 5\u00b0\u201310\u00b0 upward rake into the hillside, accompanied by crest catch drain, roadside drain, and cascade chute.\n4. Soil Bioengineering & Surficial Erosion Control (MoRTH Section 1802 / IS:14458):\n   Dressing cut face (91.12 m\u00b2), laying 700 GSM coir geotextile netting (110.39 m\u00b2 with 10% overlap), hydraulic hydroseeding, and planting Vetiver grass contour hedges.",
       "other_observations": "Sub-surface groundwater seepage daylighting along the colluvial mantle and bedrock interface, confirming elevated perched phreatic levels during rainfall. Active extensional tension fissures (apertures 15-40 mm) trace uphill of the detachment crown. Relict discontinuity set J1 (45\u00b0 dip daylighting adversely into the slope face) exhibits planar persistent slickensides with iron-oxide staining, confirming kinematic daylighting and high susceptibility to progressive retrogressive failure during prolonged monsoon precipitation.",
       "safety_directives": {
         "utility_hazard": "Roadside drainage system compromised",
@@ -398,7 +2723,7 @@
           "landslide_anatomy": {
             "crown_and_scarp": "Detachment main scarp H = 7.60m (upper face 4.90m @ 66\u00b0 inclination), open tension fissures 15-40mm",
             "displaced_mass": "145.0 m\u00b3 in-situ (181.25 m\u00b3 bulked) colluvial overburden and jointed clasts",
-            "toe_and_foot": "Accumulation debris lobe encroaching 2.95m across carriageway and choking roadside drain"
+            "toe_and_foot": "Displaced colluvial runout lobe encroaching 2.95m across carriageway and choking roadside drain"
           },
           "standard_reference": "USGS Circular 1325 (Highland & Bobrowsky, 2008) / Cruden & Varnes (1996)"
         },
@@ -2651,7 +4976,7 @@
       "senior_engineer_remarks": "Automated geotechnical analysis and civil BOQ cost estimation are strictly suspended (\u20b9 0) until authentic field imagery is uploaded.",
       "plain_language_explanation": {
         "summary_title": "Slope Incident Assessment \u2014 Mandi Sector \u2014 Hill Road Corridor",
-        "what_happened": "A steep section of the hillside failed, depositing approximately 178 m\u00b3 of colluvial debris and boulders across the corridor.",
+        "what_happened": "A steep section of the hillside failed, depositing approximately 178 m\u00b3 of colluvial mass and fractured rock clasts across the corridor.",
         "why_it_happened": "Heavy precipitation saturated structural discontinuities dipping 57\u00b0 into the formation, inducing hydrostatic cleft-water pressure and shear displacement.",
         "property_and_access_impact": "Passage is obstructed (2.95 m (Single-Lane Restricted / Shoulder Lost: 2.30m Operable)). Single-lane transit is restricted under safety spotters.",
         "road_and_travel_impact": "Passage is obstructed (2.95 m (Single-Lane Restricted / Shoulder Lost: 2.30m Operable)). Single-lane transit is restricted under safety spotters.",
@@ -2677,7 +5002,7 @@
           "landslide_anatomy": {
             "crown_and_scarp": "Detachment main scarp H = 7.60m (upper face 4.90m @ 66\u00b0 inclination), open tension fissures 15-40mm",
             "displaced_mass": "145.0 m\u00b3 in-situ (181.25 m\u00b3 bulked) colluvial overburden and jointed clasts",
-            "toe_and_foot": "Accumulation debris lobe encroaching 2.95m across carriageway and choking roadside drain"
+            "toe_and_foot": "Displaced colluvial runout lobe encroaching 2.95m across carriageway and choking roadside drain"
           },
           "standard_reference": "USGS Circular 1325 (Highland & Bobrowsky, 2008) / Cruden & Varnes (1996)"
         },
@@ -3419,7 +5744,7 @@
       "site_context": {
         "environment_type": "Macro Mountain Catchment Flank",
         "impacted_assets": "Mandi Sub-Divisional Hill Road Corridor",
-        "structural_damage": "Carriageway blocked by debris accumulation"
+        "structural_damage": "Carriageway blocked by displaced colluvial mass accumulation"
       },
       "slope_characteristics": {
         "presence_above": true,
@@ -3704,7 +6029,7 @@
       "visual_analysis": {
         "material_composition": "Sandstone (Greyish Brown to Buff with Iron Oxide Staining)",
         "slope_condition": "Cut angle 69\u00b0 to 75\u00b0 (Steep Unstable Hill Cut), Convex Escarpment",
-        "infrastructure_impact": "Mandi Sub-Divisional Hill Road Corridor: Carriageway blocked by debris accumulation",
+        "infrastructure_impact": "Mandi Sub-Divisional Hill Road Corridor: Carriageway blocked by displaced colluvial mass accumulation",
         "drainage_and_seepage": "Seepage: Active, Drainage: Clogged / Lacking",
         "optical_geometry": null
       },
@@ -3736,7 +6061,7 @@
           "landslide_anatomy": {
             "crown_and_scarp": "Detachment main scarp H = 68.00m (upper face 68.00m @ 54\u00b0 inclination), open tension fissures 15-40mm",
             "displaced_mass": "14500.0 m\u00b3 in-situ (18125.00 m\u00b3 bulked) colluvial overburden and jointed clasts",
-            "toe_and_foot": "Accumulation debris lobe encroaching 6.00m across carriageway and choking roadside drain"
+            "toe_and_foot": "Displaced colluvial runout lobe encroaching 6.00m across carriageway and choking roadside drain"
           },
           "standard_reference": "USGS Circular 1325 (Highland & Bobrowsky, 2008) / Cruden & Varnes (1996)"
         },
@@ -4862,7 +7187,7 @@
           "width": "0.60 m",
           "depth": "0.60 m"
         },
-        "distress_remarks": "Slope failure along daylighting joint set under precipitation. 181.25 m\u00b3 bulked debris deposited across the carriageway, blocking 2.95m of the 5.25m formation and choking the roadside drain."
+        "distress_remarks": "Slope failure along daylighting joint set under precipitation. 181.25 m\u00b3 bulked colluvial mass deposited across the carriageway, blocking 2.95m of the 5.25m formation and choking the roadside drain."
       },
       "pavement_dimensions": {
         "potholes": "Width: 0.90 m | Depth: 0.12 m",
@@ -4969,7 +7294,7 @@
           "w_m": 0.35
         }
       },
-      "mitigation_measures": "1. Primary Toe Retention & Structural Retention (IS:14458 Part 2 / MoRTH Section 1500):\n   Emergency clearance of 181.2 m\u00b3 bulked debris (145.0 m\u00b3 in-situ @ 1.25 bulking) followed by construction of a 17.0m long Plum Concrete Breast Wall (H_stem = 2.70m, D_f = 1.00m embedment, base width B = 1.35m, concrete volume = 67.70 m\u00b3 M15 with 40% plums), backed by 16.07 m\u00b3 crushed gravel filter pack wrapped in 67.25 m\u00b2 non-woven geotextile and 26 Nos. PVC weep holes.\n2. Internal Ground Reinforcement & Slope Nailing (MoRTH Section 3100 / CEDD Geoguide 7):\n   Installation of 20 Nos. \u00d825mm High-Yield Fe500D TMT soil nails (18 working nails + 2 sacrificial test nails) drilled to 9.0m depth (180.0m total drilling), pressure grouted with non-shrink cementitious grout, anchored with RC bearing pads and high-tensile diamond steel wire mesh facing (91.12 m\u00b2).\n3. Hydrogeological Pore-Pressure Relief & Surface Drainage (MoRTH Section 300, Clause 309 / IRC:SP:48):\n   Installation of 5 Nos. \u00d7 15m (75.0m total) sub-horizontal slotted PVC relief drains (\u00d875mm, Schedule 80) drilled at 5\u00b0\u201310\u00b0 upward rake into the hillside, accompanied by crest catch drain, roadside drain, and cascade chute.\n4. Soil Bioengineering & Surficial Erosion Control (MoRTH Section 1802 / IS:14458):\n   Dressing cut face (91.12 m\u00b2), laying 700 GSM coir geotextile netting (100.23 m\u00b2 with 10% overlap), hydraulic hydroseeding, and planting Vetiver grass contour hedges.",
+      "mitigation_measures": "1. Primary Toe Retention & Structural Retention (IS:14458 Part 2 / MoRTH Section 1500):\n   Emergency clearance of 181.2 m\u00b3 bulked colluvial mass (145.0 m\u00b3 in-situ @ 1.25 bulking) followed by construction of a 17.0m long Plum Concrete Breast Wall (H_stem = 2.70m, D_f = 1.00m embedment, base width B = 1.35m, concrete volume = 67.70 m\u00b3 M15 with 40% plums), backed by 16.07 m\u00b3 crushed gravel filter pack wrapped in 67.25 m\u00b2 non-woven geotextile and 26 Nos. PVC weep holes.\n2. Internal Ground Reinforcement & Slope Nailing (MoRTH Section 3100 / CEDD Geoguide 7):\n   Installation of 20 Nos. \u00d825mm High-Yield Fe500D TMT soil nails (18 working nails + 2 sacrificial test nails) drilled to 9.0m depth (180.0m total drilling), pressure grouted with non-shrink cementitious grout, anchored with RC bearing pads and high-tensile diamond steel wire mesh facing (91.12 m\u00b2).\n3. Hydrogeological Pore-Pressure Relief & Surface Drainage (MoRTH Section 300, Clause 309 / IRC:SP:48):\n   Installation of 5 Nos. \u00d7 15m (75.0m total) sub-horizontal slotted PVC relief drains (\u00d875mm, Schedule 80) drilled at 5\u00b0\u201310\u00b0 upward rake into the hillside, accompanied by crest catch drain, roadside drain, and cascade chute.\n4. Soil Bioengineering & Surficial Erosion Control (MoRTH Section 1802 / IS:14458):\n   Dressing cut face (91.12 m\u00b2), laying 700 GSM coir geotextile netting (100.23 m\u00b2 with 10% overlap), hydraulic hydroseeding, and planting Vetiver grass contour hedges.",
       "other_observations": "Sub-surface groundwater seepage daylighting along the colluvial mantle and bedrock interface, confirming elevated perched phreatic levels during rainfall. Active extensional tension fissures (apertures 15-40 mm) trace uphill of the detachment crown. Relict discontinuity set J1 (57\u00b0 dip daylighting adversely into the slope face) exhibits planar persistent slickensides with iron-oxide staining, confirming kinematic daylighting and high susceptibility to progressive retrogressive failure during prolonged monsoon precipitation.",
       "safety_directives": {
         "utility_hazard": "Utility lines along Mandi sector corridor at risk. Obtain isolation clearance prior to machinery operation.",
@@ -5002,7 +7327,7 @@
       "senior_engineer_remarks": "1. GEOTECHNICAL & KINEMATIC CLASSIFICATION (USGS Circular 1325 / Cruden & Varnes 1996):\nForensic geotechnical evaluation of the Mandi Sector \u2014 Hill Road Corridor (31.70800\u00b0 N, 76.93200\u00b0 E) confirms an active slope failure formally designated under Cruden & Varnes (1996) taxonomy as Slide Mass Movement (Cruden & Varnes, 1996). The failure detachment occurred in Shali Dolomite & Sundernagar Quartzite with interbedded phyllitic slate / Dharamsala Sandstone bedrock, releasing 145.0 m\u00b3 in-situ (181.25 m\u00b3 bulked @ 1.25 swell) of colluvial overburden across the corridor.\n\n2. CONSEQUENCE RATING & LIMIT STATE STABILITY (CEDD Geoguide 1 / Eurocode 7):\nUnder Hong Kong CEDD Geoguide 1 consequence classification, this corridor represents Category 2 (High / Sub-Divisional Transport Consequence). Prior to failure, the slope had a dry baseline FoS of 1.01, which dropped to FoS = 0.60 under monsoon cleft-water hydrostatic saturation, causing active shear mobilization. Post-stabilization analysis yields a verified FoS = 1.54, satisfying statutory design thresholds.\n\n3. MULTI-BARRIER MITIGATION STRATEGY (IS:14458 / MoRTH Section 3100 / CEDD Geoguide 7):\n- Primary Toe Retention: Construction of a 17.0m long Plum Concrete Breast Wall (H_stem = 2.70m, D_f = 1.00m, base width B = 1.35m, concrete volume = 67.70 m\u00b3 M15 with 40% plums per IS:14458 Part 2) with 16.07 m\u00b3 granular filter pack and 26 Nos. weep holes.\n- Internal Ground Reinforcement: Prescribed Soil Nailing Array (20 Nos. @ 18 working + 2 test, 180.0m drill, 91.12 m\u00b2 mesh facing, MoRTH 3100).\n- Pore-Pressure Relief Drainage: 5 Nos. \u00d7 15m (75.0m total) \u00d875mm Schedule 80 slotted PVC relief drains at 5\u00b0\u201310\u00b0 upward rake paired with crest catch drain and cascade chute.\n- Bioengineering: 700 GSM coir geotextile netting (100.23 m\u00b2 with 10% overlap), hydroseeding, and Vetiver grass contour hedges (MoRTH 1802).\n\n4. STATUTORY ESTIMATE & REQUISITION HEADS:\nTotal Direct Civil Remediation Outlay is dynamically estimated at \u20b9 960,304.90 (Subtotal A). With statutory contingency, quality control, and 18% GST, the Total Civil Remediation Outlay is \u20b9 1,184,151.97. Direct physical asset damage (SDRF) is strictly segregated from contractor procurement.\n\n5. ENGINEERING DISCLAIMER & GEOTECHNICAL LIMITATION:\nSubsurface geotechnical parameters (effective cohesion c' = 14.0 kPa, effective internal friction angle \u03c6' = 28.0\u00b0, intact rock UCS = 35.0 MPa, and structural joint dip = 57.0\u00b0) are preliminary model estimates and assumptions based on empirical rock mass classifications and regional lithological analogs. These values are strictly subject to confirmatory site investigation, trial-pit logging, and rotary borehole core extraction with laboratory testing prior to detailed engineering design, statutory tendering, or construction authorization.",
       "plain_language_explanation": {
         "summary_title": "Slope Incident Assessment \u2014 Mandi Sector \u2014 Hill Road Corridor",
-        "what_happened": "A steep section of the hillside failed, depositing approximately 181 m\u00b3 of colluvial debris and boulders across the corridor.",
+        "what_happened": "A steep section of the hillside failed, depositing approximately 181 m\u00b3 of colluvial mass and fractured rock clasts across the corridor.",
         "why_it_happened": "Heavy precipitation saturated structural discontinuities dipping 57\u00b0 into the formation, inducing hydrostatic cleft-water pressure and shear displacement.",
         "property_and_access_impact": "Passage is obstructed (2.95 m (Single-Lane Restricted / Shoulder Lost: 2.30m Operable)). Single-lane transit is restricted under safety spotters.",
         "road_and_travel_impact": "Passage is obstructed (2.95 m (Single-Lane Restricted / Shoulder Lost: 2.30m Operable)). Single-lane transit is restricted under safety spotters.",
@@ -5026,7 +7351,7 @@
           "landslide_anatomy": {
             "crown_and_scarp": "Detachment main scarp H = 7.60m (upper face 4.90m @ 66\u00b0 inclination), open tension fissures 15-40mm",
             "displaced_mass": "145.0 m\u00b3 in-situ (181.25 m\u00b3 bulked) colluvial overburden and jointed clasts",
-            "toe_and_foot": "Accumulation debris lobe encroaching 2.95m across carriageway and choking roadside drain"
+            "toe_and_foot": "Displaced colluvial runout lobe encroaching 2.95m across carriageway and choking roadside drain"
           },
           "standard_reference": "USGS Circular 1325 (Highland & Bobrowsky, 2008) / Cruden & Varnes (1996)"
         },
@@ -6992,7 +9317,7 @@
       "site_context": {
         "environment_type": "Macro Mountain Catchment Flank",
         "impacted_assets": "Mandi Sub-Divisional Hill Road Corridor",
-        "structural_damage": "Carriageway blocked by debris accumulation"
+        "structural_damage": "Carriageway blocked by displaced colluvial mass accumulation"
       },
       "slope_characteristics": {
         "presence_above": true,
@@ -7277,7 +9602,7 @@
       "visual_analysis": {
         "material_composition": "Sandstone (Greyish Brown to Buff with Iron Oxide Staining)",
         "slope_condition": "Cut angle 63\u00b0 to 67\u00b0 (Unstable Hill Cut Face), Convex Escarpment",
-        "infrastructure_impact": "Mandi Sub-Divisional Hill Road Corridor: Carriageway blocked by debris accumulation",
+        "infrastructure_impact": "Mandi Sub-Divisional Hill Road Corridor: Carriageway blocked by displaced colluvial mass accumulation",
         "drainage_and_seepage": "Seepage: Active, Drainage: Clogged / Lacking",
         "optical_geometry": null
       },
@@ -7309,7 +9634,7 @@
           "landslide_anatomy": {
             "crown_and_scarp": "Detachment main scarp H = 68.00m (upper face 68.00m @ 54\u00b0 inclination), open tension fissures 15-40mm",
             "displaced_mass": "14500.0 m\u00b3 in-situ (18125.00 m\u00b3 bulked) colluvial overburden and jointed clasts",
-            "toe_and_foot": "Accumulation debris lobe encroaching 6.00m across carriageway and choking roadside drain"
+            "toe_and_foot": "Displaced colluvial runout lobe encroaching 6.00m across carriageway and choking roadside drain"
           },
           "standard_reference": "USGS Circular 1325 (Highland & Bobrowsky, 2008) / Cruden & Varnes (1996)"
         },
@@ -9031,7 +11356,7 @@
       "site_context": {
         "environment_type": "Steep Metamorphic Rock Cliff Face",
         "impacted_assets": "Mandi Sub-Divisional Hill Road Corridor",
-        "structural_damage": "Carriageway blocked by debris accumulation"
+        "structural_damage": "Carriageway blocked by displaced colluvial mass accumulation"
       },
       "slope_characteristics": {
         "presence_above": true,
@@ -9316,7 +11641,7 @@
       "visual_analysis": {
         "material_composition": "Sandstone (Greyish Brown to Buff with Iron Oxide Staining)",
         "slope_condition": "Cut angle 62\u00b0 to 66\u00b0 (Unstable Hill Cut Face), Convex Escarpment",
-        "infrastructure_impact": "Mandi Sub-Divisional Hill Road Corridor: Carriageway blocked by debris accumulation",
+        "infrastructure_impact": "Mandi Sub-Divisional Hill Road Corridor: Carriageway blocked by displaced colluvial mass accumulation",
         "drainage_and_seepage": "Seepage: Active, Drainage: Clogged / Lacking",
         "optical_geometry": null
       },
@@ -9348,7 +11673,7 @@
           "landslide_anatomy": {
             "crown_and_scarp": "Detachment main scarp H = 16.00m (upper face 16.00m @ 76\u00b0 inclination), open tension fissures 15-40mm",
             "displaced_mass": "64.7 m\u00b3 in-situ (80.85 m\u00b3 bulked) colluvial overburden and jointed clasts",
-            "toe_and_foot": "Accumulation debris lobe encroaching 3.10m across carriageway and choking roadside drain"
+            "toe_and_foot": "Displaced colluvial runout lobe encroaching 3.10m across carriageway and choking roadside drain"
           },
           "standard_reference": "USGS Circular 1325 (Highland & Bobrowsky, 2008) / Cruden & Varnes (1996)"
         },
@@ -11793,7 +14118,7 @@
       "site_context": {
         "environment_type": "Highway / Transport Corridor",
         "impacted_assets": "Mandi Sector Major District Road (MDR) Corridor (Formation Width 5.25m)",
-        "structural_damage": "Carriageway blocked by 181.25 m\u00b3 bulked debris; roadway constricted from 5.25m to 2.30m single-lane transit; roadside longitudinal drain choked and deformed."
+        "structural_damage": "Carriageway blocked by 181.25 m\u00b3 bulked colluvial mass; roadway constricted from 5.25m to 2.30m single-lane transit; roadside longitudinal drain choked and deformed."
       },
       "slope_characteristics": {
         "presence_above": true,
@@ -11941,7 +14266,7 @@
           "width": "0.60 m",
           "depth": "0.60 m"
         },
-        "distress_remarks": "Slope failure along daylighting joint set under precipitation. 181.25 m\u00b3 bulked debris deposited across the carriageway, blocking 2.95m of the 5.25m formation and choking the roadside drain."
+        "distress_remarks": "Slope failure along daylighting joint set under precipitation. 181.25 m\u00b3 bulked colluvial mass deposited across the carriageway, blocking 2.95m of the 5.25m formation and choking the roadside drain."
       },
       "pavement_dimensions": {
         "potholes": "Width: 0.90 m | Depth: 0.12 m",
@@ -12048,7 +14373,7 @@
           "w_m": 0.35
         }
       },
-      "mitigation_measures": "1. Primary Toe Retention & Structural Retention (IS:14458 Part 2 / MoRTH Section 1500):\n   Emergency hydraulic clearance of 181.25 m\u00b3 bulked debris (145.0 m\u00b3 in-situ @ 1.25 bulking) followed by construction of a 17.0m long Plum Concrete Breast Wall (H_stem = 2.70m, D_f = 1.00m embedment, base width B = 1.35m, top width b = 0.60m, concrete volume = 67.70 m\u00b3 M15 with 40% plums 150\u2013300mm), backed by 16.07 m\u00b3 crushed gravel filter pack (0.35m thick) wrapped in 67.25 m\u00b2 non-woven geotextile and 26 Nos. 100mm dia PVC weep hole pipes (32.50m total) in 2 staggered rows.\n2. Internal Ground Reinforcement & Slope Nailing (MoRTH Section 3100 / CEDD Geoguide 7):\n   Installation of 20 Nos. \u00d825mm High-Yield Fe500D TMT soil nails (18 working nails in 1.8m H \u00d7 2.0m V staggered grid + 2 sacrificial pullout verification test nails) drilled to 9.0m depth (180.0m total drilling, 190.0m bar), pressure grouted with non-shrink cementitious grout (fcu \u2265 30 MPa), anchored with 18 Nos. cast-in-situ M30 RC bearing pads (400\u00d7400\u00d7200mm) and high-tensile diamond steel wire mesh facing (3mm wire, 65\u00d765mm, 91.12 m\u00b2).\n3. Hydrogeological Pore-Pressure Relief & Surface Drainage (MoRTH Section 300, Clause 309 / IRC:SP:48):\n   Installation of 5 Nos. \u00d7 15m (75.0m total) sub-horizontal slotted PVC relief drains (\u00d875mm, Schedule 80) drilled at 5\u00b0\u201310\u00b0 upward rake into the hillside to depress perched cleft-water tables, accompanied by 25.0m stone masonry saucer catch drain (0.60m \u00d7 0.60m) along slope crest, 17.0m reconstructed roadside longitudinal drain (0.60m \u00d7 0.60m), and 22.0m stepped cascade stone-pitched chute.\n4. Soil Bioengineering & Surficial Erosion Control (MoRTH Section 1802 / IS:14458):\n   Dressing and reprofiling upper cut face (91.12 m\u00b2), laying 700 GSM biodegradable coir geotextile netting with 10% overlap (100.23 m\u00b2), hydraulic hydroseeding with native mountain grass seeds, and planting deep-rooting Vetiver grass (Chrysopogon zizanioides) contour hedges.",
+      "mitigation_measures": "1. Primary Toe Retention & Structural Retention (IS:14458 Part 2 / MoRTH Section 1500):\n   Emergency hydraulic clearance of 181.25 m\u00b3 bulked colluvial mass (145.0 m\u00b3 in-situ @ 1.25 bulking) followed by construction of a 17.0m long Plum Concrete Breast Wall (H_stem = 2.70m, D_f = 1.00m embedment, base width B = 1.35m, top width b = 0.60m, concrete volume = 67.70 m\u00b3 M15 with 40% plums 150\u2013300mm), backed by 16.07 m\u00b3 crushed gravel filter pack (0.35m thick) wrapped in 67.25 m\u00b2 non-woven geotextile and 26 Nos. 100mm dia PVC weep hole pipes (32.50m total) in 2 staggered rows.\n2. Internal Ground Reinforcement & Slope Nailing (MoRTH Section 3100 / CEDD Geoguide 7):\n   Installation of 20 Nos. \u00d825mm High-Yield Fe500D TMT soil nails (18 working nails in 1.8m H \u00d7 2.0m V staggered grid + 2 sacrificial pullout verification test nails) drilled to 9.0m depth (180.0m total drilling, 190.0m bar), pressure grouted with non-shrink cementitious grout (fcu \u2265 30 MPa), anchored with 18 Nos. cast-in-situ M30 RC bearing pads (400\u00d7400\u00d7200mm) and high-tensile diamond steel wire mesh facing (3mm wire, 65\u00d765mm, 91.12 m\u00b2).\n3. Hydrogeological Pore-Pressure Relief & Surface Drainage (MoRTH Section 300, Clause 309 / IRC:SP:48):\n   Installation of 5 Nos. \u00d7 15m (75.0m total) sub-horizontal slotted PVC relief drains (\u00d875mm, Schedule 80) drilled at 5\u00b0\u201310\u00b0 upward rake into the hillside to depress perched cleft-water tables, accompanied by 25.0m stone masonry saucer catch drain (0.60m \u00d7 0.60m) along slope crest, 17.0m reconstructed roadside longitudinal drain (0.60m \u00d7 0.60m), and 22.0m stepped cascade stone-pitched chute.\n4. Soil Bioengineering & Surficial Erosion Control (MoRTH Section 1802 / IS:14458):\n   Dressing and reprofiling upper cut face (91.12 m\u00b2), laying 700 GSM biodegradable coir geotextile netting with 10% overlap (100.23 m\u00b2), hydraulic hydroseeding with native mountain grass seeds, and planting deep-rooting Vetiver grass (Chrysopogon zizanioides) contour hedges.",
       "other_observations": "Sub-surface groundwater seepage daylighting along the colluvial mantle and bedrock interface, confirming elevated perched phreatic levels during rainfall. Active extensional tension fissures (apertures 15-40 mm) trace uphill of the detachment crown. Relict discontinuity set J1 (57\u00b0 dip daylighting adversely into the slope face) exhibits planar persistent slickensides with iron-oxide staining, confirming kinematic daylighting and high susceptibility to progressive retrogressive failure during prolonged monsoon precipitation.",
       "safety_directives": {
         "utility_hazard": "Transmission and telecommunication lines along hillside slope at risk. Obtain line isolation and power clearance from HPSEBL prior to heavy equipment operation.",
@@ -12066,15 +14391,15 @@
       "visual_analysis": {
         "material_composition": "Shali Dolomite & Sundernagar Quartzite with interbedded phyllite clasts (Greyish Brown to Buff with Iron Oxide Staining)",
         "slope_condition": "Cut angle 66\u00b0 (Steep Cut Slope Scarp), Convex Escarpment",
-        "infrastructure_impact": "Mandi Sector Major District Road (MDR) Corridor (Formation Width 5.25m): Carriageway blocked by 181.25 m\u00b3 bulked debris; roadway constricted from 5.25m to 2.30m single-lane transit; roadside longitudinal drain choked and deformed.",
+        "infrastructure_impact": "Mandi Sector Major District Road (MDR) Corridor (Formation Width 5.25m): Carriageway blocked by 181.25 m\u00b3 bulked colluvial mass; roadway constricted from 5.25m to 2.30m single-lane transit; roadside longitudinal drain choked and deformed.",
         "drainage_and_seepage": "Seepage: Active, Drainage: Clogged / Lacking permanent relief",
         "optical_geometry": null
       },
-      "synthesis_remarks": "1. GEOTECHNICAL & KINEMATIC CLASSIFICATION (USGS Circular 1325 / Cruden & Varnes 1996):\nForensic geotechnical evaluation of the Mandi Sector MDR corridor (RD 17+432, 31.70800\u00b0 N, 76.93200\u00b0 E) confirms an active slope failure formally designated under Cruden & Varnes (1996) taxonomy as a Composite Translational Debris-Rock Slide. The failure detachment occurred along daylighting structural joint set J1 dipping 57\u00b0 SW in Grade IV highly weathered Shali Dolomite / Quartzite bedrock, releasing 145.0 m\u00b3 in-situ (181.25 m\u00b3 bulked @ 1.25 swell) of colluvial overburden and boulder debris across the carriageway, restricting the 5.25m formation to 2.30m single-lane transit.\n\n2. CONSEQUENCE RATING & LIMIT STATE STABILITY (CEDD Geoguide 1 / Eurocode 7):\nUnder Hong Kong CEDD Geoguide 1 consequence classification, this corridor represents Category 2 (High / Sub-Divisional Corridor Life & Transport Consequence), requiring a statutory minimum Factor of Safety FoS \u2265 1.30 under extreme monsoon steady-seepage saturation and FoS \u2265 1.50 under long-term permanent stabilized conditions. Prior to failure, the unprotected cut slope had an estimated dry baseline FoS of 1.48, which collapsed to FoS = 0.92 under monsoon joint cleft-water hydrostatic saturation (zw = 1.2m), causing catastrophic shear detachment along the 6.856m inclined failure surface.\n\n3. MULTI-BARRIER MITIGATION STRATEGY (IS:14458 / MoRTH Section 3100 / CEDD Geoguide 7):\n- Primary Toe Retention: Construction of a 17.0m long Plum Concrete Breast Wall (H_stem = 2.70m, D_f = 1.00m, base width B = 1.35m, top width b = 0.60m, concrete volume = 67.70 m\u00b3 M15 with 40% plums per IS:14458 Part 2) with 16.07 m\u00b3 granular filter pack and 26 Nos. 100mm PVC weep holes.\n- Internal Ground Reinforcement: Prescribed Soil Nailing Array (\u00d825mm Fe500D TMT rebar, 20 Nos. @ 9.0m depth, 180m drilling, 1.8m H \u00d7 2.0m V grid) with 18 Nos. M30 RC bearing pads (400\u00d7400\u00d7200mm), high-tensile diamond steel wire mesh (91.12 m\u00b2), and 2 sacrificial pullout proof verification tests (MoRTH 3100).\n- Pore-Pressure Relief Drainage: 5 Nos. \u00d7 15m (75.0m total) \u00d875mm Schedule 80 slotted PVC relief drains at 5\u00b0\u201310\u00b0 upward rake, paired with 25.0m crest saucer catch drain (0.60m \u00d7 0.60m), 17.0m roadside drain (0.60m \u00d7 0.60m), and 22.0m stepped cascade chute (MoRTH 300).\n- Bioengineering: 700 GSM coir geotextile netting (100.23 m\u00b2 with 10% overlap), hydroseeding, and Vetiver grass contour hedges (MoRTH 1802).\nPost-remediation stability analysis yields a verified FoS = 1.56, fully satisfying statutory requirements.\n\n4. STATUTORY ESTIMATE & REQUISITION HEADS:\nTotal Direct Civil Remediation Outlay is dynamically estimated at \u20b9 9,60,304.90 (Subtotal A, 18 auditable items per HPSOR 2024-25 / MoRTH). With 3% contingency (\u20b9 28,809.15), 1.5% quality control (\u20b9 14,404.57), and 18% GST (\u20b9 1,80,633.35), the Grand Total Civil Works Outlay is \u20b9 11,84,151.97 (\u20b9 11.84 Lakh). Direct physical asset restoration (\u20b9 3,02,262.50 under SDRF Section 48(1)(a)) and indirect freight detour disruption (\u20b9 1,25,000.00) are strictly segregated from contractor procurement.\n\n5. ENGINEERING DISCLAIMER & GEOTECHNICAL LIMITATION:\nSubsurface geotechnical parameters (effective cohesion c' = 14.0 kPa, effective internal friction angle \u03c6' = 28.0\u00b0, intact rock UCS = 35.0 MPa, and structural joint dip = 57.0\u00b0) are preliminary model estimates and assumptions based on empirical rock mass classifications and regional lithological analogs. These values are strictly subject to confirmatory site investigation, trial-pit logging, and rotary borehole core extraction with laboratory testing prior to detailed engineering design, statutory tendering, or construction authorization.",
+      "synthesis_remarks": "1. GEOTECHNICAL & KINEMATIC CLASSIFICATION (USGS Circular 1325 / Cruden & Varnes 1996):\nForensic geotechnical evaluation of the Mandi Sector MDR corridor (RD 17+432, 31.70800\u00b0 N, 76.93200\u00b0 E) confirms an active slope failure formally designated under Cruden & Varnes (1996) taxonomy as a Composite Translational Debris-Rock Slide. The failure detachment occurred along daylighting structural joint set J1 dipping 57\u00b0 SW in Grade IV highly weathered Shali Dolomite / Quartzite bedrock, releasing 145.0 m\u00b3 in-situ (181.25 m\u00b3 bulked @ 1.25 swell) of colluvial overburden and displaced rock clasts across the carriageway, restricting the 5.25m formation to 2.30m single-lane transit.\n\n2. CONSEQUENCE RATING & LIMIT STATE STABILITY (CEDD Geoguide 1 / Eurocode 7):\nUnder Hong Kong CEDD Geoguide 1 consequence classification, this corridor represents Category 2 (High / Sub-Divisional Corridor Life & Transport Consequence), requiring a statutory minimum Factor of Safety FoS \u2265 1.30 under extreme monsoon steady-seepage saturation and FoS \u2265 1.50 under long-term permanent stabilized conditions. Prior to failure, the unprotected cut slope had an estimated dry baseline FoS of 1.48, which collapsed to FoS = 0.92 under monsoon joint cleft-water hydrostatic saturation (zw = 1.2m), causing catastrophic shear detachment along the 6.856m inclined failure surface.\n\n3. MULTI-BARRIER MITIGATION STRATEGY (IS:14458 / MoRTH Section 3100 / CEDD Geoguide 7):\n- Primary Toe Retention: Construction of a 17.0m long Plum Concrete Breast Wall (H_stem = 2.70m, D_f = 1.00m, base width B = 1.35m, top width b = 0.60m, concrete volume = 67.70 m\u00b3 M15 with 40% plums per IS:14458 Part 2) with 16.07 m\u00b3 granular filter pack and 26 Nos. 100mm PVC weep holes.\n- Internal Ground Reinforcement: Prescribed Soil Nailing Array (\u00d825mm Fe500D TMT rebar, 20 Nos. @ 9.0m depth, 180m drilling, 1.8m H \u00d7 2.0m V grid) with 18 Nos. M30 RC bearing pads (400\u00d7400\u00d7200mm), high-tensile diamond steel wire mesh (91.12 m\u00b2), and 2 sacrificial pullout proof verification tests (MoRTH 3100).\n- Pore-Pressure Relief Drainage: 5 Nos. \u00d7 15m (75.0m total) \u00d875mm Schedule 80 slotted PVC relief drains at 5\u00b0\u201310\u00b0 upward rake, paired with 25.0m crest saucer catch drain (0.60m \u00d7 0.60m), 17.0m roadside drain (0.60m \u00d7 0.60m), and 22.0m stepped cascade chute (MoRTH 300).\n- Bioengineering: 700 GSM coir geotextile netting (100.23 m\u00b2 with 10% overlap), hydroseeding, and Vetiver grass contour hedges (MoRTH 1802).\nPost-remediation stability analysis yields a verified FoS = 1.56, fully satisfying statutory requirements.\n\n4. STATUTORY ESTIMATE & REQUISITION HEADS:\nTotal Direct Civil Remediation Outlay is dynamically estimated at \u20b9 9,60,304.90 (Subtotal A, 18 auditable items per HPSOR 2024-25 / MoRTH). With 3% contingency (\u20b9 28,809.15), 1.5% quality control (\u20b9 14,404.57), and 18% GST (\u20b9 1,80,633.35), the Grand Total Civil Works Outlay is \u20b9 11,84,151.97 (\u20b9 11.84 Lakh). Direct physical asset restoration (\u20b9 3,02,262.50 under SDRF Section 48(1)(a)) and indirect freight detour disruption (\u20b9 1,25,000.00) are strictly segregated from contractor procurement.\n\n5. ENGINEERING DISCLAIMER & GEOTECHNICAL LIMITATION:\nSubsurface geotechnical parameters (effective cohesion c' = 14.0 kPa, effective internal friction angle \u03c6' = 28.0\u00b0, intact rock UCS = 35.0 MPa, and structural joint dip = 57.0\u00b0) are preliminary model estimates and assumptions based on empirical rock mass classifications and regional lithological analogs. These values are strictly subject to confirmatory site investigation, trial-pit logging, and rotary borehole core extraction with laboratory testing prior to detailed engineering design, statutory tendering, or construction authorization.",
       "senior_engineer_remarks": "Prioritize toe restraint Plum Concrete Breast Wall (IS:14458) with granular backfill filter pack. Drill 5 Nos. sub-horizontal drains and install diamond wire mesh facing with soil nails (MoRTH 3100).",
       "plain_language_explanation": {
         "summary_title": "MDR Corridor Landslide Disruption in Mandi Sector (RD 17+432)",
-        "what_happened": "A steep section of the hillside cut scarp failed, dumping 181 m\u00b3 of colluvial debris and boulders across the road corridor.",
+        "what_happened": "A steep section of the hillside cut scarp failed, dumping 181 m\u00b3 of colluvial mass and fractured rock clasts across the road corridor.",
         "why_it_happened": "Heavy monsoon rainfall saturated open joint discontinuities dipping 57\u00b0 into the roadway, inducing hydrostatic cleft-water pressure and shear collapse.",
         "property_and_access_impact": "Passage is obstructed (2.95 m (Single-Lane Restricted / Shoulder Lost: 2.30m Operable)). Two-way traffic is halted; single-lane transit is restricted under safety spotters.",
         "road_and_travel_impact": "Passage is obstructed (2.95 m (Single-Lane Restricted / Shoulder Lost: 2.30m Operable)). Two-way traffic is halted; single-lane transit is restricted under safety spotters.",
@@ -12098,7 +14423,7 @@
           "landslide_anatomy": {
             "crown_and_scarp": "Detachment main scarp H = 7.60m (upper face 4.90m @ 66\u00b0 inclination), open tension fissures 15-40mm",
             "displaced_mass": "145.0 m\u00b3 in-situ (181.25 m\u00b3 bulked) colluvial overburden and jointed clasts",
-            "toe_and_foot": "Accumulation debris lobe encroaching 2.95m across carriageway and choking roadside drain"
+            "toe_and_foot": "Displaced colluvial runout lobe encroaching 2.95m across carriageway and choking roadside drain"
           },
           "standard_reference": "USGS Circular 1325 (Highland & Bobrowsky, 2008) / Cruden & Varnes (1996)"
         },
@@ -14382,7 +16707,7 @@
           "landslide_anatomy": {
             "crown_and_scarp": "Detachment main scarp H = 7.60m (upper face 4.90m @ 66\u00b0 inclination), open tension fissures 15-40mm",
             "displaced_mass": "145.0 m\u00b3 in-situ (181.25 m\u00b3 bulked) colluvial overburden and jointed clasts",
-            "toe_and_foot": "Accumulation debris lobe encroaching 2.95m across carriageway and choking roadside drain"
+            "toe_and_foot": "Displaced colluvial runout lobe encroaching 2.95m across carriageway and choking roadside drain"
           },
           "standard_reference": "USGS Circular 1325 (Highland & Bobrowsky, 2008) / Cruden & Varnes (1996)"
         },
@@ -17243,7 +19568,7 @@
           "width": "0.60 m",
           "depth": "0.60 m"
         },
-        "distress_remarks": "Slope failure along daylighting joint set under precipitation. 105.00 m\u00b3 bulked debris deposited across the carriageway, blocking 3.50m of the 6.00m formation and choking the roadside drain."
+        "distress_remarks": "Slope failure along daylighting joint set under precipitation. 105.00 m\u00b3 bulked colluvial mass deposited across the carriageway, blocking 3.50m of the 6.00m formation and choking the roadside drain."
       },
       "pavement_dimensions": {
         "potholes": "Width: 0.90 m | Depth: 0.12 m",
@@ -17350,7 +19675,7 @@
           "w_m": 0.35
         }
       },
-      "mitigation_measures": "1. Primary Toe Retention & Structural Retention (IS:14458 Part 2 / MoRTH Section 1500):\n   Emergency clearance of 105.0 m\u00b3 bulked debris (84.0 m\u00b3 in-situ @ 1.25 bulking) followed by construction of a 20.0m long Plum Concrete Breast Wall (H_stem = 3.55m, D_f = 1.31m embedment, base width B = 1.59m, concrete volume = 119.40 m\u00b3 M15 with 40% plums), backed by 24.85 m\u00b3 crushed gravel filter pack wrapped in 98.25 m\u00b2 non-woven geotextile and 30 Nos. PVC weep holes.\n2. Internal Ground Reinforcement & Slope Nailing (MoRTH Section 3100 / CEDD Geoguide 7):\n   Installation of 46 Nos. \u00d825mm High-Yield Fe500D TMT soil nails (44 working nails + 2 sacrificial test nails) drilled to 9.0m depth (180.0m total drilling), pressure grouted with non-shrink cementitious grout, anchored with RC bearing pads and high-tensile diamond steel wire mesh facing (91.12 m\u00b2).\n3. Hydrogeological Pore-Pressure Relief & Surface Drainage (MoRTH Section 300, Clause 309 / IRC:SP:48):\n   Installation of 5 Nos. \u00d7 15m (75.0m total) sub-horizontal slotted PVC relief drains (\u00d875mm, Schedule 80) drilled at 5\u00b0\u201310\u00b0 upward rake into the hillside, accompanied by crest catch drain, roadside drain, and cascade chute.\n4. Soil Bioengineering & Surficial Erosion Control (MoRTH Section 1802 / IS:14458):\n   Dressing cut face (91.12 m\u00b2), laying 700 GSM coir geotextile netting (163.90 m\u00b2 with 10% overlap), hydraulic hydroseeding, and planting Vetiver grass contour hedges.",
+      "mitigation_measures": "1. Primary Toe Retention & Structural Retention (IS:14458 Part 2 / MoRTH Section 1500):\n   Emergency clearance of 105.0 m\u00b3 bulked colluvial mass (84.0 m\u00b3 in-situ @ 1.25 bulking) followed by construction of a 20.0m long Plum Concrete Breast Wall (H_stem = 3.55m, D_f = 1.31m embedment, base width B = 1.59m, concrete volume = 119.40 m\u00b3 M15 with 40% plums), backed by 24.85 m\u00b3 crushed gravel filter pack wrapped in 98.25 m\u00b2 non-woven geotextile and 30 Nos. PVC weep holes.\n2. Internal Ground Reinforcement & Slope Nailing (MoRTH Section 3100 / CEDD Geoguide 7):\n   Installation of 46 Nos. \u00d825mm High-Yield Fe500D TMT soil nails (44 working nails + 2 sacrificial test nails) drilled to 9.0m depth (180.0m total drilling), pressure grouted with non-shrink cementitious grout, anchored with RC bearing pads and high-tensile diamond steel wire mesh facing (91.12 m\u00b2).\n3. Hydrogeological Pore-Pressure Relief & Surface Drainage (MoRTH Section 300, Clause 309 / IRC:SP:48):\n   Installation of 5 Nos. \u00d7 15m (75.0m total) sub-horizontal slotted PVC relief drains (\u00d875mm, Schedule 80) drilled at 5\u00b0\u201310\u00b0 upward rake into the hillside, accompanied by crest catch drain, roadside drain, and cascade chute.\n4. Soil Bioengineering & Surficial Erosion Control (MoRTH Section 1802 / IS:14458):\n   Dressing cut face (91.12 m\u00b2), laying 700 GSM coir geotextile netting (163.90 m\u00b2 with 10% overlap), hydraulic hydroseeding, and planting Vetiver grass contour hedges.",
       "other_observations": "Sub-surface groundwater seepage daylighting along the colluvial mantle and bedrock interface, confirming elevated perched phreatic levels during rainfall. Active extensional tension fissures (apertures 15-40 mm) trace uphill of the detachment crown. Relict discontinuity set J1 (48\u00b0 dip daylighting adversely into the slope face) exhibits planar persistent slickensides with iron-oxide staining, confirming kinematic daylighting and high susceptibility to progressive retrogressive failure during prolonged monsoon precipitation.",
       "safety_directives": {
         "utility_hazard": "Roadside drainage completely clogged with debris",
@@ -17435,7 +19760,7 @@
           "landslide_anatomy": {
             "crown_and_scarp": "Detachment main scarp H = 7.60m (upper face 4.90m @ 66\u00b0 inclination), open tension fissures 15-40mm",
             "displaced_mass": "145.0 m\u00b3 in-situ (181.25 m\u00b3 bulked) colluvial overburden and jointed clasts",
-            "toe_and_foot": "Accumulation debris lobe encroaching 2.95m across carriageway and choking roadside drain"
+            "toe_and_foot": "Displaced colluvial runout lobe encroaching 2.95m across carriageway and choking roadside drain"
           },
           "standard_reference": "USGS Circular 1325 (Highland & Bobrowsky, 2008) / Cruden & Varnes (1996)"
         },
@@ -20147,7 +22472,7 @@
       "site_context": {
         "environment_type": "Valley-Side Road Embankment / Slump Zone",
         "impacted_assets": "Mandi Sub-Divisional Hill Road Corridor",
-        "structural_damage": "Carriageway blocked by debris accumulation"
+        "structural_damage": "Carriageway blocked by displaced colluvial mass accumulation"
       },
       "slope_characteristics": {
         "presence_above": true,
@@ -20432,7 +22757,7 @@
       "visual_analysis": {
         "material_composition": "Sandstone (Greyish Brown to Buff with Iron Oxide Staining)",
         "slope_condition": "Cut angle 61\u00b0 to 69\u00b0 (Unstable Hill Cut Face), Convex Escarpment",
-        "infrastructure_impact": "Mandi Sub-Divisional Hill Road Corridor: Carriageway blocked by debris accumulation",
+        "infrastructure_impact": "Mandi Sub-Divisional Hill Road Corridor: Carriageway blocked by displaced colluvial mass accumulation",
         "drainage_and_seepage": "Seepage: Active, Drainage: Clogged / Lacking",
         "optical_geometry": null
       },
@@ -20464,7 +22789,7 @@
           "landslide_anatomy": {
             "crown_and_scarp": "Detachment main scarp H = 7.50m (upper face 3.00m @ 46\u00b0 inclination), open tension fissures 15-40mm",
             "displaced_mass": "59.4 m\u00b3 in-situ (74.25 m\u00b3 bulked) colluvial overburden and jointed clasts",
-            "toe_and_foot": "Accumulation debris lobe encroaching 3.40m across carriageway and choking roadside drain"
+            "toe_and_foot": "Displaced colluvial runout lobe encroaching 3.40m across carriageway and choking roadside drain"
           },
           "standard_reference": "USGS Circular 1325 (Highland & Bobrowsky, 2008) / Cruden & Varnes (1996)"
         },
@@ -22198,7 +24523,7 @@
       "site_context": {
         "environment_type": "Himalayan Hill Road Cut",
         "impacted_assets": "Mandi Sub-Divisional Hill Road Corridor",
-        "structural_damage": "Carriageway blocked by debris accumulation"
+        "structural_damage": "Carriageway blocked by displaced colluvial mass accumulation"
       },
       "slope_characteristics": {
         "presence_above": true,
@@ -22483,7 +24808,7 @@
       "visual_analysis": {
         "material_composition": "Phyllite (Greyish Brown to Buff with Iron Oxide Staining)",
         "slope_condition": "Cut angle 63\u00b0 to 67\u00b0 (Unstable Hill Cut Face), Convex Escarpment",
-        "infrastructure_impact": "Mandi Sub-Divisional Hill Road Corridor: Carriageway blocked by debris accumulation",
+        "infrastructure_impact": "Mandi Sub-Divisional Hill Road Corridor: Carriageway blocked by displaced colluvial mass accumulation",
         "drainage_and_seepage": "Seepage: Active, Drainage: Clogged / Lacking",
         "optical_geometry": null
       },
@@ -22515,7 +24840,7 @@
           "landslide_anatomy": {
             "crown_and_scarp": "Detachment main scarp H = 7.60m (upper face 4.90m @ 66\u00b0 inclination), open tension fissures 15-40mm",
             "displaced_mass": "145.0 m\u00b3 in-situ (181.25 m\u00b3 bulked) colluvial overburden and jointed clasts",
-            "toe_and_foot": "Accumulation debris lobe encroaching 2.95m across carriageway and choking roadside drain"
+            "toe_and_foot": "Displaced colluvial runout lobe encroaching 2.95m across carriageway and choking roadside drain"
           },
           "standard_reference": "USGS Circular 1325 (Highland & Bobrowsky, 2008) / Cruden & Varnes (1996)"
         },
@@ -25516,8 +27841,8 @@
         "drainage_and_seepage": "Seepage: Active, Drainage: Clogged / Lacking",
         "optical_geometry": null
       },
-      "synthesis_remarks": "1. GEOTECHNICAL CLASSIFICATION: Saturated colluvial debris slump and mudslide threatening residential dwelling compound.\n2. DEFLECTOR STRUCTURAL DESIGN: M25 reinforced concrete cantilever retaining and debris deflector wall (H=2.8m stem, Base=1.65m) behind dwelling.\n3. UPPER TERRACE STABILIZATION: Lightweight tripod-drilled \u00d825mm grouted soil dowels across upper residential terrace to arrest creeping colluvium.\n4. SURFACE WATER DIVERSION: Lined trapezoidal peripheral garland catch drain and stepped masonry cascade chute.\n5. SDRF REHABILITATION: SDRF housing disaster relief allowance for structural plinth stabilization.",
-      "senior_engineer_remarks": "1. GEOTECHNICAL CLASSIFICATION: Saturated colluvial debris slump and mudslide threatening residential dwelling compound.\n2. DEFLECTOR STRUCTURAL DESIGN: M25 reinforced concrete cantilever retaining and debris deflector wall (H=2.8m stem, Base=1.65m) behind dwelling.\n3. UPPER TERRACE STABILIZATION: Lightweight tripod-drilled \u00d825mm grouted soil dowels across upper residential terrace to arrest creeping colluvium.\n4. SURFACE WATER DIVERSION: Lined trapezoidal peripheral garland catch drain and stepped masonry cascade chute.\n5. SDRF REHABILITATION: SDRF housing disaster relief allowance for structural plinth stabilization.",
+      "synthesis_remarks": "1. GEOTECHNICAL CLASSIFICATION: Saturated colluvial mass slump and mudslide threatening residential dwelling compound.\n2. DEFLECTOR STRUCTURAL DESIGN: M25 reinforced concrete cantilever retaining and debris deflector wall (H=2.8m stem, Base=1.65m) behind dwelling.\n3. UPPER TERRACE STABILIZATION: Lightweight tripod-drilled \u00d825mm grouted soil dowels across upper residential terrace to arrest creeping colluvium.\n4. SURFACE WATER DIVERSION: Lined trapezoidal peripheral garland catch drain and stepped masonry cascade chute.\n5. SDRF REHABILITATION: SDRF housing disaster relief allowance for structural plinth stabilization.",
+      "senior_engineer_remarks": "1. GEOTECHNICAL CLASSIFICATION: Saturated colluvial mass slump and mudslide threatening residential dwelling compound.\n2. DEFLECTOR STRUCTURAL DESIGN: M25 reinforced concrete cantilever retaining and debris deflector wall (H=2.8m stem, Base=1.65m) behind dwelling.\n3. UPPER TERRACE STABILIZATION: Lightweight tripod-drilled \u00d825mm grouted soil dowels across upper residential terrace to arrest creeping colluvium.\n4. SURFACE WATER DIVERSION: Lined trapezoidal peripheral garland catch drain and stepped masonry cascade chute.\n5. SDRF REHABILITATION: SDRF housing disaster relief allowance for structural plinth stabilization.",
       "plain_language_explanation": {
         "summary_title": "Moderate Landslide & Dwelling Impact in Mandi Sector",
         "what_happened": "A steep section of the hillside gave way, sending wet mud, soil, and debris crashing directly into the back and side of a residential house.",
@@ -25544,7 +27869,7 @@
           "landslide_anatomy": {
             "crown_and_scarp": "Detachment main scarp H = 6.40m (upper face 3.60m @ 54\u00b0 inclination), open tension fissures 15-40mm",
             "displaced_mass": "48.0 m\u00b3 in-situ (60.00 m\u00b3 bulked) colluvial overburden and jointed clasts",
-            "toe_and_foot": "Accumulation debris lobe encroaching 0.00m across carriageway and choking roadside drain"
+            "toe_and_foot": "Displaced colluvial runout lobe encroaching 0.00m across carriageway and choking roadside drain"
           },
           "standard_reference": "USGS Circular 1325 (Highland & Bobrowsky, 2008) / Cruden & Varnes (1996)"
         },
@@ -26012,7 +28337,7 @@
             "sl_no": 2,
             "item_code": "MoRTH 304 / IS:1200",
             "work_package": "Foundation Excavation",
-            "description": "Foundation trench excavation in soil and colluvial debris with temporary timber shoring for RCC cantilever retaining wall behind dwelling. (20.0m \u00d7 1.65m \u00d7 0.9m)",
+            "description": "Foundation trench excavation in soil and colluvial mass with temporary timber shoring for RCC cantilever retaining wall behind dwelling. (20.0m \u00d7 1.65m \u00d7 0.9m)",
             "short_description": "Foundation excavation in soil/colluvium with shoring behind house",
             "quantity": 29.7,
             "unit": "m\u00b3",
@@ -26558,7 +28883,7 @@
             "sl_no": 2,
             "item_code": "MoRTH 304 / IS:1200",
             "work_package": "Foundation Excavation",
-            "description": "Foundation trench excavation in soil and colluvial debris with temporary timber shoring for RCC cantilever retaining wall behind dwelling. (20.0m \u00d7 1.65m \u00d7 0.9m)",
+            "description": "Foundation trench excavation in soil and colluvial mass with temporary timber shoring for RCC cantilever retaining wall behind dwelling. (20.0m \u00d7 1.65m \u00d7 0.9m)",
             "short_description": "Foundation excavation in soil/colluvium with shoring behind house",
             "quantity": 29.7,
             "unit": "m\u00b3",
@@ -27013,7 +29338,7 @@
           "sl_no": 2,
           "item_code": "MoRTH 304 / IS:1200",
           "work_package": "Foundation Excavation",
-          "description": "Foundation trench excavation in soil and colluvial debris with temporary timber shoring for RCC cantilever retaining wall behind dwelling. (20.0m \u00d7 1.65m \u00d7 0.9m)",
+          "description": "Foundation trench excavation in soil and colluvial mass with temporary timber shoring for RCC cantilever retaining wall behind dwelling. (20.0m \u00d7 1.65m \u00d7 0.9m)",
           "short_description": "Foundation excavation in soil/colluvium with shoring behind house",
           "quantity": 29.7,
           "unit": "m\u00b3",
@@ -27995,7 +30320,7 @@
       "site_context": {
         "environment_type": "Steep Metamorphic Rock Cliff Face",
         "impacted_assets": "Mandi Sub-Divisional Hill Road Corridor",
-        "structural_damage": "Carriageway blocked by debris accumulation"
+        "structural_damage": "Carriageway blocked by displaced colluvial mass accumulation"
       },
       "slope_characteristics": {
         "presence_above": true,
@@ -28280,7 +30605,7 @@
       "visual_analysis": {
         "material_composition": "Sandstone (Greyish Brown to Buff with Iron Oxide Staining)",
         "slope_condition": "Cut angle 63\u00b0 to 67\u00b0 (Unstable Hill Cut Face), Convex Escarpment",
-        "infrastructure_impact": "Mandi Sub-Divisional Hill Road Corridor: Carriageway blocked by debris accumulation",
+        "infrastructure_impact": "Mandi Sub-Divisional Hill Road Corridor: Carriageway blocked by displaced colluvial mass accumulation",
         "drainage_and_seepage": "Seepage: Active, Drainage: Clogged / Lacking",
         "optical_geometry": null
       },
@@ -28312,7 +30637,7 @@
           "landslide_anatomy": {
             "crown_and_scarp": "Detachment main scarp H = 16.00m (upper face 16.00m @ 76\u00b0 inclination), open tension fissures 15-40mm",
             "displaced_mass": "64.7 m\u00b3 in-situ (80.85 m\u00b3 bulked) colluvial overburden and jointed clasts",
-            "toe_and_foot": "Accumulation debris lobe encroaching 3.10m across carriageway and choking roadside drain"
+            "toe_and_foot": "Displaced colluvial runout lobe encroaching 3.10m across carriageway and choking roadside drain"
           },
           "standard_reference": "USGS Circular 1325 (Highland & Bobrowsky, 2008) / Cruden & Varnes (1996)"
         },
@@ -30293,7 +32618,7 @@
       "senior_engineer_remarks": "Automated geotechnical analysis and civil BOQ cost estimation are strictly suspended (\u20b9 0) until authentic field imagery is uploaded.",
       "plain_language_explanation": {
         "summary_title": "Slope Incident Assessment \u2014 Mandi Sector \u2014 Hill Road Corridor",
-        "what_happened": "A steep section of the hillside failed, depositing approximately 178 m\u00b3 of colluvial debris and boulders across the corridor.",
+        "what_happened": "A steep section of the hillside failed, depositing approximately 178 m\u00b3 of colluvial mass and fractured rock clasts across the corridor.",
         "why_it_happened": "Heavy precipitation saturated structural discontinuities dipping 57\u00b0 into the formation, inducing hydrostatic cleft-water pressure and shear displacement.",
         "property_and_access_impact": "Passage is obstructed (2.95 m (Single-Lane Restricted / Shoulder Lost: 2.30m Operable)). Single-lane transit is restricted under safety spotters.",
         "road_and_travel_impact": "Passage is obstructed (2.95 m (Single-Lane Restricted / Shoulder Lost: 2.30m Operable)). Single-lane transit is restricted under safety spotters.",
@@ -30319,7 +32644,7 @@
           "landslide_anatomy": {
             "crown_and_scarp": "Detachment main scarp H = 7.60m (upper face 4.90m @ 66\u00b0 inclination), open tension fissures 15-40mm",
             "displaced_mass": "145.0 m\u00b3 in-situ (181.25 m\u00b3 bulked) colluvial overburden and jointed clasts",
-            "toe_and_foot": "Accumulation debris lobe encroaching 2.95m across carriageway and choking roadside drain"
+            "toe_and_foot": "Displaced colluvial runout lobe encroaching 2.95m across carriageway and choking roadside drain"
           },
           "standard_reference": "USGS Circular 1325 (Highland & Bobrowsky, 2008) / Cruden & Varnes (1996)"
         },
@@ -32826,7 +35151,7 @@
       "senior_engineer_remarks": "Automated geotechnical analysis and civil BOQ cost estimation are strictly suspended (\u20b9 0) until authentic field imagery is uploaded.",
       "plain_language_explanation": {
         "summary_title": "Slope Incident Assessment \u2014 Mandi Sector \u2014 Hill Road Corridor",
-        "what_happened": "A steep section of the hillside failed, depositing approximately 181 m\u00b3 of colluvial debris and boulders across the corridor.",
+        "what_happened": "A steep section of the hillside failed, depositing approximately 181 m\u00b3 of colluvial mass and fractured rock clasts across the corridor.",
         "why_it_happened": "Heavy precipitation saturated structural discontinuities dipping 57\u00b0 into the formation, inducing hydrostatic cleft-water pressure and shear displacement.",
         "property_and_access_impact": "Passage is obstructed (2.95 m (Single-Lane Restricted / Shoulder Lost: 2.30m Operable)). Single-lane transit is restricted under safety spotters.",
         "road_and_travel_impact": "Passage is obstructed (2.95 m (Single-Lane Restricted / Shoulder Lost: 2.30m Operable)). Single-lane transit is restricted under safety spotters.",
@@ -32852,7 +35177,7 @@
           "landslide_anatomy": {
             "crown_and_scarp": "Detachment main scarp H = 7.60m (upper face 4.90m @ 66\u00b0 inclination), open tension fissures 15-40mm",
             "displaced_mass": "145.0 m\u00b3 in-situ (181.25 m\u00b3 bulked) colluvial overburden and jointed clasts",
-            "toe_and_foot": "Accumulation debris lobe encroaching 2.95m across carriageway and choking roadside drain"
+            "toe_and_foot": "Displaced colluvial runout lobe encroaching 2.95m across carriageway and choking roadside drain"
           },
           "standard_reference": "USGS Circular 1325 (Highland & Bobrowsky, 2008) / Cruden & Varnes (1996)"
         },
