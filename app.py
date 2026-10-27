@@ -484,9 +484,12 @@ def home():
     return render_template("index.html")
 
 @app.get("/explore")
-@app.get("/api")
 def explore():
     return render_template("explore.html", cesium_ion_token=CESIUM_ION_TOKEN)
+
+@app.get("/api")
+def api_index():
+    return redirect(url_for("explore"))
 
 def get_historical_events():
     events_path = Path(__file__).resolve().parent / "data" / "historical_events.json"

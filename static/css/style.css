@@ -8185,7 +8185,7 @@ button:disabled {
 }
 
 /* =========================================================
-   GEOSPATIAL INTELLIGENCE EXPLORER CONSOLE
+   LANDSLIDE INVENTORY GIS CONSOLE
    ========================================================= */
 
 .gis-console-layout {
@@ -10102,8 +10102,13 @@ button:disabled {
 /* Research & Development Team */
 .team-cards-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 18px;
+}
+@media (max-width: 1100px) {
+    .team-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 .member-card {
