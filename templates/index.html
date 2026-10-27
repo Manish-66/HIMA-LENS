@@ -38,7 +38,7 @@ HIMA-LENS | Himalayan Landslide Intelligence Platform
 
                 <a href="#district-matrix" class="hero-secondary-button">
                     <span class="scroll-icon" aria-hidden="true">&darr;</span>
-                    <span>12-District Corridors</span>
+                    <span>12-District Inventory</span>
                 </a>
             </div>
 
@@ -243,17 +243,17 @@ HIMA-LENS | Himalayan Landslide Intelligence Platform
                 </a>
             </div>
 
-            <!-- 12-District Interactive Vulnerability Grid -->
+            <!-- 12-District Interactive Inventory Grid -->
             <div class="district-matrix-wrapper" id="district-matrix">
                 <div class="matrix-header">
                     <div class="matrix-header-left">
-                        <h3 class="matrix-title">12-District Hazard Vulnerability Index</h3>
-                        <p class="matrix-subtitle">Select any administrative division to explore localized slope failures, highway bottlenecks, and historical records.</p>
+                        <h3 class="matrix-title">12-District Spatial Inventory Directory</h3>
+                        <p class="matrix-subtitle">Select any administrative division to explore documented landslide locations, field reconnaissance points, and highway spatial records.</p>
                     </div>
                     <div class="matrix-legend">
-                        <span class="matrix-tier-pill tier-high">High Risk Corridor</span>
-                        <span class="matrix-tier-pill tier-moderate">Moderate-High</span>
-                        <span class="matrix-tier-pill tier-standard">Regional Monitor</span>
+                        <span class="matrix-tier-pill tier-high">Extensive Data (&gt;1,000 Points)</span>
+                        <span class="matrix-tier-pill tier-moderate">Moderate Sample (300&ndash;1,000 Points)</span>
+                        <span class="matrix-tier-pill tier-standard">Baseline Records (&lt;300 Points)</span>
                     </div>
                 </div>
 
@@ -261,120 +261,120 @@ HIMA-LENS | Himalayan Landslide Intelligence Platform
                     <a href="{{ url_for('explore') }}?district=Mandi" class="district-chip chip-high" title="Explore Mandi landslide inventory">
                         <div class="chip-top">
                             <span class="chip-name">Mandi</span>
-                            <span class="chip-tag tag-high">HIGH RISK</span>
+                            <span class="chip-tag tag-high">EXTENSIVE</span>
                         </div>
                         <div class="chip-stats">
-                            <strong>9,399</strong> records &bull; NH-21 Pandoh
+                            <strong>9,399</strong> data points &bull; NH-21 Pandoh Corridor
                         </div>
                     </a>
 
                     <a href="{{ url_for('explore') }}?district=Shimla" class="district-chip chip-high" title="Explore Shimla landslide inventory">
                         <div class="chip-top">
                             <span class="chip-name">Shimla</span>
-                            <span class="chip-tag tag-high">HIGH RISK</span>
+                            <span class="chip-tag tag-high">EXTENSIVE</span>
                         </div>
                         <div class="chip-stats">
-                            <strong>1,240</strong> records &bull; NH-05 Corridor
+                            <strong>1,240</strong> data points &bull; NH-05 Corridor
                         </div>
                     </a>
 
                     <a href="{{ url_for('explore') }}?district=Kullu" class="district-chip chip-high" title="Explore Kullu landslide inventory">
                         <div class="chip-top">
                             <span class="chip-name">Kullu</span>
-                            <span class="chip-tag tag-high">HIGH RISK</span>
+                            <span class="chip-tag tag-mod">MODERATE</span>
                         </div>
                         <div class="chip-stats">
-                            <strong>820</strong> records &bull; Beas Gorge
+                            <strong>820</strong> data points &bull; Beas River Valley
                         </div>
                     </a>
 
                     <a href="{{ url_for('explore') }}?district=Kangra" class="district-chip chip-mod" title="Explore Kangra landslide inventory">
                         <div class="chip-top">
                             <span class="chip-name">Kangra</span>
-                            <span class="chip-tag tag-mod">MOD-HIGH</span>
+                            <span class="chip-tag tag-mod">MODERATE</span>
                         </div>
                         <div class="chip-stats">
-                            <strong>740</strong> records &bull; MBT Thrust
+                            <strong>740</strong> data points &bull; Dhauladhar Flank
                         </div>
                     </a>
 
                     <a href="{{ url_for('explore') }}?district=Kinnaur" class="district-chip chip-high" title="Explore Kinnaur landslide inventory">
                         <div class="chip-top">
                             <span class="chip-name">Kinnaur</span>
-                            <span class="chip-tag tag-high">HIGH RISK</span>
+                            <span class="chip-tag tag-mod">MODERATE</span>
                         </div>
                         <div class="chip-stats">
-                            <strong>380</strong> records &bull; Rockfall Cliffs
+                            <strong>380</strong> data points &bull; Satluj Valley Corridor
                         </div>
                     </a>
 
                     <a href="{{ url_for('explore') }}?district=Chamba" class="district-chip chip-mod" title="Explore Chamba landslide inventory">
                         <div class="chip-top">
                             <span class="chip-name">Chamba</span>
-                            <span class="chip-tag tag-mod">MOD-HIGH</span>
+                            <span class="chip-tag tag-mod">MODERATE</span>
                         </div>
                         <div class="chip-stats">
-                            <strong>450</strong> records &bull; Ravi Catchment
+                            <strong>450</strong> data points &bull; Ravi River Basin
                         </div>
                     </a>
 
                     <a href="{{ url_for('explore') }}?district=Solan" class="district-chip chip-std" title="Explore Solan landslide inventory">
                         <div class="chip-top">
                             <span class="chip-name">Solan</span>
-                            <span class="chip-tag tag-std">MODERATE</span>
+                            <span class="chip-tag tag-mod">MODERATE</span>
                         </div>
                         <div class="chip-stats">
-                            <strong>320</strong> records &bull; Sub-Himalayan
+                            <strong>320</strong> data points &bull; Kalka-Shimla Corridor
                         </div>
                     </a>
 
                     <a href="{{ url_for('explore') }}?district=Sirmaur" class="district-chip chip-std" title="Explore Sirmaur landslide inventory">
                         <div class="chip-top">
                             <span class="chip-name">Sirmaur</span>
-                            <span class="chip-tag tag-std">MODERATE</span>
+                            <span class="chip-tag tag-std">BASELINE</span>
                         </div>
                         <div class="chip-stats">
-                            <strong>280</strong> records &bull; Giri Basin
+                            <strong>280</strong> data points &bull; Giri River Catchment
                         </div>
                     </a>
 
                     <a href="{{ url_for('explore') }}?district=Bilaspur" class="district-chip chip-std" title="Explore Bilaspur landslide inventory">
                         <div class="chip-top">
                             <span class="chip-name">Bilaspur</span>
-                            <span class="chip-tag tag-std">MONITORED</span>
+                            <span class="chip-tag tag-std">BASELINE</span>
                         </div>
                         <div class="chip-stats">
-                            <strong>210</strong> records &bull; Reservoir Rim
+                            <strong>210</strong> data points &bull; Gobind Sagar Basin
                         </div>
                     </a>
 
                     <a href="{{ url_for('explore') }}?district=Hamirpur" class="district-chip chip-std" title="Explore Hamirpur landslide inventory">
                         <div class="chip-top">
                             <span class="chip-name">Hamirpur</span>
-                            <span class="chip-tag tag-std">MONITORED</span>
+                            <span class="chip-tag tag-std">BASELINE</span>
                         </div>
                         <div class="chip-stats">
-                            <strong>180</strong> records &bull; Low-Angle Slopes
+                            <strong>180</strong> data points &bull; Lower Shivalik Range
                         </div>
                     </a>
 
                     <a href="{{ url_for('explore') }}?district=Una" class="district-chip chip-std" title="Explore Una landslide inventory">
                         <div class="chip-top">
                             <span class="chip-name">Una</span>
-                            <span class="chip-tag tag-std">MONITORED</span>
+                            <span class="chip-tag tag-std">BASELINE</span>
                         </div>
                         <div class="chip-stats">
-                            <strong>120</strong> records &bull; Foothill Basin
+                            <strong>120</strong> data points &bull; Swan Valley Corridor
                         </div>
                     </a>
 
                     <a href="{{ url_for('explore') }}?district=Lahaul+and+Spiti" class="district-chip chip-std" title="Explore Lahaul and Spiti landslide inventory">
                         <div class="chip-top">
                             <span class="chip-name">Lahaul &amp; Spiti</span>
-                            <span class="chip-tag tag-std">ALPINE</span>
+                            <span class="chip-tag tag-std">BASELINE</span>
                         </div>
                         <div class="chip-stats">
-                            <strong>80</strong> records &bull; Permafrost
+                            <strong>80</strong> data points &bull; Chandra-Bhaga Valley
                         </div>
                     </a>
                 </div>

@@ -16366,16 +16366,19 @@ a.stat-card.stat-card-primary:hover {
     letter-spacing: 0.04em;
 }
 .tier-high {
-    background: #fee2e2;
-    color: #991b1b;
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #bbf7d0;
 }
 .tier-moderate {
-    background: #fef3c7;
-    color: #92400e;
-}
-.tier-standard {
     background: #e0f2fe;
     color: #0369a1;
+    border: 1px solid #bae6fd;
+}
+.tier-standard {
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #e2e8f0;
 }
 
 .district-chip-grid {
@@ -16422,16 +16425,19 @@ a.stat-card.stat-card-primary:hover {
     letter-spacing: 0.05em;
 }
 .tag-high {
-    background: #fee2e2;
-    color: #991b1b;
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #bbf7d0;
 }
 .tag-mod {
-    background: #fef3c7;
-    color: #92400e;
-}
-.tag-std {
     background: #e0f2fe;
     color: #0369a1;
+    border: 1px solid #bae6fd;
+}
+.tag-std {
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #e2e8f0;
 }
 .chip-stats {
     font-size: 12px;
