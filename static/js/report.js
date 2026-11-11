@@ -225,6 +225,7 @@ document.addEventListener("DOMContentLoaded", function () {
             selectedPhotoFiles.push(file);
         }
         renderPhotoPreviews();
+        autoExtractAndApplyPhotoCoordinates();
     }
 
     function renderPhotoPreviews() {
@@ -263,6 +264,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 e.stopPropagation();
                 selectedPhotoFiles.splice(idx, 1);
                 renderPhotoPreviews();
+                autoExtractAndApplyPhotoCoordinates();
             };
 
             const img = document.createElement("img");
@@ -273,9 +275,15 @@ document.addEventListener("DOMContentLoaded", function () {
             };
             reader.readAsDataURL(file);
 
+            const gpsTag = document.createElement("span");
+            gpsTag.className = `preview-card-gps preview-card-gps-${idx}`;
+            gpsTag.style.cssText = "position:absolute; bottom:3px; left:3px; background:rgba(15,23,42,0.88); color:#a7f3d0; font-size:7.2px; font-weight:800; padding:1px 4px; border-radius:2px; z-index:2; display:none; letter-spacing:0.2px;";
+            gpsTag.title = "GPS coordinates extracted from photo metadata";
+
             card.appendChild(tag);
             card.appendChild(removeBtn);
             card.appendChild(img);
+            card.appendChild(gpsTag);
             previewGrid.appendChild(card);
         });
 
@@ -297,6 +305,297 @@ document.addEventListener("DOMContentLoaded", function () {
         if (previewGrid) previewGrid.innerHTML = "";
         if (dropzoneEmpty) dropzoneEmpty.style.display = "flex";
         if (dropzonePreview) dropzonePreview.style.display = "none";
+        if (gpsFeedback && (gpsFeedback.textContent.includes("photo metadata") || gpsFeedback.textContent.includes("Photo GPS"))) {
+            gpsFeedback.textContent = "Sensor idle";
+            gpsFeedback.className = "gps-feedback";
+        }
+    }
+
+    // Helper: Haversine distance in meters for GPS cross-verification
+    function computeHaversineMeters(lat1, lon1, lat2, lon2) {
+        const R = 6371000;
+        const toRad = Math.PI / 180;
+        const dLat = (lat2 - lat1) * toRad;
+        const dLon = (lon2 - lon1) * toRad;
+        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                  Math.cos(lat1 * toRad) * Math.cos(lat2 * toRad) *
+                  Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        return 2 * R * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    }
+
+    // Himachal Pradesh 12-District Centroids for automated district selection
+    const HP_DISTRICT_CENTROIDS = [
+        { name: "Mandi", lat: 31.7082, lng: 76.9319 },
+        { name: "Shimla", lat: 31.1048, lng: 77.1734 },
+        { name: "Kullu", lat: 31.9579, lng: 77.1095 },
+        { name: "Kangra", lat: 32.0998, lng: 76.2691 },
+        { name: "Chamba", lat: 32.5534, lng: 76.1258 },
+        { name: "Solan", lat: 30.9045, lng: 77.0967 },
+        { name: "Sirmaur", lat: 30.6000, lng: 77.3000 },
+        { name: "Kinnaur", lat: 31.6510, lng: 78.4752 },
+        { name: "Lahaul And Spiti", lat: 32.5694, lng: 77.5855 },
+        { name: "Bilaspur", lat: 31.3444, lng: 76.7578 },
+        { name: "Hamirpur", lat: 31.6862, lng: 76.5213 },
+        { name: "Una", lat: 31.4685, lng: 76.2708 }
+    ];
+
+    function autoSelectNearestDistrict(lat, lng) {
+        const districtSelect = document.getElementById("rep-district");
+        if (!districtSelect) return;
+        if (districtSelect.value) return; // Keep user's explicit manual selection
+
+        let closest = "Mandi";
+        let minD = Infinity;
+        HP_DISTRICT_CENTROIDS.forEach(d => {
+            const dist = computeHaversineMeters(lat, lng, d.lat, d.lng);
+            if (dist < minD) {
+                minD = dist;
+                closest = d.name;
+            }
+        });
+
+        for (let i = 0; i < districtSelect.options.length; i++) {
+            if (districtSelect.options[i].value.toLowerCase() === closest.toLowerCase()) {
+                districtSelect.selectedIndex = i;
+                break;
+            }
+        }
+    }
+
+    // Helper: Client-side EXIF GPS extraction from File object (TIFF IFD GPS tag 0x8825)
+    async function extractFileExifGPS(file) {
+        return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const buffer = e.target.result;
+                    const view = new DataView(buffer);
+                    if (view.byteLength < 16) return resolve(null);
+
+                    // JPEG standard check
+                    if (view.getUint16(0, false) === 0xFFD8) {
+                        let offset = 2;
+                        while (offset < view.byteLength - 4) {
+                            const marker = view.getUint16(offset, false);
+                            offset += 2;
+                            if (marker === 0xFFE1) { // APP1 segment
+                                const segLen = view.getUint16(offset, false);
+                                offset += 2;
+                                // Verify 'Exif\0\0' signature
+                                if (offset + 6 <= view.byteLength &&
+                                    view.getUint32(offset, false) === 0x45786966 &&
+                                    view.getUint16(offset + 4, false) === 0x0000) {
+                                    offset += 6;
+                                    const tiffStart = offset;
+                                    const isLittle = view.getUint16(tiffStart, false) === 0x4949; // 'II' vs 'MM'
+                                    const ifd0Offset = view.getUint32(tiffStart + 4, isLittle);
+                                    let ifdOffset = tiffStart + ifd0Offset;
+                                    if (ifdOffset >= view.byteLength) return resolve(null);
+                                    const numEntries = view.getUint16(ifdOffset, isLittle);
+                                    ifdOffset += 2;
+                                    let gpsOffset = 0;
+                                    for (let i = 0; i < numEntries; i++) {
+                                        if (ifdOffset + (i * 12) + 12 > view.byteLength) break;
+                                        const tag = view.getUint16(ifdOffset + (i * 12), isLittle);
+                                        if (tag === 0x8825) { // GPS Info IFD tag
+                                            gpsOffset = tiffStart + view.getUint32(ifdOffset + (i * 12) + 8, isLittle);
+                                            break;
+                                        }
+                                    }
+                                    if (gpsOffset && gpsOffset + 2 <= view.byteLength) {
+                                        const numGpsEntries = view.getUint16(gpsOffset, isLittle);
+                                        gpsOffset += 2;
+                                        let latRef = 'N', lngRef = 'E', latValues = null, lngValues = null;
+                                        for (let i = 0; i < numGpsEntries; i++) {
+                                            if (gpsOffset + (i * 12) + 12 > view.byteLength) break;
+                                            const tag = view.getUint16(gpsOffset + (i * 12), isLittle);
+                                            const rawOffset = view.getUint32(gpsOffset + (i * 12) + 8, isLittle);
+                                            const valOffset = tiffStart + rawOffset;
+
+                                            if (tag === 1) { // GPSLatitudeRef
+                                                const inlineChar = String.fromCharCode(view.getUint8(gpsOffset + (i * 12) + 8));
+                                                const ptrChar = (valOffset < view.byteLength) ? String.fromCharCode(view.getUint8(valOffset)) : '';
+                                                latRef = (inlineChar === 'S' || inlineChar === 'N') ? inlineChar : (ptrChar === 'S' ? 'S' : 'N');
+                                            } else if (tag === 2 && valOffset + 24 <= view.byteLength) { // GPSLatitude
+                                                const dNom = view.getUint32(valOffset, isLittle), dDen = view.getUint32(valOffset + 4, isLittle);
+                                                const mNom = view.getUint32(valOffset + 8, isLittle), mDen = view.getUint32(valOffset + 12, isLittle);
+                                                const sNom = view.getUint32(valOffset + 16, isLittle), sDen = view.getUint32(valOffset + 20, isLittle);
+                                                latValues = [
+                                                    dDen ? dNom / dDen : 0,
+                                                    mDen ? mNom / mDen : 0,
+                                                    sDen ? sNom / sDen : 0
+                                                ];
+                                            } else if (tag === 3) { // GPSLongitudeRef
+                                                const inlineChar = String.fromCharCode(view.getUint8(gpsOffset + (i * 12) + 8));
+                                                const ptrChar = (valOffset < view.byteLength) ? String.fromCharCode(view.getUint8(valOffset)) : '';
+                                                lngRef = (inlineChar === 'W' || inlineChar === 'E') ? inlineChar : (ptrChar === 'W' ? 'W' : 'E');
+                                            } else if (tag === 4 && valOffset + 24 <= view.byteLength) { // GPSLongitude
+                                                const dNom = view.getUint32(valOffset, isLittle), dDen = view.getUint32(valOffset + 4, isLittle);
+                                                const mNom = view.getUint32(valOffset + 8, isLittle), mDen = view.getUint32(valOffset + 12, isLittle);
+                                                const sNom = view.getUint32(valOffset + 16, isLittle), sDen = view.getUint32(valOffset + 20, isLittle);
+                                                lngValues = [
+                                                    dDen ? dNom / dDen : 0,
+                                                    mDen ? mNom / mDen : 0,
+                                                    sDen ? sNom / sDen : 0
+                                                ];
+                                            }
+                                        }
+                                        if (latValues && lngValues) {
+                                            let lat = latValues[0] + latValues[1]/60 + latValues[2]/3600;
+                                            let lng = lngValues[0] + lngValues[1]/60 + lngValues[2]/3600;
+                                            if (latRef === 'S') lat = -lat;
+                                            if (lngRef === 'W') lng = -lng;
+                                            if (isFinite(lat) && isFinite(lng) && (lat !== 0 || lng !== 0)) {
+                                                return resolve({ lat: Number(lat.toFixed(6)), lng: Number(lng.toFixed(6)) });
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    // Non-Exif APP1 (e.g. Adobe XMP) - skip to end of segment safely
+                                    if (segLen > 2) {
+                                        offset += (segLen - 2);
+                                    }
+                                }
+                            } else if ((marker & 0xFF00) === 0xFF00) {
+                                if (marker === 0xFFDA) break; // Start of Scan (image data)
+                                const len = view.getUint16(offset, false);
+                                offset += len;
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+                    resolve(null);
+                } catch {
+                    resolve(null);
+                }
+            };
+            reader.onerror = () => resolve(null);
+            // Read 512 KB to reliably encompass large modern smartphone APP1 / EXIF blocks
+            reader.readAsArrayBuffer(file.slice(0, 524288));
+        });
+    }
+
+    // Server-assisted fallback for HEIC, TIFF, PNG, WebP, or rare vendor smartphone EXIF encodings
+    async function extractPhotoGpsViaApi(file) {
+        try {
+            const formData = new FormData();
+            formData.append("photo", file);
+            const resp = await fetch("/api/extract-exif-coords", {
+                method: "POST",
+                body: formData
+            });
+            if (resp.ok) {
+                const data = await resp.json();
+                if (data.has_gps && typeof data.latitude === "number" && typeof data.longitude === "number") {
+                    return {
+                        lat: Number(data.latitude.toFixed(6)),
+                        lng: Number(data.longitude.toFixed(6)),
+                        district: data.district
+                    };
+                }
+            }
+        } catch (e) {
+            // Non-blocking fallback
+        }
+        return null;
+    }
+
+    // Auto-extract and apply GPS coordinates from uploaded photo metadata (Client-Side + API Fallback)
+    async function autoExtractAndApplyPhotoCoordinates() {
+        if (!selectedPhotoFiles || selectedPhotoFiles.length === 0) return;
+
+        if (gpsFeedback) {
+            gpsFeedback.textContent = "Scanning photo for location metadata...";
+            gpsFeedback.className = "gps-feedback active";
+        }
+
+        const photoGpsList = [];
+        for (let i = 0; i < selectedPhotoFiles.length; i++) {
+            let coords = await extractFileExifGPS(selectedPhotoFiles[i]);
+            // If client-side parser didn't find coordinates, use Python PIL server-assisted extraction
+            if (!coords) {
+                coords = await extractPhotoGpsViaApi(selectedPhotoFiles[i]);
+            }
+            if (coords) {
+                photoGpsList.push({ file: selectedPhotoFiles[i], coords, index: i });
+                const tagEl = document.querySelector(`.preview-card-gps-${i}`);
+                if (tagEl) {
+                    tagEl.textContent = `📍 ${coords.lat.toFixed(4)}°, ${coords.lng.toFixed(4)}°`;
+                    tagEl.style.display = "block";
+                }
+            }
+        }
+
+        // Check if multiple photos have GPS coordinates
+        if (photoGpsList.length >= 2) {
+            for (let i = 0; i < photoGpsList.length; i++) {
+                for (let j = i + 1; j < photoGpsList.length; j++) {
+                    const d = computeHaversineMeters(
+                        photoGpsList[i].coords.lat,
+                        photoGpsList[i].coords.lng,
+                        photoGpsList[j].coords.lat,
+                        photoGpsList[j].coords.lng
+                    );
+                    if (d > 250) {
+                        showStatus(
+                            `<strong>Geographic Mismatch:</strong> Uploaded photos appear to be from different geographic locations (~${Math.round(d)}m apart). Please submit separate reports for separate landslide sites.`,
+                            "error"
+                        );
+                        if (gpsFeedback) {
+                            gpsFeedback.textContent = `Disparate photo locations detected (~${Math.round(d)}m apart)`;
+                            gpsFeedback.className = "gps-feedback warning";
+                        }
+                        return;
+                    }
+                }
+            }
+        }
+
+        if (photoGpsList.length > 0) {
+            const primary = photoGpsList[0].coords;
+            const lat = primary.lat;
+            const lng = primary.lng;
+
+            if (lat < 30.0 || lat > 34.0 || lng < 75.0 || lng > 80.0) {
+                if (gpsFeedback) {
+                    gpsFeedback.textContent = `Photo GPS (${lat.toFixed(2)}°N, ${lng.toFixed(2)}°E) is outside Himachal Pradesh`;
+                    gpsFeedback.className = "gps-feedback warning";
+                }
+                return;
+            }
+
+            // Auto-populate coordinates
+            updateCoordinates(lat, lng);
+
+            // Update Leaflet map marker & center view
+            if (marker && map) {
+                marker.setLatLng([lat, lng]);
+                map.setView([lat, lng], 14);
+            }
+
+            // Auto-select nearest district if district dropdown is empty
+            if (primary.district) {
+                const distSelect = document.getElementById("rep-district");
+                if (distSelect && !distSelect.value) {
+                    distSelect.value = primary.district;
+                }
+            } else {
+                autoSelectNearestDistrict(lat, lng);
+            }
+
+            // High-visibility green GPS lock feedback
+            if (gpsFeedback) {
+                gpsFeedback.innerHTML = `<span style="display:inline-flex; align-items:center; gap:5px; color:#047857; font-weight:700;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> Coordinates auto-extracted from photo metadata (${lat.toFixed(5)}°N, ${lng.toFixed(5)}°E)</span>`;
+                gpsFeedback.className = "gps-feedback success";
+            }
+        } else {
+            // Explain clearly why coordinates were not auto-filled so user is not confused
+            if (gpsFeedback) {
+                gpsFeedback.innerHTML = `<span style="color:#b45309; font-weight:600;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle; margin-right:3px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>No GPS metadata found in uploaded photo. Please drop a pin on the map or click "Acquire High-Precision GPS".</span>`;
+                gpsFeedback.className = "gps-feedback warning";
+            }
+        }
     }
 
     // 4. Form Submission
@@ -304,17 +603,60 @@ document.addEventListener("DOMContentLoaded", function () {
         reportForm.addEventListener("submit", async function (e) {
             e.preventDefault();
 
-            const lat = parseFloat(latInput?.value);
-            const lng = parseFloat(lngInput?.value);
+            let lat = parseFloat(latInput?.value);
+            let lng = parseFloat(lngInput?.value);
+
+            // If coordinates not set, attempt taking from photo metadata
+            if ((isNaN(lat) || isNaN(lng) || (lat === 0 && lng === 0)) && selectedPhotoFiles.length > 0) {
+                for (let i = 0; i < selectedPhotoFiles.length; i++) {
+                    const c = await extractFileExifGPS(selectedPhotoFiles[i]);
+                    if (c) {
+                        lat = c.lat;
+                        lng = c.lng;
+                        updateCoordinates(lat, lng);
+                        break;
+                    }
+                }
+            }
 
             if (isNaN(lat) || isNaN(lng)) {
-                showStatus("Please specify valid latitude and longitude coordinates.", "error");
+                showStatus("Please specify valid latitude and longitude coordinates, or upload a photo with GPS metadata.", "error");
                 return;
             }
 
             if (lat < 30.0 || lat > 34.0 || lng < 75.0 || lng > 80.0) {
                 showStatus("Report coordinates must be within Himachal Pradesh (30°N–34°N, 75°E–80°E).", "error");
                 return;
+            }
+
+            // Client-side EXIF GPS delta check for multi-photo uploads
+            if (selectedPhotoFiles.length >= 2) {
+                const photoGpsList = [];
+                for (let i = 0; i < selectedPhotoFiles.length; i++) {
+                    const coords = await extractFileExifGPS(selectedPhotoFiles[i]);
+                    if (coords) {
+                        photoGpsList.push({ file: selectedPhotoFiles[i], coords });
+                    }
+                }
+                if (photoGpsList.length >= 2) {
+                    for (let i = 0; i < photoGpsList.length; i++) {
+                        for (let j = i + 1; j < photoGpsList.length; j++) {
+                            const d = computeHaversineMeters(
+                                photoGpsList[i].coords.lat,
+                                photoGpsList[i].coords.lng,
+                                photoGpsList[j].coords.lat,
+                                photoGpsList[j].coords.lng
+                            );
+                            if (d > 250) {
+                                showStatus(
+                                    `<strong>Geographic Mismatch:</strong> Uploaded photos appear to be from different geographic locations (~${Math.round(d)}m apart). Please submit separate reports for separate landslide sites.`,
+                                    "error"
+                                );
+                                return;
+                            }
+                        }
+                    }
+                }
             }
 
             const formData = new FormData(reportForm);

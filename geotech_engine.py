@@ -2886,7 +2886,7 @@ def build_project_data_model(
     # 0. Check validity & non-terrain rejection
     is_valid = dossier.get("is_landslide_or_terrain", True)
     val_status = dossier.get("validation_status", "VALID_TERRAIN_IMAGE")
-    if not is_valid or val_status in ("INVALID_NON_TERRAIN_IMAGE", "NON_LANDSLIDE_STABLE_TERRAIN"):
+    if not is_valid or val_status in ("INVALID_NON_TERRAIN_IMAGE", "NON_LANDSLIDE_STABLE_TERRAIN", "INCONSISTENT_MULTI_SITE_IMAGES"):
         return _build_disqualified_non_terrain_model()
 
     report_id = str(

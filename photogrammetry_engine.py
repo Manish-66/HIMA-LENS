@@ -143,6 +143,142 @@ def extract_camera_optics(pil_img: "Any") -> dict[str, Any]:
     }
 
 
+def haversine_distance_meters(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    """Computes great-circle distance between two GPS coordinates in meters using the Haversine formula."""
+    R = 6371000.0  # Earth radius in meters
+    phi1, phi2 = math.radians(lat1), math.radians(lat2)
+    dphi = math.radians(lat2 - lat1)
+    dlam = math.radians(lon2 - lon1)
+    a = math.sin(dphi / 2.0)**2 + math.cos(phi1) * math.cos(phi2) * math.sin(dlam / 2.0)**2
+    return 2.0 * R * math.atan2(math.sqrt(a), math.sqrt(1.0 - a))
+
+
+def extract_exif_gps_coordinates(image_source: Any) -> tuple[float, float] | None:
+    """Extracts decimal latitude and longitude (lat, lng) from EXIF GPS tags of a JPEG/TIFF image.
+
+    Accepts PIL Image, file-like object, bytes, or file path.
+    Returns (latitude, longitude) as decimal degrees or None if no valid GPS metadata exists.
+    """
+    try:
+        from PIL import Image, ExifTags  # noqa: PLC0415
+    except ImportError:
+        return None
+
+    try:
+        if isinstance(image_source, (str, Path)):
+            pil_img = Image.open(image_source)
+        elif isinstance(image_source, bytes):
+            pil_img = Image.open(io.BytesIO(image_source))
+        elif hasattr(image_source, "read"):
+            pos = None
+            if hasattr(image_source, "tell"):
+                try:
+                    pos = image_source.tell()
+                except Exception:
+                    pos = None
+            raw_bytes = image_source.read()
+            if hasattr(image_source, "seek"):
+                image_source.seek(pos if pos is not None else 0)
+            pil_img = Image.open(io.BytesIO(raw_bytes))
+        elif hasattr(image_source, "getexif"):
+            pil_img = image_source
+        else:
+            return None
+
+        exif = None
+        try:
+            exif = pil_img.getexif()
+        except Exception:
+            exif = None
+
+        gps_ifd = None
+        if exif:
+            if hasattr(ExifTags, "IFD") and hasattr(ExifTags.IFD, "GPSInfo"):
+                try:
+                    gps_ifd = exif.get_ifd(ExifTags.IFD.GPSInfo)
+                except Exception:
+                    gps_ifd = None
+            if not gps_ifd:
+                gps_ifd = exif.get(34853)
+
+        # Fallback to legacy _getexif() if getexif() did not yield GPS dict
+        if not gps_ifd and hasattr(pil_img, "_getexif"):
+            try:
+                raw_exif = pil_img._getexif()
+                if raw_exif and isinstance(raw_exif, dict):
+                    gps_ifd = raw_exif.get(34853) or raw_exif.get("GPSInfo")
+            except Exception:
+                pass
+
+        if not gps_ifd or not isinstance(gps_ifd, dict):
+            # Fallback to XMP metadata extraction if present in image info
+            try:
+                raw_info = str(pil_img.info or {})
+                xmp_lat_m = re.search(r"GPSLatitude[=\x22\x27>:\s]+([0-9.,\s]+[NS]?)", raw_info, re.I)
+                xmp_lng_m = re.search(r"GPSLongitude[=\x22\x27>:\s]+([0-9.,\s]+[EW]?)", raw_info, re.I)
+                if xmp_lat_m and xmp_lng_m:
+                    def _parse_xmp_coord(val_str: str) -> float | None:
+                        val_clean = val_str.strip().strip('"').strip("'")
+                        ref = val_clean[-1].upper() if val_clean[-1].isalpha() else ""
+                        nums = re.findall(r'(\d+(?:\.\d+)?)', val_clean)
+                        if not nums:
+                            return None
+                        d = float(nums[0])
+                        m = float(nums[1]) if len(nums) > 1 else 0.0
+                        s = float(nums[2]) if len(nums) > 2 else 0.0
+                        dec = d + (m / 60.0) + (s / 3600.0)
+                        if ref in ('S', 'W'):
+                            dec = -dec
+                        return dec
+                    x_lat = _parse_xmp_coord(xmp_lat_m.group(1))
+                    x_lng = _parse_xmp_coord(xmp_lng_m.group(1))
+                    if x_lat is not None and x_lng is not None:
+                        return (round(x_lat, 6), round(x_lng, 6))
+            except Exception:
+                pass
+            return None
+
+        # Tags in GPS IFD: 1=LatRef, 2=Lat, 3=LngRef, 4=Lng
+        lat_ref = gps_ifd.get(1) or gps_ifd.get("GPSLatitudeRef", "N")
+        lat_val = gps_ifd.get(2) or gps_ifd.get("GPSLatitude")
+        lng_ref = gps_ifd.get(3) or gps_ifd.get("GPSLongitudeRef", "E")
+        lng_val = gps_ifd.get(4) or gps_ifd.get("GPSLongitude")
+
+        if lat_val is None or lng_val is None:
+            return None
+
+        def _to_decimal(coord: Any) -> float | None:
+            if isinstance(coord, (float, int)):
+                return float(coord)
+            if hasattr(coord, "__iter__"):
+                vals = list(coord)
+                if not vals:
+                    return None
+                d = float(vals[0]) if len(vals) > 0 else 0.0
+                m = float(vals[1]) if len(vals) > 1 else 0.0
+                s = float(vals[2]) if len(vals) > 2 else 0.0
+                return d + (m / 60.0) + (s / 3600.0)
+            return None
+
+        lat = _to_decimal(lat_val)
+        lng = _to_decimal(lng_val)
+        if lat is None or lng is None:
+            return None
+
+        if str(lat_ref).strip().upper() == "S":
+            lat = -lat
+        if str(lng_ref).strip().upper() == "W":
+            lng = -lng
+
+        if not (-90.0 <= lat <= 90.0 and -180.0 <= lng <= 180.0):
+            return None
+
+        return (round(lat, 6), round(lng, 6))
+    except Exception as exc:
+        logger.debug("EXIF GPS extraction failed or absent: %s", exc)
+        return None
+
+
 # =============================================================================
 # MODALITY 2: MONOCULAR DENSE 3D METRIC DEPTH & SURFACE NORMALS
 # =============================================================================

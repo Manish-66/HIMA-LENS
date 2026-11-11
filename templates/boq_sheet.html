@@ -1704,7 +1704,12 @@
 
 
         <!-- Real-Time Diagnostic & Optical Audit Status Bar -->
-        {% if assessment.validation_status in ('INVALID_NON_TERRAIN_IMAGE', 'NON_LANDSLIDE_STABLE_TERRAIN') %}
+        {% if assessment.validation_status == 'INCONSISTENT_MULTI_SITE_IMAGES' %}
+        <div style="background: #fef2f2; border: 1px solid #fecaca; border-left: 3px solid #dc2626; padding: 3px 8px; font-size: 8px; margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center; color: #991b1b;">
+          <span><strong>MULTI-SITE INCONSISTENCY DETECTED:</strong> Computer vision confirmed attached photographs depict disparate, unrelated landslide locations. Kinematic modeling &amp; BOQ calculation suspended (₹0). Please submit separate reports for separate landslide sites.</span>
+          <span style="background: #dc2626; color: #ffffff; padding: 1px 6px; border-radius: 2px; font-weight: 800; font-size: 7.2px; letter-spacing: 0.3px; white-space: nowrap;">DISPARATE SITES &bull; ₹0 BOQ</span>
+        </div>
+        {% elif assessment.validation_status in ('INVALID_NON_TERRAIN_IMAGE', 'NON_LANDSLIDE_STABLE_TERRAIN') %}
         <div style="background: #fef2f2; border: 1px solid #fecaca; border-left: 3px solid #dc2626; padding: 3px 8px; font-size: 8px; margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center; color: #991b1b;">
           <span><strong>OPTICAL AUDIT DISQUALIFICATION:</strong> Computer vision confirmed non-landslide media: <em>{{ assessment.detected_content or 'Non-geological scene' }}</em>. Civil remediation suspended; zero public works capital requisitioned.</span>
           <span style="background: #dc2626; color: #ffffff; padding: 1px 6px; border-radius: 2px; font-weight: 800; font-size: 7.2px; letter-spacing: 0.3px; white-space: nowrap;">REJECTED &bull; ₹0 BOQ</span>

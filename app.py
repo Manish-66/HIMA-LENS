@@ -777,13 +777,117 @@ def get_reports():
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
     return response
 
+HP_DISTRICT_CENTROIDS: list[tuple[str, float, float]] = [
+    ("Mandi", 31.7082, 76.9319),
+    ("Shimla", 31.1048, 77.1734),
+    ("Kullu", 31.9579, 77.1095),
+    ("Kangra", 32.0998, 76.2691),
+    ("Chamba", 32.5534, 76.1258),
+    ("Solan", 30.9045, 77.0967),
+    ("Sirmaur", 30.6000, 77.3000),
+    ("Kinnaur", 31.6510, 78.4752),
+    ("Lahaul And Spiti", 32.5694, 77.5855),
+    ("Bilaspur", 31.3444, 76.7578),
+    ("Hamirpur", 31.6862, 76.5213),
+    ("Una", 31.4685, 76.2708),
+]
+
+
+def resolve_nearest_hp_district(lat: float, lng: float) -> str:
+    """Resolves closest Himachal Pradesh administrative district from decimal coordinates."""
+    best_dist = float("inf")
+    best_name = "Mandi"
+    for name, c_lat, c_lng in HP_DISTRICT_CENTROIDS:
+        dist = photogrammetry_engine.haversine_distance_meters(lat, lng, c_lat, c_lng)
+        if dist < best_dist:
+            best_dist = dist
+            best_name = name
+    return best_name
+
+
 @app.post("/api/reports")
 def submit_report():
+    photo_urls = []
+    files_list = request.files.getlist("photos")
+    if not files_list:
+        files_list = request.files.getlist("photo")
+
+    # Filter valid image files
+    valid_files = [f for f in files_list if f and f.filename and allowed_image_file(f.filename)]
+
+    # -------------------------------------------------------------
+    # EXIF GPS EXTRACTION & DELTA CHECK (Cross-Photo Spatial Consistency)
+    # -------------------------------------------------------------
+    photo_coords: list[tuple[str, tuple[float, float]]] = []
+    for file in valid_files:
+        try:
+            file.seek(0)
+            coords = photogrammetry_engine.extract_exif_gps_coordinates(file.stream)
+            file.seek(0)
+            if coords:
+                photo_coords.append((file.filename, coords))
+        except Exception:
+            try:
+                file.seek(0)
+            except Exception:
+                pass
+
+    # If multiple uploaded photos contain GPS metadata, verify spatial proximity (< 250m)
+    if len(photo_coords) >= 2:
+        for i in range(len(photo_coords)):
+            for j in range(i + 1, len(photo_coords)):
+                fn1, (lat1, lon1) = photo_coords[i]
+                fn2, (lat2, lon2) = photo_coords[j]
+                dist_m = photogrammetry_engine.haversine_distance_meters(lat1, lon1, lat2, lon2)
+                if dist_m > 250.0:
+                    return jsonify(
+                        success=False,
+                        error="INCONSISTENT_IMAGE_LOCATIONS",
+                        message="Uploaded photos appear to be from different geographic locations. Please submit separate reports for separate landslide sites.",
+                        details={
+                            "photo_1": fn1,
+                            "photo_2": fn2,
+                            "distance_meters": round(dist_m, 1),
+                            "max_allowed_distance_meters": 250.0,
+                        }
+                    ), 400
+
+    # -------------------------------------------------------------
+    # COORDINATES EXTRACTION: MANUAL INPUT OR PHOTO EXIF METADATA
+    # -------------------------------------------------------------
+    raw_lat = request.form.get("latitude")
+    raw_lng = request.form.get("longitude")
+
+    lat: float | None = None
+    lng: float | None = None
+    coordinates_source = "form_input"
+
     try:
-        lat = float(request.form.get("latitude", 0))
-        lng = float(request.form.get("longitude", 0))
+        if raw_lat is not None and str(raw_lat).strip():
+            lat = float(raw_lat)
+        if raw_lng is not None and str(raw_lng).strip():
+            lng = float(raw_lng)
     except (TypeError, ValueError):
-        return jsonify(success=False, error="INVALID_COORDINATES", message="Valid decimal latitude and longitude are required."), 400
+        lat = None
+        lng = None
+
+    # Take coordinates from photo metadata if form coordinates were not supplied, zero, or out of bounds
+    if (lat is None or lng is None or (lat == 0.0 and lng == 0.0)) and photo_coords:
+        lat, lng = photo_coords[0][1]
+        coordinates_source = "photo_metadata_exif"
+    elif photo_coords and (lat is not None and lng is not None) and not (30.0 <= lat <= 34.0 and 75.0 <= lng <= 80.0):
+        # Fallback to valid photo EXIF if form input was outside HP
+        p_lat, p_lng = photo_coords[0][1]
+        if 30.0 <= p_lat <= 34.0 and 75.0 <= p_lng <= 80.0:
+            lat, lng = p_lat, p_lng
+            coordinates_source = "photo_metadata_exif"
+
+    if lat is None or lng is None or (lat == 0.0 and lng == 0.0):
+        return jsonify(
+            success=False,
+            error="INVALID_COORDINATES",
+            message="Valid decimal latitude and longitude are required (either manually entered, via GPS lock, or extracted from photo metadata)."
+        ), 400
 
     if not (30.0 <= lat <= 34.0 and 75.0 <= lng <= 80.0):
         return jsonify(
@@ -792,24 +896,22 @@ def submit_report():
             message=f"Coordinates ({lat:.4f}, {lng:.4f}) lie outside Himachal Pradesh boundaries (30.25°N–33.35°N, 75.45°E–79.20°E). Reporting is strictly limited to Himachal Pradesh terrain."
         ), 400
 
-    district = request.form.get("district", "Mandi").strip()
+    district = request.form.get("district", "").strip()
+    if not district or district.lower() in ("unknown", "select district...", "none"):
+        district = resolve_nearest_hp_district(lat, lng)
+
     incident_date = request.form.get("incident_date", datetime.utcnow().strftime("%Y-%m-%d %H:%M")).strip()
     movement_type = request.form.get("movement_type", "Slide").strip()
     severity = request.form.get("severity", "Moderate").strip()
     description = request.form.get("description", "").strip()
     reporter_name = request.form.get("reporter_name", "Anonymous").strip()
 
-    photo_urls = []
-    files_list = request.files.getlist("photos")
-    if not files_list:
-        files_list = request.files.getlist("photo")
-    for file in files_list:
-        if file and file.filename and allowed_image_file(file.filename):
-            u = supabase_db.upload_report_image(file, file.filename)
-            if u:
-                photo_urls.append(u)
-            if len(photo_urls) >= 4:
-                break
+    for file in valid_files:
+        u = supabase_db.upload_report_image(file, file.filename)
+        if u:
+            photo_urls.append(u)
+        if len(photo_urls) >= 4:
+            break
     photo_url = photo_urls[0] if photo_urls else ""
 
     report_id = f"IITM-CR-{uuid.uuid4().hex[:8].upper()}"
@@ -825,11 +927,14 @@ def submit_report():
         "reporter_name": reporter_name,
         "photo_url": photo_url,
         "photo_urls": photo_urls,
+        "coordinates_source": coordinates_source,
         "status": "active",
         "is_hidden": False,
         "ai_assessment": None,
         "created_at": datetime.utcnow().isoformat() + "Z"
     }
+    if photo_coords:
+        new_report["exif_coordinates"] = [round(photo_coords[0][1][0], 5), round(photo_coords[0][1][1], 5)]
 
     supabase_db.save_community_report(new_report)
 
@@ -842,6 +947,69 @@ def submit_report():
     )
 
     return jsonify(success=True, report=new_report), 201
+
+@app.post("/api/extract-exif-coords")
+def extract_photo_coords_api():
+    """Real-time endpoint for client-side auto-extraction of photo GPS coordinates.
+    Accepts photo files and returns extracted decimal coordinates, nearest HP district,
+    and territorial boundary verification.
+    """
+    files = request.files.getlist("photos") or request.files.getlist("photo") or []
+    if not files and request.files.get("file"):
+        files = [request.files.get("file")]
+
+    valid_files = [f for f in files if f and f.filename and allowed_image_file(f.filename)]
+    if not valid_files:
+        return jsonify(success=False, error="NO_VALID_FILES", message="No valid image files provided"), 400
+
+    results = []
+    for f in valid_files:
+        try:
+            f.seek(0)
+            coords = photogrammetry_engine.extract_exif_gps_coordinates(f.stream)
+            f.seek(0)
+            if coords:
+                lat, lng = coords
+                is_hp = (30.0 <= lat <= 34.0 and 75.0 <= lng <= 80.0)
+                district = resolve_nearest_hp_district(lat, lng) if is_hp else None
+                results.append({
+                    "filename": f.filename,
+                    "has_gps": True,
+                    "latitude": lat,
+                    "longitude": lng,
+                    "district": district,
+                    "is_in_hp": is_hp
+                })
+            else:
+                results.append({
+                    "filename": f.filename,
+                    "has_gps": False
+                })
+        except Exception as e:
+            results.append({
+                "filename": f.filename,
+                "has_gps": False,
+                "error": str(e)
+            })
+
+    gps_found = [r for r in results if r.get("has_gps")]
+    if gps_found:
+        primary = gps_found[0]
+        return jsonify(
+            success=True,
+            has_gps=True,
+            latitude=primary["latitude"],
+            longitude=primary["longitude"],
+            district=primary.get("district"),
+            is_in_hp=primary.get("is_in_hp", False),
+            all_results=results
+        )
+    return jsonify(
+        success=True,
+        has_gps=False,
+        message="No embedded GPS metadata found in uploaded image(s)",
+        all_results=results
+    )
 
 @app.get("/api/export")
 def export_dataset():

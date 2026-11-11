@@ -1,5 +1,20 @@
+# ==============================================================================
+# HIMA-LENS .gitignore
+# ==============================================================================
+
 # Environment & local secrets
 .env
+.env.*
+!.env.example
+*.key
+*.pem
+
+# AI Agent Frameworks & Local Workspace Tooling
+# (Keeps local agent skills on your disk without polluting the public Git repository)
+.agents/
+skills-lock.json
+.kilo/
+graphify-out/
 
 # Python virtual environment & bytecode
 .venv/
@@ -9,19 +24,28 @@ pyvenv.cfg
 __pycache__/
 *.py[cod]
 *$py.class
+*.pytest_cache/
+
+# Runtime Caches & Dynamic Alert Dumps
+data/ai_assessments_cache.json
+data/cap_alerts/*.xml
 
 # Editor & OS artifacts
 .vscode/
+.idea/
 *.swp
 *~
 .DS_Store
 Thumbs.db
 tempCodeRunnerFile.*
 
-# Archived files
+# Archived files & scratch
 archived_root_files/
+scratch/
+*.tmp
+*.bak
 
-# User uploads
+# User uploads (preserve .gitkeep)
 static/uploads/reports/*
 !static/uploads/reports/.gitkeep
 static/uploads/annotated/*
@@ -31,9 +55,9 @@ static/uploads/annotated/*
 *.pt
 evaluation_output/
 
-
-# Large binary 3D test models and root documents
+# Heavy binary documents and 3D models (allow mountain.glb for Terrain Lab)
 *.glb
+!static/models/mountain.glb
 *.pdf
 *.docx
 templates/preview_hero.html
@@ -42,13 +66,7 @@ static/js/preview_hero.js
 src/ts/preview_hero.ts
 src/ts/globals.d.ts
 
-# Graphify cache
-graphify-out/cache/
-graphify-out/2026-*/
-
-
-# Unneeded heavy data packages
+# Unneeded heavy data packages & legacy dumps
 Mandi_data/
 old_data.geojson
-graphify-out/
 *.lpkx

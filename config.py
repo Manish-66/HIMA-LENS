@@ -35,8 +35,10 @@ COMMUNITY_REPORTS_PATH = BASE_DIR / "data" / "community_reports.json"
 COMMUNITY_REPORTS_UPLOAD_DIR = BASE_DIR / "static" / "uploads" / "reports"
 APP_NAME = "HIMA-LENS"
 APP_DESCRIPTION = "Himachal Pradesh Landslide Inventory & Exploration System"
-DEFAULT_CESIUM_ION_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjMydHFDWnJKb2JMa3NOVS0iLCJqdGkiOiJkOGRiYTc4Mi00Mjc3LTRlNjktYTUwNC02MzBkOWM0MzUwZmYiLCJpZCI6NDgyODkzLCJzdWIiOiJNYW5pc2gtNjYiLCJpc3MiOiJodHRwczovL2FwaS5jZXNpdW0uY29tIiwiYXVkIjoiVW50aXRsZWQiLCJpYXQiOjE3ODg4MDkyODN9.hbQrfvjKTYJlOjipACK2GMH0zsoTjWwOoP_IxAhZQfg"
-CESIUM_ION_TOKEN = (os.environ.get("CESIUM_ION_TOKEN", "").strip() or DEFAULT_CESIUM_ION_TOKEN)
+
+# Cesium Ion 3D Globe Token
+DEFAULT_CESIUM_ION_TOKEN = ""
+CESIUM_ION_TOKEN = os.environ.get("CESIUM_ION_TOKEN", "").strip() or DEFAULT_CESIUM_ION_TOKEN
 
 # Supabase Database & Cloud Storage
 SUPABASE_URL = os.environ.get("SUPABASE_URL", "").strip().rstrip("/")
@@ -47,8 +49,8 @@ SUPABASE_BUCKET = os.environ.get("SUPABASE_BUCKET", "report-images").strip()
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
 
 # Roboflow Foundation Vision & SAM-3 Segmentation API
-ROBOFLOW_API_KEY = os.environ.get("ROBOFLOW_API_KEY", "X4vlwjpo7ijAmB70GCnL").strip()
-ROBOFLOW_WORKSPACE = os.environ.get("ROBOFLOW_WORKSPACE", "manish-kumar-s-workspace").strip()
+ROBOFLOW_API_KEY = os.environ.get("ROBOFLOW_API_KEY", "").strip()
+ROBOFLOW_WORKSPACE = os.environ.get("ROBOFLOW_WORKSPACE", "").strip()
 ROBOFLOW_INFER_URL = os.environ.get("ROBOFLOW_INFER_URL", "https://infer.roboflow.com").strip().rstrip("/")
 ANNOTATED_PLATES_DIR = BASE_DIR / "static" / "uploads" / "annotated"
 

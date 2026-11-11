@@ -1182,6 +1182,7 @@ def build_rejected_assessment_dossier(
     senior_remarks: str | None = None,
     plain_lang: dict[str, Any] | None = None,
     model_name: str = "Optical Audit",
+    validation_status: str = "INVALID_NON_TERRAIN_IMAGE",
 ) -> dict[str, Any]:
     """Builds a pristine, standardized rejection dossier for non-terrain media uploads.
     Guarantees all nested keys exist to prevent template render errors, while ensuring
@@ -1203,11 +1204,17 @@ def build_rejected_assessment_dossier(
     reporter = report.get("reporter_name") or "Community Observer"
     inc_date = _sanitize_date(report.get("incident_date") or report.get("created_at"))
 
+    is_multisite_reject = (validation_status == "INCONSISTENT_MULTI_SITE_IMAGES")
+    rejection_notice = (
+        "Cross-image coherence audit confirmed disparate, unrelated landslide locations. Kinematic synthesis and civil remediation suspended (₹0)."
+        if is_multisite_reject
+        else "Optical audit confirmed non-geological media or stable false alarm. Estimation suspended."
+    )
     zero_pdm = {
         "is_applicable": False,
         "status": "DISQUALIFIED_NON_TERRAIN",
         "failure_vector": "DISQUALIFIED_NON_TERRAIN",
-        "rejection_notice": "Optical audit confirmed non-geological media or stable false alarm. Estimation suspended.",
+        "rejection_notice": rejection_notice,
         "unified_geometry": {
             "slope_height_mean_m": 0.0,
             "slope_height_min_m": 0.0,
@@ -1319,12 +1326,17 @@ def build_rejected_assessment_dossier(
 
     rejected_dossier = {
         "is_landslide_or_terrain": False,
-        "validation_status": "INVALID_NON_TERRAIN_IMAGE",
+        "is_same_incident": False if is_multisite_reject else True,
+        "validation_status": validation_status,
         "detected_content": detected_content,
         "rejection_reason": rejection_reason,
         "source": f"HIMA-LENS Optical Audit ({model_name})",
         "generated_at": datetime.utcnow().strftime("%d %b %Y, %H:%M UTC"),
-        "engineering_disclaimer": "N/A — Non-Terrain Upload / Optical Audit Disqualification",
+        "engineering_disclaimer": (
+            "N/A — Multi-Site Inconsistency Disqualification / Separate Reports Required"
+            if is_multisite_reject
+            else "N/A — Non-Terrain Upload / Optical Audit Disqualification"
+        ),
         "telemetry": {
             "report_id": report_id,
             "report_reference": (
@@ -1637,17 +1649,25 @@ def build_rejected_assessment_dossier(
             "calibrated_rock": "N/A",
             "reconciliation_note": "No geological strata evaluated for non-terrain upload.",
         },
-        "synthesis_remarks": senior_remarks or f"Image validation failed completely. The upload displays {detected_content} instead of geological terrain data. Rejecting incident telemetry entry {report_id}.",
-        "senior_engineer_remarks": senior_remarks or f"Image validation failed completely. The upload displays {detected_content} instead of geological terrain data. Rejecting incident telemetry entry {report_id}.",
+        "synthesis_remarks": senior_remarks or (
+            f"MULTI-SITE INCONSISTENCY DETECTED: Uploaded images depict disparate, unrelated landslide locations ({detected_content}). Kinematic modeling & BOQ calculation suspended (₹0). Please submit separate reports for separate landslide sites."
+            if is_multisite_reject
+            else f"Image validation failed completely. The upload displays {detected_content} instead of geological terrain data. Rejecting incident telemetry entry {report_id}."
+        ),
+        "senior_engineer_remarks": senior_remarks or (
+            f"MULTI-SITE INCONSISTENCY DETECTED: Uploaded images depict disparate, unrelated landslide locations ({detected_content}). Kinematic modeling & BOQ calculation suspended (₹0). Please submit separate reports for separate landslide sites."
+            if is_multisite_reject
+            else f"Image validation failed completely. The upload displays {detected_content} instead of geological terrain data. Rejecting incident telemetry entry {report_id}."
+        ),
         "plain_language_explanation": plain_lang or {
-            "summary_title": f"Optical Audit Disqualification — {detected_content}",
-            "what_happened": "The uploaded media does not depict an authentic landslide or active geological slope failure.",
+            "summary_title": f"Multi-Site Inconsistency Disqualification — {detected_content}" if is_multisite_reject else f"Optical Audit Disqualification — {detected_content}",
+            "what_happened": "Attached photographs depict disparate, unrelated landslide locations." if is_multisite_reject else "The uploaded media does not depict an authentic landslide or active geological slope failure.",
             "why_it_happened": rejection_reason,
-            "property_and_access_impact": "No physical road or structural damage verified from this upload.",
-            "road_and_travel_impact": "No physical road or structural damage verified from this upload.",
-            "ongoing_hazards": "None verified from the provided image.",
-            "what_needs_to_be_done": "If an actual landslide occurred at this location, please upload an authentic field photograph of the slope failure.",
-            "citizen_safety_advice": "Reporting is reserved for active slope hazards and mass wasting events across Himachal Pradesh.",
+            "property_and_access_impact": "Kinematic modeling and cost estimation suspended due to disparate site media." if is_multisite_reject else "No physical road or structural damage verified from this upload.",
+            "road_and_travel_impact": "Cannot assess road corridor impact across conflicting photographic locations." if is_multisite_reject else "No physical road or structural damage verified from this upload.",
+            "ongoing_hazards": "Site hazard assessment requires consistent single-location photography." if is_multisite_reject else "None verified from the provided image.",
+            "what_needs_to_be_done": "Please submit individual incident reports for each separate landslide location." if is_multisite_reject else "If an actual landslide occurred at this location, please upload an authentic field photograph of the slope failure.",
+            "citizen_safety_advice": "When reporting landslides, ensure all uploaded photos capture the same slope failure." if is_multisite_reject else "Reporting is reserved for active slope hazards and mass wasting events across Himachal Pradesh.",
         },
         "project_data_model": zero_pdm,
         "unified_geometry": zero_pdm["unified_geometry"],
@@ -1685,6 +1705,7 @@ def normalize_assessment_structure(assessment: dict[str, Any] | None, report: di
         "INVALID_NON_TERRAIN_IMAGE",
         "NON_LANDSLIDE_STABLE_TERRAIN",
         "DISQUALIFIED_NON_TERRAIN",
+        "INCONSISTENT_MULTI_SITE_IMAGES",
     ):
         detected = assessment.get("detected_content", "Non-terrain image")
         reason = assessment.get("rejection_reason", "Non-terrain media uploaded.")
@@ -1698,6 +1719,7 @@ def normalize_assessment_structure(assessment: dict[str, Any] | None, report: di
             senior_remarks=remarks,
             plain_lang=plain,
             model_name=source,
+            validation_status=assessment.get("validation_status", "INVALID_NON_TERRAIN_IMAGE"),
         )
 
     baseline = compute_deterministic_engineering_dossier(report)
@@ -2068,7 +2090,14 @@ RULES:
    - If the image shows an authentic landslide (fresh shear scarp, crown cracks, displaced debris/mud/rock encroaching on slope, road, or asset):
      Set "is_landslide_or_terrain": true, "validation_status": "VALID_TERRAIN_IMAGE".
 
-2. KINEMATIC & OPTICAL PHOTOGRAMMETRY:
+2. CROSS-IMAGE COHERENCE AUDIT (FOR MULTI-PHOTO UPLOADS):
+   Evaluate whether all attached photographs depict the same physical landslide event or slope failure scene.
+   - If multiple photographs are attached and they clearly depict completely separate, unrelated landslides or geographic sites (e.g. conflicting bedrock lithology, disparate mountain ranges, different road corridors, or separate slope failures):
+     Set "is_same_incident": false, "is_landslide_or_terrain": false, "validation_status": "INCONSISTENT_MULTI_SITE_IMAGES", "rejection_reason": "Uploaded photographs depict completely separate, unrelated landslide locations. Unified kinematic analysis and civil BOQ are suspended. Please submit separate reports for each individual landslide site."
+   - If the photographs depict consistent perspectives of the same failure (or if only 1 photograph is provided):
+     Set "is_same_incident": true.
+
+3. KINEMATIC & OPTICAL PHOTOGRAMMETRY:
    Extract real continuous physical measurements from the image using visible scaling anchors (e.g. road lane ~3.5m, vehicles ~4.5m x 1.6m, humans ~1.7m, guardrails ~0.8m):
    - failure_vector: UPHILL_CUT_SLOPE (debris sliding down onto road/asset) | VALLEY_EMBANKMENT_SUBSIDENCE (road bench collapsing into valley) | CLIFF_ROCKFALL_TOPPLE (steep rock cliff dropping boulders) | HABITATION_TERRACE_SLUMP (slope failure hitting residential buildings) | MACRO_MOUNTAIN_CATASTROPHE (>50m deep mountain rupture).
    - scarp_height_m: vertical height H of failure in meters (float).
@@ -2085,6 +2114,7 @@ RULES:
 RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
 {{
   "is_landslide_or_terrain": true,
+  "is_same_incident": true,
   "validation_status": "VALID_TERRAIN_IMAGE",
   "detected_content": "Concise 1-sentence description of observed scene",
   "rejection_reason": null,
@@ -2147,8 +2177,13 @@ RETURN ONLY A VALID JSON OBJECT (no markdown backticks or preamble):
         prompt_text += f"""
 
 MULTI-PERSPECTIVE VISUAL FIELD EVIDENCE SYNTHESIS:
-You are provided with {len(image_parts)} distinct photographic perspectives of this same slope disaster (e.g. main scarp detachment, left lateral flank tension cracks, right flank profile, and toe debris carriageway accumulation).
-Carefully synthesize the visual information across ALL {len(image_parts)} attached photographs to produce a single, unified, comprehensive optical photogrammetry diagnosis and consistent physical geometry.
+You are provided with {len(image_parts)} distinct photographic perspectives intended for this same slope disaster (e.g. main scarp detachment, left lateral flank tension cracks, right flank profile, and toe debris carriageway accumulation).
+MANDATORY CROSS-IMAGE COHERENCE CHECK:
+Carefully inspect all {len(image_parts)} attached photographs. Determine whether they depict the SAME physical landslide failure or completely separate, unrelated landslides/locations.
+- If the images clearly depict separate, unrelated landslide sites:
+  You MUST set "is_same_incident": false, "is_landslide_or_terrain": false, and "validation_status": "INCONSISTENT_MULTI_SITE_IMAGES".
+- Otherwise, if they represent coherent angles of the same failure event:
+  Set "is_same_incident": true, and synthesize the visual information across ALL {len(image_parts)} attached photographs to produce a single, unified, comprehensive optical photogrammetry diagnosis and consistent physical geometry.
 """
 
     parts_list = [{"text": prompt_text}] + image_parts
@@ -2189,26 +2224,56 @@ Carefully synthesize the visual information across ALL {len(image_parts)} attach
                             else:
                                 raise json_err
 
-                    # Optical Validation Check: Non-Terrain Rejection
-                    if not parsed.get("is_landslide_or_terrain", True):
-                        logger.info("Non-terrain media flagged: %s", parsed.get("detected_content"))
+                    # Optical Validation Check: Non-Terrain Rejection or Inconsistent Multi-Site Images
+                    is_inconsistent_multisite = (
+                        not parsed.get("is_same_incident", True) or
+                        parsed.get("validation_status") == "INCONSISTENT_MULTI_SITE_IMAGES"
+                    )
+
+                    if not parsed.get("is_landslide_or_terrain", True) or is_inconsistent_multisite:
+                        val_status = "INCONSISTENT_MULTI_SITE_IMAGES" if is_inconsistent_multisite else parsed.get("validation_status", "INVALID_NON_TERRAIN_IMAGE")
+                        detected = parsed.get("detected_content") or ("Disparate Multi-Site Landslide Photographs" if is_inconsistent_multisite else "Non-terrain media")
+                        reason = parsed.get("rejection_reason") or (
+                            "Uploaded photographs depict completely separate, unrelated landslide locations. Unified kinematic analysis and civil BOQ are suspended. Please submit separate reports for each individual landslide site."
+                            if is_inconsistent_multisite
+                            else "Non-terrain object uploaded."
+                        )
+                        senior_remarks = parsed.get("senior_engineer_remarks") or (
+                            "Cross-image coherence audit failed: Attached photographs depict disparate geographical locations or conflicting failure scenes. Public works capital expenditure and kinematic calculation are suspended (₹0). Separate incident reports must be logged per site."
+                            if is_inconsistent_multisite
+                            else None
+                        )
+                        logger.info("Validation rejected (%s): %s", val_status, detected)
                         rejection_dossier = build_rejected_assessment_dossier(
                             report,
-                            detected_content=parsed.get("detected_content", "Non-terrain media"),
-                            rejection_reason=parsed.get("rejection_reason", "Non-terrain object uploaded."),
-                            senior_remarks=parsed.get("senior_engineer_remarks"),
+                            detected_content=detected,
+                            rejection_reason=reason,
+                            senior_remarks=senior_remarks,
                             plain_lang=parsed.get("plain_language_explanation"),
                             model_name=model_name,
+                            validation_status=val_status,
                         )
-                        rejection_dossier["diagnostic_notice"] = (
-                            f"Optical photogrammetry verified non-terrain media: {parsed.get('detected_content', 'Object/Selfie/Pet')}. "
-                            f"Reason: {parsed.get('rejection_reason', 'Zero slope displacement observed')}. Civil remediation suspended."
-                        )
-                        rejection_dossier["vision_diagnostic"] = {
-                            "status": "NON_TERRAIN_REJECTED",
-                            "model": model_name,
-                            "detected_content": parsed.get("detected_content"),
-                        }
+                        rejection_dossier["validation_status"] = val_status
+                        if is_inconsistent_multisite:
+                            rejection_dossier["diagnostic_notice"] = (
+                                "Cross-image coherence audit failed: Attached photographs depict disparate, unrelated landslide sites. "
+                                "Kinematic modeling and civil BOQ calculation suspended (₹0). Please submit separate reports for each individual landslide site."
+                            )
+                            rejection_dossier["vision_diagnostic"] = {
+                                "status": "INCONSISTENT_MULTI_SITE_REJECTED",
+                                "model": model_name,
+                                "detected_content": detected,
+                            }
+                        else:
+                            rejection_dossier["diagnostic_notice"] = (
+                                f"Optical photogrammetry verified non-terrain media: {parsed.get('detected_content', 'Object/Selfie/Pet')}. "
+                                f"Reason: {parsed.get('rejection_reason', 'Zero slope displacement observed')}. Civil remediation suspended."
+                            )
+                            rejection_dossier["vision_diagnostic"] = {
+                                "status": "NON_TERRAIN_REJECTED",
+                                "model": model_name,
+                                "detected_content": parsed.get("detected_content"),
+                            }
                         save_assessment_to_cache(report_id, rejection_dossier)
                         return rejection_dossier
 

@@ -218,7 +218,11 @@ def extract_ml_kinematic_parameters(
     )
     mode_lower = raw_mode.lower()
 
-    if (
+    if validation_status == "INCONSISTENT_MULTI_SITE_IMAGES":
+        mode = "rejected_ood"
+        mode_label = "MULTI-SITE INCONSISTENCY DETECTED"
+        top_badge = "DISPARATE SITES • CROSS-SECTION SUPPRESSED"
+    elif (
         validation_status in ("INVALID_NON_TERRAIN_IMAGE", "NON_LANDSLIDE_STABLE_TERRAIN", "INVALID_IMAGE", "REJECTED_NON_TERRAIN")
         or failure_vector == "DISQUALIFIED_NON_TERRAIN"
         or (not is_terrain and validation_status not in ("DETERMINISTIC_HEURISTIC_ACTIVE", "VALID_TERRAIN_IMAGE"))
@@ -288,6 +292,7 @@ def extract_ml_kinematic_parameters(
         "is_applicable": is_applicable,
         "rejection_notice": rejection_notice,
         "include_wall": include_wall,
+        "validation_status": validation_status,
     }
 
 
@@ -349,6 +354,7 @@ def generate_schematic_svg(
     wall_h = params["wall_h"]
     wall_mat = params["wall_mat"]
     rejection_notice = params.get("rejection_notice") or ""
+    validation_status = params.get("validation_status") or ""
 
     sfx = f"_{unique_suffix}" if unique_suffix else ""
     hatch_id = f"rockHatch{sfx}"
@@ -385,7 +391,7 @@ def generate_schematic_svg(
 
     # Dispatch to specific kinematic failure mode generator
     if mode == "rejected_ood":
-        svg_body = _render_rejected_ood_svg(rejection_notice=rejection_notice)
+        svg_body = _render_rejected_ood_svg(rejection_notice=rejection_notice, validation_status=validation_status)
     elif mode == "macro_catastrophic":
         svg_body = _render_macro_catastrophic_svg(
             rejection_notice=rejection_notice,
@@ -1550,10 +1556,40 @@ def _render_macro_catastrophic_svg(
 # ==============================================================================
 # 10. REJECTED NON-TERRAIN / OUT-OF-DOMAIN MEDIA PLATE
 # ==============================================================================
-def _render_rejected_ood_svg(rejection_notice: str = "", **kwargs: Any) -> str:
-    """Diagnostic Plate when user media is disqualified (non-terrain, vehicle, indoor, document).
+def _render_rejected_ood_svg(rejection_notice: str = "", validation_status: str = "", **kwargs: Any) -> str:
+    """Diagnostic Plate when user media is disqualified (non-terrain, vehicle, indoor, document, multi-site inconsistent).
     Renders clean suppression notice and zero fake geotechnical metrics.
     """
+    if validation_status == "INCONSISTENT_MULTI_SITE_IMAGES":
+        clean_notice = rejection_notice or "Uploaded photos depict disparate, unrelated landslide locations."
+        return f"""  <!-- Disqualification Dark Backplate -->
+  <rect x="15" y="15" width="490" height="206" rx="4" fill="#0b1120" stroke="#64748b" stroke-width="1.2" />
+
+  <!-- Warning Red Header -->
+  <rect x="25" y="25" width="470" height="34" rx="3" fill="#fef2f2" stroke="#dc2626" stroke-width="1" />
+  <circle cx="45" cy="42" r="10" fill="#dc2626" />
+  <text x="41" y="46" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="900" fill="#ffffff">&times;</text>
+  <text x="65" y="38" font-size="8" font-weight="900" fill="#991b1b" letter-spacing="0.5">OPTICAL AUDIT DISQUALIFICATION &bull; MULTI-SITE INCONSISTENCY</text>
+  <text x="65" y="50" font-size="6.5" font-weight="700" fill="#991b1b">CROSS-SECTION SUPPRESSED — DISPARATE GEOGRAPHIC SITES DETECTED</text>
+
+  <!-- Diagnostic Suppression Details Card -->
+  <rect x="40" y="72" width="440" height="135" rx="3" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+
+  <!-- Diagonal Watermark Stamp -->
+  <g transform="rotate(-12 260 140)" opacity="0.12">
+    <text x="120" y="150" font-size="30" font-weight="900" fill="#ef4444" letter-spacing="3">DISPARATE SITES</text>
+  </g>
+
+  <text x="58" y="96" font-size="7.5" font-weight="900" fill="#991b1b">DIAGNOSTIC REJECTION AUDIT DETAILS</text>
+  <text x="58" y="112" font-size="6.8" font-weight="700" fill="#334155">&bull; Optical Classification: {clean_notice}</text>
+  <text x="58" y="128" font-size="6.8" font-weight="700" fill="#334155">&bull; Computer Vision Verdict: Images depict unrelated slope failures or distinct geomorphic zones</text>
+  <text x="58" y="144" font-size="6.8" font-weight="700" fill="#334155">&bull; Compliance Integrity: Kinematic cross-section and BOQ suppressed to prevent cross-site contamination</text>
+  <text x="58" y="160" font-size="6.8" font-weight="700" fill="#334155">&bull; Action Required: Submit individual incident reports for each distinct landslide location</text>
+
+  <!-- Green Camera Instructions -->
+  <rect x="58" y="172" width="404" height="24" rx="2" fill="#f0fdf4" stroke="#059669" stroke-width="0.8" />
+  <text x="70" y="187" font-size="6.2" font-weight="700" fill="#065f46">VALID INPUT SPECIFICATION: When submitting multiple photos, ensure all perspectives capture the same slope failure.</text>"""
+
     clean_notice = rejection_notice or "Non-landslide / Out-of-Domain Media Uploaded"
     return f"""  <!-- Disqualification Dark Backplate -->
   <rect x="15" y="15" width="490" height="206" rx="4" fill="#0b1120" stroke="#64748b" stroke-width="1.2" />

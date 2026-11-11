@@ -123,7 +123,7 @@ HIMA-LENS | Field Telemetry & Landslide Incident Reporting
                                 </div>
                                 <div class="dropzone-text">
                                     <span class="dropzone-primary-text">Capture live photos or select up to 4 files</span>
-                                    <span class="dropzone-sub-text">JPG, PNG, or WebP up to 16MB each &bull; Front scarp, left &amp; right flanks, toe debris</span>
+                                    <span class="dropzone-sub-text">JPG, PNG, or WebP up to 16MB each &bull; GPS coordinates auto-extracted from photo metadata</span>
                                 </div>
                             </div>
                             <div class="dropzone-preview" id="dropzone-preview" style="display:none;">
@@ -306,5 +306,5 @@ HIMA-LENS | Field Telemetry & Landslide Incident Reporting
 {% block scripts %}
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <script src="{{ url_for('static', filename='js/pwd_modal.js') }}?v=1.0"></script>
-<script src="{{ url_for('static', filename='js/report.js') }}?v=3.8"></script>
+<script src="{{ url_for('static', filename='js/report.js') }}?v=4.0"></script>
 {% endblock %}

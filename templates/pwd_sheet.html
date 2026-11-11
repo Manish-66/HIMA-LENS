@@ -1360,14 +1360,19 @@
             <div class="report-stamp">
               <span class="stamp-lbl">OFFICIAL DOCKET</span>
               <span class="stamp-code">{{ telem.report_reference or 'IITM-CR-6A9B327E' }}</span>
-              <span class="stamp-stat">{% if assessment.validation_status in ('DETERMINISTIC_HEURISTIC_ACTIVE', 'VISION_SERVICE_TIMEOUT') %}HEURISTIC{% elif assessment.validation_status in ('INVALID_NON_TERRAIN_IMAGE', 'NON_LANDSLIDE_STABLE_TERRAIN') %}DISQUALIFIED{% else %}AI &bull; VERIFIED{% endif %}</span>
+              <span class="stamp-stat">{% if assessment.validation_status in ('DETERMINISTIC_HEURISTIC_ACTIVE', 'VISION_SERVICE_TIMEOUT') %}HEURISTIC{% elif assessment.validation_status in ('INVALID_NON_TERRAIN_IMAGE', 'NON_LANDSLIDE_STABLE_TERRAIN', 'INCONSISTENT_MULTI_SITE_IMAGES') %}DISQUALIFIED{% else %}AI &bull; VERIFIED{% endif %}</span>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Diagnostic / Optical Audit Bar -->
-      {% if assessment.validation_status in ('INVALID_NON_TERRAIN_IMAGE', 'NON_LANDSLIDE_STABLE_TERRAIN') %}
+      {% if assessment.validation_status == 'INCONSISTENT_MULTI_SITE_IMAGES' %}
+      <div style="background: #fef2f2; border: 1px solid #fecaca; border-left: 3px solid #dc2626; padding: 2.5px 6px; font-size: 7.5px; margin-bottom: 3px; display: flex; justify-content: space-between; align-items: center; color: #991b1b;">
+        <span><strong>MULTI-SITE INCONSISTENCY DETECTED:</strong> Computer vision confirmed attached photographs depict disparate, unrelated landslide locations. Kinematic modeling &amp; BOQ calculation suspended (₹0). Please submit separate reports for separate landslide sites.</span>
+        <span style="background: #dc2626; color: #ffffff; padding: 1px 5px; border-radius: 2px; font-weight: 800; font-size: 6.8px; white-space: nowrap;">DISPARATE SITES &bull; ₹0 BOQ</span>
+      </div>
+      {% elif assessment.validation_status in ('INVALID_NON_TERRAIN_IMAGE', 'NON_LANDSLIDE_STABLE_TERRAIN') %}
       <div style="background: #fef2f2; border: 1px solid #fecaca; border-left: 3px solid #dc2626; padding: 2.5px 6px; font-size: 7.5px; margin-bottom: 3px; display: flex; justify-content: space-between; align-items: center; color: #991b1b;">
         <span><strong>OPTICAL AUDIT DISQUALIFICATION:</strong> Computer vision confirmed non-landslide media: <em>{{ assessment.detected_content or 'Non-geological scene' }}</em>. Civil remediation suspended; zero public works capital requisitioned.</span>
         <span style="background: #dc2626; color: #ffffff; padding: 1px 5px; border-radius: 2px; font-weight: 800; font-size: 6.8px; white-space: nowrap;">REJECTED &bull; ₹0 BOQ</span>
