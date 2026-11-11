@@ -15,7 +15,7 @@ HP_BBOX = {"min_lon": 75.78, "max_lon": 79.07, "min_lat": 30.36, "max_lat": 33.2
 
 # Path to landslides clean GeoJSON
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DATA_PATH = os.path.join(ROOT_DIR, "landslides_clean.geojson")
+DATA_PATH = os.path.join(ROOT_DIR, "data", "landslides_clean.geojson") if os.path.exists(os.path.join(ROOT_DIR, "data", "landslides_clean.geojson")) else os.path.join(ROOT_DIR, "landslides_clean.geojson")
 
 TOOLS = [
     {

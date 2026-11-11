@@ -7,16 +7,22 @@ import os
 import json
 import unittest
 
-# Ensure workspace root is in python path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+# Ensure workspace root and core engines are in python path
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+if ROOT_DIR not in sys.path:
+    sys.path.insert(0, ROOT_DIR)
+CORE_DIR = os.path.join(ROOT_DIR, "core")
+if CORE_DIR not in sys.path:
+    sys.path.insert(0, CORE_DIR)
 
 from geotech_engine import evaluate_usgs_classification, calculate_comprehensive_cost_and_loss_estimate
+from config import DATASET_PATH
 
 class TestSpatialIntegrity(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.geojson_path = "landslides_clean.geojson"
-        cls.assertTrue(os.path.exists(cls.geojson_path), "landslides_clean.geojson must exist")
+        cls.geojson_path = str(DATASET_PATH)
+        cls.assertTrue(os.path.exists(cls.geojson_path), f"{cls.geojson_path} must exist")
         with open(cls.geojson_path, "r", encoding="utf-8") as f:
             cls.data = json.load(f)
 

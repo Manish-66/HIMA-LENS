@@ -132,7 +132,7 @@ def handle_duckdb_proximity(args):
     radius_km = float(args.get("radius_km", 5.0))
     limit = min(20, max(1, int(args.get("limit", 5))))
 
-    data_path = os.path.join(ROOT_DIR, "landslides_clean.geojson").replace("\\", "/")
+    data_path = os.path.join(ROOT_DIR, "data", "landslides_clean.geojson").replace("\\", "/") if os.path.exists(os.path.join(ROOT_DIR, "data", "landslides_clean.geojson")) else os.path.join(ROOT_DIR, "landslides_clean.geojson").replace("\\", "/")
     
     # 1 degree lat approx 111km; filter bbox first for index speed
     d_lat = radius_km / 111.0

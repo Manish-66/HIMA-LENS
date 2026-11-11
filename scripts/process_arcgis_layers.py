@@ -132,8 +132,9 @@ def process_polygons():
 def process_points_dedup():
     print("\n--- 3. Master Deduplicated Landslide Points ---")
     # Load Mandi detailed field survey (9,399 points)
-    df_xlsx = pd.read_excel(ROOT_DIR / "data.xlsx")
-    print(f"Loaded {len(df_xlsx)} Mandi field survey records from data.xlsx")
+    xlsx_path = (ROOT_DIR / "data" / "data.xlsx") if (ROOT_DIR / "data" / "data.xlsx").exists() else (ROOT_DIR / "data.xlsx")
+    df_xlsx = pd.read_excel(xlsx_path)
+    print(f"Loaded {len(df_xlsx)} Mandi field survey records from {xlsx_path.name}")
 
     # Load statewide GSI points from lpkx (6,287 points)
     pts_gdb = SCRATCH_DIR / "Hp_landslide_points" / "p20" / "perspective_maps.gdb"
@@ -260,7 +261,7 @@ def process_points_dedup():
     print(f"GSI duplicate points skipped: {gsi_duplicates_skipped}")
     print(f"Total deduplicated master points: {len(master_features)}")
 
-    out_clean = ROOT_DIR / "landslides_clean.geojson"
+    out_clean = (ROOT_DIR / "data" / "landslides_clean.geojson") if (ROOT_DIR / "data").exists() else (ROOT_DIR / "landslides_clean.geojson")
     with open(out_clean, "w", encoding="utf-8") as f:
         json.dump({"type": "FeatureCollection", "features": master_features}, f, separators=(",", ":"))
     print(f"Saved master deduplicated points to {out_clean} ({out_clean.stat().st_size / (1024*1024):.2f} MB)")

@@ -1,8 +1,16 @@
 """Central, filesystem-safe configuration for HIMA-LENS."""
 import os
+import sys
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent
+
+# Ensure core engines and workspace root are in python path
+CORE_DIR = BASE_DIR / "core"
+if CORE_DIR.exists() and str(CORE_DIR) not in sys.path:
+    sys.path.insert(0, str(CORE_DIR))
+if str(BASE_DIR) not in sys.path:
+    sys.path.insert(0, str(BASE_DIR))
 
 def load_local_env(path: Path) -> None:
     """Minimal .env reader; process environment values remain authoritative."""
@@ -19,14 +27,26 @@ def load_local_env(path: Path) -> None:
 
 # Load only the project-local .env file; environment variables still take precedence.
 load_local_env(BASE_DIR / ".env")
-DATASET_PATH = BASE_DIR / "landslides_clean.geojson"
-LEGACY_DATASET_PATH = (
-    (BASE_DIR / "old_data.geojson")
-    if (BASE_DIR / "old_data.geojson").exists()
-    else (BASE_DIR / "landslides_legacy.geojson")
+DATASET_PATH = (
+    BASE_DIR / "data" / "landslides_clean.geojson"
+    if (BASE_DIR / "data" / "landslides_clean.geojson").exists()
+    else BASE_DIR / "landslides_clean.geojson"
 )
-MANDI_WORKBOOK_PATH = BASE_DIR / "data.xlsx"
-DISTRICT_BOUNDARIES_PATH = BASE_DIR / "district_boundaries.geojson"
+LEGACY_DATASET_PATH = (
+    (BASE_DIR / "data" / "old_data.geojson")
+    if (BASE_DIR / "data" / "old_data.geojson").exists()
+    else (BASE_DIR / "old_data.geojson")
+)
+MANDI_WORKBOOK_PATH = (
+    BASE_DIR / "data" / "data.xlsx"
+    if (BASE_DIR / "data" / "data.xlsx").exists()
+    else BASE_DIR / "data.xlsx"
+)
+DISTRICT_BOUNDARIES_PATH = (
+    BASE_DIR / "data" / "district_boundaries.geojson"
+    if (BASE_DIR / "data" / "district_boundaries.geojson").exists()
+    else BASE_DIR / "district_boundaries.geojson"
+)
 MANDI_ROADS_PATH = BASE_DIR / "static" / "data" / "mandi_roads.geojson"
 LANDSLIDE_POLYGONS_MANDI_PATH = BASE_DIR / "static" / "data" / "landslide_polygons_mandi.geojson"
 LANDSLIDE_POLYGONS_HP_PATH = BASE_DIR / "static" / "data" / "landslide_polygons_hp.geojson"

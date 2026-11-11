@@ -17,6 +17,15 @@ from datetime import datetime, timezone
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
+import sys
+
+BASE_DIR = Path(__file__).resolve().parent
+CORE_DIR = BASE_DIR / 'core'
+if CORE_DIR.exists() and str(CORE_DIR) not in sys.path:
+    sys.path.insert(0, str(CORE_DIR))
+if str(BASE_DIR) not in sys.path:
+    sys.path.insert(0, str(BASE_DIR))
+
 from flask import Flask, jsonify, render_template, request, Response, redirect, url_for
 import supabase_db
 import ai_assessment
