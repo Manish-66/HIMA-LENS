@@ -408,43 +408,80 @@ HIMA-LENS | Himalayan Landslide Intelligence Platform
                             <div class="sim-header-title">
                                 <span class="sim-eyebrow">LIMIT EQUILIBRIUM &bull; KINEMATIC SIMULATOR</span>
                                 <h3>Mandi Valley Slope Profile</h3>
+                                <span class="sim-subcaption">NH-21 Highway Corridor &bull; Beas River Catchment &bull; IS:14458 Analysis</span>
                             </div>
                             <div class="sim-fos-pill glossary-term" id="sim-fos-pill" data-status="stable" data-glossary="fos" title="Hover for Factor of Safety definition">
-                                <span class="fos-label">FACTOR OF SAFETY</span>
+                                <div class="fos-pill-top">
+                                    <span class="fos-label">FACTOR OF SAFETY</span>
+                                    <span class="fos-badge" id="sim-fos-badge">STABLE</span>
+                                </div>
                                 <div class="fos-number-row">
                                     <span class="fos-val" id="sim-fos-val">1.62</span>
-                                    <span class="fos-badge" id="sim-fos-badge">STABLE</span>
+                                    <span class="fos-threshold-tag">Target &ge; 1.30</span>
+                                </div>
+                                <div class="fos-meter-track" aria-hidden="true">
+                                    <div class="fos-meter-fill" id="sim-fos-meter" style="width: 72%;"></div>
+                                    <span class="fos-meter-marker fail" title="Failure (FoS 1.0)"></span>
+                                    <span class="fos-meter-marker safe" title="Safe (FoS 1.3)"></span>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- 3 Quick Geotechnical Story Presets -->
-                        <div class="sim-presets" role="toolbar" aria-label="Geotechnical Case Presets">
-                            <button type="button" class="sim-preset-btn active" data-preset="dry" id="preset-dry">
-                                <span class="preset-dot green"></span>
-                                <span>Dry Natural Hill (FoS 1.62)</span>
-                            </button>
-                            <button type="button" class="sim-preset-btn" data-preset="monsoon" id="preset-monsoon">
-                                <span class="preset-dot red"></span>
-                                <span>Monsoon Saturated Cut (FoS 0.94)</span>
-                            </button>
-                            <button type="button" class="sim-preset-btn" data-preset="remediated" id="preset-remediated">
-                                <span class="preset-dot cyan"></span>
-                                <span>Nailed &amp; Drained (FoS 1.38)</span>
+                        <!-- 4 Quick Geotechnical Story Presets + Interactive Surge Button -->
+                        <div class="sim-presets-bar">
+                            <div class="sim-presets" role="toolbar" aria-label="Geotechnical Case Presets">
+                                <button type="button" class="sim-preset-btn active" data-preset="dry" id="preset-dry">
+                                    <span class="preset-dot green"></span>
+                                    <span>Dry Natural Hill (FoS 1.62)</span>
+                                </button>
+                                <button type="button" class="sim-preset-btn" data-preset="monsoon" id="preset-monsoon">
+                                    <span class="preset-dot red"></span>
+                                    <span>Monsoon Cloudburst (FoS 0.78)</span>
+                                </button>
+                                <button type="button" class="sim-preset-btn" data-preset="remediated" id="preset-remediated">
+                                    <span class="preset-dot cyan"></span>
+                                    <span>Stabilized Corridor (FoS 1.45)</span>
+                                </button>
+                            </div>
+                            <button type="button" class="sim-surge-action-btn" id="btn-cloudburst-surge" title="Simulate sudden 100mm/hr cloudburst precipitation">
+                                <span class="surge-icon">&sim;</span>
+                                <span>Cloudburst Surge</span>
                             </button>
                         </div>
 
                         <!-- Dynamic SVG Slope Drawing -->
                         <div class="sim-canvas-wrap">
-                            <svg id="sim-slope-svg" class="sim-svg" viewBox="0 0 520 280" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Interactive slope cross-section responding to slope angle and saturation">
+                            <svg id="sim-slope-svg" class="sim-svg" viewBox="0 0 540 290" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Interactive slope cross-section responding to slope angle and saturation">
                                 <defs>
-                                    <pattern id="simRockHatch" width="10" height="10" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
-                                        <line x1="0" y1="0" x2="0" y2="10" stroke="#334155" stroke-width="0.9" />
-                                        <circle cx="5" cy="5" r="0.7" fill="#475569" />
+                                    <linearGradient id="simSkyGrad" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0%" stop-color="#04120e" />
+                                        <stop offset="60%" stop-color="#072018" />
+                                        <stop offset="100%" stop-color="#0a2a20" />
+                                    </linearGradient>
+                                    <linearGradient id="simBedrockGrad" x1="0" y1="0" x2="1" y2="1">
+                                        <stop offset="0%" stop-color="#142822" />
+                                        <stop offset="50%" stop-color="#18342c" />
+                                        <stop offset="100%" stop-color="#0f221c" />
+                                    </linearGradient>
+                                    <linearGradient id="simWaterGrad" x1="0" y1="0" x2="1" y2="0">
+                                        <stop offset="0%" stop-color="#0369a1" stop-opacity="0.25" />
+                                        <stop offset="100%" stop-color="#06b6d4" stop-opacity="0.45" />
+                                    </linearGradient>
+                                    <linearGradient id="simBeasGrad" x1="0" y1="0" x2="1" y2="0">
+                                        <stop offset="0%" stop-color="#0c4a6e" />
+                                        <stop offset="50%" stop-color="#0284c7" />
+                                        <stop offset="100%" stop-color="#0369a1" />
+                                    </linearGradient>
+                                    <pattern id="simRockJoints" width="16" height="16" patternTransform="rotate(35 0 0)" patternUnits="userSpaceOnUse">
+                                        <line x1="0" y1="0" x2="0" y2="16" stroke="#234e42" stroke-width="1.1" />
+                                        <line x1="0" y1="8" x2="16" y2="8" stroke="#1b3d34" stroke-width="0.7" stroke-dasharray="2 3" />
+                                        <circle cx="8" cy="8" r="0.8" fill="#2dd4bf" opacity="0.3" />
                                     </pattern>
-                                    <pattern id="simDebrisHatch" width="8" height="8" patternUnits="userSpaceOnUse">
-                                        <circle cx="2" cy="2" r="1.1" fill="#d97706" opacity="0.8" />
-                                        <circle cx="6" cy="5" r="1.2" fill="#b45309" opacity="0.9" />
+                                    <pattern id="simSoilPattern" width="12" height="12" patternUnits="userSpaceOnUse">
+                                        <circle cx="3" cy="3" r="1.3" fill="#b45309" opacity="0.55" />
+                                        <circle cx="9" cy="8" r="1.5" fill="#78350f" opacity="0.65" />
+                                        <circle cx="7" cy="2" r="0.9" fill="#d97706" opacity="0.45" />
+                                        <circle cx="2" cy="9" r="1.1" fill="#92400e" opacity="0.6" />
                                     </pattern>
                                     <marker id="simArrowBlue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse">
                                         <path d="M 0 1 L 9 5 L 0 9 z" fill="#38bdf8" />
@@ -454,68 +491,126 @@ HIMA-LENS | Himalayan Landslide Intelligence Platform
                                     </marker>
                                 </defs>
 
-                                <!-- Dark Engineering Grid Backdrop -->
-                                <rect width="520" height="280" rx="12" fill="#090d16" />
-                                <g stroke="#1e293b" stroke-width="0.5" stroke-dasharray="2 4" opacity="0.5">
-                                    <line x1="40" y1="60" x2="480" y2="60" />
-                                    <line x1="40" y1="120" x2="480" y2="120" />
-                                    <line x1="40" y1="180" x2="480" y2="180" />
-                                    <line x1="40" y1="240" x2="480" y2="240" />
-                                    <line x1="120" y1="20" x2="120" y2="260" />
-                                    <line x1="240" y1="20" x2="240" y2="260" />
-                                    <line x1="360" y1="20" x2="360" y2="260" />
+                                <!-- Atmosphere & Mountain Sky -->
+                                <rect width="540" height="290" rx="12" fill="url(#simSkyGrad)" />
+                                
+                                <!-- Engineering Graticule Grid -->
+                                <g stroke="#1b3d34" stroke-width="0.5" stroke-dasharray="3 4" opacity="0.45">
+                                    <line x1="30" y1="60" x2="510" y2="60" />
+                                    <line x1="30" y1="120" x2="510" y2="120" />
+                                    <line x1="30" y1="180" x2="510" y2="180" />
+                                    <line x1="30" y1="240" x2="510" y2="240" />
+                                    <line x1="120" y1="20" x2="120" y2="270" />
+                                    <line x1="240" y1="20" x2="240" y2="270" />
+                                    <line x1="360" y1="20" x2="360" y2="270" />
+                                    <line x1="460" y1="20" x2="460" y2="270" />
                                 </g>
 
-                                <!-- Stable Bedrock Formation -->
-                                <path id="sim-bedrock-path" d="M 20 40 L 160 50 L 320 205 L 430 205 L 505 240 L 505 280 L 20 280 Z" fill="url(#simRockHatch)" stroke="#334155" stroke-width="1.2" />
-
-                                <!-- Phreatic Surface / Seepage Saturation Line -->
-                                <path id="sim-water-path" d="M 25 150 Q 200 170 310 205" fill="none" stroke="#0284c7" stroke-width="2" stroke-dasharray="5 3" />
-                                <g id="sim-seepage-arrows">
-                                    <line x1="260" y1="185" x2="280" y2="195" stroke="#38bdf8" stroke-width="1.6" marker-end="url(#simArrowBlue)" />
+                                <!-- Upper Ridge Himalayan Pines / Crest Vegetation -->
+                                <g id="sim-crest-trees" fill="#143e33" opacity="0.85">
+                                    <path d="M 40 40 L 44 26 L 48 40 Z" />
+                                    <path d="M 55 42 L 59 29 L 63 42 Z" />
+                                    <path d="M 72 44 L 76 30 L 80 44 Z" />
+                                    <path d="M 90 45 L 94 32 L 98 45 Z" />
+                                    <path d="M 110 47 L 114 34 L 118 47 Z" />
+                                    <path d="M 130 48 L 134 35 L 138 48 Z" />
                                 </g>
-                                <text id="sim-water-text" x="40" y="145" fill="#38bdf8" font-size="8.5" font-weight="700">PHREATIC SURFACE (m = 0.00)</text>
+
+                                <!-- Stable Metamorphic Bedrock Mass (Phyllite / Schist) -->
+                                <path id="sim-bedrock-path" d="M 20 40 L 160 50 L 320 205 L 430 205 L 515 240 L 515 290 L 20 290 Z" fill="url(#simBedrockGrad)" stroke="#234e42" stroke-width="1.4" />
+                                <path id="sim-bedrock-joints" d="M 20 40 L 160 50 L 320 205 L 430 205 L 515 240 L 515 290 L 20 290 Z" fill="url(#simRockJoints)" opacity="0.75" />
+
+                                <!-- Phreatic Surface Groundwater Shading & Seepage Stream -->
+                                <path id="sim-water-mass" d="M 25 150 Q 200 170 310 205 L 320 205 L 20 290 Z" fill="url(#simWaterGrad)" opacity="0.1" />
+                                <path id="sim-water-path" d="M 25 150 Q 200 170 310 205" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-dasharray="6 3" opacity="0.15" />
+                                <g id="sim-seepage-arrows" opacity="0.2">
+                                    <line x1="260" y1="185" x2="282" y2="196" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#simArrowBlue)" />
+                                    <line x1="285" y1="195" x2="305" y2="202" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#simArrowBlue)" />
+                                </g>
+                                <text id="sim-water-text" x="40" y="145" fill="#38bdf8" font-size="8.5" font-weight="700" opacity="0.2">PHREATIC SURFACE (DRY m = 0.00)</text>
 
                                 <!-- Slip Surface / Shear Rupture Arc -->
                                 <path id="sim-slip-path" d="M 180 52 Q 240 135 320 205" fill="none" stroke="#ef4444" stroke-width="2.6" stroke-dasharray="6 3" />
 
-                                <!-- Detached / Sliding Colluvium Mass -->
-                                <path id="sim-colluvium-path" d="M 180 52 Q 240 135 320 205 L 360 205 L 345 185 Q 255 125 180 52 Z" fill="#78350f" fill-opacity="0.3" stroke="#f59e0b" stroke-width="1.2" />
-                                <path id="sim-debris-pattern-path" d="M 180 52 Q 240 135 320 205 L 360 205 L 345 185 Q 255 125 180 52 Z" fill="url(#simDebrisHatch)" />
+                                <!-- Colluvial Overburden / Soil Slope -->
+                                <path id="sim-colluvium-path" d="M 180 52 Q 240 135 320 205 L 340 205 L 330 185 Q 255 125 180 52 Z" fill="#451a03" fill-opacity="0.45" stroke="#d97706" stroke-width="1.3" />
+                                <path id="sim-debris-pattern-path" d="M 180 52 Q 240 135 320 205 L 340 205 L 330 185 Q 255 125 180 52 Z" fill="url(#simSoilPattern)" />
 
                                 <!-- Tension Cracks at Crown Scarp -->
-                                <path id="sim-crack-path" d="M 180 40 L 180 52 L 176 58" fill="none" stroke="#ef4444" stroke-width="2" />
+                                <path id="sim-crack-path" d="M 180 40 L 180 52 L 176 58" fill="none" stroke="#f59e0b" stroke-width="1.8" />
 
-                                <!-- Engineered Remediation Overlays (Soil Nails & Breast Wall) -->
-                                <g id="sim-remediation-group" opacity="0">
-                                    <!-- Soil Nail Array -->
-                                    <line x1="210" y1="85" x2="250" y2="140" stroke="#10b981" stroke-width="2.5" />
-                                    <line x1="240" y1="120" x2="280" y2="175" stroke="#10b981" stroke-width="2.5" />
-                                    <line x1="270" y1="155" x2="310" y2="210" stroke="#10b981" stroke-width="2.5" />
-                                    <!-- Soil nail head bearing plates -->
-                                    <rect x="207" y="82" width="6" height="6" fill="#34d399" />
-                                    <rect x="237" y="117" width="6" height="6" fill="#34d399" />
-                                    <rect x="267" y="152" width="6" height="6" fill="#34d399" />
-                                    <!-- Plum Concrete Breast Wall at Toe -->
-                                    <polygon points="320,205 334,205 330,175 322,175" fill="#0f766e" stroke="#2dd4bf" stroke-width="1.2" />
-                                    <circle cx="326" cy="192" r="1.3" fill="#2dd4bf" />
-                                    <text x="340" y="180" fill="#34d399" font-size="8" font-weight="800">REINFORCED</text>
+                                <!-- Bio-Engineering Vetiver Grass Layer (Interactive Toggle 1) -->
+                                <g id="sim-bio-group" opacity="0">
+                                    <path id="sim-bio-roots" d="M 180 52 L 320 205" stroke="#22c55e" stroke-width="4" stroke-dasharray="2 3" opacity="0.75" />
+                                    <text x="210" y="105" fill="#4ade80" font-size="7.5" font-weight="800">VETIVER BIO-ROOTS (+8 kPa)</text>
                                 </g>
 
-                                <!-- Highway Corridor (Carriageway) -->
-                                <rect x="320" y="203" width="110" height="5" fill="#1e293b" stroke="#475569" stroke-width="0.8" />
-                                <line x1="320" y1="205" x2="430" y2="205" stroke="#facc15" stroke-width="1.2" stroke-dasharray="3 3" />
-                                <text x="345" y="222" fill="#94a3b8" font-size="8" font-weight="700">NH-21 HIGHWAY (MANDI)</text>
+                                <!-- Subsurface Horizontal Drains (Interactive Toggle 2) -->
+                                <g id="sim-drains-group" opacity="0">
+                                    <line x1="280" y1="180" x2="340" y2="185" stroke="#06b6d4" stroke-width="2.5" stroke-dasharray="4 2" />
+                                    <line x1="295" y1="195" x2="335" y2="200" stroke="#06b6d4" stroke-width="2.5" stroke-dasharray="4 2" />
+                                    <circle cx="340" cy="185" r="2" fill="#38bdf8" />
+                                    <path d="M 340 185 Q 343 195 342 205" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="2 2" />
+                                    <text x="345" y="170" fill="#38bdf8" font-size="7.5" font-weight="800">DRAIN OUTLET (-70% u)</text>
+                                </g>
 
-                                <!-- Valley Drop & Beas River -->
-                                <path d="M 430 205 L 505 240 L 505 280 L 430 280 Z" fill="#0c4a6e" opacity="0.6" />
-                                <text x="445" y="255" fill="#38bdf8" font-size="8.5" font-weight="800">BEAS GORGE</text>
+                                <!-- Grouted Soil Nails & Anchor Tendons (Interactive Toggle 3) -->
+                                <g id="sim-nails-group" opacity="0">
+                                    <line x1="210" y1="85" x2="260" y2="145" stroke="#2dd4bf" stroke-width="2.5" />
+                                    <line x1="240" y1="120" x2="290" y2="180" stroke="#2dd4bf" stroke-width="2.5" />
+                                    <line x1="270" y1="155" x2="315" y2="215" stroke="#2dd4bf" stroke-width="2.5" />
+                                    <!-- Steel Bearing Plates -->
+                                    <rect x="206" y="81" width="7" height="7" fill="#5eead4" stroke="#092f25" stroke-width="1" />
+                                    <rect x="236" y="116" width="7" height="7" fill="#5eead4" stroke="#092f25" stroke-width="1" />
+                                    <rect x="266" y="151" width="7" height="7" fill="#5eead4" stroke="#092f25" stroke-width="1" />
+                                    <text x="215" y="75" fill="#5eead4" font-size="7.5" font-weight="800">GROUTED SOIL NAILS (+18 kPa)</text>
+                                </g>
+
+                                <!-- Plum Retaining Wall at Highway Toe (Interactive Toggle 4) -->
+                                <g id="sim-wall-group" opacity="0">
+                                    <polygon points="320,205 338,205 334,168 322,168" fill="#115e59" stroke="#2dd4bf" stroke-width="1.5" />
+                                    <rect x="323" y="180" width="3" height="3" fill="#5eead4" />
+                                    <rect x="329" y="194" width="3" height="3" fill="#5eead4" />
+                                    <text x="342" y="180" fill="#2dd4bf" font-size="8" font-weight="800">PLUM TOE WALL (IS:14458)</text>
+                                </g>
+
+                                <!-- Dynamic Monsoon Storm Rain System -->
+                                <g id="sim-rain-group" opacity="0">
+                                    <line x1="60" y1="10" x2="45" y2="40" stroke="#38bdf8" stroke-width="1" opacity="0.6" />
+                                    <line x1="120" y1="20" x2="105" y2="50" stroke="#38bdf8" stroke-width="1.2" opacity="0.7" />
+                                    <line x1="180" y1="15" x2="165" y2="45" stroke="#38bdf8" stroke-width="1" opacity="0.6" />
+                                    <line x1="240" y1="25" x2="225" y2="55" stroke="#38bdf8" stroke-width="1.3" opacity="0.8" />
+                                    <line x1="300" y1="18" x2="285" y2="48" stroke="#38bdf8" stroke-width="1" opacity="0.7" />
+                                    <line x1="360" y1="30" x2="345" y2="60" stroke="#38bdf8" stroke-width="1.4" opacity="0.8" />
+                                    <line x1="420" y1="22" x2="405" y2="52" stroke="#38bdf8" stroke-width="1.1" opacity="0.7" />
+                                    <line x1="480" y1="28" x2="465" y2="58" stroke="#38bdf8" stroke-width="1.2" opacity="0.8" />
+                                </g>
+
+                                <!-- Highway Corridor (Carriageway NH-21 Mandi) -->
+                                <g id="sim-highway-group">
+                                    <rect x="320" y="202" width="115" height="6" fill="#0f172a" stroke="#334155" stroke-width="0.8" />
+                                    <line x1="320" y1="205" x2="435" y2="205" stroke="#facc15" stroke-width="1.3" stroke-dasharray="5 4" />
+                                    <!-- Crash Barrier / W-Beam at Valley Drop -->
+                                    <rect x="428" y="196" width="4" height="7" fill="#cbd5e1" stroke="#475569" stroke-width="0.5" />
+                                    <line x1="426" y1="197" x2="434" y2="197" stroke="#cbd5e1" stroke-width="1.5" />
+                                    <text x="338" y="222" fill="#94a3b8" font-size="8" font-weight="700">NH-21 CORRIDOR (MANDI)</text>
+                                </g>
+
+                                <!-- Road Status Indicator / Warning Barrier (Shows on Failure) -->
+                                <g id="sim-road-status-group" opacity="0">
+                                    <rect x="360" y="188" width="56" height="15" rx="3" fill="#7f1d1d" stroke="#ef4444" stroke-width="1" />
+                                    <text x="364" y="199" fill="#fef2f2" font-size="7.5" font-weight="900">ROAD BLOCKED</text>
+                                </g>
+
+                                <!-- Valley Drop & Beas River Gorge -->
+                                <path d="M 435 205 L 515 240 L 515 290 L 435 290 Z" fill="url(#simBeasGrad)" opacity="0.7" />
+                                <text x="445" y="260" fill="#38bdf8" font-size="8.5" font-weight="800">BEAS RIVER GORGE</text>
 
                                 <!-- Dynamic Angle Callout Arc -->
-                                <path id="sim-angle-arc" d="M 296 205 A 24 24 0 0 1 306 183" fill="none" stroke="#22c55e" stroke-width="1.5" />
-                                <text id="sim-angle-text" x="250" y="190" fill="#4ade80" font-size="8.5" font-weight="800">&beta; = 42&deg;</text>
+                                <path id="sim-angle-arc" d="M 296 205 A 24 24 0 0 1 306 183" fill="none" stroke="#2dd4bf" stroke-width="1.6" />
+                                <text id="sim-angle-text" x="250" y="190" fill="#5eead4" font-size="8.5" font-weight="800">&beta; = 42&deg;</text>
 
-                                <!-- Active Driving vs Resisting Forces Annotation -->
+                                <!-- Force Vectors Annotation -->
                                 <g id="sim-force-arrows">
                                     <line x1="250" y1="125" x2="275" y2="150" stroke="#ef4444" stroke-width="2" marker-end="url(#simArrowRed)" />
                                     <text id="sim-shear-text" x="270" y="130" fill="#fca5a5" font-size="7.5" font-weight="800">&tau; (Shear Drive)</text>
@@ -534,8 +629,8 @@ HIMA-LENS | Himalayan Landslide Intelligence Platform
                                 <input type="range" id="slider-angle" min="30" max="75" step="1" value="42" class="sim-slider" aria-label="Hill Cut Angle in degrees">
                                 <div class="slider-ticks">
                                     <span>30&deg; (Gentle)</span>
-                                    <span>50&deg; (Critical)</span>
-                                    <span>75&deg; (Cliff)</span>
+                                    <span>48&deg; (Standard Cut)</span>
+                                    <span>75&deg; (Vertical Scarp)</span>
                                 </div>
                             </div>
 
@@ -554,9 +649,36 @@ HIMA-LENS | Himalayan Landslide Intelligence Platform
                             </div>
                         </div>
 
+                        <!-- Interactive Civil Engineering Remediation Toolbox (Interactive Toggles) -->
+                        <div class="sim-remediation-toolbox">
+                            <span class="toolbox-heading">CIVIL STABILIZATION MEASURES (IS:14458)</span>
+                            <div class="toolbox-grid">
+                                <label class="toolbox-toggle" title="Construct a reinforced plum concrete gravity wall at the toe">
+                                    <input type="checkbox" id="toggle-rem-wall">
+                                    <span class="toggle-box"></span>
+                                    <span class="toggle-label">Plum Retaining Wall (+0.30)</span>
+                                </label>
+                                <label class="toolbox-toggle" title="Drill grouted steel anchor tendon rods through the failure plane">
+                                    <input type="checkbox" id="toggle-rem-nails">
+                                    <span class="toggle-box"></span>
+                                    <span class="toggle-label">Soil Nails &amp; Anchors (+0.28)</span>
+                                </label>
+                                <label class="toolbox-toggle" title="Perforated subsurface drains relieve pore water pressure">
+                                    <input type="checkbox" id="toggle-rem-drains">
+                                    <span class="toggle-box"></span>
+                                    <span class="toggle-label">Subsurface Drains (-70% u)</span>
+                                </label>
+                                <label class="toolbox-toggle" title="Hydro-seeding vetiver grass roots for tensile surface cohesion">
+                                    <input type="checkbox" id="toggle-rem-bio">
+                                    <span class="toggle-box"></span>
+                                    <span class="toggle-label">Bio-Vetiver Mesh (+0.18)</span>
+                                </label>
+                            </div>
+                        </div>
+
                         <!-- Geotechnical Equation & Status Sub-Bar -->
                         <div class="sim-formula-bar">
-                            <span class="formula-code">FoS = [ c' + (&gamma;&bull;z&bull;cos&sup2;&beta; &minus; u)&bull;tan&phi;' ] / [ &gamma;&bull;z&bull;sin&beta;&bull;cos&beta; ]</span>
+                            <span class="formula-code">FoS = [ (c' + &Delta;c') + (&gamma;&bull;z&bull;cos&sup2;&beta; &minus; u)&bull;tan&phi;' + &Delta;&tau; ] / [ &gamma;&bull;z&bull;sin&beta;&bull;cos&beta; ]</span>
                             <span class="sim-engine-tag">&bull; IRC:SP:48 / BISHOP LEQ</span>
                         </div>
                     </div>
@@ -666,11 +788,11 @@ HIMA-LENS | Himalayan Landslide Intelligence Platform
                     <p>Move beyond flat tables. Explore 14,190 mapped slope failures with Cesium 3D elevation drapes, examine geotechnical field evidence, and analyze the Himalayan landscape in real time.</p>
 
                     <div class="cta-actions">
-                        <a href="{{ url_for('explore') }}" class="hero-primary-button">
+                        <a href="{{ url_for('explore') }}" class="hero-primary-button cta-primary-button">
                             <span>Open the Interactive Map</span>
                             <span class="button-arrow" aria-hidden="true">&nearr;</span>
                         </a>
-                        <a href="{{ url_for('feed') }}" class="cta-secondary-button">
+                        <a href="{{ url_for('feed', tab='news') }}" class="cta-secondary-button">
                             <span>View Live Hazard Feed</span>
                             <span aria-hidden="true">&rarr;</span>
                         </a>
@@ -898,41 +1020,48 @@ document.addEventListener("DOMContentLoaded", () => {
     const fosVal = document.getElementById("sim-fos-val");
     const fosBadge = document.getElementById("sim-fos-badge");
     const fosPill = document.getElementById("sim-fos-pill");
+    const fosMeter = document.getElementById("sim-fos-meter");
     const presetBtns = document.querySelectorAll(".sim-preset-btn");
+    const btnSurge = document.getElementById("btn-cloudburst-surge");
+
+    // Interactive Remediation Toolbox Toggles
+    const toggleRemWall = document.getElementById("toggle-rem-wall");
+    const toggleRemNails = document.getElementById("toggle-rem-nails");
+    const toggleRemDrains = document.getElementById("toggle-rem-drains");
+    const toggleRemBio = document.getElementById("toggle-rem-bio");
 
     // SVG elements to transform
     const bedrockPath = document.getElementById("sim-bedrock-path");
+    const bedrockJoints = document.getElementById("sim-bedrock-joints");
+    const waterMass = document.getElementById("sim-water-mass");
     const waterPath = document.getElementById("sim-water-path");
     const waterText = document.getElementById("sim-water-text");
+    const seepageArrows = document.getElementById("sim-seepage-arrows");
     const slipPath = document.getElementById("sim-slip-path");
     const colluviumPath = document.getElementById("sim-colluvium-path");
     const debrisPatPath = document.getElementById("sim-debris-pattern-path");
     const crackPath = document.getElementById("sim-crack-path");
-    const remediationGroup = document.getElementById("sim-remediation-group");
+    const rainGroup = document.getElementById("sim-rain-group");
+    const roadStatusGroup = document.getElementById("sim-road-status-group");
+    const wallGroup = document.getElementById("sim-wall-group");
+    const nailsGroup = document.getElementById("sim-nails-group");
+    const drainsGroup = document.getElementById("sim-drains-group");
+    const bioGroup = document.getElementById("sim-bio-group");
     const angleArc = document.getElementById("sim-angle-arc");
     const angleText = document.getElementById("sim-angle-text");
     const shearText = document.getElementById("sim-shear-text");
 
-    let isRemediated = false;
-
-    // Limit Equilibrium Infinite Slope / Planar Model parameters
-    // c' = 14 kPa (effective cohesion of weathered phyllite)
-    // phi' = 32 deg (internal friction angle)
-    // gamma = 19.5 kN/m^3 (unit weight of colluvium)
-    // z = 4.2 m (depth of potential failure surface)
-    // gamma_w = 9.81 kN/m^3 (unit weight of water)
     const C_PRIME = 14.0;
     const PHI_RAD = (32.0 * Math.PI) / 180.0;
     const GAMMA = 19.5;
     const Z_DEPTH = 4.2;
     const GAMMA_W = 9.81;
 
-    function computeFoS(angleDeg, satPercent, remediated) {
+    function computeFoS(angleDeg, satPercent, remWall, remNails, remDrains, remBio) {
         const betaRad = (angleDeg * Math.PI) / 180.0;
-        const m = satPercent / 100.0; // Saturation ratio of thickness
+        let m = satPercent / 100.0;
+        if (remDrains) m *= 0.30; // 70% pore pressure reduction
 
-        // Effective normal stress: sigma'_n = gamma * z * cos^2(beta) - u
-        // where u = m * gamma_w * z * cos^2(beta)
         const cosBeta = Math.cos(betaRad);
         const sinBeta = Math.sin(betaRad);
         const cos2 = cosBeta * cosBeta;
@@ -941,17 +1070,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const sigmaN = GAMMA * Z_DEPTH * cos2;
         const effectiveSigmaN = Math.max(0.1, sigmaN - u);
 
-        // Resisting shear strength tau_f = c' + sigma'_n * tan(phi')
-        let tauResisting = C_PRIME + effectiveSigmaN * Math.tan(PHI_RAD);
+        const effCohesion = C_PRIME + (remBio ? 8.0 : 0.0);
+        let tauResisting = effCohesion + effectiveSigmaN * Math.tan(PHI_RAD);
 
-        // Driving shear stress tau_d = gamma * z * sin(beta) * cos(beta)
+        if (remNails) tauResisting += 18.0;
+        if (remWall) tauResisting += 20.0;
+
         const tauDriving = GAMMA * Z_DEPTH * sinBeta * cosBeta;
-
-        // Remediation structural bonus (soil nails + keyed breast wall provide ~28 kPa passive resistance)
-        if (remediated) {
-            tauResisting += 28.0;
-        }
-
         const fos = tauResisting / Math.max(0.5, tauDriving);
         return Math.max(0.40, Math.min(3.50, fos));
     }
@@ -959,80 +1084,131 @@ document.addEventListener("DOMContentLoaded", () => {
     function updateSimulation() {
         const angle = parseInt(sliderAngle.value, 10);
         const sat = parseInt(sliderWater.value, 10);
+        const remWall = toggleRemWall ? toggleRemWall.checked : false;
+        const remNails = toggleRemNails ? toggleRemNails.checked : false;
+        const remDrains = toggleRemDrains ? toggleRemDrains.checked : false;
+        const remBio = toggleRemBio ? toggleRemBio.checked : false;
+        const hasRemediation = remWall || remNails || remDrains || remBio;
 
         valAngle.textContent = `${angle}°`;
         valWater.textContent = sat === 0 ? "0% (Dry)" : `${sat}% (${sat >= 75 ? 'Cloudburst' : sat >= 40 ? 'Heavy Rain' : 'Seepage'})`;
 
-        const fos = computeFoS(angle, sat, isRemediated);
+        const fos = computeFoS(angle, sat, remWall, remNails, remDrains, remBio);
         fosVal.textContent = fos.toFixed(2);
 
-        // Status update
+        // Update FoS gauge meter bar
+        if (fosMeter) {
+            const meterPct = Math.max(5, Math.min(100, Math.round(((fos - 0.4) / (2.2 - 0.4)) * 100)));
+            fosMeter.style.width = `${meterPct}%`;
+        }
+
+        // Status pill & badge update
         if (fos >= 1.30) {
-            fosBadge.textContent = isRemediated ? "REINFORCED" : "STABLE";
+            fosBadge.textContent = hasRemediation ? "REINFORCED" : "STABLE";
             fosPill.setAttribute("data-status", "stable");
         } else if (fos >= 1.00) {
-            fosBadge.textContent = "MARGINAL";
+            fosBadge.textContent = "CRITICAL";
             fosPill.setAttribute("data-status", "marginal");
         } else {
             fosBadge.textContent = "FAILURE";
             fosPill.setAttribute("data-status", "failure");
         }
 
-        // Geometric adjustments in SVG based on angle
-        // As angle increases from 30 to 75, crown scarp shifts closer to toe X=320
+        // Geometric adjustments based on angle
         const dx = Math.round(180 - (angle - 30) * 2.8);
         const crownX = Math.max(120, 320 - dx);
         const scarpY = Math.round(50 + (angle - 30) * 0.4);
 
-        // Update Bedrock geometry
-        bedrockPath.setAttribute("d", `M 20 40 L ${crownX} ${scarpY} L 320 205 L 430 205 L 505 240 L 505 280 L 20 280 Z`);
+        // Bedrock geometry
+        const bedD = `M 20 40 L ${crownX} ${scarpY} L 320 205 L 430 205 L 515 240 L 515 290 L 20 290 Z`;
+        if (bedrockPath) bedrockPath.setAttribute("d", bedD);
+        if (bedrockJoints) bedrockJoints.setAttribute("d", bedD);
 
-        // Update Slip surface
+        // Slip surface arc
         const arcMidX = Math.round((crownX + 320) / 2 + 10);
-        const arcMidY = Math.round((scarpY + 205) / 2 + (fos < 1.0 ? 15 : 5));
+        const arcMidY = Math.round((scarpY + 205) / 2 + (fos < 1.0 ? 16 : 6));
         const slipD = `M ${crownX + 15} ${scarpY + 6} Q ${arcMidX} ${arcMidY} 320 205`;
-        slipPath.setAttribute("d", slipD);
+        if (slipPath) {
+            slipPath.setAttribute("d", slipD);
+            slipPath.setAttribute("stroke", fos < 1.0 ? "#ef4444" : fos < 1.3 ? "#f59e0b" : "#10b981");
+        }
 
-        // Update Colluvium & Debris mass
-        // If failure (fos < 1.0), debris encroaches onto road (toe expands to X=360..395)
-        const roadEnc = fos < 1.0 ? Math.round(345 + (1.0 - fos) * 55) : (isRemediated ? 325 : 340);
+        // Colluvium / debris mass & encroachment
+        const isRunout = fos < 1.0 && !remWall;
+        const roadEnc = isRunout ? Math.round(350 + (1.0 - fos) * 60) : (remWall ? 320 : 335);
         const collD = `M ${crownX + 15} ${scarpY + 6} Q ${arcMidX} ${arcMidY} 320 205 L ${roadEnc} 205 L ${roadEnc - 15} 185 Q ${arcMidX + 15} ${arcMidY - 10} ${crownX + 15} ${scarpY + 6} Z`;
-        colluviumPath.setAttribute("d", collD);
-        debrisPatPath.setAttribute("d", collD);
+        if (colluviumPath) colluviumPath.setAttribute("d", collD);
+        if (debrisPatPath) debrisPatPath.setAttribute("d", collD);
 
         // Tension cracks at crown
-        crackPath.setAttribute("d", `M ${crownX + 15} ${scarpY - 6} L ${crownX + 15} ${scarpY + 6} L ${crownX + 11} ${scarpY + 12}`);
-        crackPath.setAttribute("stroke", fos < 1.0 ? "#ef4444" : "#f59e0b");
-        crackPath.setAttribute("stroke-width", fos < 1.0 ? "2.5" : "1.5");
+        if (crackPath) {
+            crackPath.setAttribute("d", `M ${crownX + 15} ${scarpY - 6} L ${crownX + 15} ${scarpY + 6} L ${crownX + 11} ${scarpY + 12}`);
+            crackPath.setAttribute("stroke", fos < 1.0 ? "#ef4444" : fos < 1.3 ? "#f59e0b" : "#10b981");
+            crackPath.setAttribute("stroke-width", fos < 1.0 ? "2.6" : "1.6");
+        }
 
-        // Phreatic line elevation (governed by saturation slider)
-        if (sat > 0) {
-            const waterElevY = Math.round(205 - (sat / 100.0) * (205 - scarpY) * 0.65);
-            waterPath.setAttribute("d", `M 25 ${waterElevY + 10} Q ${(crownX + 320) / 2} ${waterElevY} 310 205`);
-            waterPath.setAttribute("opacity", "1");
-            waterText.textContent = `PHREATIC SURFACE (m = ${(sat / 100).toFixed(2)})`;
-            waterText.setAttribute("y", `${waterElevY - 4}`);
-            waterText.setAttribute("opacity", "1");
+        // Phreatic groundwater line & seepage vectors
+        const effSat = remDrains ? sat * 0.30 : sat;
+        if (effSat > 0) {
+            const waterElevY = Math.round(205 - (effSat / 100.0) * (205 - scarpY) * 0.70);
+            const waterD = `M 25 ${waterElevY + 10} Q ${(crownX + 320) / 2} ${waterElevY} 310 205`;
+            if (waterPath) {
+                waterPath.setAttribute("d", waterD);
+                waterPath.setAttribute("opacity", "0.95");
+            }
+            if (waterMass) {
+                waterMass.setAttribute("d", `M 25 ${waterElevY + 10} Q ${(crownX + 320) / 2} ${waterElevY} 310 205 L 320 205 L 20 290 Z`);
+                waterMass.setAttribute("opacity", (effSat / 150).toFixed(2));
+            }
+            if (waterText) {
+                waterText.textContent = `PHREATIC SURFACE (m = ${(effSat / 100).toFixed(2)}${remDrains ? ' DRAINS ACTIVE' : ''})`;
+                waterText.setAttribute("y", `${waterElevY - 4}`);
+                waterText.setAttribute("opacity", "0.9");
+            }
+            if (seepageArrows) seepageArrows.setAttribute("opacity", effSat >= 40 ? "1" : "0.4");
         } else {
-            waterPath.setAttribute("opacity", "0.15");
-            waterText.textContent = `PHREATIC SURFACE (DRY m = 0.00)`;
-            waterText.setAttribute("y", `175`);
+            if (waterPath) waterPath.setAttribute("opacity", "0.15");
+            if (waterMass) waterMass.setAttribute("opacity", "0");
+            if (waterText) {
+                waterText.textContent = `PHREATIC SURFACE (DRY m = 0.00)`;
+                waterText.setAttribute("y", "175");
+                waterText.setAttribute("opacity", "0.25");
+            }
+            if (seepageArrows) seepageArrows.setAttribute("opacity", "0");
+        }
+
+        // Rain animation visibility
+        if (rainGroup) {
+            rainGroup.setAttribute("opacity", sat >= 75 ? "1" : sat >= 35 ? "0.6" : "0");
+        }
+
+        // Road closure warning indicator
+        if (roadStatusGroup) {
+            roadStatusGroup.setAttribute("opacity", isRunout ? "1" : "0");
         }
 
         // Angle indicator
-        angleText.textContent = `β = ${angle}°`;
-        angleText.setAttribute("x", `${crownX + 50}`);
-        angleText.setAttribute("y", `${Math.round((scarpY + 205) / 2)}`);
+        if (angleText) {
+            angleText.textContent = `β = ${angle}°`;
+            angleText.setAttribute("x", `${crownX + 50}`);
+            angleText.setAttribute("y", `${Math.round((scarpY + 205) / 2)}`);
+        }
 
-        // Shear drive callout
-        shearText.textContent = `τ_drive = ${(GAMMA * Z_DEPTH * Math.sin(angle*Math.PI/180) * Math.cos(angle*Math.PI/180)).toFixed(1)} kPa`;
+        // Shear drive readout
+        if (shearText) {
+            const tauD = GAMMA * Z_DEPTH * Math.sin(angle * Math.PI / 180) * Math.cos(angle * Math.PI / 180);
+            shearText.textContent = `τ_drive = ${tauD.toFixed(1)} kPa`;
+        }
 
-        // Remediation overlay toggle
-        remediationGroup.setAttribute("opacity", isRemediated ? "1" : "0");
+        // Remediation groups
+        if (wallGroup) wallGroup.setAttribute("opacity", remWall ? "1" : "0");
+        if (nailsGroup) nailsGroup.setAttribute("opacity", remNails ? "1" : "0");
+        if (drainsGroup) drainsGroup.setAttribute("opacity", remDrains ? "1" : "0");
+        if (bioGroup) bioGroup.setAttribute("opacity", remBio ? "1" : "0");
     }
 
+    // Slider inputs
     sliderAngle.addEventListener("input", () => {
-        // Clear preset highlight when manually sliding
         presetBtns.forEach(b => b.classList.remove("active"));
         updateSimulation();
     });
@@ -1042,7 +1218,17 @@ document.addEventListener("DOMContentLoaded", () => {
         updateSimulation();
     });
 
-    // Preset button event listeners
+    // Checkbox toggles for remediation
+    [toggleRemWall, toggleRemNails, toggleRemDrains, toggleRemBio].forEach(cb => {
+        if (cb) {
+            cb.addEventListener("change", () => {
+                presetBtns.forEach(b => b.classList.remove("active"));
+                updateSimulation();
+            });
+        }
+    });
+
+    // Preset buttons
     presetBtns.forEach(btn => {
         btn.addEventListener("click", () => {
             presetBtns.forEach(b => b.classList.remove("active"));
@@ -1050,21 +1236,57 @@ document.addEventListener("DOMContentLoaded", () => {
             const preset = btn.getAttribute("data-preset");
 
             if (preset === "dry") {
-                isRemediated = false;
+                if (toggleRemWall) toggleRemWall.checked = false;
+                if (toggleRemNails) toggleRemNails.checked = false;
+                if (toggleRemDrains) toggleRemDrains.checked = false;
+                if (toggleRemBio) toggleRemBio.checked = false;
                 sliderAngle.value = 42;
                 sliderWater.value = 0;
             } else if (preset === "monsoon") {
-                isRemediated = false;
-                sliderAngle.value = 52;
-                sliderWater.value = 85;
+                if (toggleRemWall) toggleRemWall.checked = false;
+                if (toggleRemNails) toggleRemNails.checked = false;
+                if (toggleRemDrains) toggleRemDrains.checked = false;
+                if (toggleRemBio) toggleRemBio.checked = false;
+                sliderAngle.value = 54;
+                sliderWater.value = 90;
             } else if (preset === "remediated") {
-                isRemediated = true;
+                if (toggleRemWall) toggleRemWall.checked = true;
+                if (toggleRemNails) toggleRemNails.checked = true;
+                if (toggleRemDrains) toggleRemDrains.checked = true;
+                if (toggleRemBio) toggleRemBio.checked = true;
                 sliderAngle.value = 52;
-                sliderWater.value = 45;
+                sliderWater.value = 80;
             }
             updateSimulation();
         });
     });
+
+    // Fun "Cloudburst Surge" Action
+    if (btnSurge) {
+        let surgeInterval = null;
+        btnSurge.addEventListener("click", () => {
+            presetBtns.forEach(b => b.classList.remove("active"));
+            let currentSat = parseInt(sliderWater.value, 10);
+            if (surgeInterval) clearInterval(surgeInterval);
+
+            // Turn off remediation to observe raw cloudburst shock
+            if (toggleRemWall) toggleRemWall.checked = false;
+            if (toggleRemNails) toggleRemNails.checked = false;
+            if (toggleRemDrains) toggleRemDrains.checked = false;
+            if (toggleRemBio) toggleRemBio.checked = false;
+            sliderAngle.value = 54;
+
+            surgeInterval = setInterval(() => {
+                currentSat += 10;
+                if (currentSat >= 95) {
+                    currentSat = 95;
+                    clearInterval(surgeInterval);
+                }
+                sliderWater.value = currentSat;
+                updateSimulation();
+            }, 50);
+        });
+    }
 
     // Initialize simulation
     updateSimulation();

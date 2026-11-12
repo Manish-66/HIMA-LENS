@@ -1084,10 +1084,10 @@
       display: flex;
       flex-direction: column;
       background: #ffffff;
-      border: 1.5px solid var(--border-medium);
-      border-radius: 3.5px;
+      border: 1.5px solid #092f25;
+      border-radius: 4px;
       overflow: hidden;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 2px 6px rgba(9, 47, 37, 0.08);
       min-height: 0;
       height: 100%;
     }
@@ -1096,22 +1096,36 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: #0f2b23;
+      background: #092f25;
       color: #ffffff;
-      padding: 3px 8px;
-      border-bottom: 1.5px solid #091e18;
+      padding: 3.5px 8px;
+      border-bottom: 1.5px solid #104c3b;
       flex: 0 0 auto;
       font-family: 'Manrope', sans-serif;
     }
-    .annexure-card-tag {
-      background: #0369a1;
+    .annex-plate-badge {
+      display: inline-flex;
+      align-items: center;
+      font-size: 6.8px;
+      font-weight: 800;
+      background: #104c3b;
       color: #ffffff;
+      border: 1px solid rgba(45, 212, 191, 0.5);
+      padding: 1.5px 6px;
+      border-radius: 2px;
+      letter-spacing: 0.3px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .annexure-card-tag {
+      background: rgba(255, 255, 255, 0.12);
+      color: #f1f5f9;
+      border: 1px solid rgba(255, 255, 255, 0.22);
       font-size: 6.5px;
       font-weight: 800;
-      padding: 1px 5px;
+      padding: 1.5px 6px;
       border-radius: 2px;
       text-transform: uppercase;
-      letter-spacing: 0.4px;
+      letter-spacing: 0.5px;
       font-family: 'JetBrains Mono', monospace;
     }
 
@@ -2578,7 +2592,7 @@
         {% for p in photo_list %}
         <div class="annexure-photo-card card-idx-{{ loop.index }}">
           <div class="annexure-card-header">
-            <span class="gallery-badge" style="position: static; font-size: 6.8px; font-weight: 800; background: #0f172a; color: #5eead4; border: 1px solid rgba(94,234,212,0.4); padding: 1.5px 6px;">
+            <span class="annex-plate-badge">
               {% if loop.index == 1 %}PLATE A.1 &bull; PRIMARY SCARP &amp; DETACHMENT HEAD (ORTHOGONAL)
               {% elif loop.index == 2 %}PLATE A.2 &bull; LEFT LATERAL FLANK &amp; CROWN DISCONTINUITY
               {% elif loop.index == 3 %}PLATE A.3 &bull; RIGHT LATERAL FLANK &amp; TENSION CRACK ZONE
@@ -2607,8 +2621,8 @@
           </div>
           <div class="annexure-card-footer">
             <div class="annex-meta-row">
-              <span><strong style="color: #0f2b23;">ORIENTATION:</strong> {% if loop.index == 1 %}Frontal Orthogonal / Upslope View{% elif loop.index == 2 %}Up-Station / Left Lateral Flank Profile{% elif loop.index == 3 %}Down-Station / Right Lateral Flank Diagnostic{% else %}Highway Formation / Displaced Colluvial Runout{% endif %}</span>
-              <span style="background: #e0f2fe; color: #0369a1; border: 0.5px solid #bae6fd; padding: 1px 4.5px; border-radius: 2px; font-weight: 800; font-size: 6px;">OPTICAL EVIDENCE</span>
+              <span><strong style="color: #092f25;">ORIENTATION:</strong> {% if loop.index == 1 %}Frontal Orthogonal / Upslope View{% elif loop.index == 2 %}Up-Station / Left Lateral Flank Profile{% elif loop.index == 3 %}Down-Station / Right Lateral Flank Diagnostic{% else %}Highway Formation / Displaced Colluvial Runout{% endif %}</span>
+              <span style="background: #ecfdf5; color: #065f46; border: 0.5px solid #a7f3d0; padding: 1.5px 5px; border-radius: 2px; font-weight: 800; font-size: 6px; font-family: 'Manrope', sans-serif; letter-spacing: 0.3px;">OPTICAL EVIDENCE</span>
             </div>
             <div class="annex-desc-row">
               {% if loop.index == 1 %}
