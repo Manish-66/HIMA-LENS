@@ -13336,16 +13336,19 @@ body:has(.gis-console-layout) {
     display: flex;
     flex-direction: column;
     gap: 16px;
+    flex: 1 1 auto;
+    min-height: 0;
 }
 
 .report-detail-media {
     width: 100%;
-    aspect-ratio: 16 / 9;
-    max-height: 280px;
+    min-height: 240px;
+    height: 280px;
+    flex-shrink: 0;
     border-radius: 12px;
     overflow: hidden;
     border: 1px solid #dce7e1;
-    background: #edf3f0;
+    background: #0c261e;
     position: relative;
 }
 
@@ -13374,7 +13377,7 @@ body:has(.gis-console-layout) {
 
 .full-img-hint {
     position: absolute;
-    bottom: 12px;
+    top: 12px;
     right: 12px;
     background: rgba(12, 38, 30, 0.85);
     backdrop-filter: blur(8px);
@@ -13394,6 +13397,63 @@ body:has(.gis-console-layout) {
     opacity: 0.9;
     transition: all 0.2s ease;
     pointer-events: none;
+}
+
+/* Incident Detail Modal Telemetry Watermark Overlay (HIMA-LENS Forest Green Theme) */
+.detail-modal-watermark {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    background: rgba(9, 47, 37, 0.92);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-top: 1.5px solid rgba(45, 212, 191, 0.55);
+    padding: 6px 14px;
+    font-family: 'JetBrains Mono', 'Consolas', monospace;
+    font-size: 10.5px;
+    line-height: 1.4;
+    color: #ffffff;
+    pointer-events: none;
+    box-sizing: border-box;
+}
+
+.detail-modal-watermark .psw-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+.detail-modal-watermark .psw-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.detail-modal-watermark .psw-right {
+    justify-content: flex-end;
+    text-align: right;
+}
+
+.detail-modal-watermark .psw-tag {
+    font-weight: 800;
+    color: #2dd4bf;
+    letter-spacing: 0.3px;
+}
+
+.detail-modal-watermark .psw-val {
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.detail-modal-watermark .psw-sep {
+    color: rgba(45, 212, 191, 0.45);
+    margin: 0 3px;
 }
 
 .detail-photo-link:hover .full-img-hint {
@@ -16784,4 +16844,209 @@ a.dimension-item:active {
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
     }
+}
+
+
+/* =========================================================
+   HIMA-LENS INTERACTIVE GEOTECHNICAL GLOSSARY TOOLTIP
+========================================================= */
+.hima-glossary-tooltip {
+    position: fixed;
+    z-index: 999999;
+    width: 280px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 12px 14px;
+    box-shadow: 0 14px 34px rgba(15, 23, 42, 0.14), 0 2px 6px rgba(15, 23, 42, 0.05);
+    pointer-events: auto;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(4px);
+    transition: opacity 0.16s ease, transform 0.16s ease, visibility 0.16s;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.hima-glossary-tooltip.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.hima-tt-header {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding-bottom: 7px;
+    margin-bottom: 7px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.hima-tt-symbol {
+    font-size: 14px;
+    font-weight: 800;
+    line-height: 1;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    color: #0284c7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.hima-tt-title-wrap {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.hima-tt-title {
+    font-family: 'Manrope', sans-serif;
+    font-size: 11.5px;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: 0.01em;
+    line-height: 1.25;
+}
+
+.hima-tt-standard {
+    font-size: 8.5px;
+    font-weight: 700;
+    color: #059669;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-top: 2px;
+}
+
+.hima-tt-body {
+    font-size: 10.5px;
+    line-height: 1.5;
+    color: #334155;
+    font-weight: 400;
+}
+
+/* Subtle indicator for hoverable technical terms */
+.glossary-term {
+    border-bottom: 1px dotted rgba(23, 98, 77, 0.6);
+    cursor: help;
+    transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.glossary-term:hover {
+    color: #047857;
+    border-bottom-color: #047857;
+}
+
+html[data-theme="dark"] .glossary-term {
+    border-bottom-color: rgba(116, 240, 183, 0.5);
+}
+
+html[data-theme="dark"] .glossary-term:hover {
+    color: #74f0b7;
+    border-bottom-color: #74f0b7;
+}
+
+.legend-chip {
+    cursor: help;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.legend-chip:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+/* Evidentiary Report Accuracy Styles */
+.detail-accuracy-box {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px 14px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 8px;
+    margin-top: 2px;
+}
+
+.detail-accuracy-box.disqualified {
+    background: #fef2f2;
+    border-color: #fecaca;
+}
+
+.detail-accuracy-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.detail-accuracy-title {
+    font-size: 8.5px;
+    font-weight: 850;
+    color: #166534;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+}
+
+.detail-accuracy-box.disqualified .detail-accuracy-title {
+    color: #991b1b;
+}
+
+.detail-accuracy-badge {
+    font-size: 11px;
+    font-weight: 800;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: #166534;
+    color: #ffffff;
+    letter-spacing: 0.03em;
+}
+
+.detail-accuracy-box.disqualified .detail-accuracy-badge {
+    background: #dc2626;
+    color: #ffffff;
+}
+
+.detail-accuracy-breakdown {
+    font-size: 10.5px;
+    color: #15803d;
+    line-height: 1.45;
+}
+
+.detail-accuracy-box.disqualified .detail-accuracy-breakdown {
+    color: #b91c1c;
+}
+
+.recent-accuracy-badge {
+    font-size: 7.5px;
+    font-weight: 850;
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+}
+
+.recent-accuracy-badge.high {
+    background: #ecfdf5;
+    color: #047857;
+    border: 1px solid #a7f3d0;
+}
+
+.recent-accuracy-badge.mid {
+    background: #fffbeb;
+    color: #b45309;
+    border: 1px solid #fde68a;
+}
+
+.recent-accuracy-badge.disq {
+    background: #fef2f2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
 }

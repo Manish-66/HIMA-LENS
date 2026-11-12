@@ -193,6 +193,11 @@ window.openPwdAssessmentModal = async function(reportId) {
 
     if (data.success && data.assessment) {
       currentAssessmentData = data.assessment;
+      if (data.assessment.accuracy_metric) {
+        const acc = data.assessment.accuracy_metric;
+        const color = acc.is_disqualified ? '#dc2626' : (acc.accuracy_pct >= 90 ? '#059669' : '#d97706');
+        subtitle.innerHTML = `REF: ${displayRef} &bull; <span style="background: ${color}; color: #ffffff; padding: 1px 6px; border-radius: 3px; font-weight: 700; font-size: 10px;" title="${acc.explanation}">${acc.reliability_pct || acc.accuracy_pct}% RELIABILITY</span>`;
+      }
       populatePwdForm(data.assessment);
       loader.style.display = 'none';
       form.style.display = 'block';

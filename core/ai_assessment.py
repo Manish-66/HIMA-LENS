@@ -22,7 +22,7 @@ import json
 import logging
 import mimetypes
 import re
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from typing import Any
 import requests
@@ -52,9 +52,9 @@ def _get_http_session() -> requests.Session:
     return _http_session
 
 GEMINI_MODELS = [
-    "gemini-flash-lite-latest",
-    "gemini-3.1-flash-lite",
-    "gemini-2.5-flash-lite",
+    "gemini-3.5-flash",
+    "gemini-3.8-flash",
+    "gemini-3.1-pro-preview",
     "gemini-flash-latest",
 ]
 
@@ -387,6 +387,7 @@ def _sanitize_date(date_str: str | None) -> str:
     """Sanitizes raw date strings, correcting month/day swaps or invalid months (e.g. 2026-18-12 -> 2026-10-12)."""
     if not date_str:
         return "2026-10-12"
+
     clean = str(date_str).strip()
     m = re.match(r"^(\d{4})[-/](\d{1,2})[-/](\d{1,2})", clean)
     if m:
@@ -410,6 +411,85 @@ def _sanitize_date(date_str: str | None) -> str:
             dd = 12
         return f"{yyyy:04d}-{mm:02d}-{dd:02d}"
     return "2026-10-12"
+
+
+def _extract_report_coordinates(report: dict[str, Any]) -> tuple[float, float]:
+    """Extracts coordinates strictly from camera EXIF metadata (when available)
+    or the submission values provided when the report was submitted.
+    """
+    # 1. Camera EXIF coordinates [lng, lat]
+    exif_coords = report.get("exif_coordinates")
+    if isinstance(exif_coords, (list, tuple)) and len(exif_coords) >= 2:
+        try:
+            exif_lat = float(exif_coords[1])
+            exif_lng = float(exif_coords[0])
+            if 30.0 <= exif_lat <= 34.0 and 75.0 <= exif_lng <= 80.0:
+                return round(exif_lat, 5), round(exif_lng, 5)
+        except (TypeError, ValueError):
+            pass
+
+    # 2. Form submission values provided when report was submitted
+    try:
+        if report.get("latitude") is not None and report.get("longitude") is not None:
+            lat = float(report.get("latitude"))
+            lng = float(report.get("longitude"))
+            return round(lat, 5), round(lng, 5)
+    except (TypeError, ValueError):
+        pass
+
+    # 3. Default fallback if completely missing
+    return 31.70800, 76.93200
+
+
+def _extract_survey_datetime(report: dict[str, Any]) -> tuple[str, str]:
+    """Sanitizes survey date (YYYY-MM-DD) and extracts IST inspection time (HH:MM:SS IST)
+    strictly from camera EXIF metadata (when present), report incident_date, or database created_at.
+    """
+    # 1. Check EXIF camera datetime metadata if present
+    exif_dt = str(report.get("exif_datetime") or "").strip()
+    if exif_dt:
+        m = re.search(r"(\d{4})[:\-](\d{2})[:\-](\d{2})[T\s](\d{1,2}):(\d{2})(?::(\d{2}))?", exif_dt)
+        if m:
+            yyyy, mm, dd = int(m.group(1)), int(m.group(2)), int(m.group(3))
+            hh, min_ = int(m.group(4)), int(m.group(5))
+            sec = int(m.group(6)) if m.group(6) is not None else 0
+            return f"{yyyy:04d}-{mm:02d}-{dd:02d}", f"{hh:02d}:{min_:02d}:{sec:02d} IST"
+
+    inc_dt_raw = str(report.get("incident_date") or "").strip()
+    created_at_raw = str(report.get("created_at") or "").strip()
+    date_val = _sanitize_date(inc_dt_raw or created_at_raw)
+    time_val = "12:00:00 IST"
+
+    if inc_dt_raw:
+        m = re.search(r"[T\s](\d{1,2}):(\d{2})(?::(\d{2}))?", inc_dt_raw)
+        if m:
+            hh = int(m.group(1))
+            mm = int(m.group(2))
+            ss = int(m.group(3)) if m.group(3) is not None else 0
+            time_val = f"{hh:02d}:{mm:02d}:{ss:02d} IST"
+            return date_val, time_val
+
+    if created_at_raw:
+        try:
+            iso_clean = created_at_raw.replace("Z", "+00:00")
+            dt = datetime.fromisoformat(iso_clean)
+            ist_tz = timezone(timedelta(hours=5, minutes=30))
+            if dt.tzinfo is not None:
+                dt_ist = dt.astimezone(ist_tz)
+                time_val = dt_ist.strftime("%H:%M:%S IST")
+                if not inc_dt_raw:
+                    date_val = dt_ist.strftime("%Y-%m-%d")
+            else:
+                time_val = dt.strftime("%H:%M:%S IST")
+        except Exception:
+            m = re.search(r"[T\s](\d{1,2}):(\d{2})(?::(\d{2}))?", created_at_raw)
+            if m:
+                hh, mm = int(m.group(1)), int(m.group(2))
+                ss = int(m.group(3)) if m.group(3) is not None else 0
+                time_val = f"{hh:02d}:{mm:02d}:{ss:02d} IST"
+
+    return date_val, time_val
+
 
 
 def _get_hash_seed(report_id: str, lat: float, lng: float) -> int:
@@ -441,11 +521,13 @@ def compute_deterministic_engineering_dossier(
     movement = str(report.get("movement_type") or "Slide").strip()
     sev = str(report.get("severity") or "Moderate").strip()
 
+    d_str, t_str = _extract_survey_datetime(report)
+    lat, lng = _extract_report_coordinates(report)
+    inc_date = d_str
+    inc_time = t_str
+
     if is_benchmark_6A9B:
         district = "Mandi"
-        lat = 31.70800
-        lng = 76.93200
-        inc_date = "2026-10-12"
         site_road_name = "Mandi Sector — Major District Road (MDR), Chainage RD 17+432 (Km 17/432)"
         loc_chainage_val = "RD 17+432 (Km 17/432)"
         road_type_val = "Major District Road (MDR)"
@@ -460,15 +542,6 @@ def compute_deterministic_engineering_dossier(
         )
     else:
         district = str(report.get("district") or "Mandi").strip()
-        try:
-            lat = float(report.get("latitude") or 31.70800)
-        except (TypeError, ValueError):
-            lat = 31.70800
-        try:
-            lng = float(report.get("longitude") or 76.93200)
-        except (TypeError, ValueError):
-            lng = 76.93200
-        inc_date = _sanitize_date(report.get("incident_date") or report.get("created_at"))
         landmark = str(report.get("landmark") or "").strip()
         site_road_name = f"{district} Sector — {landmark}" if landmark else f"{district} Sector — Hill Road Corridor"
         loc_chainage_val = landmark if landmark else f"{district} Sector"
@@ -859,6 +932,8 @@ def compute_deterministic_engineering_dossier(
             "location_chainage": loc_chainage_val,
             "road_type": road_type_val,
             "inspection_date": inc_date,
+            "timestamp_time": inc_time,
+            "date": inc_date,
             "elevation": elevation_val,
             "coordinates_dms": _format_coordinates_dms(lat, lng),
             "coordinates_dec": f"{lat:.5f}° N, {lng:.5f}° E",
@@ -1165,7 +1240,206 @@ def compute_deterministic_engineering_dossier(
     }
     dossier_dict["schematic_svg"] = geotech_schematic.generate_schematic_svg(dossier_dict, report, unique_suffix=report_id)
     dossier_dict["schematic_top_badge"] = geotech_schematic.extract_ml_kinematic_parameters(dossier_dict, report)["top_badge"]
+    dossier_dict["accuracy_metric"] = compute_report_accuracy_metric(dossier_dict, report)
     return dossier_dict
+
+
+def compute_report_accuracy_metric(assessment: dict[str, Any] | None, report: dict[str, Any]) -> dict[str, Any]:
+    """Computes an empirical, dynamic Data Reliability Index (DRI) (0-100%)
+    for a geotechnical slope failure submission based on continuous data signals:
+      1. Multi-Perspective Optical Triangulation (photo angles, resolution, scale reference)
+      2. Volumetric Plausibility & Geometric Bounds (debris volume vs scarp geometry)
+      3. Spatial Telemetry Precision (GPS decimal precision: 5-decimal ~1m vs coarse grid)
+      4. Geological Stratigraphy & Documentation Depth (GSI Bhukosh match & observer notes)
+    """
+    if not assessment:
+        assessment = {}
+
+    validation_status = str(assessment.get("validation_status") or "").upper()
+    is_disqualified = (
+        not assessment.get("is_landslide_or_terrain", True)
+        or validation_status in (
+            "INVALID_NON_TERRAIN_IMAGE",
+            "NON_LANDSLIDE_STABLE_TERRAIN",
+            "DISQUALIFIED_NON_TERRAIN",
+            "INCONSISTENT_MULTI_SITE_IMAGES",
+            "MISSING_IMAGE_EVIDENCE",
+        )
+    )
+    if is_disqualified:
+        detected = assessment.get("detected_content", "Non-terrain media")
+        return {
+            "reliability_pct": 0.0,
+            "accuracy_pct": 0,
+            "overall_confidence_pct": 0,
+            "confidence_grade": "DISQUALIFIED",
+            "status_label": "0% Reliability (Disqualified Non-Terrain)",
+            "values_confidence_pct": 0,
+            "definitions_confidence_pct": 0,
+            "evidence_completeness_pct": 0,
+            "is_disqualified": True,
+            "explanation": f"Optical computer vision audit disqualified upload as '{detected}'. Physical modeling and civil works suspended (0%).",
+            "breakdown": {
+                "optical_telemetry_pct": 0,
+                "optical_telemetry_max": 35,
+                "optical_telemetry_details": f"Rejected by optical audit: {detected}.",
+                "geological_bhukosh_pct": 0,
+                "geological_bhukosh_max": 35,
+                "geological_bhukosh_details": "Suspended: Media verified as non-geological scene.",
+                "kinematic_determinism_pct": 0,
+                "kinematic_determinism_max": 30,
+                "kinematic_determinism_details": "Suspended: Non-terrain media disqualified.",
+            }
+        }
+
+    # 1. Multi-Perspective Optical Triangulation (Base: 35-70)
+    photo_urls = report.get("photo_urls") or report.get("photo_url") or []
+    if isinstance(photo_urls, str):
+        photo_urls = [photo_urls] if photo_urls.strip() else []
+    p_count = len(photo_urls)
+
+    if p_count >= 4:
+        img_score = 66.0
+        img_note = f"{p_count} photographic perspectives (crown scarp, lateral flanks, toe deposit)"
+    elif p_count == 3:
+        img_score = 58.0
+        img_note = "3 photographic perspectives (triangulated scarp & toe)"
+    elif p_count == 2:
+        img_score = 50.0
+        img_note = "Dual-perspective visual scaling"
+    elif p_count == 1:
+        img_score = 42.0
+        img_note = "Single 2D smartphone photograph (visual scale margin ±35-40%)"
+    else:
+        img_score = 15.0
+        img_note = "Zero photos attached (uncalibrated nominal baseline)"
+
+    # AI Visual clarity and detected features depth
+    vis_features = assessment.get("observed_features") or {}
+    opt = vis_features.get("optical_geometry") or {}
+    ai_clarity = assessment.get("visual_clarity_score")
+    if ai_clarity and isinstance(ai_clarity, (int, float)):
+        img_score += (float(ai_clarity) - 0.5) * 20.0
+    else:
+        features_found = sum(1 for k in ["tension_cracks_visible", "boulder_max_dia_m", "road_blocked_percent", "cut_slope_angle_deg"] if opt.get(k) is not None)
+        img_score += (features_found * 2.5)
+
+    # 2. Geometric & Volumetric Plausibility (Base: 40-75)
+    pdm = assessment.get("project_data_model") or {}
+    geom = pdm.get("unified_geometry") or {}
+    vol = float(geom.get("debris_insitu_vol_m3") or 145.0)
+
+    import math
+    if 15.0 <= vol <= 200.0:
+        vol_score = 58.0 - (math.log10(max(1.0, vol)) * 3.0)
+    elif vol > 200.0:
+        vol_score = 50.0 - (math.log10(vol / 100.0) * 4.0)
+    else:
+        vol_score = 46.0
+
+    if assessment.get("is_engineer_verified"):
+        param_score = 75.0
+        param_note = "Calibrated on-site engineer verification"
+    else:
+        param_score = 46.0
+        param_note = "Soil parameters assumed from regional literature pending borehole core drilling"
+
+    values_score = (vol_score * 0.55 + param_score * 0.45)
+
+    # 3. Spatial Telemetry & Coordinate Precision (Base: 40-85)
+    try:
+        lat = float(report.get("latitude") or 0.0)
+        lng = float(report.get("longitude") or 0.0)
+    except Exception:
+        lat, lng = 0.0, 0.0
+
+    lat_str = str(report.get("latitude") or "")
+    lng_str = str(report.get("longitude") or "")
+    lat_decimals = len(lat_str.split(".")[1]) if "." in lat_str else 0
+    lng_decimals = len(lng_str.split(".")[1]) if "." in lng_str else 0
+    coord_precision = min(lat_decimals, lng_decimals)
+
+    if report.get("coordinates_source") in ("camera_exif", "photo_metadata_exif"):
+        tele_score = 80.0
+        tele_note = "Hardware camera sensor EXIF GPS confirmed"
+    elif coord_precision >= 5:
+        tele_score = 68.0
+        tele_note = f"High-resolution mobile GPS ({lat:.5f} N, {lng:.5f} E, ~1.1m resolution)"
+    elif coord_precision == 4:
+        tele_score = 62.0
+        tele_note = f"Standard GPS lock ({lat:.4f} N, {lng:.4f} E, ~11m resolution)"
+    elif coord_precision == 3:
+        tele_score = 54.0
+        tele_note = "Medium resolution corridor pin"
+    else:
+        tele_score = 44.0
+        tele_note = "Coarse / rounded regional coordinate pin"
+
+    # 4. Geological Stratigraphy & Description Depth (Base: 45-80)
+    bhukosh = assessment.get("bhukosh_rock_audit") or {}
+    if str(bhukosh.get("status")).upper() == "VALIDATED_CONSISTENT":
+        geo_score = 68.0
+        geo_note = f"Concordant with GSI 1:50k digital Bhukosh bedrock ({bhukosh.get('bhukosh_formation', 'Regional Group')})"
+    else:
+        geo_score = 50.0
+        geo_note = "Regional Western Himalayan lithological group assigned"
+
+    desc = str(report.get("description") or "").strip()
+    desc_bonus = min(12.0, len(desc) / 10.0)
+    geo_doc_score = geo_score + desc_bonus
+    desc_note = f"{len(desc)} characters observer impact notes" if desc else "No field notes provided"
+
+    # Dynamic Weighted Synthesis (30% Optical + 25% Values + 25% Telemetry + 20% Geology & Notes)
+    raw_score = (img_score * 0.30) + (values_score * 0.25) + (tele_score * 0.25) + (geo_doc_score * 0.20)
+    raw_score = max(30.0, min(75.0, raw_score))  # Scientifically capped at 75% for remote un-drilled estimates
+    final_pct = round(raw_score, 1)
+    int_pct = int(round(final_pct))
+
+    if int_pct >= 65:
+        grade = "HIGH_RECON"
+        status_label = "High Field Reliability (Multi-Perspective Reconnaissance)"
+    elif int_pct >= 55:
+        grade = "MODERATE_FIELD"
+        status_label = "Moderate Field Reliability (Standard Field Observation)"
+    elif int_pct >= 45:
+        grade = "PROVISIONAL"
+        status_label = "Provisional Field Reliability (Single-Perspective Screening)"
+    else:
+        grade = "PRELIMINARY"
+        status_label = "Preliminary Screening (Limited Telemetry)"
+
+    explanation = (
+        f"Data Reliability Index: {final_pct}% ({status_label}). "
+        f"Optical Telemetry: {img_note}; "
+        f"Geometric Values: {param_note}; "
+        f"Spatial Coordinates: {tele_note}; "
+        f"Geology & Notes: {geo_note} ({desc_note}). "
+        f"NOTICE: Remote visual estimate. Physical ground survey & borehole testing required prior to structural construction."
+    )
+
+    return {
+        "reliability_pct": final_pct,
+        "accuracy_pct": int_pct,
+        "overall_confidence_pct": int_pct,
+        "confidence_grade": grade,
+        "status_label": status_label,
+        "values_confidence_pct": int(round(values_score)),
+        "definitions_confidence_pct": int(round(geo_score)),
+        "evidence_completeness_pct": int(round(tele_score)),
+        "is_disqualified": False,
+        "explanation": explanation,
+        "breakdown": {
+            "optical_telemetry_pct": int(round(img_score * 0.35 / 100 * 100)),
+            "optical_telemetry_max": 35,
+            "optical_telemetry_details": img_note,
+            "geological_bhukosh_pct": int(round(geo_doc_score * 0.35 / 100 * 100)),
+            "geological_bhukosh_max": 35,
+            "geological_bhukosh_details": geo_note,
+            "kinematic_determinism_pct": int(round(values_score * 0.30 / 100 * 100)),
+            "kinematic_determinism_max": 30,
+            "kinematic_determinism_details": param_note,
+        }
+    }
 
 
 def fallback_visual_assessment(report: dict[str, Any]) -> dict[str, Any]:
@@ -1189,24 +1463,19 @@ def build_rejected_assessment_dossier(
     zero fabricated geotechnical features (no fake sandstone, minerals, cracks, or wall designs).
     """
     report_id = str(report.get("id") or "HL-CR-RECORD").strip()
-    try:
-        lat = float(report.get("latitude") or 31.7000)
-    except (TypeError, ValueError):
-        lat = 31.7000
-    try:
-        lng = float(report.get("longitude") or 76.9000)
-    except (TypeError, ValueError):
-        lng = 76.9000
+    lat, lng = _extract_report_coordinates(report)
     district = str(report.get("district") or "Mandi").strip()
     movement = str(report.get("movement_type") or "Reported Incident").strip()
     severity = str(report.get("severity") or "Unverified").strip()
     user_desc = report.get("description") or "None recorded"
     reporter = report.get("reporter_name") or "Community Observer"
-    inc_date = _sanitize_date(report.get("incident_date") or report.get("created_at"))
+    d_str, t_str = _extract_survey_datetime(report)
+    inc_date = d_str
+    inc_time = t_str
 
     is_multisite_reject = (validation_status == "INCONSISTENT_MULTI_SITE_IMAGES")
     rejection_notice = (
-        "Cross-image coherence audit confirmed disparate, unrelated landslide locations. Kinematic synthesis and civil remediation suspended (₹0)."
+        "Cross-image coherence audit confirmed disparate, unrelated landslide locations. Kinematic synthesis suspended."
         if is_multisite_reject
         else "Optical audit confirmed non-geological media or stable false alarm. Estimation suspended."
     )
@@ -1348,7 +1617,9 @@ def build_rejected_assessment_dossier(
             "site_road_name": f"{district} Sector — Verification Rejected",
             "location_chainage": "N/A — Verification Rejected",
             "road_type": "N/A — Unverified Ground Asset",
-            "inspection_date": str(inc_date)[:10],
+            "inspection_date": inc_date,
+            "timestamp_time": inc_time,
+            "date": inc_date,
             "elevation": "N/A — Disqualified",
             "coordinates_dms": _format_coordinates_dms(lat, lng),
             "coordinates_dec": f"{lat:.5f}° N, {lng:.5f}° E",
@@ -1650,12 +1921,12 @@ def build_rejected_assessment_dossier(
             "reconciliation_note": "No geological strata evaluated for non-terrain upload.",
         },
         "synthesis_remarks": senior_remarks or (
-            f"MULTI-SITE INCONSISTENCY DETECTED: Uploaded images depict disparate, unrelated landslide locations ({detected_content}). Kinematic modeling & BOQ calculation suspended (₹0). Please submit separate reports for separate landslide sites."
+            f"MULTI-SITE INCONSISTENCY DETECTED: Uploaded images depict disparate, unrelated landslide locations ({detected_content}). Kinematic modeling suspended. Please submit separate reports for each landslide site."
             if is_multisite_reject
             else f"Image validation failed completely. The upload displays {detected_content} instead of geological terrain data. Rejecting incident telemetry entry {report_id}."
         ),
         "senior_engineer_remarks": senior_remarks or (
-            f"MULTI-SITE INCONSISTENCY DETECTED: Uploaded images depict disparate, unrelated landslide locations ({detected_content}). Kinematic modeling & BOQ calculation suspended (₹0). Please submit separate reports for separate landslide sites."
+            f"MULTI-SITE INCONSISTENCY DETECTED: Uploaded images depict disparate, unrelated landslide locations ({detected_content}). Kinematic modeling suspended. Please submit separate reports for each landslide site."
             if is_multisite_reject
             else f"Image validation failed completely. The upload displays {detected_content} instead of geological terrain data. Rejecting incident telemetry entry {report_id}."
         ),
@@ -1663,7 +1934,7 @@ def build_rejected_assessment_dossier(
             "summary_title": f"Multi-Site Inconsistency Disqualification — {detected_content}" if is_multisite_reject else f"Optical Audit Disqualification — {detected_content}",
             "what_happened": "Attached photographs depict disparate, unrelated landslide locations." if is_multisite_reject else "The uploaded media does not depict an authentic landslide or active geological slope failure.",
             "why_it_happened": rejection_reason,
-            "property_and_access_impact": "Kinematic modeling and cost estimation suspended due to disparate site media." if is_multisite_reject else "No physical road or structural damage verified from this upload.",
+            "property_and_access_impact": "Kinematic modeling suspended due to disparate site media." if is_multisite_reject else "No physical road or structural damage verified from this upload.",
             "road_and_travel_impact": "Cannot assess road corridor impact across conflicting photographic locations." if is_multisite_reject else "No physical road or structural damage verified from this upload.",
             "ongoing_hazards": "Site hazard assessment requires consistent single-location photography." if is_multisite_reject else "None verified from the provided image.",
             "what_needs_to_be_done": "Please submit individual incident reports for each separate landslide location." if is_multisite_reject else "If an actual landslide occurred at this location, please upload an authentic field photograph of the slope failure.",
@@ -1672,14 +1943,14 @@ def build_rejected_assessment_dossier(
         "project_data_model": zero_pdm,
         "unified_geometry": zero_pdm["unified_geometry"],
         "stability_analysis": zero_pdm["stability_analysis"],
-        "financial_summary": zero_pdm["financial_summary"],
-        "statutory_capital_works_outlay": zero_pdm["statutory_capital_works_outlay"],
-        "direct_asset_damage": zero_pdm["direct_asset_damage"],
-        "indirect_economic_disruption": zero_pdm["indirect_economic_disruption"],
-        "comprehensive_disaster_impact": zero_pdm["comprehensive_disaster_impact"],
+        "financial_summary": {},
+        "statutory_capital_works_outlay": {},
+        "direct_asset_damage": {},
+        "indirect_economic_disruption": {},
+        "comprehensive_disaster_impact": {},
         "boq_items": [],
         "loss_items": [],
-        "cost_estimate_boq": zero_pdm,
+        "cost_estimate_boq": {},
         "schematic_top_badge": "OPTICAL AUDIT REJECTION • NON-TERRAIN / FALSE ALARM",
         "schematic_svg": (
             '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 350" width="100%" height="100%">'
@@ -1689,10 +1960,11 @@ def build_rejected_assessment_dossier(
             '<text x="300" y="210" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="700" fill="#1e293b" text-anchor="middle">OPTICAL AUDIT DISQUALIFICATION</text>'
             '<text x="300" y="235" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#64748b" text-anchor="middle">Image Verified as Non-Terrain / Stable Feature — Zero Civil Remediation Warranted</text>'
             '<rect x="180" y="260" width="240" height="30" fill="#f1f5f9" rx="6" stroke="#e2e8f0"/>'
-            '<text x="300" y="280" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#475569" text-anchor="middle">STATUS: REJECTED • ₹0 BOQ</text>'
+            '<text x="300" y="280" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#475569" text-anchor="middle">STATUS: REJECTED</text>'
             '</svg>'
         ),
     }
+    rejected_dossier["accuracy_metric"] = compute_report_accuracy_metric(rejected_dossier, report)
     return rejected_dossier
 
 
@@ -1764,29 +2036,24 @@ def normalize_assessment_structure(assessment: dict[str, Any] | None, report: di
     merged["telemetry"]["report_id"] = rep_id
     merged["telemetry"]["report_reference"] = ref_name
 
+    d_str, t_str = _extract_survey_datetime(report)
+    lat, lng = _extract_report_coordinates(report)
+
     if is_benchmark_6A9B:
         merged["telemetry"]["district"] = "Mandi"
         merged["telemetry"]["site_road_name"] = "Mandi Sector — Major District Road (MDR), Chainage RD 17+432 (Km 17/432)"
         merged["telemetry"]["location_chainage"] = "RD 17+432 (Km 17/432)"
         merged["telemetry"]["road_type"] = "Major District Road (MDR)"
-        merged["telemetry"]["inspection_date"] = "2026-10-12"
-        merged["telemetry"]["date"] = "2026-10-12"
-        merged["telemetry"]["coordinates_dec"] = "31.70800° N, 76.93200° E"
-        merged["telemetry"]["coordinates_dms"] = _format_coordinates_dms(31.70800, 76.93200)
+        merged["telemetry"]["inspection_date"] = d_str
+        merged["telemetry"]["timestamp_time"] = t_str
+        merged["telemetry"]["date"] = d_str
+        merged["telemetry"]["coordinates_dec"] = f"{lat:.5f}° N, {lng:.5f}° E"
+        merged["telemetry"]["coordinates_dms"] = _format_coordinates_dms(lat, lng)
         merged["telemetry"]["reported_movement"] = "Composite Translational Debris-Rock Slide (Cruden & Varnes, 1996)"
         merged["telemetry"]["movement_classification"] = "Composite Translational Debris-Rock Slide (Cruden & Varnes, 1996)"
         merged["telemetry"]["cruden_varnes_classification"] = "Composite Translational Debris-Rock Slide"
     else:
         district = str(report.get("district") or "Mandi").strip()
-        try:
-            lat = float(report.get("latitude") or 31.70800)
-        except (TypeError, ValueError):
-            lat = 31.70800
-        try:
-            lng = float(report.get("longitude") or 76.93200)
-        except (TypeError, ValueError):
-            lng = 76.93200
-        inc_date = _sanitize_date(report.get("incident_date") or report.get("created_at"))
         landmark = str(report.get("landmark") or "").strip()
         movement = str(report.get("movement_type") or "Slide").strip()
         road_type = merged.get("observed_features", {}).get("road_type") or report.get("road_type") or "Hill Road Transport Corridor"
@@ -1795,8 +2062,9 @@ def normalize_assessment_structure(assessment: dict[str, Any] | None, report: di
         merged["telemetry"]["site_road_name"] = f"{district} Sector — {landmark}" if landmark else f"{district} Sector — Hill Road Corridor"
         merged["telemetry"]["location_chainage"] = landmark if landmark else f"{district} Sector"
         merged["telemetry"]["road_type"] = road_type
-        merged["telemetry"]["inspection_date"] = inc_date
-        merged["telemetry"]["date"] = inc_date
+        merged["telemetry"]["inspection_date"] = d_str
+        merged["telemetry"]["timestamp_time"] = t_str
+        merged["telemetry"]["date"] = d_str
         merged["telemetry"]["coordinates_dec"] = f"{lat:.5f}° N, {lng:.5f}° E"
         merged["telemetry"]["coordinates_dms"] = _format_coordinates_dms(lat, lng)
         if "reported_movement" not in merged["telemetry"]:
@@ -1988,6 +2256,7 @@ def normalize_assessment_structure(assessment: dict[str, Any] | None, report: di
     rep_clean_id = str(report.get("id") or "SCHEM").replace("-", "_")
     merged["schematic_svg"] = geotech_schematic.generate_schematic_svg(merged, report, unique_suffix=rep_clean_id)
     merged["schematic_top_badge"] = geotech_schematic.extract_ml_kinematic_parameters(merged, report)["top_badge"]
+    merged["accuracy_metric"] = compute_report_accuracy_metric(merged, report)
 
     return merged
 
@@ -2027,13 +2296,13 @@ def generate_ai_assessment(report: dict[str, Any], force_refresh: bool = False) 
             image_parts.append({"inline_data": {"mime_type": mime, "data": b64}})
 
     # Mandatory requirement: Photographic field evidence is required for automated photogrammetry and dimensioning.
-    # If no photo was attached, strictly suspend civil BOQ and do NOT invent synthetic slope metrics.
+    # If no photo was attached, strictly suspend geotechnical analysis and do NOT invent synthetic slope metrics.
     if not image_parts:
         rejection_dossier = build_rejected_assessment_dossier(
             report,
             detected_content="No Photographic Field Evidence Attached",
             rejection_reason="Report submission lacks photographic field evidence. Automated optical photogrammetry and geotechnical remediation design require verified terrain imagery.",
-            senior_remarks="Automated geotechnical analysis and civil BOQ cost estimation are strictly suspended (₹ 0) until authentic field imagery is uploaded.",
+            senior_remarks="Automated geotechnical analysis is strictly suspended until authentic field imagery is uploaded.",
             plain_lang={
                 "summary": "This incident report was submitted without an attached field photograph. Geotechnical stabilization measures and civil quantities cannot be calculated without photographic terrain evidence.",
                 "action_recommendation": "Field personnel or community observers must upload clear field photographs of the slope scarp, crown, and toe to initiate automated photogrammetry and structural dimensioning.",
@@ -2058,14 +2327,7 @@ def generate_ai_assessment(report: dict[str, Any], force_refresh: bool = False) 
         save_assessment_to_cache(report_id, rejection_dossier)
         return rejection_dossier
 
-    try:
-        lat = float(report.get("latitude") or 31.7000)
-    except (TypeError, ValueError):
-        lat = 31.7000
-    try:
-        lng = float(report.get("longitude") or 76.9000)
-    except (TypeError, ValueError):
-        lng = 76.9000
+    lat, lng = _extract_report_coordinates(report)
     district = str(report.get("district") or "Mandi").strip()
     movement = str(report.get("movement_type") or "Slide").strip()
     severity = str(report.get("severity") or "Moderate").strip()
@@ -2093,7 +2355,7 @@ RULES:
 2. CROSS-IMAGE COHERENCE AUDIT (FOR MULTI-PHOTO UPLOADS):
    Evaluate whether all attached photographs depict the same physical landslide event or slope failure scene.
    - If multiple photographs are attached and they clearly depict completely separate, unrelated landslides or geographic sites (e.g. conflicting bedrock lithology, disparate mountain ranges, different road corridors, or separate slope failures):
-     Set "is_same_incident": false, "is_landslide_or_terrain": false, "validation_status": "INCONSISTENT_MULTI_SITE_IMAGES", "rejection_reason": "Uploaded photographs depict completely separate, unrelated landslide locations. Unified kinematic analysis and civil BOQ are suspended. Please submit separate reports for each individual landslide site."
+     Set "is_same_incident": false, "is_landslide_or_terrain": false, "validation_status": "INCONSISTENT_MULTI_SITE_IMAGES", "rejection_reason": "Uploaded photographs depict completely separate, unrelated landslide locations. Unified kinematic analysis is suspended. Please submit separate reports for each individual landslide site."
    - If the photographs depict consistent perspectives of the same failure (or if only 1 photograph is provided):
      Set "is_same_incident": true.
 
@@ -2202,7 +2464,7 @@ Carefully inspect all {len(image_parts)} attached photographs. Determine whether
     for model_name in GEMINI_MODELS:
         try:
             url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={GEMINI_API_KEY}"
-            resp = requests.post(url, json=payload, timeout=25)
+            resp = requests.post(url, json=payload, timeout=40)
             if resp.status_code == 200:
                 result_json = resp.json()
                 candidates = result_json.get("candidates", [])
@@ -2234,12 +2496,12 @@ Carefully inspect all {len(image_parts)} attached photographs. Determine whether
                         val_status = "INCONSISTENT_MULTI_SITE_IMAGES" if is_inconsistent_multisite else parsed.get("validation_status", "INVALID_NON_TERRAIN_IMAGE")
                         detected = parsed.get("detected_content") or ("Disparate Multi-Site Landslide Photographs" if is_inconsistent_multisite else "Non-terrain media")
                         reason = parsed.get("rejection_reason") or (
-                            "Uploaded photographs depict completely separate, unrelated landslide locations. Unified kinematic analysis and civil BOQ are suspended. Please submit separate reports for each individual landslide site."
+                            "Uploaded photographs depict completely separate, unrelated landslide locations. Unified kinematic analysis is suspended. Please submit separate reports for each individual landslide site."
                             if is_inconsistent_multisite
                             else "Non-terrain object uploaded."
                         )
                         senior_remarks = parsed.get("senior_engineer_remarks") or (
-                            "Cross-image coherence audit failed: Attached photographs depict disparate geographical locations or conflicting failure scenes. Public works capital expenditure and kinematic calculation are suspended (₹0). Separate incident reports must be logged per site."
+                            "Cross-image coherence audit failed: Attached photographs depict disparate geographical locations or conflicting failure scenes. Kinematic calculation is suspended. Separate incident reports must be logged per site."
                             if is_inconsistent_multisite
                             else None
                         )
@@ -2257,7 +2519,7 @@ Carefully inspect all {len(image_parts)} attached photographs. Determine whether
                         if is_inconsistent_multisite:
                             rejection_dossier["diagnostic_notice"] = (
                                 "Cross-image coherence audit failed: Attached photographs depict disparate, unrelated landslide sites. "
-                                "Kinematic modeling and civil BOQ calculation suspended (₹0). Please submit separate reports for each individual landslide site."
+                                "Kinematic modeling suspended. Please submit separate reports for each individual landslide site."
                             )
                             rejection_dossier["vision_diagnostic"] = {
                                 "status": "INCONSISTENT_MULTI_SITE_REJECTED",
@@ -2316,7 +2578,7 @@ Carefully inspect all {len(image_parts)} attached photographs. Determine whether
     fallback_dossier["source"] = f"HIMA-LENS Senior Engineering Knowledge Engine (Deterministic Geotechnical Baseline • AI Vision Offline: {error_summary})"
     fallback_dossier["diagnostic_notice"] = (
         f"Multimodal AI Vision service was temporarily unavailable ({error_summary}). "
-        "To prevent fabricated metrics during development, preliminary slope dimensions, FoS, and remediation BOQ "
+        "To prevent fabricated metrics during development, preliminary slope dimensions, FoS, and stabilization measures "
         "are calculated via the deterministic kinematic engine, site GPS telemetry, and GSI Bhukosh digital geology."
     )
     fallback_dossier["vision_diagnostic"] = {

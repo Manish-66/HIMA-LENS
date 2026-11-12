@@ -17,10 +17,10 @@ HIMA-LENS | Landslide & Flash Flood Chronology Feed
                 DISASTER OBSERVATORY &bull; WESTERN HIMALAYA
             </div>
             <h1 class="feed-title">
-                Landslide Records &amp; <span>Live Hazard Stream.</span>
+                Landslide Records &amp; <span>Field Media &amp; News Stream.</span>
             </h1>
             <p class="feed-description">
-                Comprehensive slope-failure observatory combining verified historical disaster benchmarks with real-time news monitoring, highway alerts, and cloudburst intelligence across Himachal Pradesh.
+                Comprehensive slope-failure observatory combining verified historical disaster benchmarks with real-time news monitoring, highway advisories, and cloudburst intelligence across Himachal Pradesh.
             </p>
 
             <!-- VIEW SELECTOR TABS -->
@@ -176,7 +176,7 @@ HIMA-LENS | Landslide & Flash Flood Chronology Feed
                 <div class="news-stream-header">
                     <div class="news-stream-meta">
                         <span class="news-indicator">
-                            <span class="live-pulse-dot"></span> LIVE MEDIA &amp; HAZARD INTELLIGENCE STREAM
+                            <span class="live-pulse-dot"></span> HIMACHAL PRADESH FIELD MEDIA &amp; ROAD UPDATES
                         </span>
                         <h2 class="news-stream-heading">Real-Time Landslide, Highway &amp; Cloudburst Wire</h2>
                         <p class="news-stream-sub">
@@ -232,13 +232,12 @@ HIMA-LENS | Landslide & Flash Flood Chronology Feed
                     <button type="button" class="news-pill-btn active" data-category="all">All Dispatches</button>
                     <button type="button" class="news-pill-btn" data-category="Highway & Transport">Highway &amp; Transport</button>
                     <button type="button" class="news-pill-btn" data-category="Flash Flood & Cloudburst">Flash Flood &amp; Cloudburst</button>
-                    <button type="button" class="news-pill-btn" data-category="Weather & Hazard Alert">Weather &amp; Hazard Alerts</button>
                     <button type="button" class="news-pill-btn" data-category="Slope Incident & Field Report">Slope Incidents &amp; Reports</button>
                 </div>
 
                 <!-- Status & Counter Bar -->
                 <div class="news-status-bar">
-                    <span id="news-counter-text">Showing all <strong>{{ news_count or 74 }}</strong> active landslide &amp; hazard bulletins across Himachal Pradesh.</span>
+                    <span id="news-counter-text">Showing all <strong>{{ news_count or 74 }}</strong> active landslide &amp; road dispatches across Himachal Pradesh.</span>
                 </div>
 
                 <!-- Loading Skeleton -->
@@ -344,7 +343,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const c = cat.toLowerCase();
         if (c.includes("flash") || c.includes("flood") || c.includes("cloudburst")) return "severity-critical";
         if (c.includes("highway") || c.includes("transport") || c.includes("road")) return "severity-high";
-        if (c.includes("alert") || c.includes("weather") || c.includes("warning")) return "severity-critical";
+
         return "severity-info";
     }
 
@@ -377,7 +376,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (counterText) {
             if (filtered.length === allNewsArticles.length) {
-                counterText.innerHTML = `Showing all <strong>${allNewsArticles.length}</strong> active landslide &amp; hazard bulletins across Himachal Pradesh.`;
+                counterText.innerHTML = `Showing all <strong>${allNewsArticles.length}</strong> active landslide &amp; road dispatches across Himachal Pradesh.`;
             } else {
                 counterText.innerHTML = `Showing <strong>${filtered.length}</strong> of <strong>${allNewsArticles.length}</strong> reports matching your active filters.`;
             }
@@ -410,7 +409,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <span class="news-time-badge">${escapeHtml(art.time_ago || art.pub_date || '')}</span>
                     </div>
                     <div class="news-tags-group">
-                        <span class="event-severity-badge ${badgeClass}">${escapeHtml(art.category || 'Disaster Alert')}</span>
+                        <span class="event-severity-badge ${badgeClass}">${escapeHtml(art.category || 'Slope Incident')}</span>
                         <span class="news-district-tag">${escapeHtml(art.district || 'Himachal Pradesh')}</span>
                     </div>
                 </div>

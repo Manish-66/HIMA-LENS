@@ -637,7 +637,7 @@ HIMA-LENS | Administrative Command Console
               <th scope="col">District &amp; Location</th>
               <th scope="col">Movement &amp; Severity</th>
               <th scope="col">Moderation Status</th>
-              <th scope="col">AI Geotech BOQ</th>
+              <th scope="col">AI Geotechnical Dossier</th>
               <th scope="col">Reported Date</th>
               <th scope="col" style="text-align: right;">Administrative Actions</th>
             </tr>
@@ -695,7 +695,7 @@ HIMA-LENS | Administrative Command Console
                 {% endif %}
               </td>
 
-              <!-- AI BOQ Dossier Status -->
+              <!-- AI Dossier Status -->
               <td id="ai-status-{{ rep.id }}">
                 {% if rep.ai_assessment %}
                 <span class="badge-status badge-verified">Generated</span>
@@ -730,7 +730,7 @@ HIMA-LENS | Administrative Command Console
                   {% endif %}
 
                   <!-- Run AI Button -->
-                  <button type="button" class="btn-admin btn-admin-ai" id="ai-btn-{{ rep.id }}" onclick="triggerAIAssessment('{{ rep.id }}');" title="Generate or recalculate AI engineering dossier & BOQ sheet">
+                  <button type="button" class="btn-admin btn-admin-ai" id="ai-btn-{{ rep.id }}" onclick="triggerAIAssessment('{{ rep.id }}');" title="Generate or recalculate AI engineering dossier">
                     ⚡ AI
                   </button>
 
@@ -1148,7 +1148,7 @@ HIMA-LENS | Administrative Command Console
             </div>
           </div>
           <p style="font-size: 13px; color: var(--ink-soft); line-height: 1.6; margin-bottom: 20px;">
-            Export the complete dataset including geocoordinates, reporter identities, photo URLs, geotechnical parameters, and BOQ mitigation estimates.
+            Export the complete dataset including geocoordinates, reporter identities, photo URLs, and geotechnical parameters.
           </p>
           <div style="display: flex; gap: 10px; flex-wrap: wrap;">
             <a href="/api/export?format=csv" class="btn-publish" download>

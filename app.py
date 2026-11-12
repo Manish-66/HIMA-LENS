@@ -303,8 +303,8 @@ def _classify_news_category(text: str) -> str:
         return "Highway & Transport"
     if any(k in lower for k in ["cloudburst", "flash flood", "flood", "deluge", "inundat", "overflow", "river", "khad", "nullah", "water level"]):
         return "Flash Flood & Cloudburst"
-    if any(k in lower for k in ["alert", "warning", "imd", "met department", "orange alert", "red alert", "yellow alert", "heavy rain", "incessant"]):
-        return "Weather & Hazard Alert"
+    if any(k in lower for k in ["heavy rain", "incessant", "monsoon surge", "precipitation"]):
+        return "Slope Incident & Field Report"
     return "Slope Incident & Field Report"
 
 def _format_relative_time(dt: datetime) -> str:
@@ -374,7 +374,7 @@ def _get_fallback_news() -> list[dict[str, Any]]:
             "time_ago": "4 days ago",
             "timestamp": int(time.time()) - 345600,
             "district": "Kangra",
-            "category": "Weather & Hazard Alert",
+            "category": "Slope Incident & Field Report",
             "snippet": "State meteorological centre advises district authorities to maintain active surveillance over identified chronic landslide slips and loose scree deposits."
         },
         {
@@ -762,6 +762,15 @@ def get_reports():
             lng = float(rep["longitude"])
         except (KeyError, ValueError, TypeError):
             continue
+        cached = ai_assessment.get_cached_assessment(rep.get("id", ""))
+        if cached and cached.get("accuracy_metric") and cached["accuracy_metric"].get("reliability_pct") is not None:
+            acc_metric = cached["accuracy_metric"]
+        elif cached:
+            acc_metric = ai_assessment.compute_report_accuracy_metric(cached, rep)
+        else:
+            baseline = ai_assessment.compute_deterministic_engineering_dossier(rep)
+            acc_metric = baseline.get("accuracy_metric") or ai_assessment.compute_report_accuracy_metric(baseline, rep)
+
         features.append({
             "type": "Feature",
             "properties": {
@@ -775,6 +784,7 @@ def get_reports():
                 "photo_url": rep.get("photo_url", "") or ((rep.get("photo_urls") or [""])[0]),
                 "photo_urls": rep.get("photo_urls") or ([rep["photo_url"]] if rep.get("photo_url") else []),
                 "created_at": rep.get("created_at", ""),
+                "accuracy_metric": acc_metric,
                 "is_community_report": True
             },
             "geometry": {
@@ -1295,7 +1305,46 @@ def view_pwd_sheet(report_id: str):
     assessment = ai_assessment.generate_ai_assessment(report, force_refresh=force)
     assessment = ai_assessment.normalize_assessment_structure(assessment, report)
     boq = assessment.get("cost_estimate_boq") or geotech_engine.calculate_comprehensive_cost_and_loss_estimate(assessment, report)
+
+    # Burn geodetic survey stamp onto evidence photographs (HIMA-LENS Forest Green Theme)
+    try:
+        import core.stamped_evidence as stamped_evidence
+        telem = assessment.get("telemetry", {})
+        stamped_urls = []
+        for idx, u in enumerate(display_report["photo_urls"]):
+            s_url = stamped_evidence.get_stamped_image_url(u, report_id, idx, telem, force_refresh=force)
+            stamped_urls.append(s_url if s_url else u)
+        display_report["stamped_photo_urls"] = stamped_urls
+        display_report["stamped_photo_url"] = stamped_urls[0] if stamped_urls else display_report.get("photo_url", "")
+    except Exception as exc:
+        display_report["stamped_photo_urls"] = display_report["photo_urls"]
+        display_report["stamped_photo_url"] = display_report.get("photo_url", "")
+
     return render_template("pwd_sheet.html", report=display_report, assessment=assessment, boq=boq)
+
+
+@app.get("/api/reports/<report_id>/stamped-photo/<int:photo_idx>")
+def get_stamped_photo_endpoint(report_id: str, photo_idx: int = 0):
+    """Serves evidence photograph stamped directly with HIMA-LENS geodetic telemetry."""
+    force = request.args.get("refresh") == "1"
+    report = find_report_by_id(report_id)
+    if not report:
+        return jsonify(error="Report not found"), 404
+    assessment = ai_assessment.get_cached_assessment(report_id) or ai_assessment.generate_ai_assessment(report)
+    assessment = ai_assessment.normalize_assessment_structure(assessment, report)
+    telem = assessment.get("telemetry", {})
+    photo_urls = report.get("photo_urls") or ([report.get("photo_url")] if report.get("photo_url") else [])
+    if photo_idx >= len(photo_urls) or photo_idx < 0:
+        return jsonify(error="Photo index out of range"), 404
+
+    import core.stamped_evidence as stamped_evidence
+    stamped_url = stamped_evidence.get_stamped_image_url(photo_urls[photo_idx], report_id, photo_idx, telem, force_refresh=force)
+    if stamped_url and stamped_url.startswith("/"):
+        from flask import send_file
+        local_path = BASE_DIR / stamped_url.lstrip("/")
+        if local_path.exists():
+            return send_file(local_path, mimetype="image/jpeg")
+    return redirect(photo_urls[photo_idx])
 
 @app.get("/report/solution-sheet/<report_id>")
 @app.get("/report/pwd-sheet-v1/<report_id>")
@@ -1321,8 +1370,7 @@ def get_cost_estimate(report_id: str):
     force = request.args.get("force", "").lower() in ("1", "true", "yes")
     assessment = ai_assessment.generate_ai_assessment(report, force_refresh=force)
     assessment = ai_assessment.normalize_assessment_structure(assessment, report)
-    cost_data = assessment.get("cost_estimate_boq") or geotech_engine.calculate_comprehensive_cost_and_loss_estimate(assessment, report)
-    return jsonify(success=True, report_id=report_id, cost_estimate_boq=cost_data)
+    return jsonify(success=False, message="Cost estimation and BOQ calculations are suspended.")
 
 @app.route("/report/schematic/<report_id>", methods=["GET", "POST"])
 @app.route("/api/report/<report_id>/schematic", methods=["GET", "POST"])
@@ -1519,11 +1567,11 @@ def update_report_parameters(report_id: str):
     cached["project_data_model"] = pdm
     cached["unified_geometry"] = pdm["unified_geometry"]
     cached["stability_analysis"] = pdm["stability_analysis"]
-    cached["financial_summary"] = pdm["financial_summary"]
-    cached["statutory_capital_works_outlay"] = pdm["statutory_capital_works_outlay"]
-    cached["boq_items"] = pdm["boq_items"]
-    cached["loss_items"] = pdm["loss_items"]
-    cached["cost_estimate_boq"] = pdm
+    cached["financial_summary"] = {}
+    cached["statutory_capital_works_outlay"] = {}
+    cached["boq_items"] = []
+    cached["loss_items"] = []
+    cached["cost_estimate_boq"] = {}
     cached["source"] = f"Field Engineer Verified Docket ({verified_time})"
     cached["diagnostic_notice"] = f"Parameters verified by Field Engineer on {verified_time}. Cruden & Varnes (1996) volumetric modeling active."
 

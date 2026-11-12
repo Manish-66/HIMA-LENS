@@ -154,6 +154,12 @@ check(resp_1.status_code == 201 and len(p_urls_1) == 1 and report_1.get("photo_u
 
 # Clean up temporary test reports
 test_ids = [report_3.get("id"), report_5.get("id"), report_1.get("id")]
+for tid in test_ids:
+    if tid:
+        try:
+            supabase_db.delete_report(tid)
+        except Exception:
+            pass
 reps_cleaned = [r for r in supabase_db.load_local_reports() if r.get("id") not in test_ids]
 supabase_db.save_local_reports(reps_cleaned)
 

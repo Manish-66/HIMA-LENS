@@ -244,7 +244,7 @@ def fetch_community_reports(include_hidden: bool = False) -> list[dict[str, Any]
             rid in ("IITM-CR-17525F02", "IITM-CR-001", "IITM-CR-TESTNOPHOT", "TEST-PROBE-001")
             or rid.startswith("TEST-")
             or r.get("reporter_name") == "Automated Test"
-            or any(kw in desc for kw in ("upload test", "test probe", "simulated landslide", "none recorded"))
+            or any(kw in desc for kw in ("upload test", "test probe", "simulated landslide", "none recorded", "pandoh reservoir with photo metadata", "test report", "verification test"))
         ):
             continue
         # Check boolean is_hidden column

@@ -1583,7 +1583,7 @@ def _render_rejected_ood_svg(rejection_notice: str = "", validation_status: str 
   <text x="58" y="96" font-size="7.5" font-weight="900" fill="#991b1b">DIAGNOSTIC REJECTION AUDIT DETAILS</text>
   <text x="58" y="112" font-size="6.8" font-weight="700" fill="#334155">&bull; Optical Classification: {clean_notice}</text>
   <text x="58" y="128" font-size="6.8" font-weight="700" fill="#334155">&bull; Computer Vision Verdict: Images depict unrelated slope failures or distinct geomorphic zones</text>
-  <text x="58" y="144" font-size="6.8" font-weight="700" fill="#334155">&bull; Compliance Integrity: Kinematic cross-section and BOQ suppressed to prevent cross-site contamination</text>
+  <text x="58" y="144" font-size="6.8" font-weight="700" fill="#334155">&bull; Compliance Integrity: Kinematic cross-section suppressed to prevent cross-site contamination</text>
   <text x="58" y="160" font-size="6.8" font-weight="700" fill="#334155">&bull; Action Required: Submit individual incident reports for each distinct landslide location</text>
 
   <!-- Green Camera Instructions -->

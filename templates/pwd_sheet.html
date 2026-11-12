@@ -516,6 +516,51 @@
       page-break-after: avoid;
     }
 
+    /* Central Low-Opacity Institutional Watermark */
+    .page-watermark {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-25deg);
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      opacity: 0.045;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      width: 150mm;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .page-watermark img {
+      width: 90mm;
+      height: 90mm;
+      filter: grayscale(100%);
+      margin-bottom: 5mm;
+    }
+    .page-watermark .watermark-inst {
+      font-family: 'Manrope', sans-serif;
+      font-size: 13pt;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: #0f172a;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .page-watermark .watermark-sub {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 8.5pt;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: #334155;
+      text-transform: uppercase;
+      margin-top: 2mm;
+    }
+
+
     /* Master Official Header */
     .master-header {
       border-bottom: 2px solid var(--border-dark);
@@ -600,6 +645,30 @@
       font-size: 6.5px;
       font-weight: 800;
       color: #16a34a;
+    }
+    .stamp-acc {
+      font-size: 6.2px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      margin-top: 1.5px;
+      padding: 0.5px 4px;
+      border-radius: 2px;
+      text-transform: uppercase;
+    }
+    .stamp-acc.acc-high {
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+    }
+    .stamp-acc.acc-mid {
+      background: #fffbeb;
+      color: #b45309;
+      border: 1px solid #fde68a;
+    }
+    .stamp-acc.acc-zero {
+      background: #fef2f2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
     }
 
     
@@ -796,6 +865,58 @@
     }
     .sec10-photo-col:hover img {
       transform: scale(1.025);
+    }
+    /* Professional Field Evidence Telemetry Watermark (HIMA-LENS Forest Green Theme) */
+    .photo-survey-watermark {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 15;
+      background: rgba(9, 47, 37, 0.90);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+      border-top: 1.5px solid rgba(45, 212, 191, 0.55);
+      padding: 2.5px 5px;
+      font-family: 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
+      font-size: 6.2px;
+      line-height: 1.35;
+      color: #ffffff;
+      pointer-events: none;
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .psw-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 3px;
+      white-space: nowrap;
+    }
+    .psw-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 2.5px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .psw-right {
+      justify-content: flex-end;
+      text-align: right;
+    }
+    .psw-tag {
+      font-weight: 800;
+      color: #2dd4bf;
+      letter-spacing: 0.25px;
+    }
+    .psw-val {
+      font-weight: 600;
+      color: #ffffff;
+    }
+    .psw-sep {
+      color: rgba(45, 212, 191, 0.45);
+      margin: 0 1px;
     }
     .sec10-telemetry-col {
       flex: 1 1 53%;
@@ -1147,7 +1268,7 @@
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
       height: 100%;
     }
-    .photo-top-bar, .schematic-top-bar {
+    .schematic-top-bar {
       background: #104c3b;
       color: #5eead4;
       padding: 3px 7px;
@@ -1160,7 +1281,7 @@
       border-bottom: 1px solid rgba(255, 255, 255, 0.15);
       font-family: 'Manrope', sans-serif;
     }
-    .photo-caption-bar, .schematic-caption-bar {
+    .schematic-caption-bar {
       white-space: nowrap;
     }
     .schematic-svg-wrap svg {
@@ -1169,7 +1290,7 @@
       max-height: 155px;
       display: block;
     }
-    .photo-caption-bar, .schematic-caption-bar {
+    .schematic-caption-bar {
       background: #104c3b;
       color: #ffffff;
       padding: 2.5px 7px;
@@ -1249,8 +1370,87 @@
       font-family: 'JetBrains Mono', monospace;
     }
 
+    /* White Card Interactive Glossary Tooltip */
+    .hima-glossary-tooltip {
+      position: fixed;
+      z-index: 999999;
+      width: 280px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 12px 14px;
+      box-shadow: 0 14px 34px rgba(15, 23, 42, 0.14), 0 2px 6px rgba(15, 23, 42, 0.05);
+      pointer-events: auto;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(4px);
+      transition: opacity 0.16s ease, transform 0.16s ease, visibility 0.16s;
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    .hima-glossary-tooltip.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .hima-tt-header {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding-bottom: 7px;
+      margin-bottom: 7px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .hima-tt-symbol {
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1;
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      color: #0284c7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .hima-tt-title-wrap {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .hima-tt-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: 0.01em;
+      line-height: 1.25;
+    }
+    .hima-tt-standard {
+      font-size: 8.5px;
+      font-weight: 700;
+      color: #059669;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+    .hima-tt-body {
+      font-size: 10.5px;
+      line-height: 1.5;
+      color: #334155;
+      font-weight: 400;
+      text-align: left;
+    }
+    .glossary-term {
+      border-bottom: 1px dotted #94a3b8;
+      cursor: help;
+    }
+
     /* Print Formatting */
     @media print {
+    .hima-glossary-tooltip { display: none !important; }
       body {
         background: #ffffff !important;
         padding: 0 !important;
@@ -1287,6 +1487,23 @@
       .annexure-img {
         max-height: 100% !important;
         object-fit: contain !important;
+      }
+      .photo-survey-watermark {
+        background: rgba(9, 47, 37, 0.95) !important;
+        color: #ffffff !important;
+        border-top: 1.5px solid #2dd4bf !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .psw-tag {
+        color: #2dd4bf !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .psw-val {
+        color: #ffffff !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
     }
   </style>
@@ -1345,6 +1562,13 @@
     <!-- PAGE 1: SITE METADATA, SLOPE, ROAD IMPACT, PROTECTION MATRIX, GEOLOGY -->
     <!-- ======================================================== -->
     <div class="report-page">
+      <!-- Central Low-Opacity Institutional Watermark -->
+      <div class="page-watermark" aria-hidden="true">
+        <img src="{{ url_for('static', filename='img/iit_mandi_logo.svg') }}" alt="">
+        <div class="watermark-inst">INDIAN INSTITUTE OF TECHNOLOGY MANDI</div>
+        <div class="watermark-sub">HIMA-LENS LANDSLIDE OBSERVATORY</div>
+      </div>
+
       <div class="master-header">
         <div class="master-header-grid">
           <div class="master-logo-col">
@@ -1361,6 +1585,11 @@
               <span class="stamp-lbl">OFFICIAL DOCKET</span>
               <span class="stamp-code">{{ telem.report_reference or 'IITM-CR-6A9B327E' }}</span>
               <span class="stamp-stat">{% if assessment.validation_status in ('DETERMINISTIC_HEURISTIC_ACTIVE', 'VISION_SERVICE_TIMEOUT') %}HEURISTIC{% elif assessment.validation_status in ('INVALID_NON_TERRAIN_IMAGE', 'NON_LANDSLIDE_STABLE_TERRAIN', 'INCONSISTENT_MULTI_SITE_IMAGES') %}DISQUALIFIED{% else %}AI &bull; VERIFIED{% endif %}</span>
+              {% if assessment.accuracy_metric %}
+              <span class="stamp-acc {{ 'acc-zero' if (is_disqualified or assessment.accuracy_metric.accuracy_pct == 0) else ('acc-high' if assessment.accuracy_metric.accuracy_pct >= 90 else 'acc-mid') }}" title="{{ assessment.accuracy_metric.explanation }}">
+                {{ assessment.accuracy_metric.reliability_pct | default(assessment.accuracy_metric.accuracy_pct) }}% RELIABILITY
+              </span>
+              {% endif %}
             </div>
           </div>
         </div>
@@ -1369,43 +1598,60 @@
       <!-- Diagnostic / Optical Audit Bar -->
       {% if assessment.validation_status == 'INCONSISTENT_MULTI_SITE_IMAGES' %}
       <div style="background: #fef2f2; border: 1px solid #fecaca; border-left: 3px solid #dc2626; padding: 2.5px 6px; font-size: 7.5px; margin-bottom: 3px; display: flex; justify-content: space-between; align-items: center; color: #991b1b;">
-        <span><strong>MULTI-SITE INCONSISTENCY DETECTED:</strong> Computer vision confirmed attached photographs depict disparate, unrelated landslide locations. Kinematic modeling &amp; BOQ calculation suspended (₹0). Please submit separate reports for separate landslide sites.</span>
-        <span style="background: #dc2626; color: #ffffff; padding: 1px 5px; border-radius: 2px; font-weight: 800; font-size: 6.8px; white-space: nowrap;">DISPARATE SITES &bull; ₹0 BOQ</span>
+        <span><strong>MULTI-SITE INCONSISTENCY DETECTED:</strong> Computer vision confirmed attached photographs depict disparate, unrelated landslide locations. Kinematic modeling suspended. Please submit separate reports for separate landslide sites.</span>
+        <span style="background: #dc2626; color: #ffffff; padding: 1px 5px; border-radius: 2px; font-weight: 800; font-size: 6.8px; white-space: nowrap;">DISPARATE SITES &bull; REJECTED</span>
       </div>
       {% elif assessment.validation_status in ('INVALID_NON_TERRAIN_IMAGE', 'NON_LANDSLIDE_STABLE_TERRAIN') %}
       <div style="background: #fef2f2; border: 1px solid #fecaca; border-left: 3px solid #dc2626; padding: 2.5px 6px; font-size: 7.5px; margin-bottom: 3px; display: flex; justify-content: space-between; align-items: center; color: #991b1b;">
-        <span><strong>OPTICAL AUDIT DISQUALIFICATION:</strong> Computer vision confirmed non-landslide media: <em>{{ assessment.detected_content or 'Non-geological scene' }}</em>. Civil remediation suspended; zero public works capital requisitioned.</span>
-        <span style="background: #dc2626; color: #ffffff; padding: 1px 5px; border-radius: 2px; font-weight: 800; font-size: 6.8px; white-space: nowrap;">REJECTED &bull; ₹0 BOQ</span>
+        <span><strong>OPTICAL AUDIT DISQUALIFICATION:</strong> Computer vision confirmed non-landslide media: <em>{{ assessment.detected_content or 'Non-geological scene' }}</em>. Civil remediation suspended.</span>
+        <div style="display: flex; gap: 4px; align-items: center;">
+          {% if assessment.accuracy_metric %}
+          <span style="background: #991b1b; color: #ffffff; padding: 1px 6px; border-radius: 2px; font-weight: 800; font-size: 7px; white-space: nowrap;" title="{{ assessment.accuracy_metric.explanation }}">{{ assessment.accuracy_metric.reliability_pct | default(assessment.accuracy_metric.accuracy_pct) }}% RELIABILITY &bull; DISQUALIFIED</span>
+          {% endif %}
+          <span style="background: #dc2626; color: #ffffff; padding: 1px 5px; border-radius: 2px; font-weight: 800; font-size: 6.8px; white-space: nowrap;">REJECTED</span>
+        </div>
       </div>
       {% elif assessment.validation_status in ('DETERMINISTIC_HEURISTIC_ACTIVE', 'VISION_SERVICE_TIMEOUT') %}
       <div style="background: #fffbeb; border: 1px solid #fef3c7; border-left: 3px solid #d97706; padding: 2.5px 6px; font-size: 7.5px; margin-bottom: 3px; display: flex; justify-content: space-between; align-items: center; color: #92400e;">
         <span><strong>DEVELOPMENT NOTICE &bull; AI VISION OFFLINE:</strong> {{ assessment.diagnostic_notice or 'Multimodal AI vision timed out. Dimensions are derived via Deterministic Kinematic Engine & GSI Bhukosh lithology.' }}</span>
-        <span style="background: #d97706; color: #ffffff; padding: 1px 5px; border-radius: 2px; font-weight: 800; font-size: 6.8px; white-space: nowrap;">DETERMINISTIC HEURISTIC</span>
+        <div style="display: flex; gap: 4px; align-items: center;">
+          {% if assessment.accuracy_metric %}
+          <span style="background: #047857; color: #ffffff; padding: 1px 6px; border-radius: 2px; font-weight: 800; font-size: 7px; white-space: nowrap;" title="{{ assessment.accuracy_metric.explanation }}">{{ assessment.accuracy_metric.reliability_pct | default(assessment.accuracy_metric.accuracy_pct) }}% RELIABILITY ({{ assessment.accuracy_metric.confidence_grade }})</span>
+          {% endif %}
+          <span style="background: #d97706; color: #ffffff; padding: 1px 5px; border-radius: 2px; font-weight: 800; font-size: 6.8px; white-space: nowrap;">DETERMINISTIC HEURISTIC</span>
+        </div>
       </div>
-      {% elif assessment.validation_status == 'VALID_TERRAIN_IMAGE' %}
+      {% elif assessment.validation_status == 'VALID_TERRAIN_IMAGE' or not is_disqualified %}
       <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-left: 3px solid #16a34a; padding: 2.5px 6px; font-size: 7.5px; margin-bottom: 3px; display: flex; justify-content: space-between; align-items: center; color: #166534;">
         <span><strong>AI PHOTOGRAMMETRIC AUDIT:</strong> Ground-truth terrain failure verified via {{ assessment.source or 'Multimodal AI Vision' }} &bull; Live optical scaling calibrated to field evidence plate.</span>
-        <span style="background: #16a34a; color: #ffffff; padding: 1px 5px; border-radius: 2px; font-weight: 800; font-size: 6.8px; white-space: nowrap;">VISION VERIFIED</span>
+        <div style="display: flex; gap: 4px; align-items: center;">
+          {% if assessment.accuracy_metric %}
+          <span style="background: #047857; color: #ffffff; padding: 1px 6px; border-radius: 2px; font-weight: 800; font-size: 7px; white-space: nowrap;" title="{{ assessment.accuracy_metric.explanation }}">{{ assessment.accuracy_metric.reliability_pct | default(assessment.accuracy_metric.accuracy_pct) }}% RELIABILITY ({{ assessment.accuracy_metric.confidence_grade }})</span>
+          {% endif %}
+          <span style="background: #16a34a; color: #ffffff; padding: 1px 5px; border-radius: 2px; font-weight: 800; font-size: 6.8px; white-space: nowrap;">VISION VERIFIED</span>
+        </div>
       </div>
       {% endif %}
+
+      {% set is_disqualified = not assessment.is_landslide_or_terrain or assessment.validation_status in ('INVALID_NON_TERRAIN_IMAGE', 'DISQUALIFIED_NON_TERRAIN', 'INCONSISTENT_MULTI_SITE_IMAGES', 'NON_LANDSLIDE_STABLE_TERRAIN') or (pdm is defined and pdm and not pdm.is_applicable) %}
 
       <!-- Master Identification Table -->
       <table class="grid-table">
         <tr>
           <td class="col-lbl" style="width: 16%;">Site:</td>
-          <td class="col-val editable" id="f-road-name" style="width: 34%;"><strong>{{ telem.site_road_name or 'Mandi Sector — Major District Road (MDR)' }}</strong></td>
+          <td class="col-val editable" id="f-road-name" style="width: 34%;"><strong>{{ telem.site_road_name or ('N/A — Verification Rejected' if is_disqualified else 'Mandi Sector — Major District Road (MDR)') }}</strong></td>
           <td class="col-lbl" style="width: 18%;">Report Reference:</td>
           <td class="col-val font-mono" style="width: 32%;"><strong>{{ telem.report_reference or (telem.report_id.replace('HL-CR-', 'IITM-CR-') if telem.report_id else 'IITM-CR-6A9B327E') }}</strong></td>
         </tr>
         <tr>
           <td class="col-lbl">Location / Chainage:</td>
-          <td class="col-val editable" id="f-chainage">{{ telem.location_chainage or 'RD 17+432 (Km 17/432)' }}</td>
+          <td class="col-val editable" id="f-chainage">{{ telem.location_chainage or ('N/A — Verification Rejected' if is_disqualified else 'RD 17+432 (Km 17/432)') }}</td>
           <td class="col-lbl">District / State:</td>
           <td class="col-val"><strong>{{ report.district or 'Mandi' }}</strong>, Himachal Pradesh</td>
         </tr>
         <tr>
           <td class="col-lbl">Road / Highway:</td>
-          <td class="col-val">{{ report.highway or 'MDR Mandi-Bajaura Corridor' }}</td>
+          <td class="col-val">{{ report.highway or ('N/A — Unverified Ground Asset' if is_disqualified else 'MDR Mandi-Bajaura Corridor') }}</td>
           <td class="col-lbl">Lat. / Long.:</td>
           <td class="col-val font-mono">{{ telem.coordinates_dec or '31.70800° N, 76.93200° E' }}</td>
         </tr>
@@ -1413,11 +1659,11 @@
           <td class="col-lbl">Date of Inspection:</td>
           <td class="col-val editable" id="f-date">{{ telem.inspection_date or '2026-10-12' }}</td>
           <td class="col-lbl">Elevation:</td>
-          <td class="col-val editable font-mono" id="f-elevation">{{ telem.elevation or '912.4 m MSL' }}</td>
+          <td class="col-val editable font-mono" id="f-elevation">{{ telem.elevation or ('N/A — Disqualified' if is_disqualified else '912.4 m MSL') }}</td>
         </tr>
         <tr>
           <td class="col-lbl">Type of road:</td>
-          <td class="col-val editable" id="f-road-type" colspan="3"><strong>{{ telem.road_type or 'Major District Road (MDR)' }}</strong> &nbsp;<span style="color: #64748b; font-size: 7.2px;">(SH, NH, major district road, other district road, rural road)</span></td>
+          <td class="col-val editable" id="f-road-type" colspan="3"><strong>{{ telem.road_type or ('N/A — Unverified Ground Asset' if is_disqualified else 'Major District Road (MDR)') }}</strong> &nbsp;<span style="color: #64748b; font-size: 7.2px;">(SH, NH, major district road, other district road, rural road)</span></td>
         </tr>
       </table>
 
@@ -1433,14 +1679,14 @@
         </thead>
         <tbody>
           {% set loc = (assessment.slope_characteristics.slope_failure_location or ('Below road' if pdm.failure_vector == 'VALLEY_EMBANKMENT_SUBSIDENCE' else 'Above road')) %}
-          {% set is_above = (loc in ('Above road', 'Both', 'Cut slope above road') or pdm.failure_vector in ('UPHILL_CUT_SLOPE', 'CLIFF_ROCKFALL_TOPPLE', 'HABITATION_TERRACE_SLUMP')) %}
-          {% set is_below = (loc in ('Below road', 'Both', 'Valley slope below road') or pdm.failure_vector == 'VALLEY_EMBANKMENT_SUBSIDENCE') %}
-          {% set is_both = (loc == 'Both' or (is_above and is_below)) %}
-          {% set is_rock = (assessment.geology.material_type in ('Rock', 'Debris-Rock', 'Rock mass') or pdm.failure_vector in ('CLIFF_ROCKFALL_TOPPLE', 'UPHILL_CUT_SLOPE')) %}
-          {% set is_soil = (assessment.geology.material_type in ('Soil', 'Earth', 'Colluvium') or pdm.failure_vector in ('HABITATION_TERRACE_SLUMP', 'VALLEY_EMBANKMENT_SUBSIDENCE', 'UPHILL_CUT_SLOPE')) %}
-          {% set is_debris = (geom.debris_insitu_vol_m3 and geom.debris_insitu_vol_m3 > 0) or (pdm.is_applicable) %}
-          {% set is_cut = (assessment.slope_characteristics.slope_cut_type != 'Fill' and pdm.failure_vector != 'VALLEY_EMBANKMENT_SUBSIDENCE') %}
-          {% set is_fill = (pdm.failure_vector == 'VALLEY_EMBANKMENT_SUBSIDENCE' or assessment.slope_characteristics.slope_cut_type == 'Fill') %}
+          {% set is_above = ((loc in ('Above road', 'Both', 'Cut slope above road') or pdm.failure_vector in ('UPHILL_CUT_SLOPE', 'CLIFF_ROCKFALL_TOPPLE', 'HABITATION_TERRACE_SLUMP')) and not is_disqualified) %}
+          {% set is_below = ((loc in ('Below road', 'Both', 'Valley slope below road') or pdm.failure_vector == 'VALLEY_EMBANKMENT_SUBSIDENCE') and not is_disqualified) %}
+          {% set is_both = ((loc == 'Both' or (is_above and is_below)) and not is_disqualified) %}
+          {% set is_rock = ((assessment.geology.material_type in ('Rock', 'Debris-Rock', 'Rock mass') or pdm.failure_vector in ('CLIFF_ROCKFALL_TOPPLE', 'UPHILL_CUT_SLOPE')) and not is_disqualified) %}
+          {% set is_soil = ((assessment.geology.material_type in ('Soil', 'Earth', 'Colluvium') or pdm.failure_vector in ('HABITATION_TERRACE_SLUMP', 'VALLEY_EMBANKMENT_SUBSIDENCE', 'UPHILL_CUT_SLOPE')) and not is_disqualified) %}
+          {% set is_debris = (((geom.debris_insitu_vol_m3 and geom.debris_insitu_vol_m3 > 0) or (pdm.is_applicable)) and not is_disqualified) %}
+          {% set is_cut = ((assessment.slope_characteristics.slope_cut_type != 'Fill' and pdm.failure_vector != 'VALLEY_EMBANKMENT_SUBSIDENCE') and not is_disqualified) %}
+          {% set is_fill = ((pdm.failure_vector == 'VALLEY_EMBANKMENT_SUBSIDENCE' or assessment.slope_characteristics.slope_cut_type == 'Fill') and not is_disqualified) %}
           <tr>
             <td>
               <div class="chk-item {{ 'checked' if is_above }}"><span class="chk-box {{ 'active' if is_above }}">{{ '✔' if is_above else ' ' }}</span> Above road: {{ 'Yes' if is_above else 'No' }}</div><br>
@@ -1455,9 +1701,19 @@
             <td>
               <div class="chk-item {{ 'checked' if is_cut }}"><span class="chk-box {{ 'active' if is_cut }}">{{ '✔' if is_cut else ' ' }}</span> Cut: {{ 'Yes (Engineered Cut Slope Scarp)' if is_cut else 'No' }}</div><br>
               <div class="chk-item {{ 'checked' if is_fill }}"><span class="chk-box {{ 'active' if is_fill }}">{{ '✔' if is_fill else ' ' }}</span> Fill: {{ 'Yes (Roadway Embankment Fill Bench)' if is_fill else 'No' }}</div><br>
-              <div class="chk-item checked"><span class="chk-box active">✔</span> Natural: Steep Mountain Side (~32&deg;&ndash;35&deg; Valley Gradient)</div>
+              <div class="chk-item {{ 'checked' if not is_disqualified }}"><span class="chk-box {{ 'active' if not is_disqualified }}">{{ '✔' if not is_disqualified else ' ' }}</span> Natural: {{ 'Steep Mountain Side (~32°–35° Valley Gradient)' if not is_disqualified else 'N/A — Non-Terrain Media' }}</div>
             </td>
           </tr>
+          {% if is_disqualified %}
+          <tr>
+            <td colspan="2"><strong>Slope geometry (above road):</strong> <span class="editable" id="f-slope-h">N/A — Verification Disqualified (Non-Terrain Media)</span></td>
+            <td><strong>Cut slope angle:</strong> <span class="editable" id="f-slope-angle">N/A</span></td>
+          </tr>
+          <tr>
+            <td colspan="2"><strong>Slope geometry (below road):</strong> <span class="editable" id="f-slope-below">N/A — Verification Disqualified (Non-Terrain Media)</span></td>
+            <td><strong>Slope profile:</strong> <span class="editable" id="f-slope-profile">N/A</span></td>
+          </tr>
+          {% else %}
           <tr>
             <td colspan="2"><strong>Slope geometry (above road):</strong> Height = <span class="editable" id="f-slope-h"><strong>H = {{ geom.slope_height_mean_m | default(7.60) }} m</strong> (Range: {{ geom.slope_height_min_m | default(6.8) }} m &ndash; {{ geom.slope_height_max_m | default(8.4) }} m)</span></td>
             <td><strong>Cut slope angle:</strong> <span class="editable" id="f-slope-angle"><strong>{{ geom.cut_angle_deg | default(66) }}&deg;</strong> (Steep Cut Slope Scarp)</span></td>
@@ -1466,11 +1722,38 @@
             <td colspan="2"><strong>Slope geometry (below road):</strong> <span class="editable" id="f-slope-below">Natural Valley Slope (~32&deg;&ndash;35&deg; gradient descending to valley floor, stable undisturbed profile)</span></td>
             <td><strong>Slope profile:</strong> <span class="editable" id="f-slope-profile">Convex Escarpment (Steep Overburden Cut Slope Scarp)</span></td>
           </tr>
+          {% endif %}
         </tbody>
       </table>
 
       <!-- 2. Road Characteristics -->
       <div class="sec-bar">2. Road Characteristics &amp; Transportation Disruption (IRC:SP:48 &amp; IRC:SP:55)</div>
+      {% if is_disqualified %}
+      <table class="grid-table">
+        <tr>
+          <td class="col-lbl">Road Alignment:</td>
+          <td class="col-val editable" id="f-align">N/A</td>
+          <td class="col-lbl">Type of fencing:</td>
+          <td class="col-val editable" id="f-fencing">N/A</td>
+        </tr>
+        <tr>
+          <td class="col-lbl">Width before disaster:</td>
+          <td class="col-val editable" id="f-w-before">N/A — Unaffected Formation</td>
+          <td class="col-lbl">Width after disaster:</td>
+          <td class="col-val editable" id="f-w-after">N/A — Zero Carriageway Loss</td>
+        </tr>
+        <tr>
+          <td class="col-lbl">Pavement distress:</td>
+          <td class="col-val editable" id="f-pave-distress" colspan="3">N/A — Optical Disqualification (Non-Terrain Media). No pavement damage or obstruction observed.</td>
+        </tr>
+        <tr>
+          <td class="col-lbl">Roadside drain status:</td>
+          <td class="col-val editable" id="f-drain-status">N/A — Non-Terrain Media</td>
+          <td class="col-lbl">Traffic Impact / Access:</td>
+          <td class="col-val editable" id="f-road-status"><strong style="color: #166534;">Normal Unrestricted Corridor Transit (Zero Disruption)</strong></td>
+        </tr>
+      </table>
+      {% else %}
       <table class="grid-table">
         <tr>
           <td class="col-lbl">Road Alignment:</td>
@@ -1495,9 +1778,15 @@
           <td class="col-val editable" id="f-road-status"><strong style="color: #c2410c;">{{ assessment.road_impact.carriageway_status or 'Restricted Single-Lane (5.25m formation -> 2.30m operable)' }}</strong></td>
         </tr>
       </table>
+      {% endif %}
 
       <!-- 3. Protection Works (Proposed Measures) Matrix (RESTORED) -->
       <div class="sec-bar">3. Proposed Protection Works (Intervention Matrix)</div>
+      {% if is_disqualified %}
+      <div style="border: 1px dashed var(--border-light); background: #f8fafc; padding: 10px; font-size: 7.8px; color: #64748b; text-align: center; margin-bottom: 2.5px;">
+        Civil protection works suspended &bull; Verification disqualified (non-terrain media).
+      </div>
+      {% else %}
       <table class="grid-table">
         <thead>
           <tr>
@@ -1581,9 +1870,38 @@
           </tr>
         </tbody>
       </table>
+      {% endif %}
 
       <!-- 4. Geology of In-Situ Rock Around Works -->
       <div class="sec-bar">4. Geology of In-Situ Rock Around Works</div>
+      {% if is_disqualified %}
+      <table class="grid-table">
+        <thead>
+          <tr>
+            <th style="width: 40%;">Bedrock Lithology</th>
+            <th style="width: 30%;">Weathering Grade</th>
+            <th style="width: 30%;">Ground Water / Seepage State</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <strong>Rock Unit:</strong> N/A &bull; Non-Geological Media<br>
+              <strong>Description:</strong> {{ assessment.geology.prominent_soil_rock or 'N/A — Non-Terrain Media' }}<br>
+              <strong>Facies:</strong> N/A
+            </td>
+            <td>
+              <strong>Grade:</strong> <span class="editable" id="f-weathering">N/A</span><br>
+              Optical verification confirmed non-terrain image. No rock mass weathering assessment applicable.
+            </td>
+            <td>
+              <strong>Seepage:</strong> <span class="editable" id="f-seepage-state">N/A</span><br>
+              No sub-surface seepage or hydrological pore pressure detected.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      {% else %}
       <table class="grid-table">
         <thead>
           <tr>
@@ -1610,9 +1928,15 @@
           </tr>
         </tbody>
       </table>
+      {% endif %}
 
       <!-- 5. Defects & Distress Observed Around Works -->
       <div class="sec-bar">5. Defects &amp; Distress Observed Around Works</div>
+      {% if is_disqualified %}
+      <div style="border: 1px dashed var(--border-light); background: #f8fafc; padding: 10px; font-size: 7.8px; color: #64748b; text-align: center; margin-bottom: 2.5px;">
+        Zero geotechnical defects or roadside distress recorded &bull; Optical audit disqualification (non-terrain media).
+      </div>
+      {% else %}
       <div style="border: 1px solid var(--border-dark); border-bottom: none; padding: 2.5px 5px; font-size: 7.6px; background: #f8fafc;">
         <strong>Defect on slope:</strong>
         <span class="chk-item {{ 'checked' if assessment.defects_and_distress and assessment.defects_and_distress.defects_on_slope and assessment.defects_and_distress.defects_on_slope.gully }}"><span class="chk-box {{ 'active' if assessment.defects_and_distress and assessment.defects_and_distress.defects_on_slope and assessment.defects_and_distress.defects_on_slope.gully }}">{{ '✔' if assessment.defects_and_distress and assessment.defects_and_distress.defects_on_slope and assessment.defects_and_distress.defects_on_slope.gully else ' ' }}</span> 1. Gully</span>
@@ -1659,6 +1983,7 @@
           </tr>
         </tbody>
       </table>
+      {% endif %}
 
       <!-- 6. Proposed Retaining Structure Design Specifications -->
       {% if not pdm.is_applicable or pdm.status == 'SUSPENDED_MACRO_SCALE_DPR_REQUIRED' %}
@@ -1667,7 +1992,7 @@
         Retaining structure design specifications suspended &bull; Non-landslide media or macro-scale DPR reconnaissance active.
       </div>
       {% else %}
-      <div class="sec-bar">6. Proposed {{ (bw.material if pdm.failure_vector == 'UPHILL_CUT_SLOPE' else ('Stepped Gabion Retaining Wall' if pdm.failure_vector == 'VALLEY_EMBANKMENT_SUBSIDENCE' else ('Dynamic Catch Barrier' if pdm.failure_vector in ('CLIFF_ROCKFALL_TOPPLE', 'CLIFF_ROCKFALL') else ('RC Cantilever Deflector Wall' if pdm.failure_vector == 'HABITATION_TERRACE_SLUMP' else 'Primary Retaining Structure')))) }} Design Specifications ({{ bw.governing_standard or ('MoRTH 2504 / IS:16014' if pdm.failure_vector == 'VALLEY_EMBANKMENT_SUBSIDENCE' else ('CEDD GEO 138' if pdm.failure_vector in ('CLIFF_ROCKFALL_TOPPLE', 'CLIFF_ROCKFALL') else ('IS:456' if pdm.failure_vector == 'HABITATION_TERRACE_SLUMP' else 'IS:14458 Part 2'))) }}, L={{ '%.1f'|format(geom.wall_length_m) if geom.wall_length_m else '17.0' }}m, H={{ '%.2f'|format(bw.stem_height_m) if bw.stem_height_m else '2.70' }}m)</div>
+      <div class="sec-bar">6. Proposed {{ (bw.material if pdm.failure_vector == 'UPHILL_CUT_SLOPE' else ('<span class="glossary-term" data-glossary="gabion" title="Hover for gabion wall standard">Stepped Gabion Retaining Wall</span>' if pdm.failure_vector == 'VALLEY_EMBANKMENT_SUBSIDENCE' else ('Dynamic Catch Barrier' if pdm.failure_vector in ('CLIFF_ROCKFALL_TOPPLE', 'CLIFF_ROCKFALL') else ('RC Cantilever Deflector Wall' if pdm.failure_vector == 'HABITATION_TERRACE_SLUMP' else 'Primary Retaining Structure')))) }} Design Specifications ({{ bw.governing_standard or ('MoRTH 2504 / IS:16014' if pdm.failure_vector == 'VALLEY_EMBANKMENT_SUBSIDENCE' else ('CEDD GEO 138' if pdm.failure_vector in ('CLIFF_ROCKFALL_TOPPLE', 'CLIFF_ROCKFALL') else ('IS:456' if pdm.failure_vector == 'HABITATION_TERRACE_SLUMP' else 'IS:14458 Part 2'))) }}, L={{ '%.1f'|format(geom.wall_length_m) if geom.wall_length_m else '17.0' }}m, H={{ '%.2f'|format(bw.stem_height_m) if bw.stem_height_m else '2.70' }}m)</div>
       <table class="grid-table">
         <thead>
           <tr>
@@ -1764,8 +2089,13 @@
       </table>
       {% endif %}
 
-      <!-- 7. Drainage Measures & Typology (IS:14458 Part 2 & IRC:SP:48) -->
-      <div class="sec-bar">7. Drainage Measures &amp; Typology (IS:14458 Part 2 &amp; IRC:SP:48)</div>
+            <!-- 7. Drainage Measures & Typology (IS:14458 Part 2 & IRC:SP:48) -->
+      <div class="sec-bar">7. Drainage Measures &amp; Typology ({{ 'N/A — Verification Disqualified' if is_disqualified else 'IS:14458 Part 2 &amp; IRC:SP:48' }})</div>
+      {% if is_disqualified %}
+      <div style="border: 1px dashed var(--border-light); background: #f8fafc; padding: 10px; font-size: 7.8px; color: #64748b; text-align: center; margin-bottom: 2.5px;">
+        Drainage measures suspended &bull; Verification disqualified (non-terrain media). Zero public works capital requisitioned.
+      </div>
+      {% else %}
       <table class="grid-table">
         <thead>
           <tr>
@@ -1792,9 +2122,11 @@
           </tr>
         </tbody>
       </table>
+      {% endif %}
 
       <div class="page-footer">
-        <span>IIT Mandi Slope Technical Assessment Docket &bull; Ref: <strong>{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-CR-') if assessment.telemetry.report_id else 'IITM-CR-RECORD') }}</strong> &bull; Part 1 of {{ '3 Site Characterization &amp; Ground Works' if p_count > 1 else '2 Site Characterization &amp; Ground Works' }}</span>
+        <span class="footer-copy">&copy; Indian Institute of Technology Mandi &bull; HIMA-LENS Landslide Observatory. All Rights Reserved.</span>
+        <span class="footer-ref">Ref: <strong>{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-CR-') if assessment.telemetry.report_id else 'IITM-CR-RECORD') }}</strong> &bull; Part 1 of {{ '3 Site Characterization &amp; Ground Works' if p_count > 1 else '2 Site Characterization &amp; Ground Works' }}</span>
         <span>Page 1 of {{ '3' if p_count > 1 else '2' }}</span>
       </div>
     </div>
@@ -1803,6 +2135,13 @@
     <!-- PAGE 2: BIOENGINEERING, EARTHWORKS, VISUAL PLATES, PROTOCOL, SIGN-OFF -->
     <!-- ======================================================== -->
     <div class="report-page">
+      <!-- Central Low-Opacity Institutional Watermark -->
+      <div class="page-watermark" aria-hidden="true">
+        <img src="{{ url_for('static', filename='img/iit_mandi_logo.svg') }}" alt="">
+        <div class="watermark-inst">INDIAN INSTITUTE OF TECHNOLOGY MANDI</div>
+        <div class="watermark-sub">HIMA-LENS LANDSLIDE OBSERVATORY</div>
+      </div>
+
       <div class="master-header">
         <div class="master-header-grid">
           <div class="master-logo-col">
@@ -1813,7 +2152,19 @@
             <div class="master-title">IIT MANDI SLOPE TECHNICAL ASSESSMENT DOCKET</div>
             <div class="master-standards">Statutory Geotechnical Assessment &bull; IRC:SP:48 Drainage &bull; IS:14458 Stabilization &bull; IRC:SP:55 Traffic Management</div>
           </div>
-          <div class="master-badge-col" style="flex: 0 0 44px; width: 44px;"></div>
+          <div class="master-badge-col" style="flex: 0 0 auto;">
+            {% if assessment.accuracy_metric %}
+            <div class="report-stamp" style="align-items: center;">
+              <span class="stamp-lbl">DATA RELIABILITY</span>
+              <span class="stamp-code" style="font-size: 8px; color: {{ '#b91c1c' if is_disqualified else '#047857' }};">
+                {{ assessment.accuracy_metric.reliability_pct | default(assessment.accuracy_metric.accuracy_pct) }}%
+              </span>
+              <span class="stamp-stat" style="color: {{ '#991b1b' if is_disqualified else '#059669' }};">
+                {{ assessment.accuracy_metric.confidence_grade }}
+              </span>
+            </div>
+            {% endif %}
+          </div>
         </div>
       </div>
 
@@ -1851,7 +2202,7 @@
                 <strong>Audit Notice:</strong> OPTICAL AUDIT DISQUALIFICATION<br>
                 <strong>Action:</strong> Non-geological media verified. Civil remediation suspended; zero public works capital requisitioned.
               {% else %}
-                <strong>Retaining Structure:</strong> Plum Concrete Breast Wall (IS:14458 Part 2)<br>
+                <strong>Retaining Structure:</strong> <span class="glossary-term" data-glossary="breast-wall" title="Hover for plum concrete breast wall engineering standard">Plum Concrete Breast Wall</span> (IS:14458 Part 2)<br>
                 <strong>Dimensions:</strong> Length = <span class="editable" id="f-wall-l-2"><strong>{{ '%.1f'|format(geom.wall_length_m) if geom.wall_length_m else '17.0' }}</strong></span> m &bull; Stem Height = <span class="editable" id="f-wall-h-2"><strong>{{ '%.2f'|format(bw.stem_height_m) if bw.stem_height_m else '2.70' }}</strong></span> m &bull; Base Width = <strong>{{ '%.2f'|format(bw.base_width_m) if bw.base_width_m else '1.35' }}</strong> m &bull; Top Width = 0.60 m.<br>
                 <strong>Materials:</strong> <strong>{{ '%.2f'|format(bw.concrete_vol_m3) if bw.concrete_vol_m3 else '67.70' }}</strong> m³ M15 grade plum concrete (with 40% clean basaltic/granitic boulders 150–300mm per IS:14458).<br>
                 <strong>Drainage:</strong> 26 Nos. 100mm Ø PVC weep holes @ 1.5m staggered grid with 16.07 m³ granular filter pack.
@@ -1866,7 +2217,7 @@
               {% elif not assessment.is_landslide_or_terrain %}
                 <strong>Disqualification Notice:</strong> Zero slope stabilization works required for verified non-terrain upload.
               {% else %}
-                <strong>Internal Ground Reinforcement:</strong> Prescribed Soil Nailing Array (MoRTH Section 3100 &bull; FHWA GEC 7)<br>
+                <strong>Internal Ground Reinforcement:</strong> <span class="glossary-term" data-glossary="soil-nailing" title="Hover for soil nailing specification">Prescribed Soil Nailing Array</span> (MoRTH Section 3100 &bull; FHWA GEC 7)<br>
                 <strong>Nails:</strong> <strong>{{ un.total_nails_count | default(20) }} Nos.</strong> (18 working + 2 sacrificial pullout tests) @ 9.0m depth (180.0m total drilling, 1.8m H × 2.0m V grid).<br>
                 <strong>Facing:</strong> <strong>{{ '%.2f'|format(un.face_surface_area_m2) if un.face_surface_area_m2 else '91.12' }}</strong> m² high-tensile diamond wire mesh with 18 Nos. M30 bearing plates (400×400×200mm).<br>
                 <strong>HPPWD 361 Geonetting:</strong> 700 GSM 100% natural biodegradable open-weave coir/jute netting ({{ '%.2f'|format(un.coir_netting_area_m2) if un.coir_netting_area_m2 else '100.23' }} m² with 10% overlap), pegged with hardwood cuttings of Banaa (<i>Vitex negundo</i>) and 10mm Ø rebar U-staples (100×300mm @ 1.0m c/c).<br>
@@ -1920,78 +2271,34 @@
       <!-- 10. Field Photographic Evidence & Kinematic Cross-Section (SIDE-BY-SIDE VISUAL PLATES) -->
       <div class="sec-bar">10. Field Photographic Evidence &amp; Kinematic Cross-Section (IS:14458 Part 1 &amp; Cruden &amp; Varnes)</div>
       <div class="visual-diagnostic-grid">
-        <!-- Left: Ground Photo Plate -->
-        <div class="photo-frame-box">
-          <div class="photo-top-bar">
-            <span>OPTICAL FIELD EVIDENCE &bull; {{ telem.report_reference or 'IITM-CR-6A9B327E' }}</span>
-            <span>{{ telem.coordinates_dec or '31.70800° N, 76.93200° E' }}</span>
-          </div>
-          <div class="photo-img-wrap">
+        <!-- Left: Optical Ground Field Evidence Plate -->
+        <div class="photo-frame-box" style="border: 1.5px solid var(--border-dark); background: #092f25; border-radius: 4px; overflow: hidden; height: 100%; display: flex; flex-direction: column;">
+          <div class="photo-img-wrap" style="height: 100%; min-height: 215px; max-height: 215px; padding: 0; background: #092f25;">
             {% if p_count >= 1 %}
-            <div class="gallery-adaptive gallery-layout-1 sec10-split-plate">
+            <div class="gallery-adaptive gallery-layout-1" style="height: 100%; width: 100%;">
               {% set p = photo_list[0] %}
-              <div class="gallery-cell hero-cell sec10-photo-col">
-                <span class="gallery-badge">1. PRIMARY SCARP DETACHMENT</span>
-                <a href="{{ p.url if p.url is defined else p }}" target="_blank" rel="noopener noreferrer" class="gallery-link" title="Click to view full uncompressed original photo">
-                  <img src="{{ p.url if p.url is defined else p }}" alt="Site Evidence Plate">
+              <div class="gallery-cell hero-cell" style="width: 100%; height: 100%; position: relative; overflow: hidden;">
+                <span class="gallery-badge" style="position: absolute; top: 6px; left: 6px; z-index: 10; background: rgba(9, 47, 37, 0.92); color: #2dd4bf; border: 1px solid rgba(45, 212, 191, 0.5); font-size: 6.8px; font-weight: 800; padding: 1.5px 6px; border-radius: 2px;">1. PRIMARY FIELD EVIDENCE PLATE</span>
+                <a href="{{ report.stamped_photo_url or (p.url if p.url is defined else p) }}" target="_blank" rel="noopener noreferrer" class="gallery-link" title="Click to view full uncompressed stamped photo" style="display: block; width: 100%; height: 100%;">
+                  <img src="{{ report.stamped_photo_url or (p.url if p.url is defined else p) }}" alt="Site Evidence Plate" style="width: 100%; height: 100%; object-fit: cover; object-position: center; display: block;">
                 </a>
-              </div>
-              <div class="sec10-telemetry-col">
-                <div class="sec10-telem-header">
-                  <span class="sec10-telem-title">OPTICAL FIELD RECONNAISSANCE</span>
-                </div>
-                <div class="sec10-telem-list">
-                  <div class="sec10-telem-item">
-                    <span class="sec10-lbl">SURVEY ANGLE:</span>
-                    <span class="sec10-val">Frontal Orthogonal / Upslope</span>
+                {% if not report.stamped_photo_url %}
+                <div class="photo-survey-watermark" aria-label="Survey Telemetry Overlay">
+                  <div class="psw-row">
+                    <span class="psw-item"><span class="psw-tag">GPS:</span> <span class="psw-val">{{ telem.coordinates_dec or '31.70800° N, 76.93200° E' }}</span></span>
+                    <span class="psw-item psw-right"><span class="psw-tag">REF:</span> <span class="psw-val">{{ telem.report_reference or 'IITM-CR-6A9B327E' }}</span></span>
                   </div>
-                  <div class="sec10-telem-item">
-                    <span class="sec10-lbl">FAILURE SCARP:</span>
-                    <span class="sec10-val">Active Crown Detachment Face</span>
-                  </div>
-                  <div class="sec10-telem-item">
-                    <span class="sec10-lbl">ROAD CORRIDOR:</span>
-                    <span class="sec10-val">{{ 'Displaced Colluvial Mass at Formation' if (geom and geom.road_width_post_disaster_m and geom.road_width_pre_disaster_m and geom.road_width_post_disaster_m < geom.road_width_pre_disaster_m) else 'Pavement Free / Shoulder Block' }}</span>
-                  </div>
-                  <div class="sec10-telem-item">
-                    <span class="sec10-lbl">SPECIFICATION:</span>
-                    <span class="sec10-val">IS:14458 (Part 1) &amp; IRC:SP:48</span>
+                  <div class="psw-row">
+                    <span class="psw-item"><span class="psw-tag">DATE:</span> <span class="psw-val">{{ telem.inspection_date or '2026-10-12' }}</span> <span class="psw-sep">&bull;</span> <span class="psw-tag">TIME:</span> <span class="psw-val">{{ telem.timestamp_time or '14:35:00 IST' }}</span></span>
+                    <span class="psw-item psw-right"><span class="psw-tag">LOC:</span> <span class="psw-val">{{ telem.district or 'Mandi' }}, HP</span></span>
                   </div>
                 </div>
-                <div class="sec10-annexure-box">
-                  {% if p_count > 1 %}
-                  <div class="sec10-annex-tag">{{ p_count }} PERSPECTIVES ON FILE</div>
-                  <div class="sec10-annex-desc">
-                    Comprehensive multi-angle photogrammetric dossier recorded. Refer to <strong>Annexure A (Page 3)</strong> for flank profiles &amp; toe encroachment plates.
-                  </div>
-                  {% else %}
-                  <div class="sec10-annex-tag">PRIMARY FIELD PLATE</div>
-                  <div class="sec10-annex-desc">
-                    Calibrated ground optical reconnaissance record. Single-perspective statutory archive.
-                  </div>
-                  {% endif %}
-                </div>
+                {% endif %}
               </div>
             </div>
             {% else %}
             <div style="color: #94a3b8; font-size: 8px; text-align: center; padding: 16px;">No ground photograph uploaded with this field observation.</div>
             {% endif %}
-          </div>
-          <div class="photo-caption-bar">
-            <span>
-              {% if assessment.is_landslide_or_terrain is defined and not assessment.is_landslide_or_terrain %}
-                <span style="background:#dc2626; color:#ffffff; padding:1px 5px; border-radius:2px; font-weight:800; font-size:6.8px;">Flagged: Non-Terrain</span>
-              {% else %}
-                <span style="background:#16a34a; color:#ffffff; padding:1px 5px; border-radius:2px; font-weight:800; font-size:6.8px;">
-                  {% if p_count > 1 %}
-                  Verified Primary Imagery &bull; Annexure A (Page 3)
-                  {% else %}
-                  Verified Slope Imagery &bull; Field Reconnaissance Record
-                  {% endif %}
-                </span>
-              {% endif %}
-            </span>
-            <span>Date: {{ telem.inspection_date or '2026-10-12' }}</span>
           </div>
         </div>
 
@@ -2100,7 +2407,7 @@
           <div class="field-card-title">4. Immediate Engineering Directives</div>
           <div class="field-card-body editable" id="f-senior-rem">
             {% if pdm.failure_vector == 'VALLEY_EMBANKMENT_SUBSIDENCE' %}
-            Prioritize outer roadway bench reconstruction with Stepped Gabion Retaining Wall and vertical RC micropiles socketed into bedrock. Install subsoil collector drains to prevent valley fill saturation.
+            Prioritize outer roadway bench reconstruction with <span class="glossary-term" data-glossary="gabion" title="Hover for gabion wall standard">Stepped Gabion Retaining Wall</span> and vertical RC micropiles socketed into bedrock. Install subsoil collector drains to prevent valley fill saturation.
             {% elif pdm.failure_vector in ('CLIFF_ROCKFALL_TOPPLE', 'CLIFF_ROCKFALL') %}
             Prioritize rock mass scaling of unstable overhang blocks along cliff crest. Erect 500 kJ dynamic rockfall catch barrier and anchor high-tensile wire drape netting.
             {% elif pdm.failure_vector == 'HABITATION_TERRACE_SLUMP' %}
@@ -2108,16 +2415,21 @@
             {% elif not pdm.is_applicable %}
             Media disqualified as non-terrain. No civil engineering works or structural interventions required.
             {% elif pdm.status == 'SUSPENDED_MACRO_SCALE_DPR_REQUIRED' or pdm.failure_vector == 'MACRO_MOUNTAIN_CATASTROPHE' %}
-            Civil works estimation suspended. Commission Level-1 multidisciplinary DPR reconnaissance with LiDAR and core drilling.
+            Commission Level-1 multidisciplinary DPR reconnaissance with LiDAR and core drilling.
             {% else %}
-            Prioritize toe restraint Plum Concrete Breast Wall (IS:14458) with granular backfill filter pack. Drill 5 Nos. sub-horizontal drains and install diamond wire mesh facing with soil nails (MoRTH 3100).
+            Prioritize toe restraint <span class="glossary-term" data-glossary="breast-wall" title="Hover for plum concrete breast wall engineering standard">Plum Concrete Breast Wall</span> (IS:14458) with granular backfill filter pack. Drill 5 Nos. sub-horizontal drains and install diamond wire mesh facing with soil nails (MoRTH 3100).
             {% endif %}
           </div>
         </div>
       </div>
 
       <!-- 12. Emergency Site Management & Traffic Control Protocol (IRC:SP:55 & PWD SOP) -->
-      <div class="sec-bar">12. Emergency Site Management &amp; Traffic Control Protocol (IRC:SP:55 &amp; HPPWD SOP)</div>
+      <div class="sec-bar">12. Emergency Site Management &amp; Traffic Control Protocol ({{ 'N/A — Normal Corridor Transit' if is_disqualified else 'IRC:SP:55 &amp; HPPWD SOP' }})</div>
+      {% if is_disqualified %}
+      <div style="border: 1px dashed var(--border-light); background: #f8fafc; padding: 10px; font-size: 7.8px; color: #64748b; text-align: center; margin-bottom: 2.5px;">
+        Corridor operating normally &bull; No emergency traffic diversion, roadblock signage, or heavy machinery mobilization required.
+      </div>
+      {% else %}
       <table class="grid-table">
         <thead>
           <tr>
@@ -2152,6 +2464,7 @@
           </tr>
         </tbody>
       </table>
+      {% endif %}
 
       <!-- 13. Mitigation Measures Provided to the Site & Field Observations -->
       <div class="sec-bar">13. Mitigation Measures Provided to the Site &amp; Field Observations</div>
@@ -2201,7 +2514,8 @@
       </table>
 
       <div class="page-footer">
-        <span>IIT Mandi Slope Technical Assessment Docket &bull; Statutory Engineering Sign-Off &bull; Ref: <strong>{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-CR-') if assessment.telemetry.report_id else 'IITM-CR-RECORD') }}</strong></span>
+        <span class="footer-copy">&copy; Indian Institute of Technology Mandi &bull; HIMA-LENS Landslide Observatory. All Rights Reserved.</span>
+        <span class="footer-ref">Ref: <strong>{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-CR-') if assessment.telemetry.report_id else 'IITM-CR-RECORD') }}</strong></span>
         <span>Page 2 of {{ '3' if p_count > 1 else '2' }}</span>
       </div>
     </div>
@@ -2211,6 +2525,13 @@
     <!-- ======================================================== -->
     {% if p_count > 1 %}
     <div class="report-page photo-annexure-page">
+      <!-- Central Low-Opacity Institutional Watermark -->
+      <div class="page-watermark" aria-hidden="true">
+        <img src="{{ url_for('static', filename='img/iit_mandi_logo.svg') }}" alt="">
+        <div class="watermark-inst">INDIAN INSTITUTE OF TECHNOLOGY MANDI</div>
+        <div class="watermark-sub">HIMA-LENS LANDSLIDE OBSERVATORY</div>
+      </div>
+
       <div class="master-header">
         <div class="master-header-grid">
           <div class="master-logo-col">
@@ -2268,9 +2589,21 @@
             <div class="annexure-card-tag">PERSPECTIVE {{ loop.index }} OF {{ p_count }}</div>
           </div>
           <div class="annexure-card-img-wrap">
-            <a href="{{ p.url if p.url is defined else p }}" target="_blank" rel="noopener noreferrer" class="gallery-link annexure-img-link" title="Click to view full uncompressed original photo">
-              <img src="{{ p.url if p.url is defined else p }}" alt="Evidence Plate {{ loop.index }}" class="annexure-img">
+            <a href="{{ report.stamped_photo_urls[loop.index0] if (report.stamped_photo_urls is defined and loop.index0 < report.stamped_photo_urls|length) else (p.url if p.url is defined else p) }}" target="_blank" rel="noopener noreferrer" class="gallery-link annexure-img-link" title="Click to view full uncompressed stamped photo">
+              <img src="{{ report.stamped_photo_urls[loop.index0] if (report.stamped_photo_urls is defined and loop.index0 < report.stamped_photo_urls|length) else (p.url if p.url is defined else p) }}" alt="Evidence Plate {{ loop.index }}" class="annexure-img">
             </a>
+            {% if not (report.stamped_photo_urls is defined and loop.index0 < report.stamped_photo_urls|length and report.stamped_photo_urls[loop.index0]) %}
+            <div class="photo-survey-watermark" aria-label="Survey Telemetry Overlay">
+              <div class="psw-row">
+                <span class="psw-item"><span class="psw-tag">GPS:</span> <span class="psw-val">{{ telem.coordinates_dec or '31.70800° N, 76.93200° E' }}</span></span>
+                <span class="psw-item psw-right"><span class="psw-tag">REF:</span> <span class="psw-val">{{ telem.report_reference or 'IITM-CR-6A9B327E' }}</span></span>
+              </div>
+              <div class="psw-row">
+                <span class="psw-item"><span class="psw-tag">DATE:</span> <span class="psw-val">{{ telem.inspection_date or '2026-10-12' }}</span> <span class="psw-sep">&bull;</span> <span class="psw-tag">TIME:</span> <span class="psw-val">{{ telem.timestamp_time or '14:35:00 IST' }}</span></span>
+                <span class="psw-item psw-right"><span class="psw-tag">LOC:</span> <span class="psw-val">{{ telem.district or 'Mandi' }}, HP</span></span>
+              </div>
+            </div>
+            {% endif %}
           </div>
           <div class="annexure-card-footer">
             <div class="annex-meta-row">
@@ -2296,7 +2629,8 @@
       </div>
 
       <div class="page-footer">
-        <span>IIT Mandi Slope Technical Assessment Docket &bull; Annexure A: Optical Ground Evidence &bull; Ref: <strong>{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-CR-') if assessment.telemetry.report_id else 'IITM-CR-RECORD') }}</strong></span>
+        <span class="footer-copy">&copy; Indian Institute of Technology Mandi &bull; HIMA-LENS Landslide Observatory. All Rights Reserved.</span>
+        <span class="footer-ref">Ref: <strong>{{ assessment.telemetry.report_reference or (assessment.telemetry.report_id.replace('HL-CR-', 'IITM-CR-') if assessment.telemetry.report_id else 'IITM-CR-RECORD') }}</strong></span>
         <span>Page 3 of 3</span>
       </div>
     </div>
@@ -2912,5 +3246,6 @@
       }
     }
   </script>
+<script src="{{ url_for('static', filename='js/glossary_tooltips.js') }}"></script>
 </body>
 </html>
