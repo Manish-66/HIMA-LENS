@@ -81,9 +81,42 @@ document.addEventListener("DOMContentLoaded", function () {
         updateCoordinates(DEFAULT_LAT, DEFAULT_LNG);
     }
 
+    let geoLookupTimeout = null;
+    function checkGeologyTelemetry(lat, lng) {
+        const card = document.getElementById("geology-indicator-card");
+        const text = document.getElementById("geo-badge-text");
+        if (!card || !text) return;
+
+        const numLat = parseFloat(lat);
+        const numLng = parseFloat(lng);
+        if (isNaN(numLat) || isNaN(numLng) || numLat < 30 || numLat > 34 || numLng < 75 || numLng > 80) {
+            card.style.display = "none";
+            return;
+        }
+
+        clearTimeout(geoLookupTimeout);
+        geoLookupTimeout = setTimeout(async () => {
+            card.style.display = "flex";
+            text.textContent = "Querying GSI Bhukosh & Macrostrat...";
+            try {
+                const dist = document.getElementById("rep-district")?.value || "Mandi";
+                const res = await fetch(`/api/geology/lookup?lat=${numLat}&lng=${numLng}&district=${encodeURIComponent(dist)}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    text.textContent = `${data.primary_rock || 'In-Situ Bedrock'} • Toposheet ${data.bhukosh?.toposheet || '53A14'}`;
+                } else {
+                    text.textContent = "GSI Bhukosh Digital Stratigraphy Ready";
+                }
+            } catch (e) {
+                text.textContent = "GSI Bhukosh Digital Stratigraphy Ready";
+            }
+        }, 500);
+    }
+
     function updateCoordinates(lat, lng) {
         if (latInput) latInput.value = Number(lat).toFixed(6);
         if (lngInput) lngInput.value = Number(lng).toFixed(6);
+        checkGeologyTelemetry(lat, lng);
     }
 
     // Update marker if coordinates are typed manually
@@ -95,6 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 marker.setLatLng([lat, lng]);
                 map.panTo([lat, lng]);
             }
+            checkGeologyTelemetry(lat, lng);
         }
     }
 

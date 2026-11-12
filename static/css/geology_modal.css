@@ -1,0 +1,729 @@
+/* ==========================================================================
+   HIMA-LENS Geological Rock Classification & External Apps Modal (Task 13)
+   ========================================================================== */
+
+.geology-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2200;
+    background: rgba(8, 26, 20, 0.65);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+.geology-modal-dialog {
+    width: min(980px, 96vw);
+    max-height: 90vh;
+    background: #ffffff;
+    border: 1px solid rgba(16, 76, 59, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 28px 75px rgba(5, 23, 18, 0.35);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: modalPop 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.geology-modal-header {
+    background: linear-gradient(135deg, #07221a 0%, #0d382c 100%);
+    color: #ffffff;
+    padding: 20px 28px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.geo-header-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.geo-kicker {
+    font-size: 10px;
+    font-weight: 850;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #34d399;
+}
+
+.geology-modal-header h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.01em;
+}
+
+.geo-subcaption {
+    font-size: 11.5px;
+    color: #a7f3d0;
+    opacity: 0.9;
+    letter-spacing: 0.02em;
+}
+
+.btn-geo-close {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    font-size: 22px;
+    line-height: 1;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, border-color 0.15s;
+}
+
+.btn-geo-close:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.geology-tabs-nav {
+    display: flex;
+    background: #f1f7f4;
+    border-bottom: 1px solid #d5e5dd;
+    padding: 0 24px;
+    gap: 8px;
+    overflow-x: auto;
+}
+
+.geo-tab-btn {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 13px 16px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #4b6358;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+}
+
+.geo-tab-btn:hover {
+    color: #0d382c;
+}
+
+.geo-tab-btn.active {
+    color: #092f25;
+    border-bottom-color: #10b981;
+    background: #ffffff;
+}
+
+.geology-modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px 28px;
+    background: #fafcfb;
+    position: relative;
+}
+
+.geo-tab-pane {
+    display: none;
+}
+
+.geo-tab-pane.active {
+    display: block;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.geo-loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 40px;
+    color: #0d382c;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.geo-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid rgba(16, 185, 129, 0.2);
+    border-top-color: #10b981;
+    border-radius: 50%;
+    animation: geoSpin 0.75s linear infinite;
+}
+
+@keyframes geoSpin {
+    to { transform: rotate(360deg); }
+}
+
+/* Tab 1: Site Stratigraphy */
+.geo-identity-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 18px;
+}
+
+@media (max-width: 720px) {
+    .geo-identity-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.geo-card {
+    background: #ffffff;
+    border: 1px solid #d7e6df;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(10, 40, 30, 0.04);
+}
+
+.geo-card-header {
+    background: #edf5f1;
+    padding: 10px 16px;
+    border-bottom: 1px solid #d7e6df;
+}
+
+.geo-source-tag {
+    font-size: 10px;
+    font-weight: 850;
+    letter-spacing: 0.08em;
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.geo-source-tag.gsi {
+    background: #0f3d30;
+    color: #34d399;
+}
+
+.geo-source-tag.macrostrat {
+    background: #1e3a8a;
+    color: #93c5fd;
+}
+
+.geo-card-body {
+    padding: 16px;
+}
+
+.geo-card-body h3 {
+    margin: 0 0 12px;
+    font-size: 16px;
+    font-weight: 800;
+    color: #0f2e24;
+}
+
+.geo-meta-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 12px;
+    color: #334155;
+}
+
+.geo-meta-list strong {
+    color: #0f2e24;
+}
+
+.geo-external-link {
+    color: #0284c7;
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.geo-external-link:hover {
+    text-decoration: underline;
+}
+
+/* Lithological Audit Box */
+.geo-audit-box {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.audit-status-tag {
+    font-size: 11px;
+    font-weight: 850;
+    letter-spacing: 0.06em;
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    align-self: flex-start;
+}
+
+.audit-status-tag.success {
+    background: #15803d;
+    color: #ffffff;
+}
+
+.audit-status-tag.info {
+    background: #0369a1;
+    color: #ffffff;
+}
+
+.audit-status-tag.warning {
+    background: #b45309;
+    color: #ffffff;
+}
+
+.audit-status-tag.neutral {
+    background: #0f3d30;
+    color: #ffffff;
+}
+
+.audit-note {
+    margin: 0;
+    font-size: 12.5px;
+    color: #166534;
+    line-height: 1.45;
+}
+
+.geo-sec-title {
+    font-size: 11.5px;
+    font-weight: 850;
+    color: #0f3d30;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.geo-props-table-wrap {
+    overflow-x: auto;
+    background: #ffffff;
+    border: 1px solid #d7e6df;
+    border-radius: 10px;
+}
+
+.geo-props-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+.geo-props-table th {
+    background: #f4f9f6;
+    color: #092f25;
+    font-weight: 750;
+    padding: 10px 14px;
+    text-align: left;
+    border: 1px solid #e1ede6;
+    width: 22%;
+}
+
+.geo-props-table td {
+    padding: 10px 14px;
+    border: 1px solid #e1ede6;
+    color: #1e293b;
+    font-weight: 500;
+}
+
+/* Tab 2: Field Key */
+.field-key-intro {
+    background: #eef7f3;
+    border-left: 4px solid #10b981;
+    padding: 14px 18px;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 20px;
+}
+
+.field-key-intro h3 {
+    margin: 0 0 4px;
+    font-size: 15px;
+    color: #092f25;
+}
+
+.field-key-intro p {
+    margin: 0;
+    font-size: 12.5px;
+    color: #334d42;
+    line-height: 1.45;
+}
+
+.tests-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+.test-card {
+    background: #ffffff;
+    border: 1px solid #d7e6df;
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.test-step {
+    font-size: 9.5px;
+    font-weight: 850;
+    letter-spacing: 0.08em;
+    color: #10b981;
+    background: #e6f7f0;
+    padding: 2px 7px;
+    border-radius: 4px;
+    align-self: flex-start;
+}
+
+.test-card h4 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 800;
+    color: #092f25;
+}
+
+.test-list {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 12px;
+    color: #334155;
+    line-height: 1.5;
+}
+
+.test-list li {
+    margin-bottom: 6px;
+}
+
+/* Tab 3: Apps & Tools */
+.apps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 18px;
+}
+
+.app-card {
+    background: #ffffff;
+    border: 1px solid #d5e6de;
+    border-radius: 12px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.app-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(10, 40, 30, 0.08);
+}
+
+.app-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.app-badge {
+    font-size: 9.5px;
+    font-weight: 850;
+    background: #0f3d30;
+    color: #34d399;
+    padding: 2px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+}
+
+.app-platform {
+    font-size: 10.5px;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.app-name {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 800;
+    color: #092f25;
+}
+
+.app-provider {
+    font-size: 11px;
+    color: #475569;
+    font-weight: 600;
+}
+
+.app-summary {
+    margin: 0;
+    font-size: 12px;
+    color: #334155;
+    line-height: 1.45;
+    flex: 1;
+}
+
+.btn-app-launch {
+    background: #0a3127;
+    color: #ffffff;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.15s;
+}
+
+.btn-app-launch:hover {
+    background: #124b3c;
+    color: #ffffff;
+}
+
+/* Tab 4: Rock Catalog */
+.catalog-filter-bar {
+    margin-bottom: 18px;
+}
+
+.catalog-search-input {
+    width: 100%;
+    padding: 10px 16px;
+    font-size: 13px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.15s;
+}
+
+.catalog-search-input:focus {
+    border-color: #10b981;
+}
+
+.catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 16px;
+}
+
+.rock-catalog-card {
+    background: #ffffff;
+    border: 1px solid #d5e6de;
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.rock-cat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.rock-cat-header h4 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 800;
+    color: #092f25;
+}
+
+.rock-family-tag {
+    font-size: 9.5px;
+    font-weight: 850;
+    background: #e6f7f0;
+    color: #047857;
+    padding: 2px 7px;
+    border-radius: 4px;
+}
+
+.rock-cat-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-size: 11px;
+    color: #334155;
+    background: #f8fafc;
+    padding: 8px;
+    border-radius: 6px;
+}
+
+.rock-cat-diag {
+    font-size: 11.5px;
+    color: #334155;
+    line-height: 1.4;
+}
+
+.rock-cat-diag p {
+    margin: 0 0 4px;
+}
+
+.rock-cat-hazard {
+    font-size: 11.5px;
+    color: #991b1b;
+    background: #fef2f2;
+    padding: 8px;
+    border-radius: 6px;
+    border-left: 3px solid #dc2626;
+    line-height: 1.4;
+}
+
+/* Modal Footer */
+.geology-modal-footer {
+    padding: 14px 28px;
+    background: #ffffff;
+    border-top: 1px solid #e2ece7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.geo-footer-copy {
+    font-size: 11px;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.btn-geo-primary {
+    background: #092f25;
+    color: #ffffff;
+    border: none;
+    padding: 9px 20px;
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.btn-geo-primary:hover {
+    background: #114c3c;
+}
+
+/* Dark mode adjustments */
+html[data-theme="dark"] .geology-modal-dialog {
+    background: #0c1a16;
+    border-color: #1e3a34;
+}
+
+html[data-theme="dark"] .geology-tabs-nav {
+    background: #071511;
+    border-bottom-color: #18332d;
+}
+
+html[data-theme="dark"] .geo-tab-btn {
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .geo-tab-btn.active {
+    background: #0c1a16;
+    color: #34d399;
+    border-bottom-color: #10b981;
+}
+
+html[data-theme="dark"] .geology-modal-body {
+    background: #071511;
+}
+
+html[data-theme="dark"] .geo-card,
+html[data-theme="dark"] .test-card,
+html[data-theme="dark"] .app-card,
+html[data-theme="dark"] .rock-catalog-card {
+    background: #0d211b;
+    border-color: #183d33;
+}
+
+html[data-theme="dark"] .geo-card-header {
+    background: #081713;
+    border-color: #183d33;
+}
+
+html[data-theme="dark"] .geo-props-table-wrap {
+    background: #0d211b;
+    border-color: #183d33;
+}
+
+html[data-theme="dark"] .geo-props-table th {
+    background: #081713;
+    color: #a7f3d0;
+    border-color: #183d33;
+}
+
+html[data-theme="dark"] .geo-props-table td {
+    color: #e2e8f0;
+    border-color: #183d33;
+}
+
+html[data-theme="dark"] .geology-modal-footer {
+    background: #0c1a16;
+    border-top-color: #183d33;
+}
+
+/* Geology Telemetry Trigger Buttons */
+.btn-open-geology {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: #0f3d30;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 750;
+    text-decoration: none;
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.btn-open-geology:hover {
+    background: #175745;
+    border-color: #34d399;
+    color: #ffffff;
+}
+
+.geology-telemetry-badge {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 8px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    gap: 12px;
+}
+
+.geo-badge-left {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.geo-badge-title {
+    font-size: 9.5px;
+    font-weight: 850;
+    color: #166534;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.geo-badge-val {
+    font-size: 12px;
+    font-weight: 700;
+    color: #0f3d30;
+}

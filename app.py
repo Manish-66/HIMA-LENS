@@ -34,6 +34,7 @@ import geotech_vision
 import photogrammetry_engine
 import geotech_engine
 import geotech_schematic
+import geology_engine
 from config import (
     ANNOTATED_PLATES_DIR,
     APP_DESCRIPTION,
@@ -499,6 +500,47 @@ def explore():
 @app.get("/api")
 def api_index():
     return redirect(url_for("explore"))
+
+@app.get("/api/geology/lookup")
+def api_geology_lookup():
+    """Returns synthesized GSI Bhukosh digital ground truth, Macrostrat/Rockd, and
+    geotechnical rock mass classification properties for given coordinates."""
+    lat_val = request.args.get("lat")
+    lng_val = request.args.get("lng")
+    district = request.args.get("district", "Mandi").strip() or "Mandi"
+    observed = request.args.get("observed_rock", "").strip() or None
+
+    try:
+        lat = float(lat_val)
+        lng = float(lng_val)
+    except (TypeError, ValueError):
+        return jsonify({
+            "status": "error",
+            "message": "Valid numeric 'lat' and 'lng' query parameters are required"
+        }), 400
+
+    dossier = geology_engine.get_geological_synthesis(
+        lat=lat,
+        lng=lng,
+        district=district,
+        field_observed_rock=observed,
+    )
+    return jsonify(dossier)
+
+@app.get("/api/geology/catalog")
+def api_geology_catalog():
+    """Returns the full reference catalog of Himalayan rock mass classifications,
+    mechanical properties, and field diagnostic keys."""
+    return jsonify({
+        "status": "success",
+        "rock_database": geology_engine.HIMALAYAN_ROCK_DATABASE,
+        "classification_standards": {
+            "rmr": "Bieniawski (1989) Rock Mass Rating System",
+            "gsi": "Hoek & Brown (1997) Geological Strength Index",
+            "weathering": "IS:13365 (Part 1) / ISRM (1981) Weathering Classification W1–W5",
+            "strength": "ISRM Field Hardness Scale R0–R6",
+        },
+    })
 
 def get_historical_events():
     events_path = Path(__file__).resolve().parent / "data" / "historical_events.json"

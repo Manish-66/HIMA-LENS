@@ -64,6 +64,10 @@
         rel="stylesheet"
         href="{{ url_for('static', filename='css/style.css') }}?v=4.8"
     >
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/geology_modal.css') }}?v=1.0"
+    >
 
 
     <script>
@@ -511,6 +515,7 @@ document.addEventListener("DOMContentLoaded", function () {
 ========================================================= -->
 
 <script src="{{ url_for('static', filename='js/glossary_tooltips.js') }}"></script>
+<script src="{{ url_for('static', filename='js/geology_modal.js') }}"></script>
 
 {% block scripts %}
 

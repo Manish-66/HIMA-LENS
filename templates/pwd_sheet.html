@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Manrope:wght@500;600;700;800;850&family=JetBrains+Mono:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/geology_modal.css') }}">
   <style>
     :root {
       --primary-dark: #092f25;
@@ -1887,7 +1888,13 @@
       {% endif %}
 
       <!-- 4. Geology of In-Situ Rock Around Works -->
-      <div class="sec-bar">4. Geology of In-Situ Rock Around Works</div>
+      <div class="sec-bar" style="display: flex; justify-content: space-between; align-items: center;">
+        <span>4. Geology of In-Situ Rock Around Works</span>
+        <button type="button" class="btn-open-geology no-print" data-coords="{{ telem.coordinates_dec if (telem is defined and telem and telem.coordinates_dec) else (report.coordinates if (report is defined and report and report.coordinates) else '31.708, 76.932') }}" data-rock="{{ assessment.geology.rock_type if (assessment is defined and assessment and assessment.geology is defined and assessment.geology and assessment.geology.rock_type) else '' }}" onclick="openGeologyModal(this.dataset.coords, this.dataset.rock)" style="font-size: 9.5px; padding: 2px 8px; text-transform: none; border-radius: 4px; background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.35); color: #ffffff; cursor: pointer;">
+          <span>Examine Rock Mass &amp; Apps</span>
+          <span aria-hidden="true">&nearr;</span>
+        </button>
+      </div>
       {% if is_disqualified %}
       <table class="grid-table">
         <thead>
@@ -3261,5 +3268,6 @@
     }
   </script>
 <script src="{{ url_for('static', filename='js/glossary_tooltips.js') }}"></script>
+<script src="{{ url_for('static', filename='js/geology_modal.js') }}"></script>
 </body>
 </html>
