@@ -39,10 +39,16 @@ HIMA-LENS | Field Telemetry & Landslide Incident Reporting
 
                 <!-- COLUMN 1: GEOSPATIAL TELEMETRY -->
                 <div class="report-card">
-                    <div class="report-card-header">
-                        <span class="card-kicker">01 / SPATIAL TELEMETRY</span>
-                        <h2 class="card-heading">Pinpoint Location</h2>
-                        <p class="card-subheading">Drop a pin on the interactive map or lock your device's live GPS sensor.</p>
+                    <div class="report-card-header" style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px;">
+                        <div>
+                            <span class="card-kicker">01 / SPATIAL TELEMETRY</span>
+                            <h2 class="card-heading">Pinpoint Location</h2>
+                            <p class="card-subheading">Drop a pin on the interactive map or lock your device's live GPS sensor.</p>
+                        </div>
+                        <button type="button" class="btn-geo-guide-pill" onclick="openGeologyModal()" title="Open IS:13365 Field Rock Mass Guide & Apps">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                            <span>Rock Mass Guide</span>
+                        </button>
                     </div>
 
                     <!-- Mini Interactive Leaflet Map -->
@@ -72,18 +78,6 @@ HIMA-LENS | Field Telemetry & Landslide Incident Reporting
                             <label for="rep-lng">LONGITUDE (&deg;E)</label>
                             <input type="number" id="rep-lng" name="longitude" step="0.000001" min="75.0" max="80.0" placeholder="e.g. 76.931892" required>
                         </div>
-                    </div>
-
-                    <!-- Real-Time Geological Stratigraphy Badge -->
-                    <div id="geology-indicator-card" class="geology-telemetry-badge" style="display: none;">
-                        <div class="geo-badge-left">
-                            <span class="geo-badge-title">GSI Bhukosh Lithology Indicator</span>
-                            <span id="geo-badge-text" class="geo-badge-val">Evaluating site bedrock...</span>
-                        </div>
-                        <button type="button" class="btn-open-geology" onclick="openGeologyModal()">
-                            <span>Rock Guide &amp; Apps</span>
-                            <span aria-hidden="true">&nearr;</span>
-                        </button>
                     </div>
 
                     <!-- District & Landmark -->
